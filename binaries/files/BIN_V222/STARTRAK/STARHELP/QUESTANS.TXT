@@ -1,0 +1,114 @@
+Fragen und Antworten
+--------------------
+
+F: Ich habe St”rungen (Knistern) bzw. keine Wiedergabe bei
+   meiner DSP-Port-Erweiterung Analog8 oder Jam-Out 
+   
+A: Das Kabel des DSP-Ports ist nicht beliebig verl„ngerbar, die Maximall„nge ist 
+   ungef„hr 20cm, da es ansonsten zu St”rungen (Knackser) bei den DSP-Port-Erweiterungen
+   kommt. Das ist verst„ndlich wenn man bedenkt, welch hohe Frequenzen das Kabel
+   bew„ltigen mu (ber 6 MHz). Dabei kommt es ab einer bestimmten L„nge zwangsl„ufig zu
+   nderungen in Timing und Flanken der Signale die eine sichere und st”rfreie
+   šbertragung unm”glich machen. Daher sollte dieses Kabel m”glichst kurz sein bzw.
+   n”tigenfalls gekrzt werden.
+
+
+F: Ich habe die Startrack-Karte eingebaut und mit der HIFI-Anlage verbunden.
+   Ich kann aber nichts h”ren. 
+   
+A: Die Startrack-Karte mu zuerst initialisiert werden. Starten sie hierfr
+   zuerst das STARTRAK.PRG und kontrollieren sie, ob im Einstellungsfenster
+   der korrekte Eingang ausgew„hlt wurde. Kontrollieren sie im Peakmeter-Fenster
+   ob die Lautst„rke von Ein- und Ausgangs-Lautst„rkeregler der Karte auf ca. 0dB
+   eingestellt ist. Ist die richtige Anschluquelle am Verst„rker eingestellt ?
+   
+   
+F: Wo kann ich Hilfe bekommen wenn ich nicht weiter komme ?
+
+A: Wenden sie sich zuerst an ihren H„ndler bzw. den zust„ndigen İVertriebİDISTRIB.TXTİ.
+   Wenn diese nicht weiterhelfen k”nnen, wenden sie sich direkt an den Entwickler:
+   Firma Stephan Wilhelm,Entwicklungsbro fr Hard- und Software,Niehler Str. 312,
+   50735 K”ln, Tel: 0221-7127380, Fax: 0221-685184
+   
+   
+F: Wenn ich im Tracker-Fenster die Wiedergabe starten m”chte, strzt das Programm ab.
+
+A: Dies ist ein bekannter Fehler der bald behoben wird. Sie haben dem Programm
+   m”glicherweise zu wenig Speicher reserviert. Sie mssen hierfr im Setup-Dialog
+   den malloc-wert auf mindestens 8MB erh”hen. Dann sollte der Fehler nicht mehr
+   auftauchen.
+   
+   
+F: Ich habe ”fter St”rungen oder Aussetzer in der Wiedergabe, der Rechner
+   bleibt h„ngen, die Maus wird hakelig oder bleibt stehen.
+   
+A: Ihr Rechner geh”rt anscheinend nicht zu den schnellsten und ist berlastet.
+   Entfernen sie alle unn”tigen Accessories und Auto-Ordner-Programme.
+   Diese drcken oft das Tempo des Rechners zu weit herunter. HD-Recording
+   stellt hohe Anforderungen an den Rechner. HD-Wiedergabe von mehreren Spuren
+   ist auf dem TT nur mit der DSP-Erweiterung m”glich da der Rechner dafr
+   sonst zu langsam ist. M”glicherweise ist auch ihr TT-Netzteil berlastet.
+   Versuchen sie es einmal mit einem st„rkeren PC-Netzteil(230W).
+   
+   
+F: Der Rechner strzt bei Wiedergabe oder Aufnahme auf HD ”fters ab
+
+A: M”glicherweise ist ihr Netzteil zu schwach, oder sie haben ein
+   Netzteil schlechter Qualit„t das St”rspitzen verursacht.
+   Testen sie es mal mit einem anderen, etwas st„rkeren Netzteil.
+   Die Stromversorgung zur Startrack-Karte ist vielleicht schlecht,
+   das Stromkabel zu lang oder zu dnn. Es kann auch daran liegen, das
+   die Karte schlecht belftet wird und dadurch zu hei wird.
+   Versuchen sie einmal die Karte im Betrieb mit einem CPU-Lfter
+   zu belften. Vielleicht ist auch ihr VME-Kabel oder das
+   DSP-Port-Kabel zu lang.
+
+
+F: Das Startrack-Programm meldet "Keine Startarck-Karte gefunden".
+
+A: Die Karte ist nicht richtig eingesteckt, oder der VME-Stecker
+   der Karte ist besch„digt. šberprfen sie einmal die Kontakte,
+   ob keiner der 96 Kontakte abgebrochen oder abgeknickt ist.
+   Das kann leicht bei unsachgem„er Montage oder roher Gewalt
+   beim Einbau passieren. Entfernen sie alle anderen eventuell
+   eingesteckten VME-Karten vom VME-Bus. Vielleicht st”rt
+   eine dieser Karten bzw. nutzt den gleichen VME-Adrebereich.
+   Sollte das der Fall sein, melden sie das bitte an den Entwickler
+   oder den deutschen Vertrieb. Der Adrebereich der Startrack-Karte
+   kann ver„ndert und durch Umprogrammierung der Karte in einen
+   anderen Bereich gelegt werden. Wir passen in diesem
+   Fall die Startrack-Karte ihren Erfordernissen an.
+   šberprfen sie mal das VME-Kabel. Vielleicht ist es besch„digt.
+   Haben sie eine VME-Sloterweiterung ? Dann versuchen sie mal
+   die Karte in einen anderen Slot zu stecken. Schalten sie aber
+   vorher den Rechner aus ! Die Startrack-Karte nutzt Interrupts.
+   Daher sollten die DaisyChain-Anschlsse INTIN und INTOUT 
+   des VME-Bus auf der VME-Backplane bis zum erforderlichen
+   Slot gejumpert sein. Haben sie die VME-Sloterweiterung von uns
+   so haben sie damit keine Probleme, da unsere Backplane dies
+   automatisch macht (Schalter in den Kontakten).
+   
+
+F: Meine Falcon-Programme (CubaseAudio,Logic-Audio,Audiotracker usw.)
+   die den DSP oder die Audiohardware des Falcon nutzen laufen nicht
+   mit Startrack zusammen.
+   
+A: Das ist ein Problem an dem wir arbeiten. Wir entwickeln zur Zeit
+   einen XBIOS-Treiber der kompatibel zum Falcon-TOS ist.
+   Damit sollten dann alle Betriebssystem-Funktionen des Falcon
+   die das Soundsystem betreffen zur Verfgung stehen.
+   Kleinere Anpassungen der Programme an die etwas anders
+   funktionierende Hardware der Startrack-Karte werden aber unvermeidlich
+   sein, da die Programme nicht in allen F„llen auf Betriebssystem-
+   funktionen zugreifen und teilweise die Falcon-Soundhardware direkt
+   ansprechen. Das kann prinzipbedingt nicht funktionieren. Fragen
+   sie ihren Software-Hersteller nach einer angepaten Startrack-Version.   
+   
+   
+!!! Wichtig !!!   
+---------------
+Fr alle Basteleien an der Hardware gilt: Wie bernehmen keine Garantie
+fr fehlgeschlagene Experimente und sie verlieren durch unsachgem„e
+Behandlung der Platinen ihre Garantie ! Also gehen sie vorsichtig
+mit den Startrack-Karten um und fragen sie bei Unsicherheiten
+sicherheitshalber zuerst ihren H„ndler oder Vertrieb. 

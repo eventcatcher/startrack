@@ -1,0 +1,90 @@
+Hypertext zur STARTRACK-Software
+--------------------------------
+Installation:
+        ›1stGuide›GUIDE.TXT›
+        ›Software-Installation›STARINST.TXT›
+
+EinfÅhrung:
+        ›Die erste Aufnahme›RECINTRO.TXT›
+        ›HD-Recording›HDINTRO.TXT›
+        ›Arbeit mit Markern und Blîcken›BLKINTRO.TXT›
+        ›Arbeit mit mehreren Spuren›TRKINTRO.TXT›
+        
+Die Hardware:
+-------------
+        ›Hardware-Features›HARDFEAT.TXT›
+        ›Hardware-Installation›HARDINST.TXT›
+        ›Jumper-Belegungen›JUMPS.TXT›
+        ›Erste Hilfe - Fragen & Antworten›QUESTANS.TXT›
+        ›Programmierer-Doku›STARSYS.TXT›
+        ›Falcon XBIOS-Routinen›FALCBIOS.TXT›
+        ›Technische Daten›STRTECNO.TXT›
+        ›Die Verbindungs-Matrix›MATRIX.IMG›
+
+Die Software:
+-------------
+        ›Software-Features›SOFTFEAT.TXT›
+
+Die Fenster:
+------------
+        ›ARRANGER›ARRANGE.TXT›
+        ›BLOCK-FUNKTIONEN›BLKPAGE.TXT›
+        ›DSP›DSPPAGE.TXT›
+        ›EDITOR›EDIT.TXT›
+	›EINSTELLUNGEN›MAIN.TXT›
+        ›LOOPS›LOOP.TXT›
+        ›PEAKMETER›PEAK.TXT›
+	›PROGRAMM-INFO›INFO.TXT› 
+        ›TRAKKER›TRAKKER.TXT›
+        ›WORKMODE›WORKMOD.TXT›
+
+Die Hauptdialoge im Editor:
+---------------------------
+        ›DISK-FUNKTIONEN›DISKPAGE.TXT›
+        ›FADE-EDITOR›FADE.TXT›
+        ›HYPER-FILESELECTOR›FSELPAGE.TXT›
+        ›LOAD›LOAD.TXT›
+        ›MIDI›MIDI.TXT›
+        ›MUSICBOX›MUSICBOX.TXT›
+        ›SAVE›SAVE.TXT›
+        ›SETUP›SETUP.TXT›
+        ›VIRTUAL›VIRTUAL.TXT›
+
+Die restlichen Dialoge im Editor:
+---------------------------------
+        ›BACKUP›BACKPAGE.TXT›
+        ›EDIT-SAMPLES›SAMPLE.TXT›
+        ›EDIT-SAMPLETIME›TIME.TXT›
+        ›MARKER-TEXT›MARKCOMM.TXT›
+        ›MOVE›MOVE.TXT›
+        ›RECORD-TIME›RECORD.TXT›
+        ›SAMPLE-INFO›SMPINF.TXT›
+
+Die Dialoge im Arranger:
+------------------------
+        ›ARRANGE-NAME›NAME.TXT›
+        ›ARRANGE-SAMPLERATE›ARRSRATE.TXT›
+
+Die Dialoge im Trakker:
+-----------------------
+        ›MARKER-WAHL›MARKPAGE.TXT›
+        ›PLAY-END›PLAYEND.TXT›
+        ›PLAY-START›PLAYSTRT.TXT›
+        ›SMPTE-TIME›SMPTE.TXT›
+        ›TRACK-KOMMENTAR›TRAKCOMM.TXT›
+        ›TRACK-NAME›TRAKNAME.TXT›
+        ›TRACK-SEARCH›TRAKFSEL.TXT›
+
+Die Dialoge im Blockfunktions-Fenster:
+--------------------------------------
+        ›OPTIMIZE›NORMALIZ.TXT›
+        ›RESAMPLING›RESAMPLE.TXT›
+        ›SPACE-TIME›SPACE.TXT›
+
+Die MenÅzeile mit den DropDown-MenÅs:
+-------------------------------------
+›Das Accessorie-MenÅ›ACCMENU.TXT›
+›Das Datei-MenÅ›DATMENU.TXT›
+›Das Fenster-MenÅ›WINMENU.TXT›
+›Das Funktionen-MenÅ›FUNKMENU.TXT›
+

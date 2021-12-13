@@ -1,0 +1,90 @@
+Fade-Editor-Fenster
+
+In diesem Fenster kann der Faderverlauf editiert werden. Dabei stehen schon
+verschiedene fertige Faderkurven zur Auswahl zur Verfgung, man kann diese
+aber auch per Hand zeichnen. Diese Kurven k”nnen auch abgespeichert und
+nachgeladen werden. Die Verl„ufe k”nnen dann beim İEin- und AusblendenİFUNKTION.TXTİ von
+Samples benutzt werden. Zur besseren Verst„ndnis sollte man das
+İBILDİFADE.IMGİ des Fade-Editor-Fensters zu Rate ziehen. Aufgerufen wird das
+Fade-Editor-Fenster durch den İFade-ButtonİEBUTTONS.TXTİ im Edit-Fenster, oder durch
+Eingabe von CTRL-F, oder ber das optionale Dropdown-Men unter
+Funktion/Fader.
+
+
+1) Editor
+---------
+Hier kann man die Faderkurven einzeichnen. Dabei h„lt man die linke
+Maustaste gedrckt. Wenn man die In-Fade-Kurve zeichnet, mu man unten
+links anfangen und die Maus bis zum rechten Rand des Editor-Bereichs ziehen.
+Ansonsten ist die Kurve ungltig und wird nicht angenommen. Wenn man die
+Out-Fade-Kurve zeichnet, mu man oben links anfangen und die Maus bis zum
+rechten Rand des Editor-Bereichs ziehen. Ansonsten ist die Kurve ungltig
+und wird nicht angenommen.
+
+2) In/Out
+---------
+Hiermit w„hlt man zwischen der Anzeige der In-Fade- oder Out-Fade-Kurve,
+es gibt also je eine eigene Kurve fr Ein- und Ausblendungen des 
+Samplematerials.
+
+3) Del
+------
+Hiermit wird die aktuelle Fade-Kurve gel”scht.
+
+4) Linear
+---------
+Hiermit w„hlt man einen linearen Kurvenverlauf aus. Die Kurvensteigung ist
+der jeweils aktuellen Kurvenart (In oder Out-Kurve) angepasst.
+
+5) Square
+---------
+Hiermit w„hlt man einen Kurvenverlauf aus, der auf einer
+Quadrierungsfunktion basiert. Die Kurvensteigung ist der jeweils aktuellen
+Kurvenart (In oder Out-Kurve) angepasst.
+
+6) EXP
+------
+Hiermit w„hlt man einen Kurvenverlauf aus, der auf einer Exponentialfunktion
+basiert. Die Kurvensteigung ist der jeweils aktuellen Kurvenart
+(In oder Out-Kurve) angepasst.
+
+7) SQRT
+-------
+Hiermit w„hlt man einen Kurvenverlauf aus, der auf einer Wurzelfunktion
+basiert. Die Kurvensteigung ist der jeweils aktuellen Kurvenart
+(In oder Out-Kurve) angepasst.
+
+8) LOG
+------
+Hiermit w„hlt man einen Kurvenverlauf aus, der auf einer
+Logarithmus-Funktion basiert. Die Kurvensteigung ist der jeweils aktuellen
+Kurvenart (In oder Out-Kurve) angepasst.
+
+9) Load
+-------
+Hiermit kann man vorgefertigte oder abgespeicherte Faderkurven (Dateiendung
+*.FAD) laden. In dieser Datei sind beide Faderkurven (IN & OUT) enthalten.
+
+10) Save
+--------
+Hiermit kann man neue, selbsterstellte Faderkurven (Dateiendung *.FAD)
+speichern. Hat die Datei den Namen SMP16.FAD, wird die Datei bei
+Programmstart automatisch geladen. Dadurch stehen einem diese Fades sofort
+zur Verfgung.
+
+11) Help
+--------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+12) Undo
+--------
+Hat man sich beim zeichnen vertan, kann man den letzten Schritt hiermit
+rckg„ngig machen.
+
+13) Exit
+--------
+Hiermit wird das Fade-Edit-Fenster geschlossen.
+Man kann mehrere Fenster gleichzeitig ge”ffnet lassen und hat so immer den
+direkten Zugriff auf die Funktionen.

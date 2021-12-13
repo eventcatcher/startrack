@@ -1,0 +1,67 @@
+Tracker-Fileselector-Dialog
+
+
+Dieser Dialog gibt eine öbersicht Åber die im ›Tracker›TRAKKER.TXT› verwendeten
+›Sampleblîcke›BLKFSEL.IMG› und erlaubt das Suchen eines solchen Sampleblocks. Bei vielen
+Samples kann nÑmlich die öbersicht schnell verloren gehen, und dafÅr gibt
+es dieses Suchwerkzeug. Nach der Suche wird das Sample automatisch im
+Tracker selektiert und in die Ecke links oben gescrollt.
+Angezeigt werden im Fileselector die Namen der Sampledateien und die
+entsprechenden Kommentare, die in den Info-Dateien enthalten sind
+(Dateiendung *.INF). Den Kommentaren wird bei der Anzeige die 
+Tracker-Spurnummer vorangestellt (T012 = Trackerspur 12), die anzeigt auf
+welcher Spur das Sample zu finden ist. Die Samples werden nach ›Spur›BLOCK.TXT› und
+›SMPTE-Zeit›SMPTE.TXT› sortiert.
+Man wÑhlt das entsprechende Sample im Sampledatei-Name-Bereich aus (6) indem
+man das entsprechende Feld selektiert, und klickt anschlieûend auf
+Search - und das Sample wird im Tracker gesucht. Man kann hier auch die
+Sample-Kommentare Ñndern. DafÅr klickt man auf das entsprechende
+Kommentartext-Feld und es erscheint der ›Tracker-Kommentar-Eingabedialog›TRAKCOMM.TXT› in
+dem man den Kommentar eingeben kann. Diese Kommentare werden im Tracker-File
+(Endung *.TRK) mit abgespeichert. Diese stehen also beim Laden eines solchen
+Tracker-Files wieder zur VerfÅgung. Zur besseren VerstÑndnis sollte man das
+›BILD›TRAKFSEL.IMG› des Tracker-Fileselector-Dialogs zu Rate ziehen.
+
+
+1) Sampledatei-Name
+-------------------
+Hier werden die Original-Dateinamen der Samples aufgelistet. Diese Felder
+kînnen angeklickt werden, um sie auszuwÑhlen. Diese Felder erscheinen mit
+einem blauen Rahmen, um sie als selektierbar zu kennzeichnen. Das gilt fÅr
+das ganze Programm. Wo immer ein solches blau umrandetes Textfeld auftaucht,
+ist dieses auch selektierbar. (lîst meistens eine bestimmte Funktion aus).
+
+2) Sampledatei-Kommentar
+------------------------
+Hier erscheint der Kommentar zu einem Sample, der in der Info-Datei des
+Samples (Endung *.INF) enthalten ist. Dieser Text kann aber jederzeit
+geÑndert werden. DafÅr klickt man einfach auf das Kommentarfeld und gibt
+den neuen ›Kommentartext›TRAKCOMM.TXT› ein.
+
+3) Slider
+---------
+Funktioniert wie beim Original-Fileselektor auch.
+
+4) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+5) Sortierart
+-------------
+Hiermit kann man auswÑhlen, wie die Samples sortiert werden sollen.
+deselektiert = die Samples werden nach Spur und Startzeit sortiert.
+  selektiert = die Samples werden nach ihren Dateinamen alphabetisch
+               sortiert. Diese Option ist allerdings noch nicht
+               implementiert !
+
+6) Exit
+-------
+Hiermit wird der Tracker-Fileselector-Dialog geschlossen.
+
+7) Search
+---------
+Hiermit wird der Tracker-Fileselector-Dialog geschlossen und das
+selektierte Sample wird gesucht und in die Ecke oben links gescrollt
+und selektiert.

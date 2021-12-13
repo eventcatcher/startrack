@@ -1,0 +1,56 @@
+Einfhrung in die Arbeit mit Markern und Blockfunktionen
+--------------------------------------------------------
+
+Nun, ich gehe davon aus, das sie das Kapitel İ"Die erste Aufnahme"İRECINTRO.TXTİ
+durchgearbeitet haben und wissen, wie man eine Aufnahme und Wiedergabe in das
+Sample-RAM durchfhrt.
+
+Nehmen sie etwas auf, und zwar bis zum Ende des Samplemem. Am besten etwas,
+was eine Passage beinhaltet die sich gut "loopen" l„t.
+Also z.B. einen wiederkehrenden Grundrythmus. Diesen wollen wir nun aus
+der Gesamtaufnahme herausnehmen und endlos abspielen lassen.
+Drcken sie im İEditorİEDIT.IMGİ nun im İMarkerbereich(4)İEMARKER.IMGİ den Button Marker-S (2)
+Sie sehen nun am linken Rand des İSample-BereichsİCURVE.IMGİ einen senkrechten Strich an dessen
+oberen Ende der Buchstabe "s" anzeigt das es sich um den Startmarker(1) handelt.
+Diesen k”nnen sie nun mit der Maus an eine geeignete Loop-Startposition bewegen,
+indem man die Markerlinie mit der Maus greift, und bei gedrckter Maustaste
+an die gewnschte Stelle bewegt.
+Drcken sie nun den Button Marker-E (3). Sie sehen nun am linken Rand des
+İSample-BereichsİCURVE.IMGİ einen senkrechten Strich an dessen
+oberen Ende der Buchstabe "e" anzeigt das es sich um den Endmarker(2) handelt.
+Diesen k”nnen sie nun mit der Maus an eine geeignete Loop-Endposition bewegen.
+Nun mssen sie dem Editor noch sagen, da er nicht alles abspielen soll,
+sondern nur den markierten Block. Selektieren sie dafr bitte im İLimits-Bereich(7)İLIMIT.IMGİ
+den Blockbutton(2). Da wir den ausgew„hlen Blockbereich endlos wiederholen wollen,
+selektieren sie zus„tzlich den Loop-Button(1) links daneben. Achten sie darauf
+das sich der Startmarker vor dem Endmarker befindet, bevor sie die Wiedergabe
+starten.
+
+Starten sie nun mit dem Play-Button die Wiedergabe.
+Sie sehen das der Bereich endlos wiederholt wird.
+Ein weiterer senkrechter Strich zeigt die Wiedergabeposition an.
+Drcken sie einfach die Pause-Taste um die Wiedergabe zu unterbrechen.
+Bei erneutem Druck auf die Pausetaste wird die Wiedergabe fortgefhrt.
+Stoppen k”nnen sie sie Wiedergabe indem sie die Stoptaste drcken.
+Aber das kennen sie ja bereits von der İAufnahme-EinfhrungİRECINTRO.TXTİ.
+Sie k”nnen brigens die Marker nicht nur mit der Maus, sondern auch mit
+den Pfeiltasten im İSetbereich(3)İFUNKTION.IMGİ des Editor-Fensters bewegen.
+Das geht genauer als mit der Maus.
+
+Alle Blockfunktionen wirken nur auf den mit den Markern eingestellten Block,
+wenn der Blockbutton selektiert ist. Sonst wirken die Blockfunktionen n„mlich
+auf den gesamten Samplemem-Inhalt. Wir wollen nun mit der Blockfunktion
+"CUTOUT" den Bereich auerhalb des mit den Markern markierten Blocks
+l”schen. ™ffnen sie nun das Blockfunktionen-Fenster. W„hlen sie dafr in
+der İButton-Toolbar(1)İEBUTTONS.IMGİ den Blockfunktionen-Button(3) aus.
+Nun ”ffnet sich das İFenster mit den BlockfunktionenİBLKFUNC.IMGİ.
+Drcken sie nun den CUTOUT-Button(2),in der Mitte ganz oben zu finden.
+Wenn sie nun wieder auf das Editor-Fenster wechseln sehen sie da
+der Bereich auerhalb des Blocks gel”scht wurde.
+Da sie nun das Prinzip der Blockbildung und Blockbearbeitung kennen,
+probieren sie doch einfach ein paar der anderen Blockfunktionen aus.
+Viel Spa beim ausprobieren. 
+
+
+
+

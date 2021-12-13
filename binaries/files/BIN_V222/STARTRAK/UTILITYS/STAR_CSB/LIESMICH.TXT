@@ -1,0 +1,10 @@
+Das StarTrack CSB-Accessory dient zur Analyse der im digitalen
+SP/DIF-Signal enthaltenen Status-Informationen.
+
+Dort wird n„mlich nicht nur die Samplerate, sondern auch so
+exotische Dinge wie z.B. Herkunftsland und Timing-Genauigkeit
+kodiert. Hiermit kann man diese Daten sichtbar machen.
+Allerdings ist dann solange keine Audioausgabe m”glich, da die
+Matrix fr die šbertragung der Daten im "Channel Status Block"
+benutzt wird.
+

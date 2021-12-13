@@ -1,0 +1,68 @@
+Hardware-Installation
+---------------------
+
+Herzlichen Glckwunsch zum Erwerb ihres Highend Startrack-Soundsystems.
+Sie halten nun eine hochprofessionelle, modular ausbaubare HD-Recording-Karte
+in ihren H„nden und m”chten verst„ndlicherweise sofort loslegen.
+
+Aber bitte haben sie etwas Geduld und lesen sich die folgende Installations-
+anleitung sorgf„ltig durch um Besch„digungen durch unsachgem„es Handeln
+zu verhindern.
+
+Es gibt 3 verschiedene Verkaufsversionen der Karte, die sich insbesondere
+durch die Art des Einbaus in ihren Rechner unterscheiden:
+
+1. İKomplettversion im IPC-Geh„useİHARDIPC.TXTİ
+   
+2. İVME-VersionİHARDVME.TXTİ
+   
+3. İ5 1/4-Zoll-EinschubİHARDSLOT.TXTİ
+
+
+Ausbau des Startrack-Systems:
+-----------------------------
+
+Nutzung und Einbau mehrerer Startrack-Karten
+--------------------------------------------
+M”chte man mehrere Startrack-Karten parallel betreiben, reicht es
+nicht, einfach mehrere dieser Karten an den VME-Bus anzuschlieen.
+Man braucht speziell angepasste Firmware (Hardware-Programmierung)
+hierfr, die die weiteren Karten als Slave der Masterkarte einbinden.
+Auerdem braucht man hierfr eine VME-Sloterweiterung, die ebenfalls
+in das IPC-Geh„use integriert werden kann. Hierbei handelt es sich um
+einen VME-Einschub mit 4 Steckpl„tzen der ebenfalls bei uns erh„ltlich
+ist. Auerdem brauchen sie eine speziell hierfr angepasste
+Startrack-Software die momentan noch in Arbeit ist.
+Sprechen sie mit uns oder ihrem H„ndler falls Bedarf hierfr besteht.
+
+
+Anschlu externer DSP-Port-Erweiterungen:
+-----------------------------------------
+Externe Erweiterungen werden einfach mit dem DSP-Port mit einem der
+Erweiterung beiligenden Kabel verbunden. Man sollte jedoch darauf achten
+da das Kabel m”glichst kurz ist. Notfalls mu es gekrzt werden, falls
+die Erweiterung nicht zuverl„ssig funktioniert. Es ist halt so, das
+im Falcon der DSP-Port ja Bestandteil der Hauptplatine ist und so der
+Weg bis zur Erweiterung prinzipiell relativ klein ist. Bei der
+Startrack-Erweiterung kommt man prinzipbedingt nicht um ein DSP-Port-Kabel
+herum um den DSP-Port aus dem Rechnergeh„use zu fhren,auer man baut
+die Erweiterung komplett in die N„he der Startrack-Karte mit in das
+Geh„use ein und h„lt das Kabel so m”glichst kurz.
+Prinzipbedingt gilt: Alle DSP-Port-Erweiterungen fr den Falcon sollten
+auch mit der Startrack-Karte funktionieren. Je krzer das Kabel hierzu
+ist, desto besser. Erfolgreich getestet wurden bisher das Analog8 von
+Soundpool und das Jam-Out von LineAudio. Zum ADAT-Interface von Soundpool
+und zum Jam-In kann ich derzeit noch keine Aussagen machen, sie sollten
+aber ebenfalls funktionieren. Sollten sie etwas krzere oder etwas
+l„ngere Kabel ben”tigen, wenden sie sich bitte an uns oder ihren H„ndler.
+Wir fertigen gerne ein passendes Kabel fr ihre Erweiterung an und sie gehen
+so kein unn”tiges Risiko durch falschgemachten Kabeleigenbau ein.
+
+Anschlu von DSP-Port Clockmodulen:
+-----------------------------------
+Es gibt fr den Falcon diverse Clockmodule fr den DSP-Port,die dem Falcon
+zur CD-Samplerate 44.1 kHz verhelfen. Wenn sie diesen Quarzoszillator gegen
+einen mit 25.175 MHz austauschen, k”nnen sie auch alle Sampleraten des
+Falcon verwenden (z.B. 49200 Hz). Das Modul wird einfach auf den DSP-Port
+aufgesteckt. Falls sie den Umbau nicht selbst vornehmen m”chten, fragen
+sie bitte ihren H„ndler oder Vertrieb nach einer entsprechenden L”sung.

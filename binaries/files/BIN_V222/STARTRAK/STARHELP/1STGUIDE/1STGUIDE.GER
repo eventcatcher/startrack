@@ -1,0 +1,576 @@
+1STGUIDE-Hinweise                               Halle, den 10.06.1997
+
+	Copyright (C) 1990-1997 Guido Vollbeding <guivol@esc.de>
+
+
+	Neuerungen:
+	-----------
+
+- Besseres MPEG-Parsing, vorbereitet fÅr kommenden MPEG-2 Support.
+
+08.12.1996:
+
+- Problem mit Graustufen Progressive JPEG behoben.
+
+20.04.1996:
+
+- Schnellere und kÅrzere PNG-Routinen (genauer: zlib-"inflate"-
+  Optimierungen): insgesamt etwa 10 bis 20 % schnelleres Laden
+  (und Åber 2 KByte Code gespart :-).
+
+- JPEG (alle Varianten): Besseres Verhalten bei 'corrupted' oder
+  'truncated' Files (sollte jetzt insbesondere unter keinen
+  UmstÑnden mehr zu AbstÅrzen fÅhren, nehme ich jedenfalls an :-).
+
+10.01.1996:
+
+- Multiscan/Progressive JPEG Support eingebaut.
+  Dank wie immer an den unermÅdlichen Tom Lane und IJG JPEG V6(a).
+  Leider noch nicht per DSP mit JPEGD verfÅgbar (kommt Zeit, ...).
+
+- TIMG Support eingebaut (TrueColor/Grau/Alpha IMG Erweiterung).
+  Siehe erweitertes XIMGTOOL fÅr Sourcen, Tool und
+  Konvertierungsmodule.
+  Herzlichen Dank an Jens BrÅggemann fÅr die Anpassung des
+  SNAPPER, womit nun in wirklich jeder Grafikauflîsung IMG-Snaps
+  gemacht werden kînnen. Und Dank an Udo Steinbach fÅr die
+  Ersterstellung des SNAPPER sowie an Ulrich Kaiser fÅr die
+  Tests auf seiner Grafikkarte.
+
+29.08.1995:
+
+- PNG (Portable Network Graphics) eingebaut (puh...).
+  Dank an Guy Eric Schalnat fÅr die "libpng reference library",
+  Jean-loup Gailly und Mark Adler fÅr die "zlib general purpose
+  compression library" sowie Thomas Boutell, Mark Adler und Lee
+  Daniel Crocker fÅr die Spezifikation (siehe unten).
+
+- IMG-Level-3-Decoder (erlaubt hîhere Packraten) eingebaut.
+  Siehe XIMGTOOL-Paket fÅr Konvertierungen und Sourcecodes.
+
+- MPEG-System-Layer-Support integriert (Video+Audio kombiniert,
+  Audio wird dabei z.Zt. Åbersprungen). MPEG-Audio-UnterstÅtzung
+  ist in Vorbereitung. DSP-MPEG-Treiber ist in Arbeit.
+
+- Bei Benutzung des (DSP-)JPEG-Treibers wird nun endlich kein
+  temporÑrer Speicher fÅr das komplette TC-Bild mehr benîtigt,
+  so da· auch das Laden grî·erer Bilder bei weniger Speicher
+  gelingt, solange das Bild in der aktuellen Auflîsung in den
+  Speicher pa·t. Die Geschwindigkeit ist dabei unverÑndert.
+  Die Geschwindigkeit des internen JPEG-Loadings konnte um
+  etwa 10 % gesteigert werden.
+
+27.07.1994:
+
+- Die RegistriergebÅhr betrÑgt nun definitiv 50,- DM.
+  Bereits mit geringerem Betrag registrierte Anwender kînnen
+  selbstverstÑndlich zum Differenzbetrag updaten.
+  Ein besonders herzlicher Dank geht an dieser Stelle an jene
+  Anwender, die bereits mit 50,- DM zum Gelingen der vorliegenden
+  Version mit der neuen MPEG-UnterstÅtzung beigetragen haben.
+
+- Leider sah ich mich noch nicht in der Lage, die Dokumentation zu
+  Åberarbeiten, daher erfolgen an dieser Stelle die nîtigen Hinweise.
+
+- MPEG-Einbindung:
+  ZunÑchst geht mein herzlicher Dank an Ralf Dunkel fÅr die Beschaf-
+  fung des umfangreichen Materials (Sourcen sowie jede Menge Test-
+  files). Weiterhin gebÅhrt der Berkeley Plateau Research Group
+  (siehe unten) Dank fÅr ihre MPEG-Decoder-Sourcen (Versionen 1.x
+  bis 2.0), die zwar alles andere als portabel waren und fast
+  komplett umgestrickt werden mu·ten, aber nichtsdestotrotz
+  eine unverzichtbare Grundlage meiner Arbeit bildeten.
+
+  Es wird soweit wie mîglich der vollstÑndige MPEG-1-Video-Standard
+  unterstÅtzt, inclusive P- und B-Frames mit (forward/backward/bidi-
+  rectional) Motion Compensation bei Ausschîpfung der vollen syntak-
+  tischen Mîglichkeiten und nicht notwendigerweise BeschrÑnkung auf
+  Constrained Parameter Bitstreams, was z.B. bei den meisten Hard-
+  warelîsungen noch der Fall ist.
+
+  Es kînnen theoretisch beliebig viele MPG-Movies gleichzeitig
+  abgespielt werden (praktisch nur durch System begrenzt: offene
+  Fenster / offene Files). Filegrî·e und Framezahl spielen keine
+  Rolle, da jeweils ein Puffer (80 KByte) zum Nachladen der Daten
+  benutzt wird.
+
+  Die optionale Graustufendarstellung lÑ·t die Movies aufgrund der
+  entfallenden aufwendigen Farbauswertung deutlich schneller laufen.
+  Allerdings fehlt dann halt die Farbinformation.
+
+  Falls ein Movie vollstÑndig unsichtbar ist, weil es etwa
+    a) durch andere Fenster vollstÑndig verdeckt ist oder
+    b) au·erhalb der BildschirmflÑche (z.B. ganz nach unten)
+       geschoben wird oder
+    c) durch das WindowShade-Feature von WINX >= 2.3 'eingeklappt'
+       ist,
+  so wird es automatisch angehalten. Im Unterschied zur "Pause"-
+  Option (siehe Popup) wird es dabei aber nicht aus der Timerliste
+  ausgehÑngt und wird automatisch fortgesetzt, sobald es wieder auch
+  nur teilweise sichtbar wird.
+  Durch das Anhalten mittels "Pause" wird das System in keiner Weise
+  mehr zusÑtzlich belastet, und das Verhalten entspricht etwa einem
+  normalen Bildfenster, mit dem 'kleinen' Unterschied, da· der Zoom
+  'etwas' anders wirkt (von HC/TC-Modi abgesehen - ausprobieren!).
+  Hierbei gibt es noch ein neues allgemeines Feature: HÑlt man beim
+  Fullen eine Shift-Taste gedrÅckt (also Shift-Control-F oder Shift-
+  Klick auf Fuller), so wird das Fenster nicht auf den Bildschirm
+  ge'fulled', sondern auf die aktuelle Dokumentgrî·e, was halt
+  besonders nach einer Zoom-Operation sinnvoll ist. Diese Option
+  gilt aber auch fÅr alle anderen 1stGuide-Fenster!
+
+  Wundern Sie sich bitte nicht, da· der "Restart" erst ab dem Åber-
+  nÑchsten Frame (Step) zur Wirkung kommt. Das hÑngt mit der wegen
+  der Backward Prediction notwendigen und nicht ganz trivialen
+  Display-Logik zusammen.
+  In diesem Zusammenhang sind mir leider auch schon MPG-Files vorge-
+  kommen, die diesbezÅglich nicht korrekt kodiert waren. Hierbei
+  kann es dann teilweise zu BildverwÅrfelungen kommen. HÑlt man beim
+  Laden die RECHTE SHIFT-TASTE gedrÅckt, so werden P- und B-Frames
+  Åbersprungen, so da· nur die I-Frames angezeigt werden, bei denen
+  zumindest keine Prediction-Probleme auftreten kînnen. Allerdings
+  enthalten die meisten der gegenwÑrtig in Umlauf befindlichen
+  MPG-Files ohnehin nur I-Frames (von manchen auch als "Motion-JPEG"
+  bezeichnet) wegen des deutlich geringeren Kodieraufwandes.
+
+  Bei genÅgend Resonanz sÑhe ich mich in der Lage, auch einen MPEG-
+  Encoder zu programmieren, da mir entsprechendes Material (MPEG-2-
+  Encoder- und Decoder-Sourcen) zur VerfÅgung steht. Allerdings mu·
+  ich nach den bisherigen Erfahrungen befÅrchten, ein solches auf-
+  wendiges Projekt wegen mangelnder Resonanz nicht in Angriff nehmen
+  zu kînnen. Man bedenke aber, da· MPEG-2 als DER Standard fÅr
+  zukÅnftiges Digital-TV gilt und man daher frÅher oder spÑter
+  damit sicherlich auf breiter Front konfrontiert werden wird.
+
+16.03.1994:
+
+- Umstellungen bei den Image-Optionen:
+  Der Punkt "0 Ditherfarben" (war schon ziemlich seltsam, hatte aber
+  entwicklungstechnische Ursachen) ist jetzt in die Ditheroption
+  "Niemals" gewandert. Bei "Bedarf" werden Bilder nur dann gedithert,
+  wenn sie mehr Farben enthalten als die aktuelle Auflîsung hergibt.
+  Anderenfalls mu· die Farbpalette von Hand (Popup/Shortcut)
+  eingestellt werden.
+  Stellt man den Schalter auf "Immer", so werden Bilder mit ent-
+  haltener Farbpalette immer gedithert, also auch dann, wenn die
+  Auflîsung eigentlich zur korrekten Darstellung ausreichen wÅrde
+  (Ausnahme: High-/True-Color-Modi).
+    Vorteile:
+      o Es braucht keine Palette mehr umgeschaltet zu werden;
+      o Mehrere Bilder werden gleichzeitig farbtreu dargestellt.
+    Nachteile:
+      o Nicht optimale Darstellung (da Umrasterung auf fixe Palette);
+      o Hîherer Rechenaufwand -> LÑngere Wartezeit beim Laden.
+  Einfach mal ausprobieren! Wer in High-/True-Color-Modi arbeitet,
+  braucht sich um diese Einstellung keine Gedanken zu machen, da
+  hier die Farbpalette immer optimal ins Raster umgesetzt wird!
+  Au·erdem ist diese Option grundsÑtzlich nur fÅr XIMG/IFF-Bilder
+  von Bedeutung, nicht fÅr JPG/PNG/TIMG.
+
+  Durch Aufspaltung der bisherigen Ditherfarben-Einstellung in
+  "Farbmodell" und "Farbstufen" sind nun in Auflîsungen mit
+  mindestens 256 Farben auch echte Graustufendarstellungen bei
+  Farbbildern mîglich. Besonders bei JPG-TrueColor-Bildern kann
+  dabei u. U. deutlich Rechenzeit gespart werden.
+
+  öbrigens: In HighColor-Modi (32K, 64K Farben) hat die Floyd-
+  Steinberg-Einstellung eine Bedeutung, wenn JPG-TrueColor-Bilder
+  geladen werden. In diesem Falle wird ein speziell zugeschnittener
+  FS-Algorithmus verwendet, um die aus der geringeren Farbauflîsung
+  resultierenden "Artefakte" zu vermeiden, die sich z.B. bei Motiven
+  mit sanften FarbÅbergÑngen als stîrende "Farbtreppen" bemerkbar
+  machen. Zum Vergleich schalte man den FS mal ab, dann wird
+  einfach gerundet, was natÅrlich schneller ist.
+
+15.12.1993:
+
+- Erweiterte Help-Message: Es ist nun mîglich, eine spezielle Index-
+  datei zusÑtzlich zum zu suchenden SchlÅsselwort mit anzugeben, auf
+  die sich die Suche dann bezieht. Diese kann von Programmierern ge-
+  nutzt werden, um programmspezifische Hilfesysteme anzusprechen,
+  ohne da· der Anwender diese in 1stGuide vorgeben oder mehrere
+  Indexdateien "concatenieren" mu·.
+
+	#include <aes.h>
+	...
+	#define AC_HELP          1025
+	#define HELP_FILE_MAGIC  0x1993
+
+	int  my_apid;            /* my own id from appl_init */
+	char helpname[] = "1STGUIDE";
+
+	int send_help( char *keyword, char *indexfile )
+	{
+	  static int msg_buff[8];
+	  int help_id;
+
+	  if ((help_id = appl_find( helpname )) >= 0)
+	  {
+	    msg_buff[0] = AC_HELP;
+	    msg_buff[1] = my_apid;
+	    msg_buff[2] = 0;
+	    *(char **)(msg_buff + 3) = keyword;
+	    msg_buff[5] = HELP_FILE_MAGIC;
+	    *(char **)(msg_buff + 6) = indexfile;
+	    appl_write( help_id, 16, msg_buff );
+	  }
+	  return help_id;
+	}
+
+  Diese Lîsung benutzt die noch freien Stellen im Message-Buffer, um
+  die Indexdatei zu referenzieren. Das HELP_FILE_MAGIC dient zur Ge-
+  wÑhrleistung der VertrÑglichkeit mit der alten Message. Der Index-
+  file-Zeiger wird von 1stGuide nur benutzt, wenn das Magic stimmt,
+  der Indexfile-Zeiger kein Null-Pointer ist und wenn er nicht auf
+  eine leere Zeichenkette zeigt. Auszug aus meinem Source dazu:
+
+    void hndl_message( int *pipe )
+    {
+      switch (pipe[0])
+      {
+	...
+	case AC_HELP:
+	  find_index( *(char **)(pipe + 3),    /* keyword */
+		      pipe[5] == 0x1993 &&     /* Magic */
+		      *(char **)(pipe + 6) &&  /* Non-Null-Pointer */
+		      **(char **)(pipe + 6)    /* 1st char != 0 */
+		      ? *(char **)(pipe + 6)   /* OK, take it! */
+		      : par.indexfile );       /* Default-Index */
+	  break;
+	...
+    } }
+
+  Diese Lîsung ist auch "abwÑrtskompatibel", d.h. man kann in jedem
+  Falle die eigene Indexdatei mit angeben, Ñltere 1stGuide-Versionen
+  ignorieren sie dann halt. Es genÅgt also ein Hinweis zur Installa-
+  tion, da· man bei Ñlteren 1stGuide-Versionen selber die Indexdatei
+  einstellen bzw. "mergen" mu·, wÑhrend das bei neueren Versionen
+  (ab 3.Nov.1993) eben entfÑllt.
+
+  Alle Programmierer, die in ihren Programmen schon von AC_HELP Ge-
+  brauch machen, sollten zur absoluten Sicherheit dafÅr Sorge tragen,
+  da· die unbenutzten Message-Elemente mit Null belegt sind, wenn sie
+  von der Erweiterung  zunÑchst keinen Gebrauch machen wollen. Es
+  wÅrde schon genÅgen, das Magic auf 0 zusetzen (also etwa Zeile
+  "msg_buff[5] = 0;" einfÅgen, falls nicht ohnehin ein eigener stati-
+  scher Messagebuffer wie im obigen Beispiel verwendet wird, wo das
+  automatisch gewÑhrleistet wÑre), oder man kînnte  beispielsweise
+  obige Funktion send_help mit einem Null-Pointer als Indexfile auf-
+  rufen, falls die voreingestellte Indexdatei benutzt werden soll.
+
+
+	Lieferumfang:
+	-------------
+
+Das 1stGuide-Komplettpaket umfa·t folgende Archive:
+
+	- 1STGUIDE.ZIP, enthÑlt die Programmdatei 1STGUIDE.ACC
+			sowie die vorliegende Textdatei 1STGUIDE.GER
+			auf deutsch und 1STGUIDE.ENG auf englisch;
+
+	- GUIDHELP.ZIP, enthÑlt eine umfassende Programmbeschreibung
+			sowie TOS/GEM-Betriebssystem-Dokumentation
+			in Hypertextform;
+
+	- GUIDTOOL.ZIP, enthÑlt Hilfsprogramme zu 1stGuide, eine
+			in TeX verfa·te Anleitung als DVI-Datei
+			sowie 1stView einschlie·lich Quellen;
+
+	- GUIDDOSE.ZIP, enthÑlt Programmversionen fÅr's PC-GEM.
+
+Weiterhin gibt es folgende Zusatzpakete:
+
+	- JPEG_DSP: enthÑlt DSP-JPEG-Decode-Treiber fÅr den Falcon;
+
+	- JPEG_GVS: enthÑlt JPEG-Speichermodul fÅr GEM-View 3.x;
+
+	- MPEGDSP.TTP: DSP-MPEG-Player-Demoprogramm fÅr den Falcon;
+
+	- MPEG_SYS: enthÑlt Tool fÅr MPEG-1-System-Layer-Streams;
+
+	- XIMGTOOL: Sourcen/Tool/Module fÅr (X/T)IMG-Level-1/2/3.
+
+Zur  Weitergabe  ist  MINDESTENS  das  Archiv  1STGUIDE.ZIP oder sein
+Inhalt (1STGUIDE.ACC, 1STGUIDE.GER, 1STGUIDE.ENG) notwendig, der Rest
+ist OPTIONAL!
+Das  Komplettpaket  ist  automatisch  nach  erfolgter   Registrierung
+erhÑltlich. Falls Sie NICHT HD-Disketten lesen kînnen, geben Sie dies
+bitte  bei der Registrierung an.  Unter diesem Umstand mÅssen  einige
+ZusÑtze entfallen. StandardmÑ·ig verschicke ich HD-Disketten!
+
+
+	Registrierung:
+	--------------
+
+Bei 1stGuide handelt es sich um SHAREWARE!! Das hei·t, da· nach einer
+dem  Benutzer  nach  eigenem  Ermessen  zugestandenen  Testphase eine
+Registrierung  mit  Zahlung  einer  GebÅhr  an den Autor fÑllig wird,
+falls  man  das  Programm  regelmÑ·ig  benutzen  mîchte  und an einer
+Weiterentwicklung interessiert ist.
+
+Die Shareware-GebÅhr fÅr 1stGuide betrÑgt 50,- DM.  Dieser Betrag ist
+an  folgende Adresse zu senden (Bar/Scheck) oder auf  das  angegebene
+Konto zu Åberweisen:
+
+	Guido Vollbeding
+	Turmstra·e 61
+	D-06110 Halle (Saale)
+	Deutschland
+
+	Bankverbindung: Stadt- u.
+	Saalkreissparkasse Halle
+	Blz.: 800 537 62
+	Kto.: 486 260 725
+
+Dadurch  erhÑlt  man automatisch das aktuelle Komplettpaket auf einer
+"Originaldiskette"  zugesandt  und  kann  in  Zukunft jederzeit durch
+Einsendung  eines Schreibens mit einer Diskette und einem frankierten
+RÅckumschlag die aktuelle Version anfordern.
+
+Wer 1stGuide benutzt, ohne zu zahlen, verletzt geltendes Recht und
+verstî·t gegen die Regeln anstÑndigen Verhaltens!
+
+Noch ein  Hinweis:  Geben  Sie  bitte  bei  öberweisungen  immer Ihre
+vollstÑndige  Adresse  mit an, sonst kann ich keinen Kontakt zu Ihnen
+auf- bzw. keine Zuordnung vornehmen!
+
+
+	Ultra-Kurzbeschreibung:
+	-----------------------
+
+Mit 1stGuide kann man sich folgende Standard-Dateiformate in GEM-Fen-
+stern auf allen Atari-Rechnern,  unter allen  Betriebssystemversionen
+und in allen Auflîsungen und Farbtiefen  (von 1 Bit Monochrom bis  32
+Bit TrueColor) anschauen (bzw. -hîren):
+
+	.IMG    GEM-(X/T)-Image Rastergrafiken, Level-1/2/3
+		(1 Bit Monochrom bis 12 Bit RGB XIMG Colormap,
+		RGB-TrueColor/Grau/Alpha TIMG direct pixel)
+	.IFF    Interchange File Format: ILBM - Interleaved Bitmaps
+		(1 Bit Monochrom bis 12 Bit RGB Colormap)
+	.GEM    GEM-Vektorgrafiken
+		(mit Bezierkurven bei fÑhigem VDI, z.B. NVDI >= 2.12)
+	.RSC    GEM-Resource-Dateien
+		(einfache bis 64 K und erweiterte > 64 K)
+	.PNG    Portable Network Graphics, alle 'Spielarten'
+		entsprechend aktueller Spezifikation
+	.JPG
+	.JPE
+	.JPEG   Joint Photographic Experts Group - Rastergrafiken:
+		JPEG/JFIF-Standard (24 Bit TrueColor, 8 Bit Grau),
+		Baseline/Multiscan/Progressive Support
+	.MPG
+	.MPE
+	.MPEG   Moving Picture Experts Group - Videosequenzen:
+		MPEG-1-Video-Standard (24 Bit TrueColor),
+		MPEG-1-System (Video+Audio interleaved)
+	.SAM
+	.SND
+	.AVR    Sound-Sample-Dateien
+		(zur Zeit nur 8 Bit Mono)
+	.DOC
+	.OUT
+	*       Textdateien (einschlie·lich Schriftattribute)
+
+Weiterhin  kînnen  hypertextartige Verzweigungen zwischen Dateien auf
+einfache  Weise definiert werden, womit man umfangreiche Hilfesysteme
+anlegen  kann, durch die man interaktiv mit 1stGuide navigieren kann.
+Alles weitere entnehme man der umfassenden Programmbeschreibung.
+
+
+	Installation fÅr Atari ST(E)/TT/Falcon etc.:
+	--------------------------------------------
+
+1. Kopieren Sie die Datei 1STGUIDE.ACC in Ihr Boot-Verzeichnis.
+   Falls Sie Åber 1stGuide drucken mîchten, mu· GDOS installiert
+   sein.
+
+Die folgenden Punkte gelten nur fÅr das Komplettpaket:
+
+2. Wenn Sie eine Festplatte bzw. bei gro·em Arbeitsspeicher eine
+   genÅgend gro·e RAM-Disk besitzen, legen Sie dort einen neuen
+   Ordner an (z.B. "1STGUIDE"), und kopieren Sie den gesamten
+   Disketteninhalt dort hinein (falls nicht schon beim Auspacken
+   geschehen).
+
+3. Starten Sie Ihren Computer neu, klicken im Desk-MenÅ des Desktops
+   den Punkt "1st Guide" an und wÑhlen in der darauf erscheinenden
+   Datei-Auswahlbox die Datei "1STGUIDE.HLP" im entsprechenden
+   DatentrÑger/Ordner aus. Dort erhalten Sie weitere Benutzungs-
+   Informationen.
+
+ZusÑtzlich  kann  man in die DESKTOP.INF bzw. NEWDESK.INF Datei  etwa
+folgende Zeile VOR allen anderen Anwendungen einfÅgen:
+
+#G 03 04 C:\1STGUIDE.ACC@ *.*@
+bzw.
+#G 03 04 000 C:\1STGUIDE.ACC@ *.*@ @
+
+Man  erhÑlt  dann  nie mehr die Meldung "Anzeigen/Drucken/Abbrechen".
+FÅgt man danach noch die Zeile
+
+#G 03 FF *.AC*@ @
+bzw.
+#G 03 FF 000 *.AC*@ @ @
+
+ein,  so  kann  man 1STGUIDE (und bestimmte andere, auch inaktivierte
+Accessories)  direkt  als  Programm  starten.  Alternativ  dazu  kann
+1STGUIDE  auch  in  .PRG,  .APP oder .GTP umbenannt werden, um es als
+Programm zu benutzen.
+
+Anstelle  von  1STGUIDE  kann  auch  das  kleine  Programm   CALLGUID
+installiert  werden  (siehe TOOLS-Ordner),  um im 'normalen'  Desktop
+die  Anzeigefunktion  zu  ersetzen.  Herzlichen Dank an Dirk Haun fÅr
+dieses Utility.
+
+Au·erdem   finden   Sie   im   Ordner  \TOOLS\1STVIEW  das  Accessory
+1STVIEW.ACC,  aus  welchem  1stGuide  ursprÅnglich entstanden ist und
+das  eine  Untermenge  der  FunktionalitÑt  von  1stGuide bietet. FÅr
+interessierte  Programmierer  habe  ich dazu den kompletten Quelltext
+beigelegt (im Ordner \TOOLS\QUELLEN).
+1stView  war  ursprÅnglich dazu gedacht, die Verbreitung von 1stGuide
+zu fîrdern.  Dieses Konzept hat sich  aber  insofern  nicht  bewÑhrt,
+als es viele Leute von einer Registrierung abgehalten hat.
+Die  Konsequenz  ist  nun  die,  da·  1stView  sowie  die zugehîrigen
+Sourcen  vorlÑufig  "eingefroren"  sind,  d.h. nicht gepflegt werden.
+Ansonsten  bleibt  alles beim Alten, d.h. 1stView ist als Freeware zu
+betrachten,   und   der   Inhalt   des  Ordners  \TOOLS\1STVIEW  darf
+unabhÑngig von 1stGuide weitergegeben  werden.  Der geneigte 1stView-
+Anwender   darf   sich   nun   nur  nicht   wundern,   wenn  aktuelle
+Entwicklungen  (z.B.  Betriebssystemerweiterungen  wie  WINX oder die
+neuen Dateiformate) nicht entsprechend unterstÅtzt werden.
+
+Wer  auf  eine  ansprechende  gedruckte  Anleitung  Wert legt, findet
+au·erdem   die   Datei   1STGUIDE.DVI,   die   mit  einem  TeX-System
+ausgedruckt werden kann.
+
+Sie  kînnen  1stGuide  und  1stView  auch unter MSDOS-GEM nutzen.  Im
+Ordner \MSDOS finden Sie die entsprechenden Programme, welche aus der
+öbersetzung der Quellen mit der MSDOS-Version von Turbo-C  entstanden
+sind  (unter  Nutzung  der  hier dokumentierten GEM-Einbindung).  Die
+Installation ist Ñhnlich der ST-Version.  Das jeweilige Accessory ist
+in den Ordner  \GEMBOOT  (GEM 2.x)  bzw.  \GEMAPPS\GEMBOOT  (GEM 3.x)
+zu  kopieren  und  man  kann die DESKTOP.INF-Datei etwa  um  folgende
+BEIDEN Zeilen erweitern (VOR allen anderen Applikationen):
+
+#G0828 E:\PROGRAMM\1STGUIDE\1STGUIDE.APP@ *.*@
+#G0828 *.APP@ @
+
+Achtung!  Im  Gegensatz  zur  ST-Version  kann  das  Accessory  nicht
+einfach  umbenannt werden, um es als Programm zu starten. Man mu· die
+jeweilige Programmversion benutzen.
+
+
+	ErklÑrung:
+	----------
+
+1stGuide ist ein Shareware-Programmpaket von:
+
+	Guido Vollbeding
+	Turmstra·e 61
+	D-06110 Halle (Saale)
+	Deutschland
+
+	Bankverbindung: Stadt- u.
+	Saalkreissparkasse Halle
+	Blz.: 800 537 62
+	Kto.: 486 260 725
+
+FÅr  irgendwelche  SchÑden,  einschlie·lich aber nicht beschrÑnkt auf
+materielle  oder  finanzielle,  die  direkt  oder  indirekt durch die
+Benutzung  oder Nichtbenutzung der Programme und/oder Dokumentationen
+oder  Teilen  davon oder durch die Untauglichkeit derselben fÅr einen
+bestimmten  Zweck  entstehen,  kann  ich, Guido Vollbeding, keinerlei
+Haftung Åbernehmen.
+
+Eventuelle  éhnlichkeiten der vorliegenden Software mit existierenden
+oder  geplanten  Produkten namhafter oder unbekannter Hersteller sind
+nicht beabsichtigt, sondern wÑren rein zufÑllig.
+
+-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-
+This  software is based in part on the work of the  Independent  JPEG
+Group, Copyright (C) 1991-1996, Thomas G. Lane.  All Rights Reserved.
+The authors accept NO LIABILITY for damages of any kind.
+-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-
+
+~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~
+This  software supports the DSP-JPEG-Decoder from Brainstorm, France,
+for  Atari  Falcon  computers,  which  is  copyright (C) 1992-1993 by
+Brainstorm & Atari Corporation.
+~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~
+
+-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+The MPEG part of this software is based in part on the work of
+
+            Lawrence A. Rowe, Ketan Patel, and Brian Smith
+     Computer Science Division-EECS, Univ. of Calif. at Berkeley
+
+Copyright (C) 1995 The Regents of the University of California.
+All rights reserved.
+
+IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY
+FOR DIRECT,  INDIRECT, SPECIAL, INCIDENTAL,  OR CONSEQUENTIAL DAMAGES
+ARISING  OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION,  EVEN
+IF  THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE  POSSIBILITY
+OF SUCH DAMAGE.
+
+THE  UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY  WARRANTIES,
+INCLUDING,   BUT   NOT   LIMITED  TO,   THE  IMPLIED  WARRANTIES   OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.   THE  SOFTWARE
+PROVIDED  HEREUNDER  IS ON AN "AS IS" BASIS,  AND THE  UNIVERSITY  OF
+CALIFORNIA  HAS  NO  OBLIGATION  TO  PROVIDE  MAINTENANCE,   SUPPORT,
+UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+The PNG part of this software is based in part on the work of
+
+  Guy Eric Schalnat, Group 42, Inc., Copyright (c) 1995-1996
+  Contributing Authors:
+    Guy Eric Schalnat
+
+  The PNG Reference Library is supplied "AS IS". The Contributing
+  Authors and Group 42, Inc. disclaim all warranties, expressed or
+  implied, including, without limitation, the warranties of
+  merchantability and of fitness for any purpose. The Contributing
+  Authors and Group 42, Inc. assume no liability for damages,
+  direct or consequential, which may result from the use of
+  the PNG Reference Library.
+
+and the 'zlib' general purpose compression library:
+
+  Copyright (C) 1995-1996 Jean-loup Gailly and Mark Adler
+
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any
+  damages arising from the use of this software.
+
+PNG Spec. 1995 by Thomas Boutell, Mark Adler, and Lee Daniel Crocker.
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+Alle  Rechte  an  den  vorliegenden Programmen liegen beim Autor. Das
+Programmpaket  darf  ausschlie·lich  FREI  weitergegeben werden, eine
+kommerzielle  Verbreitung  in  jeder  Form  (PD-Sammeldisketten o.Ñ.)
+sowie  die  Beilage  zu kommerziellen, Shareware- oder Public-Domain-
+Programmen   ist   nur   mit   meiner   ausdrÅcklichen  schriftlichen
+Genehmigung  gestattet.  Zur  Weitergabe  von mir autorisiert ist der
+PD-Service  des  Atari-Journals  (schlie·lich  hat  sich dieses Blatt
+auch   in  der  Ausgabe  4/92  zu  einem  Testbericht  Åber  1stGuide
+herabgelassen).  Christoph  Bartholme ist die Beilage von 1stGuide zu
+seinem Shareware-Programm IdeaList erlaubt. Entsprechende Konditionen
+kînnen  beim Autor erfragt werden.  Falls Sie spezielle WÅnsche  oder
+Vorstellungen haben:  Registrieren Sie sich bitte ERST persînlich und
+tragen Sie DANACH Ihr Anliegen vor!
+
+Die  oben  angegebenen  Archive bzw. enthaltenen Dateien mÅssen immer
+vollstÑndig   (jeweils   auf  das  Archiv  bezogen)  und  unverÑndert
+weitergegeben  werden.  UnsachgemÑ·e  énderungen  oder Eingriffe sind
+nicht erlaubt. Daher merke:
+
+	Wer 1stGuide-Programme nachmacht oder verfÑlscht oder
+	nachgemachte oder verfÑlschte 1stGuide-Programme sich
+	verschafft und in Verkehr bringt, wird mit System-Ab-
+	stÅrzen nicht unter 2 Bomben bestraft.
+
+Ansonsten  viel Spa· mit 1stGuide, und mîge der Atari immer mit Ihnen
+sein!

@@ -1,0 +1,37 @@
+   ONCE-Port mit dem PC verbinden :
+   Die Sub-D-Buchse des ONCE-Port-Kabels wird mit einer freien seriellen
+   V24-Schnittstelle des PC verbunden. Die Belegung der 9poligen Sub-D-Buchse ist
+   kompatibel zu den ebenfalls 9poligen seriellen Anschlssen der PCs. Da das Kabel
+   etwas Kurz ist (ist nur fr den Einbau in das Computergeh„use vorgesehen) sollte
+   man es mit einem einfachen Joystik oder İMaus-Verl„ngerungskabelİMAUSCABL.IMGİ verl„ngern.
+   Hauptsache die Pins des Kabels sind 1:1 (eins zu eins) miteinander verbunden.
+   Ein serielles Verl„ngerungskabel ist also auch m”glich, solange es 9polige und
+   nicht die 25poligen Sub-D-Anschlsse besitzt. Nun kann man das Kabel mit der
+   seriellen PC-Schnittstelle verbinden.
+   Das entsprechende DSP-Debugger-Programm nennt sich EVM56K und ist eigentlich
+   Bestandteil des Motorola DSP-Entwicklungspakets fr das EVM56002.
+   Der Debugger ist aber kostenlos erh„ltlich und liegt z.B. in der Motorola-Mailbox
+   (Tel: 089/92103-111): Als User geben sie "bbs" ein und gelangen so in die
+   Motorola-Mailbox. Nun w„hlen sie mit den Cursortasten den Menpunkt
+   "Programs and infos for the digital signal processors" aus, anschlieend
+   w„hlen sie den Menpunkt "Support SW for DSP56002EVM" und bekommen eine
+   Liste von Programmfiles. W„hlen sie nun das File "evm27.zip" (oder „hnlich)
+   aus und laden sie diese Datei auf ihren Rechner und entpacken sie diese auf
+   dem PC mit einem UNZIP-Programm, da das File dekomprimiert.
+   Starten sie nun das File EVM22.EXE (oder „hnlich) Das Programm entpackt nun
+   das komplette Programmpaket - fertig !
+   Sollte der Debugger sich nach der Installation nicht starten lassen
+   (Fehlermeldung z.B. "can not initialize DSP56002 EVM"), so ist entweder
+   die Startrack-Karte nicht in Betrieb (Rechner mu eingeschaltet sein - logo)
+   oder die serielle Schnittstelle des PC ist nicht richtig konfiguriert
+   (siehe auch das READ.ME-File im EVM-Programmpaket)oder sie haben das
+   falsche Verl„ngerungskabel bzw. es ist defekt oder nicht richtig angeschlossen.
+   Sobald das Debug-Programm gestartet wurde, sollte die grne
+   DEBUG-Leuchtdiode(LED) auf der Frontseite der Startrack-Anschlsse leuchten.
+   Damit wird angezeigt, das der DSP im Debug-Mode betrieben wird.
+   Auerdem im Programmpaket enthalten ist der DSP-Assembler "ASM56000.EXE",
+   und ein Programm mit dem man die vom Assembler erzeugte CLD-Datei in das
+   bekannte LOD-Format konvertieren kann ("CLDLOD.EXE").
+   Die rote LOCK-Leuchtdiode zeigt brigens an, das der DSP im korrekten
+   Betriebszustand ist (bzw. das die PLL auf die Taktfrequenz des
+   DSP-Mastertaktes eingerastet ist).

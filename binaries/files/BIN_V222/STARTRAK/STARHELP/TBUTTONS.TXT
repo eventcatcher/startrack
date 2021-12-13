@@ -1,0 +1,92 @@
+Button-Toolbar im Tracker-Fenster
+---------------------------------
+
+
+Hierber erreicht man die wichtigsten Hauptfunktionen.
+Zur besseren Verst„ndnis sollte man das İBILDİTBUTTONS.IMGİ der
+Button-Toolbar zu Rate ziehen.
+
+
+1) Tracker-Fileselector (Arztkoffer)
+------------------------------------
+Der Dialog gibt eine šbersicht ber die im Tracker verwendeten Samplebl”cke
+und erlaubt das Suchen eines solchen Sampleblocks. Bei vielen Samples kann
+n„mlich die šbersicht schnell verloren gehen, und dafr gibt es dieses
+İSuchwerkzeugİTRAKFSEL.TXTİ. Nach der Suche wird das Sample automatisch im İTrackerİTRAKKER.TXTİ
+selektiert und in die Ecke links oben gescrollt.
+Angezeigt werden im İFileselectorİTRAKFSEL.TXTİ die Namen der Sampledateien und die
+entsprechenden Kommentare, die in den Info-Dateien enthalten sind
+(Dateiendung *.INF). Den Kommentaren wird bei der Anzeige die
+Tracker-Spurnummer vorangestellt (T012 = Trackerspur 12), die anzeigt auf
+welcher Spur das Sample zu finden ist. Die Samples werden nach Spur und
+SMPTE-Startzeit sortiert.
+Man w„hlt das entsprechende Sample im İSampledatei-Name-BereichİTRAKFSEL.TXTİ aus indem
+man das entsprechende Feld selektiert, und klickt anschlieend auf
+İSearchİTRAKFSEL.TXTİ - und das Sample wird im Tracker gesucht. Man kann hier auch die
+Sample-Kommentare „ndern. Dafr klickt man auf das entsprechende
+İKommentartext-FeldİTRAKFSEL.TXTİ und es erscheint der İTracker-Kommentar-EingabedialogİTRAKCOMM.TXTİ in
+dem man den Kommentar eingeben kann. Diese Kommentare werden im
+Tracker-File (Endung *.TRK) mit abgespeichert. Diese stehen also beim Laden
+eines solchen Tracker-Files wieder zur Verfgung. Zur besseren Verst„ndnis
+sollte man sich die Beschreibung zum Tracker-Fileselector anschauen.
+
+2) downmix
+----------
+Hiermit kann man sich die aktuelle Spur (seletierte Spurnummer) zu einer
+einzigen Sample-Datei zusammenmischen lassen.
+
+3) multitrack-play
+------------------
+Hiermit startet man die Wiedergabe des Trackers. Die aktivierten Spuren
+werden zusammengemischt und abgespielt.
+Der Abspielbereich kann durch die İPlaymarkerİTMARKS.TXTİ eingegrenzt werden. 
+
+4) delete sample
+----------------
+Das aktuelle Sample (roter bzw. gestrichelter Rand) wird aus der Spurliste
+gel”scht. Das Sample bleibt natrlich auf der Festplatte vorhanden.
+
+5) trash
+--------
+Hiermit l”scht man alle Spuren bzw. alle İSpureintr„geİBLOCK.TXTİ im Tracker.
+
+6) load sample
+--------------
+Hiermit l„dt man ein Sample in den Tracker. Es erscheint dabei immer als
+letztes Sample der aktuellen Spur (selektierte Spurnummer) und wird als
+aktuelles Sample (roter bzw. gestrichelter Rand) gekennzeichnet.
+
+7) Clipboard
+------------
+šber das Clipboard kann man ganze Spuren kopieren.
+Wenn man eine ganze Spur kopieren m”che, selektiert man die İSpurnummerİBLOCK.TXTİ und
+zieht (draggt) sie mit gedrckter Maustaste in das Clipboard. Dabei wird das
+Clipboard-Symbol selektiert. Nun l„t man die Maustaste los. Damit wurde die
+İgesamte SpurİBLOCK.TXTİ mit allen Sampleeintr„gen zun„chst ins Clipboard kopiert (eine
+Art Zwischenspeicher). Eventuell sucht man nun mit dem Slider die gewnschte
+Spur auf die das ganze kopiert werden soll. Hat man die Zielspur im
+Sichtfeld, klickt man auf das Clipboard. Man h„lt dabei die linke Maustaste
+gedrckt. An der Maus h„ngt nun das Spurnummer-Symbol. Dieses zieht man
+jetzt ber den Spurnummer-Button des Spurfeldes, in das kopiert werden soll.
+Dabei wird der Spurnummer-Button der Zielspur automatisch selektiert. Ist
+der Spurnummer-Button selektiert l„t man die Maus los - fertig.
+Der Clipboard-Inhalt bleibt solange vorhanden, bis man eine andere Spur oder
+Sampleblock hineinkopiert. Man kann aber nicht nur ganze Spuren, sondern
+auch einzelne Samplebl”cke kopieren. Das vorgehen dabei ist sehr „hnlich.
+Man zieht (draggt) den zu kopierenden İSampleblockİBLKFSEL.IMGİ (mit Maus auf Block zeigen
+und rechte Maustaste zusammen mit den Tasten CTRL+ALT drcken) auf das
+Clipboard. Eventuell sucht man nun mit dem Slider die gewnschte Spur auf
+die der Sampleblock kopiert werden soll. Hat man die Zielspur im Sichtfeld,
+klickt man auf das Clipboard. Man h„lt dabei die linke Maustaste gedrckt.
+An der Maus h„ngt nun der Sampleblock. Diesen zieht man jetzt auf die
+gewnschte Spur, und l„t die Maus los - fertig.
+
+8) load Tracker-File
+--------------------
+Hiermit kann man die Tracker-Datei (Dateiendung *.TRK) laden.
+
+9) save Tracker-File
+--------------------
+Hiermit kann man die Tracker-Datei (Dateiendung *.TRK) abspeichern.
+In ihr werden s„mtliche verwendeten Spuren,Samplebl”cke und
+Abspielparameter gespeichert.

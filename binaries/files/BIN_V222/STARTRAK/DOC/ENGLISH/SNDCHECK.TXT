@@ -1,0 +1,52 @@
+STARTRACK-Soundcheck
+
+Hello !
+
+I have make an exact soundcheck with this Soundcard, and the result is,
+that the sound of my DAT-recorder (Onkyo DAT-901) is not better as the soundcard.
+On the contrary - partly noise the soundcard less as the DAT-recorder !
+
+I have until now the soundcard successful tested on the following systems:
+TT, Medusa T40, Hades 060.
+(For all people which it not to know: the Hades is a Atari-compatible construction
+from Switzerland (Medusa Computer Systems) with 4 PCI, 2 ISA-Bus and 
+1 VME-Bus-connectors, 8 sockets for PS/2-RAM and as processor an MC68040
+with 64 MHz or an MC68060 with 60 MHz in a Mini-Tower).
+
+I have make a few tests with the Hades 060 and my Sample-Editor for Startrack,
+that me really have knocked-out:
+
+10 tracks mixing and level-adjustment for each Stereotrack at 48 kHz samplerate
+12 tracks mixing and level-adjustment for each Stereotrack at 44.1 kHz samplerate
+16 tracks mixing and level-adjustment for each Stereotrack at 32 kHz samplerate
+
+Thereby is it important to know, that the mainprogram is written in GFA-Basic
+and the sample load-routines also execute in GFA-Basic.
+Only the mixing from the tracks is execute in Assembler.
+By an optimizing from the load-routines in Assembler is it most likely,
+that you can more tracks mixing.
+The complete calculating is making by the host-mainprocessor (68060) from
+the Hades and not from the DSP.
+The DSP can parallel to the hostprocessor calculate DSP-Effects.
+
+Altogether (in my opinion) is the Hades ideal for Harddisk-recording.
+It have a great System-Performance (more then PCs and Apples ?).
+
+For musicians really interesting and important: The VME-card can you plug in a
+special 5 1/4 inch slot in your PC-case. All connectors from the Soundcard
+are now on the front from the PC-case. That is very practical and useful, when you
+often connect and disconnect the Connectors (Cinch and TOSLINK-Opto). 
+The Soundcard have following Connectors:
+digital Input and Output (optical TOSLINK and Cinch, switchable)
+Stereo-Analog-Input (2 Cinch) with 16Bit sigma-delta linear A/D, 64 x oversampled
+Stereo-Analog-Output (2 Cinch) with 18Bit sigma-delta linear D/A, 64 x oversampled
+Thereby are the Input and Output exactly one after another trimmed i.e.
+at 0dB-Output-Level have the Output the same level as the Input.
+The Output have CD-Player-level.
+You have also a SCMS-Decoder for free-copy from the digital-Input and Highend
+Stereo-Volume-Controllers (in hardware) for the Input and optional for the Output.
+The XLR-extension is in a double 5 1/4 Inch-Slot for a PC-Case. The XLR-Connectors
+are now on the front from the PC-case. Optional can you have this extension as a
+VME-Slotcard.
+You have digital AES/EBU Input and Output in XLR-norm and Analog-Input and Output
+in XLR with Studiolevel.

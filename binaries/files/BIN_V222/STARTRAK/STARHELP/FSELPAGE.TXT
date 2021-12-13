@@ -1,0 +1,119 @@
+Hyper-Fileselector-Dialog
+
+
+Dieser Dialog ist als Fileselector-Ersatz gedacht, hat aber noch sehr viel
+mehr Mîglichkeiten, die die Arbeit hiermit sehr komfortabel machen. Um mehr
+öbersichtlichkeit zu bekommen, funktioniert dieser Fileselektor etwas
+anders. Zuerst erstellt man eine Liste der Suchpfade mittels der Buttons
+1-3. Diese Liste wird unter dem Namen SMP16.SEL auf dem Speichermedium
+(Festplatte o.Ñ) angelegt. Angezeigt werden auûerdem nur die Sampledateien
+und die entsprechenden Kommentare, die in den Info-Dateien enthalten sind
+(Dateiendung *.INF). Man wÑhlt das entsprechende Sample im
+Sampledatei-Name-Bereich aus (6) indem man das entsprechende Feld
+selektiert, und klickt anschlieûend auf Load - und das Sample wird in den
+Sample-Editor geladen. Man kann hier aber auch gleich die Samples anhîren.
+Um ein bestimmtes Sample zu finden, wenn die Dateibeschreibung oder der
+Kommentar alleine nicht weiterhilft, ist das ganz nÅtzlich. DafÅr stehen
+einem hier die Grundfunktionen eines CD-Players zur VerfÅgung, also Play,
+Stop,Forward,Rewind,Pause (siehe 13-17). Auûerdem gibt es eine
+Anspielautomatik bei der die ersten 10 Sekunden eines Titels angespielt
+werden. Zur besseren VerstÑndnis sollte man das ›BILD›FSEL.IMG› des
+Fileselector-Dialogs zu Rate ziehen.
+
+
+1) Path
+-------
+Hier wÑhlt man einen (zusÑtzlichen) Suchpfad fÅr Sampledateien aus.
+
+2) Add
+------
+Mit diesem Button fÅgt man den eben ausgewÑhlten Suchpfad (siehe 1) der
+Suchpfadliste hinzu. Diese Suchpfadliste wird als Datei unter dem Namen
+"SMP16.SEL" abgespeichert, und kann auch mit einem ASCII-Editor editiert
+werden.
+
+3) New
+------
+Hiermit lîscht man die Suchpfadliste.
+
+4) Filename
+-----------
+Hier wird der Name und Suchpfad der aktuellen Suchpfadliste angezeigt.
+
+5) Slider
+---------
+Funktioniert wie beim Original-Fileselektor auch.
+
+6) Sampledatei-Name
+-------------------
+Hier werden die Original-Dateinamen der Samples aufgelistet. Diese Felder
+kînnen angeklickt werden, um sie auszuwÑhlen. Diese Felder erscheinen mit
+einem blauen Rahmen, um sie als selektierbar zu kennzeichnen. Das gilt fÅr
+das ganze Programm. Wo immer ein solches blau umrandetes Textfeld auftaucht,
+ist dieses auch selektierbar. (lîst meistens eine bestimmte Funktion aus).
+
+7) Sampledatei-Kommentar
+------------------------
+Hier erscheint der Kommentar zu einem Sample, der in der Info-Datei des
+Samples (Endung *.INF) enthalten ist. Dieser kann ›vor der Aufnahme›SMPINF.TXT› eines
+Samples eingegeben werden.
+
+8) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+9) Time
+-------
+Hier wird die Abspielposition eines Samples angezeigt, und zwar im Format
+Stunden:Minuten:Sekunden Hundertstel-Sekunden. 
+
+10) Insert
+----------
+Hiermit wird das selektierte Sample in die ›Musicbox-Liste›MUSICBOX.TXT› (siehe 11)
+aufgenommen.
+
+11) Musicbox
+------------
+Hiermit schaltet man zwischen Fileselektor und Musicbox um. Die Musicbox ist
+ein weiteres Feature dieses Fileselektors. Man wÑhlt verschiedene Samples
+aus, die dann Ñhnlich einem Wurlitzer-Musikautomaten automatisch abgespielt
+werden. Diese Musicbox-Listen kînnen auch gespeichert werden, so daû man
+sich nicht jedesmal wieder die gleiche Arbeit machen muû. Eine genauere
+ErklÑrung folgt unter dem Stichwort ›MUSICBOX›MUSICBOX.TXT›.
+
+12) Trash
+---------
+Hiermit kann man einzelne Samples incl. der zugehîrigen Cache-Datei (*.PBF)
+und Info-Datei (*.INF) lîschen.
+
+13) Break
+---------
+Gleiche Funktion wie STOP.
+
+14) Pause
+---------
+Die Wiedergabe des Samples (6) wird unterbrochen bis zum nÑchsten Klick.
+
+15) Stop
+--------
+Abbruch der Wiedergabe. Ein Fortfahren an der gleichen Stelle ist mit Play
+mîglich.
+
+16) Play
+--------
+Wiedergabe des selektierten Samples (6) starten.
+
+17) Anspielen
+-------------
+Anspielen der ersten 10 Sekunden des selektierten Samples (6).
+
+18) Exit
+-------
+Hiermit wird der Fileselector-Dialog geschlossen.
+
+19) Load
+--------
+Hiermit wird der Fileselector-Dialog geschlossen und das selektierte Sample
+in den Sample-Editor geladen.

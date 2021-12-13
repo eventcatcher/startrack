@@ -1,0 +1,367 @@
+- Shortcuts
+
+  Fenster Allgemein:
+  ---------------------------------------------------------------
+       CTRL-TAB : zum nÑchsten offenen Fenster (nextstep)
+ SHIFT CTRL-TAB : zum nÑchsten offenen Fenster (backstep)  
+ 
+  im Editor:
+  ---------------------------------------------------------------
+          ALT V : zum Umschalten zwischen Zeit- und Sampleeinteilung
+          ALT B : zum Umschalten zwischen 16Bit und 24Bit Modus
+          ALT I : Umschaltung Eingang Analog/Digital
+          ALT J : Umschaltung Digitalsource Optical/Coax/XLR
+          ALT E : Umschaltung Datenpfad DSP-Effects (Off/Input/Output)
+          ALT O : Umschaltung Loopmode (Forward,Backward,Cross)
+          ALT Y : Umschaltung Digitalsync on/off
+          ALT G : Umschaltung grid on/off (farbiger Sample-Hintergrund)
+          ALT A : Umschaltung Amplituden-Autozoom on/off 
+          ALT F : zum Umschalten der Funktion (Popup)
+          ALT R : zum Umschalten der Samplerate (Popup)
+          ALT K : Samplemem lîschen
+          ALT L : Loop-Modus
+          ALT M : Blockmarker-Modus
+          ALT N : Midi-Modus
+          ALT W : Play Windowblock
+          ALT Z : Zoom 1:1
+          ALT < : zum Anfang
+          ALT > : zum Ende 
+          ALT C : Clipboard (derzeit noch ohne Funktion)
+    ALT+SHIFT M : zur Mitte
+    ALT+SHIFT P : Markermode put & drag (bewegen)
+    ALT+SHIFT B : Markermode block (Marker aufziehen)
+    ALT+SHIFT H : Markermode Hear (scrubbing)
+    ALT+SHIFT L : Markermode Loopfind (suche Nulldurchgang)      
+    ALT+SHIFT Z : Markermode Zoom
+    ALT+SHIFT C : Markermode Declicker
+    ALT+SHIFT D : Markermode Draw (Sample zeichnen)
+    ALT+SHIFT N : Auswahl Markernummer
+   ALT+LSHIFT S : Auswahl Startmarker
+   ALT+LSHIFT E : Auswahl Endmarker
+   ALT+LSHIFT I : Auswahl Intromarker
+   ALT+LSHIFT O : Auswahl Loop bzw. Releasemarker 
+   ALT+RSHIFT S : Eingabe Startmarker-Position
+   ALT+RSHIFT E : Eingabe Endmarker-Position
+   ALT+RSHIFT I : Eingabe Intromarker-Position
+   ALT+RSHIFT O : Eingabe Loop bzw. Releasemarker-Position 
+     ALT+CTRL E : Eingabe Marker-Kommentar 
+     ALT+CTRL < : Eingabe Darstellungs-Startmarke
+     ALT+CTRL > : Eingabe Darstellungs-Endmarke
+     ALT+CTRL L : Show Samplemem-Maximalgrîûe in Byte
+     ALT+CTRL T : Show Zeit-MaximallÑnge des Samplemem
+     ALT+CTRL I : Show Sample-Info
+     ALT-CTRL B : Backup-Dialog aufrufen
+     ALT-CTRL V : Umschaltung Darstellungsmode fÅr Auflîsungen > 1:1
+     ALT-CTRL H : Umschaltung Horizontale Hilfslinien on/off
+               : Markereintrag auswÑhlen (+1)
+               : Markereintrag auswÑhlen (-1)
+       LSHIFT  : Markereintrag auswÑhlen (+5)
+       LSHIFT  : Markereintrag auswÑhlen (-5)
+       RSHIFT  : Markereintrag auswÑhlen (+10)
+       RSHIFT  : Markereintrag auswÑhlen (-10)
+               : rÅckwÑrts <-   (abhÑngig von Funktionsauswahl im Popup)
+               : vorwÑrts  ->   (abhÑngig von Funktionsauswahl im Popup)
+       LSHIFT  : rÅckwÑrts <<-  (abhÑngig von Funktionsauswahl im Popup)
+       LSHIFT  : vorwÑrts  ->>  (abhÑngig von Funktionsauswahl im Popup)
+       RSHIFT  : rÅckwÑrts <<<- (abhÑngig von Funktionsauswahl im Popup)
+       RSHIFT  : vorwÑrts  ->>> (abhÑngig von Funktionsauswahl im Popup)
+  CTRL+LSHIFT  : Zoom-Out
+  CTRL+LSHIFT  : Zoom-In
+  CTRL+RSHIFT  : Scroll links
+  CTRL+RSHIFT  : Scroll rechts
+    SHIFT PAUSE : Aufnahme-Bereitschaft
+
+  alle Dialoge mit Pfeiltasten links/rechts:
+  ---------------------------------------------------------------
+         CTRL  : rÅckwÑrts <-   
+         CTRL  : vorwÑrts  ->   
+  CTRL+LSHIFT  : rÅckwÑrts <<-  
+  CTRL+LSHIFT  : vorwÑrts  ->>  
+  CTRL+RSHIFT  : rÅckwÑrts <<<- 
+  CTRL+RSHIFT  : vorwÑrts  ->>> 
+  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  In Dialogen ohne Editfelder auch ohne CTRL-Taste mîglich !
+
+  alle Dialoge mit Pfeiltasten hoch/runter:
+  ---------------------------------------------------------------
+               : Pfeiltaste runter
+               : Pfeiltaste rauf  
+  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  In Dialogen ohne Editfelder auch ohne CTRL-Taste mîglich !
+
+  alle Dialoge mit vertikalen Slidern (z.B. Dsp-Plugins):
+  ---------------------------------------------------------------
+               : Pfeiltaste runter (softslide)
+               : Pfeiltaste rauf   (hardslide)
+        SHIFT  : Pfeiltaste runter (hardslide)
+        SHIFT  : Pfeiltaste rauf   (hardslide)
+
+  alle Dialoge mit horizontalen Slidern (z.B. Virtual Load):
+  ---------------------------------------------------------------
+               : Pfeiltaste links  <- (softslide)
+               : Pfeiltaste rechts -> (softslide)
+        SHIFT  : Pfeiltaste links  <- (hardslide)
+        SHIFT  : Pfeiltaste rechts -> (hardslide)
+
+  alle Dialoge mit Laufwerksfunktionen:
+  ---------------------------------------------------------------
+          ALT H : Harddisk/Memory-Projekt           
+            ESC : Stop
+     PAUSE/UNDO : Pause/Wiedergabebereitschaft
+          SPACE : Play
+    SHIFT SPACE : Record
+     CTRL SPACE : Autorecord
+      ALT SPACE : Record & Play
+      BACKSPACE : Backplay (rÅckwÑrts abspielen)
+            TAB : Forward (vorwÑrts spulen)
+      SHIFT TAB : Backward (rÅckwÑrts spulen)
+          POS 1 : zum Anfang
+           ENDE : zum Ende
+
+  im Tracker:
+  ---------------------------------------------------------------
+              ALT K : Tracker lîschen
+              ALT R : Monitorkanal umschalten
+              ALT B : Export zum CD-Brenner (via Extendos Gold)
+          
+              ALT M : Marker auswÑhlen
+              ALT N : copy next
+        ALT+SHIFT K : kompletten Track lîschen    
+              ALT W : play sampleblock
+              ALT V : Viewmode (Sample/Block-Anzeige)
+              ALT C : Comment (Filename/Kommentar)
+              ALT O : Solo-Mode
+          
+              ALT A : Track active/nonactive
+              ALT T : Trackname editieren
+         ALT+CTRL + : Track-LautstÑrke hîher
+         ALT+CTRL - : Track-LautstÑrke niedriger
+         ALT+CTRL < : Track-Balance links
+         ALT-CTRL > : Track-Balance rechts
+       CTRL SHIFT N : Stereo/Mono
+       CTRL SHIFT M : Mute (stummschalten)
+
+       CTRL SHIFT L : Sample laden        
+       CTRL SHIFT C : Clipboard (noch ohne Funktion)
+          
+        ALT+SHIFT G : get - Sample auswÑhlen
+        ALT+SHIFT D : drag - Sample bewegen
+        ALT+SHIFT M : mirror - Sample kopieren
+        ALT+SHIFT C : clipboard - Sample ins Clipboard kopieren
+        ALT+SHIFT E : edit Sample
+        ALT+SHIFT F : flip - links/rechts sample anreihen
+        ALT+SHIFT S : size - Sample-Marker verÑndern
+        ALT+SHIFT V : volume - LautstÑrkekurven einzeichnen
+
+         ALT-CTRL R : Play-Trackanzahl umschalten
+         ALT-CTRL D : Sample lîschen
+         ALT-CTRL X : Trackbouncing
+         ALT-CTRL L : In Sample-Liste suchen
+    
+         ALT+CTRL M : Tracker-Arrangement abspielen (mischen)
+         ALT+CTRL S : Sample-Anfangsmarke setzen 
+         ALT+CTRL E : Sample-Endmarke setzen
+         ALT+CTRL T : Sample-Startzeit editieren
+         ALT+CTRL B : Play-Startmarke editieren
+         ALT+CTRL F : Play-Endmarke editieren
+  ALT+CTRL LSHIFT S : Sample-Startmarke nach links verschieben
+  ALT+CTRL RSHIFT S : Sample-Startmarke nach rechts verschieben
+  ALT+CTRL LSHIFT E : Sample-Endmarke nach links verschieben
+  ALT+CTRL RSHIFT E : Sample-Endmarke nach rechts verschieben
+  ALT+CTRL LSHIFT T : Sample-Startzeit nach links verschieben
+  ALT+CTRL RSHIFT T : Sample-Startzeit nach rechts verschieben
+  ALT+CTRL LSHIFT B : Play-Startmarke nach links verschieben
+  ALT+CTRL RSHIFT B : Play-Startmarke nach rechts verschieben
+  ALT+CTRL LSHIFT F : Play-Endmarke nach links verschieben
+  ALT+CTRL RSHIFT F : Play-Endmarke nach rechts verschieben
+  
+               : Track auswÑhlen (+1)
+               : Track auswÑhlen (-1)
+       LSHIFT  : Track auswÑhlen (+4)
+       LSHIFT  : Track auswÑhlen (-4)
+
+       Wechsel des aktiven Samples:
+       ----------------------------
+       RSHIFT  : eine (oder ggf. mehrere) Spur(en) tiefer
+       RSHIFT  : eine (oder ggf. mehrere) Spur(en) hîher
+       RSHIFT  : Sprung nach links 
+       RSHIFT  : Sprung nach rechts
+
+         CTRL  : Output-Volume niedriger
+         CTRL  : Output-Volume hîher
+
+  CTRL+LSHIFT  : Zoom-In
+  CTRL+LSHIFT  : Zoom-Out
+  CTRL+RSHIFT  : SoftScroll links
+  CTRL+RSHIFT  : SoftScroll rechts
+               : HardScroll links
+               : HardScroll rechts
+ 
+  im Arranger:
+  ---------------------------------------------------------------
+          ALT F : Sample laden
+          ALT R : Samplerate Ñndern
+          ALT L : Loop-Modus
+          ALT N : Midi-Modus
+          ALT K : Arrangement lîschen
+          ALT W : Block des aktuellen Samples abspielen
+          ALT T : Zeitdarstellung Ñndern
+          ALT M : Marker auswÑhlen
+          ALT < : Markeranfang setzen
+          ALT > : Markerende setzen 
+          ALT C : Clipboard (derzeit noch ohne Funktion)
+    ALT+SHIFT D : aktuelles Sample lîschen
+    ALT+SHIFT L : Loopmode auswÑhlen
+     ALT+CTRL I : Eintrag einfÅgen
+     ALT+CTRL D : Eintrag ausschneiden
+               : Eintrag auswÑhlen (+1)
+               : Eintrag auswÑhlen (-1)
+       LSHIFT  : Eintrag auswÑhlen (+4)
+       LSHIFT  : Eintrag auswÑhlen (-4)
+       RSHIFT  : Eintrag auswÑhlen (+12)
+       RSHIFT  : Eintrag auswÑhlen (-12)
+               : Eintrag aktivieren (to work)
+
+  im Peakmeter:
+  ---------------------------------------------------------------
+          ALT M : Balance-Nullpunkt
+          ALT Z : Mute (Volume to Zero)
+          ALT V : Volume Switch (In/Out)
+          ALT 1 : Record-Channel 1-2 (ADAT)
+          ALT 2 : Record-Channel 3-4 (ADAT)
+          ALT 3 : Record-Channel 5-6 (ADAT)
+          ALT 4 : Record-Channel 7-8 (ADAT)
+               : Volume absenken
+               : Volume anheben
+               : Balance links         
+               : Balance rechts        
+        SHIFT  : Peakhold kÅrzer         
+        SHIFT  : Peakhold lÑnger        
+    SHIFT PAUSE : Aufnahme-Bereitschaft
+
+  im Blockfunktionen-Fenster:
+  ---------------------------------------------------------------
+          ALT I : Cut In
+          ALT O : Cut Out
+          ALT D : Cut Del
+          ALT A : Insert (add)
+          ALT S : Space
+          ALT N : Negate
+          ALT P : Optimize (peakshift)
+          ALT R : Resample
+          ALT M : Stereo to Mono
+          ALT C : Change
+          ALT B : Convert 24bit to 16bit
+    ALT+SHIFT B : Convert 16bit to 24bit      
+
+  im Resample-Dialog:
+  ---------------------------------------------------------------
+          ALT R : zum Umschalten der Samplerate (Popup)
+ 
+  im Workmode-Fenster:
+  ---------------------------------------------------------------
+          ALT B : Timebase (Framerate-Popup)
+
+  im Midinoten-Dialog:
+  ---------------------------------------------------------------
+               : niedrigerer Midikanal
+               : hîherer Midikanal
+       LSHIFT  : tiefere note
+       LSHIFT  : hîhere note
+       RSHIFT  : tiefere oktave
+       RSHIFT  : hîhere oktave
+
+  im Disk-Utility:
+  ---------------------------------------------------------------
+          ALT K : Sample lîschen (delete,inkl. Cache- und Info-File) 
+          ALT R : Sample umbenennen (rename,inkl. Cache- und Info-File) 
+          ALT C : Sample kopieren (copy,inkl. Cache- und Info-File) 
+
+  im Hyper-Fileselector/Musicbox/Trackersearch:
+  ---------------------------------------------------------------
+          ALT I : Insert Fileselect-Item
+          ALT D : Delete Musicbox-Item
+          ALT C : Dialog-Switch (Fileselector/Musicbox)
+                  bzw. Show-Switch (Trackersearch)
+          ALT K : Kill all
+          ALT L : Load Musicbox
+          ALT S : Save Musicbox
+
+               : Eintrag runter
+               : Eintrag rauf
+        SHIFT  : Seite vor
+        SHIFT  : Seite zurÅck
+
+            ESC : Stop
+     PAUSE/UNDO : Pause
+          SPACE : Play
+    SHIFT SPACE : Anspielen
+      BACKSPACE : Abbruch der Musicbox
+
+
+  im Cuelist-Dialog:
+  ---------------------------------------------------------------
+          ALT B : Export zum CD-Brenner (via Extendos Gold)
+          ALT M : Downmix der Cuelist
+          ALT K : Kill Cuelist (lîscht alle EintrÑge)
+               : Eintrag auswÑhlen (+1)
+               : Eintrag auswÑhlen (-1)
+       LSHIFT  : Eintrag auswÑhlen (+5)
+       LSHIFT  : Eintrag auswÑhlen (-5)
+       RSHIFT  : Eintrag auswÑhlen (+10)
+       RSHIFT  : Eintrag auswÑhlen (-10)
+         CTRL L : Load Cuelist
+         CTRL S : Save Cuelist
+         CTRL  : Cuelist-Darstellungsbereich hîher     (+1)
+         CTRL  : Cuelist-Darstellungsbereich niedriger (-1)
+  CTRL LSHIFT  : Cuelist-Darstellungsbereich hîher     (+5)
+  CTRL LSHIFT  : Cuelist-Darstellungsbereich niedriger (-5)
+  CTRL RSHIFT  : Cuelist-Darstellungsbereich hîher     (+10)
+  CTRL RSHIFT  : Cuelist-Darstellungsbereich niedriger (-10)
+
+  im Plugin-Dialog:
+  ---------------------------------------------------------------
+  Slider von links nach rechts (je nach Parameteranzahl)
+  
+        1,2,3,4,5,6,7,8,9,0 : Fader hîherer Wert
+  SHIFT 1,2,3,4,5,6,7,8,9,0 : Fader kleinerer Wert 
+                      SPACE : Masterfader hîherer Wert   (nur EQ)
+                SHIFT SPACE : Masterfader kleinerer Wert (nur EQ)
+  
+  Wenn die EQ-Fader mit der Maus bewegt werden, kînnen die Fader
+  fÅr linken und rechten Kanal synchron bewegt werden, indem
+  zusÑtzlich zur Mausbewegung die Shift-Taste gedrÅckt wird.
+  Bei Shortcut-Bedienung werden die Fader immer synchron bewegt !
+
+  im Load/Save-Dialog:
+  ---------------------------------------------------------------
+          ALT A : Load/Save all
+          ALT B : Load/Save Block
+
+  im ExternalClock-Dialog:
+  ---------------------------------------------------------------
+               : Frequenzeintrag auswÑhlen (+1)
+               : Frequenzeintrag auswÑhlen (-1)
+       LSHIFT  : Frequenzeintrag auswÑhlen (+5)
+       LSHIFT  : Frequenzeintrag auswÑhlen (-5)
+       RSHIFT  : Frequenzeintrag auswÑhlen (+10)
+       RSHIFT  : Frequenzeintrag auswÑhlen (-10)
+
+  im Setup-Dialog:
+  ---------------------------------------------------------------
+         CTRL  : kleinerer Wert,HDD-sektorlen       <-   
+         CTRL  : grîûerer Wert,HDD-sektorlen        ->   
+  CTRL+LSHIFT  : kleinerer Wert,autorecord treshold <-  
+  CTRL+LSHIFT  : grîûerer Wert,autorecord treshold  ->  
+  CTRL+RSHIFT  : kleinerer Wert,record-time         <- 
+  CTRL+RSHIFT  : grîûerer Wert,record-time          -> 
+
+  im Time-Dialog:
+  ---------------------------------------------------------------
+         CTRL  : Framecounter auswÑhlen,decrement  <-   
+         CTRL  : Framecounter auswÑhlen,increment  ->   
+         CTRL  : Frames -1         
+         CTRL  : Frames +1          
+   CTRL+SHIFT  : Frames -10  
+   CTRL+SHIFT  : Frames +10 
+          

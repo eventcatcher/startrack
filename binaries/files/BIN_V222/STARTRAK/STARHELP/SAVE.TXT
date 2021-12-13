@@ -1,0 +1,34 @@
+Save-Dialog
+
+
+Den Save-Dialog erreicht man Åber das ›Save-Symbol›EBUTTONS.TXT› in der Buttonleiste des
+Edit-Fensters oder durch Eingabe von CTRL-S, oder Åber das optionale
+Dropdown-MenÅ unter Datei/Sample speichern.
+In diesem Dialog kann man wÑhlen, ob man den kompletten Samplespeicher oder
+nur den markierten Block speichern mîchte.
+Hat man eine Wahl getroffen, erscheint zuerst ein Fileselector in dem man
+den Namen der Sampledatei eingibt. Die Dateiendung entscheidet dabei Åber
+das Dateiformat (siehe auch Setup-Dialog).
+Danach erscheint der ›Information-Dialog›SMPINF.TXT›, in dem man dem Sample eine
+Beschreibung (Kommentar) zur besseren Identifikation geben kann. Dann wird
+das Sample abgespeichert. Zur besseren VerstÑndnis sollte man das
+›BILD›SAVE.IMG› zu Rate ziehen.
+
+1) full-saving
+--------------
+Hiermit wird das komplette Sample-Memory gespeichert.
+
+2) block-saving
+---------------
+Hiermit wird der markierte Sample-Memorybereich (Bereich zwischen Marker-S
+und Marker-E) gespeichert.
+
+3) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+4) Exit
+-------
+Hiermit wird der Save-Dialog geschlossen bzw. der Save-Vorgang abgebrochen.

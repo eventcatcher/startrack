@@ -1,0 +1,12 @@
+Das Datei-Men
+--------------
+
+Sample laden - Hiermit kann man ein Sample in den Sample-Speicher laden. Das geht auerdem auch mit der
+               Tastenkombination CTRL-L.
+               
+Sample speichern - Hiermit kann man ein Sample speichern. Das geht auerdem auch mit der
+                   Tastenkombination CTRL-S.
+                   
+Ende - Hiermit kann man das Programm beenden. Das geht auerdem auch mit der
+       Tastenkombination CTRL-Q .
+       

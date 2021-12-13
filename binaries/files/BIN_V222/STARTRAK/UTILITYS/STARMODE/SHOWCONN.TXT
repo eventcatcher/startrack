@@ -1,0 +1,96 @@
+Mit der XBIOS-Funktion showconnects(500,228) hat man eine einfache Mîglichkeit,
+die devconnect-Einstellungen zu kontrollieren, Fehler in der devconnect
+Matrix-Verbindung oder falsch gewÑhlte Moduseinstellungen zu finden.
+Dies ist sehr hilfreich um Falcon-Programme an die etwas andere Funktionsweise
+der StarTrack-Audiokarte anzupassen.
+Die Showconnects-Funktion gibt eine Statuszeile auf dem Bildschirm aus,
+die folgendermaûen aufgebaut ist: 
+
+X->R X->MX X->DA Y->EX Y->DI Y->MX CVTx PMx RMx EADCx xb
+
+StarTrack Matrix-Quelle
+--------------------------------------------------------------------
+X: /  = none    ~ keine Verbindung 
+   P  = PLAY    ~ DMAPLAY
+   MI = MATXIN  ~ Datenempfang von DSPcard
+   AD = ADC     ~ StarTrack A/D Wandler 
+   
+StarTrack Matrix-Ziel
+--------------------------------------------------------------------  
+R  = REC        ~ DMAREC
+MX = MATXOUT    ~ DatenÅbertragung zur DSPcard
+DA = DAC        ~ StarTrack D/A Wandler
+
+DSPCard Matrix-Quelle
+--------------------------------------------------------------------
+Y: MI = MATXIN  ~ Datenempfang von StarTrack
+   DX = DSPXMIT ~ DSP-Datenausgabe
+   EI = EXTINP  ~ Daten vom DSP-Port (RDATA)
+   
+DSPCard Matrix-Ziel
+--------------------------------------------------------------------   
+EX = EXTOUT     ~ Daten zum DSP-Port (PDATA)
+DI = DSPREC     ~ DSP-Dateneingang
+MX = MATXOUT    ~DatenÅbertragung zur StarTrack
+
+CVTx
+--------------------------------------------------------------------
+Im Stereomode sollte convert immer ausgeschaltet sein.
+Im Achtkanalmode sollte convert immer dann eingeschaltet
+werden, wenn ein Stereokanal mit dem DAC wiedergegeben
+oder nur ein Stereokanal aufgenommen werden soll.
+Ist jedoch convert ausgeschaltet gelangen die 128Bit
+unverÑndert zum DAC, der damit nichts anfangen kann.
+Daher sollte man den DAC via devconnect abschalten,
+wenn 8 KanÑle aufgenommen werden sollen, oder die
+Datenein-ausgabe komplett Åber externe Interfaces
+(z.B. ADAT) stattfinden soll.
+
+0 = no convert
+1 = convert 128bit to Stereo
+
+PMx
+--------------------------------------------------------------------
+Playmode:
+ 2 =  Stereo
+ 4 =  4 channels     
+ 8 =  8 channels
+16 = 16 channels   
+
+RMx
+--------------------------------------------------------------------
+Die StarTrack-Audiokarte kann durchaus im gemischten Betrieb
+arbeiten, d.h. man kann z.B. 8 KanÑle abspielen (Playmode=8)
+und 2 KanÑle aufnehmen (Recmode=2). Dann arbeitet die Karte
+im 128bit-Mode fÅr Wiedergabe und im Stereomode fÅr Aufnahme. 
+
+Recordmode:
+2 = Stereo
+4 = 4 channels
+8 = 8 channels
+
+EADCx
+--------------------------------------------------------------------
+Der A/D-Wandler auf der StarTrack-Audiokarte kann nicht im
+128Bit-Mode arbeiten, er arbeitet nur im Stereo und 4Kanalmode.
+Um dennoch den ADC im Achtkanalmode benutzen zu kînnen, gibt
+es einen Emulationsmodus. Hierbei werden Åber einen kleinen
+Aufnahmebuffer die Daten des ADC im Stereomode eingelesen und
+dann sofort im Achtkanalformat wieder ausgegeben (Åber DMAPLAY).
+Dadurch kînnen die Daten des ADC im Achtkanalmode korrekt zum DSP
+und EXTOUT (z.B. zum Analog8) Åbertragen werden.
+Schaltet man dann noch den convertmode (CVT=1) ein, so kînnen
+die Daten des ADC im Achtkanalmode auch korrekt zum DAC gelangen.
+
+0 = no emulate
+1 = emulate ADC
+
+xb
+--------------------------------------------------------------------
+Masteringmode: Aufnahme und Wiedergabe kînnen mit 16Bit und 24Bit
+arbeiten. Allerdings wird das bisher nur zum Teil mit den StarTrack-
+spezifischen XBIOS-Aufrufen unterstÅtzt (nur im Stereomode).
+ 
+16 = 16 bit
+24 = 24 bit
+--------------------------------------------------------------------

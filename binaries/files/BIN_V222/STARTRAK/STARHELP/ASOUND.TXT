@@ -1,0 +1,102 @@
+Steuerungsfeld im Arranger-Fenster
+----------------------------------
+
+
+Hierber k”nnen die Samples abgespielt bzw. nach Geh”r ein Start- und
+Endpunkt des Samples definiert werden. Es stehen s„mtliche bekannten
+Laufwerksfunktionen zur Verfgung. Auerdem kann man die Blockmarken des
+Samples (aus dem Information-File *.INF) einfach ins MIDI-Arrangement
+bernehmen. Das zu bearbeitende Sample w„hlt man normalerweise mit dem
+İedit-ButtonİARRFELD.TXTİ aus. Beim laden eines Samples wird dieses automatisch zum
+aktuellen Sample. Zur besseren Verst„ndnis sollte man das İBILDİASOUND.IMGİ
+des Steuerungsfeldes zu Rate ziehen.
+
+
+1) Sample-Dateiname
+-------------------
+Hier steht der Name des ausgew„hlten Samples, das nun bearbeitet werden
+kann. Alle Laufwerksfunktionen dienen letztendlich nur dem Zweck,
+geeignete Start- und Endpunkte zu finden.
+
+2) Realtime
+-----------
+Hier w„hlt man die Anzeigeart des Len-Feldes.
+realtime selektiert   = L„nge des Sampleblocks anzeigen.
+realtime deselektiert = Gesamtl„nge des Samples anzeigen.
+
+3) Block
+--------
+Da die Auswahl des Start- und Endpunkts eines Samples ber das Geh”r mit
+den Laufwerksfunktionen manchmal etwas ungenau ist (besonders wenn man
+Loop-Punkte sucht) hat man noch eine andere M”glichkeit.
+Klickt man auf den Block-Button, erscheint eine Dialogbox mit den bereits
+definierten İBlockmarkernİMARKPAGE.TXTİ des Samples (werden im Editor definiert und mit
+dem Sample in der Information-Datei (*.INF) abgespeichert). Man kann hier
+nun den Markereintrag mit dem Slider ausw„hlen. Diese Marker werden dann in
+den Arranger-Eintrag als Start-(Marker-S) und Endpoint(Marker-E) bernommen. 
+
+4) Zeit-Z„hlwerk
+----------------
+Dies ist das Z„hlwerk. Es zeigt immer die aktuelle Abspielposition im
+Sample an. Dieser Wert kann mit dem Startpoint- oder Endpoint-Button in den
+Eintrag bernommen werden.
+
+5) auto-record
+--------------
+Automatische Aufnahme. Hierbei wird vor dem Aufnahmebeginn zuerst auf ein
+Eingangssignal gewartet. Wird ein bestimmter Schwellwert berschritten,
+beginnt automatisch die Aufnahme. Diesen Schwellwert kann man im
+İSetup-DialogİSETUP.TXTİ unter autorecord-treshold in Dezibel (dB) einstellen.
+
+6) record
+---------
+Hiermit wird die Aufnahme gestartet. Es handelt sich dabei immer um ein
+Harddisk-Projekt. Es erscheint zuerst ein Fileselector in dem man den Namen
+der Aufnahmedatei eingibt. Anschlieend erscheint der İInformation-DialogİSMPINF.TXTİ in
+dem man der Aufnahme eine Beschreibung (Kommentarfeld) geben kann.
+Diese Beschreibung wird zusammen mit anderen Informationen im INF-File
+(Dateiendung *.INF) abgespeichert. 
+Dieses Kommmentarfeld wird dann auch im İHyper-FileselektorİFSELPAGE.TXTİ angezeigt und
+dient zur besseren Identifikation eines Samples. Daher sollte man eine
+sinnvolle Beschreibung w„hlen. Anschlieend kann die Aufnahme gestartet
+werden.
+
+7) begin
+--------
+Hiermit gelangt man zum Anfang des Samples.
+
+8) rewind
+---------
+Damit wird das Sample quasi im Rckw„rts-Schnelldurchlauf abgeh”rt.
+
+9) backplay
+-----------
+Hiermit wird das Sample rckw„rts abgespielt.
+
+10) play
+--------
+Hiermit startet man die Wiedergabe des Samples.
+
+11) forward
+-----------
+Damit wird das Sample quasi im Vorw„rts-Schnelldurchlauf abgeh”rt.
+
+12) end
+-------
+Hiermit gelangt man zum Ende des Samples.
+
+13) stop
+--------
+Hiermit wird die Aufnahme bzw. Wiedergabe gestoppt.
+
+14) pause
+---------
+Damit kann man die Aufnahme bzw. die Wiedergabe eines Samples vorbergehend
+stoppen. Bei einem weiteren Druck auf die Pause-Taste wird die Aufnahme
+bzw. die Wiedergabe fortgefhrt.
+
+15) play and record
+-------------------
+Hiermit kann man ein Sample abh”ren und parallel dazu ein neues Sample
+aufnehmen. Diese Funktion ist allerdings noch nicht implementiert und
+daher ohne Funktion.

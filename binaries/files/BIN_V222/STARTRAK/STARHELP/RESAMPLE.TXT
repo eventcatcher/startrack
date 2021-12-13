@@ -1,0 +1,100 @@
+Resample-Dialog
+       
+
+In diesem Dialog kann man die Einstellungen fr die Resample-Funktion
+t„tigen. Die Resample-Funktion ist im ÝBlockfunktionen-FensterÝBLKPAGE.TXTÝ unter dem
+Resample-Button erreichbar. Man kann hiermit die Samplerate nachtr„glich
+„ndern. Dafr wird die neue Samplerate in Kilohertz
+(1000 Schwingungen/Sekunde = 1 kHz) angegeben, und anschliežend das Sample
+auf die ge„nderte Samplerate umgerechnet.
+Zur besseren Verst„ndnis sollte man das ÝBILDÝRESAMPLE.IMGÝ des
+Resample-Dialogs zu Rate ziehen.
+
+
+1) Original
+-----------
+Hier wird die momentan gltige Samplerate angegeben. Falls die angezeigte
+Samplerate nicht mit der wirklichen bereinstimmt, kann man dies hier
+korrigieren.
+
+2) DSR 32.0 kHz
+---------------
+Die neue Samplerate soll 32 kHz betragen. Wird auch von Satelliten-Tunern
+(DSR) oder von DAT-Rekordern (Longplay) benutzt.
+
+3) CD 44.1 kHz
+--------------
+Die neue Samplerate soll 44.1 kHz betragen.
+Das ist die bliche CD-Player-Samplerate.
+
+4) DAT 48.0 kHz
+---------------
+Die neue Samplerate soll 48 kHz betragen.
+Das ist die g„ngigste DAT-Rekorder-Samplerate.
+
+5) Time
+-------
+Hier wird die nach der Umrechnung zu erwartende Sampledauer beim abspielen
+mit der alten Samplerate angezeigt.
+
+6) Samples
+----------
+Hier wird die nach der Umrechnung zu erwartende Samplel„nge angezeigt.
+
+7) Factor
+---------
+Hier wird das Umrechnungs-L„ngenverh„ltnis angezeigt, also das Verh„ltnis
+neue L„nge/alte L„nge. Ist der Faktor >1 wird das Sample l„nger,
+ist der Faktor <1 dann wird das Sample krzer.
+
+8) Convert to
+-------------
+Hier wird die Samplerate in kHz angegeben, auf die das Sample umgerechnet
+werden soll. Die Samplerate kann man mit den Pfeiltasten (13) und den
+Sampleraten-Buttons (2-4) einstellen.
+
+9) Adjust Resampling-Rate
+-------------------------
+Soll nur das Sample auf die neue Samplerate umgerechnet werden, ohne die
+Samplerate beim abspielen anzupassen, dann sollte man den Button
+deselektieren. Wird das Sample bei der Umrechnung krzer (Faktor<1) entsteht
+ein MickyMaus-Effekt, wird das Sample gr”žer entsteht ein Zeitlupen-Effekt
+bei der Wiedergabe, da sich die Samplerate bei der Wiedergabe ja nicht
+ge„ndert hat. Man kann natrlich eine passende ÝSamplerateÝEINFO.TXTÝ im Dropdown
+ausw„hlen, damit die Geschwindigkeit wieder stimmt. Falls keine passende
+Samplerate im Dropdown vorhanden ist, w„hlt man die n„chstliegende.
+Ist der Button selektiert, dann wird automatisch nach dem Konvertieren auf
+die neue Samplerate umgeschaltet. Bei der Wiedergabe wird dann das abspielen
+mit der neuen Samplerate erzwungen, sofern die Soundkarte hardwarem„žig in
+der Lage ist, diese Samplerate zu nutzen. Alle Zeitangaben beziehen sich
+dann auf die neue Samplerate. Die neue Samplerate wird auch im Editor im
+ÝAdjust-FeldÝEINFO.TXTÝ angezeigt, um an die ge„nderte Samplerate zu erinnern. Eine
+manuelle Sampleraten„nderung im ÝSampleraten-DropdownÝEINFO.TXTÝ ist dann gesperrt
+solange der Adjust-Button selektiert ist. Man muž ihn deselektieren, wenn
+man die Samplerate im Dropdown „ndern m”chte (anschliežend Resample-Dialog
+mit Exit verlassen). Diese Funktionsweise werde ich vielleicht noch „ndern,
+da sie mir etwas kompliziert erscheint (nobody is perfect).
+
+10) Help
+--------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu Ý1stGuideÝGUIDE.TXTÝ einmal genauer an.
+
+11) Exit
+--------
+Hiermit wird der Resample-Dialog geschlossen. Die Resample-Funktion wird 
+nicht ausgefhrt.
+
+12) OK
+------
+Hiermit wird der Resample-Dialog geschlossen und die Funktion ausgefhrt.
+
+13) Pfeiltasten
+---------------
+Mit den Pfeiltasten kann man die Samplerate einstellen,falls die blichen
+Sampleraten (siehe 2-4) nicht ausreichen, und zwar mit 3 verschiedenen
+Schrittweiten:
+einfach-Pfeiltaste  = 0.1 kHz
+zweifach-Pfeiltaset = 1 kHz
+dreifach-Pfeiltaste = 5 kHz

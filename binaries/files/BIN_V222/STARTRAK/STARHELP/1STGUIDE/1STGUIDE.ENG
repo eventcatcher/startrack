@@ -1,0 +1,251 @@
+1STGUIDE Release Notes                             Halle, Jun 10 1997
+
+	Copyright (C) 1990-1997 Guido Vollbeding <guivol@esc.de>
+
+
+	Introduction:
+	-------------
+
+1stGuide is a program/accessory to view/play the following standard
+file formats in GEM windows on all Atari machines, all system
+configurations, in all screen resolutions and color depths
+(1 Bit Monochrome up to 32 Bit TrueColor):
+
+	.IMG    GEM-(X/T)-Image picture files, Level-1/2/3
+		(1 Bit Monochrome up to 12 Bit RGB XIMG Colormap,
+		RGB-TrueColor/Gray/Alpha TIMG direct pixel)
+	.IFF    Interchange File Format: ILBM - Interleaved Bitmaps
+		(1 Bit Monochrome up to 12 Bit RGB Colormap)
+	.GEM    GEM-Metafiles (including bezier curves under
+		appropriate VDI, e.g. NVDI >= 2.12)
+	.RSC    GEM-Resource files
+		(simple up to 64 K and extended > 64 K)
+	.PNG    Portable Network Graphics, all 'flavors'
+		according to the current specification
+	.JPG
+	.JPE
+	.JPEG   Joint Photographic Experts Group - pictures:
+		JPEG/JFIF-Standard (24 Bit TrueColor, 8 Bit Gray),
+		Baseline/Multiscan/Progressive Support
+	.MPG
+	.MPE
+	.MPEG   Moving Picture Experts Group - movies:
+		MPEG-1-Video-Standard (24 Bit TrueColor),
+		MPEG-1-System (Video+Audio interleaved)
+	.SAM
+	.SND
+	.AVR    Sound-Sample files
+		(8 Bit Mono only at the moment)
+	.DOC
+	.OUT
+	*       Textfiles (including attributes)
+
+Furthermore, hypertext-like links can be defined between files in
+a simple manner, which provides the possibility to create large
+information systems to be used interactively with 1stGuide.
+See in the program description for details.
+
+Note: By pressing Control-A (or holding down the right mouse key by
+clicking in the Acc-Menu) you get a configuration dialog to set your
+preferences.
+Here is a short description of the "Image-Dithering" option:
+With "Niemals" (Never) dithering is 'normally' (see below) not used.
+At "Bedarf" (Need) images are only dithered if containing more colors
+than are available in the current screen resolution. Otherwise, the
+color palette must be changed by hand (Popup/Shortcuts ^E, ^S).
+If you select "Immer" (Always), images containing a color palette
+will always be dithered (except in High-/True-Color modes).
+Advantages:
+	- no need to change the hardware palette;
+	- multiple pictures are displayed in right colors
+	  at the same time.
+Disadvantages:
+	- not optimal display (dithering to a fix palette);
+	- higher computing costs -> longer waiting time
+	  at loading.
+Simply try this out! This option is not used in High-/True-Color
+modes and is only used for XIMG/IFF-pictures, not for JPG/PNG/TIMG.
+
+
+	Installation for Atari ST(E)/TT/Falcon etc.:
+	--------------------------------------------
+
+1. Copy the file 1STGUIDE.ACC into your Boot-Directory. If you want
+   to print with 1stGuide, an appropriate version of GDOS must be
+   installed.
+
+The following steps apply only for installing the full package:
+
+2. Create a new folder (e.g. "1STGUIDE") on your harddisk, and copy
+   or decompress the disk contents into that folder.
+
+3. Reboot the system, click in the Desk-Menu on the entry "1st Guide"
+   and choose the file "1STGUIDE.HLP" with the upcoming file-selector
+   in your installation directory. There you will get further
+   instructions.
+
+Additionaly you can insert the following line in your DESKTOP.INF or
+NEWDESK.INF file to avoid getting the alert "Show/Print/Cancel" by
+the desktop:
+
+#G 03 04 C:\1STGUIDE.ACC@ *.*@
+respectively
+#G 03 04 000 C:\1STGUIDE.ACC@ *.*@ @
+
+If you insert the following line after this, you can start 1STGUIDE
+(and certain other, also inactive, accessories) immediately as a
+program:
+
+#G 03 FF *.AC*@ @
+respectively
+#G 03 FF 000 *.AC*@ @ @
+
+Alternatively, you can rename 1STGUIDE into .PRG, .APP, or .GTP for
+use as a program.
+
+
+	Contents of the package:
+	------------------------
+
+The 1stGuide full package contains the following parts:
+
+	- 1STGUIDE.ZIP, containing the program file 1STGUIDE.ACC,
+			this english textfile 1STGUIDE.ENG, and
+			the german description 1STGUIDE.GER;
+
+	- GUIDHELP.ZIP, containing detailed program description
+			and TOS/GEM-System-Documentation in
+			hypertext form;
+
+	- GUIDTOOL.ZIP, containing utility programs for use with
+			1stGuide, a printable description in TeX as
+			DVI-file, and 1stView including sources;
+
+	- GUIDDOSE.ZIP, containing program versions for the PC-GEM.
+
+Furthermore, the following packages are available:
+
+	- JPEG_DSP: contains DSP-JPEG-Decode-Driver for the Falcon;
+
+	- JPEG_GVS: contains the JPEG-Save-Module for GEM-View 3.x;
+
+	- MPEGDSP.TTP: DSP-MPEG-Player-Demoprogram for the Falcon;
+
+	- MPEG_SYS: contains a tool for MPEG-1-System-Layer-Streams;
+
+	- XIMGTOOL: sources/tool/modules for (X/T)IMG-Level-1/2/3.
+
+For distribution AT LEAST the archive 1STGUIDE.ZIP or it contents
+(1STGUIDE.ACC, 1STGUIDE.ENG, 1STGUIDE.GER) is necessary, other parts
+are OPTIONAL!
+The full package is available automatically after registration.
+If you are NOT able to deal with HD-disks, please note this at
+registration. In this case some optional parts must be left.
+Normally I send HD-disks!
+
+
+	Registration:
+	-------------
+
+1stGuide is SHAREWARE!! This means, that a registration by sending
+the shareware fee to the author is necessary, if you decide to use
+the program regularly, and if you are interested in further
+extensions and enhancements.
+
+The shareware fee for 1stGuide is 50,- DM (Deutsche Mark). Please
+send this fee to the following address:
+
+	Guido Vollbeding
+	Turmstrasse 61
+	D-06110 Halle (Saale)
+	Germany
+
+After receiving the money I will send you a master disk containing
+the current packages, and you can feel free to order actual versions
+later by sending a letter with disk and return portage.
+
+If somebody uses 1stGuide without paying the fee, she/he should keep
+in mind that she/he violates rights and rules of well behavior.
+
+
+	Declaration:
+	------------
+
+1stGuide is a shareware program package from:
+
+	Guido Vollbeding
+	Turmstrasse 61
+	D-06110 Halle (Saale)
+	Germany
+
+All rights reserved. I accept NO LIABILITY for damages of any kind.
+
+-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-
+This software is based in part on the work of the Independent JPEG
+Group, Copyright (C) 1991-1996, Thomas G. Lane.  All Rights Reserved.
+The authors accept NO LIABILITY for damages of any kind.
+-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-
+
+~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~
+This software supports the DSP-JPEG-Decoder from Brainstorm, France,
+for Atari Falcon computers, which is copyright (C) 1992-1993 by
+Brainstorm & Atari Corporation.
+~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~
+
+-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+The MPEG part of this software is based in part on the work of
+
+            Lawrence A. Rowe, Ketan Patel, and Brian Smith
+     Computer Science Division-EECS, Univ. of Calif. at Berkeley
+
+Copyright (C) 1995 The Regents of the University of California.
+All rights reserved.
+
+IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY
+FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
+ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN
+IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY
+OF SUCH DAMAGE.
+
+THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE
+PROVIDED HEREUNDER IS ON AN "AS IS" BASIS, AND THE UNIVERSITY OF
+CALIFORNIA HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT,
+UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+The PNG part of this software is based in part on the work of
+
+  Guy Eric Schalnat, Group 42, Inc., Copyright (c) 1995-1996
+  Contributing Authors:
+    Guy Eric Schalnat
+
+  The PNG Reference Library is supplied "AS IS". The Contributing
+  Authors and Group 42, Inc. disclaim all warranties, expressed or
+  implied, including, without limitation, the warranties of
+  merchantability and of fitness for any purpose. The Contributing
+  Authors and Group 42, Inc. assume no liability for damages,
+  direct or consequential, which may result from the use of
+  the PNG Reference Library.
+
+and the 'zlib' general purpose compression library:
+
+  Copyright (C) 1995-1996 Jean-loup Gailly and Mark Adler
+
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any
+  damages arising from the use of this software.
+
+PNG Spec. 1995 by Thomas Boutell, Mark Adler, and Lee Daniel Crocker.
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+The software may be freely distributed, as long as all files of a
+single package remain together and unchanged.
+Any commercial distribution (including PD-Series or so) is strictly
+excluded, unless given my written agreement. Appropriate conditions
+can be asked from the author AFTER registration!
+
+Now I wish you much fun with 1stGuide, and may the Atari always be
+with you!

@@ -1,0 +1,123 @@
+Workmode-Fenster
+----------------
+
+Dieses Fenster ist fr die Auswahl wichtiger Arbeitsparameter zust„ndig:
+Anzahl der Aufnahmekan„le, die Art der zusammenmischung mehrerer Spuren im Tracker,
+das Aufnehmen und Wiedergeben im 16 oder 24Bit-Modus und den Modus des DSP-SRAM.
+Zur besseren Verst„ndnis sollte man das İBILDİWORKMOD.IMGİ des Workmode-Fensters
+zu Rate ziehen. Aufgerufen wird das Workmode-Fenster durch den Workmode-Button
+im Edit-Fenster, oder durch Eingabe von CTRL-W, oder ber das optionale
+Dropdown-Men unter Fenster/Workmode.
+
+mixmode:
+--------
+In diesem Bereich w„hlt man die Art und Weise aus, wie im Tracker die Spuren gemischt werden.
+
+1) CPU
+------
+Die Spuren im Tracker werden von der CPU des Computers berechnet bzw. gemischt und abgespielt.
+Der Atari TT ist dafr etwas zu langsam, ein Medusa- oder Hades-Rechner schafft momentan
+bis zu 16 Spuren. Das h„ngt natrlich auch von der Samplerate und dem Arrangement ab.
+
+2) matrix
+---------
+Im matrixmode kommen im İTracker-FensterİTRAKK.IMGİ zus„tzlich die Kanalanzahl-Buttons(9) ins Spiel:
+Ist der 4Kanal-Button aktiviert, werden die Spuren im 4Kanal-Modus ausgegeben.
+Hierbei wird je ein Stereokanal ber den Analogausgang und den Digitalausgang
+wiedergegeben. Ist der 8Kanal-Button aktiviert, werden die 8 Spuren wie
+im Falcon als 128Bit-Wort ber die Matrix zum DSP-Port geschickt.
+Ein angeschlossenes DSP-Port-Interface kann diese Spuren weiterverarbeiten
+und z.B. ber 8 Einzelausg„nge auf ein Mischpult legen. Erfolgreich getestet
+wurde bisher das Analog8 von Soundpool und das Jam-Out von LineAudio.
+Bei der Wiedergabe der Spuren im Tracker kann man im 8Kanal-Mode mit der
+rechten Maustaste zwischen den Monitorspuren umschalten.
+Wie im Falcon auch, kann jeweils ein Sterokanal dadurch auf den Ausgang
+(Analog-Out und Digital-Out) gelegt werden.
+Ist der 16Kanal-Button aktiviert, werden zwei Matrix-Datenpakete zum
+DSP-Port geschickt. Das geht allerdings nur optional, da hierfr ein anderer
+Matrixchip gebraucht wird, der etwas teurer ist. Allerdings kann man dann
+zwei DSP-Port-Erweiterungen gleichzeitig bedienen. Mit zwei Einzelausgangs-
+Interfaces kann man dann bis zu 16 Spuren einzeln ausgeben und z.B.
+an ein Mischpult anschlieen.
+
+3) DSP
+------
+Hierbei werden die maximal 8 Kan„le zuerst zum DSP geschickt. Dieser bernimmt
+dann das zusammenmischen der Kan„le. Die Kan„le 1-6 bleiben dabei unver„ndert,
+Kanal 7 und 8 enthalten das zusammengemischte Ergebnis. Alle 8 Kan„le werden
+vom DSP ebenfalls ber den DSP-Port ausgegeben.
+Bei der Wiedergabe der Spuren im Tracker kann man mit der rechten Maustaste
+zwischen den Monitorspuren umschalten. Wie im Falcon auch, kann jeweils ein
+Sterokanal dadurch auf den Ausgang (Analog-Out und Digital-Out) gelegt werden.
+
+
+mastering:
+----------
+In diesem Bereich kann gew„hlt werden, ob die Aufnahme und Wiedergabe mit
+16Bit oder 24Bit geschehen soll.
+
+4) sixteen bit
+--------------
+Aufnahme und Wiedergabe mit 16Bit. Die Matrix kann wie im Falcon auch, nur
+mit 16Bit arbeiten.
+
+5) twentyfour bit
+-----------------
+Aufnahme und Wiedergabe mit 24Bit. Aufnahmen k”nnen ber die digitalen Eing„nge
+mit 24Bit gemacht werden. Die Wiedergabe l„uft ebenfalls ber die digitalen
+Ausg„nge mit 24Bit. Der D/A-Wandler wird dabei mit 18Bit angesteuert, profitiert
+also ebenso von der h”heren Dynamik. Auch der DSP kann die 24Bit voll nutzen.
+Ebenso gelangen die 24Bit-Daten ber den DSP-Port zur Auenwelt. Es w„re
+denkbar in Zukunft hierber hochwertige 24Bit A/D und D/A-Wandler anzuschlieen.
+
+
+6) recordmode
+-------------
+2 channels - Die Aufnahme geschieht in Stereo.
+4 channels - Die Aufnahme von vier Spuren. Dabei werden die Analog- und Digitaleing„nge
+             parallel betrieben und so beide Musikquellen gleichzeitig aufgenommen.
+             Die zweite Stereospur bekommt die gleiche Filebezeichnung wie die erste mit
+             angeh„ngter zwei (z.B. Erster Stereokanal "RECORD.S16", zweiter Stereokanal
+             bekommt dann Filenamen "RECORD2.S16").
+8 channels - Die Aufnahme von 8 Spuren. Dieser Modus ist vorgesehen fr die Aufnahme
+             ber ein 8Kanal-Eingangsinterface (JAM-In von LineAudio)
+             oder ADAT-Interface (von Soundpool) fr den DSP-Port.
+             Das konnte allerdings bisher noch nicht getestet werden, da am Jam-In
+             voraussichtlich dafr einige nderungen vorgenommen werden mssen, und
+             fr das ADAT kein entsprechender Rekorder zur Verfgung steht.
+             Ich denke die entsprechenden Firmen holen das in Zukunft nach, wenn sie
+             ein Testger„t von uns bekommen haben.
+             
+             
+7) DSP-RAM
+----------
+Das DSP-RAM kennt zwei verschiedene Modi, um volle Leistung trotz voller Kompatibilit„t
+zum Falcon gew„hrleisten zu k”nnen:
+
+falcon - Das DSP-RAM des Falcon wird emuliert, damit es zu Falcon DSP-Programmen kompatibel ist,
+         also mit den gleichen Adrespiegelungen und gleicher Speichergr”e (32Kx24) wie
+         im Falcon.
+         
+extend - Hier wird der volle Speicherbereich der DSP-Erweiterung ausgenutzt, die ja
+         viermal soviel Speicher besitzt wie der DSP im Falcon. Dabei ist die
+         Adredekodierung natrlich anders. Fr Details lesen sie bitte
+         die İProgrammier-DokumentationİSTARSYS.TXTİ.
+         Beim DSP-Effekt "Echo" wird bereits der gr”ere Speicher fr ein l„ngeres
+         Echo ausgenutzt, allerdings erst wenn der extend-mode eingestellt ist.
+             
+             
+8) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+
+9) Exit
+-------
+Hiermit wird das Einstellung-Fenster geschlossen. Alle Einstellungen
+bleiben bis zum n„chsten Aufruf unver„ndert. Man kann jedoch mehrere
+Fenster gleichzeitig ge”ffnet lassen und hat so immer den direkten Zugriff
+auf die Funktionen.
+
+             

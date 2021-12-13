@@ -1,0 +1,36 @@
+Help/Printer/Clipboard im Arranger-Fenster
+------------------------------------------
+
+
+Die Funktion dieser Buttons ist schnell erkl„rt.
+Zur besseren Verst„ndnis sollte man das İBILDİPRTCLIP.IMGİ zu Rate ziehen.
+
+
+1) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+2) Printer
+----------
+Hierber bekommt man einen Ausdruck der Liste auf den Drucker.
+Diese Funktion ist noch nicht implementiert und derzeit ohne Funktion. 
+
+3) Clipboard
+------------
+šber das Clipboard kann man komplette Eintr„ge kopieren. Dabei fungiert das
+Clipboard als eine Art Zwischenspeicher. Man kann einen Arranger-Eintrag
+auch kopieren, indem man den İedit-ButtonİARRFELD.TXTİ anklickt und bei gedrckter linker
+Maustaste auf das Clipboard-Icon zieht (bzw. draggt). Dabei wird das
+Clipboard-Symbol selektiert. Nun l„t man die Maustaste los. Damit wurde der
+Eintrag zun„chst ins Clipboard kopiert (eine Art Zwischenspeicher).
+Eventuell sucht man nun mit dem Slider den gewnschten Eintrag auf den das
+ganze kopiert werden soll. Hat man den leeren Eintrag im Sichtfeld, klickt
+man auf das Clipboard. Man h„lt dabei die linke Maustaste gedrckt. An der
+Maus h„ngt nun das Edit-Symbol. Dieses zieht man jetzt ber den Edit-Button
+des Eintrags, in den kopiert werden soll. Dabei wird der Edit-Button des
+Eintrags automatisch selektiert. Ist der Edit-Button selektiert l„t man die
+Maus los - fertig. Der Clipboard-Inhalt bleibt solange vorhanden, bis man
+einen anderen Eintrag hineinkopiert.
+ 

@@ -1,0 +1,166 @@
+1. Komplettversion im IPC-Geh„use
+---------------------------------
+Sie haben das İKomplettsystemİIPCSYS.IMGİ im 19-Zoll-IPC Industrie-PC-Geh„use
+mit eingebautem Hades040 oder Hades060 und fertig eingebauter
+Startrack-Karte gekauft, und haben eigentlich mit der
+Hardware-Installation nichts mehr zu tun, da wir die gesamte Hard- und
+Software bereits fr sie fertig installiert haben. Sie brauchen also
+nur noch das Programm "STARTRAK.PRG" (auf dem Desktop zu finden) zu starten
+und k”nnen gleich loslegen !
+   
+Sie mssen jetzt nur noch ihre Startrack-Karte mit einer
+İHIFI-Anlage oder Mischpult verbindenİPLUGS.TXTİ und k”nnen dann gleich loslegen.
+   
+M”chten sie die interne İJam-Out-ErweiterungİJAMOUT.IMGİ (fr 8 Einzelausg„nge)
+oder andere Erweiterungen nachtr„glich installieren,lesen sie bitte weiter.
+
+Nachtr„glicher Einbau der DSP-Erweiterung:
+------------------------------------------
+Bauen sie die Startrack-Karte aus dem Geh„use aus.
+Alles weitere h„ngt davon ab, welche Einbauversion sie haben.
+
+Haben sie die 5 1/4-Zoll-Einbauversion so lesen sie bitte alles weitere
+im entsprechenden İKapitel ber die 5 1/4-Zoll-Einschub-VersionİHARDSLOT.TXTİ 
+nach.
+
+Haben sie die Spezialversion fr den Einbau in die VME-Sloterweiterung (mit
+4 VME-Slots) so gehen sie vor wie folgt:
+
+   DSP-Erweiterung einbauen:
+   Ziehen sie also die Startrack-Karte bei ausgeschaltetem Rechner İaus dem VME-SlotİIPCPULL.IMGİ
+   heraus und İsteckenİPLUGDSP.IMGİ die DSP-Karte vorsichtig auf die Startrack-Karte, und zwar
+   mit der Bauteilseite nach unten, die beiden Erweiterungsstecker der DSP-Karte
+   mssen dabei in Richtung der Cinchanschlsse (nicht in Richtung des VME-Steckers!)
+   zeigen. Achten sie dabei unbedingt darauf, das die Steckkontakte der DSP-Karte
+   genau in die dafr vorgesehenen Buchsenkontakte auf der Startrack-Karte passen, und
+   die Kontaktreihen nicht versehentlich verschoben sind ! Drcken sie anschlieend
+   gleichm„ig die beiden Kontaktreihen der DSP-Karte (am „ueren Ende der Platinen)
+   in die Startrack-Buchsenkontakte (Schwitz,die erst Hrde ist genommen).
+   Auf der Frontblende der Startrack-Karte befinden sich zwei Leuchtdioden die noch
+   mit der DSP-Karte verbunden werden mssen. Diese zeigen den Status des DSP an.
+   Hierfr sind am linken Rand der DSP-Karte vier kleine Pins vorhanden. Auf der
+   Platine sind diese mit DEBUG und LOCK bezeichnet. Die rote LED ist fr LOCK
+   und die grne LED fr DEBUG vorgesehen. Die İ4 AnschlsseİLEDS.IMGİ werden nun folgendermaen
+   mit den LEDs verl”tet (von links nach rechts):
+   Die Anode einer LED ist zu erkennen durch den l„ngeren Anschlu und den schmaleren
+   in der LED sichtbaren Anschluteil 
+   Die Kathode einer LED ist zu erkennen durch den krzeren Anschlu und den dickeren
+   in der LED sichtbaren Anschluteil 
+   1.Anschlu mit der Anode der grnen LED verl”ten
+   2.Anschlu mit der Kathode der grnen LED verl”ten
+   3.Anschlu mit der Anode der roten LED verl”ten
+   4.Anschlu mit der Kathode der roten LED verl”ten.
+   Sollte die rote LED im Betrieb nicht leuchten so haben sie die beiden Anschlsse
+   wahrscheinlich vertauscht. Die grne LED leuchtet nur wenn der DSP im Debug-Mode
+   ist, wenn also z.B. das EVM56K-Programm gestartet wurde.
+   Haben sie zwei linke H„nde oder keinen L”tkolben zur Hand, wenden sie sich bitte
+   an ihren H„ndler der dies sicherlich gerne fr sie macht.
+   Haben sie die Startrack-Karte komplett mit der DSP-Erweiterung erworben, so ist
+   diese L”tarbeit natrlich nicht n”tig.
+   
+   Brauchen sie den DSP-Port fr den Anschlu eines Analog8,FA8,Jam-In,Jam-Out,ADAT
+   ,Clockmoduls oder einer anderen DSP-Port-Erweiterung ?
+   Dann sollten sie nun das DSP-Port-Kabel mit der DSP-Karte verbinden:
+   
+   DSP-Port-Kabel anschlieen:
+   Das DSP-Port-Kabel(das dickere) wird mit der DSP-Erweiterung verbunden. Sie sehen auf der
+   DSP-Erweiterung 2 doppelreihige Stecker. Der eine ist 10polig (ONCE-Port), der
+   andere unser 26poliger DSP-Port. Wenn sie auf die İKontakte schauenİDSPCAB.IMGİ (von der
+   Anschluseite mit den Cinchanschlssen aus gesehen) ist der 10polige
+   ONCE-Port links und der 26polige DSP-Port rechts.
+   Nun mssen sie das DSP-Kabel aufstecken, aber bitte richtigrum: Pin 1 des
+   DSP-Port-Steckers ist unten links (von vorne gesehen), Pin 1 des Kabels ist rot
+   und sollte sich nach dem Aufstecken ebenfalls unten links auf dem Stecker befinden.
+   
+   Haben sie einen PC-kompatiblen Rechner, auerdem Ambitionen zur DSP-Programmierung ?
+   Dann sollten sie nun das ONCE-Port-Kabel mit der DSP-Karte verbinden:
+   
+   ONCE-Port-Kabel anschlieen:
+   Das ONCE-Port-Kabel(das dnnere) wird mit der DSP-Erweiterung verbunden. Sie sehen auf der
+   DSP-Erweiterung 2 doppelreihige Stecker. Der eine ist 26polig (DSP-Port), der
+   andere unser 10poliger ONCE-Port. Wenn sie auf die İKontakte schauenİONCECAB.IMGİ (von der
+   Anschluseite mit den Cinchanschlssen aus gesehen) ist der 10polige
+   ONCE-Port links und der 26polige DSP-Port rechts.
+   Nun mssen sie das ONCE-Kabel aufstecken, aber bitte richtigrum: Die obenliegende
+   Seite des ONCE-Port-Steckers ist mit "O" bezeichnet, die Unterseite mit "U".
+   Pin 1 des ONCE-Port ist brigens unten links.
+
+   Ist dieser Teil getan, k”nnen sie die Startrack-Karte in den VME-Slot einschieben.
+   Fhren sie zuallererst die İKabel in den VME-SchachtİCABPUSH2.IMGİ und fhren sie durch die
+   obere ™ffnung des VME-Kastens in das Rechnerinnere. İSchiebenİCARDPUSH.IMGİ sie nun die
+   Startrack-Karte nach und ziehen dabei gleichzeitig das Kabel weiter durch.
+   Drcken sie anschlieend den 96poligen VME-Stecker der Startrack-Karte in
+   die entsprechende 96polige VME-Buchse des Slots bis er einrastet bzw. bis
+   zum Anschlag - Fertig, der Einbau ist berstanden.
+
+   Nun mssen sie noch die Kabel fr ONCE-Port und DSP-Port aus dem Rechnergeh„use
+   fhren: Verschrauben sie die Stecker am Kabelende mit den İSlotblechenİBRACKET.IMGİ
+   (sogenannte Brackets) , so wie man das von PC-Karten her kennt. Slotbleche hierfr
+   k”nnen von uns bezogen werden. Wenden sie sich an ihren H„ndler.
+
+   Anmerkungen:
+   ------------
+   Das Kabel des DSP-Ports ist nicht beliebig verl„ngerbar, die Maximall„nge ist 
+   ungef„hr 20cm, da es ansonsten zu St”rungen (Knackser) bei den DSP-Port-Erweiterungen
+   kommt. Das ist verst„ndlich wenn man bedenkt, welch hohe Frequenzen das Kabel
+   bew„ltigen mu (ber 6 MHz). Dabei kommt es ab einer bestimmten L„nge zwangsl„ufig zu
+   nderungen in Timing und Flanken der Signale die eine sichere und st”rfreie
+   šbertragung unm”glich machen. Daher sollte dieses Kabel m”glichst kurz sein.
+
+   Das İFrontblechİIPCSLOT.IMGİ dieser Version ist etwas krzer als die von normalen VME-Bus-Karten,
+   damit es von auen in das Geh„use eingeschoben werden kann. Die PC-Slotaussparungen
+   sind fr normale VME-Karten etwas zu kurz. Vorteil dieser Methode: Die Startrack-Karte
+   ist von auen zug„nglich bzw. austauschbar ohne das man das Geh„use
+   dafr vorher ”ffnen mu. Andere VME-Karten k”nnen nur fest eingebaut werden,
+   da die Frontbleche l„nger als die PC-Slotaussparungen des IPC-Geh„use sind.
+
+   Nun mssen sie als letztes noch den İONCE-Port mit dem PC verbindenİONCEPUT.TXTİ, falls sie
+   ihn ben”tigen. Wenn nicht sind sie jetzt fertig und brauchen die Startrack-Karte
+   nur noch mit einer İHIFI-Anlage oder Mischpult verbindenİPLUGS.TXTİ und k”nnen dann gleich loslegen.
+
+
+
+Einbau der Jam-Out-Erweiterung im IPC-Geh„use
+---------------------------------------------
+Im von uns gelieferten IPC-Geh„use ist schon alles fr den Einbau einer
+Jam-Out-Erweiterung vorbereitet. İšber den SlotsİJAMSLOT.IMGİ ist horizontal ein Blech mit
+8 Bohrungen fr die 6.3mm Klinkenbuchsen des Jam-Out. Dieses ist mit zwei
+Schrauben an den Enden des Bleches befestigt. Schrauben sie dieses Blech
+heraus. Verschrauben sie nun alle 8 Klinkenbuchsen mit den beim Jam-Out
+vorgesehenen İBefestigungsschrauben der KlinkenbuchsenİKLINKE.IMGİ. Setzen sie nun
+das Blech wieder ein, und zwar so das die Platinenunterseite des
+Jam-Out nach oben zeigt (also auf den Kopf stellen). İSchraubenİPUTJAM.IMGİ sie
+das Blech wieder fest. Nun mssen sie nur noch das DSP-Port-Kabel
+des Jam-Out mit dem DSP-Port der Startrack-Karte verbinden.
+Und das geht folgendermaen: Das Jam-Out beinhaltet ein kleines
+İP„ckchen mit DSP-SteckerİJAMPACK.IMGİ und durchgeschleiftenr DSP-Port-Buchse
+fr den Anschlu weiterer DSP-Port-Erweiterungen, ich nenne es 
+der Einfachheit halber Port-Adapter.
+Zuerst wird der DSP-Port-Stecker der Startarck-Karte vom Slotblech
+abgeschraubt, und mit dem einen Ende des Port-Adapter verbunden.
+Das andere Ende wird wieder mit dem Slotblech verschraubt.
+Die İAbzweigung des Port-AdaptersİJAMCONN.IMGİ ist fr den Anschlu des Jam-Out
+vorgesehen und wird damit verbunden. Dieses Kabel mu soweit m”glich
+gekrzt werden ! Die Gesamtl„nge des DSP-Kabels ist sonst zu gro
+und fhrt zu St”rungen. Insgesamt jedoch wurden mit dem Jam-Out
+beste Erfahrungen gemacht. Es hat eine gute Klangqualit„t und kommt
+auch mit etwas l„ngeren Kablen zurecht. Das İAnalog8İANALOG8.IMGİ von Soundpool
+ist da etwas empfindlicher, funktioniert mit einem kurzen Kabel aber
+ebenfalls problemlos.
+Die Kanalbelegung von der İRckseiteİJAMINIPC.IMGİ aus gesehen:
+
+8  7  6  5  4  3  2  1
+----------------------
+O  O  O  O  O  O  O  O
+ 
+ 
+ 
+Einbau der 4Slot VME-Bus-Erweiterung im IPC-Geh„use
+---------------------------------------------------
+Die Sloterweiterung besteht aus einem İAlugeh„useİVMEIPC.IMGİ mit integrierter
+VME-Bus-Slotrckwand fr 4 VME-Karten. Die İVME-RckwandİBACKPLANE.IMGİ ist
+aktiv terminiert und ist damit sehr st”rsicher.
+Die Sloterweiterung wird von uns auf Wunsch mit in das IPC-Geh„use
+eingebaut. Da hierfr einige İnderungen am Geh„useİCUTIPC.IMGİ vorgenommen
+werden mssen, kann dies nur bei İMW-electronicİDISTRIB.TXTİ,K”nigswinter
+oder einem unserer autorisierten Fachh„ndler geschehen.

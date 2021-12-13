@@ -1,0 +1,37 @@
+Startrack mit der HIFI-Anlage oder Mischpult verbinden
+------------------------------------------------------
+
+Die digitalen Ein- und Ausg„nge k”nnen mit einem Digital-Audio-Ger„t verbunden werden
+wie z.B. CD,DAT,DCC,MD. Hierfr gibt es passende Lichtleiterkabel fr den optischen
+Anschlu und passende Cinch-Kabel fr den koaxialen Digitalanschluss.
+Dieses sollte m”glichst ein fr Digital-Audio genormtes 75 Ohm Kabel sein, und nicht
+ein einfaches Audio-Cinchkabel. Die Digitalfrequenzen sind wesentlich h”her als die
+Audiofrequenzen !
+Fr die Analogverbindung zur HIFI-Anlage oder Mischpult sollte man m”glichst hochwertige
+Kabel verwenden. Die Billig-Cinchkabel sind meist schlecht abgeschirmt und neigen
+zu Brummst”rungen, gerade bei l„ngeren Kabeln.
+Haben sie Brummst”rungen so kann das mehrere Ursachen haben.
+So kann das Fernseh- oder Rundfunkkabel fr diese St”rung verantwortlich sein.
+Abhilfe schafft ein gutes Mantelstromfilter das man im guten HIFI-Handel bekommt.
+Eine doppelte Erdung ist auch oft Ursache von Brummst”rungen.
+Es wurde auerdem bei der Startrack-Karte darauf geachtet, das sie nur einmal
+mit Masse in Verbindung kommt, und zwar ber den VME-Stecker. Deshalb
+ist bei der 5 1/4-Zoll-Einschubversion der Einschub auch aus Kunststoff
+und nicht aus Metall.
+Da das İFrontblechİFRONT.IMGİ mit den Anschlubezeichnungen beschriftet ist, erbrigt
+sich deren Erkl„rung eigentlich:
+
+Der Analogausgang wird mit einem freien Eingang (Tape,CD,LINE...
+aber nicht PHONO !) des Verst„rkers verbunden.
+Der Analogeingang wird mit einem Aufnahmeausgang des Verst„rkers
+(TAPE-REC oder „hnlich) verbunden.
+Die Digitaleing„nge k”nnen beide gleichzeitig angeschlossen werden,
+also z.B: der optische Eingang mit einem CD-Player und der
+digitale Cinch-Eingang mit einem DAT-Recorder.
+
+Die Ein-und Ausg„nge kann man leicht unterscheiden da sie
+r„umlich getrennt sind:
+Die Eing„nge sind auf der linken H„lfte und die Ausg„nge auf der
+rechten H„lfte des Frontblechs zu finden.
+
+Apropos Frontblech: Es besteht aus rostfreiem Edelstahl !

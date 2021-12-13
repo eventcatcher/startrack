@@ -1,0 +1,104 @@
+Startrack-Hardware:
+-------------------
+
+- 4fach-Multilayer-Platine zum Anschluá an alle Atari-kompatiblen
+  mit VME-Bus (MegaSTE,TT,Eagle,Medusa,Hades).
+  vollst„ndig getrennter Analog- und Digitalbereich
+  (separate Masseverbindungen,getrennter Aufbau).
+  eigene Spannungswandler (2 fr A/D-Wandler und 2 fr D/A-Wandler).
+- digitale Ein/Ausg„nge in Cinch und Opto(TOSLINK)-Ausfhrung
+  šbertragung nach Consumer-Norm SP/DIF und AES/EBU.
+- optional nachrstbare XLR-Karte: Analog Ein- und Ausg„nge sowie AES/EBU
+  mit XLR-Anschlssen
+- 24Bit Mastering: šber die digitalen Ein- und Ausg„nge kann mit 24Bit gearbeitet werden.
+  Dabei wird der D/A-Wandler mit 18Bit angesteuert, profitiert also ebenfalls von der
+  gr”eren Dynamik.
+- 3 softwarem„áig umschaltbare Digitaleing„nge (optisch,koaxial und optional AES/EBU).
+  Das erspart st„ndiges Umstecken der Kabel.
+  M”gliche Sampleraten der Digital-Schnittstellen: 32/44.1/48kHz (optional auch 96kHz).
+- erkennt Fehler in der digitalen Datenbertragung und zeigt die Art des Fehlers an.
+- hardwarem„áige Samplerate-Erkennung am digitalen Eingang.
+- Channel-Statusbyte-Dekoder: Hiermit k”nnen die im Digitalsignal enthaltenen
+  Zusatzinformationen sichtbar gemacht werden (L„ndercode,Aufnahmequelle usw.).
+- Der Kopierschutz kann aus SCMS-geschtzten Digitalaufnahmen vollst„ndig entfernt werden.
+- Aufnahmen k”nnen verlustfrei digital zurck per DAT/DCC/MD berspielt werden.
+- Copybit frei w„hlbar (keine Kopien, 1Kopie oder uneingeschr„nktes Kopieren).
+- Stereo 16Bit A/D und 18Bit D/A Delta-Sigma Linearwandler
+  mit 64fachem Oversampling (Crystal).
+  Die A/D und D/A-Wandler k”nnen mit den blichen 32/44.1 und 48kHz arbeiten,
+  zus„tzlich aber noch mit 8/11/12/16/16.5/22.05/24/33.1 kHz oder einem optional
+  extern angelegten Takt (Clockmodul) der durch 768/512/384 oder 256 intern geteilt wird.
+- Der Wandlertakt kann optional (ber ein Koaxkabel) einem CD-Laufwerk zugefhrt werden.
+  Das ist bei einigen HighEnd-Laufwerken m”glich und verhindert wirkungsvoll Jitter.
+- integrierte,schaltbare De-Emphasis-Schaltung.
+  Das ist n”tig weil einige CDs (z.B. von Heaven 17) zwecks Rauschminderung mit stark
+  angehobenen H”hen auf CD verewigt wurden.
+- digital steuerbare Highend-Lautst„rkeregler/verst„rker am A/D-Wandler-Eingang
+  und D/A-Wandler-Ausgang, kanalgetrennt regelbar von -96dB bis +32dB in 256 Abstufungen.
+- Harddisk-Recording (FIFO-Buffering).
+- gleichzeitige Wiedergabe und Aufnahme m”glich.
+- Falcon 8-Kanal-Modus (in Verbindung mit DSP-Karte).
+  Dabei k”nnen wie beim Falcon 8 Einzelspuren vom DSP getrennt bearbeitet werden.
+  2 Spuren k”nnen dabei wie beim Falcon ausgew„hlt und vom D/A-Wandler bzw.
+  Digital-Output wiedergegeben werden. Das serielle Datenformat und die DSP-Ansteuerung
+  entspricht der Falcon-DMA-Matrix und ist dazu hundertprozentig kompatibel.
+- Optionaler Einbau in einen 5 1/4 Zoll-Einschub fr PC-Geh„use.
+  damit sind alle Anschlsse leicht von vorne zu bedienen.
+- kaskadierbar: es ist m”glich mehrere Soundkarten parallel zu betreiben
+  und dadurch das System auf (fast) beliebig viele Ein- und Ausgangskan„le
+  zu erweitern.  Z.B. mit 4 Soundkarten bekommt man somit
+  8 analoge Eing„nge, 8 analoge Ausg„nge und 4 digitale Ein- und Ausg„nge.
+  Da jeder Stereokanal ber einen eigenen DSP-Prozessor verfgen kann, bekommt
+  man Rechenpower satt (z.B. fr Soundeffekte).
+  šber den DSP-Port und entsprechende Erweiterungen kann man das System also
+  theoretisch auf bis zu 32 Eing„nge und 64 Einzelausg„nge erweitern. 
+
+
+Erweiterungs-Optionen:
+
+  DSP-Karte:
+  ----------
+- Motorola DSP56002-66MHz (Falcon=33MHz).
+  Der DSP kann wahlweise in den Aufnahme- oder Wiedergabezweig
+  integriert werden (softwarem„áig steuerbar).
+  Der DSP ist fr das Harddisk-Recording nicht notwendig, da die Karte
+  den Transfer selbst puffert. Das funktioniert „hnlich wie die DMA-Matrix im Falcon.
+  Daher steht der DSP quasi komplett fr Effekt-Berechnungen zur Verfgung.
+  Die DSP-Erweiterung wird auf die STARTRACK-Karte aufgesteckt.
+- 128Kx24Bit Fast-RAM,12ns (Falcon=32Kx24Bit).
+- 4-Kanal-Modus: Hierbei werden die analogen und digitalen Anschlsse parallel betrieben
+  d.h. hiermit ist Vierkanal-Aufnahme und Vierkanal-Wiedergabe m”glich.
+- Falcon 8-Kanal-Modus.
+  In diesem Modus kann die Startrack-Karte bis zu 8 Kan„le getrennt verarbeiten.
+  Das Datenformat ist dabei voll kompatibel zur Falcon DMA-Matrix.
+- DSP-Port (Falcon-kompatibel).
+  erm”glicht die Aufnahme und Wiedergabe ber 8 getrennte analoge Ein- und
+  Ausg„nge mit Falcon-Zusatzhardware (Analog8,ADAT,FA8,Jam-In/Jam-Out).
+- Falcon-Clockdivider: Mit einem externen 25.175 MHz-Clockmodul fr den DSP-Port
+  kann man alle Falcon-Sampleraten nutzen (z.B. 49200 Hz)
+- ONCE-Port: Dies ist ein standardisierter Debug-Port fr die Motorola DSPs. Man kann
+  hierber einen PC via RS232 ankoppeln und mit einem speziellen Debugger-Programm
+  direkt w„hrend der Laufzeit eines DSP-Programms in den Ablauf eingreifen.
+  Dies ist eine sehr hilfreiche M”glichkeit zur Fehlersuche in DSP-Programmen.
+  Der ONCE-Port ist voll kompatibel mit dem DSP-Entwicklungssystem EVM56002 von Motorola.
+  Die Debug-Software ist kostenlos erh„ltlich und erlaubt u.a. Breakpoints,Trace,
+  Auslesen und ndern von Registern etc.
+- 16Kanal-Modus (optional).
+  Dieser Modus stellt 2 Matrix-Datenpfade fr die Erweiterung auf 16 Einzelausg„nge bereit.
+  Dabei wurde der DSP-Port fr den Anschluá von 2 Einzelausgangs-Erweiterungen
+  vorbereitet (z.B. fr 2 x Jam-Out) !
+
+  XLR-Karte:
+  ----------
+- h”here Line-Pegel und alle Anschlsse in XLR-Anschluánorm.
+- AES/EBU-Digitalschnittstellen in XLR-Ausfhrung (Input&Output).
+- Optionaler Einbau in einen 5 1/4 Zoll-Einschub doppelter H”he fr PC-Geh„use
+  Damit sind alle XLR-Anschlsse leicht von vorne zu bedienen.
+
+  Komplettsystem - Unser Rundum-Sorglos-Paket:
+  --------------------------------------------
+  Einbau eines Hades-Systems in ein robustes 19-Zoll-IPC Industrie PC-Geh„use.
+  Dabei findet ein Hades incl. Startrack-Hardware und einer 8Kanal JAM-Out-Erweiterung
+  Platz in diesem Bhnen- und Studiotauglichen Geh„use. Optional ist zus„tzlich der Einbau
+  einer 4Slot VME-Buskarte fr den Anschluá von bis zu 4 Startrack-Karten m”glich.
+  Also alles komplett in einem Geh„use !

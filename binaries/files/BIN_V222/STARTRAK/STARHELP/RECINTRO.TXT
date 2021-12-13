@@ -1,0 +1,72 @@
+Die erste Aufnahme
+------------------
+
+Ich gehe davon aus, das die Startrack-Karte korrekt installiert und
+richtig mit der HIFI-Anlage verbunden ist. Sollte das nicht der Fall
+sein, empfehle ich das Kapitel İHardware-InstallationİHARDINST.TXTİ
+durchzulesen.
+
+Nach dem Start des Programms ”ffnet sich automatisch das İEditor-FensterİEDIT.IMGİ.
+W„hle nun in der İEditor-Toolbar(1)İEBUTTONS.IMGİ am oberen Rand des Fensters
+den Einstellungen-Button (2). Hiermit ”ffnest du ein weiters İFensterİMAIN.IMGİ
+in dem man u.a. die Auswahl der Eing„nge vornehmen kann. Wir w„hlen hier
+den Analogeingang mit dem Input-Button(4) aus. Als Samplerate w„hlen wir
+48 kHz mit dem Samplerate-Button(5). Nun sollte die Musik am Analogeingang
+ber die Soundkarte h”rbar sein. Ist dies nicht der Fall,ist
+h”chstwahrscheinlich die Soundkarte nicht richtig mit der HIFI-Anlage
+verbunden. Immer wenn die Soundkarte keine Samples abspielt, wird
+automatisch die Musik am Eingang auf die Ausg„nge gelegt (bypass-mode).
+Wir verlassen das Fenster wieder mit dem Exit-Button(13) und sind
+nun wieder im Editor-Fenster.
+
+Nun w„hlen wir in der İEditor-ToolbarİEBUTTONS.IMGİ den Peakmeter-Button(4).
+Es ”ffnet sich ein weiteres İFensterİPEAK.IMGİ in dem man die Aussteuerung von
+Analogaufnahmen (Digitalaufnahmen brauchen nicht ausgesteuert werden)
+vornimmt und die Aufnahme starten kann. Die Lautst„rke (Aussteuerung)
+wird mit dem vertikalen Schieberegler(12) vorgenommen.
+Dieser kann auch w„hrend der Aufnahme korrigiert werden.
+Pegeln sie den Eingang so ein, da die Aussteuerungsanzeige(2) bis zum
+oberen drittel reicht. Man sollte bei der Aussteuerung immer etwas Reserve
+lassen um eventuell auftretende Lautst„rkesprnge nicht zu bersteuern.
+Auf keinen Fall sollte die Over-Anzeige(1) leuchten. Das bedeutet eine
+šbersteuerung und fhrt zu extremen Verzerrungen. Kommt die Aussteuerung
+in den Grenzbereich f„rbt sich die blaue Aussteuerungsanzeige in diesem
+Bereich rot.
+Ist man mit der Aussteuerung zufrieden, w„hlt man den Aufnahme-Button(14)
+um die Aufnahme zu starten. Diese erste Aufnahme wird nun nicht auf
+Festplatte aufgezeichnet, sondern landet im Sample-RAM. Im Max-Feld(3)
+wird die maximal m”gliche Aufnahmel„nge angezeigt. Je mehr Ram man fr
+das Sampleram reserviert, desto l„nger kann man in den Sampleram aufnehmen.
+Im Position-Feld(4) wird die bereits abgelaufene Aufnahmezeit angezeigt.
+Nach der Aufnahme wird automatisch wieder in das İEditor-FensterİEDIT.IMGİ gewechselt.
+Dort wird sofort das gerade aufgenommene Sample im Sample-Window(2) angezeigt.
+Nun kann man die Wiedergabe im İSteuerungsbereich(5)İESOUND.IMGİ mit dem
+Play-Button(4) starten. Man kann die Wiedergabe jederzeit mit dem
+Stop-Button(5) stoppen oder mit dem Pause-Button(6) unterbrechen.
+Ein weiterer Druck auf den Pause-Button f„hrt mit der Wiedergabe fort.
+Ein senkrechter Strich im Samplebereich zeigt die aktuelle Wiedergabeposition an.
+
+Das war nun ihre erste Aufnahme in den Sampleram mit anschlieendem abspielen.
+Herzlichen Glckwunsch !
+
+Tip: Die Gr”e des Sampleram kann man im İSetup-DialogİSETUP.IMGİ einstellen.
+Diesen erreicht man mit dem Arztkoffer-Symbol(9) in der İEditor-ToolbarİEBUTTONS.IMGİ.
+Das Sampleram wird unter anderem auch als Zwischenspeicher (Cache)
+fr andere Aufgaben innerhalb des Programms verwendet und sollte idealerweise
+mindestens 8MB betragen da ansonsten fr die Wiedergabe mehrerer Spuren
+zu wenig Speicher bereitsteht und es so u.a zu Aussetzern in der Wiedergabe
+kommen kann. Diesen Wert kann man im malloc-Feld(8) in KB (Kilobyte=1024Byte)
+einstellen. Auerdem sollte das max-Feld angekreuzt sein, da ansonsten der
+komplette Speicher angefordert wird. Das ist jedoch gerade unter Multitasking-
+Betriebssystemen wie MagiC oder MultiTOS unerwnscht, da dann kein Platz mehr
+fr andere Programme frei bleibt. Man sollte auch nicht zu viel Sample-RAM
+reservieren, da mit zunehmendem Speicher die Darstellung der Samples immer
+langsamer wird. Es ist halt ein Unterschied, ob die Amplitudenwerte von 8MB oder
+von 120MB berechnet werden mssen. Und das ist bei jeder nderung an den Samples
+der Fall (z.B. durch Schneiden der Samples,Lautst„rkekorrektur etc.).
+Hat man seine Einstellung vorgenommen, speichert man die Setup-Einstellungen
+mid dem SAVE-Button ab. Die neue Einstellung des Sample-RAM wird allerdings erst
+beim n„chsten Programmstart beachtet !
+ 
+ 
+

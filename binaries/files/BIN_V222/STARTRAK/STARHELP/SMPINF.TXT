@@ -1,0 +1,67 @@
+Sample-Information-Dialog
+
+
+Dieser Dialog zeigt einige Informationen zum Sample an, und erlaubt die
+Eingabe einer Sample-Beschreibung (Kommentar). Dieser Dialog erscheint
+wenn man das ›Samplenamen-Feld›EINFO.TXT› im Editor-Fenster anklickt und vor jeder
+Aufnahme zur Eingabe der Sample-Beschreibung.
+Zur besseren VerstÑndnis sollte man das ›BILD›SMPINF.IMG› des Dialogs zu
+Rate ziehen.
+
+
+1) Name
+-------
+Anzeige des Sample-Dateinamen.
+
+2) Samplerate
+-------------
+Anzeige der Samplerate mit der das Sample aufgenommen wurde.
+
+3) LÑnge
+--------
+LÑnge des Samples mit Angabe der Anzahl der Samplewerte und der daraus
+resultierenden Spielzeit.
+
+4) Datum
+--------
+Datum der Aufnahme bzw. der Sampledatei
+
+5) Source
+---------
+Dieses Kommentarfeld ist zur Sample-Titeleingabe gedacht. 
+
+6) Comment
+----------
+Dieses Kommentarfeld kann beliebig ausgefÅllt werden, und dient wie das
+Source-Feld zur Beschreibung des Samples.
+
+7) Loops
+--------
+Hier werden die Markerwerte angezeigt, die in der Sampledatei gespeichert
+sind bzw. werden. Die unterschiedlichen Sample-Dateiformate bieten eine
+unterschiedliche Anzahl von MarkereintrÑgen. Es wird beim abspeichern eines
+Samples zusÑtzlich eine INF-Datei angegelegt, in der alle 100 mîglichen
+›MarkereintrÑge›EMARKER.TXT› enthalten sind. Dort wird auch der Samplekommentar
+gespeichert. Das INF-File ist nîtig um allen Sampleformaten diese
+Mîglichkeiten zu bieten.
+
+8) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+9) Exit
+-------
+Hiermit wird der Sample-Information-Dialog geschlossen. Bei Aufnahme wird
+diese damit abgebrochen. Bei Aufruf Åber das Samplenamen-Feld wird der
+Dialog geschlossen, und eine énderung in den Kommentarfeldern nicht
+beachtet.
+
+10) OK
+------
+Hiermit wird der Sample-Information-Dialog geschlossen und die INF-Datei
+abgespeichert. Bei Aufnahme geht der Sampler nun in Aufnahmebereitschaft.
+Bei Aufruf Åber das ›Samplenamen-Feld›EINFO.TXT› wird das INF-File mit den geÑnderten
+Kommentarfeldern abgespeichert (noch nicht implementiert). Man kann also
+den Kommentar jederzeit Ñndern !

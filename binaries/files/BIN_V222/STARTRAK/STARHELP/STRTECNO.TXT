@@ -1,0 +1,147 @@
+Technische Daten
+----------------
+
+
+Strombedarf:
+------------
+Startrack-Karte :   650mA/5V
+DSP-Erweiterung : + 350mA/5V
+        Analog8 : + 50mA/5V
+
+Abgesichert mit 125V/2A-Sicherung
+
+
+
+Anzahl der KanÑle
+-----------------
+
+im CPU-mode
+(hierbei werden die KanÑle mit der CPU gemischt)
+------------------------------------------------
+14 KanÑle mit 32kHz     (Hades060)
+12 KanÑle mit 44.1 kHz  (Hades060)
+10 KanÑle mit 48kHz     (Hades060)
+
+im Matrix-mode
+(hierbei werden die KanÑle auf die Matrix gelegt)
+------------------------------------------------
+16 KanÑle mit 32kHz (getestet mit Hades060)
+8  KanÑle mit 48kHz (getestet mit Hades060)
+
+im DSP-mode
+(hierbei werden die KanÑle auf die Matrix gelegt
+und mit dem DSP gemischt)
+------------------------------------------------
+8 KanÑle mit 48kHz (getestet mit TT)
+
+
+
+Belegung des DSP-Ports:
+----------------------------------------------
+Pin  Bezeichnung      Aderfarbe des DSP-Kabels
+---------------------------------------------- 
+ 1 - GP0              rot
+ 2 - GP1              blau
+ 3 - GP2              schwarz
+ 4 - P_DATA1          violett
+ 5 - P_CLK            orange
+ 6 - P_SYNC1          grau
+ 7 - /                /
+ 8 - GND              Abschirmung
+ 9 - +12V             gelb
+10 - GND              grÅn
+11 - SC0              braunschwarz, not connected
+12 - SC1              braungelb, not connected
+13 - P_SYNC2 / SC2    weiû
+14 - GND              weiûbraun
+15 - SRD              braungrÅn, not connected
+16 - GND              braunorange
+17 - +12V             braun
+18 - GND              braunrot
+19 - R_DATA           weiûgelb
+20 - R_CLK            weiûorange
+21 - R_SYNC           weiûrot
+22 - EXT_INT          weiûgrÅn
+23 - P_DATA2 / STD    weiûgrau
+24 - SCK              weiûschwarz, not connected
+25 - GND              weiûblau
+26 - EXCLK            weiûviolett
+
+
+Startrack-Elektronik
+--------------------
+2 x Highend Volume-Controller von Crystal
+1 x 16Bit Delta Sigma Linear A/D-Wandler von Crystal mit 64fachem Oversampling
+1 x 18Bit Delta Sigma Linear D/A-Wandler von Crystal mit
+    64fachem Oversampling/8fach digitales Interpolationsfilter
+1 x Highend OperationsverstÑrker von Analog Devices
+2 x Eingangs-Umschalt-Relais fÅr maximale Stîrfreiheit
+2 x DigitalÅbertrager
+1 x Sampleclock-AusgangsÅbertrager
+2 x separate Spannungsregler-Elektronik fÅr A/D und D/A
+externe CinchanschlÅsse fÅr Stereo Analog Ein- und Ausgang
+externe Cinch und TOSLINK-AnschlÅsse fÅr Digital Audio
+externer Sampleclock Ein- und Ausgang
+Zukunftskompatibel durch AnschlÅsse fÅr externe Erweiterungen (DSP,XLR etc.)
+
+
+DSP-Elektronik
+--------------
+Motorola DSP56002-66
+Highspeed RAM 128KBx24Bit/12ns
+Highspeed Memory-Controller-GAL,5ns
+Motorola EVM-kompatibles ONCE-Port-Interface durch spezielle MCU (eigener Prozessor)
+Clockdivider fÅr Falcon-kompatible Sampleraten in Verbindung mit externem 25.175MHz-Clockmodul
+Datenumsetzer fÅr Falconmode(128Bit) in Crystalmode(64Bit)
+
+
+Technische Audiodaten:
+----------------------
+
+A/D-Converter:
+--------------
+             Frequenzgang : 10-20000 Hz linear
+               Samplerate : bis 48kHz
+            dynamic range : typ 95.7 dB
+    Signal to noise THD+N : typ 92.7 dB
+ Harmonische Verzerrungen : typ 0.001%
+          Kanalabweichung : typ 0.0001%
+ Kanal-öbersprechisolation: typ 106 dB
+            Offset Fehler : typ +-5 LSB
+Eingangs-Spannungsbereich : +-3.68V
+Siehe dazu auch das ›Meûergebnis›ADCDAT.IMG›.
+
+D/A-Converter:
+--------------
+             Frequenzgang : 10-20000 Hz linear
+               Samplerate : bis 48kHz
+            dynamic range :  max 108 dB
+    Signal to noise THD+N : typ 120 dB
+ Harmonische Verzerrungen : typ -93dB
+        Linear-Abweichung : typ 0.5 grad
+ Kanal-öbersprechisolation: typ 110 dB
+            Offset Fehler : max +-1 mV
+Ausgangs-Spannungsbereich : +-4.0V
+Siehe dazu auch das ›Meûergebnis›DACDAT.IMG›.
+
+Volume-Controller:
+------------------
+             Frequenzgang : 10-20000 Hz linear
+                 DÑmpfung : bis -95.5 dB
+              VerstÑrkung : bis +31.5 dB
+            dynamic range : typ 116 dB
+ Harmonische Verzerrungen : typ 0.001%
+Kanal-öbersprechisolation : typ 110 dB
+            Offset-Fehler : typ 0.25 mV
+Siehe dazu auch das ›Meûergebnis›VOLDAT.IMG›.
+
+Highend JFET-OperationsverstÑrker OP275 fÅr Analogausgang:
+----------------------------------------------------------
+Erster OPV mit Butler Amplifier front-end
+kombinierte bipolar/JFET-Technik
+
+             Rauschen : typ 6 nV
+Signal to noise THD+N : typ 0.0006%
+            slew rate : typ 22V/us
+            Bandweite : typ 9 MHz
+        Offset-Fehler : max 1 mV

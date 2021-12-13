@@ -1,0 +1,107 @@
+2. VME-Version
+--------------
+Haben sie einen TT oder MegaSTE mit VME-Bus, dann sind sie im Besitz der VME-Version.
+Der Einbau ohne die DSP-Erweiterung ist einfach: Einfach in den VME-Bus einstecken
+und İmit der HIFI-Anlage oder Mischpult verbindenİPLUGS.TXTİ. Wie das genau gemacht wird, werden
+wir ihnen ausfhrlich zeigen. Haben sie die DSP-Erweiterung gleich mitbestellt,
+dann ist die DSP-Erweiterung bereits von uns auf die Startrack-Karte aufgesteckt
+worden.
+Wollen sie das System nachtr„glich mit der DSP-Karte erweitern dann mu
+diese zuerst auf die Startrack-Karte aufgesteckt werden.
+   
+   DSP-Erweiterung einbauen:
+   Ziehen sie also die Startrack-Karte bei ausgeschaltetem Rechner İaus dem VME-SlotİVMEPULL.IMGİ
+   heraus und İsteckenİPLUGDSP.IMGİ die DSP-Karte vorsichtig auf die Startrack-Karte, und zwar
+   mit der Bauteilseite nach unten, die beiden Erweiterungsstecker der DSP-Karte
+   mssen dabei in Richtung der Cinchanschlsse (nicht in Richtung des VME-Steckers!)
+   zeigen. Achten sie dabei unbedingt darauf, das die Steckkontakte der DSP-Karte
+   genau in die dafr vorgesehenen Buchsenkontakte auf der Startrack-Karte passen, und
+   die Kontaktreihen nicht versehentlich verschoben sind ! Drcken sie anschlieend
+   gleichm„ig die beiden Kontaktreihen der DSP-Karte (am „ueren Ende der Platinen)
+   in die Startrack-Buchsenkontakte (Schwitz,die erst Hrde ist genommen).
+   Auf der Frontblende der Startrack-Karte befinden sich zwei Leuchtdioden die noch
+   mit der DSP-Karte verbunden werden mssen. Diese zeigen den Status des DSP an.
+   Hierfr sind am linken Rand der DSP-Karte vier kleine Pins vorhanden. Auf der
+   Platine sind diese mit DEBUG und LOCK bezeichnet. Die rote LED ist fr LOCK
+   und die grne LED fr DEBUG vorgesehen. Die İ4 AnschlsseİLEDS.IMGİ werden nun folgendermaen
+   mit den LEDs verl”tet (von links nach rechts):
+   Die Anode einer LED ist zu erkennen durch den l„ngeren Anschlu und den schmaleren
+   in der LED sichtbaren Anschluteil 
+   Die Kathode einer LED ist zu erkennen durch den krzeren Anschlu und den dickeren
+   in der LED sichtbaren Anschluteil 
+   1.Anschlu mit der Anode der grnen LED verl”ten
+   2.Anschlu mit der Kathode der grnen LED verl”ten
+   3.Anschlu mit der Anode der roten LED verl”ten
+   4.Anschlu mit der Kathode der roten LED verl”ten.
+   Sollte die rote LED im Betrieb nicht leuchten so haben sie die beiden Anschlsse
+   wahrscheinlich vertauscht. Die grne LED leuchtet nur wenn der DSP im Debug-Mode
+   ist, wenn also z.B. das EVM56K-Programm gestartet wurde.
+   Haben sie zwei linke H„nde oder keinen L”tkolben zur Hand, wenden sie sich bitte
+   an ihren H„ndler der dies sicherlich gerne fr sie macht.
+   Haben sie die Startrack-Karte komplett mit der DSP-Erweiterung erworben, so ist
+   diese L”tarbeit natrlich nicht n”tig.
+   
+   Brauchen sie den DSP-Port fr den Anschlu eines Analog8,FA8,Jam-In,Jam-Out,ADAT
+   ,Clockmoduls oder einer anderen DSP-Port-Erweiterung ?
+   Dann sollten sie nun das DSP-Port-Kabel mit der DSP-Karte verbinden:
+   
+   DSP-Port-Kabel anschlieen:
+   Das DSP-Port-Kabel(das dickere) wird mit der DSP-Erweiterung verbunden. Sie sehen auf der
+   DSP-Erweiterung 2 doppelreihige Stecker. Der eine ist 10polig (ONCE-Port), der
+   andere unser 26poliger DSP-Port. Wenn sie auf die İKontakte schauenİDSPCAB.IMGİ (von der
+   Anschluseite mit den Cinchanschlssen aus gesehen) ist der 10polige
+   ONCE-Port links und der 26polige DSP-Port rechts.
+   Nun mssen sie das DSP-Kabel aufstecken, aber bitte richtigrum: Pin 1 des
+   DSP-Port-Steckers ist unten links (von vorne gesehen), Pin 1 des Kabels ist rot
+   und sollte sich nach dem Aufstecken ebenfalls unten links auf dem Stecker befinden.
+   
+   Haben sie einen PC-kompatiblen Rechner, auerdem Ambitionen zur DSP-Programmierung ?
+   Dann sollten sie nun das ONCE-Port-Kabel mit der DSP-Karte verbinden:
+   
+   ONCE-Port-Kabel anschlieen:
+   Das ONCE-Port-Kabel(das dnnere) wird mit der DSP-Erweiterung verbunden. Sie sehen auf der
+   DSP-Erweiterung 2 doppelreihige Stecker. Der eine ist 26polig (DSP-Port), der
+   andere unser 10poliger ONCE-Port. Wenn sie auf die İKontakte schauenİDSPCAB.IMGİ (von der
+   Anschluseite mit den Cinchanschlssen aus gesehen) ist der 10polige
+   ONCE-Port links und der 26polige DSP-Port rechts.
+   Nun mssen sie das ONCE-Kabel aufstecken, aber bitte richtigrum: Die obenliegende
+   Seite des ONCE-Port-Steckers ist mit "O" bezeichnet, die Unterseite mit "U".
+   Pin 1 des ONCE-Port ist brigens unten links.
+
+   Nun kommt der leider etwas aufwendigere Teil: Der VME-Einschub des TT und MegaSTE
+   ist komplett in einem Metallk„fig gekapselt. Da wir unsere beiden Kabel nach auen
+   fhren m”chten, kommen wir nicht umhin in den Blechdeckel mit einem İSeitenschneiderİCUTTER.IMGİ
+   eine kleine Aussparung zu schneiden. Bitte nicht auss„gen, der feine Metallstaub
+   der dabei entsteht kann im Ger„t zu Kurzschlssen fhren !
+   Im Blechdeckel ist bereit ein İkleines LochİTTBLECH.IMGİ, etwa in der Mitte,rechts vom der
+   Rckseite des Rechners aus gesehen. Von hier aus schneiden wir die kleine Aussparung
+   jeweils von den beiden R„ndern des Lochs bis zum rechten Auenrand des Blechs.
+   Ist dieser Teil getan, k”nnen sie die Startrack-Karte in den VME-Slot einschieben.
+   Fhren sie zuallererst die İKabel in den VME-SchachtİCABPUSH.IMGİ und fhren sie durch die
+   geschnittene ™ffnung des Blechdeckels. İSchiebenİCARDPUSH.IMGİ sie nun die Startrack-Karte nach
+   und ziehen dabei gleichzeitig das Kabel weiter durch die Blech”ffnung.
+   Drcken sie anschlieend den 96poligen VME-Stecker der Startrack-Karte in
+   den entsprechenden 96poligen VME-Buchse des Rechners bis er einrastet bzw. bis
+   zum Anschlag - Fertig, der Einbau ist berstanden.
+   
+   Nun mssen sie noch einen geeigneten Weg finden, die beiden Kabel aus dem
+   Rechnergeh„use zu fhren. Dafr gibt es mehrere M”glichkeiten:
+
+   1. Am İRomportİROMPORT.IMGİ vorbei herausfhren. Die ™ffnung ist breit genug dafr,behindert
+      allerdings etwas den Zugriff auf den Romport.
+  
+   2. Eine kleine İAussparungİPLASTIC.IMGİ aus dem Kunstoffgeh„use schneiden und die Kabel
+      hierdurch herausfhren.
+      
+   3. Den Geh„usedeckel nehmen und in die Rckseite ein oder zwei Aussparungen fr den
+      Einbau der Sub-D-Steckverbinder der Kabel İausfeilenİFEILTT.IMGİ. Das geht bei Kunststoff recht
+      problemlos. Weitere Vorschl„ge werden dankbar angenommen.  
+   
+   Nun mssen sie als letztes noch den İONCE-Port mit dem PC verbindenİONCEPUT.TXTİ, falls sie
+   ihn ben”tigen. Wenn nicht sind sie jetzt fertig mit dem Einbau - Glckwunsch !
+   
+Sie mssen jetzt nur noch ihre Startrack-Karte mit einer
+İHIFI-Anlage oder Mischpult verbindenİPLUGS.TXTİ und k”nnen dann gleich loslegen.
+Fr die Softwareinstallation lesen sie bitte das entsprechen Kapitel zur
+İSoftwareinstallationİSTARINST.TXTİ durch.
+   

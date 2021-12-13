@@ -1,0 +1,25 @@
+Zoom- und Scroll-Slider im Tracker-Fenster
+------------------------------------------
+
+
+šber den Zoom-Slider kann man den ÝZeitmažstabÝTIMELINE.IMGÝ „ndern und die
+Darstellungsgenauigkeit anpassen. šber den Scrollslider rechts daneben kann
+man den Zeit-Darstellungsausschnitt w„hlen. Zur besseren Verst„ndnis sollte
+man das ÝBILDÝZOOMSCRL.IMGÝ der Slider zu Rate ziehen.
+
+
+1) Zoom-Slider
+--------------
+Wird die Darstellungsgenauigkeit mit diesem Slider ver„ndert, werden die
+ÝAmplitudenverl„ufeÝBLKFSEL.IMGÝ neu berechnet und der neue Zeitausschnitt im ÝSpurfeldÝBLOCK.TXTÝ
+dargestellt. Alle einmal berechneten Amplitudenver„ufe werden in einem
+Cache zwischengespeichert (max. 1MB) und brauchen so nicht jedesmal neu
+berechnet zu werden, wodurch der Bildaufbau schneller wird).
+
+2) Scroll-Slider
+----------------
+Wird der Zeit-Darstellungsausschnitt ver„ndert, werden die neuen
+ÝAmplitudenverl„ufeÝBLKFSEL.IMGÝ berechnet und der neue Zeitausschnitt im ÝSpurfeldÝBLOCK.TXTÝ
+dargestellt. Alle einmal berechneten Amplitudenver„ufe werden in einem
+Cache zwischengespeichert (max. 1MB) und brauchen so nicht jedesmal neu
+berechnet zu werden, wodurch der Bildaufbau schneller wird).

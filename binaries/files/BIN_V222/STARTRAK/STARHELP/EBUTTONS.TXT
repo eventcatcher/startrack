@@ -1,0 +1,175 @@
+Button-Toolbar
+--------------
+
+
+Hierber erreicht man die wichtigsten Hauptfunktionen und die anderen
+Fenster. Ist eines der anderen Fenster ge”ffnet, kann man es durch
+anklicken des entsprechenden Buttons in der Button-Toolbar (oder indem man
+im optionalen Dropdown-Men unter Menpunkt "Fenster" den entsprechenden
+Menpunkt anw„hlt) in den Vordergrund holen, falls es durch andere Fenster
+verdeckt war. Zur besseren Verst„ndnis sollte man das İBILDİEBUTTONS.IMGİ
+der Button-Toolbar zu Rate ziehen.
+
+
+1) Info-Fenster
+---------------
+Dieses Fenster zeigt das İProgrammlogoİINFO.TXTİ, die Copyright-Vermerke und
+die Versionsnummer der Software. Also eigentlich total berflssiges
+Zeug. 
+
+2) Einstellungen-Fenster
+------------------------
+Dieses Fenster ist prim„r fr die İEingangsauswahlİMAIN.TXTİ und die Kontrolle
+der digitalen Eing„nge und des DSP-Wirkungsbereichs zust„ndig.
+
+3) Blockfunktionen-Fenster
+--------------------------
+Dieses Fenster ist fr die İBlockfunktionenİBLKPAGE.TXTİ des Edit-Fensters zust„ndig.
+
+4) Peakmeter-Fenster
+--------------------
+Dieses Fenster ist fr die İAussteuerungİPEAK.TXTİ und Aufnahme eines Samples
+zust„ndig. Man kann aber auch Samples von Festplatte abspielen und dabei
+die Aussteuerung berprfen.
+
+5) MIDI-Arranger-Fenster
+------------------------
+šber dieses Fenster wird die Ansteuerung eines (oder mehrerer)
+İMIDI-KeyboardsİARRANGE.TXTİ realisiert. Dazu erstellt man hier eine Liste der verwendeten
+Samples. Man kann hier die Loopart, Start- und Endpunkt, Midikanal,
+Midinote usw. fr jedes einzelne Sample bestimmen. Dabei k”nnen sich im
+Sample-Memory befindende Samples genauso eingebunden werden wie auf
+Festplatte gespeicherte Samples. Die fertige Liste kann als
+Arrangement-File (Endung *.ARR) abgespeichert werden.
+Dieses Fenster mu aber nochmal berarbeitet werden, da ich derzeit aber
+kein MIDI-Keyboard zum austesten besitze dauert dies noch etwas.
+Die Funktion wurde schonmal getestet, dies ist aber schon ca. 1 Jahr her.
+Trotzdem sollte MIDI-Play funktionieren.
+
+6) Tracker-Fenster
+------------------
+šber dieses Fenster wird die İMehrspurwiedergabeİTRAKKER.TXTİ realisiert. Momentan sind
+8 Spuren mit 32kHz Samplerate bzw. 4 Spuren mit 48 kHz machbar (auf einer
+Medusa T40). Die Verarbeitungsgeschwindigkeit ist aber noch nicht optimiert,
+so da man sicherlich noch mehr herausholen kann.
+Man l„dt die einzelnen Samples zun„chst in den Tracker und verteilt diese
+auf die gewnschten Spuren.
+Man kann die Samples, aber auch ganze Spuren per Drag&Drop kopieren oder
+verschieben, Start- und Endmarker definieren oder aus der Information-Datei
+(*.INF) bernehmen, probeh”ren etc. Die Samples werden dabei nichtdestruktiv
+bearbeitet, d.h. die Sampledateien werden nicht ver„ndert.
+In diesem Fenster kann man also die Samples die auf der Festplatte liegen,
+zu einem "Song" arrangieren.
+
+7) Loop-Fenster
+---------------
+Dieses Fenster ist fr die İLoopfunktionenİLOOP.TXTİ des Edit-Fensters zust„ndig.
+Man kann hier bestimmen in welcher Richtung das Sample abgespielt werden
+soll. Das abspielen startet aber erst durch Druck auf die Taste İPLAYİESOUND.TXTİ im
+Edit-Fenster. Ist der Blockbutton im İLimit-BereichİLIMIT.TXTİ aktiviert, und Marker-S
+und Marker-E definiert, so wird nur der markierte Bereich abgespielt.
+Ist der Loop-Button im İLimit-BereichİLIMIT.TXTİ aktiviert, wird das Sample solange
+wiederholt, bis man die İSTOPİESOUND.TXTİ-Taste drckt. 
+
+8) DSP-Fenster
+--------------
+Dieses Fenster ist fr die İDSP-EffektauswahlİDSPPAGE.TXTİ zust„ndig.
+Dabei sind einige Effekte schon im Programm enthalten, und k”nnen hierber
+in den DSP geladen werden. Andere Effekte bzw. DSP-Programme k”nnen in den
+DSP via Load geladen werden, da das Programm die DSP-LOD-Files verarbeiten
+kann. Dadurch ist es prinzipiell m”glich Effekte anderer Hersteller
+anzupassen bzw. in das Programm zu integrieren. Fr die Nutzung dieser
+Effekprogramme ist natrlich die optional erh„ltliche DSP-Karte mit einem
+Motorola DSP-56K notwendig. Karten mit anderen, noch leistungsf„higeren
+DSPs sind bereits in Planung und machen die Soundkarte hiermit sehr flexibel
+und sehr leistungsf„hig.
+Dieser Teil der Software wird sich in Zukunft sicherlich noch stark
+ver„ndern, da hier noch ein groes Potential steckt. Da die Software in
+Zukunft eine Modulschnittstelle bekommt, wird es m”glich sein mit relativ
+wenig Aufwand Effekte und Programmteile anderer Hersteller zu integrieren.
+Dabei wird die Software mit dem Zusatztool kommunizieren k”nnen, so da sich
+die Zusatztools in die Oberfl„che einklinken, als w„ren sie Bestandteil
+des Programms. 
+
+9) Setup-Dialog
+---------------
+Dieser Dialog ist prim„r fr verschiedene İEinstellungenİSETUP.TXTİ zust„ndig.
+Hier kann man das Aussehen der Sampledaten bestimmen und verschiedene
+Voreinstellungen vornehmen. Diese Einstellungen k”nnen in einer INF-Datei
+abgespeichert werden. Ist eine solche Datei vorhanden, wird sie beim Start
+des Programms automatisch geladen und die darin enthaltenen Einstellungen
+werden gesetzt.
+
+10) Midi-Dialog
+---------------
+Dieser Dialog ist fr die Auswahl von İMidi-Note & Midi-KanalİMIDI.TXTİ zust„ndig, und
+wird benutzt um dem Sample eine bestimmte Midinote und einen Midikanal zum
+Abspielen ber ein Midi-Keyboard zuzuordnen.
+
+11) Fade-Editor-Dialog
+----------------------
+In diesem Fenster kann der İFaderverlaufİFADE.TXTİ editiert werden. Dabei stehen
+schon verschiedene fertige Faderkurven zur Auswahl zur Verfgung, man
+kann diese aber auch per Hand zeichnen. Diese Kurven k”nnen auch
+abgespeichert und nachgeladen werden. Die Verl„ufe k”nnen dann beim
+İEin- und AusblendenİFUNKTION.TXTİ von Samples benutzt werden.
+
+12) Monitor
+-----------
+Damit wird eine direkte Kontrolle des Samplingvorgangs vor der Aufnahme
+erm”glicht. Die Sampledaten werden dafr vom Eingang der Soundkarte
+eingelesen und sofort wieder vom Programm an den Soundkarten-Ausgang
+ausgegeben. Dabei sollten keine Unterbrechungen oder St”rungen im
+Musiksignal auftreten.
+
+13) Hyper-Fileselector-Dialog
+-----------------------------
+Dieser Dialog ist als İFileselector-ErsatzİFSELPAGE.TXTİ gedacht, hat aber noch sehr viel
+mehr M”glichkeiten, die die Arbeit hiermit sehr komfortabel machen. Um mehr
+šbersichtlichkeit zu bekommen, funktioniert dieser Fileselektor etwas
+anders. Zuerst erstellt man eine Liste der Suchpfade. Diese Liste wird
+unter dem Namen SMP16.SEL auf dem Speichermedium (Festplatte o.„) angelegt.
+Angezeigt werden auerdem nur die Sampledateien und die entsprechenden
+Kommentare, die in den Info-Dateien enthalten sind (Dateiendung *.INF).
+Man w„hlt das entsprechende Sample im Sampledatei-Name-Bereich aus indem man
+das entsprechende Feld selektiert, und klickt anschlieend auf Load - und
+das Sample wird in den Sample-Editor geladen. Man kann hier aber auch gleich
+die Samples anh”ren. Um ein bestimmtes Sample zu finden, wenn die
+Dateibeschreibung oder der Kommentar alleine nicht weiterhilft, ist das ganz
+ntzlich. Dafr stehen einem hier die Grundfunktionen eines CD-Players zur
+Verfgung, also Play,Stop,Forward,Rewind,Pause. Auerdem gibt es eine
+Anspielautomatik bei der die ersten 10 Sekunden eines Titels angespielt
+werden.
+
+14) Disk-Funktionen-Dialog
+--------------------------
+Mit diesem Dialog sind verschiedene İDateioperationenİDISKPAGE.TXTİ, die man im t„glichen
+Computerleben oft braucht, m”glich. Der Vorteil hierbei ist, das man fr
+solche Sachen wie l”schen und umbenennen von Dateien nicht das Programm
+verlassen mu. Bei Aufruf des Dialogs erscheint zuerst eine Fileselector-Box
+mit der das Soundsample das umbenannt oder gel”scht werden soll,
+ausgew„hlt wird. Dann erscheint die Dialogbox. 
+
+15) Load-Dialog
+---------------
+In diesem Dialog kann man w„hlen, ob man das Sample ganz oder als Block
+İladenİLOAD.TXTİ m”chte. Anschlieend wird das Sample in den Editor geladen. Falls es
+dort nicht hineinpat, erscheint der İVirtual-DialogİVIRTUAL.TXTİ. In diesem kann man
+w„hlen ob man einen Block laden m”chte, der noch in das Sample-Memory pat,
+oder ob man in den Virtual-Mode (virtuelle Bearbeitung) wechseln m”chte.
+
+16) Save-Dialog
+---------------
+In diesem Dialog kann man w„hlen, ob man den kompletten Samplespeicher oder
+nur den markierten Block İspeichernİSAVE.TXTİ m”chte. Hat man eine Wahl getroffen,
+erscheint zuerst ein Fileselector in dem man den Namen der Sampledatei
+eingibt. Die Dateiendung entscheidet dabei ber das Dateiformat (siehe auch
+Setup-Dialog). Danach erscheint der İInformation-DialogİSMPINF.TXTİ, in dem man dem
+Sample eine Beschreibung (Kommentar) zur besseren Identifikation geben kann.
+Dann wird das Sample abgespeichert.
+
+17) Workmode-Fenster
+--------------------
+In diesem Fenster wird der İAufnahme- und WiedergabemodusİWORKMOD.TXTİ eingestellt: die
+Anzahl der Aufnahmekan„le, die Art der zusammenmischung mehrerer Spuren im Tracker,
+das Aufnehmen und Wiedergeben im 16 oder 24Bit-Modus und den Modus des DSP-SRAM.

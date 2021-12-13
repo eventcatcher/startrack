@@ -1,0 +1,36 @@
+Samples-Edit-Wert-Dialog
+
+
+In diesem Dialog kann man den Marker auf einen bestimmten Samplewert setzen.
+Dieser Dialog erscheint wenn man einen der 4 ›Marker-Editfelder›EMARKER.TXT› im
+›Editor-Fenster›EDIT.TXT› anklickt. Es gibt auch die Mîglichkeit, den Marker Åber eine
+›Zeiteingabe›TIME.TXT› zu steuern. Welche Art der Eingabe man bevorzugt, kann man im
+›Setup-Dialog›SETUP.TXT› mit dem View-Button einstellen.
+Die Marker werden im Editor-Fenster durch ›senkrechte Linien›CURVE.TXT› dargestellt.
+Man kann diese im Editor auch direkt greifen und auf die gewÅnschte Position
+verschieben. Man kann die Marker auch mit den Pfeiltasten im
+›Blockbearbeitungsfeld›FUNKTION.TXT› des Editors bewegen, falls ›MARK im Work-Dropdown›FUNKTION.TXT›
+eingestellt ist. Zur besseren VerstÑndnis sollte man das ›BILD›SAMPLES.IMG›
+des Dialogs zu Rate ziehen.
+
+
+1) Edit-Samples
+---------------
+Hier gibt man die Sample-Position des Markers ein. 
+
+2) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+3) Exit
+-------
+Hiermit wird der Dialog geschlossen. Der eingegebene Marker-Samplewert wird
+nicht beachtet. Der alte Marker-Samplewert bleibt, sofern vorhanden,
+erhalten.
+
+4) OK
+-----
+Hiermit wird der Dialog geschlossen und der Marker auf den neuen Samplewert
+gesetzt.

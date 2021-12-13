@@ -1,0 +1,8 @@
+Das Accessorie-MenÅ
+-------------------
+
+Åber STARTRACK... - ôffnet ein ›Infofenster›INFO.TXT› mit
+                    Copyright- und Entwicklervermerken
+
+danach folgt die Liste der geladenen Accessories.
+

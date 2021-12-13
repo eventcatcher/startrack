@@ -1,0 +1,35 @@
+Marker-Kommentar-Dialog
+
+
+Dieser Dialog ist fr die Eingabe eines Marker-Kommentars zust„ndig.
+Dieser Kommentar begleitet jede Marker-Einstellung im Editor und ist
+ntzlich, um die verschiedenen Marker unterscheiden zu k”nnen.
+Man erreicht den Marker-Kommentar-Dialog indem man einfach auf den
+İMarkertext-ButtonİEMARKER.TXTİ im Editor klickt. Die Kommentare werden beim abspeichern
+eines Samples mitgespeichert, und bleiben dadurch erhalten.
+Bei der Blockauswahl im İArrangerİARRANGE.TXTİ und İTrackerİTRAKKER.TXTİ sind die Kommentare sehr
+ntzlich, um die verschiedenen Marker unterscheiden und gezielt ausw„hlen
+zu k”nnen. Zur besseren Verst„ndnis sollte man das İBILDİMARKCOMM.IMGİ des
+Marker-Kommentar-Dialogs zu Rate ziehen.
+
+
+1) Comment
+----------
+Hier kann man einen maximal 30 Zeichen langen Kommentar eingeben.
+
+2) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+3) Exit
+-------
+Hiermit wird der Marker-Kommentar-Dialog geschlossen. Die Kommentareingabe
+wird nicht beachtet und ist ungltig.
+Der alte Kommentareintrag bleibt erhalten.
+
+4) OK
+-----
+Hiermit wird der Marker-Kommentar-Dialog geschlossen.
+Die Kommentareingabe ist gltig und wird gesetzt.

@@ -1,0 +1,70 @@
+Steuerungsbereich im Editor
+---------------------------
+
+
+Hierber k”nnen die Samples aufgenommen und abgespielt werden.
+Es stehen s„mtliche bekannten Laufwerksfunktionen zur Verfgung.
+Zur besseren Verst„ndnis sollte man das İBILDİESOUND.IMGİ des
+Steuerungsbereichs zu Rate ziehen.
+
+
+1) auto-record
+--------------
+Automatische Aufnahme. Hierbei wird vor dem Aufnahmebeginn zuerst auf ein
+Eingangssignal gewartet. Wird ein bestimmter Schwellwert berschritten,
+beginnt automatisch die Aufnahme. Diesen Schwellwert kann man im
+İSetup-DialogİSETUP.TXTİ unter autorecord-treshold in Dezibel (dB) einstellen.
+
+2) record
+---------
+Hiermit wird die Aufnahme gestartet. Handelt es sich bei der Aufnahme um ein
+Harddisk-Projekt (7), dann erscheint danach ein Fileselector in dem man den
+Namen der Aufnahmedatei eingibt. Anschlieend erscheint der
+İInformation-DialogİSMPINF.TXTİ in dem man der Aufnahme eine Beschreibung (Kommentarfeld)
+geben kann. Diese Beschreibung wird zusammen mit anderen Informationen im
+INF-File (Dateiendung *.INF) abgespeichert. Dieses Kommmentarfeld wird dann
+auch im İHyper-FileselektorİFSELPAGE.TXTİ angezeigt und dient zur besseren Identifikation
+eines Samples. Daher sollte man eine sinnvolle Beschreibung w„hlen.
+Anschlieend kann die Aufnahme gestartet werden. Bei einem Harddisk-Projekt
+wird das Sample w„hrend der Aufnahme auf Festplatte gespeichert, ist es ein
+Memory-Projekt wird das Sample w„hrend der Aufnahme in das Sample-Memory
+geschrieben.
+
+3) play and record
+------------------
+Hiermit kann man ein Sample abh”ren und parallel dazu ein neues Sample
+aufnehmen. Diese Funktion ist allerdings bisher nur im Sample-Memory
+(Memory-Projekt) m”glich. Diese Funktion wird aber zu einem sp„teren
+Zeitpunkt fr Harddisk-Projekte m”glich sein.
+
+4) play
+-------
+Hiermit startet man die Wiedergabe des Samples. Falls es sich um ein
+Memory-Projekt handelt, wird das Sample im Sample-Memory abgespielt,
+ansonsten erscheint eine Fileselektor-Box in der man das abzuspielende
+Sample w„hlen kann. Es wird dann direkt von Festplatte abgespielt. Ist man
+im İVirtual-ModeİVIRTUAL.TXTİ (virtuelle Bearbeitung) wird das Sample so behandelt, als
+w„re es komplett im Speicher. Die Wiedergabe wird dann sofort gestartet. 
+
+5) stop
+-------
+Hiermit wird die Aufnahme bzw. Wiedergabe gestoppt.
+
+6) pause
+--------
+Damit kann man die Aufnahme bzw. die Wiedergabe eines Samples vorbergehend
+stoppen. Bei einem weiteren Druck auf die Pause-Taste wird die Aufnahme
+bzw. die Wiedergabe fortgefhrt.
+
+7) Harddisk-Projekt
+-------------------
+Hiermit schaltet man zwischen Memory- und Harddisk-Projekt um. Ist das Icon
+deselektiert, dann handelt es sich um ein Memory-Projekt, d.h. Aufnahme,
+Wiedergabe und Bearbeitungsfunktionen beziehen sich auf das Sample-Memory.
+Ist das Icon selektiert, dann handelt es sich um ein Harddisk-Projekt, d.h.
+Aufnahme,Wiedergabe und Bearbeitungsfunktionen wirken direkt auf die
+Festplatten-Samples. Die Aufnahmel„nge wird nur durch den Platz auf der
+Festplatte begrenzt. Wechselt man in den İVirtual-ModeİVIRTUAL.TXTİ (indem man ein Sample
+l„dt, das nicht komplett ins Sample-Memory pat) wird das Icon automatisch
+selektiert, um damit anzuzeigen, da es sich hierbei auch um ein
+Harddisk-Projekt handelt.

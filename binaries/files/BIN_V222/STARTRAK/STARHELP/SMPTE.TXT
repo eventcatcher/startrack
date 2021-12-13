@@ -1,0 +1,45 @@
+SMPTE-Dialog
+
+
+Dieser Dialog ist fÅr die Eingabe der SMPTE-Startposition eines Sampleblocks
+im ›Tracker›TRAKKER.TXT› zustÑndig. Allerdings ist die SMPTE-Dekodierung noch nicht
+implementiert. Der Wert bezeichnet den Zeitpunkt der Wiedergabe bei der
+Tracker-Mehrspurwiedergabe. Man erreicht diesen Dialog indem man das
+›SMPTE-Zeitfeld›TMARKS.TXT› im Tracker-Fenster anklickt. Man kann die SMPTE-Startzeit
+bzw. die Position des Samples auch direkt an eine andere Position draggen.
+DafÅr klickt man den ›Sampleblock›BLKFSEL.IMG› an und schiebt das Sample mit gedrÅckter
+rechter Maustaste auf die neue Position. Dabei kann man auch auf eine andere
+›Trackerspur›BLOCK.TXT› wechseln. Zur besseren VerstÑndnis sollte man das
+›BILD›SMPTE.IMG› des SMPTE-Dialogs zu Rate ziehen.
+
+
+1) max. Time
+------------
+Anzeige der maximal mîglichen Zeitposition. Diese wird durch die LÑnge des
+Tracker-Arrangements bestimmt.
+
+2) Zeiteingabe
+--------------
+Hier stellt man die SMPTE-Startzeit ein. Die Zeitangabe ist in
+Stunden,Minuten,Sekunden und Hundertstel-Sekunden unterteilt, wobei jede
+Position direkt mit einem Pfeilbutton verÑndert werden kann. Dabei sind die
+Doppelpfeil-Buttons fÅr die Zehnerpositionen und die Einpfeil-Buttons fÅr
+die Einerpositionen zustÑndig. Man kann im Edit-Feld aber auch direkte
+Eingaben machen. FÅr kleinere Korrekturen sind die Pfeilbuttons aber recht
+praktisch.
+
+3) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+4) Exit
+-------
+Hiermit wird der SMPTE-Dialog geschlossen. Die Zeiteingabe wird nicht
+beachtet und ist ungÅltig.
+
+5) OK
+-----
+Hiermit wird der SMPTE-Dialog geschlossen. Die SMPTE-Startzeiteingabe ist
+gÅltig und das Sample wird auf die neue SMPTE-Zeitposition gesetzt.

@@ -1,0 +1,14 @@
+Optimize-Dialog
+
+
+In diesem Dialog kann man die Einstellungen fr die Optimize-Funktion
+t„tigen. Die Optimize-Funktion ist im İBlockfunktionen-FensterİBLKPAGE.TXTİ unter dem
+Optimize-Button erreichbar. Man kann hiermit die Lautst„rke eines Samples
+nachtr„glich „ndern. Dafr wird ein H”chstwert in Dezibel (dB) angegeben,
+und anschlieend das Sample auf die ge„nderte Lautst„rke umgerechnet.
+- Falls man die Lautst„rke manuell anpassen will, sollte man den
+  İADJUSTİADJUST.TXTİ-Button im Optimize-Dialog anw„hlen
+- Falls man die Lautst„rke auf den maximal m”glichen Wert
+  (0dB Vollaussteuerung) anheben will sollte man den İAUTOİAUTO.TXTİ-Button
+  im Optimize-Dialog anw„hlen. Die manuelle H”chstwerteingabe f„llt
+  dann weg. 

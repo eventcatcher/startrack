@@ -1,0 +1,84 @@
+Das erste HD-Recording (Aufnahme auf Festplatte)
+------------------------------------------------
+
+Ich gehe davon aus, das die Startrack-Karte korrekt installiert und
+richtig mit der HIFI-Anlage verbunden ist. Sollte das nicht der Fall
+sein, empfehle ich das Kapitel İHardware-InstallationİHARDINST.TXTİ
+durchzulesen.
+
+Nach dem Start des Programms ”ffnet sich automatisch das İEditor-FensterİEDIT.IMGİ.
+W„hle nun in der İEditor-Toolbar(1)İEBUTTONS.IMGİ am oberen Rand des Fensters
+den Einstellungen-Button (2). Hiermit ”ffnest du ein weiters İFensterİMAIN.IMGİ
+in dem man u.a. die Auswahl der Eing„nge vornehmen kann. Wir w„hlen hier
+den Analogeingang mit dem Input-Button(4) aus. Als Samplerate w„hlen wir
+48 kHz mit dem Samplerate-Button(5). Nun sollte die Musik am Analogeingang
+ber die Soundkarte h”rbar sein. Ist dies nicht der Fall,ist
+h”chstwahrscheinlich die Soundkarte nicht richtig mit der HIFI-Anlage
+verbunden. Immer wenn die Soundkarte keine Samples abspielt, wird
+automatisch die Musik am Eingang auf die Ausg„nge gelegt (bypass-mode).
+Wir verlassen das Fenster wieder mit dem Exit-Button(13) und sind
+nun wieder im Editor-Fenster.
+
+Nun w„hlen wir in der İEditor-ToolbarİEBUTTONS.IMGİ den Peakmeter-Button(4).
+Es ”ffnet sich ein weiteres İFensterİPEAK.IMGİ in dem man die Aussteuerung von
+Analogaufnahmen (Digitalaufnahmen brauchen nicht ausgesteuert werden)
+vornimmt und die Aufnahme starten kann. Die Lautst„rke (Aussteuerung)
+wird mit dem vertikalen Schieberegler(12) vorgenommen.
+Dieser kann auch w„hrend der Aufnahme korrigiert werden.
+Pegeln sie den Eingang so ein, da die Aussteuerungsanzeige(2) bis zum
+oberen drittel reicht. Man sollte bei der Aussteuerung immer etwas Reserve
+lassen um eventuell auftretende Lautst„rkesprnge nicht zu bersteuern.
+Auf keinen Fall sollte die Over-Anzeige(1) leuchten. Das bedeutet eine
+šbersteuerung und fhrt zu extremen Verzerrungen. Kommt die Aussteuerung
+in den Grenzbereich f„rbt sich die blaue Aussteuerungsanzeige in diesem
+Bereich rot.
+Ist man mit der Aussteuerung zufrieden, selektiert man den HDR-Button(18).
+Damit w„hlt man zwischen Aufnahme in das Sampleram oder - wie hier -
+Aufnahme direkt auf Festplatte. Anschlieend w„hlt man den Aufnahme-Button(14)
+um die Aufnahme zu starten. Bevor es soweit ist, mu man allerdings noch ein
+paar Angaben zur Aufnahme machen. Zuerst einmal gibt man den Dateinamen fr
+das Sample im Fileselector ein. Dabei l„t man zuerst mal die Extension (*.S16)
+weg, also nur den Namen (z.B. "TEST").
+Dann erscheint der İAufnahmezeit-DialogİRECORD.IMGİ. Hier gibt man die maximale
+Aufnahmezeit(2) ein. Wir m”chten 1 Minute aufzeichnen,geben also
+00:01:00 00 ein. Hierfr sollten ca. 10 MB auf dem Laufwerk frei sein !
+Best„tigt man mit dem Exit-Button(4) wird abgebrochen.
+Da wir aber fortfahren m”chten best„tigen sie mit dem OK-Button(5).
+Nun erscheint der İSample-Information-DialogİSMPINF.IMGİ. Hier werden
+verschiedene Angaben zum Sample gemacht, wie z.B. Aufnahmel„nge, Samplerate
+und unter anderem kann man hier im Source-Feld(5) und Comment-Feld(6)
+weitere Erkl„rungen zum Sample machen. Da der Filename des Samples alleine
+nicht besonders aussagekr„ftig ist, hat man hier eine zus„tzliche M”glichkeit
+um sp„ter in einer wachsenden Sample-Bibliothek nicht den Durchblick zu
+verlieren. Die hier get„tigten Eingaben werden in einer separaten Datei
+(Endung *.INF) abgespeichert, sind somit vom Sampleformat unabh„ngig und
+dadurch allgemein verfgbar. Das Source-Feld ist fr die Angabe des
+Musiktitels vorgesehen, z.B. "Dangerous-Michael Jackson".
+Im Comment-Feld kann man weitere Angaben zum Titel machen
+(z.B. fr Aufnahmequelle,sp„teres Verwendungsziel,BPM).
+
+Tip: Das Programm untersttzt dieses Info-System durch
+einen speziellen İFileselectorİFSEL.IMGİ der diese Angaben zus„tzlich zum
+Filenamen anzeigt.
+Diesen erreicht man ber die İEditor-ToolbarİEBUTTONS.IMGİ mit dem
+Hyper-Fileselect-Button(13).
+
+Nun erscheint der Aufnahmestart-Dialog. Sobald sie den OK-Button anklicken,
+wird die Aufnahme gestartet. Diese erste Aufnahme wird nun direkt auf
+Festplatte aufgezeichnet. Sie sehen nun wieder das İAussteuerungs-FensterİPEAK.IMGİ.
+Im Max-Feld(3) wird die maximal m”gliche Aufnahmel„nge angezeigt, also in diesem
+Fall 1 Minute = 00:01:00 00.
+Im Position-Feld(4) wird die bereits abgelaufene Aufnahmezeit angezeigt.
+
+Das war nun ihre erste Aufnahme auf Festplatte. Herzlichen Glckwunsch !
+
+Nun wollen wir die gerade gemachte Aufnahme abspielen.
+Dafr kann die Wiedergabe mit dem Play-Button(16) gestartet werden.
+Es erscheint nun wieder der Fileselector zur Auswahl des abzuspielenden
+Samples. W„hlen sie das Sample (Endung *.S16) aus. 
+
+Die Aufnahme wird nun abgespielt. Herzlichen Glckwunsch ! 
+
+Man kann die Wiedergabe jederzeit mit dem
+Stop-Button(15) stoppen oder mit dem Pause-Button(17) unterbrechen.
+Ein weiterer Druck auf den Pause-Button f„hrt mit der Wiedergabe fort.

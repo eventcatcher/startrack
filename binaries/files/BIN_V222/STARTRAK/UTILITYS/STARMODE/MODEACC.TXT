@@ -1,0 +1,33 @@
+Das StarTrack Modewatch-Accessory dient zur Modusauswahl der
+StarTrack Audiokarte fÅr Falcon-Programme, da diese die
+erweiterten Mîglichkeiten der StarTrack-Audiokarte alleine mit
+den Falcon XBIOS-Routinen nicht ausschîpfen kînnen. Um dennoch
+z.B. den Digitaleingang anstatt des Analogeingangs nutzen
+zu kînnen wurde dieses Accessory entwickelt.
+
+Auûerdem dient es zur Fehlersuche in Falcon-Programmen:
+Hier haben sie eine einfache Mîglichkeit die devconnect-Einstellungen
+zu kontrollieren,Fehler in der devconnect Matrix-Verbindung oder falsch
+gewÑhlte Moduseinstellungen zu finden.
+Dies ist sehr hilfreich um Falcon-Programme an die etwas andere
+Funktionsweise der StarTrack-Audiokarte anzupassen.
+
+Das StarTrack Modewatch-Accessory kann auch als Programm gestartet werden.
+
+Das StarTrack Modewatch-Accessory ist in 3 Fenster aufgeteilt:
+
+MODESEL            - Die Modus-Steuerung
+
+DEVCOSEL           - Die Matrix-Steuerung
+DEVCONNECT-ANALYSE - Die Devconnect-Analyse (Dialog)
+
+DEVSTAT            - Die Status-Anzeige
+SOUNDCALL-ANALYSE  - Die Soundaufruf-Analyse (Dialog)
+
+Mit der XBIOS-Funktion showconnects(500,228) hat man eine einfache Mîglichkeit,
+die devconnect-Einstellungen zu kontrollieren, Fehler in der devconnect
+Matrix-Verbindung oder falsch gewÑhlte Moduseinstellungen zu finden.
+Dies ist sehr hilfreich um Falcon-Programme an die etwas andere Funktionsweise
+der StarTrack-Audiokarte anzupassen.
+Die Showconnects-Funktion gibt eine Statuszeile auf dem Bildschirm aus.
+

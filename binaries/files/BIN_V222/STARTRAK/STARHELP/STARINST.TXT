@@ -1,0 +1,32 @@
+STARTRACK-Editor   Installation
+-------------------------------
+
+Nach dem Entpacken (mit ZIP) sollte der angelegte Ordner in etwa so aussehen:
+
+/STARHELP     -  Hypertext-System fÅr ›1stGuide›GUIDE.TXT›
+/ENGLISH      -  alle Texte Åbersetzt fÅr unsere englischsprachigen User
+LIESMICH.TXT  -  Installationshinweise und letzte énderungen (vorher lesen !)
+REGISTER.TXT  -  Hardware-Registerbeschreibung fÅr Programmierer
+SOFT.TXT      -  Software-Beschreibung
+SOFTFEAT.TXT  -  Software-Features
+SOUND.PRG     -  Hardware-Treiber
+STARDEMO.PRG  -  Sample-Editor-Programm
+STARDEMO.UPL  -  Upload-Text fÅr die Verbreitung in Mailboxen
+STARHIGH.RSC  -  Fenster-Dialoge fÅr hohe Auflîsung (ab 1024x768)
+STARLOW.RSC   -  Fenster-Dialoge fÅr niedrige Auflîsung (bis 1024x768)
+STARTRAK.TXT  -  Hardware-Features
+XRSRC.OVL     -  Resource-Treiber fÅr 3D-Dialoge
+
+Ansonsten braucht nichts installiert werden, ein Doppelklick auf STARTRAK.PRG
+genÅgt, um das Programm zu starten.
+Nach dem ersten Aufruf sollte man den ›SETUP-Dialog›SETUP.TXT› aufrufen, und einige
+Einstellungen vornehmen, um das Programm eigenen Erfordernissen anzupassen.
+Wichtig ist hierbei, das der Tracker zum einwandfreien Arbeiten nach mindestens
+8 MB freiem RAM verlangt ! Das kann man im ›SETUP-Dialog›SETUP.TXT› einstellen
+(fÅr 8MB : malloc=800000 und max-Feld angekreuzt).
+
+Es gibt eine WWW-Site im Internet mit den neuesten Informationen zu dem
+Projekt und mit der Downloadmîglichkeit der neuesten Version des
+Demoprogramms unter "http://members.aol.com/stepwil/index.html".
+Ich bin auûerdem im Internet Åber stepwil@aol.com und im Mausnet
+Åber Stephan Wilhelm @ K2 zu erreichen.

@@ -1,0 +1,137 @@
+3. 5 1/4-Zoll-Einschub
+----------------------
+Ist ihr Rechner in einem PC-Geh„use (Hades,Medusa oder umgebauter Atari TT)
+eingebaut ? Dann ist fr sie die 5 1/4-Zoll Einbauversion genau richtig.
+Der Einbau ist hier sehr einfach: Einfach in einen freien 5 1/4-Zoll Laufwerkseinschub
+montieren und mit der İHIFI-Anlage oder Mischpult verbindenİPLUGS.TXTİ.
+Wie das genau gemacht wird, werden wir ihnen ausfhrlich zeigen.
+Haben sie die DSP-Erweiterung gleich mitbestellt,dann ist die DSP-Erweiterung
+bereits von uns auf die Startrack-Karte aufgesteckt worden.
+Wollen sie das System nachtr„glich mit der DSP-Karte erweitern dann mu
+diese zuerst auf die Startrack-Karte aufgesteckt werden.
+   
+   DSP-Erweiterung einbauen:
+   Bauen sie also den 5 1/4-Zoll-Einschub mit der Startrack-Karte bei ausgeschaltetem Rechner
+   aus dem Geh„use aus. Vergessen sie bitte nicht, vorher das VME-Kabel abzuziehen.
+   İSteckenİPLUGDSP.IMGİ sie die DSP-Karte nun vorsichtig auf die Startrack-Karte, und zwar
+   mit der Bauteilseite nach unten, die beiden Erweiterungsstecker der DSP-Karte
+   mssen dabei in Richtung der Cinchanschlsse (nicht in Richtung des VME-Steckers!)
+   zeigen. Achten sie dabei unbedingt darauf, das die Steckkontakte der DSP-Karte
+   genau in die dafr vorgesehenen Buchsenkontakte auf der Startrack-Karte passen, und
+   die Kontaktreihen nicht versehentlich verschoben sind ! Drcken sie anschlieend
+   gleichm„ig die beiden Kontaktreihen der DSP-Karte (am „ueren Ende der Platinen)
+   in die Startrack-Buchsenkontakte (Schwitz,die erst Hrde ist genommen).
+   Auf der Frontblende des Einschubs befinden sich zwei Leuchtdioden die noch
+   mit der DSP-Karte verbunden werden mssen. Diese zeigen den Status des DSP an.
+   Hierfr sind am linken Rand der DSP-Karte vier kleine Pins vorhanden. Auf der
+   Platine sind diese mit DEBUG und LOCK bezeichnet. Die rote LED ist fr LOCK
+   und die grne LED fr DEBUG vorgesehen. Die İ4 AnschlsseİLEDS.IMGİ werden nun folgendermaen
+   mit den LEDs verl”tet (von links nach rechts):
+   Die Anode einer LED ist zu erkennen durch den l„ngeren Anschlu und den schmaleren
+   in der LED sichtbaren Anschluteil 
+   Die Kathode einer LED ist zu erkennen durch den krzeren Anschlu und den dickeren
+   in der LED sichtbaren Anschluteil 
+   1.Anschlu mit der Anode der grnen LED verl”ten
+   2.Anschlu mit der Kathode der grnen LED verl”ten
+   3.Anschlu mit der Anode der roten LED verl”ten
+   4.Anschlu mit der Kathode der roten LED verl”ten.
+   Sollte die rote LED im Betrieb nicht leuchten so haben sie die beiden Anschlsse
+   wahrscheinlich vertauscht. Die grne LED leuchtet nur wenn der DSP im Debug-Mode
+   ist, wenn also z.B. das EVM56K-Programm gestartet wurde.
+   Haben sie zwei linke H„nde oder keinen L”tkolben zur Hand, wenden sie sich bitte
+   an ihren H„ndler der dies sicherlich gerne fr sie macht.
+   Haben sie die Startrack-Karte komplett mit der DSP-Erweiterung erworben, so ist
+   diese L”tarbeit natrlich nicht n”tig.
+   
+   Brauchen sie den DSP-Port fr den Anschlu eines Analog8,FA8,Jam-In,Jam-Out,ADAT
+   ,Clockmoduls oder einer anderen DSP-Port-Erweiterung ?
+   Dann sollten sie nun das DSP-Port-Kabel mit der DSP-Karte verbinden:
+   
+   DSP-Port-Kabel anschlieen:
+   Das DSP-Port-Kabel(das dickere) wird mit der DSP-Erweiterung verbunden. Sie sehen auf der
+   DSP-Erweiterung 2 doppelreihige Stecker. Der eine ist 10polig (ONCE-Port), der
+   andere unser 26poliger DSP-Port. Wenn sie auf die İKontakte schauenİDSPCAB.IMGİ (von der
+   Anschluseite mit den Cinchanschlssen aus gesehen) ist der 10polige
+   ONCE-Port links und der 26polige DSP-Port rechts.
+   Nun mssen sie das DSP-Kabel aufstecken, aber bitte richtigrum: Pin 1 des
+   DSP-Port-Steckers ist unten links (von vorne gesehen), Pin 1 des Kabels ist rot
+   und sollte sich nach dem Aufstecken ebenfalls unten links auf dem Stecker befinden.
+   
+   Haben sie einen PC-kompatiblen Rechner, auerdem Ambitionen zur DSP-Programmierung ?
+   Dann sollten sie nun das ONCE-Port-Kabel mit der DSP-Karte verbinden:
+   
+   ONCE-Port-Kabel anschlieen:
+   Das ONCE-Port-Kabel(das dnnere) wird mit der DSP-Erweiterung verbunden. Sie sehen auf der
+   DSP-Erweiterung 2 doppelreihige Stecker. Der eine ist 26polig (DSP-Port), der
+   andere unser 10poliger ONCE-Port. Wenn sie auf die İKontakte schauenİONCECAB.IMGİ (von der
+   Einschub-Frontseite mit den Cinchanschlssen aus gesehen) ist der 10polige
+   ONCE-Port links und der 26polige DSP-Port rechts.
+   Nun mssen sie das ONCE-Kabel aufstecken, aber bitte richtigrum: Pin 1 des
+   ONCE-Port-Steckers ist unten links (von vorne gesehen), Pin 1 des Kabels ist rot
+   und sollte sich nach dem Aufstecken ebenfalls unten links auf dem Stecker befinden.
+
+Einschub-Montage:
+Ziehen sie das VME-Kabel durch den gewnschten Laufwerksschacht nach drauen.
+
+Sollten sie im Besitz eines Hades oder Medusa-Rechners sein und feststellen, da
+ihr VME-Kabel zu kurz ist,so k”nnen sie von uns oder einem H„ndler ihres Vertrauens
+ein Verl„ngerungskabel beziehen. Wir raten davon ab, ein eigenes Verl„ngerungskabel
+zu basteln. Man macht schnell einen Fehler und kann dadurch seinen Rechner oder die
+Startrack-Karte durch eine Unachtsamkeit zerst”ren. Auerdem sind handgel”tete Kabel
+nicht sehr stabil, die Kabel reien schnell ab und die St”rfestigkeit gegen hohe
+Frequenzen die an so einem Bus auftauchen ist nicht gut. Eigene schlechte
+Erfahrungen unter anderem auf der Atari-Messe 1996 in Neuss haben dies belegt.
+Daher benutzen wir ein İspezielles VME-KabelİVMECABL.IMGİ das direkt mit den Steckern per
+Messer-Schneidtechnik (Crimp oder IPC-Technik) verbunden wird. Dieses Kabel ist
+sehr hochwertig und st”runanf„llig - leider sind aber die Stecker und Kabel sehr teuer.
+Es gibt aber keine Alternative dazu. Der TT ist ein Sonderfall, da er eine
+relativ geringe Treiberleistung des VME-Bus besitzt. Daher sollte das Verbindungskabel
+m”glichst kurz sein. Gleiches gilt natrlich auch fr Hades und Medusa - Das Kabel
+sollte m”glichst kurz sein, die L„nge ist hier aber etwas unkritischer.
+
+Die Startrack-Karte sitzt in einem Kunststoffschlitten.
+An dessen Ende kann man die 96polige VME-Buchse des Kabels festschrauben.
+İVerschraubenİVMEMOUNT.IMGİ sie nun die 96polige VME-Buchse des VME-Kabels mit
+dem İKunststoffschlittenİSCHLITTN.IMGİ und verbinden sie die VME-Buchse des
+anderen Kabelendes mit dem VME-Anschlu auf dem Motherboard (bei Hades) bzw. der
+VME-Karte (bei Medusa). Fhren sie nun die İKabelİCABPUSH.IMGİ (VME-Kabel,
+bei vorhandener DSP-Erweiterung zus„tzlich die ONCE- und DSP-Port-Kabel)
+in den Laufwerksschacht des PC-Geh„uses und fhren diese durch die hintere
+™ffnung in das Geh„useinnere. İSchiebenİCARDPUSH.IMGİ sie nun den Einschub nach
+und ziehen dabei gleichzeitig das Kabel weiter durch.
+Bauen sie nun den 5 1/4-Zoll-Einschub in einen İfreien LaufwerkseinschubİCLRSLOT.IMGİ
+des PC-Geh„uses ein. İVerschraubenİSCHRAUB.IMGİ sie den Einschub mit dem PC-Geh„use, so wie
+sie es vom Laufwerkseinbau gewohnt sind.
+ 
+Nun mssen sie noch die Kabel fr ONCE-Port und DSP-Port aus dem Rechnergeh„use
+fhren. Dafr gibt es mehrere M”glichkeiten:
+
+1. Sie k”nnen die Stecker am Kabelende mit einem İSlotblechİBRACKET.IMGİ (sogenannte Brackets)
+   verschrauben, so wie man das von PC-Karten her kennt. Slotbleche hierfr
+   k”nnen von uns bezogen werden. Wenden sie sich an ihren H„ndler.
+
+2. Der DSP-Port-Stecker am Ende des Kabels wird mit dem Frontblech des Einschubs
+   verschraubt. Hierfr ist eine İFestschraubm”glichkeitİSCHRDSP.IMGİ am Einschub vorgesehen.
+   Entfernen sie die Steckerblende am Einschub und schrauben sie den
+   DSP-Port-Stecker fest. Dies ist der krzeste Weg des DSP-Ports zur Auenwelt.
+   Der ONCE-Port-Anschlu wird wie bei L”sung 1 beschrieben mit einem Slotblech
+   verschraubt. Das Kabel hierfr sollte lang genug sein. Es kann aber auch
+   problemlos verl„ngert werden.
+      
+Das Kabel des DSP-Ports ist nicht beliebig verl„ngerbar, die Maximall„nge ist 
+ungef„hr 20cm, da es ansonsten zu St”rungen (Knackser) bei den DSP-Port-Erweiterungen
+kommt. Das ist verst„ndlich wenn man bedenkt, welch hohe Frequenzen das Kabel
+bew„ltigen mu (ber 6 MHz). Dabei kommt es ab einer bestimmten L„nge zwangsl„ufig zu
+nderungen in Timing und Flanken der Signale die eine sichere und st”rfreie
+šbertragung unm”glich machen. Daher sollte dieses Kabel m”glichst kurz sein.
+In einem Desktop-Geh„use oder Minitower ist die Entfernung zwischen Laufwerkseinschub
+und Slotblechen meistens kurz genug fr L”sung 1.
+Bei einem BigTower sieht es da schon anders aus. Dann fhrt nur L”sung 2 zum Ziel. 
+
+Nun mssen sie als letztes noch den İONCE-Port mit dem PC verbindenİONCEPUT.TXTİ, falls sie
+ihn ben”tigen. Wenn nicht sind sie jetzt fertig mit dem Einbau - Glckwunsch !
+
+Sie mssen jetzt nur noch ihre Startrack-Karte mit einer
+İHIFI-Anlage oder Mischpult verbindenİPLUGS.TXTİ und k”nnen dann gleich loslegen.
+Fr die Softwareinstallation lesen sie bitte das entsprechen Kapitel zur
+İSoftwareinstallationİSTARINST.TXTİ durch.

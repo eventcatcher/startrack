@@ -1,0 +1,13 @@
+STARTRACK-INF V2.0
+
+source=|
+comment=|
+loopcount=999
+
+samplerate=8000
+
+partitions=
+partitionmode=false
+
+loopstart1=0
+loopend1=34678

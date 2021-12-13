@@ -1,0 +1,67 @@
+Sample-Window im Editor-Fenster
+-------------------------------
+
+
+Hier werden die Amplitudenverl„ufe der Samples dargestellt.
+Zur besseren Verst„ndnis sollte man das İBILDİCURVE.IMGİ des Sample-Window
+zu Rate ziehen.
+
+
+1) Start-Markerline
+-------------------
+Das ist die Markerlinie fr den Startmarker (Marker-S). Am oberen Ende steht
+der Kennbuchstabe (S,E,I oder R), der den Marker als Start,End,Init oder
+Release-Marker kennzeichnet. Man kann die Marker mit der Maus anfassen und
+an die gewnschte Stelle schieben. Dafr mu man aber mit der Maus sehr
+genau auf die Markerlinien zielen, da der Fangbereich etwa bei plus/minus
+2 Pixel liegt.
+
+2) End-Markerline
+-----------------
+Das ist die Markerlinie fr den Endmarker (Marker-S). Am oberen Ende steht
+der Kennbuchstabe (S,E,I oder R), der den Marker als Start,End,Init oder
+Release-Marker kennzeichnet. Man kann die Marker mit der Maus anfassen und
+an die gewnschte Stelle schieben. Dafr mu man aber mit der Maus sehr
+genau auf die Markerlinien zielen, da der Fangbereich etwa bei plus/minus
+2 Pixel liegt.
+
+Es gibt auerdem noch Marker-I und Marker-R, die hier nicht dargestellt
+sind, aber genauso funktionieren und aussehen.
+
+3) Vertikale Pegelbeschriftung
+------------------------------
+Hier wird der Pegel in Prozent angegeben. Bei der Y-autozoom-Option
+(einstellbar im İSetup-DialogİSETUP.TXTİ) wird die Pegelbeschriftung dem Maximalpegel
+des Samples angepat.
+
+4) horizontal-lines
+-------------------
+Die unterbrochenen Linien dienen dem besseren Absch„tzen bzw. Lesbarkeit
+der Pegelverh„ltnisse. Die Darstellung der horizontal-lines kann im
+İSetup-DialogİSETUP.TXTİ ein- und ausgeschaltet werden.
+
+5) Scroll-Slider
+----------------
+Hiermit kann man den Darstellungsausschnitt des sample-window w„hlen.
+Der Darstellungsbereich wird im İSetbereichİFUNKTION.TXTİ des Editor-Fensters in den
+min/max-Feldern dargestellt.
+
+Weitere Editierm”glichkeiten im sample-window:
+----------------------------------------------
+Es gibt noch eine zus„tzliche M”glichkeit, in das Sample zu zoomem: Mit
+gedrckter Maus- und Shift-Taste kann man im İsample-windowİCURVE.TXTİ ein Gummiband
+aufziehen und den zu zoomenden Bereich ausw„hlen. Dabei wird nicht nur der
+Darstellungsbereich ausgew„hlt, sondern auch der Amplituden-
+Darstellungsbereich. Wenn man z.B.auf der Y-Achse das Sample mit dem
+Gummiband bis zur 40-Prozent-Marke umfat, wird die Amplitude bis zur
+40-Prozent-Marke gezoomt. Man kann wieder aus der Amplitude herauszoomen
+indem man mit gedrckter ALT-Taste ein Gummiband aufzieht und die Maus dann
+losl„t. Der Darstellungsbereich bleibt dabei unver„ndert. Man kann mit der
+Zoomfunktion bis auf ein 1:1 Verh„ltnis und darber hinaus in das Sample
+zoomen. Ab einem Verh„ltnis von 2:1 kann man im Editor die einzelnen
+Samplewerte mit der Maus korrigieren oder eigene Samplewerte einzeichnen.
+Diese Korrekturfunktionen sind derzeit fehlerhaft, werden aber in einer
+neuen Programmversion korrigiert. Auerdem kann man Samplebl”cke per
+Drag&Drop im sample-window kopieren (COPY) und verschieben (MOVE).
+N„here Erl„uterungen hierzu finden sie im Text zum Thema
+İEditor-Fenster/Function-DropdownİEDIT.TXTİ.

@@ -1,0 +1,59 @@
+Das Funktionen-MenÅ
+-------------------
+
+Setup - Hiermit îffnet man den ›Setup-Dialog›SETUP.TXT›
+        Das geht auûerdem auch mit der Tastenkombination CTRL-E.
+
+Fader - Hiermit îffnet man den ›Fader-Dialog›FADE.TXT›
+        Das geht auûerdem auch mit der Tastenkombination CTRL-F.
+
+MIDI-Note - Hiermit îffnet man den ›Midinote-Dialog›MIDI.TXT›
+            Das geht auûerdem auch mit der Tastenkombination CTRL-N.
+
+Datenbank - Hiermit îffnet man den ›Datenbank-Dialog›FSELPAGE.TXT›
+            Das geht auûerdem auch mit der Tastenkombination CTRL-U.
+            
+
+Monitor - Hiermit kommt man in den Monitor
+          Das geht auûerdem auch mit der Tastenkombination CTRL-M.
+          Damit wird eine direkte Kontrolle des Samplingvorgangs vor der Aufnahme
+          ermîglicht. Die Sampledaten werden dafÅr vom Eingang der Soundkarte
+          eingelesen und sofort wieder vom Programm an den Soundkarten-Ausgang
+          ausgegeben. Dabei sollten keine Unterbrechungen oder Stîrungen im
+          Musiksignal auftreten.
+          
+Aufnahme Auto - Damit wird die Aufnahme gestartet. 
+                Das geht auûerdem auch mit der Tastenkombination SHIFT-CTRL-A.
+                Allerdings geht das Programm vorher in Lauerstellung und wartet
+                auf ein Eingangssignal,bevor die Aufnahme startet.
+                Die Hîhe dieses Schwellwerts kann man im ›Setup›SETUP.TXT› einstellen.
+                
+Aufnahme Manuell - Damit wird die Aufnahme gestartet. 
+                   Das geht auûerdem auch mit der Tastenkombination SHIFT-CTRL-R.
+                   
+Wiedergabe - Damit wird die Wiedergabe gestartet.
+             Das geht auûerdem auch mit der Tastenkombination SHIFT-CTRL-P.
+                  
+                  
+DSP-Hosttransfer - Dies ist ein Testmodus fÅr den DSP. Der DSP Åbernimmt dann
+                   alle Aufnahme- und Wiedergabefunktionen. Der Datentransfer
+                   wird hierbei Åber den DSP-Hostport abgewickelt und nicht wie
+                   Åblich Åber die FIFO-Matrix. Dieser Modus ist nur testweise
+                   implementiert und wird in einer zukÅnftigen Version wieder
+                   entfernt. Man kann hiermit jedoch sehr schnell die Funktion
+                   der DSP-Erweiterung testen. HierfÅr ist der Modus auch gedacht.
+                   Sie kînnen den Hosttransfer-Modus auch mit der Tastenkombination
+                   CTRL-H umschalten. Ein Haken an diesem MenÅpunkt zeigt an,
+                   das der Hosttransfer-Modus aktiviert ist.
+ 
+DSP-Effektmix - Dieser Modus ist nur im Tracker bei der Wiedergabe im DSP-mixmode
+                wirksam. Dabei wird eine andere Mischroutine verwendet um die
+                Effektmîglichkeiten des DSP zu zeigen.
+                Dabei wird bei der 8Kanal-Wiedergabe vor dem mischen der KanÑle
+                durch den DSP die KanÑle 1+2 mit einem Echoeffekt versehen.
+                Die KanÑle 3-6 bleiben unverÑndert. Das ganze wird dann auf Kanal
+                7+8 gemischt und ausgegeben. 
+                Sie kînnen den Hosttransfer-Modus auch mit der Tastenkombination
+                CTRL-X umschalten. Ein Haken an diesem MenÅpunkt zeigt an,
+                das der Effektmix-Modus aktiviert ist.
+                

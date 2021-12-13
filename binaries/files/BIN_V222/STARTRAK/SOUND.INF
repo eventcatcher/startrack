@@ -1,0 +1,6 @@
+insrc=analog        #analog,opto,cinch
+outsrc=input        #input,dma,extern
+bitres=normal       #normal,extended
+mode=falcon         #stereo,falcon
+invol=$c0           #adc-amp in hex (0dB=$c0)
+outvol=$c0          #dac-amp in hex (0dB=$c0)

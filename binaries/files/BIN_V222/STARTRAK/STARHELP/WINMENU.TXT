@@ -1,0 +1,42 @@
+Das Fenster-Men
+----------------
+
+Grundeinstellungen - Hiermit ”ffnet man das Fenster fr die İGrundeinstellungenİMAIN.TXTİ
+                     bzw. holt es in den Vordergrund falls es von einem anderen Fenster
+                     verdeckt wird. Das geht auerdem auch mit der
+                     Tastenkombination CTRL-G.
+
+Blockfunktionen - Hiermit ”ffnet man das Fenster fr die İBlockfunktionenİBLKPAGE.TXTİ
+                  bzw. holt es in den Vordergrund falls es von einem anderen Fenster
+                  verdeckt wird. Das geht auerdem auch mit der
+                  Tastenkombination CTRL-B.
+
+Peakmeter - Hiermit ”ffnet man das Fenster fr die İAussteuerung und AufnahmeİPEAK.TXTİ
+            bzw. holt es in den Vordergrund falls es von einem anderen Fenster
+            verdeckt wird. Das geht auerdem auch mit der
+            Tastenkombination CTRL-P.
+
+Arranger - Hiermit ”ffnet man das Fenster fr die İMIDI-AnsteuerungİARRANGE.TXTİ
+           bzw. holt es in den Vordergrund falls es von einem anderen Fenster
+           verdeckt wird. Das geht auerdem auch mit der
+           Tastenkombination CTRL-A.
+           
+Tracker - Hiermit ”ffnet man das Fenster fr die İMehrspurfunktionenİTRAKKER.TXTİ
+          bzw. holt es in den Vordergrund falls es von einem anderen Fenster
+          verdeckt wird. Das geht auerdem auch mit der
+          Tastenkombination CTRL-T.
+
+Loops - Hiermit ”ffnet man das Fenster fr die İLoopfunktionenİLOOP.TXTİ
+        bzw. holt es in den Vordergrund falls es von einem anderen Fenster
+        verdeckt wird. Das geht auerdem auch mit der
+        Tastenkombination CTRL-L.
+                     
+DSP - Hiermit ”ffnet man das Fenster fr die İDSP-FunktionenİDSPPAGE.TXTİ
+      bzw. holt es in den Vordergrund falls es von einem anderen Fenster
+      verdeckt wird. Das geht auerdem auch mit der
+      Tastenkombination CTRL-D.
+                     
+Workmode - Hiermit ”ffnet man das Fenster fr İAufnahme- und WiedergabemodusİWORKMOD.TXTİ
+           bzw. holt es in den Vordergrund falls es von einem anderen Fenster
+           verdeckt wird. Das geht auerdem auch mit der
+           Tastenkombination CTRL-W.

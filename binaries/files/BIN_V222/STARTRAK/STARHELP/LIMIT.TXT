@@ -1,0 +1,41 @@
+Limits-Bereich im Editor-Fenster
+--------------------------------
+
+
+HierÅber kann man bestimmte Einstellungen vornehmen, die die Wiedergabe und
+Aufnahme betreffen. Zur besseren VerstÑndnis sollte man das
+›BILD›LIMIT.IMG› des Limits-Bereichs zu Rate ziehen.
+
+
+1) Loop
+-------
+Ist der Loop-Button selektiert, wird bei Wiedergabe der Bereich zwischen
+Marker-S und Marker-E (wenn Block-Button selektiert) oder der ganze Bereich
+(wenn Block-Button deselektiert) endlos wiederholt, bis man auf die
+STOP-Taste (im ›Steuerungsbereich›ESOUND.TXT›) drÅckt.
+
+2) Block
+--------
+Ist der Block-Button selektiert, wird bei Wiedergabe nur der Bereich
+zwischen Marker-S und Marker-E abgespielt. Bei Aufnahme beginnt die
+Aufnahme bei Marker-S und endet bei Marker-E. Ist der Block-Button
+deselektiert, wird bei Wiedergabe der ganze Bereich abgespielt bzw. bei
+Aufnahme der ganze Bereich Åberschrieben.
+
+3) Midi
+-------
+Ist der Midi-Button selektiert, wird die Wiedergabe Åber ein MIDI-Keyboard
+gesteuert. Den Kanal und die Midi-Note kann man im ›Midi-Dialog›MIDI.TXT›
+(in der ›Button-Toolbar›EBUTTONS.TXT›) einstellen.
+
+4) playview
+-----------
+DrÅckt man auf den playview-Button wird der im Sample-Window sichtbare
+Bereich abgespielt. Das ist praktisch, um beim Zoomen nach einem
+bestimmten Abschnitt zu suchen.
+
+5) Record-Time
+--------------
+Hier wird die voreingestellte Aufnahmezeit angezeigt. Diese kann man im
+›Setup-Dialog›SETUP.TXT› (in der ›Button-Toolbar›EBUTTONS.TXT›) oder im ›Record-Dialog›RECORD.TXT› bei
+Aufnahmestart angeben.
