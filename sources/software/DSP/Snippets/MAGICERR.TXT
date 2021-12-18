@@ -1,0 +1,14 @@
+lblE05536:     
+               btst.b     #TXDE,dsp_irstat
+               beq.s      lblE05536
+               movea.l    8(a0),a2      ;sendblocks
+               subq.w     #1,d0
+
+nxt_sendblk:   
+               move.w     (a2)+,d1      ;blocktype
+               move.l     (a2)+,d2      ;blocksize
+               subq.l     #1,d2
+               movea.l    (a2)+,a1      ;blockaddr
+               tst.w      d1            ;blocktype == LONG?
+               beq        lblE05570
+

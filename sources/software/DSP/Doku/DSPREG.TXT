@@ -1,0 +1,252 @@
+CRA-Register
+------------
+
+Bits 0-7      Vorteiler Clock-Generator PM0-7
+              -unwichtig daher bei mir 0
+
+Bits 8-12     FrameRate Teiler DC0-4
+              Wird benutzt um Frame-Clocks zu generieren
+              Im Netzwerk-Mode wird es interpretiert als Anzahl der Wîrter per Frame minus 1
+              Im Normal-Mode bestimmt der Quotient die Wort-Transfer-Rate
+              Das TeilungsverhÑltnis kann reichen von 1-32 (0-&B11111) im normal-mode
+              und 2-32(0-&B11111) im network-mode.
+              was denn ? 0 ?
+ 
+Bits 13-14    WortlÑnge WL0-2, nur 16Bit interessant
+              -daher bei mir &B10 !
+
+Bit  15       Vorteiler-Bereich PSR
+              kontrolliert einen festen Vorteiler durch 8
+              osc/4/Vorteiler/Clock-Generator
+              -unwichtig bei mir daher 0
+
+
+entspricht also &H4000
+-----------------------------------------------------------------------------------------------
+
+
+
+CRB-Register
+------------
+
+Bit  0        Serial Output Flag 0 OF0
+              Wird benîtigt um diesen Wert an SC0 auszugeben am Anfang des Frames oder am Anfang des nÑchsten Timeslot
+              Ausgang nur wenn SCD0 gesetzt ist
+              -sollte bei mir 0 sein !
+
+Bit  1        Serial Output Flag 1 OF1
+              Wird benîtigt um diesen Wert an SC1 auszugeben am Anfang des Frames oder am Anfang des nÑchsten Timeslot
+              Ausgang nur wenn SCD1 gesetzt ist
+              -sollte bei mir 0 sein !
+               
+Bit  2        Serial Control 0 Direction SCD0
+              Legt die Richtung der SC0-Leitung fest, gelîscht ist Input, gesetzt ist output
+              -sollte bei mir 0 sein !
+
+Bit  3        Serial Control 1 Direction SCD1
+              Legt die Richtung der SC1-Leitung fest, gelîscht ist Input, gesetzt ist output
+              -sollte bei mir 0 sein !
+
+Bit  4        Serial Control 2 Direction SCD2
+              Legt die Richtung der SC2-Leitung fest, gelîscht ist Input, gesetzt ist output
+              -sollte bei mir 0 sein !
+
+Bit  5        Clock Source Direction SCKD
+              wÑhlt die Quelle des Clock-Signals das benutzt wird, um das Sende-Shiftregister zu takten
+              im asynchron-Modus oder Sende und Empfangsregister zu takten im Synchron-Modus
+              Wenn es gesetzt ist, wird der interne Takt genutzt und wird am SCK-Pin ausgegeben.
+              Wenn es gelîscht ist, ist die Taktquelle extern und die externe Taktquelle treibt diesen Pin.
+              -sollte also bei mir 0 sein !
+
+Bit  6        Shift Direction SHFD
+              wenn gelîscht, werden die Sendedaten zuerst mit dem MSB gesendet und die Empfangsdaten
+              zuerst mit dem MSB eingeshiftet
+              wenn gesetzt, werden die Sendedaten zuerst mit dem LSB gesendet und die Empfangsdaten
+              zuerst mit dem LSB eingeshiftet
+              - sollte bei mir 0 sein !
+
+Bits 7-8      Frame Sync Length FSL0 and FSL1
+              Diese Bits wÑhlen den Typ des FrameSync der erzeugt oder erkannt werden soll
+              Bei 00 wird eine Wort-LÑngen-Synchronisation fÅr Senden und Empfang gewÑhlt, die der LÑnge
+              des Datenwortes entspricht die von WL1 und WL0 definiert wurden.
+              Bei 10 wird eine 1Bit-Clock-Perioden-Synchronisation fÅr Senden und Empfang gewÑhlt.
+              Bei 01 und 11 werden unterschiedliche Sync-LÑngen fÅr Senden und Empfang eingestellt.
+              Bei 01 gilt 1Bit-Clock fÅr Senden und WortlÑnge fÅr Empfang
+              Bei 11 gilt WortlÑnge fÅr Senden und 1Bit-Clock fÅr Empfang
+              sollte bei mir 00 sein !
+
+Bit  9        Sync/Async SYN
+              wenn gelîscht,asynchron-mode ist gewÑhlt und Separate Takt und FrameSync-Signale werden fÅr
+              Empfang und Senden gewÑhlt
+              wenn gesetzt,synchron-mode ist gewÑhlt und Empfangs und Sendeteile verwenden gemeinsame Takt und FrameSync-Signale
+              -sollte bei mir 1 sein !
+
+Bit  10       Gated Clock Control GCK
+              wird benutzt um zu unterscheiden zwischen dauernd laufendem Takt und einem Takt der nur lÑuft wenn Daten ins
+              Senderegister geschrieben werden.
+              wenn gelîscht wird ein dauernder Takt gewÑhlt
+              wenn gesetzt wird der Takt nur ausgegeben wenn Daten gesendet werden.
+              Achtung! FÅr GatedClockMode mit extern generiertem Takt ist ein intern generierter FramSync nicht definiert.
+              -sollte bei mir 0 sein !
+
+Bit  11       SSI Mode Select MOD
+              wenn gelîscht ist der Normal-Mode aktiviert. Der Frameraten-Teiler bestimmt die Wort-Transfer-Rate
+              Ein Wort wird gesendet per FrameSync wÑhrend des FrameSync Timeslot
+              wenn gesetzt ist der Network-Mode aktiviert. Ein Wort wird (wenn mîglich) gesendet jeden Timeslot
+              -sollte bei mir 0 sein !
+
+Bit  12       SSI Transmit enable
+              -sollte bei mir 1 sein
+
+Bit  13       SSI Receive enable
+              -sollte bei mir 1 sein
+
+Bit  14       SSI Transmit interrupt enable
+              -sollte bei mir 1 sein
+
+Bit  15       SSI Receive interrupt enable
+              -sollte bei mir 1 sein
+
+entspricht also &HF200
+---------------------------------------------------------------------------------------------------------------------------------
+
+
+PCC Port C Control-Register
+
+Bit   0-8     CC0-CC8
+              Jeder der Pins PC0-PC8 kann individuell programmiert werden als ein I/O-Pin oder als On-Chip-Peripherie-Pin unter
+              Software-Kontrolle. Pin-Auswahl zwischen I/O und SCI oder SSI durch diese Bits CC0-CC8.
+              wenn gelîscht dann gebraucht fÅr I/O
+              wenn gesetzt dann gebraucht fÅr serial-Interface
+
+
+PC8 - STD
+PC7 - SRD	PC6 - SCK	PC5 - SC2	PC4 - SC1
+PC3 - SC0	PC2 - SCLK	PC1 - TXD	PC0 - RXD
+
+sollte &HFFE1 oder &HFFE8 sein !
+---------------------------------------------------------------------------------------------------------------------------------
+
+
+PCDDR  0-8    CD0-CD8
+              Jeder der Pins PC0-PC8 kann hiermit programmiert werden als Ein oder Ausgang
+              wenn gelîscht dann input
+              wenn gesetzt dann output
+
+sollte also &H000 sein !
+---------------------------------------------------------------------------------------------------------------------------------
+
+PCD    0-8    PC0-PC8
+              Wenn ein Pin als I/O-Eingang (CCx und CDx gelîscht) konfiguriert wurde und der Prozessor liest das PCD-Register,
+              dann sieht der Prozessor den Logik-Level dieses Pins.
+              Wenn der Prozessor in dieses Register schreibt, wird der Wert zwar gespeichert aber der Pin-Ausgang wird dadurch
+              nicht gesetzt.
+              Wenn ein Pin als I/O-Ausgang (CCx gelîscht, CDx gesetzt) konfiguriert wurde und der Prozessor liest das PCD-Register
+              der Prozessor sieht den Inhalt des PCD unabhÑngig vom Logik-Level des Pins.
+              Das Bit wird quasi als Output-Register miûbraucht. Wenn der Prozessor in das Register schreibt werden die Daten
+              im Register gespeichert und erscheinen am Pin auf den nÑchsten Instruktionszyklus.
+              Ist ein Pin als SCI oder SSI-Pin konfiguriert (CCx gesetzt) und als Eingang konfiguriert (CDx gelîscht), der PCD
+              zeigt den Logik-Level dieses Pins unabhÑngig davon, ob die Funktion dieses Pins fÅr das Serial-Interface als
+              Ein-oder Ausgang gebraucht wird. Ist er dagegen als Ausgang definiert (CDx gesetzt) und man liest den PCD aus ,
+              sieht man den Inhalt des PCD unabhÑngig vom Logik-Level des Pins. Eine weitere Mîglichkeit welche den PCD als
+              I/O gebraucht.
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+STD           Serial Transmit Data Pin
+              Daten wechseln an der positiven Flanke des Taktes.
+              STD geht auf Tristate an der negativen Flanke des Taktes des letzten Datenbit des Wortes,egal in welchem Modus.
+              STD kann man als I/O-Pin programmieren (PC8), falls er nicht als SSI-STD-Pin benutzt wird.
+
+SRD           Serial Receive Data Pin
+              Empfangsdaten. SRD kann man als I/O-Pin programmieren (PC7), falls er nicht als SSI-SRD-Pin benutzt wird.
+              Die Daten werden gespeichert bei der fallenden Flanke des Taktes.
+
+SCK           Serial Clock
+              Dieser Pin ist der Takt fÅr Empfang und Senden im Synchron-Modus oder fÅr den Sender im Asynchron-Modus
+              Obwohl ein externer Takt unabhÑngig und asynchron sein kann zum DSP-Systemtakt, muû er mindestens 
+              die minimale Taktzyklus-Zeit *8 betragen (merke, der Systemtakt muû sein wenigstens 4mal so hoch sein wie der
+              externe SSI-Takt).
+
+SC0           Serial Control-Pin 0
+              Die Funktion dieses Pins ist abhÑngig von der Wahl des Synchron oder Asynchron-Modus.
+              Im Asynchron-Modus wird dieser Pin als Empfangstakt gebraucht.
+              Im Synchron-Modus wird dieser Pin als Serial-Flag I/O benutzt. Die Richtung dieses Pins wird Åber SCD0 festgelegt.
+              Wenn er als Ausgang konfiguriert wurde, wird dieser Pin als Serial-Output-Flag 0
+              basierend auf Control-Bit OF0 im CRB genutzt. Oder er wird als EmpfÑnger des Shiftregister-Takt-Ausgang genutzt.
+              Wenn er als Eingang konfiguriert wurde, wird dieser Pin entweder als Serial-Input-Flag 0, welches durch das
+              Control-Status-Bit IF0 im SSISR bestimmt wird, oder als Empfangs Shiftregister Takteingang genutzt.
+
+SC1           Serial Control-Pin 1
+              Die Funktion dieses Pins ist abhÑngig von der Wahl des Synchron oder Asynchron-Modus.
+              Im Asynchron-Modus wird dieser Pin als EmpfÑnger des Frame-Sync I/O gebraucht.
+              Im Synchron-Modus wird dieser Pin als Serial-Flag I/O SC1 benutzt. Die Richtung dieses Pins wird Åber SCD1
+              festgelegt. Wenn er als Ausgang konfiguriert wurde, wird dieser Pin als Serial-Output-Flag 1
+              basierend auf Control-Bit OF1 im CRB genutzt. Oder er wird als EmpfÑnger des FrameSync genutzt.
+              Wenn er als Eingang konfiguriert wurde, wird dieser Pin entweder als Serial-Input-Flag 1, welches durch das
+              Control-Status-Bit IF1 im SSISR bestimmt wird, oder als EmpfÑnger des externen FrameSync im continuous-clock-mode
+              genutzt. Im gated-clock-mode wird ein externes FrameSync-Signal nicht benutzt.
+
+SC2           Serial Control-Pin 2
+              Dieser Pin wird fÅr FrameSync I/O benutzt.
+              Im Asynchron-Modus wird dieser Pin nur fÅr den Sender als Frame-Sync gebraucht.
+              Im Synchron-Modus wird dieser Pin als FrameSync fÅr EmpfÑnger und Sender benutzt.
+              Die Richtung dieses Pins wird Åber SCD2 im CRB festgelegt.
+              Wenn er als Ausgang konfiguriert wurde, wird dieser Pin vom intern generierten FrameSync-Signal angesteuert.
+              Wenn er als Eingang konfiguriert wurde, wird dieser Pin als EmpfÑnger des externen FrameSync fÅr den Sender
+              (und fÅr den EmpfÑmger inm Synchron-Modus) benutzt. Im gated-clock-mode wird ein externes FrameSync-Signal
+              nicht benutzt.
+
+---------------------------------------------------------------------------------------------------------------------------------
+              
+
+SSISR Serial Input Flag
+
+Bit   0       Serial Input Flag 0 IF0
+              Die SSI speichert die Daten von Pin SC0 wÑhrend dem Empfang des ersten empfangenen Bit nach der FrameSync-Erkennung
+              IF0 wird erneuert mit den Daten wenn das Empfangs-Shiftregister wird Åbertragen in das Empfangs-Datenregister.
+              Das IF0-Bit ist nur enabled wenn SCD0 gelîscht ist und SYN gesetzt ist, was bedeutet das SC0 ein Eingang ist und
+              der Synchronmode gewÑhlt ist. Ansonsten wird eine 0 gelesen.
+              -sollte bei mit das Links/Rechts-Signal sein
+
+Bit   1       Serial Input Flag 1 IF1
+              Die SSI speichert die Daten von Pin SC1 wÑhrend dem Empfang des ersten empfangenen Bit nach der FrameSync-Erkennung
+              IF1 wird erneuert mit den Daten wenn das Empfangs-Shiftregister wird Åbertragen in das Empfangs-Datenregister.
+              Das IF1-Bit ist nur enabled wenn SCD1 gelîscht ist und SYN gesetzt ist, was bedeutet das SC1 ein Eingang ist und
+              der Synchronmode gewÑhlt ist. Ansonsten wird eine 0 gelesen.
+              -wird bei mir nicht genutzt
+
+Bit   2       Transmit Frame Sync Flag TFS
+              wenn gesetzt zeigt es an, das ein Sende Frame-Sync im laufenden Timeslot vorgekommen ist
+              TFS wird gesetzt am Anfang des ersten Timeslot im Frame und wird gelîscht wÑhrend aller anderen Timeslots.
+              Wenn Wortweite Sende-FrameSync gewÑhlt wurde (FSL0=FSL1 also 00 oder 11) zeigt es an, das der FrameSync
+              High war wenigstens am Anfang des Timeslot wenn externe FrameSync ausgewÑhlt wurde, oder high
+              die ganze Zeit wÑhrend des Timeslot Åber wenn interne FrameSync ausgewÑhlt wurde.
+              Wenn Bitweite Sende-FrameSync gewÑhlt wurde (FSL0#FSL1 also 01 oder 10) zeigt es an,das 
+              der FrameSync (entweder intern oder extern) wurde high wÑhrend der letzten Sendetakt-Periode
+              vor dem laufenden Timeslot und das die fallende Flanke des FrameSync entsprechen zu der Feststellung des ersten
+              Ausgangs-Datenbit.
+              Daten die geschrieben werden in das Senderegister wÑhrend des Timeslot wenn TFS gesetzt ist, werden gesendet
+              (im Network-Mode) wÑhrend des tzweiten Timeslot im Frame.
+              TFS ist sehr nÅtzlich im Network-Mode zum Identifizieren des Frame-Starts
+              Achtung: Im Normal-Mode, TFS wird immer als 1 gelesen wenn Daten gesendet werden, weil es nur einen Timeslot
+              per Frame - den "Frame-Sync" Timeslot gibt.
+              -sollte bei mir immer 1 sein
+
+Bit    3      Receive Frame Sync Flag RFS
+              wenn gesetzt zeigt es an, das ein empfangenes Frame-Sync vorgekommem ist wÑhrend dem Empfang des Wortes im
+              Serial Empfang-Datenregister. Das zeigt an, das es das Datenwort vom ersten Timeslot im Frame ist.
+              Wenn Wortweise Empfangs-Framesync gewÑhlt wurde (FSL1=0), zeigt es an das der Frame-Sync war high am
+              Anfang des Timeslot.
+              Wenn Bitweite Empfangs-Framesync gewÑhlt wurde, zeigt es an das der FrameSync (entweder intern oder extern) wurde
+              high, wÑhrend der letzten Bit-Periode vor dem laufenden Timeslot, und das die fallende Flanke des FrameSync
+              entsprechen zu der Feststellung des ersten Ausgangs-Datenbit.
+              Wenn RFS gelîscht ist und ein Wort empfangen wurde, zeigt es an (nur im Network-Mode) das der FrameSync nicht
+              vorgekommen ist wÑhrend dem Empfang des Wortes.
+              RFS ist nÅtzlich im Network-Mode zum identifizieren des Frame-Starts.
+              Achtung: Im Normal-Mode wird RFS immer als 1 gelesen wenn Daten gelesen werden weil es nur einen Time-Slot per Frame
+              gibt, den "Frame-Sync" Timeslot.
+              -sollte bei mir immer 1 sein
+
+----------------------------------------------------------------------------------------------------------------------------------
+

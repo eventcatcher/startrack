@@ -1,0 +1,243 @@
+Motorola DSP56000 Assembler  Version 5.3.2   95-06-23  17:41:48  sloader3.asm
+  Page 1
+
+
+
+1                        ;       HI-Lader fÅr den DSP56001.
+2                        ;
+3                        ;       Dieser Lader initialisiert das host interface (
+HI)
+4                        ;       des DSP56001 und lÑdt dann LOD-Dateien
+5                        ;       in den internen Speicher.  Der Lader nutzt die 
+oberen
+6                        ;       128 Bytes des P-Speichers und lÑdt den unteren 
+Speicher von
+7                        ;       $0000-(LDRMEM-1) mit dem LOD-Programm .  Die fo
+lgenden Labels werden
+8                        ;       erkannt:
+9                        ;           _DATA X ADDR
+10                       ;           _DATA Y ADDR
+11                       ;           _DATA P ADDR
+12                       ;           _END ADDR
+13                       ;       Wenn das END-Label erkannt wurde, springt der L
+ader zu der Adresse
+14                       ;       im END-Label.  Nehme zur Kenntnis das eine Adre
+sse im END-Label
+15                       ;       enthalten sein mu· ! (Das Programm mu· wenigste
+ns ein P-Segment
+16                       ;       enthalten
+17                       ;
+18                       ;       Der Lader lÑdt die folgenden SpeicherrÑume:
+19                       ;           X - 0 bis FF
+20                       ;           Y - 0 bis FF
+21                       ;           P - 0 bis LDRMEM-1
+22                       ;
+23     
+24        00FFE9         HSR       equ     $FFE9                             ;Ho
+st status register
+25        00FFEB         HRX       equ     $FFEB                             ;Ho
+st receive register
+26        00FFE0         PBC       equ     $FFE0                             ;po
+rt B control
+27        00FFE2         PBDDR     equ     $FFE2                             ;po
+rt B data direction
+28        00FFE4         PBD       equ     $FFE4                             ;po
+rt B data
+29        00FFFE         BCR       equ     $FFFE                             ;po
+rt a bus control reg
+30        0001AB         LDRMEM    EQU     $1AB                              ;ST
+ART OF LOADER IN P MEMORY
+31     
+32        P:0000                   ORG     P:$0000                           ;RE
+SET VECTOR FOR BOOTING
+33                       RVEC
+34        P:0000 0C01AB            JMP     <LOAD                             ;GO
+ EXECUTE LOADER
+35     
+36        P:01AB                   ORG     P:LDRMEM
+37                       LOAD
+38        P:01AB 08F4A0            movep             #1,x:PBC                ;po
+rt B: Host interface
+                 000001
+39        P:01AD 08F4A0            movep             #1,x:PBC                ;po
+rt B: Host interface
+                 000001
+40        P:01AF 08F4BE            movep             #$2222,x:BCR            ;no
+ wait states: 0 for RAM, 0 for ROM and I/O
+Motorola DSP56000 Assembler  Version 5.3.2   95-06-23  17:41:48  sloader3.asm
+  Page 2
+
+
+
+                 002222
+41                       WTUS
+42        P:01B1 0D01D9            JSR     <GETCH                            ;IN
+PUT CHARACTER
+43        P:01B2 245F00            MOVE              #'_',X0                 ;GE
+T UNDERSCORE CHARACTER
+44        P:01B3 200045            CMP     X0,A                              ;SE
+E IF "_" YET
+45        P:01B4 0E21B1            JNE     <WTUS                             ;NO
+46                       GOTUS
+47        P:01B5 0D01D9            JSR     <GETCH                            ;GE
+T A CHARACTER
+48        P:01B6 244400            MOVE              #'D',X0                 ;GE
+T A D FOR DATA
+49        P:01B7 244545            CMP     X0,A      #'E',X0                 ;CO
+MPARE TO D, GET E
+50        P:01B8 0EA1C3            JEQ     <DATAREC                          ;IF
+ "D", THEN DATA RECORD
+51        P:01B9 200045            CMP     X0,A                              ;SE
+E IF END RECORD
+52        P:01BA 0E21B1            JNE     <WTUS                             ;NO
+, GO WAIT FOR ANOTHER UNDERSCORE
+53                       _WTSPC
+54        P:01BB 0D01D9            JSR     <GETCH                            ;GE
+T CHARACTER
+55        P:01BC 242000            MOVE              #$20,X0                 ;GE
+T SPACE
+56        P:01BD 200045            CMP     X0,A                              ;WA
+IT FOR SPACE AFTER "END"
+57        P:01BE 0E21BB            JNE     <_WTSPC                           ;WA
+IT FOR SPACE
+58        P:01BF 0D01E4            JSR     <IN4                              ;GE
+T TRANSFER ADDRESS
+59        P:01C0 21B000            MOVE              B1,R0                   ;MO
+VE TRANSFER ADDRESS
+60        P:01C1 000000            NOP                                       ;CL
+EAR ADDRESS PIPE
+61        P:01C2 0AE080            JMP     (R0)                              ;GO
+ EXECUTE USER CODE
+62                       DATAREC
+63        P:01C3 0D01D9            JSR     <GETCH                            ;GE
+T CHARACTER
+64        P:01C4 242000            MOVE              #$20,X0                 ;GE
+T SPACE
+65        P:01C5 200045            CMP     X0,A                              ;SE
+E IF SPACE
+66        P:01C6 0E21C3            JNE     <DATAREC                          ;NO
+67        P:01C7 0D01D9            JSR     <GETCH                            ;GE
+T [P,X,Y]
+68        P:01C8 218600            MOVE              A1,Y0                   ;SA
+VE CHARACTER
+69        P:01C9 0D01E4            JSR     <IN4                              ;GE
+T ADDRESS OF DATA RECORD
+70        P:01CA 21B000            MOVE              B1,R0                   ;SA
+VE ADDRESS
+71        P:01CB 2E5800            MOVE              #'X',A                  ;GE
+T X
+72        P:01CC 2E5955            CMP     Y0,A      #'Y',A                  ;SE
+E IF X, GET Y
+73        P:01CD 0EA1D3            JEQ     <_LDX                             ;LO
+AD DATA INTO X MEMORY
+Motorola DSP56000 Assembler  Version 5.3.2   95-06-23  17:41:48  sloader3.asm
+  Page 3
+
+
+
+74        P:01CE 200055            CMP     Y0,A                              ;SE
+E IF Y
+75        P:01CF 0EA1D6            JEQ     <_LDY                             ;LO
+AD DATA INTO Y MEMORY
+76                       _LDP
+77        P:01D0 0D01E7            JSR     <IN6                              ;GE
+T DATA
+78        P:01D1 07588D            MOVEM             B1,P:(R0)+              ;LO
+AD P MEMORY
+79        P:01D2 0C01D0            JMP     <_LDP
+80                       _LDX
+81        P:01D3 0D01E7            JSR     <IN6                              ;GE
+T DATA
+82        P:01D4 555800            MOVE              B1,X:(R0)+              ;LO
+AD X MEMORY
+83        P:01D5 0C01D3            JMP     <_LDX
+84                       _LDY
+85        P:01D6 0D01E7            JSR     <IN6                              ;GE
+T DATA
+86        P:01D7 5D5800            MOVE                          B1,Y:(R0)+  ;LO
+AD Y MEMORY
+87        P:01D8 0C01D6            JMP     <_LDY
+88     
+89                       GETCH
+90        P:01D9 0AA980            JCLR    #0,X:HSR,*                        ;wa
+it for data from HI
+                 0001D9
+91        P:01DB 000000            nop
+92        P:01DC 000000            nop
+93        P:01DD 084E2B            MOVEP             X:HRX,A                 ;GE
+T HI DATA BYTE
+94        P:01DE 000000            nop
+95        P:01DF 000000            nop
+96        P:01E0 200033            LSL     A                                 ;SH
+IFT OUT PARITY
+97        P:01E1 200023            LSR     A                                 ;cl
+ear parity bit
+98        P:01E2 218E00            MOVE              A1,A                    ;SI
+GN EXTEND AND ZERO
+99        P:01E3 00000C            RTS
+100                      IN4
+101       P:01E4 44F41B            CLR     B         #>4,X0                  ;CL
+EAR VALUE, GET 4
+                 000004
+102       P:01E6 0C01E9            JMP     <READHEX                          ;RE
+AD 4 HEX CHARACTERS
+103                      IN6
+104       P:01E7 44F41B            CLR     B         #>6,X0                  ;CL
+EAR VALUE, GET 6
+                 000006
+105                      READHEX
+106       P:01E9 06C400            DO      X0,_READHEX                       ;RE
+AD ASCII HEX AND CONVERT TO BINARY
+                 0001FE
+107                      _GET
+108       P:01EB 0D01D9            JSR     <GETCH                            ;GE
+T A CHARACTER
+109       P:01EC 245F00            MOVE              #'_',X0                 ;GE
+T UNDERSCORE
+110       P:01ED 244645            CMP     X0,A      #'F',X0                 ;SE
+E IF UNDERSCORE
+Motorola DSP56000 Assembler  Version 5.3.2   95-06-23  17:41:48  sloader3.asm
+  Page 4
+
+
+
+111       P:01EE 0E21F2            JNE     <_NOTUS                           ;NO
+112       P:01EF 00008C            ENDDO                                     ;EX
+IT LOOP
+113       P:01F0 0444BC            MOVEC             SSH,X0                  ;PO
+P RETURN ADDRESS
+114       P:01F1 0C01B5            JMP     <GOTUS                            ;GO
+ PROCESS NEW INPUT RECORD
+115                      _NOTUS
+116       P:01F2 243045            CMP     X0,A      #'0',X0                 ;SE
+E IF GREATER THAN F
+117       P:01F3 0E71EB            JGT     <_GET                             ;YE
+S, IGNORE
+118       P:01F4 200045            CMP     X0,A                              ;SE
+E IF LESS THAN 0
+119       P:01F5 0E91EB            JLT     <_GET                             ;YE
+S, IGNORE
+120       P:01F6 240A44            SUB     X0,A      #10,X0                  ;AD
+JUST FOR ASCII TO BINARY
+121       P:01F7 240745            CMP     X0,A      #7,X0                   ;SE
+E IF A-F
+122       P:01F8 0E91FA            JLT     <_NOTALPHA                        ;NO
+123       P:01F9 200044            SUB     X0,A                              ;AD
+JUST FOR 1-F
+124                      _NOTALPHA
+125       P:01FA 0604A0            REP     #4                                ;SH
+IFT OLD VALUE LEFT 1 NIBBLE
+126       P:01FB 20003B            LSL     B
+127       P:01FC 0610A0            REP     #16                               ;SH
+IFT NEW NIBBLE DOWN TO LSB
+128       P:01FD 200023            LSR     A
+129       P:01FE 200018            ADD     A,B                               ;AD
+D NEW NIBBLE IN
+130                      _READHEX
+131       P:01FF 00000C            RTS
+132                                END
+
+0    Errors
+0    Warnings
+
+

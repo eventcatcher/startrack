@@ -1,0 +1,184 @@
+            ******************************************
+            *      Programs for Motorola DSPs        *
+            ******************************************
+
+
+56116equ.arc     3603 Mar- 94    i/o equates fuer den dsp56116
+
+56116um.arc     17987 Mar- 94    saemtliche beispielprogramme aus dem
+                                 anhang b des dsp56116 user manuals
+
+56kads.arc       1745 Mar- 94    jedec files fuer den pal auf dem 56kads
+                                 (fuer 8k und 32k ram bestueckung)
+
+96kgraf.arc      1600 Mar- 94    berechnung der julia menge auf dem 96002
+
+96khost.arc      6226 Mar- 94    beispiel einer master/slave kopplung
+                                 zweier dsp96002
+
+admcc.p         19592 Mar- 94    neueste monitorversion fuer den command-
+                                 converter (eprom - s-record)  sept. 93
+
+adpcm.arc       70489 Mar- 94    adpcm (g.721) fuer den dsp56001
+
+adpcm16.arc     37571 Mar- 94    adpcm (g.721) algorithmus fuer den
+                                 dsp56116 (noch nicht optimiert)
+
+benchmrk.arc   125590 Mar- 94    saemtliche benchmark sources aus dem
+                                 dsp96002 usermanual (anhang)
+
+binaural.exe   130240 May 11 95  Programm fuer das DSP56002EVM
+                                 zur Vermeidung der Im-Kopf-Lokalisation
+
+boot.art         6912 Mar- 94    beschreibung zu boot.asm
+
+boot.txt         2432 Mar- 94    beispiel fuer die erzeugung eines boot-
+                                 faehigen eproms
+
+cc.jed           2924 Mar- 94    neueste monitorversion fuer den command-
+                                 converter (pal - jedec file)   sept 93
+
+chorus.arc       5274 Mar- 94    programm zur erzeugung eines stereo-
+                                 chorus fuer den dsp56001/2
+
+cldlod.sea      32128 Mar- 94    korrigierte cldlod utility fuer die mac
+                                 version clasb (self extracting macbin)
+
+convert.exe     35858 Apr- 94    Konverter zur Umsetzung von DSP56004
+                                 s-Records in MCU-Datendeklarationen (DOS binary)
+                                 konfigurierbar fuer alle gaengigen MCUs
+
+convert.cfg        22 Apr- 94    zugehoeriges Konfigurationsfile (TEXT)
+
+convert.mac     25984 Apr- 94    Macintosh Version (MacBinary)
+
+convert.man      2213 Feb  9 95  Bedienungsanleitung fuer convert-Programm
+                                 (Textfile)
+
+cosine.asm       2044 Mar- 94    cosinus generator fuer den dsp5600x
+
+cosine.txt       1919 Mar- 94    cosinuserzeugung fuer den dsp5600x
+
+cosinedp.asm     3326 Mar- 94    cosinus generator unter verwendung des
+                                 double-precision modes des dsp56002
+
+dmac.asm         2881 Mar- 94    mac unter verwendung des double-precisio
+                                 modus des dsp56002
+
+dsp56asm.exe   239316 Apr- 94    Public Domain DSP56001 Assembler (DOS + WIN)
+                                 Documentation in german
+                                 Object format not compatible to Motorola Tools
+
+dspbug.arc     165227 Mar- 94    debugmonitor (asm) fuer dsp56001 zum
+                                 betrieb ueber terminal via sci / host
+
+dtmf.arc        28806 Mar- 94    dtmf dekoder fuer dsp56001
+                                 (bandfilteransatz / goertzel dekoder)
+
+durbin.arc       4041 Mar- 94    berechnet lpc koeffizienten in fliessk.
+                                 (benoetigt fliesskommabibliothek float)
+
+durbinf.arc      5098 Mar- 94    berechnung von lpc koeffizienten in
+                                 festkomma fuer den dsp56001
+
+encoder.arc      9209 Mar- 94    reed-solomon encoder fuer den dsp56001
+                                 (aehnlich compact disk encoder)
+
+equaliz.arc      6910 Mar- 94    stereo equalizer fuer den dsp56001
+                                 aus apr 2/d     - archive format
+
+equates.arc      6979 Mar- 94    i/o equates fuer den dsp56001
+
+EVM22.EXE      530671 Apr 20 95  neueste (2.1) Version der
+                                 DSP56002EVM Software
+
+fft156.txt      12656 Aug- 94    fft routinen fuer den dsp561xx
+
+fft96002.arc     7674 Mar- 94    fft routinen fuer den dsp96002
+
+ffts.arc        58701 Mar- 94    fast fourier transformationen (dsp56001)
+                                 incl. hilfsroutinen / -makros
+
+filter.arc      24771 Mar- 94    iir und fir filterroutinen sowie lms
+                                 sw fuer den dsp56001
+
+flanger.arc      2535 Mar- 94    stereo flanger fuer den dsp56001/2
+
+float.arc       34386 Mar- 94    fliesskommabibliothek fuer den
+                                 dsp56001
+
+function.arc    18079 Mar- 94    exp,log,rnd und sqrt funktionen fuer den
+                                 dsp56001
+
+g722.exe        31755 Mar- 94    g.722 sprachcoder fuer den dsp56116/156
+                                 self extracting archive
+
+h221ads.exe     46917 Mar- 94    h221 frame structure for 64k isdn
+                                 version fuer dsp56116ads
+
+h221sim.exe     46444 Mar- 94    h221 frame structure for 64k isdn
+                                 version fuer dsp56116 simulator
+
+lattice.arc     21063 Mar- 94    lattice filter outinen fuer den
+                                 dsp56001
+
+leroux.arc       4555 Mar- 94    leroux-gueguen berechnung von lpc
+                                 koeffizienten fuer den dsp56001
+
+linlog.arc       9164 Mar- 94    linear/logarithmische umwandlungsroutin.
+                                 fuer dsp56001 (z.b. fuer codecs)
+
+matrix.arc       4810 Mar- 94    matrixmultiplikationen mit dem dsp56001
+
+p1               6842 Mar- 94    support file 56200
+
+p2              11492 Mar- 94    support file 56200 (beschreibung in p1)
+
+p3              27344 Mar- 94    support file 56200 (beschreibung in p1)
+
+p4              10946 Mar- 94    supportfile 56200 (beschreibung in p1)
+
+p5              26328 Mar- 94    supportfile 56200 (beschreibung in p1)
+
+p6              10042 Mar- 94    supportfile 56200 (beschreibung in p1)
+
+p7              30118 Mar- 94    supportfile 56200 (beschreibung in p1)
+
+p8              10193 Mar- 94    supportfile 56200 (beschreibung in p1)
+
+p9              30163 Mar- 94    supportfile 56200 (beschreibung in p1)
+
+pciogal.arc      3249 Mar- 94    jedec file fuer das gal aus apr 10
+                                 (pc-bus interface)
+reverb.arc      15246 Mar- 94    dieses file enthaelt zwei assembler-
+                                 sources zur hallerzeugung mit dsp56001
+
+rfft56.arc       5765 Nov- 94    "real"-fft fuer den dsp56001/2
+
+sdm.asm           976 Mar- 94    single * double multiplikation fuer den
+                                 dsp56002 (4)
+
+sdmac.asm         920 Mar- 94    single * double mac fuer den dsp56002(4)
+
+sloader.arc      8107 Mar- 94    bootloader via sci fuer dsp56001
+
+sort.arc         5429 Mar- 94    sortieralgorithmen fuer den dsp56001
+
+spektrum.arc    37225 Nov- 94    spektrum analyzer fuer den dsp56001
+                                 korrigierte version
+
+sqrt56.arc       1029 Mar- 94    quadratwurzel fuer den dsp56001 (asm)
+
+srec.arc        41483 Mar- 94    binaer -> srec konverter zur eprom-
+                                 programmierung (alle dsp typen)
+
+stereo.arc       3773 Mar- 94    am stereo dekoder fuer dsp56001
+                                 (nach motorola c-quam am stereo)
+
+streverb.arc     3990 Mar- 94    stereo hallerzeugung fuer den dsp56001/2
+                                 (nicht direkt auf ads lauffaehig)
+
+viterbi.arc      6549 Mar- 94    viterbi encoder / -decoder fuer dsp56001
+                                 (z.b. fuer v.32 modems)
+
+END ------------------------------------------------------------------------

@@ -1,0 +1,27 @@
+_dsp_codebuf:  .DC.b 72
+_dsp_subs:     .DC.l 0
+_dsp_max_avail_mem:       .DC.l 0
+_dsp_avail_pmem:          .DC.l 0
+_dsp_xreserve: .DC.l 0
+_dsp_ability:  .DC.w 0
+_dsp_free_subridx:        .DC.w 0
+_dsp_uniqueability:       .DC.w 0
+_dsp_tmtbuf_ptr:          .DC.l 0
+_dsp_tmtsize:  .DC.l 0
+_dsp_num_tmtblks:         .DC.l 0
+_dsp_tmtblks_done_ptr:    .DC.l 0
+_dsp_rcvbuf_ptr:          .DC.l 0
+_dsp_rcvsize:  .DC.l 0
+_dsp_num_rcvblks:         .DC.l 0
+_dsp_rcvblks_done_ptr:    .DC.l 0
+_dsp_lock:     .DC.w 0
+giselect:      .DC.b 0
+giwrite:       .DC.b 0
+giread:        .DC.b 0
+_snd_lock:     .DC.b 0
+_hz_200:       .DC.l 0
+_dsp_subr_adr: .DC.l 0
+_dsp_rcv_ptr:  .DC.l 0
+_dsp_tmt_ptr:  .DC.l 0
+_snd_ch_att:   .DC.w 0
+
