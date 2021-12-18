@@ -1,0 +1,2076 @@
+;Xbios
+;Xbios-Erweiterung fÅr Sound-Sampler Star-Track
+
+savptr         equ $4a2
+amount         equ 46
+xbiosvec       equ $b8
+install        equ 500
+V_MASK_R       equ $ffff8e0d            ; VME-Irq-Mask-Reegister
+ireg_p         equ 1      ; interrupt fÅr play
+ireg_r         equ 2      ; interrupt fÅr record
+ireg_all       equ 3      ; interrupt fÅr record & play
+CR             equ $0000000d
+LF             equ $0000000a
+ESC            equ 27
+
+;-----------------------------------------------------------
+; Interrupt-Vektor 122 (fÅr Play) setzen
+;-----------------------------------------------------------
+Start:         
+               pea        ihandler_play ; neue Interrupt-Routine
+               move.w     #122,-(sp)    ; Vektor Nummer 122
+               move.w     #5,-(sp)      ; BIOS #5
+               trap       #13           ;
+               addq.l     #8,sp         ; stack korrigieren
+
+;-----------------------------------------------------------
+; Interrupt-Vektor 123 (fÅr Record) setzen
+;-----------------------------------------------------------
+
+               pea        ihandler_rec  ; neue Interrupt-Routine
+               move.w     #123,-(sp)    ; Vektor Nummer 123
+               move.w     #5,-(sp)      ; BIOS #5
+               trap       #13           ;
+               addq.l     #8,sp         ; stack korrigieren
+
+;-----------------------------------------------------------
+; Interrupts erlauben, SCU programmieren
+;-----------------------------------------------------------
+               clr.l      -(sp)         ;in Supervisormode
+               move.w     #32,-(sp)
+               trap       #1
+               addq.l     #6,sp
+               move.l     d0,-(sp)
+
+               lea.l      V_MASK_R,a0   ; VME-Irq-Mask-Reg
+               andi.b     #$61,(a0)
+               ori.b      #32,(a0)      ; alle Int5 erlauben
+
+               move.w     sr,d0         ; INTs ein
+               andi.w     #%1111100011111111,d0
+               move.w     d0,sr
+
+anfint:        
+;               move.b     #9,$feff0401  ; analog & 44.1kHz
+;               move.b     #4,$feff0441  ; digout true
+
+vStart:        
+               move.w     #install,-(sp)
+               trap       #14
+               addq.l     #2,sp
+               cmpi.l     #$71273800,d0
+               bne        no_inst
+               move.w     #32,-(sp)     ;in Usermode
+               trap       #1
+               addq.l     #6,sp
+               pea        Text2         ;Msg ausgeben
+               move.w     #9,-(sp)
+               trap       #1
+               addq.l     #6,sp
+               bsr        pause
+               clr.w      -(sp)         ;Return to Desktop
+               trap       #1
+no_inst:       
+               movea.l    xbiosvec,a0
+Xbrsuch:       
+               move.w     -12(a0),d0
+               cmpi.w     #"XB",d0      ; Xbra suchen
+               bne        Xbrweiter
+               move.w     -10(a0),d0
+               cmpi.w     #"RA",d0
+               bne        Xbrweiter
+               move.l     -8(a0),d0
+               cmpi.l     #"STRK",d0    ; XBIOS schon aufgerufen ?
+               beq        Xbrda
+               movea.l    -4(a0),a0
+               bra.s      Xbrsuch
+Xbrda:         
+               move.w     #32,-(sp)     ;in Usermode
+               trap       #1
+               addq.l     #6,sp
+               pea        Text2(pc)     ;* Fehlernachricht Xbra
+               move.w     #9,-(sp)      ;* ausgeben
+               trap       #1            ;GEMDOS
+               addq.l     #6,sp         ;* Stack sÑubern
+               bsr        pause
+               clr.w      -(sp)         ;* Ab ins Jenseits
+               trap       #1            ;GEMDOS
+Xbrweiter:     
+               move.l     xbiosvec,sprung+2       ; Xbios-Vektor umbiegen
+               move.l     xbiosvec,XBspr          ; Xbios-Vektor in Xbra merken
+               lea.l      neu_Xbios,a1
+               move.l     a1,xbiosvec
+               move.w     #32,-(sp)     ;in Usermode
+               trap       #1
+               addq.l     #6,sp
+               pea        Text          ;Msg ausgeben
+               move.w     #9,-(sp)      ;* ausgeben
+               trap       #1            ;GEMDOS
+               addq.l     #6,sp         ;* Stack sÑubern
+               bsr        pause
+
+               move.w     #'XB',d0      ; Xbra's setzen
+               move.w     d0,XBI
+               move.w     #'RA',d0
+               move.w     d0,XBI+2
+               bsr        pause
+               move.w     #0,-(sp)
+               move.l     #program_end-Start+256,-(sp)      ;code + basepage
+               move.w     #$31,-(sp)    ;resident halten
+               trap       #1
+               rts        
+
+XBI:           .DC.b "XXXX"
+               .DC.b "STRK"
+XBspr:         .DS.l 1    ;Puffer fÅr alten XBIOS-Vektor
+neu_Xbios:                ;Anfang des neuen Xbios
+               move.w     (sp),d0       ;get SR
+               move.l     usp,a0
+               btst       #13,d0
+               beq.s      neu_Xbios1
+               lea.l      6(sp),a0
+neu_Xbios1:    
+               lea.l      Rlist,a1
+               moveq.l    #0,d0
+               move.w     (a0),d1
+neu_Xbios2:    
+               cmp.w      0(a1,d0.w),d1
+               beq.s      new_found
+               addq.w     #2,d0
+               tst.w      0(a1,d0.w)
+               bne.s      neu_Xbios2
+sprung:        jmp        $11111111
+new_found:     
+               mulu.w     #2,d0
+               lea.l      R_addr,a1
+               movea.l    0(a1,d0.w),a1
+               suba.l     #neu_Xbios,a1
+               adda.l     $b8,a1
+               addq.l     #2,a0
+               movem.l    d1-d7/a1-a6,-(sp)
+               jsr        (a1)
+               movem.l    (sp)+,d1-d7/a1-a6
+               rte        
+
+pause:         
+               move.l     #600000,d0
+paus1:         
+               subi.l     #1,d0
+               tst.l      d0
+               bne        paus1
+               rts        
+
+               .EVEN 
+stack_store:   .DS.l 1    ; 1 Langwort fÅr stack
+
+; ----------------------------Anfang der Abfrage-Treiber-----------------------
+memplay:       
+               movea.l    (a0)+,a3      ; von
+               move.l     (a0)+,d1      ; bis
+               move.l     (a0)+,d4      ; Anzahl der For/Backstep
+               move.l     (a0)+,d3      ; mode (Bit0=Loop ein/aus,Bit1=crossplay,Bit2=midi)
+               move.l     (a0)+,d2      ; fifolen  (len/2/4-1) bei 8192Byte=$3FF
+               move.l     (a0)+,d0      ; midi
+               move.l     (a0)+,d5      ; StatH im Bytemode
+               movea.l    (a0)+,a1      ; Playreadc a1,A1=0
+               movea.l    a1,a5
+               addq.l     #2,a5         ; Playread a5,A1=1
+               movea.l    d5,a0
+               lea.l      midisuch(pc),a2
+               move.w     d0,(a2)
+               lea.l      midiw(pc),a2
+               move.l     #0,(a2)
+               moveq.l    #0,d6         ; LoopzÑhler
+               moveq.l    #8,d5
+panf:          bsr        play
+               tst.w      d0
+               bne.s      pweg
+pcrostst:      btst       #1,d3
+               beq.s      plooptst
+               addq.l     #8,d4
+               neg.l      d4
+               move.l     d1,d0
+               subq.l     #4,d0
+               move.l     a3,d1
+               addq.l     #4,d1
+               movea.l    d0,a3
+               bsr        play
+               tst.w      d0
+               bne.s      pweg
+               neg.l      d4
+               subq.l     #8,d4
+               move.l     d1,d0
+               subq.l     #4,d0
+               move.l     a3,d1
+               addq.l     #4,d1
+               movea.l    d0,a3
+plooptst:      btst       #0,d3
+               beq.s      pweg
+               bra.s      panf
+pweg:          lea.l      playbyte(pc),a4
+               move.l     a2,(a4)       ; Returnwert Playbyte speichern
+               move.l     d6,4(a4)      ; Returnwert Anzahl loops speichern
+               move.l     a4,d0
+               rts        
+play:          movea.l    a3,a2
+pfill:         move.b     (a0),d0       ; FIFO halbleer ?
+               andi.b     #2,d0
+               bne.s      pcopyanf
+               bsr        pbrktst
+               tst.w      d0
+               bne.s      playex
+               bra.s      pfill
+
+pcopyanf:      move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
+pcopy:         move.b     (a2)+,(a1)    ; Rechter Kanal,HighByte senden,A1=0
+               move.b     (a2)+,(a1)    ; Rechter Kanal,LowByte senden,A1=0
+               move.b     (a2)+,(a5)    ; Linker Kanal,HighByte senden,A1=1
+               move.b     (a2)+,(a5)    ; Linker Kanal,LowByte senden,A1=1
+               cmpa.l     d1,a2
+               beq.s      playend
+               adda.l     d4,a2
+               dbra       d0,pcopy
+               bsr        pbrktst
+               tst.w      d0
+               bne.s      playex
+               btst       #2,d3
+               beq.s      pfill
+               bsr        pmidi
+               tst.w      d0
+               bne.s      playex
+               bra.s      pfill
+playend:       moveq.l    #0,d0
+               addq.l     #1,d6
+playex:        rts        
+pmidi:         movem.l    d1-d7/a0-a4,-(sp)
+               lea.l      midisuch(pc),a0
+               move.w     (a0),d2
+               move.w     d2,-(sp)
+               move.w     #3,-(sp)      ; MIDI
+               move.w     #1,-(sp)      ; Bconstat
+               trap       #13
+               addq.l     #4,sp
+               cmpi.w     #0,d0
+               beq.s      pnomidi
+               move.w     #3,-(sp)
+               move.w     #2,-(sp)      ; Bconin
+               trap       #13
+               addq.l     #4,sp
+               move.w     (sp)+,d2
+               move.w     d2,-(sp)
+               lea.l      midiw(pc),a0
+               btst       #7,d0
+               beq.s      pmidi2        ; Daten oder Befehl ?
+               asr.w      #8,d2         ; Channel im oberen Byte des Wortes
+               sub.b      d2,d0         ; Channel vom Befehl abziehen
+               move.b     d0,(a0)       ; Befehl schreiben
+               bra.s      pnomidi
+pmidi2:        cmp.b      d2,d0         ; Noten-DATA ?
+               beq.s      pmidi4
+               cmp.b      1(a0),d2      ; Noten-data schon gewesen und korrekt ?
+               bne.s      pnomidi
+pmidi3:        move.b     d0,2(a0)      ; Velocitywert schreiben
+               cmpi.b     #$80,(a0)     ; NOTE OFF ?
+               beq.s      pmidi5
+               cmpi.b     #$90,(a0)     ; NOTE ON ?
+               beq.s      pmidi6
+pmidi3b:       move.l     #0,(a0)       ; Datenwort lîschen
+               bra.s      pnomidi
+pmidi4:        cmp.b      1(a0),d2      ; Noten-DATA schon gewesen ?
+               beq.s      pmidi3        ; dann ist es nicht Note sondern Velocity
+               move.b     d0,1(a0)      ; Notenwert schreiben
+               bra.s      pnomidi
+pmidi5:        cmp.b      1(a0),d2      ; NOTE OFF und Note OK ?
+               bne.s      pmidi3b       ; wenn nein, Datenwort lîschen
+               bra.s      pmidiex       ; Abbruch, da NOTE OFF !
+pmidi6:        cmp.b      1(a0),d2      ; NOTE ON und Note OK ?
+               bne.s      pmidi3b       ; wenn nein, Datenwort lîschen
+               cmpi.b     #0,2(a0)      ; Velocity ist Null ?
+               bne.s      pmidi3b       ; wenn nein, Datenwort lîschen
+               bra.s      pmidiex       ; Abbruch, da NOTE ON und Velo=Null !
+pnomidi:       move.w     (sp)+,d2
+               movem.l    (sp)+,d1-d7/a0-a4
+               moveq.l    #0,d0
+               rts        
+pmidiex:       move.w     (sp)+,d2
+               movem.l    (sp)+,d1-d7/a0-a4
+               moveq.l    #1,d0
+               rts        
+pbrktst:       movem.l    d1-d7/a0-a4,-(sp)
+               move.w     #2,-(sp)
+               move.w     #1,-(sp)
+               trap       #13
+               addq.l     #4,sp
+               movem.l    (sp)+,d1-d7/a0-a4
+               rts        
+
+memrec:        
+               movea.l    (a0)+,a2      ; von
+               move.l     (a0)+,d1      ; bis
+               move.l     (a0)+,d2      ; Inhalt REGH
+               movea.l    (a0)+,a4      ; fifolen  (len/2/4-1) bei 8192Byte=$3FF
+               move.l     (a0)+,d5      ; StatH im Bytemode
+               movea.l    (a0)+,a1      ; Playread im Wordmode
+               movea.l    d5,a0
+               bset       #1,d2         ; REC-FIFO loeschen
+               move.b     d2,(a0)
+               bclr       #1,d2
+               move.b     d2,(a0)
+               moveq.l    #8,d2
+               moveq.l    #2,d3
+ranf:          moveq.l    #8,d0
+ranf2:         move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      ranf3         ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      ranf3         ; fehlerhafte Daten ?
+               bra.s      ranf4
+ranf3:         dbra       d0,ranf2      ; 8x versuchen zu synchronisieren
+               bsr        rbrktst       ; dann abbruch testen
+               tst.w      d0
+               bne.s      rweg
+               bra.s      ranf          ; wiederholen bis synchronisiert
+ranf4:         move.b     $20(a0),d0    ; Flag lesen
+               and.b      d3,d0         ; FIFO mehr als halbvoll ?
+               beq.s      rcopy         ; wenn ja, daten einlesen
+               bsr        rbrktst       ; dann abbruch testen
+               tst.w      d0
+               bne.s      rweg
+               bra.s      ranf4
+rcopy:         move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+rcopy2:        move.w     (a1),d7       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      rcopy3        ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne.s      rcopy3        ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      rcopy3        ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      rcopy3        ; fehlerhafte Daten ?
+               move.b     d7,(a2)+
+               move.b     d6,(a2)+
+               move.b     d5,(a2)+
+               move.b     d4,(a2)+
+               cmpa.l     d1,a2         ; Speicher voll ?
+               beq.s      rweg
+rcopy3:        dbra       d0,rcopy2
+               bsr        rbrktst       ; abbruch testen
+               tst.w      d0
+               bne.s      rweg
+               bra.s      ranf4
+rweg:          rts        
+rbrktst:       movem.l    d1-d7/a0-a4,-(sp)
+               move.w     #2,-(sp)
+               move.w     #1,-(sp)
+               trap       #13
+               addq.l     #4,sp
+               movem.l    (sp)+,d1-d7/a0-a4
+               rts        
+
+hardplay:      
+               movea.l    (a0)+,a3      ; adr
+               movea.l    (a0)+,a5      ; len
+               move.l     (a0)+,d7      ; handle
+               movea.l    (a0)+,a6      ; seekbyte
+               move.l     (a0)+,d2      ; sectors
+               move.l     (a0)+,d5      ; Anzahl der For/Backstep
+               move.l     (a0)+,d3      ; mode (Bit0=Loop ein/aus,Bit1=crossplay,Bit2=midi,Bit3=zusÑtzliche brkabfrage)
+               move.l     (a0)+,d4      ; fifolen  (len/2/4-1) bei 8192Byte=$3FF
+               move.l     (a0)+,d0      ; midi
+               move.l     (a0)+,d1      ; StatH im Bytemode
+               movea.l    (a0)+,a1      ; Playread a1,A1=0
+               movea.l    d1,a0
+               lea.l      midisuch(pc),a2
+               move.w     d0,(a2)
+               lea.l      midiw(pc),a2
+               move.l     #0,(a2)
+               tst.l      d5
+               bmi.s      backset
+               move.l     a3,d1         ; MEMende
+               add.l      a5,d1
+               bra.s      hanf0
+backset:       move.l     a3,d1
+               subq.l     #4,d1
+               adda.l     a5,a3
+               subq.l     #4,a3
+hanf0:         lea.l      playbyte(pc),a4
+               move.l     #0,8(a4)      ; Anzahl loops lîschen
+               move.l     #0,4(a4)      ; Anzahl sektoren lîschen
+               move.l     #0,(a4)       ; playbyte lîschen
+hanf:          movem.l    d1-d7/a0-a6,-(sp)
+               move.w     #0,-(sp)      ; Fseek
+               move.w     d7,-(sp)
+               move.l     a6,-(sp)
+               move.w     #66,-(sp)
+               trap       #1
+               lea.l      $a(sp),sp
+               movem.l    (sp)+,d1-d7/a0-a6
+               bsr        hplay
+               tst.w      d0
+               bne.s      hweg
+hcrostst:      btst       #1,d3
+               beq.s      hlooptst
+               addq.l     #8,d5
+               neg.l      d5
+               move.l     d1,d0
+               subq.l     #4,d0
+               move.l     a3,d1
+               addq.l     #4,d1
+               movea.l    d0,a3
+               bsr        hplay
+               tst.w      d0
+               bne.s      hweg
+               neg.l      d5
+               subq.l     #8,d5
+               move.l     d1,d0
+               subq.l     #4,d0
+               move.l     a3,d1
+               addq.l     #4,d1
+               movea.l    d0,a3
+hlooptst:      btst       #0,d3
+               beq.s      hweg
+               bra.s      hanf
+hweg:          lea.l      playbyte(pc),a4
+               move.l     a2,(a4)       ; Returnwert Playbyte speichern
+               move.l     d6,4(a4)      ; Returnwert Anzahl loops speichern
+               move.l     a4,d0
+               rts        
+hplay:         moveq.l    #0,d6
+hplay2:        addq.l     #1,d6
+               movea.l    a3,a2
+               movem.l    d1-d7/a0-a6,-(sp)
+               tst.l      d5
+               bmi.s      fseek
+               bra.s      fread
+fseek:         move.w     #1,-(sp)      ; Fseek
+               move.w     d7,-(sp)
+               move.l     a5,d0
+               add.l      d0,d0
+               neg.l      d0
+               move.l     d0,-(sp)
+               move.w     #66,-(sp)
+               trap       #1
+               lea.l      $a(sp),sp
+fread:         move.l     a3,d0
+               tst.l      d5
+               bpl.s      readpos
+               move.l     d1,d0
+               addq.l     #4,d0
+readpos:       move.l     d0,-(sp)      ; Fread
+               move.l     a5,-(sp)
+               move.w     d7,-(sp)
+               move.w     #63,-(sp)
+               trap       #1
+               lea.l      $c(sp),sp
+               movem.l    (sp)+,d1-d7/a0-a6
+hfill:         move.b     (a0),d0       ; FIFO halbleer ?
+               btst       #1,d0
+               bne.s      copyanf
+               btst       #3,d3         ; mehr Abbruchabfragen ?
+               beq.s      tstrest
+               btst       #2,d3
+               beq.s      tstrest
+               bsr        hmidi
+               tst.w      d0
+               bne        hplayex
+tstrest:       tst.l      d5
+               bmi.s      tstmin
+               move.l     d1,d0
+               sub.l      a2,d0
+               bra.s      tstrest2
+tstmin:        move.l     a2,d0
+               sub.l      d1,d0
+tstrest2:      asr.l      #2,d0
+               cmp.w      d4,d0
+               bgt.s      hfill
+restplay:      move.w     d4,-(sp)
+               movea.l    a1,a4
+               addq.l     #2,a4         ; Playread a4,A1=1
+               moveq.l    #4,d4
+rest2:         move.b     (a0),d0
+               and.b      d4,d0
+               beq.s      rest2
+               move.b     (a2)+,(a1)    ; Rechter Kanal,HighByte senden,A1=0
+rest3:         move.b     (a0),d0
+               and.b      d4,d0
+               beq.s      rest3
+               move.b     (a2)+,(a1)    ; Rechter Kanal,LowByte senden,A1=0
+rest4:         move.b     (a0),d0
+               and.b      d4,d0
+               beq.s      rest4
+               move.b     (a2)+,(a4)    ; Linker Kanal,HighByte senden,A1=1
+rest5:         move.b     (a0),d0
+               and.b      d4,d0
+               beq.s      rest5
+               move.b     (a2)+,(a4)    ; Linker Kanal,LowByte senden,A1=1
+               adda.l     d5,a2
+               cmpa.l     d1,a2
+               beq.s      bufend
+               bra.s      rest2
+copyanf:       move.w     d4,d0         ; ...dann FIFO halb-fuellen (fifolen)!
+               move.w     d4,-(sp)
+               movea.l    a1,a4
+               addq.l     #2,a4         ; Playread a4,A1=1
+copy:          move.b     (a2)+,(a1)    ; Rechter Kanal,HighByte senden,A1=0
+               move.b     (a2)+,(a1)    ; Rechter Kanal,LowByte senden,A1=0
+               move.b     (a2)+,(a4)    ; Linker Kanal,HighByte senden,A1=1
+               move.b     (a2)+,(a4)    ; Linker Kanal,LowByte senden,A1=1
+faster:        adda.l     d5,a2
+               cmpa.l     d1,a2
+               beq.s      bufend
+               dbra       d0,copy
+               move.w     (sp)+,d4
+               bsr        brktst
+               tst.w      d0
+               bne.s      hplayex
+               btst       #2,d3
+               beq        hfill
+               bsr        hmidi
+               tst.w      d0
+               bne.s      hplayex
+               bra        hfill
+bufend:        move.w     (sp)+,d4
+               cmp.l      d2,d6
+               beq.s      hplayend
+               bsr        brktst
+               tst.w      d0
+               bne.s      hplayex
+               btst       #2,d3
+               beq        hplay2
+               bsr        hmidi
+               tst.w      d0
+               bne.s      hplayex
+               bra        hplay2
+hplayend:      moveq.l    #0,d0
+               lea.l      playbyte(pc),a4
+               addi.l     #1,8(a4)
+hplayex:       rts        
+hmidi:         movem.l    d1-d7/a0-a6,-(sp)
+               lea.l      midisuch(pc),a0
+               move.w     (a0),d2
+               move.w     d2,-(sp)
+               move.w     #3,-(sp)      ; MIDI
+               move.w     #1,-(sp)      ; Bconstat
+               trap       #13
+               addq.l     #4,sp
+               cmpi.w     #0,d0
+               beq.s      hnomidi
+               move.w     #3,-(sp)
+               move.w     #2,-(sp)      ; Bconin
+               trap       #13
+               addq.l     #4,sp
+               move.w     (sp)+,d2
+               move.w     d2,-(sp)
+               lea.l      midiw(pc),a0
+               btst       #7,d0
+               beq.s      hmidi2        ; Daten oder Befehl ?
+               asr.w      #8,d2         ; Channel im oberen Byte des Wortes
+               sub.b      d2,d0         ; Channel vom Befehl abziehen
+               move.b     d0,(a0)       ; Befehl schreiben
+               bra.s      hnomidi
+hmidi2:        cmp.b      d2,d0         ; Noten-DATA ?
+               beq.s      hmidi4
+               cmp.b      1(a0),d2      ; Noten-data schon gewesen und korrekt ?
+               bne.s      hnomidi
+hmidi3:        move.b     d0,2(a0)      ; Velocitywert schreiben
+               cmpi.b     #$80,(a0)     ; NOTE OFF ?
+               beq.s      hmidi5
+               cmpi.b     #$90,(a0)     ; NOTE ON ?
+               beq.s      hmidi6
+hmidi3b:       move.l     #0,(a0)       ; Datenwort lîschen
+               bra.s      hnomidi
+hmidi4:        cmp.b      1(a0),d2      ; Noten-DATA schon gewesen ?
+               beq.s      hmidi3        ; dann ist es nicht Note sondern Velocity
+               move.b     d0,1(a0)      ; Notenwert schreiben
+               bra.s      hnomidi
+hmidi5:        cmp.b      1(a0),d2      ; NOTE OFF und Note OK ?
+               bne.s      hmidi3b       ; wenn nein, Datenwort lîschen
+               bra.s      hmidiex       ; Abbruch, da NOTE OFF !
+hmidi6:        cmp.b      1(a0),d2      ; NOTE ON und Note OK ?
+               bne.s      hmidi3b       ; wenn nein, Datenwort lîschen
+               cmpi.b     #0,2(a0)      ; Velocity ist Null ?
+               bne.s      hmidi3b       ; wenn nein, Datenwort lîschen
+               bra.s      hmidiex       ; Abbruch, da NOTE ON und Velo=Null !
+hnomidi:       move.w     (sp)+,d2
+               movem.l    (sp)+,d1-d7/a0-a6
+               moveq.l    #0,d0
+               rts        
+hmidiex:       move.w     (sp)+,d2
+               movem.l    (sp)+,d1-d7/a0-a6
+               moveq.l    #1,d0
+               rts        
+brktst:        movem.l    d1-d7/a0-a6,-(sp)
+               move.w     #2,-(sp)
+               move.w     #1,-(sp)
+               trap       #13
+               addq.l     #4,sp
+               movem.l    (sp)+,d1-d7/a0-a6
+               rts        
+
+hardrec:       
+               movea.l    (a0)+,a3      ; adr
+               movea.l    (a0)+,a5      ; len
+               movea.l    (a0)+,a6      ; handle
+               move.l     (a0)+,d2      ; sectors
+               movea.l    (a0)+,a4      ; fifolen  (len/2/4-1) bei 8192Byte=$3FF
+               move.l     (a0)+,d1      ; StatH im Bytemode
+               movea.l    (a0)+,a1      ; Playread im Wordmode
+               movea.l    d1,a0
+               move.l     d2,-(sp)      ; sectors
+               move.l     a3,d1         ; MEMende
+               add.l      a5,d1
+               moveq.l    #8,d2
+               moveq.l    #2,d3
+hnanf:         moveq.l    #8,d0
+hnanf2:        move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      hnanf3        ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      hnanf3        ; fehlerhafte Daten ?
+               bra.s      hnholanf
+hnanf3:        dbra       d0,hnanf2     ; 8x versuchen zu synchronisieren
+               bsr        hnbrktst      ; dann abbruch testen
+               tst.w      d0
+               bne        hnweg
+               bra.s      hnanf         ; wiederholen bis synchronisiert
+hnholanf:      movea.l    a3,a2
+hnanf4:        bsr        hnbrktst      ; dann abbruch testen
+               tst.w      d0
+               bne        hnweg
+               move.l     d1,d0
+               sub.l      a2,d0
+               asr.l      #2,d0
+               cmp.w      a4,d0         ; Rest kleiner als halber FIFO ?
+               ble.s      hnctrl1       ; dann Rest holen und abspeichern
+               move.b     (a0),d0       ; Flag lesen
+               and.b      d3,d0         ; FIFO mehr als halbvoll ?
+               beq.s      hncopy        ; wenn ja, daten schnell einlesen
+               bra.s      hnanf4
+hncopy:        move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+hncopy2:       move.w     (a1),d7       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      hncopy3       ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne.s      hncopy3       ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      hncopy3       ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      hncopy3       ; fehlerhafte Daten ?
+               move.b     d7,(a2)+
+               move.b     d6,(a2)+
+               move.b     d5,(a2)+
+               move.b     d4,(a2)+
+               cmpa.l     d1,a2         ; sektorbuffer voll ?
+               beq.s      hnsave
+hncopy3:       dbra       d0,hncopy2
+               bra.s      hnanf4
+hnctrl1:       move.b     (a0),d0       ; Daten gÅltig ?
+               andi.b     #1,d0
+               beq.s      hnctrl1
+               move.w     (a1),d0       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d0
+               bne.s      hnctrl1       ; fehlerhafte Daten ?
+               move.b     d0,(a2)+
+hnctrl2:       move.b     (a0),d0       ; Daten gÅltig ?
+               andi.b     #1,d0
+               beq.s      hnctrl2
+               move.w     (a1),d0       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d0
+               bne.s      hnctrl2       ; fehlerhafte Daten ?
+               move.b     d0,(a2)+
+hnctrl3:       move.b     (a0),d0       ; Daten gÅltig ?
+               andi.b     #1,d0
+               beq.s      hnctrl3
+               move.w     (a1),d0       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d0
+               beq.s      hnctrl3       ; fehlerhafte Daten ?
+               move.b     d0,(a2)+
+hnctrl4:       move.b     (a0),d0       ; Daten gÅltig ?
+               andi.b     #1,d0
+               beq.s      hnctrl4
+               move.w     (a1),d0       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d0
+               beq.s      hnctrl4       ; fehlerhafte Daten ?
+               move.b     d0,(a2)+
+               cmpa.l     d1,a2
+               bne.s      hnctrl1
+hnsave:        movem.l    d1-d7/a0-a6,-(sp)
+               move.l     a3,-(sp)      ; Fwrite
+               move.l     a5,-(sp)
+               move.w     a6,-(sp)
+               move.w     #64,-(sp)
+               trap       #1
+               lea.l      $c(sp),sp
+               movem.l    (sp)+,d1-d7/a0-a6
+               bmi.s      hnweg
+               cmpa.l     d0,a5
+               bne.s      hnweg
+               move.l     (sp)+,d0
+               subq.l     #1,d0
+               move.l     d0,-(sp)
+               tst.l      d0            ; alle Sektoren geschrieben ?
+               beq.s      hnweg
+               bra        hnholanf
+hnweg:         move.l     (sp)+,d0      ; geschriebene sektoren
+               lea.l      playbyte(pc),a5
+               move.l     a2,(a5)       ; Returnwert Playbyte speichern
+               move.l     d0,4(a5)      ; Returnwert Anzahl loops speichern
+               move.l     a5,d0
+               rts        
+hnbrktst:      movem.l    d1-d7/a0-a6,-(sp)
+               move.w     #2,-(sp)
+               move.w     #1,-(sp)
+               trap       #13
+               addq.l     #4,sp
+               movem.l    (sp)+,d1-d7/a0-a6
+               rts        
+
+monitor:       movea.l    (a0)+,a4      ; fifolen  (len/2/4-1) bei 8192Byte=$3FF
+               move.l     (a0)+,d1      ; StatH im Bytemode
+               movea.l    (a0)+,a1      ; Playread im Wordmode
+               movea.l    a1,a2
+               addq.l     #1,a2         ; Playread a2,A1=0
+               movea.l    a2,a3
+               addq.l     #2,a3         ; Playread a3,A1=1
+               movea.l    d1,a0
+               moveq.l    #8,d2
+fifowait:      move.b     (a0),d0       ; PLAY-FIFO halbleer ?
+               andi.b     #2,d0
+               bne.s      mcopy         ; wenn ja, halben RECFIFO in PLAYFIFO kopieren
+               bsr        mbrktst       ; dann abbruch testen
+               tst.w      d0
+               bne.s      mweg
+               bra.s      fifowait
+mcopy:         move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+mcopy2:        move.w     (a1),d7       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      mcopy3        ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne.s      mcopy3        ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      mcopy3        ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      mcopy3        ; fehlerhafte Daten ?
+               move.b     d7,(a2)
+               move.b     d6,(a2)
+               move.b     d5,(a3)
+               move.b     d4,(a3)
+mcopy3:        dbra       d0,mcopy2
+               bsr        mbrktst       ; abbruch testen
+               tst.w      d0
+               bne.s      mweg
+               bra.s      fifowait
+mweg:          rts        
+mbrktst:       movem.l    d1-d7/a0-a4,-(sp)
+               move.w     #2,-(sp)
+               move.w     #1,-(sp)
+               trap       #13
+               addq.l     #4,sp
+               movem.l    (sp)+,d1-d7/a0-a4
+               rts        
+
+recwait:       
+               move.l     (a0)+,d7      ; treshold
+               move.l     (a0)+,d1      ; statH im Bytemode
+               movea.l    (a0)+,a1      ; REC-Read im Wordmode
+               movea.l    d1,a0
+rwanf1:        move.b     (a0),d0       ; Flag lesen
+               btst       #1,d0         ; FIFO mehr als halbvoll ?
+               beq.s      rwanf2        ; wenn ja, daten einlesen
+               movem.l    d7/a0/a1,-(sp)
+               move.w     #11,-(sp)
+               trap       #1
+               addq.l     #2,sp
+               movem.l    (sp)+,d7/a0/a1
+               tst.l      d0
+               bne.s      rwweg
+               bra.s      rwanf1
+rwanf2:        moveq.l    #8,d6
+               moveq.l    #$ff,d5
+               moveq.l    #0,d4
+rwanf3:        btst       d4,d0
+               beq.s      rwanf3
+               move.w     (a1),d1       ; auf 1 warten
+               btst       d6,d1
+               beq.s      rwanf2
+rwanf4:        btst       d4,d0
+               beq.s      rwanf4
+               move.w     (a1),d1       ; wenn 0, weiter
+               btst       d6,d1
+               bne.s      rwanf2
+               and.w      d5,d1
+               asl.w      d6,d1
+rwanf5:        btst       d4,d0
+               beq.s      rwanf5
+               move.w     (a1),d2       ; wenn 0, weiter
+               btst       d6,d2
+               bne.s      rwanf2
+               and.w      d5,d2
+               add.w      d2,d1
+rwanf6:        btst       d4,d0
+               beq.s      rwanf6
+               move.w     (a1),d2       ; wenn 1, weiter
+               btst       d6,d2
+               beq.s      rwanf2
+               and.w      d5,d2
+               asl.w      d6,d2
+rwanf7:        btst       d4,d0
+               beq.s      rwanf7
+               move.w     (a1),d3       ; wenn 1, weiter
+               btst       d6,d3
+               beq.s      rwanf2
+               and.w      d5,d3
+               add.w      d3,d2
+               btst       #15,d1        ; Oberstes Bit da ?
+               beq.s      rweiter1      ; dann negieren
+               not.w      d1
+rweiter1:      btst       #15,d2
+               beq.s      rweiter2
+               not.w      d2
+rweiter2:      cmp.w      d7,d1         ; treshold vergleichen
+               bgt.s      rwweg
+               cmp.w      d7,d2
+               bgt.s      rwweg
+               move.b     (a0),d0       ; Flag lesen
+               btst       #1,d0         ; FIFO mehr als halbvoll ?
+               beq.s      rwanf4        ; wenn ja, daten einlesen
+               bra        rwanf1
+rwweg:         rts        
+
+
+
+; ---------------------------Anfang der Interrupt-Treiber-----------------------
+
+ihandler_play: 
+               movem.l    d0-d7/a0-a6,-(sp)
+               lea.l      imode(pc),a2
+               move.l     (a2),d0
+               cmpi.l     #8,d0
+               beq        implayrec
+               cmpi.l     #3,d0
+               beq        ihardplay
+               cmpi.l     #1,d0
+               beq        imemplay
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+
+ihandler_rec:  
+               movem.l    d0-d7/a0-a6,-(sp)
+               lea.l      imode(pc),a2
+               move.l     (a2),d0
+               cmpi.l     #8,d0
+               beq        imprec
+               cmpi.l     #7,d0
+               beq        hrecpeak
+               cmpi.l     #4,d0
+               beq        ihardrec
+               cmpi.l     #6,d0
+               beq        mrecpeak
+               cmpi.l     #2,d0
+               beq        imemrec
+               cmpi.l     #5,d0
+               beq        ipeak
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+
+init_imemplay: 
+               lea.l      von(pc),a2
+               move.l     (a0)+,(a2)    ; von a3
+               lea.l      bvon(pc),a3
+               move.l     (a2),(a3)     ; von a3 retten fÅr crossplay und loop
+               lea.l      bis(pc),a2
+               move.l     (a0)+,(a2)    ; bis d1
+               lea.l      bbis(pc),a3
+               move.l     (a2),(a3)     ; bis d1 retten fÅr crossplay und loop
+               lea.l      step(pc),a2
+               move.l     (a0)+,(a2)    ; Anzahl der For/Backstep d4
+               lea.l      mode(pc),a2
+               move.l     (a0)+,(a2)    ; mode (Bit0=Loop ein/aus,Bit1=crossplay,Bit2=midi) d3
+               lea.l      fifo(pc),a2
+               move.l     (a0)+,(a2)    ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d2
+               lea.l      midisuch(pc),a2
+               move.l     (a0)+,(a2)    ; midi d0
+               lea.l      stath(pc),a2
+               move.l     (a0)+,(a2)    ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               move.l     (a0)+,(a2)    ; Playread a1, A1=0
+               lea.l      midiw(pc),a2
+               move.l     #0,(a2)
+               lea.l      loop(pc),a2
+               move.l     #0,(a2)       ; LoopzÑhler  d6
+               lea.l      crosflag(pc),a2
+               move.l     #0,(a2)       ; Richtungsflag lîschen
+               lea.l      playbyte(pc),a4         ; RÅckgabewerte-Liste
+               move.l     #0,8(a4)      ; Break lîschen
+               move.l     #0,16(a4)     ; Fehler lîschen
+               lea.l      imode(pc),a2
+               move.l     #1,(a2)
+               move.l     a4,d0
+               rts        
+
+imemplay:      lea.l      von(pc),a2
+               movea.l    (a2),a3       ; von a3
+               lea.l      bis(pc),a2
+               move.l     (a2),d1       ; bis d1
+               lea.l      step(pc),a2
+               move.l     (a2),d4       ; Anzahl der For/Backstep d4
+               lea.l      mode(pc),a2
+               move.l     (a2),d3       ; mode (Bit0=Loop ein/aus,Bit1=crossplay,Bit2=midi) d3
+               lea.l      fifo(pc),a2
+               move.l     (a2),d2       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d2
+               lea.l      midisuch(pc),a2
+               move.l     (a2),d0       ; midi d0
+               lea.l      stath(pc),a2
+               movea.l    (a2),a0       ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               movea.l    (a2),a1       ; Playread a1,A1=0
+               movea.l    a1,a5
+               addq.l     #2,a5         ; Playread,a5,A1=1
+               movea.l    a3,a2
+               lea.l      playbyte(pc),a6         ; RÅckgabewerte-Liste
+               cmpa.l     d1,a2
+               beq.s      ip_back
+ipfill:        move.b     (a0),d0       ; FIFO leer ?
+               btst       #0,d0
+               bne.s      nowrleer
+               addi.l     #1,16(a6)     ;Fehler +1
+nowrleer:      move.b     (a0),d0       ; FIFO halbleer ?
+               andi.b     #2,d0
+               bne.s      ipcopyanf
+               bra.s      ipfill
+ipcopyanf:     move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
+ipcopy:        move.b     (a2)+,(a1)    ; Rechter Kanal,HighByte senden,A1=0
+               move.b     (a2)+,(a1)    ; Rechter Kanal,LowByte senden,A1=0
+               move.b     (a2)+,(a5)    ; Linker Kanal,HighByte senden,A1=1
+               move.b     (a2)+,(a5)    ; Linker Kanal,LowByte senden,A1=1
+               cmpa.l     d1,a2
+               beq.s      iplayend
+               adda.l     d4,a2
+               dbra       d0,ipcopy
+ip_back:       lea.l      von(pc),a4
+               move.l     a2,(a4)       ; Playposition retten
+ip_back2:      lea.l      playbyte(pc),a4
+               move.l     a2,(a4)       ; Returnwert Playbyte speichern
+               move.l     d6,4(a4)      ; Returnwert Anzahl loops speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+iplayend:      moveq.l    #0,d0
+               addq.l     #1,d6
+               lea.l      playbyte(pc),a4
+               move.l     a2,(a4)       ; Returnwert Playbyte speichern
+               move.l     d6,4(a4)      ; Returnwert Anzahl loops speichern
+               lea.l      loop(pc),a4
+               move.l     d6,(a4)       ; Anzahl loops sichern
+               lea.l      von(pc),a4
+               move.l     a2,(a4)       ; Playposition retten
+               btst       #1,d3         ; crossplay ?
+               beq.s      iplooptst     ; wenn nein, ueberspringen
+               lea.l      crosflag(pc),a5
+               tst.b      (a5)          ; Richtungsflag testen
+               bne.s      baktofor
+fortobak:      addq.l     #8,d4
+               neg.l      d4
+               lea.l      step(pc),a4
+               move.l     d4,(a4)       ; Anzahl der For/Backstep d4
+               subq.l     #4,d1
+               lea.l      von(pc),a4
+               move.l     d1,(a4)       ; neue Endposition
+               lea.l      bvon(pc),a4
+               move.l     (a4),d1
+               addq.l     #4,d1
+               lea.l      bis(pc),a4
+               move.l     d1,(a4)       ; neue Anfangsposition
+               move.b     #1,(a5)       ; cross-backplay
+               bra.s      ip_back2
+baktofor:      neg.l      d4
+               subq.l     #8,d4
+               lea.l      step(pc),a4
+               move.l     d4,(a4)       ; Anzahl der For/Backstep d4
+               subq.l     #4,d1
+               lea.l      von(pc),a4
+               move.l     d1,(a4)       ; neue Anfangsposition
+               lea.l      bbis(pc),a4
+               lea.l      bis(pc),a3
+               move.l     (a4),(a3)     ; neue Endposition
+               move.b     #0,(a5)       ; cross-forplay
+               btst       #0,d3         ; loop ?
+               bne        ip_back2
+iendplay:      lea.l      playbyte(pc),a4
+               move.l     #1,8(a4)
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+iplooptst:     btst       #0,d3
+               beq.s      iendplay
+               lea.l      von(pc),a4
+               lea.l      bvon(pc),a3
+               move.l     (a3),(a4)     ; neue Anfangsposition
+               bra        ip_back2
+ipmidi:        movem.l    d1-d7/a0-a4,-(sp)
+               lea.l      midisuch(pc),a0
+               move.w     (a0),d2
+               move.w     d2,-(sp)
+               move.w     #3,-(sp)      ; MIDI
+               move.w     #1,-(sp)      ; Bconstat
+               trap       #13
+               addq.l     #4,sp
+               cmpi.w     #0,d0
+               beq.s      ipnomidi
+               move.w     #3,-(sp)
+               move.w     #2,-(sp)      ; Bconin
+               trap       #13
+               addq.l     #4,sp
+               move.w     (sp)+,d2
+               move.w     d2,-(sp)
+               lea.l      midiw(pc),a0
+               btst       #7,d0
+               beq.s      ipmidi2       ; Daten oder Befehl ?
+               asr.w      #8,d2         ; Channel im oberen Byte des Wortes
+               sub.b      d2,d0         ; Channel vom Befehl abziehen
+               move.b     d0,(a0)       ; Befehl schreiben
+               bra.s      ipnomidi
+ipmidi2:       cmp.b      d2,d0         ; Noten-DATA ?
+               beq.s      ipmidi4
+               cmp.b      1(a0),d2      ; Noten-data schon gewesen und korrekt ?
+               bne.s      ipnomidi
+ipmidi3:       move.b     d0,2(a0)      ; Velocitywert schreiben
+               cmpi.b     #$80,(a0)     ; NOTE OFF ?
+               beq.s      ipmidi5
+               cmpi.b     #$90,(a0)     ; NOTE ON ?
+               beq.s      ipmidi6
+ipmidi3b:      move.l     #0,(a0)       ; Datenwort lîschen
+               bra.s      ipnomidi
+ipmidi4:       cmp.b      1(a0),d2      ; Noten-DATA schon gewesen ?
+               beq.s      ipmidi3       ; dann ist es nicht Note sondern Velocity
+               move.b     d0,1(a0)      ; Notenwert schreiben
+               bra.s      ipnomidi
+ipmidi5:       cmp.b      1(a0),d2      ; NOTE OFF und Note OK ?
+               bne.s      ipmidi3b      ; wenn nein, Datenwort lîschen
+               bra.s      ipmidiex      ; Abbruch, da NOTE OFF !
+ipmidi6:       cmp.b      1(a0),d2      ; NOTE ON und Note OK ?
+               bne.s      ipmidi3b      ; wenn nein, Datenwort lîschen
+               cmpi.b     #0,2(a0)      ; Velocity ist Null ?
+               bne.s      ipmidi3b      ; wenn nein, Datenwort lîschen
+               bra.s      ipmidiex      ; Abbruch, da NOTE ON und Velo=Null !
+ipnomidi:      move.w     (sp)+,d2
+               movem.l    (sp)+,d1-d7/a0-a4
+               moveq.l    #0,d0
+               rts        
+ipmidiex:      move.w     (sp)+,d2
+               movem.l    (sp)+,d1-d7/a0-a4
+               moveq.l    #1,d0
+               rts        
+
+init_imemrec:  
+               lea.l      von(pc),a2
+               move.l     (a0)+,(a2)    ; von a3
+               lea.l      bis(pc),a2
+               move.l     (a0)+,(a2)    ; bis d1
+               lea.l      regh(pc),a2
+               move.l     (a0)+,d0      ; Inhalt RegH d2
+               move.l     d0,(a2)
+               lea.l      fifo(pc),a2
+               move.l     (a0)+,(a2)    ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
+               lea.l      stath(pc),a2
+               move.l     (a0)+,(a2)    ; StatH im Bytemode a0
+               bset       #1,d0         ; REC-FIFO loeschen
+               movea.l    (a2),a2
+               suba.l     #$20,a2
+               move.b     d0,(a2)
+               bclr       #1,d0
+               move.b     d0,(a2)
+               lea.l      playread(pc),a2
+               move.l     (a0)+,(a2)    ; Playread im Wordmode a1
+               lea.l      playbyte(pc),a4         ; RÅckgabewerte-Liste
+               move.l     #0,8(a4)      ; Break lîschen
+               move.l     #0,16(a4)     ; Fehler lîschen
+               lea.l      imode(pc),a2
+               move.l     #2,(a2)
+               move.l     a4,d0
+               rts        
+
+imemrec:       lea.l      von(pc),a2
+               movea.l    (a2),a3       ; von a3
+               lea.l      bis(pc),a2
+               move.l     (a2),d1       ; bis d1
+               lea.l      fifo(pc),a2
+               movea.l    (a2),a4       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
+               lea.l      stath(pc),a2
+               movea.l    (a2),a0       ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               movea.l    (a2),a1       ; Playread im Wordmode a1
+               lea.l      playbyte(pc),a5         ; RÅckgabewerte-Liste
+               moveq.l    #8,d2
+               moveq.l    #2,d3
+               movea.l    a3,a2
+iranf:         move.b     (a0),d0       ; Flag lesen
+               btst       d3,d0         ; RECORD-FIFO voll ?
+               bne.s      nordfull
+               addi.l     #1,16(a5)     ;Fehler +1
+nordfull:      and.b      d3,d0         ; FIFO mehr als halbvoll ?
+               beq.s      ircopy        ; wenn ja, daten einlesen
+               bra.s      iranf
+ircopy:        move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+ircopy2:       move.w     (a1),d7       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      ircopy3       ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne.s      ircopy3       ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      ircopy3       ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      ircopy3       ; fehlerhafte Daten ?
+               move.b     d7,(a2)+
+               move.b     d6,(a2)+
+               move.b     d5,(a2)+
+               move.b     d4,(a2)+
+               cmpa.l     d1,a2         ; Speicher voll ?
+               beq.s      irweg
+ircopy3:       dbra       d0,ircopy2
+ir_back:       lea.l      von(pc),a4
+               move.l     a2,(a4)       ; Recposition retten
+ir_back2:      move.l     a2,(a5)       ; Returnwert Recordbyte speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+irweg:         move.l     a2,(a5)       ; Returnwert Playbyte speichern
+               lea.l      von(pc),a4
+               move.l     a2,(a4)       ; Playposition retten
+               move.l     #1,8(a5)      ; Break setzen
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+
+posmake:       
+               lea.l      von(pc),a2
+               lea.l      pos(pc),a3
+               move.l     (a2),(a3)
+               lea.l      step(pc),a2
+               move.l     (a2),d5       ; Anzahl der For/Backstep d5
+               tst.l      d5
+               bpl.s      ibpset
+               lea.l      von(pc),a2
+               movea.l    (a2),a3       ; adr a3
+               lea.l      len(pc),a2
+               movea.l    (a2),a5       ; len a5
+               adda.l     a5,a3
+               subq.l     #4,a3
+               lea.l      pos(pc),a2
+               move.l     a3,(a2)       ;aktuelle position setzen (fÅr backplay)
+ibpset:        move.w     #1,load       ; daten laden
+               rts        
+
+init_hplay:    lea.l      von(pc),a2
+               move.l     (a0)+,(a2)    ; adr a3
+               lea.l      bvon(pc),a3
+               move.l     (a2),(a3)     ; von a3 retten fÅr crossplay und loop
+               lea.l      len(pc),a2
+               move.l     (a0)+,(a2)    ; len a5
+               lea.l      handle(pc),a2
+               move.l     (a0)+,d7      ; handle d7
+               move.l     d7,(a2)
+               lea.l      seeknr(pc),a2
+               movea.l    (a0)+,a6      ; seekbyte a6
+               move.l     a6,(a2)
+               lea.l      sectnr(pc),a2
+               move.l     (a0)+,(a2)    ; sectors d2
+               lea.l      bsectnr(pc),a3
+               move.l     (a2),(a3)     ; sectors d2 retten fÅr crossplay und loop
+               lea.l      step(pc),a2
+               move.l     (a0)+,(a2)    ; Anzahl der For/Backstep d5
+               lea.l      mode(pc),a2
+               move.l     (a0)+,(a2)    ; d3 mode (Bit0=Loop ein/aus,Bit1=crossplay,Bit2=midi,Bit3=zusÑtzliche brkabfrage)
+               lea.l      fifo(pc),a2
+               move.l     (a0)+,(a2)    ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d4
+               lea.l      midisuch(pc),a2
+               move.l     (a0)+,(a2)    ; midi d0
+               lea.l      stath(pc),a2
+               move.l     (a0)+,(a2)    ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               move.l     (a0)+,(a2)    ; Playread a1,A1=0
+               lea.l      midiw(pc),a2
+               move.l     #0,(a2)
+               lea.l      loop(pc),a2
+               move.l     #0,(a2)       ; LoopzÑhler  d6
+               lea.l      crosflag(pc),a2
+               move.l     #0,(a2)       ; Richtungsflag lîschen
+               movem.l    d1-d7/a0-a6,-(sp)
+               move.w     #0,-(sp)      ; Fseek
+               move.w     d7,-(sp)
+               move.l     a6,-(sp)
+               move.w     #66,-(sp)
+               trap       #1
+               lea.l      $a(sp),sp
+               movem.l    (sp)+,d1-d7/a0-a6
+               lea.l      playbyte(pc),a4         ; RÅckgabewerte-Liste
+               move.l     #0,8(a4)      ; Anzahl loops lîschen
+               move.l     #0,4(a4)      ; Anzahl sektoren lîschen
+               move.l     #0,(a4)       ; playbyte lîschen
+               move.l     #0,12(a4)     ; Break lîschen
+               move.l     #0,16(a4)     ; Fehler lîschen
+               bsr        posmake
+               lea.l      imode(pc),a2
+               move.l     #3,(a2)
+               move.l     a4,d0
+               rts        
+
+ihardplay:     lea.l      von(pc),a2
+               movea.l    (a2),a3       ; adr a3
+               lea.l      len(pc),a2
+               movea.l    (a2),a5       ; len a5
+               lea.l      handle(pc),a2
+               move.l     (a2),d7       ; handle d7
+               lea.l      seeknr(pc),a2
+               movea.l    (a2),a6       ; seekbyte a6
+               lea.l      sectnr(pc),a2
+               move.l     (a2),d2       ; sectors d2
+               lea.l      step(pc),a2
+               move.l     (a2),d5       ; Anzahl der For/Backstep d5
+               lea.l      mode(pc),a2
+               move.l     (a2),d3       ; mode (Bit0=Loop ein/aus,Bit1=crossplay,Bit2=midi,Bit3=zusÑtzliche brkabfrage)
+               lea.l      fifo(pc),a2
+               move.l     (a2),d4       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d4
+               lea.l      midisuch(pc),a2
+               move.l     (a2),d0       ; midi d0
+               lea.l      stath(pc),a2
+               movea.l    (a2),a0       ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               movea.l    (a2),a1       ; Playread a1, A1=0
+               movea.l    a1,a4
+               addq.l     #2,a4         ; Playread a4, A1=1
+               lea.l      midiw(pc),a2
+               move.l     #0,(a2)
+               tst.l      d5
+               bmi.s      ibackset
+               move.l     a3,d1         ; MEMende
+               add.l      a5,d1
+               bra.s      ihplay
+ibackset:      move.l     a3,d1
+               subq.l     #4,d1
+               adda.l     a5,a3
+               subq.l     #4,a3
+ihplay:        lea.l      pos(pc),a2
+               movea.l    (a2),a2       ;aktuelle position holen
+               cmpi.w     #1,load
+               bne.s      ihfill
+               movem.l    d1-d7/a0-a6,-(sp)
+               subi.l     #amount,savptr
+               tst.l      d5
+               bmi.s      ifseek
+               bra.s      ifread
+ifseek:        move.w     #1,-(sp)      ; Fseek
+               move.w     d7,-(sp)
+               move.l     a5,d0
+               add.l      d0,d0
+               neg.l      d0
+               move.l     d0,-(sp)
+               move.w     #66,-(sp)
+               trap       #1
+               lea.l      $a(sp),sp
+ifread:        move.l     a3,d0
+               tst.l      d5
+               bpl.s      ireadpos
+               move.l     d1,d0
+               addq.l     #4,d0
+ireadpos:      move.l     d0,-(sp)      ; Fread
+               move.l     a5,-(sp)
+               move.w     d7,-(sp)
+               move.w     #63,-(sp)
+               trap       #1
+               lea.l      $c(sp),sp
+               addi.l     #amount,savptr
+               movem.l    (sp)+,d1-d7/a0-a6
+               move.w     #0,load       ; Daten sind geladen
+ihfill:        move.b     (a0),d0       ; PLAY-FIFO leer ?
+               btst       #0,d0
+               bne.s      nowrler2
+               move.l     a3,rett
+               lea.l      playbyte(pc),a3         ; RÅckgabewerte-Liste
+               addi.l     #1,16(a3)     ;Fehler +1
+               movea.l    rett,a3
+nowrler2:      move.b     (a0),d0       ; PLAY-FIFO halbleer ?
+               btst       #1,d0
+               bne.s      icopyanf
+itstrest:      bra.s      ihfill
+icopyanf:      move.w     d4,d0         ; ...dann FIFO halb-fuellen (fifolen)!
+icopy:         move.b     (a2)+,(a1)    ; Rechter Kanal,HighByte senden,A1=0
+               move.b     (a2)+,(a1)    ; Rechter Kanal,LowByte senden,A1=0
+               move.b     (a2)+,(a4)    ; Linker Kanal,HighByte senden,A1=1
+               move.b     (a2)+,(a4)    ; Linker Kanal,LowByte senden,A1=1
+ifaster:       adda.l     d5,a2
+               cmpa.l     d1,a2         ; puffer voll ?
+               beq.s      ihplayend
+               dbra       d0,icopy      ; fifo-Schleife
+               lea.l      pos(pc),a0
+               move.l     a2,(a0)       ; position retten
+               lea.l      playbyte(pc),a4
+               move.l     a2,(a4)       ; Returnwert Playbyte speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+ihplayend:     lea.l      sectnr(pc),a1
+               move.l     (a1),d2
+               subq.l     #1,d2
+               move.l     d2,(a1)
+               cmpi.l     #0,d2
+               bne        ihpnoall
+ihpall:        lea.l      playbyte(pc),a4
+               addi.l     #1,4(a4)      ; ein sektor dazu
+               addi.l     #1,8(a4)      ; ein loop dazu
+ihcrostst:     btst       #1,d3
+               beq.s      ihpltst
+               lea.l      crosflag(pc),a5
+               tst.b      (a5)          ; Richtungsflag testen
+               bne.s      ihpbtof
+ihpftob:       move.b     #1,(a5)       ; backcross
+               addq.l     #8,d5
+               neg.l      d5
+               lea.l      step(pc),a1
+               move.l     d5,(a1)       ; Anzahl der For/Backstep d5
+               move.l     d1,d0
+               subq.l     #4,d0
+               lea.l      von(pc),a1
+               move.l     d0,(a1)       ; adr a3
+               lea.l      sectnr(pc),a1
+               lea.l      bsectnr(pc),a0
+               move.l     (a0),(a1)
+               bra.s      ihpnoall
+ihpbtof:       move.b     #0,(a5)       ; forcross
+               neg.l      d5
+               subq.l     #8,d5
+               lea.l      step(pc),a1
+               move.l     d5,(a1)       ; Anzahl der For/Backstep d5
+               move.l     d1,d0
+               subq.l     #4,d0
+               lea.l      von(pc),a1
+               move.l     d0,(a1)       ; adr a3
+ihpltst:       btst       #0,d3         ; loop ?
+               beq.s      ihpnoc
+               lea.l      sectnr(pc),a1
+               lea.l      bsectnr(pc),a0
+               move.l     (a0),(a1)
+               btst       #1,d3         ; Richtungsflag testen
+               bne.s      ihpnoall
+               subi.l     #amount,savptr
+               movem.l    d1-d7/a0-a6,-(sp)
+               move.w     #0,-(sp)      ; Fseek
+               move.w     d7,-(sp)
+               move.l     a6,-(sp)
+               move.w     #66,-(sp)
+               trap       #1
+               lea.l      $a(sp),sp
+               movem.l    (sp)+,d1-d7/a0-a6
+               addi.l     #amount,savptr
+               bra.s      ihpnoall
+ihpnoc:        addi.l     #1,4(a4)      ; ein sektor dazu
+               move.l     a2,(a4)       ; Returnwert Playbyte speichern
+               move.l     #1,12(a4)     ; break on
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+ihpnoall:      bsr        posmake
+               lea.l      playbyte(pc),a4
+               addi.l     #1,4(a4)      ; ein sektor dazu
+               move.l     a2,(a4)       ; Returnwert Playbyte speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+ihmidi:        movem.l    d1-d7/a0-a6,-(sp)
+               lea.l      midisuch(pc),a0
+               move.w     (a0),d2
+               move.w     d2,-(sp)
+               move.w     #3,-(sp)      ; MIDI
+               move.w     #1,-(sp)      ; Bconstat
+               trap       #13
+               addq.l     #4,sp
+               cmpi.w     #0,d0
+               beq.s      ihnomidi
+               move.w     #3,-(sp)
+               move.w     #2,-(sp)      ; Bconin
+               trap       #13
+               addq.l     #4,sp
+               move.w     (sp)+,d2
+               move.w     d2,-(sp)
+               lea.l      midiw(pc),a0
+               btst       #7,d0
+               beq.s      ihmidi2       ; Daten oder Befehl ?
+               asr.w      #8,d2         ; Channel im oberen Byte des Wortes
+               sub.b      d2,d0         ; Channel vom Befehl abziehen
+               move.b     d0,(a0)       ; Befehl schreiben
+               bra.s      ihnomidi
+ihmidi2:       cmp.b      d2,d0         ; Noten-DATA ?
+               beq.s      ihmidi4
+               cmp.b      1(a0),d2      ; Noten-data schon gewesen und korrekt ?
+               bne.s      ihnomidi
+ihmidi3:       move.b     d0,2(a0)      ; Velocitywert schreiben
+               cmpi.b     #$80,(a0)     ; NOTE OFF ?
+               beq.s      ihmidi5
+               cmpi.b     #$90,(a0)     ; NOTE ON ?
+               beq.s      ihmidi6
+ihmidi3b:      move.l     #0,(a0)       ; Datenwort lîschen
+               bra.s      ihnomidi
+ihmidi4:       cmp.b      1(a0),d2      ; Noten-DATA schon gewesen ?
+               beq.s      ihmidi3       ; dann ist es nicht Note sondern Velocity
+               move.b     d0,1(a0)      ; Notenwert schreiben
+               bra.s      ihnomidi
+ihmidi5:       cmp.b      1(a0),d2      ; NOTE OFF und Note OK ?
+               bne.s      ihmidi3b      ; wenn nein, Datenwort lîschen
+               bra.s      ihmidiex      ; Abbruch, da NOTE OFF !
+ihmidi6:       cmp.b      1(a0),d2      ; NOTE ON und Note OK ?
+               bne.s      ihmidi3b      ; wenn nein, Datenwort lîschen
+               cmpi.b     #0,2(a0)      ; Velocity ist Null ?
+               bne.s      ihmidi3b      ; wenn nein, Datenwort lîschen
+               bra.s      ihmidiex      ; Abbruch, da NOTE ON und Velo=Null !
+ihnomidi:      move.w     (sp)+,d2
+               movem.l    (sp)+,d1-d7/a0-a6
+               moveq.l    #0,d0
+               rts        
+ihmidiex:      move.w     (sp)+,d2
+               movem.l    (sp)+,d1-d7/a0-a6
+               moveq.l    #1,d0
+               rts        
+
+init_hrec:     lea.l      pos(pc),a3
+               lea.l      von(pc),a2
+               move.l     (a0)+,(a3)    ; position a2
+               move.l     (a3),(a2)     ; adr a3
+               lea.l      len(pc),a2
+               move.l     (a0)+,(a2)    ; len a5
+               lea.l      handle(pc),a2
+               move.l     (a0)+,(a2)    ; handle a6
+               lea.l      sectnr(pc),a2
+               move.l     (a0)+,(a2)    ; sectors d2
+               lea.l      fifo(pc),a2
+               move.l     (a0)+,(a2)    ; a4 fifolen  (len/2/4-1) bei 8192Byte=$3FF
+               lea.l      stath(pc),a2
+               move.l     (a0)+,(a2)    ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               move.l     (a0)+,(a2)    ; Playread im Wordmode a1
+               lea.l      playbyte(pc),a4         ; RÅckgabewerte-Liste
+               move.l     #0,4(a4)      ; Anzahl sektoren lîschen
+               move.l     #0,(a4)       ; playbyte lîschen
+               move.l     #0,8(a4)      ; Break lîschen
+               move.l     #0,16(a4)     ; Fehler lîschen
+               lea.l      imode(pc),a2
+               move.l     #4,(a2)
+               move.l     a4,d0
+               rts        
+
+ihardrec:      lea.l      von(pc),a2
+               movea.l    (a2),a3       ; adr a3
+               lea.l      len(pc),a2
+               movea.l    (a2),a5       ; len a5
+               lea.l      handle(pc),a2
+               movea.l    (a2),a6       ; handle a6
+               lea.l      sectnr(pc),a2
+               move.l     (a2),d2       ; sectors d2
+               lea.l      fifo(pc),a2
+               movea.l    (a2),a4       ; a4 fifolen  (len/2/4-1) bei 8192Byte=$3FF
+               lea.l      stath(pc),a2
+               movea.l    (a2),a0       ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               movea.l    (a2),a1       ; Playread im Wordmode a1
+               move.l     a3,d1         ; MEMende
+               add.l      a5,d1
+               moveq.l    #8,d2
+               moveq.l    #2,d3
+               lea.l      pos(pc),a2
+               movea.l    (a2),a2
+ihnanf:        move.b     (a0),d0       ; Flag lesen
+               btst       #2,d0         ; REC-FIFO voll ?
+               bne.s      nordful2
+               move.l     a3,rett
+               lea.l      playbyte(pc),a3         ; RÅckgabewerte-Liste
+               addi.l     #1,16(a3)     ;Fehler +1
+               movea.l    rett,a3
+nordful2:      and.b      d3,d0         ; FIFO mehr als halbvoll ?
+               beq.s      ihncopy       ; wenn ja, daten schnell einlesen
+               bra.s      ihnanf
+ihncopy:       move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+ihncopy2:      move.w     (a1),d7       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      ihncopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne.s      ihncopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      ihncopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      ihncopy3      ; fehlerhafte Daten ?
+               move.b     d7,(a2)+
+               move.b     d6,(a2)+
+               move.b     d5,(a2)+
+               move.b     d4,(a2)+
+               cmpa.l     d1,a2         ; sektorbuffer voll ?
+               beq.s      ihnsave       ;dann speichern
+ihncopy3:      dbra       d0,ihncopy2   ; fifolen-Schleife
+               lea.l      pos(pc),a3
+               move.l     a2,(a3)       ; position retten
+               bra.s      ihrecweg
+ihnsave:       lea.l      pos(pc),a0
+               move.l     a3,(a0)       ; position zurÅcksetzen
+               subi.l     #amount,savptr
+               movem.l    d1-d7/a0-a6,-(sp)
+               move.l     a3,-(sp)      ; Fwrite
+               move.l     a5,-(sp)
+               move.w     a6,-(sp)
+               move.w     #64,-(sp)
+               trap       #1
+               lea.l      $c(sp),sp
+               movem.l    (sp)+,d1-d7/a0-a6
+               addi.l     #amount,savptr
+               bmi.s      ihrecend
+               cmpa.l     d0,a5
+               bne.s      ihrecend
+               lea.l      sectnr(pc),a0
+               move.l     (a0),d2       ; sectors d2
+               subq.l     #1,d2
+               move.l     d2,(a0)
+               tst.l      d2            ; alle Sektoren geschrieben ?
+               beq.s      ihrecend
+ihrecweg:      lea.l      playbyte(pc),a5
+               move.l     a2,(a5)       ; Returnwert Playbyte speichern
+               move.l     4(a5),d0
+               addq.l     #1,d0
+               move.l     d0,4(a5)      ; Returnwert Anzahl sektoren speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+ihrecend:      lea.l      playbyte(pc),a5
+               move.l     a2,(a5)       ; Returnwert Playbyte speichern
+               move.l     4(a5),d0
+               addq.l     #1,d0
+               move.l     d0,4(a5)      ; Returnwert Anzahl sektoren speichern
+               move.l     #1,8(a5)      ; Break setzen
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+
+init_peak:     move.l     (a0)+,d0      ; Inhalt RegH d2
+               lea.l      fifo(pc),a2
+               move.l     (a0)+,(a2)    ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
+               lea.l      stath(pc),a2
+               move.l     (a0)+,(a2)    ; StatH im Bytemode a0
+               movea.l    (a2),a4
+               suba.l     #$20,a4
+               bset       #1,d0         ; REC-FIFO loeschen
+               move.b     d0,(a4)
+               bclr       #1,d0
+               move.b     d0,(a4)
+               lea.l      playread(pc),a2
+               move.l     (a0)+,(a2)    ; Playread im Wordmode a1
+               lea.l      playbyte(pc),a4         ; RÅckgabewerte-Liste
+               move.l     #0,(a4)       ; RÅckgabewert lîschen
+               move.l     #0,4(a4)      ; Break lîschen
+               lea.l      imode(pc),a2
+               move.l     #5,(a2)
+               move.l     a4,d0
+               rts        
+
+ipeak:         lea.l      fifo(pc),a2
+               movea.l    (a2),a3       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
+               lea.l      stath(pc),a2
+               movea.l    (a2),a0       ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               movea.l    (a2),a1       ; Playread im Wordmode a1
+               lea.l      playbyte(pc),a4         ; RÅckgabewerte-Liste
+               move.l     (a4),d1
+               moveq.l    #8,d2
+               moveq.l    #2,d3
+ipkanf:        move.b     (a0),d0       ; Flag lesen
+               and.b      d3,d0         ; FIFO mehr als halbvoll ?
+               beq.s      ipkcopy       ; wenn ja, daten einlesen
+               bra.s      ipkanf
+ipkcopy:       move.w     a3,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+ipkcopy2:      move.w     (a1),d7       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      ipkcopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne.s      ipkcopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      ipkcopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      ipkcopy3      ; fehlerhafte Daten ?
+               asl.w      #8,d7
+               add.b      d6,d7
+               asl.w      #8,d5
+               add.b      d4,d5
+               swap.w     d1
+               btst       #15,d7
+               beq.s      pnoneg
+               not.w      d7
+pnoneg:        cmp.w      d1,d7
+               blt.s      pnoadd
+               move.w     d7,d1
+pnoadd:        swap.w     d1
+               btst       #15,d5
+               beq.s      pnoneg2
+               not.w      d5
+pnoneg2:       cmp.w      d1,d5
+               blt.s      ipkcopy3
+               move.w     d5,d1
+ipkcopy3:      dbra       d0,ipkcopy2
+               move.l     d1,(a4)
+               move.l     #1,4(a4)      ; Break setzen
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+
+init_mrecpeak: lea.l      von(pc),a2
+               move.l     (a0)+,(a2)    ; von a3
+               lea.l      bis(pc),a2
+               move.l     (a0)+,(a2)    ; bis d1
+               lea.l      regh(pc),a2
+               move.l     (a0)+,d0      ; Inhalt RegH d2
+               move.l     d0,(a2)
+               lea.l      fifo(pc),a2
+               move.l     (a0)+,(a2)    ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
+               lea.l      stath(pc),a2
+               move.l     (a0)+,(a2)    ; StatH im Bytemode a0
+               bset       #1,d0         ; REC-FIFO loeschen
+               movea.l    (a2),a2
+               suba.l     #$20,a2
+               move.b     d0,(a2)
+               bclr       #1,d0
+               move.b     d0,(a2)
+               lea.l      playread(pc),a2
+               move.l     (a0)+,(a2)    ; Playread im Wordmode a1
+               lea.l      playbyte(pc),a4         ; RÅckgabewerte-Liste
+               move.l     #0,8(a4)      ; Break lîschen
+               move.l     #0,12(a4)     ; Peak-RÅckgabewert lîschen
+               move.l     #0,16(a4)     ; Fehler lîschen
+               lea.l      imode(pc),a2
+               move.l     #6,(a2)
+               move.l     a4,d0
+               rts        
+
+mrecpeak:      lea.l      von(pc),a2
+               movea.l    (a2),a3       ; von a3
+               lea.l      bis(pc),a2
+               move.l     (a2),d1       ; bis d1
+               lea.l      fifo(pc),a2
+               movea.l    (a2),a4       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
+               lea.l      stath(pc),a2
+               movea.l    (a2),a0       ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               movea.l    (a2),a1       ; Playread im Wordmode a1
+               movea.l    12(a2),a6     ; Peak-RÅckgabewert
+               lea.l      playbyte(pc),a5         ; RÅckgabewerte-Liste
+               moveq.l    #8,d2
+               moveq.l    #2,d3
+               movea.l    a3,a2
+miranf:        move.b     (a0),d0       ; Flag lesen
+               btst       #2,d0         ; REC-FIFO voll ?
+               bne.s      nordful3
+               addi.l     #1,16(a5)     ;Fehler +1
+nordful3:      and.b      d3,d0         ; FIFO mehr als halbvoll ?
+               beq.s      mircopy       ; wenn ja, daten einlesen
+               bra.s      miranf
+mircopy:       move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+mircopy2:      move.w     (a1),d7       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      mircopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne.s      mircopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      mircopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      mircopy3      ; fehlerhafte Daten ?
+               move.b     d7,(a2)+
+               move.b     d6,(a2)+
+               move.b     d5,(a2)+
+               move.b     d4,(a2)+
+               asl.w      #8,d7
+               add.b      d6,d7
+               asl.w      #8,d5
+               add.b      d4,d5
+               move.l     d1,-(sp)
+               move.l     a6,d1
+               swap.w     d1
+               btst       #15,d7
+               beq.s      mpnoneg
+               not.w      d7
+mpnoneg:       cmp.w      d1,d7
+               blt.s      mpnoadd
+               move.w     d7,d1
+mpnoadd:       swap.w     d1
+               btst       #15,d5
+               beq.s      mpnoneg2
+               not.w      d5
+mpnoneg2:      cmp.w      d1,d5
+               blt.s      mircop2b
+               move.w     d5,d1
+               movea.l    d1,a6
+mircop2b:      move.l     (sp)+,d1
+               cmpa.l     d1,a2         ; Speicher voll ?
+               beq.s      mirweg
+mircopy3:      dbra       d0,mircopy2
+mir_back:      lea.l      von(pc),a4
+               move.l     a2,(a4)       ; Recposition retten
+mir_back2:     lea.l      playbyte(pc),a4
+               move.l     a2,(a4)       ; Returnwert Recordbyte speichern
+               move.l     a6,12(a4)     ; Peak-RÅckgabewert speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+mirweg:        move.l     a2,(a5)       ; Returnwert Playbyte speichern
+               move.l     a6,12(a5)     ; Peak-RÅckgabewert speichern
+               lea.l      von(pc),a4
+               move.l     a2,(a4)       ; Playposition retten
+               move.l     #1,8(a5)      ; Break setzen
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+
+init_hrecpeak: lea.l      pos(pc),a3
+               lea.l      von(pc),a2
+               move.l     (a0)+,(a3)    ; position a2
+               move.l     (a3),(a2)     ; adr a3
+               lea.l      len(pc),a2
+               move.l     (a0)+,(a2)    ; len a5 (pufferlÑnge)
+               lea.l      handle(pc),a2
+               move.l     (a0)+,(a2)    ; handle a6
+               lea.l      sectnr(pc),a2
+               move.l     (a0)+,(a2)    ; sectors d2
+               lea.l      fifo(pc),a2
+               move.l     (a0)+,(a2)    ; a4 fifolen  (len/2/4-1) bei 8192Byte=$3FF
+               lea.l      stath(pc),a2
+               move.l     (a0)+,(a2)    ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               move.l     (a0)+,(a2)    ; Playread im Wordmode a1
+               lea.l      playbyte(pc),a4         ; RÅckgabewerte-Liste
+               move.l     #0,4(a4)      ; Anzahl sektoren lîschen
+               move.l     #0,(a4)       ; playbyte lîschen
+               move.l     #0,8(a4)      ; Break lîschen
+               move.l     #0,12(a4)     ; Peak-RÅckgabewert lîschen
+               move.l     #0,16(a4)     ; Fehler lîschen
+               lea.l      imode(pc),a2
+               move.l     #7,(a2)
+               move.l     a4,d0
+               rts        
+
+hrecpeak:      lea.l      von(pc),a2
+               movea.l    (a2),a3       ; adr a3
+               lea.l      len(pc),a2
+               movea.l    (a2),a5       ; len a5
+               lea.l      handle(pc),a2
+               movea.l    (a2),a6       ; handle a6
+               lea.l      sectnr(pc),a2
+               move.l     (a2),d2       ; sectors d2
+               lea.l      fifo(pc),a2
+               movea.l    (a2),a4       ; a4 fifolen  (len/2/4-1) bei 8192Byte=$3FF
+               lea.l      stath(pc),a2
+               movea.l    (a2),a0       ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               movea.l    (a2),a1       ; Playread im Wordmode a1
+               move.l     12(a2),d3     ; Peak-RÅckgabewert
+               move.l     a3,d1         ; MEMende
+               add.l      a5,d1
+               moveq.l    #8,d2
+               lea.l      pos(pc),a2
+               movea.l    (a2),a2
+pihnanf:       move.b     (a0),d0       ; Flag lesen
+               btst       #2,d0         ; REC-FIFO voll ?
+               bne.s      nordful4
+               move.l     a3,rett
+               lea.l      playbyte(pc),a3         ; RÅckgabewerte-Liste
+               addi.l     #1,16(a3)     ;Fehler +1
+               movea.l    rett,a3
+nordful4:      andi.b     #2,d0         ; FIFO mehr als halbvoll ?
+               beq.s      pihncopy      ; wenn ja, daten schnell einlesen
+               bra.s      pihnanf
+pihncopy:      move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+pihncopy2:     move.w     (a1),d7       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      pihncopy3     ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne.s      pihncopy3     ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      pihncopy3     ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      pihncopy3     ; fehlerhafte Daten ?
+               move.b     d7,(a2)+
+               move.b     d6,(a2)+
+               move.b     d5,(a2)+
+               move.b     d4,(a2)+
+               asl.w      #8,d7
+               add.b      d6,d7
+               asl.w      #8,d5
+               add.b      d4,d5
+               swap.w     d3
+               btst       #15,d7
+               beq.s      hpnoneg
+               not.w      d7
+hpnoneg:       cmp.w      d3,d7
+               blt.s      hpnoadd
+               move.w     d7,d3
+hpnoadd:       swap.w     d3
+               btst       #15,d5
+               beq.s      hpnoneg2
+               not.w      d5
+hpnoneg2:      cmp.w      d3,d5
+               blt.s      hircop2b
+               move.w     d5,d3
+hircop2b:      cmpa.l     d1,a2         ; sektorbuffer voll ?
+               beq.s      pihnsave      ;dann speichern
+pihncopy3:     dbra       d0,pihncopy2  ; fifolen-Schleife
+               lea.l      pos(pc),a3
+               move.l     a2,(a3)       ; position retten
+               bra.s      pihrecweg
+pihnsave:      lea.l      pos(pc),a0
+               move.l     a3,(a0)       ; position zurÅcksetzen
+               subi.l     #amount,savptr
+               movem.l    d1-d7/a0-a6,-(sp)
+               move.l     a3,-(sp)      ; Fwrite
+               move.l     a5,-(sp)
+               move.w     a6,-(sp)
+               move.w     #64,-(sp)
+               trap       #1
+               lea.l      $c(sp),sp
+               movem.l    (sp)+,d1-d7/a0-a6
+               addi.l     #amount,savptr
+               bmi.s      pihrecend
+               cmpa.l     d0,a5
+               bne.s      pihrecend
+               lea.l      sectnr(pc),a0
+               move.l     (a0),d2       ; sectors d2
+               subq.l     #1,d2
+               move.l     d2,(a0)
+               tst.l      d2            ; alle Sektoren geschrieben ?
+               beq.s      pihrecend
+               lea.l      playbyte(pc),a5
+               move.l     4(a5),d0
+               addq.l     #1,d0
+               move.l     d0,4(a5)      ; Returnwert Anzahl sektoren speichern
+pihrecweg:     lea.l      playbyte(pc),a5
+               move.l     a2,(a5)       ; Returnwert Playbyte speichern
+               move.l     d3,12(a5)     ; Peak-RÅckgabewert speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+pihrecend:     lea.l      playbyte(pc),a5
+               move.l     a2,(a5)       ; Returnwert Playbyte speichern
+               move.l     4(a5),d0
+               addq.l     #1,d0
+               move.l     d0,4(a5)      ; Returnwert Anzahl sektoren speichern
+               move.l     #1,8(a5)      ; Break setzen
+               move.l     d3,12(a5)     ; Peak-RÅckgabewert speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+
+init_implayrec:           
+               lea.l      von(pc),a2
+               move.l     (a0)+,(a2)    ; von a3
+               lea.l      bis(pc),a2
+               move.l     (a0)+,(a2)    ; bis d1
+               lea.l      rvon(pc),a2
+               move.l     (a0)+,(a2)    ; von a3
+               lea.l      rbis(pc),a2
+               move.l     (a0)+,(a2)    ; bis d1
+               lea.l      regh(pc),a2
+               move.l     (a0)+,d0      ; Inhalt RegH d2
+               move.l     d0,(a2)
+               lea.l      step(pc),a2
+               move.l     (a0)+,(a2)    ; Anzahl der For/Backstep d4
+               lea.l      fifo(pc),a2
+               move.l     (a0)+,(a2)    ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d2
+               lea.l      stath(pc),a2
+               move.l     (a0)+,(a2)    ; StatH im Bytemode a0
+               bset       #1,d0         ; REC-FIFO loeschen
+               movea.l    (a2),a2
+               move.b     d0,(a2)
+               bclr       #1,d0
+               move.b     d0,(a2)
+               lea.l      playread(pc),a2
+               move.l     (a0)+,(a2)    ; Playread im Wordmode a1
+               lea.l      int_reg(pc),a2
+               move.l     (a0)+,(a2)    ; INT-Register im Bytemode a0
+               lea.l      playbyte(pc),a4         ; RÅckgabewerte-Liste
+               move.l     #0,8(a4)      ; Break play lîschen
+               move.l     #0,12(a4)     ; Break rec lîschen
+               move.l     #0,16(a4)     ; Fehler play lîschen
+               move.l     #0,20(a4)     ; Fehler rec lîschen
+               lea.l      imode(pc),a2
+               move.l     #8,(a2)
+               move.l     a4,d0
+               rts        
+
+implayrec:     lea.l      von(pc),a2
+               movea.l    (a2),a3       ; von a3
+               lea.l      bis(pc),a2
+               move.l     (a2),d1       ; bis d1
+               lea.l      step(pc),a2
+               move.l     (a2),d4       ; Anzahl der For/Backstep d4
+               lea.l      fifo(pc),a2
+               move.l     (a2),d2       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d2
+               lea.l      stath(pc),a2
+               movea.l    (a2),a0       ; StatH im Bytemode a0
+               lea.l      playread(pc),a2
+               movea.l    (a2),a1       ; Playread a1,A1=0
+               addq.l     #1,a1         ; Playread im Bytemode !
+               movea.l    a1,a5
+               addq.l     #2,a5         ; Playread a5,A1=1
+               movea.l    a3,a2
+               lea.l      playbyte(pc),a6         ; RÅckgabewerte-Liste
+               cmpa.l     d1,a2
+               beq.s      mpr_back
+mprfill:       move.b     (a0),d0       ; Play-FIFO leer ?
+               btst       #0,d0
+               bne.s      mprcopyanf
+               addi.l     #1,16(a6)     ;Fehler +1
+mprcopyanf:    move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
+mprcopy:       move.b     (a2)+,(a1)    ; Rechter Kanal,HighByte senden,A1=0
+               move.b     (a2)+,(a1)    ; Rechter Kanal,LowByte senden,A1=0
+               move.b     (a2)+,(a5)    ; Linker Kanal,HighByte senden,A1=1
+               move.b     (a2)+,(a5)    ; Linker Kanal,LowByte senden,A1=1
+               cmpa.l     d1,a2
+               beq.s      mprend
+               adda.l     d4,a2
+               dbra       d0,mprcopy
+mpr_back:      lea.l      von(pc),a4
+               move.l     a2,(a4)       ; Playposition retten
+               lea.l      playbyte(pc),a4
+               move.l     a2,(a4)       ; Returnwert Playbyte speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+mprend:        lea.l      von(pc),a4
+               move.l     a2,(a4)       ; Playposition retten
+               lea.l      playbyte(pc),a4
+               move.l     a2,(a4)       ; Returnwert Playbyte speichern
+               move.l     #1,8(a4)      ; play-break setzen
+               lea.l      int_reg(pc),a2
+               movea.l    (a2),a2       ; INT-Register im Bytemode a0
+               move.w     #ireg_r,(a2)  ; nur noch Rec-INT, Play-INT abschalten
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+
+imprec:        lea.l      rvon(pc),a2
+               movea.l    (a2),a3       ; von a3
+               lea.l      rbis(pc),a2
+               move.l     (a2),d1       ; bis d1
+               lea.l      fifo(pc),a2
+               movea.l    (a2),a4       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
+               lea.l      stath(pc),a2
+               movea.l    (a2),a0       ; StatH im Bytemode a0
+               adda.l     #$20,a0
+               lea.l      playread(pc),a2
+               movea.l    (a2),a1       ; Playread im Wordmode a1
+               lea.l      playbyte(pc),a5         ; RÅckgabewerte-Liste
+               moveq.l    #8,d2
+               movea.l    a3,a2
+mrpanf:        move.b     (a0),d0       ; Flag lesen
+               btst       #2,d0         ; RECORD-FIFO voll ?
+               bne.s      mrpcopy
+               addi.l     #1,20(a5)     ;Fehler +1
+mrpcopy:       move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+mrpcopy2:      move.w     (a1),d7       ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      mrpcopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne.s      mrpcopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d5       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d5
+               beq.s      mrpcopy3      ; fehlerhafte Daten ?
+               move.w     (a1),d4       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
+               btst       d2,d4
+               beq.s      mrpcopy3      ; fehlerhafte Daten ?
+               move.b     d7,(a2)+
+               move.b     d6,(a2)+
+               move.b     d5,(a2)+
+               move.b     d4,(a2)+
+               cmpa.l     d1,a2         ; Speicher voll ?
+               beq.s      mrpweg
+mrpcopy3:      dbra       d0,mrpcopy2
+mrp_back:      lea.l      rvon(pc),a4
+               move.l     a2,(a4)       ; Recposition retten
+               move.l     a2,4(a5)      ; Returnwert Recordbyte speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+mrpweg:        move.l     a2,4(a5)      ; Returnwert Recbyte speichern
+               lea.l      rvon(pc),a4
+               move.l     a2,(a4)       ; Recposition retten
+               move.l     #1,12(a5)     ; rec-break setzen
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+
+pos:           .DS.l 1
+von:           .DS.l 1
+bvon:          .DS.l 1
+rvon:          .DS.l 1
+bis:           .DS.l 1
+bbis:          .DS.l 1
+rbis:          .DS.l 1
+len:           .DS.l 1
+step:          .DS.l 1
+mode:          .DS.l 1
+fifo:          .DS.l 1
+stath:         .DS.l 1
+regh:          .DS.l 1
+playread:      .DS.l 1
+loop:          .DS.l 1
+crosflag:      .DS.l 1
+imode:         .DS.l 1
+handle:        .DS.l 1
+seeknr:        .DS.l 1
+sectnr:        .DS.l 1
+bsectnr:       .DS.l 1
+load:          .DS.w 1
+int_reg:       .DS.l 1
+; ----------------------------Ende der Treiber-----------------------
+
+installed:     
+               move.l     #$71273800,d0 ;magic
+               rts        
+
+Rlist:         .DC.w 101,102,103,104,105,106,111,112,113,114,115,116,117,118,500
+               .DC.w 0
+
+R_addr:        
+               .DC.l memplay
+               .DC.l memrec
+               .DC.l hardplay
+               .DC.l recwait
+               .DC.l hardrec
+               .DC.l monitor
+               .DC.l init_imemplay
+               .DC.l init_imemrec
+               .DC.l init_hplay
+               .DC.l init_implayrec
+               .DC.l init_hrec
+               .DC.l init_peak
+               .DC.l init_mrecpeak
+               .DC.l init_hrecpeak
+               .DC.l installed
+
+               .DATA 
+               .EVEN 
+magic:         .DC.l $12233445
+Text:          .DC.b 13,10,10
+               .DC.b "Xbios-Erweiterung fÅr Star-Track installiert...     ",13,10,10,0
+               .EVEN 
+Text2:         .DC.b 13,10
+               .DC.b "Xbios-Erweiterung wurde schon installiert !!!",13,10,0
+rett:          .DC.l 0
+midisuch:      .DC.w 0
+midiw:         .DC.l 0
+playbyte:      .DS.l 7
+               .DS.b 512
+
+program_end:   
+               .BSS 
+               .END 
+
