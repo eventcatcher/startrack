@@ -1,0 +1,86 @@
+'
+' Testet die Do_block-Funktion des Falcon-XBIOS
+'
+'
+CLS
+a$="K:\LODS\BLOCKS.LOD"+CHR$(0)
+@fdsptest(a$)
+END
+PROCEDURE fdsptest(a$)
+  mydat%=MALLOC(10000)
+  mydat2%=mydat%+5000
+  wsize=XBIOS(103)
+  '
+  ability=XBIOS(113)
+  PRINT "Nummer ability(113):";ability
+  '
+  size=XBIOS(111,L:VARPTR(a$),L:mydat%)
+  PRINT "Load to binary:(111,size)";size
+  '
+  a=XBIOS(109,L:mydat%,L:size,ability)
+  PRINT "send and start program:(109)";a
+  '
+  i=0
+  j=0
+  REPEAT
+    INC j
+    POKE mydat2%+i,0
+    i=i+1
+  UNTIL j=1000
+  '
+  j=&H120000
+  i=0
+  z=0
+  REPEAT
+    INC j
+    INC z
+    j3=j
+    j1=INT(j3/&H10000)
+    j3=j3-j1*&H10000
+    j2=INT(j3/&H100)
+    j3=j3-j2*&H100
+    POKE mydat%+i,j1
+    i=i+1
+    POKE mydat%+i,j2
+    i=i+1
+    POKE mydat%+i,j3
+    i=i+1
+  UNTIL z=1000
+  '
+  PAUSE 50
+  '
+  blkdo=XBIOS(96,L:mydat%,L:1000,L:mydat2%,L:1000)
+  PRINT "do_block(96):";blkdo
+  '
+  '
+  '
+  j=&H120000
+  i=0
+  z=0
+  e=0
+  e2=0
+  REPEAT
+    INC j
+    INC z
+    k1=PEEK(mydat2%+i)
+    i=i+1
+    k2=PEEK(mydat2%+i)
+    i=i+1
+    k3=PEEK(mydat2%+i)
+    i=i+1
+    k=k1*&H10000+k2*&H100+k3
+    IF j<>k THEN
+      INC e
+    ENDIF
+    IF k<>j THEN
+      INC e2
+    ENDIF
+  UNTIL z=1000
+  '
+  PRINT "Fehler:";e,e2
+  PAUSE 50
+  '
+  unlock=XBIOS(105)
+  PRINT "UnLock(105):";unlock
+  ~MFREE(mydat%)
+RETURN

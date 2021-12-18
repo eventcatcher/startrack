@@ -1,0 +1,76 @@
+CLS
+a$="K:\LODS\LOWPASS.LOD"+CHR$(0)
+@fdsptest(a$)
+END
+PROCEDURE fdsptest(a$)
+  mydat%=MALLOC(10000)
+  wsize=XBIOS(103)
+  PRINT "Wordsize(103):";wsize
+  lock=XBIOS(104)
+  PRINT "Lock(104):";lock
+  '
+  x%=0
+  y%=0
+  avail=XBIOS(106,L:VARPTR(x%),L:VARPTR(y%))
+  PRINT "Available(106):";x%,y%,avail
+  '
+  ability=XBIOS(113)
+  PRINT "Nummer ability(113):";ability
+  '
+  size=XBIOS(111,L:VARPTR(a$),L:mydat%)
+  PRINT "Load to binary:(111,size)";size
+  '
+  x2%=0
+  y2%=size
+  reserve=XBIOS(107,L:x2%,L:y2%)
+  PRINT "Reserve(107):";reserve
+  '
+  avail2=XBIOS(106,L:VARPTR(x%),L:VARPTR(y%))
+  PRINT "Available(106):";x%,y%,avail2
+  '
+  a=XBIOS(109,L:mydat%,L:size,ability)
+  PRINT "send and start program:(109)";a
+  '
+  '  a=XBIOS(108,L:VARPTR(a$),ability,L:mydat%)
+  '  PRINT "Load and start program:";a$;"(108)";a
+  '
+  abilityget=XBIOS(114)
+  PRINT "Nummer get ability(114):";abilityget
+  '
+  ghf0=XBIOS(119,-1)
+  PRINT "get hf0(119):";ghf0
+  '
+  ghf1=XBIOS(120,-1)
+  PRINT "get hf1(120):";ghf1
+  '
+  ghf2=XBIOS(121,-1)
+  PRINT "get hf2(121):";ghf2
+  '
+  ghf3=XBIOS(122,-1)
+  PRINT "get hf3(122):";ghf3
+  '
+  shf0=XBIOS(119,1)
+  PRINT "set hf0(119):";shf0
+  '
+  shf1=XBIOS(120,1)
+  PRINT "set hf1(120):";shf1
+  '
+  ghf0=XBIOS(119,-1)
+  PRINT "get hf0(119):";ghf0
+  '
+  ghf1=XBIOS(120,-1)
+  PRINT "get hf1(120):";ghf1
+  '
+  ghf2=XBIOS(121,-1)
+  PRINT "get hf2(121):";ghf2
+  '
+  ghf3=XBIOS(122,-1)
+  PRINT "get hf3(122):";ghf3
+  '
+  hstat=XBIOS(125)
+  PRINT "get hstat(125):";hstat
+  '
+  unlock=XBIOS(105)
+  PRINT "UnLock(105):";unlock
+  ~MFREE(mydat%)
+RETURN
