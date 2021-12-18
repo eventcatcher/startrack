@@ -1,7 +1,8 @@
-;Xbios
-;Xbios-Erweiterung fr Audiokarte StarTrack (VME)
-;Release 4.7.1999 by SWE (Stephan Wilhelm Entwicklungsbro)
-;for Milan,Hades,Medusa,TT and Mega STE
+; Xbios
+; Xbios-Erweiterung fr Audiokarte StarTrack (VME)
+; Release 19.11.1999 by SWE (Stephan Wilhelm Entwicklungsbro)
+; for Milan,Hades,Medusa,TT and Mega STE
+; Directstream-Support
 
 ;with Special 16Channel Multiplex-Mode & 24Bit-EightChannel-Support(Testversion)
 
@@ -418,6 +419,9 @@ xbinitex:      movem.l    d0-d7/a0-a6,-(sp)
 
                cmpi.l     #$1f,cooksnd  ; l„uft unter Falcon ?
                beq.s      nocookchng
+
+               bsr        getspecs      ; initfile laden
+
                lea.l      stack,a0
                move.w     #1,(a0)
                bsr        compatible    ; Kompatibilit„tsmodus ein
@@ -615,6 +619,222 @@ my_Dfound:     lsl.w      #1,d2
                jsr        (a1)
                movem.l    (sp)+,d3-d7/a3-a7
                rte        
+
+spcinp:        .DC.b "insrc="
+               .DC.b "analog"
+               .DC.b "opto"
+               .DC.b "cinch"
+
+spcout:        .DC.b "outsrc="
+               .DC.b "input"
+               .DC.b "dma"
+               .DC.b "ext"
+
+spcmode:       .DC.b "mode="
+               .DC.b "stereo"
+               .DC.b "falcon"
+
+spcvoli:       .DC.b "invol=$"
+spcvolo:       .DC.b "outvol=$"
+
+spcbit:        .DC.b "bits="
+               .DC.b "normal"
+               .DC.b "extended"
+
+getspecs:      lea.l      asrc(pc),a6   ; asrc=analog
+               move.b     #1,(a6)
+               lea.l      dsrc(pc),a6   ; digital source=opto
+               move.w     #0,(a6)       ; wert
+               lea.l      adwert(pc),a6
+               move.w     #$c0,(a6)+
+               move.w     #$c0,(a6)
+               lea.l      dawert(pc),a6
+               move.w     #$c0,(a6)+
+               move.w     #$c0,(a6)
+               lea.l      modr24(pc),a3
+               move.b     #0,(a3)
+               lea.l      playmod(pc),a6
+               move.w     #0,(a6)
+               clr.w      -(sp)
+               lea.l      specnam(pc),a0
+               move.l     a0,-(sp)
+               move.w     #61,-(sp)
+               trap       #1
+               addq.l     #8,sp
+               cmpi.l     #0,d0
+               bmi        nospecs
+               lea.l      filebuf,a0
+               move.l     a0,-(sp)
+               move.l     #512,-(sp)    ; ein sektor
+               move.w     d0,-(sp)
+               move.w     d0,handle
+               move.w     #63,-(sp)
+               trap       #1
+               lea.l      $c(sp),sp
+               lea.l      filebuf,a0
+spcnxt1:       lea.l      spcinp(pc),a1
+               lea.l      spcout(pc),a2
+               lea.l      spcmode(pc),a3
+               lea.l      spcvoli(pc),a4
+               lea.l      spcvolo(pc),a5
+               lea.l      spcbit(pc),a6
+spcnxt2:       move.b     (a0),d0
+               cmpi.b     #"=",d0
+               beq.s      spcfrdy
+               bset       #5,d0
+               move.w     #0,d7
+               move.w     #1,d6
+               cmp.b      (a1),d0
+               beq.s      spcfnd
+               move.w     #2,d6
+               cmp.b      (a2),d0
+               beq.s      spcfnd
+               move.w     #3,d6
+               cmp.b      (a3),d0
+               beq.s      spcfnd
+               move.w     #4,d6
+               cmp.b      (a4),d0
+               beq.s      spcfnd
+               move.w     #5,d6
+               cmp.b      (a5),d0
+               beq.s      spcfnd
+               move.w     #6,d6
+               cmp.b      (a6),d0
+               beq.s      spcfnd
+               addq.l     #1,a0
+               cmpa.l     #filebuf+512,a0
+               blt.s      spcnxt1
+               move.w     handle,-(sp)
+               move.w     #62,-(sp)
+               trap       #1
+               addq.l     #4,sp
+nospecs:       clr.l      d0
+               rts        
+spcfnd:        addq.l     #1,a0
+               addq.l     #1,a1
+               addq.l     #1,a2
+               addq.l     #1,a3
+               addq.l     #1,a4
+               addq.l     #1,a5
+               addq.l     #1,a6
+               move.w     d6,d7
+               bra.s      spcnxt2
+spcfrdy:       addq.l     #1,a0
+               cmpi.w     #1,d7
+               beq.s      spcfnd1
+               cmpi.w     #2,d7
+               beq        spcfnd2
+               cmpi.w     #3,d7
+               beq        spcfnd3
+               cmpi.w     #4,d7
+               beq        spcfnd4
+               cmpi.w     #5,d7
+               beq        spcfnd5
+               cmpi.w     #6,d7
+               beq        spcfnd6
+               bra        spcnxt1
+
+spcfnd1:       move.b     (a0),d1
+               bclr       #5,d1
+               cmpi.b     #"A",d1
+               beq.s      spc11
+               cmpi.b     #"O",d1
+               beq.s      spc12
+               cmpi.b     #"C",d1
+               beq.s      spc13
+               bra        spcnxt1
+spc11:         lea.l      asrc(pc),a6   ; asrc=analog
+               move.b     #1,(a6)
+               bra        spcnxt1
+
+anatext:       .DC.b "input=analog",0,0
+
+spc12:         lea.l      asrc(pc),a6   ; asrc=digi
+               move.b     #0,(a6)
+               lea.l      dsrc(pc),a6   ; digital source=opto
+               move.w     #0,(a6)       ; wert
+               bra        spcnxt1
+spc13:         lea.l      asrc(pc),a6   ; asrc=digi
+               move.b     #0,(a6)
+               lea.l      dsrc(pc),a6   ; digital source=coax
+               move.w     #1,(a6)       ; wert
+               bra        spcnxt1
+
+spcfnd2:       move.b     (a0),d1
+               bclr       #5,d1
+               cmpi.b     #"I",d1
+               beq.s      spc21
+               cmpi.b     #"D",d1
+               beq.s      spc22
+               cmpi.b     #"E",d1
+               beq.s      spc23
+               bra        spcnxt1
+spc21:         
+               bra        spcnxt1
+spc22:         
+               bra        spcnxt1
+spc23:         
+               bra        spcnxt1
+
+spcfnd3:       lea.l      playmod(pc),a6
+               move.b     (a0),d1
+               bclr       #5,d1
+               cmpi.b     #"S",d1
+               beq.s      spc31
+               cmpi.b     #"F",d1
+               beq.s      spc32
+               bra        spcnxt1
+spc31:         move.w     #0,(a6)
+               bra        spcnxt1
+spc32:         move.w     #2,(a6)
+               bra        spcnxt1
+
+spcfnd4:       lea.l      adwert(pc),a6
+spcfnd4a:      move.b     (a0)+,d1
+               cmpi.b     #"$",d1
+               bne        spcnxt1
+               move.b     (a0)+,d1
+               subi.b     #48,d1
+               cmpi.b     #9,d1
+               ble.s      nohex1
+               subi.b     #7,d1
+               cmpi.b     #15,d1
+               ble.s      nohex1
+               subi.b     #32,d1
+nohex1:        move.w     d1,d2
+               lsl.w      #4,d2
+               move.b     (a0)+,d1
+               cmpi.w     #48,d1
+               blt.s      spcfnd4b
+               subi.b     #48,d1
+               cmpi.b     #9,d1
+               ble.s      nohex2
+               subi.b     #7,d1
+               cmpi.b     #15,d1
+               ble.s      nohex2
+               subi.b     #32,d1
+nohex2:        andi.w     #$f,d1
+               or.b       d1,d2
+spcfnd4b:      move.w     d2,(a6)+
+               move.w     d2,(a6)+
+               bra        spcnxt1
+
+spcfnd5:       lea.l      dawert(pc),a6
+               movea.l    a5,a4
+               bra.s      spcfnd4a
+
+spcfnd6:       move.b     (a0),d1
+               lea.l      modr24(pc),a3
+               bclr       #5,d1
+               cmpi.b     #"N",d1
+               beq.s      spc61
+               cmpi.b     #"E",d1
+               beq.s      spc62
+               bra        spcnxt1
+spc61:         move.b     #0,(a3)
+               bra        spcnxt1
+spc62:         move.b     #1,(a3)
+               bra        spcnxt1
 
 speedtst:      movea.l    (a0)+,a1      ; buffer
                move.l     (a0)+,d7      ; loops
@@ -1720,6 +1940,7 @@ _Dsp_ExecProg:
                movea.l    (sp)+,a0
                movea.l    (a0)+,a1      ;codeptr
                move.l     (a0)+,d0      ;codesize
+               cmpi.l     #0,d0
                beq        exit_Dsp_Exec
                bsr        tmt_to_DSP
 
@@ -4794,13 +5015,18 @@ delplugs:      move.w     #0,0(a1,d2.w)
                bne.s      delplugs
                lea.l      vmestart(pc),a6
                movea.l    (a6),a6
-               lea.l      lowreg(pc),a1
-               move.b     #13,(a1)
-               move.b     #13,(a6)
-               lea.l      asrc(pc),a6   ; analog oder digital
-               move.w     #1,(a6)
-               lea.l      dsrc(pc),a6   ; opto,cinch oder xlr
-               move.w     #0,(a6)
+               lea.l      asrc(pc),a5   ; analog oder digital
+               move.w     #9,d0
+               cmpi.w     #1,(a5)
+               beq.s      idigi
+               move.w     #0,d0
+idigi:         lea.l      dsrc(pc),a5   ; opto,cinch oder xlr
+               cmpi.w     #0,(a5)
+               beq.s      ikoax
+               bset       #1,d0
+ikoax:         lea.l      lowreg(pc),a1
+               move.b     d0,(a1)
+               move.b     d0,(a6)
                lea.l      hireg(pc),a1
                move.b     #0,(a1)
                move.b     #0,$40(a6)
@@ -4847,15 +5073,77 @@ delplugs:      move.w     #0,0(a1,d2.w)
                move.b     #0,$280(a6)
                lea.l      dintreg(pc),a1
                move.b     #0,(a1)
-               bsr        falcmodus
-               bsr        clearbuffers
+               clr.w      d0
+               bsr        pushaesr
+               lea.l      playmod(pc),a6
+               cmpi.w     #2,(a6)
+               bge.s      inimodus
+               bsr        nmodus
+               bra.s      iclrbuf
+inimodus:      bsr        falcmodus
+iclrbuf:       bsr        clearbuffers
+               lea.l      adwert(pc),a6
                lea.l      param,a0
-               move.w     #$c0,(a0)+
-               move.w     #$c0,(a0)+
+               move.w     (a6)+,(a0)+
+               move.w     (a6),(a0)
                lea.l      param,a0
                bsr        volad
+               lea.l      dawert(pc),a6
+               lea.l      param,a0
+               move.w     (a6)+,(a0)+
+               move.w     (a6),(a0)
                lea.l      param,a0
                bsr        volda
+               rts        
+
+falcmodus:     move.w     #2,d2
+               bsr        playmode2
+;               move.w     #2,d2
+;               bsr        recmode2
+               lea.l      asrc(pc),a5   ; analog oder digital
+               lea.l      stack,a0
+               move.w     #2,(a0)+      ; schreiben
+               move.w     #0,d1
+               cmpi.w     #0,(a5)
+               beq.s      fmodus2
+               move.w     #2,d1
+fmodus2:       move.w     d1,(a0)       ; gpio1=1
+               lea.l      stack,a0
+               bsr        gpio
+               lea.l      stack,a0
+               move.w     #3,(a0)+      ; source=adc
+               move.w     #15,(a0)+     ; dest
+               move.w     #0,d1
+               cmpi.w     #0,(a5)
+               beq.s      fmodus2
+               move.w     #1,d1
+fmodus2:       move.w     d1,(a0)+      ; srcclk
+               move.w     #0,(a0)+      ; srcclk=normal
+               move.w     #1,(a0)+      ; prescale
+               move.w     #1,(a0)       ; protocol
+               lea.l      stack,a0
+               bsr        devconnect
+               rts        
+
+nmodus:        move.w     #0,d2
+               bsr        playmode2
+               lea.l      playmod(pc),a1
+               move.b     #0,(a1)
+               lea.l      recmod(pc),a1
+               move.b     #0,(a1)
+               lea.l      stack,a0
+               move.w     #3,(a0)+      ; source=adc
+               move.w     #$f,(a0)+     ; dest
+               move.w     #0,d1
+               lea.l      asrc(pc),a5   ; analog oder digital
+               cmpi.w     #0,(a5)
+               beq.s      nmodus2
+               move.w     #1,d1
+nmodus2:       move.w     d1,(a0)+      ; srcclk
+               move.w     #1,(a0)+      ; prescale
+               move.w     #1,(a0)       ; protocol
+               lea.l      stack,a0
+               bsr        devconnect
                rts        
 
 clearbuffers:  lea.l      recbuf,a3
@@ -4881,20 +5169,6 @@ clearbuffers:  lea.l      recbuf,a3
                subq.w     #1,d0
 killbuff:      move.l     #0,(a3)+
                dbra       d0,killbuff
-               rts        
-
-nmodus:        lea.l      playmod(pc),a1
-               move.b     #0,(a1)
-               lea.l      recmod(pc),a1
-               move.b     #0,(a1)
-               lea.l      stack,a0
-               move.w     #3,(a0)+      ; source=adc
-               move.w     #$f,(a0)+     ; dest
-               move.w     #0,(a0)+      ; srcclk
-               move.w     #1,(a0)+      ; prescale
-               move.w     #1,(a0)       ; protocol
-               lea.l      stack,a0
-               bsr        devconnect
                rts        
 
 playmode:      move.w     (a0)+,d2
@@ -4992,25 +5266,6 @@ pmerr:         move.l     #-1,d0
 getpmode:      clr.l      d0
                lea.l      playmod(pc),a3
                move.w     (a3),d0
-               rts        
-
-falcmodus:     move.w     #2,d2
-               bsr        playmode2
-;               move.w     #2,d2
-;               bsr        recmode2
-               lea.l      stack,a0
-               move.w     #2,(a0)+      ; schreiben
-               move.w     #2,(a0)       ; gpio1=1
-               lea.l      stack,a0
-               bsr        gpio
-               lea.l      stack,a0
-               move.w     #3,(a0)+      ; source=adc
-               move.w     #15,(a0)+     ; dest
-               move.w     #0,(a0)+      ; srcclk=normal
-               move.w     #1,(a0)+      ; prescale
-               move.w     #1,(a0)       ; protocol
-               lea.l      stack,a0
-               bsr        devconnect
                rts        
 
 getsysbase:    movea.l    $4f2,a1
@@ -5939,8 +6194,8 @@ init_xmemplay: move.w     (a0)+,d0      ; Code der record-art
                beq        xplayinit8
                cmpi.w     #3,d0
                beq        xplayinit16
-               cmpi.w     #4,d0
-               beq        dsplay
+               cmpi.w     #10,d0
+               beq        ds_play
 xplayinit:     lea.l      von(pc),a2
                move.l     (a0)+,d1      ; von a3
                move.l     d1,(a2)       ; von a3
@@ -6783,6 +7038,8 @@ init_xmemrec:  move.w     (a0)+,d0      ; Code der record-art
                beq        xrecinit8
                cmpi.w     #3,d0
                beq        xrecinit16
+               cmpi.w     #10,d0
+               beq        ds_rec
 xrecinit:      lea.l      rvon(pc),a2
                move.l     (a0)+,d1      ; von a3
                move.l     d1,(a2)       ; von a3
@@ -9298,7 +9555,7 @@ ihandler_play: movem.l    d0-d7/a0-a6,-(sp)
                move.l     pimode,d0
                tst.w      d0
                ble        playdummy
-               cmpi.w     #36,d0
+               cmpi.w     #38,d0
                bgt        playdummy
                lsl.w      #2,d0
                movea.l    0(a3,d0.w),a2
@@ -9312,7 +9569,7 @@ ihandler_dsp:  movem.l    d0-d7/a0-a6,-(sp)
                move.l     dpimode,d0
                tst.w      d0
                ble.s      dspintexit
-dspinthere:    cmpi.w     #36,d0
+dspinthere:    cmpi.w     #38,d0
                bgt.s      dspintexit
                lsl.w      #2,d0
                movea.l    0(a3,d0.w),a2
@@ -9325,7 +9582,7 @@ ihandler_rec:  movem.l    d0-d7/a0-a6,-(sp)
                move.l     rimode,d0
                tst.w      d0
                ble        recdummy
-               cmpi.w     #36,d0
+               cmpi.w     #38,d0
                bgt        recdummy
                lsl.w      #2,d0
                movea.l    0(a3,d0.w),a2
@@ -9370,6 +9627,8 @@ intlist:       .DC.l 0
                .DC.l tdsphbr            ; 34
                .DC.l imemplay           ; 35
                .DC.l imemruser          ; 36
+               .DC.l xmdsrec8           ; 37
+               .DC.l xmdsplay8          ; 38
 
 aes_params:    .DC.l control,global,int_in,int_out,addr_in,addr_out
 magic:         .DC.l $12233445
@@ -9396,6 +9655,12 @@ smpte:         .DC.b 0
 intreg:        .DC.b 0
 dintreg:       .DC.b 0
                .EVEN 
+dstrm:         .DC.w 0
+dsfrm:         .DC.l 0
+dsblke:        .DC.l 0
+dsfrlen:       .DC.l 0
+dsblke2:       .DC.l 0
+dsfrlen2:      .DC.l 0
 dspart:        .DC.w 0
 proff:         .DC.w 0
 proffm:        .DC.w 0
@@ -9472,17 +9737,17 @@ cardsl:        .DC.w 0
 cadr:          .DS.l 4
 pos:           .DS.l 1
 rpos:          .DS.l 1
-von:           .DS.l 1
-bvon:          .DS.l 1
+von:           .DS.l 18
+bvon:          .DS.l 18
+von2:          .DS.l 18
+bis2:          .DS.l 18
+rvon2:         .DS.l 18
 rvon:          .DS.l 18
 rbvon:         .DS.l 18
-bis:           .DS.l 1
-bbis:          .DS.l 1
+bis:           .DS.l 18
+bbis:          .DS.l 18
 rbis:          .DS.l 1
 rbbis:         .DS.l 1
-von2:          .DS.l 1
-bis2:          .DS.l 1
-rvon2:         .DS.l 18
 rbis2:         .DS.l 1
 dvon:          .DS.l 1
 rdvon:         .DS.l 1
@@ -9545,6 +9810,7 @@ sectnr:        .DS.l 1
 rsectnr:       .DS.l 1
 bsectnr:       .DS.l 1
 load:          .DS.w 1
+specnam:       .DC.b "SOUND.INF",0
 Text:          .DC.b 13,10,"Xbios-Driver for StarTrack is ready...     ",13,10,0
 demotxt:       .DC.b "no Audiohardware found -> Demomode",13,10,0
                .EVEN 
@@ -9833,6 +10099,62 @@ testbit24f:    move.b     #0,(a1)+
                lsr.w      #8,d6
                bra.s      testbit24f
 testbit24g:    clr.l      d0
+               rts        
+
+convstm:       move.w     (a0)+,d1      ; channels
+               movea.l    (a0)+,a1      ; anfadresse filemem
+               movea.l    (a0)+,a2      ; zieladresse directstream
+               move.l     (a0)+,d0      ; anzahl
+               btst       #0,modr24
+               bne.s      convstm24
+convstm16:     move.w     (a1)+,(a2)+
+               cmpi.w     #1,d1
+               beq.s      convstm16b
+               adda.l     #2,a1
+convstm16b:    subi.l     #1,d0
+               cmpi.l     #0,d0
+               bgt.s      convstm16
+               clr.l      d0
+               rts        
+convstm24:     move.b     (a1)+,(a2)+
+               move.b     (a1)+,(a2)+
+               move.b     (a1)+,(a2)+
+               cmpi.w     #1,d1
+               beq.s      convstm24b
+               adda.l     #3,a1
+convstm24b:    adda.l     #1,a2
+               subi.l     #1,d0
+               cmpi.l     #0,d0
+               bgt.s      convstm24
+               clr.l      d0
+               rts        
+
+convmst:       move.w     (a0)+,d1      ; channels
+               movea.l    (a0)+,a1      ; anfadresse directstream
+               movea.l    (a0)+,a2      ; zieladresse filemem
+               move.l     (a0)+,d0      ; anzahl
+               btst       #0,modr24
+               bne.s      convmst24
+convmst16:     move.w     (a1)+,(a2)+
+               cmpi.w     #1,d1
+               beq.s      convmst16b
+               adda.l     #2,a2
+convmst16b:    subi.l     #1,d0
+               cmpi.l     #0,d0
+               bgt.s      convmst16
+               clr.l      d0
+               rts        
+convmst24:     move.b     (a1)+,(a2)+
+               move.b     (a1)+,(a2)+
+               move.b     (a1)+,(a2)+
+               cmpi.w     #1,d1
+               beq.s      convmst24b
+               adda.l     #3,a2
+convmst24b:    adda.l     #1,a2
+               subi.l     #1,d0
+               cmpi.l     #0,d0
+               bgt.s      convmst24
+               clr.l      d0
                rts        
 
 fastcut:       movea.l    (a0)+,a1      ; anfadresse
@@ -11517,6 +11839,7 @@ mode24:        move.w     (a0)+,d0
                blt.s      errmd24
                lea.l      modr24(pc),a3
                move.b     d0,(a3)
+               clr.w      d0
                bsr        pushaesr
                clr.l      d0
                rts        
@@ -12821,7 +13144,7 @@ gpio:          lea.l      vmestart(pc),a6
                movea.l    (a6),a6
                move.w     (a0)+,d1
                cmpi.w     #1,d1
-               beq.s      gprd
+               beq        gprd
                move.w     (a0)+,d2
                tst.w      d1
                beq.s      gpdir
@@ -14689,24 +15012,74 @@ dspendp4:      lea.l      dplaybyte(pc),a4
                movem.l    (sp)+,d0-d7/a0-a6
                rte        
 
-dsplay:        
+ds_play:       lea.l      dstrm(pc),a2
+               move.w     #-1,(a2)
 xplayinit8:    lea.l      von(pc),a2
-               move.l     (a0)+,d1      ; von a3
-               move.l     d1,(a2)       ; von a3
                lea.l      bvon(pc),a3
-               move.l     (a2),(a3)     ; von a3 retten fr crossplay und loop
-               lea.l      von2(pc),a2
-               move.l     (a0)+,d2      ; zweiter Speicherbereich Anfang
-               move.l     d2,(a2)       ; zweiter Speicherbereich Anfang
+               lea.l      von2(pc),a5
+               move.l     (a0)+,d1      ; erster Halfbuffer Anfang
+               move.l     (a0)+,d2      ; zweiter Halfbuffer Anfang
                move.l     (a0)+,d3      ; laenge
-               lea.l      bis(pc),a2
+               lea.l      dsfrm(pc),a1
+               move.l     d3,(a1)       ; framelaenge retten
+               move.l     d1,d6
+               move.l     d2,d7
+               cmpi.w     #3,playmod    ; 16ch ?
+               beq.s      xplin16
+               move.w     #16,d0
+xplin8b:       move.l     d1,(a2)+
+               move.l     d1,(a3)+      ; Bufferstart copy 1a
                add.l      d3,d1
-               move.l     d1,(a2)
-               lea.l      bbis(pc),a3
-               move.l     d1,(a3)       ; bis d1 retten fr crossplay und loop
-               lea.l      bis2(pc),a2
+               dbra       d0,xplin8b
+               move.w     #16,d0
+xplin8c:       move.l     d2,(a5)+
                add.l      d3,d2
-               move.l     d2,(a2)
+               dbra       d0,xplin8c
+               bra.s      xplin8d
+xplin16:       move.w     #7,d0
+               move.l     a2,-(sp)
+               move.l     a3,-(sp)
+xplin16b:      move.l     d1,(a2)
+               move.l     d1,(a3)
+               adda.l     #8,a2
+               adda.l     #8,a3
+               add.l      d3,d1
+               dbra       d0,xplin16b
+               move.w     #7,d0
+               movea.l    (sp)+,a3
+               movea.l    (sp)+,a2
+               adda.l     #4,a2
+               adda.l     #4,a3
+xplin16c:      move.l     d1,(a2)
+               move.l     d1,(a3)
+               adda.l     #8,a2
+               adda.l     #8,a3
+               add.l      d3,d1
+               dbra       d0,xplin16c
+               move.l     d1,-(a2)
+               move.l     d1,-(a3)
+               move.w     #7,d0
+               move.l     a5,-(sp)
+xplin16d:      move.l     d2,(a5)
+               adda.l     #8,a5
+               add.l      d3,d2
+               dbra       d0,xplin16d
+               move.w     #7,d0
+               movea.l    (sp)+,a5
+               adda.l     #4,a5
+xplin16e:      move.l     d2,(a5)
+               adda.l     #8,a5
+               add.l      d3,d2
+               dbra       d0,xplin16e
+               move.l     d2,-(a5)
+xplin8d:       lea.l      bis(pc),a2
+               add.l      d3,d6
+               move.l     d6,(a2)
+               lea.l      bbis(pc),a3
+               move.l     d6,(a3)       ; bis d1 retten fr crossplay und loop
+               lea.l      bis2(pc),a2
+               add.l      d3,d7
+               move.l     d7,(a2)
                lea.l      playbyte(pc),a4         ; Rckgabewerte-Liste
                move.l     (a0)+,d0      ; Playposition setzen
                move.l     d0,24(a4)     ; Playposition setzen
@@ -14718,13 +15091,19 @@ xplayinit8:    lea.l      von(pc),a2
                move.w     (a0)+,(a2)    ; fileart=3=WAV
                lea.l      step(pc),a2
                clr.l      d0
-               move.w     (a0)+,d0      ; Anzahl der For/Backstep d4
-               move.l     d0,(a2)       ; Anzahl der For/Backstep d4
                lea.l      fifo(pc),a2
                move.l     #lfifo,d0
                asr.w      #5,d0
-               subq.l     #1,d0
+               cmpi.w     #3,playmod    ; 16ch ?
+               bne.s      xplin8e
+               asr.w      #1,d0
+xplin8e:       subq.l     #1,d0
                move.l     d0,(a2)       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d2
+               lea.l      dstrm(pc),a6
+               cmpi.w     #0,(a6)       ; directstream ?
+               bne.s      emem2b
+               move.w     (a0)+,d0      ; Anzahl der For/Backstep d4
+               move.l     d0,(a2)       ; Anzahl der For/Backstep d4
                lea.l      mode(pc),a2
                move.w     (a0)+,d0      ; mode (Bit0=Loop ein/aus,Bit1=crossplay,Bit2=midi) d3
                move.w     d0,(a2)       ; mode (Bit0=Loop ein/aus,Bit1=crossplay,Bit2=midi) d3
@@ -14745,7 +15124,163 @@ emem2b:        lea.l      midiw(pc),a2
                lea.l      pimode(pc),a2
                move.l     #17,(a2)
                move.l     a4,d0
-               rts        
+               cmpi.w     #0,(a6)       ; directstream ?
+               beq.s      xplaynds
+               move.l     von2(pc),d2
+               lea.l      dsblke2(pc),a5
+               move.l     d2,(a5)
+               move.l     von(pc),d1
+               sub.l      d1,d2
+               lea.l      dsfrlen2(pc),a5
+               move.l     d2,(a5)
+               move.l     #38,(a2)
+               move.w     #0,(a6)
+xplaynds:      rts        
+
+xmdsplay8:     lea.l      fifo(pc),a2
+               move.l     (a2),d2       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d2
+               btst       #0,modr24     ; 24Bit ?
+               beq.s      xmdspl2
+               asr.w      #1,d2
+xmdspl2:       lea.l      vmestart(pc),a0
+               movea.l    (a0),a0
+               movea.l    a0,a1
+               adda.l     #$40,a0       ; StatH im Bytemode
+               adda.l     #$100,a1      ; Playread im Bytemode
+               lea.l      playbyte(pc),a5         ; Rckgabewerte-Liste
+               move.l     dsfrm(pc),d4
+               lea.l      dsblke2(pc),a3
+dsplfill:      move.b     (a0),d0       ; FIFO leer ?
+               btst       #0,d0
+               bne.s      dsnowrlx
+               move.l     strtp(pc),d0
+               cmp.l      24(a5),d0
+               beq.s      dsnowrlx
+               addi.l     #1,12(a5)     ;Fehler +1
+dsnowrlx:      move.b     (a0),d0       ; FIFO halbleer ?
+               andi.b     #2,d0
+               bne.s      dspcopygo
+               bra.s      dsplfill
+dspcopygo:     move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
+dspcopydo:     lea.l      von(pc),a6
+               cmpi.w     #3,playmod    ; 16ch ?
+               beq.s      dspcopy16
+               btst       #0,modr24     ; 8ch/24Bit ?
+               bne.s      dspcopy24
+               movea.l    (a6),a2       ; ...also 8ch/16bit
+               move.b     (a2)+,2(a1)   ; Kanal 1,HighByte holen
+               move.b     (a2)+,(a1)    ; Kanal 1,LowByte holen
+               move.l     a2,(a6)+
+               move.w     #6,d5
+dspcopyd2:     movea.l    (a6),a2
+               move.b     (a2)+,(a1)    ; Kanal 2..8,HighByte holen
+               move.b     (a2)+,(a1)    ; Kanal 2..8,LowByte holen
+               move.l     a2,(a6)+
+               dbra       d5,dspcopyd2
+               bra.s      dspcopye
+dspcopy24:     movea.l    (a6),a2
+               move.b     (a2)+,2(a1)   ; Kanal 1,HighByte holen
+               move.b     (a2)+,(a1)    ; Kanal 1,MidByte holen
+               move.b     (a2)+,(a1)    ; Kanal 1,LowByte holen
+               addq.l     #1,a2
+               move.l     a2,(a6)+
+               move.w     #6,d5
+dspcopyd3:     movea.l    (a6),a2
+               move.b     (a2)+,(a1)    ; Kanal 2..8,HighByte holen
+               move.b     (a2)+,(a1)    ; Kanal 2..8,MidByte holen
+               move.b     (a2)+,(a1)    ; Kanal 2..8,LowByte holen
+               addq.l     #1,a2
+               move.l     a2,(a6)+
+               dbra       d5,dspcopyd3
+dspcopye:      addq.l     #1,24(a5)     ; Playposition
+               move.l     endcount(pc),d7
+               cmp.l      24(a5),d7
+               ble        dsendplay
+               cmpa.l     (a3),a2       ; halfbuffer voll ?
+               beq.s      dsplend
+               cmpa.l     (a6),a2       ; Speicher voll ?
+               beq.s      dspfrset8
+dspcpyx8:      dbra       d0,dspcopydo
+               bra.s      dspl_back
+dspcopy16:     movea.l    (a6),a2       ; 16ch/16bit
+               move.b     (a2)+,2(a1)   ; Kanal 1,HighByte holen
+               move.b     (a2)+,(a1)    ; Kanal 1,LowByte holen
+               move.l     a2,(a6)+
+               move.w     #14,d5
+dspcopy16b:    movea.l    (a6),a2
+               move.b     (a2)+,(a1)    ; Kanal 9,HighByte holen
+               move.b     (a2)+,(a1)    ; Kanal 9,LowByte holen
+               move.l     a2,(a6)+
+               dbra       d5,dspcopy16b
+               addq.l     #1,24(a5)     ; Playposition
+               move.l     endcount(pc),d7
+               cmp.l      24(a5),d7
+               ble        dsendplay
+               cmpa.l     (a3),a2       ; halfbuffer voll ?
+               beq.s      dsplend
+               cmpa.l     (a6),a2       ; Speicher voll ?
+               beq.s      dspfrset16
+dspcpyx16:     dbra       d0,dspcopydo
+dspl_back:     lea.l      playbyte(pc),a4
+               move.l     d6,28(a4)     ; Returnwert Anzahl loops speichern
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+dspfrset8:     move.l     (a6),d7
+               lea.l      von(pc),a6
+               sub.l      (a6),d7
+               move.w     #7,d5
+dspfrs8b:      add.l      d7,(a6)+
+               dbra       d5,dspfrs8b
+               add.l      d4,d7
+               add.l      d7,(a6)
+               bra.s      dspcpyx8
+dspfrset16:    move.l     (a6),d7
+               lea.l      von(pc),a6
+               sub.l      (a6),d7
+               move.w     #15,d5
+dspfrs16b:     add.l      d7,(a6)+
+               dbra       d5,dspfrs16b
+               add.l      d4,d7
+               add.l      d7,(a6)
+               bra.s      dspcpyx16
+dsplend:       moveq.l    #0,d0
+               addq.l     #1,d6
+               lea.l      playbyte(pc),a4
+               move.l     d6,28(a4)     ; Returnwert Anzahl loops speichern
+               lea.l      loop(pc),a4
+               move.l     d6,(a4)       ; Anzahl loops sichern
+               move.l     4(a5),d0      ; Memflag abfragen
+               tst.l      d0
+               bne.s      dsmemt1
+dsmemt2:       lea.l      dsblke2(pc),a2
+               lea.l      von2(pc),a3
+               move.l     (a3),d0
+               add.l      dsfrlen2(pc),d0
+               move.l     d0,(a2)
+               lea.l      von(pc),a2
+               moveq.l    #16,d0
+dscpypvon:     move.l     (a3)+,(a2)+   ; von
+               dbra       d0,dscpypvon
+               move.l     #1,4(a5)      ; Status zweiter Memblock
+               bra.s      dsmemte
+dsmemt1:       lea.l      dsblke2(pc),a2
+               lea.l      bvon(pc),a3
+               move.l     (a3),d0
+               add.l      dsfrlen2(pc),d0
+               move.l     d0,(a2)
+               lea.l      von(pc),a2
+               moveq.l    #16,d0
+dscpypvo2:     move.l     (a3)+,(a2)+   ; von
+               dbra       d0,dscpypvo2
+               move.l     #0,4(a5)      ; Status erster Memblock
+dsmemte:       bra        dspl_back
+dsendplay:     lea.l      playbyte(pc),a4
+               move.l     d6,28(a4)     ; Returnwert Anzahl loops speichern
+               move.l     #1,8(a4)      ; Breakflag setzen
+               move.w     #0,d0         ; INT-Registerinhalt
+               bsr        intbreak      ; Interrupt l”schen
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
 
 xmemplay8:     lea.l      von(pc),a2
                movea.l    (a2),a3       ; von a3
@@ -14900,52 +15435,43 @@ eendplay2:     move.l     #1,8(a4)      ; Breakflag setzen
                movem.l    (sp)+,d0-d7/a0-a6
                rte        
 
-xrecinit8:     lea.l      dstrm(pc),a2
-               move.w     (a0)+,(a2)    ; directstream ?
-               lea.l      xrch(pc),a2
+ds_rec:        lea.l      dstrm(pc),a2
+               move.w     #-1,(a2)
+xrecinit8:     lea.l      xrch(pc),a2
                move.w     (a0)+,d1      ; Bitliste Kanalnummer(n)
                move.b     d1,(a2)
                lea.l      rvon(pc),a6
-               move.l     (a0)+,d1      ; Bufferstart 1a
-               move.l     d1,(a6)+
                lea.l      rbvon(pc),a3
-               move.l     d1,(a3)+      ; Bufferstart copy 1a
                lea.l      rvon2(pc),a5
-               move.l     (a0)+,d2
-               move.l     d2,(a5)+      ; Bufferstart 1b
+               move.l     (a0)+,d1      ; Bufferstart 1a
+               move.l     (a0)+,d2      ; Bufferstart 1b
                move.l     (a0)+,d3      ; laenge
+               lea.l      dsfrm(pc),a2
+               move.l     d3,(a2)
+               move.w     #8,d0
+xrecin8b:      move.l     d1,(a6)+
+               move.l     d1,(a3)+      ; Bufferstart copy 1a
                add.l      d3,d1
-               move.l     d1,(a6)+      ; Bufferstart 2a
-               move.l     d1,(a3)+      ; Bufferstart copy 2a
-               add.l      d3,d1
-               move.l     d1,(a6)+      ; Bufferstart 3a
-               move.l     d1,(a3)+      ; Bufferstart copy 3a
-               add.l      d3,d1
-               move.l     d1,(a6)+      ; Bufferstart 4a
-               move.l     d1,(a3)+      ; Bufferstart copy 4a
-               add.l      d3,d1         ; Bufferende Gesamt
-               move.l     d1,(a6)+      ; Bufferstart 5a (Ende)
-               move.l     d1,(a3)+      ; Bufferstart copy 5a (Ende)
+               dbra       d0,xrecin8b
+               move.w     #8,d0
+xrecin8c:      move.l     d2,(a5)+
                add.l      d3,d2
-               move.l     d2,(a5)+      ; Bufferstart 2b
-               add.l      d3,d2
-               move.l     d2,(a5)+      ; Bufferstart 3b
-               add.l      d3,d2
-               move.l     d2,(a5)+      ; Bufferstart 4b
-               add.l      d3,d2         ; Bufferende Gesamt
-               move.l     d2,(a5)+      ; Bufferstart 5b (Ende)
+               dbra       d0,xrecin8c
                lea.l      rendcount(pc),a2
                move.l     (a0)+,(a2)    ; Zaehler endwert
-               lea.l      rfileart(pc),a2
-               move.w     (a0)+,(a2)    ; fileart=3=WAV
                lea.l      rfifo(pc),a2
                move.l     #lfifo,d0
                asr.w      #5,d0
                subq.l     #1,d0
                move.l     d0,(a2)       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
+               lea.l      dstrm(pc),a6
+               cmpi.w     #0,(a6)       ; directstream ?
+               bne.s      xrecin8d
+               lea.l      rfileart(pc),a2
+               move.w     (a0)+,(a2)    ; fileart=3=WAV
                lea.l      rpeakbuf(pc),a2
                move.l     (a0)+,(a2)    ; Peak-Buffer-Anfang
-               lea.l      recbyte(pc),a4          ; Rckgabewerte-Liste
+xrecin8d:      lea.l      recbyte(pc),a4          ; Rckgabewerte-Liste
                move.l     #0,8(a4)      ; Break l”schen
                move.l     #0,4(a4)      ; Memflag l”schen (1=zweiter Memblock)
                move.l     #0,12(a4)     ; Fehler l”schen
@@ -14954,10 +15480,17 @@ xrecinit8:     lea.l      dstrm(pc),a2
                lea.l      rimode(pc),a2
                move.l     #20,(a2)
                move.l     a4,d0
-               lea.l      dstrm(pc),a5
-               cmpi.w     #0,(a5)       ; directstream ?
+               cmpi.w     #0,(a6)       ; directstream ?
                beq.s      xrecnds
-
+               move.l     rvon2(pc),d2
+               lea.l      dsblke(pc),a5
+               move.l     d2,(a5)
+               move.l     rvon(pc),d1
+               sub.l      d1,d2
+               lea.l      dsfrlen(pc),a5
+               move.l     d2,(a5)
+               move.l     #37,(a2)
+               move.w     #0,(a6)
 xrecnds:       rts        
 
 xrecinit16:    lea.l      xrch(pc),a2
@@ -15031,6 +15564,126 @@ xrecinit16:    lea.l      xrch(pc),a2
                move.l     #7,(a2)
                move.l     a4,d0
                rts        
+
+xmdsrec8:      moveq.l    #2,d5
+               btst       #0,modr24     ; 24Bit ?
+               beq.s      xmdsrec8a     ; no
+               moveq.l    #4,d5
+xmdsrec8a:     lea.l      firstbuf(pc),a1
+               tst.w      (a1)
+               bne.s      xmdsre8b
+               move.w     #1,(a1)
+               bsr        killbuf
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+xmdsre8b:      lea.l      recbyte(pc),a5          ; Rckgabewerte-Liste
+               lea.l      vmestart(pc),a0
+               movea.l    (a0),a0
+               movea.l    a0,a1
+               adda.l     #$60,a0       ; StatH im Bytemode
+               adda.l     #$ff,a1       ; Playread im Wordmode
+               moveq.l    #8,d2
+               moveq.l    #2,d3
+               move.l     dsfrm(pc),d4
+               lea.l      dsblke(pc),a3
+dsranf8:       move.b     (a0),d0       ; Flag lesen
+               btst       d3,d0         ; RECORD-FIFO voll ?
+               bne.s      dsnrdfu8
+               tst.l      24(a5)        ; Recposition abfragen
+               beq.s      dsnrdfu8
+               addi.l     #1,12(a5)     ;Fehler +1
+dsnrdfu8:      and.b      d3,d0         ; FIFO mehr als halbvoll ?
+               beq.s      dsrcpy8       ; wenn ja, daten einlesen
+               bra.s      dsranf8
+dsrcpy8:       move.l     rfifo(pc),d0  ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+dsrcpy8b:      lea.l      rvon(pc),a6
+               move.w     (a1),d7       ; High-Byte, Kanal1 (Bit 8 gesetzt ?)...
+               btst       d2,d7
+               beq        dsrcpya3      ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte, Kanal1 (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne        dsrcpya3      ; fehlerhafte Daten ?
+               movea.l    (a6),a2       ; BufferStart1
+               btst.b     #0,xrch
+               beq.s      dsrecm8
+               move.b     d7,(a2)       ; Kanal1-High
+               move.b     d6,1(a2)      ; Kanal1-Low
+dsrecm8:       adda.l     d5,a2
+               move.l     a2,(a6)+      ; Buffercount1 save,to next buffer
+               move.w     (a1),d7       ; High-Byte, Kanal2 (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      dsrcpya3      ; fehlerhafte Daten ?
+               move.w     (a1),d6
+               movea.l    (a6),a2       ; BufferStart1
+               btst.b     #1,xrch
+               beq.s      dsrecm8b
+               move.b     d7,(a2)       ; Kanal1-High
+               move.b     d6,1(a2)      ; Kanal1-Low
+dsrecm8b:      adda.l     d5,a2
+               move.l     a2,(a6)+      ; Buffercount1 save,to next buffer
+               move.w     #2,d1
+dsrecm8c:      move.w     (a1),d7
+               move.w     (a1),d6
+               movea.l    (a6),a2       ; BufferStart2..8
+               btst.b     d1,xrch
+               beq.s      dsrecm8d
+               move.b     d7,(a2)       ; Kanalx-High
+               move.b     d6,1(a2)      ; Kanalx-Low
+dsrecm8d:      adda.l     d5,a2
+               move.l     a2,(a6)+      ; Buffercount2..4 save,to next buffer
+               addq.w     #1,d1
+               cmpi.w     #8,d1
+               bne.s      dsrecm8c
+               addq.l     #1,24(a5)     ; Recposition
+               move.l     rendcount(pc),d7
+               cmp.l      24(a5),d7
+               ble        dsendrea2
+               cmpa.l     (a3),a2       ; halfbuffer voll ?
+               beq.s      dsrweg8
+               cmpa.l     (a6)+,a2      ; Speicher voll ?
+               beq.s      dsrfrset
+dsrcpya3:      dbra       d0,dsrcpy8b
+dsr_back8b:    movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+dsrfrset:      lea.l      rvon(pc),a4
+               move.l     a2,(a4)+
+               move.l     d5,-(sp)
+               move.w     #7,d5
+dsrfrs2:       adda.l     d4,a2
+               move.l     a2,(a4)+
+               dbra       d5,dsrfrs2
+               move.l     (sp)+,d5
+               bra.s      dsrcpya3
+dsrweg8:       move.l     4(a5),d0      ; Memflag abfragen
+               tst.l      d0
+               bne.s      dsmemra1
+dsmemra2:      lea.l      dsblke(pc),a2
+               lea.l      rvon2(pc),a3
+               move.l     (a3),d0
+               add.l      dsfrlen(pc),d0
+               move.l     d0,(a2)
+               lea.l      rvon(pc),a2
+               moveq.l    #8,d0
+dscpyrvon:     move.l     (a3)+,(a2)+   ; von
+               dbra       d0,dscpyrvon
+               move.l     #1,4(a5)      ; Status zweiter Memblock
+               bra.s      dsr_back8b
+dsmemra1:      lea.l      dsblke(pc),a2
+               lea.l      rbvon(pc),a3
+               move.l     (a3),d0
+               add.l      dsfrlen(pc),d0
+               move.l     d0,(a2)
+               lea.l      rvon(pc),a2
+               moveq.l    #8,d0
+dscpyrbvon:    move.l     (a3)+,(a2)+   ; von
+               dbra       d0,dscpyrbvon
+               move.l     #0,4(a5)      ; Status erster Memblock
+               bra.s      dsr_back8b
+dsendrea2:     move.l     #1,8(a5)      ; Break setzen
+               move.w     #1,d0         ; INT-Registerinhalt
+               bsr        intbreak      ; Interrupt l”schen
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
 
 xmemrec8:      lea.l      firstbuf(pc),a1
                tst.w      (a1)
@@ -15256,7 +15909,7 @@ xplayinit16:   lea.l      von(pc),a2
 ememb3:        lea.l      fifo(pc),a2
                move.l     #lfifo,d0
                asr.w      #6,d0
-               asr.w      #3,d0
+;               asr.w      #3,d0
                subq.l     #1,d0
                move.l     d0,(a2)       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d2
                lea.l      midiw(pc),a2
@@ -17443,7 +18096,7 @@ Rlist2:        .DC.w 1,2  ; cookie/copyright
 
                .DC.w 300,301,302,303,304,305,306,307,308,309          ; function
                .DC.w 310,311,312,313,314,315,316,317,318,319
-               .DC.w 320,321,322,323,324,325
+               .DC.w 320,321,322,323,324,325,326,327
 
                .DC.w 400,401,402,403,404,405,406,407        ; tt-mmu support
                .DC.w 410,411,412,413,414,415,416  ; sndcall/dsp/devco list
@@ -17616,6 +18269,8 @@ R_addr2:       .DC.l installed          ; cookie XBIOS-Treiber
                .DC.l fnwavalon          ; samples wavalon
                .DC.l conv16             ; konvertiert 16bit->24bit
                .DC.l conv24             ; konvertiert 24bit->16bit
+               .DC.l convstm            ; move data file->stream
+               .DC.l convmst            ; move data stream->file
 
                .DC.l getsrp             ; get supervisor root pointer
                .DC.l getcrp             ; get cpu root pointer
@@ -17814,6 +18469,8 @@ R_addr4:       .DC.l installed          ; cookie XBIOS-Treiber
                .DC.l fnwavalon          ; samples wavalon
                .DC.l conv16             ; konvertiert 16bit->24bit
                .DC.l conv24             ; konvertiert 24bit->16bit
+               .DC.l convstm            ; move data file->stream
+               .DC.l convmst            ; move data stream->file
 
                .DC.l getsrp             ; get supervisor root pointer
                .DC.l getcrp             ; get cpu root pointer
@@ -17857,9 +18514,11 @@ mmucode:       .DS.b 4096
 cblbits:       .DS.b 2400
 devcolist:     .DS.w 1300
 falcxlist:     .DS.w 3000
+filebuf:       
 recbuf:        .DS.b 8192
 recbuf2:       .DS.b 8192
 recbuf3:       
+filebfe:       
 vmemul:        .DS.b 1024
 control:       .DS.w 4
 global:        .DS.w 14
