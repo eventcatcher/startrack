@@ -8542,8 +8542,12 @@ PROCEDURE message
   .|     markprod3
   .| Aufruf in : rsc_do-1,helptxt-2,
   LOCAL iz,a,a&,n,h,ha1,x1,y1,b1,h1
-  @markhlp
+  IF nr=1 AND iconify=FALSE THEN
+    @markhlp
+  ENDIF
   handle&=MENU(4)                                    ! ...Fenster-Handle
+  PRINT MENU(1)
+  STOP
   '
   FOR a&=rsc_trees& DOWNTO 0                         ! Ist es ein RSC?...
     EXIT IF handle&=rsc_handle%(a&)
@@ -8831,7 +8835,7 @@ PROCEDURE message
         ENDIF
         @nach_update
       ENDIF
-      IF a=smpedit& THEN
+      IF a=smpedit& AND iconify=FALSE THEN
         @vor_update
         IF b1<>0 AND h1<>0 THEN
           @putcsize
@@ -8953,8 +8957,6 @@ PROCEDURE message
   ENDIF
   '
   IF MENU(1)=34 THEN                            ! iconify
-    PRINT MENU(4),a&
-    STOP
     GCONTRL(0)=165
     GCONTRL(1)=2
     GCONTRL(2)=1
@@ -8980,22 +8982,26 @@ PROCEDURE message
     ~@xrsrc_gaddr(0,icon&,zus2%)
     ADDRIN(3)=zus2%
     GEMSYS                                               ! OBJC_SYSVAR()
-    '    shading=TRUE
     nr=icon&
     tree&=nr
-    PRINT MENU(4)
-    '    ~WIND_SET(MENU(4),26,MENU(5),MENU(6),MENU(7),MENU(8))
-    '    ~WIND_OPEN(MENU(4),MENU(5),MENU(6),MENU(7),MENU(8))
+    PRINT a&,rsc_handle%(a&),handle&
     ~@xrsrc_gaddr(0,icon&,zus2%)
     ~OBJC_DRAW(zus2%,0,99,MENU(5),MENU(6),MENU(7),MENU(8))      ! neu zeichnen
+    PRINT "DRAWED"
     '
     '
     '    IF GINTOUT(0)>0                                      ! Hat geklappt...
     '    color3d&=GINTOUT(1)                                ! ...3D-Farbe
     '  ENDIF
+    obj=0
+    edit_obj&=0
+    obj&=0
+    iconify=TRUE
+    shading=TRUE
   ENDIF
   IF MENU(1)=35 THEN                            ! uniconify
-    PRINT MENU(4)
+    iconify=FALSE
+    PRINT a&
     GCONTRL(0)=165
     GCONTRL(1)=1
     GCONTRL(2)=1
@@ -9004,7 +9010,8 @@ PROCEDURE message
     '
     GINTIN(0)=4
     '
-    ~@xrsrc_gaddr(0,smpedit&,zus3%)
+    PRINT a&,MENU(5),MENU(6),MENU(7),MENU(8)
+    ~@xrsrc_gaddr(0,a&,zus3%)
     ADDRIN(0)=zus3%
     DPOKE mdat%,MENU(5)
     DPOKE mdat%+2,MENU(6)
@@ -9014,17 +9021,19 @@ PROCEDURE message
     LPOKE mdat%+32,0
     ADDRIN(1)=mdat%
     ADDRIN(2)=mdat%+16
-    ~@xrsrc_gaddr(0,smpedit&,zus4%)
+    ~@xrsrc_gaddr(0,a&,zus4%)
     ADDRIN(3)=zus4%
+    STOP
     GEMSYS                                               ! OBJC_SYSVAR()
+    STOP
     '    shading=FALSE
-    nr=smpedit&
+    nr=a&
     tree&=nr
     PRINT "B"
-    PRINT MENU(4)
-    '    ~WIND_SET(MENU(4),26,MENU(5),MENU(6),MENU(7),MENU(8))
-    '    ~WIND_OPEN(MENU(4),MENU(5),MENU(6),MENU(7),MENU(8))
-    ~@xrsrc_gaddr(0,smpedit&,zus2%)
+    PRINT handle&
+    ~WIND_SET(handle&,26,MENU(5),MENU(6),MENU(7),MENU(8))
+    ~WIND_OPEN(handle&,MENU(5),MENU(6),MENU(7),MENU(8))
+    ~@xrsrc_gaddr(0,handle&,zus2%)
     ~OBJC_DRAW(zus2%,0,99,MENU(5),MENU(6),MENU(7),MENU(8))      ! neu zeichnen
     '
     '
@@ -11391,7 +11400,7 @@ BYTE{ob_spec%}=a&                               ! ...und Zeichen restaurieren
 edit_obj&=next_obj&
 '
 RETURN
-> FUNCTION rsc_shortcut(tree&,scan|,shift&,VAR title&)
+FUNCTION rsc_shortcut(tree&,scan|,shift&,VAR title&)
 .| Felder    : rsc_adr%()
 .| Aufruf in : key-1,
 ' MenÅshortcut ermitteln...
