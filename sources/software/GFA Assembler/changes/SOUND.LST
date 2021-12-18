@@ -637,6 +637,8 @@ getspecs:      lea.l      asrc(pc),a6   ; asrc=analog
                lea.l      dawert(pc),a6
                move.w     #$c0,(a6)+
                move.w     #$c0,(a6)
+               lea.l      osrc(pc),a6   ; source is adc
+               move.w     #0,(a6)
                lea.l      modr24(pc),a3
                move.b     #0,(a3)
                lea.l      playmod(pc),a6
@@ -749,11 +751,11 @@ spcfnd2:       move.b     (a0),d1
                cmpi.b     #"E",d1
                beq.s      spc23
                bra        spcnxt1
-spc21:         
+spc21:         move.w     #0,osrc
                bra        spcnxt1
-spc22:         
+spc22:         move.w     #1,osrc
                bra        spcnxt1
-spc23:         
+spc23:         move.w     #2,osrc
                bra        spcnxt1
 
 spcfnd3:       lea.l      playmod(pc),a6
@@ -5053,7 +5055,29 @@ iclrbuf:       bsr        clearbuffers
                clr.w      d0
                bsr        pushaesr
 
-               lea.l      vmestart(pc),a6
+               cmpi.w     #1,osrc
+               beq.s      osrc1
+               cmpi.w     #2,osrc
+               beq.s      osrc2
+               bra.s      osrc0
+osrc1:         lea.l      stack,a0
+               move.w     #0,(a0)+      ; source=dma
+               move.w     #$f,(a0)+     ; dest
+               move.w     #0,(a0)+      ; srcclk
+               move.w     #1,(a0)+      ; prescale
+               move.w     #1,(a0)       ; protocol
+               lea.l      stack,a0
+               bsr        devconnect
+               bra.s      osrc0
+osrc2:         lea.l      stack,a0
+               move.w     #2,(a0)+      ; source=external
+               move.w     #$f,(a0)+     ; dest
+               move.w     #0,(a0)+      ; srcclk
+               move.w     #1,(a0)+      ; prescale
+               move.w     #1,(a0)       ; protocol
+               lea.l      stack,a0
+               bsr        devconnect
+osrc0:         lea.l      vmestart(pc),a6
                movea.l    (a6),a6
                lea.l      asrc(pc),a5   ; analog oder digital
                move.w     #9,d0
@@ -9829,6 +9853,7 @@ showm16:       .DC.b "16b      ",0
 showm24:       .DC.b "24b      ",0
                .EVEN 
 gem:           .DC.w 0
+osrc:          .DC.w 0
 rett:          .DC.l 0
 rrett:         .DC.l 0
 rfirstint:     .DC.w 0
@@ -12829,6 +12854,16 @@ gettrack:      lea.l      ptracks(pc),a1
                swap.w     d0
                move.w     (a2),d0
                rts        
+
+nhrdtst:       move.l     a1,-(sp)
+               lea.l      cardmagc,a1
+               move.w     (a1),d0
+               andi.l     #1,d0
+               movea.l    (sp)+,a1
+               rts        
+
+               bsr        nhrdtst
+               btst       #0,d0         ; neue oder alte hardware?
 
 setmontrack:   lea.l      montrack(pc),a1
                move.w     (a0)+,d0
