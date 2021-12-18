@@ -8167,7 +8167,6 @@ LOCAL a|,ax&,ay&,ab&,ah&,handle&,obj&,rsc_adr%,a%,a$
 '
 ' Wertet ein innerhalb des 'rsc_do' eingetroffenes Message-Ereignis aus...
 '
-IF nr<>smpinf& AND nr<>fsel& THEN
 handle&=rsc_handle%(tree&)                         ! Fensterhandle des Dialogs
 '
 ~WIND_UPDATE(1)                                    ! BEG_UPDATE
@@ -8180,12 +8179,12 @@ IF message&=20                                   ! WM_REDRAW...
 ~WIND_GET(handle&,11,ax&,ay&,ab&,ah&)          ! 1. Rechteck
 '
 REPEAT
-  '
-  IF RC_INTERSECT(x&,y&,w&,h&,ax&,ay&,ab&,ah&) ! ...redrawen
-    ~OBJC_DRAW(rsc_adr%(tree&),0,7,ax&,ay&,ab&,ah&)
-  ENDIF
-  '
-  ~WIND_GET(handle&,12,ax&,ay&,ab&,ah&)        ! N„chstes Rechteck...
+'
+IF RC_INTERSECT(x&,y&,w&,h&,ax&,ay&,ab&,ah&) ! ...redrawen
+  ~OBJC_DRAW(rsc_adr%(tree&),0,7,ax&,ay&,ab&,ah&)
+ENDIF
+'
+~WIND_GET(handle&,12,ax&,ay&,ab&,ah&)        ! N„chstes Rechteck...
 UNTIL ab&=0 AND ah&=0                          ! ...kein Redraw mehr n”tig
 '
 ~GRAF_MOUSE(257,0)                           ! Showm
@@ -8202,7 +8201,7 @@ rsc_adr%=rsc_adr%(tree&)
 obj&=edit_obj&                                 ! Parent ermitteln...
 '
 REPEAT
-  obj&=OB_NEXT(rsc_adr%,obj&)
+obj&=OB_NEXT(rsc_adr%,obj&)
 UNTIL obj&<edit_obj&
 '
 ~OBJC_OFFSET(rsc_adr%,edit_obj&,ax&,ay&)       ! Koordinaten des Objekts
@@ -8210,7 +8209,7 @@ UNTIL obj&<edit_obj&
 a$=CHAR{{ADD(OB_SPEC(rsc_adr%,edit_obj&),4)}}  ! Maske: "Eingabe:______"
 ah&=1
 WHILE MID$(a$,ah&,1)<>"_"                      ! L„nge des Vortextes...
-  INC ah&
+INC ah&
 WEND                                           ! ...ermitteln
 '
 ADD ax&,MUL(wchar&,ADD(PRED(ah&),idx&))        ! Cursor-Position im Pixeln
@@ -8235,7 +8234,6 @@ ENDSELECT
 '
 ~WIND_UPDATE(0)                                    ! END_UPDATE
 '
-ENDIF
 RETURN
 > PROCEDURE rsc_back(tree&)                                                ! Alle Fensternamen hier eintragen (zur Unterscheidung Flydial oder nicht) !!!
 '
@@ -9014,7 +9012,7 @@ UNTIL BTST(OB_FLAGS(rsc_adr%,obj&),5)          ! LAST_OB ?
 title&=0
 RETURN 0                                       ! nicht gef. oder disabled
 ENDFUNC
-FUNCTION rsc_alert(icon&,text$,def&,button$)
+> FUNCTION rsc_alert(icon&,text$,def&,button$)
 ' Fliegende ALERT-Box...
 $F%
 LOCAL a&,b&,h&,i&,l&,len&,w&,x&,y&,z&,ab&,ah&,rsc&,rsc_adr%,a$,knr,kobj,rdraw
