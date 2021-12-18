@@ -1,0 +1,9 @@
+               move.w     #0,-(sp)
+               move.w     #171,-(sp)
+               move.w     #500,-(sp)
+               trap       #14
+               addq.l     #6,sp
+
+               clr.w      -(sp)
+               trap       #1
+

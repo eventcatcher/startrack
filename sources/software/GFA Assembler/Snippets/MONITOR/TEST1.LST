@@ -1,0 +1,87 @@
+               movem.l    d0-d7/a0-a6,-(sp)
+               lea.l      ptr(pc),a5
+               move.l     a5,-(sp)
+               move.w     #0,-(sp)
+               move.w     #25,-(sp)
+               trap       #14
+               addq.l     #8,sp
+clear:         move.w     #11,-(sp)
+               trap       #1
+               addq.l     #2,sp
+               cmpi.l     #0,d0
+               beq.s      weiter
+               move.w     #1,-(sp)
+               trap       #1
+               addq.l     #2,sp
+               bra.s      clear
+weiter:        move.w     #34,-(sp)
+               trap       #14
+               addq.l     #2,sp
+               movea.l    d0,a0
+               lea.l      rett(pc),a5
+               move.l     32(a0),2(a5)
+               lea.l      neuikbd(pc),a5
+               move.l     a5,32(a0)
+               lea.l      $df0441,a0    ; Flagstatus
+               lea.l      $df04c0,a1    ; SDATA Word-Read (wegen PARITY)
+               lea.l      merk(pc),a4
+;          move.b    #4,(a0)   ; DIGOUT setzen
+               moveq.l    #1,d2
+               moveq.l    #4,d4
+               lea.l      $200000,a3
+               movea.l    a3,a5
+               movea.l    a3,a6
+               move.l     #$300000,d7
+               move.l     #$280000,d6
+
+ctrl:          move.b     (a0),d0       ; Daten gÅltig ?
+               and.b      d2,d0
+               beq.s      ctrl
+               move.w     (a1),(a5)+    ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+               cmpa.l     d6,a5
+               blt.s      ctrl
+
+
+ctrl1:         
+               move.b     #0,(a0)       ; DIGOUT setzen
+               move.b     (a0),d0       ; Daten gÅltig ?
+               and.b      d2,d0
+               beq.s      anf2
+               move.w     (a1),(a5)+    ; High-Byte,Rechter Kanal (Bit 8 geloescht ?)...
+anf2:          
+               move.b     #4,(a0)       ; DIGOUT setzen
+               move.b     (a0),d0
+               and.b      d4,d0
+               beq.s      ctrl1
+               move.w     (a6)+,(a1)
+               move.w     (a4),d0
+               bne.s      weg
+               cmpa.l     d7,a5
+               blt.s      ctrl3
+               movea.l    a3,a5
+ctrl3:         
+               cmpa.l     d7,a6
+               blt.s      ctrl1
+               movea.l    a3,a6
+               bra.s      ctrl1
+weg:           lea.l      ptr2(pc),a5
+               move.l     a5,-(sp)
+               move.w     #0,-(sp)
+               move.w     #25,-(sp)
+               trap       #14
+               addq.l     #8,sp
+               move.w     #34,-(sp)
+               trap       #14
+               addq.l     #2,sp
+               movea.l    d0,a0
+               lea.l      rett(pc),a1
+               move.l     2(a1),32(a0)
+               movem.l    (sp)+,d0-d7/a0-a6
+               clr.w      -(sp)
+               trap       #1
+neuikbd:       move.w     #1,merk
+rett:          jmp        rett
+ptr:           .DC.b $12
+ptr2:          .DC.b $8
+merk:          .DC.w 0
+               .END 

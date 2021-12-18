@@ -1,0 +1,16 @@
+Winrec macht leider eine unnîtige Abfrage des Maschinen-Cookie, die dazu
+fÅhrt, das Winrec nicht starten will.
+
+HierfÅr gibt es jedoch im Treiber eine Umschaltmîglichkeit des MCH-Cookie.
+Dabei wird der MCH-Cookie auf die Werte des Falcon gesetzt.
+
+Vor dem Start von Winrec muû das kleine Programm "WINRECON.PRG" gestartet werden.
+
+Wichtig !!!
+
+Nach dem Beenden von WINREC sollte man unbedingt das Programm "WINRECOF.PRG" starten,
+das den korrekten MCH-Wert wieder setzt.
+
+Es kann sonst zu ziemlich schwerwiegenden Problemen mit Festplattentreibern, CD-Recorder2
+und anderen Programmen kommen, die diesen Cookie abfragen !
+

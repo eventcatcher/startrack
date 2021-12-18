@@ -1,0 +1,76 @@
+cjar           equ $5a0
+
+               clr.l      -(sp)         ;in Supervisormode
+               move.w     #32,-(sp)
+               trap       #1
+               addq.l     #6,sp
+               move.l     d0,-(sp)
+
+;cookiejar-test
+               tst.l      cjar
+               beq.s      msg2
+               clr.l      d6
+               movea.l    cjar,a1
+cookt1:        move.l     (a1)+,d1
+               move.l     (a1)+,d2
+               addq.l     #1,d6
+               tst.l      d1
+               beq.s      cookt4
+cookt2d:       cmpi.l     #"hade",d1
+               beq.s      msg3
+               bra.s      cookt1
+
+cookt4:        
+               move.l     #"hade",d1
+               suba.l     #8,a1
+               move.l     4(a1),d3
+               cmp.l      d6,d3
+               ble.s      msg4
+
+               move.l     d1,(a1)+
+               move.l     #$400e,(a1)+
+               move.l     #0,(a1)+
+               move.l     d3,(a1)+
+
+               move.w     #32,-(sp)     ;in Usermode
+               trap       #1
+               addq.l     #6,sp
+
+msg1:          pea        Text          ;Msg ausgeben
+putmsg:        move.w     #9,-(sp)      ;* ausgeben
+               trap       #1            ;GEMDOS
+               addq.l     #6,sp         ;* Stack sÑubern
+
+               clr.w      -(sp)
+               trap       #1
+
+msg2:          move.w     #32,-(sp)     ;in Usermode
+               trap       #1
+               addq.l     #6,sp
+               pea        Text2         ;Fehler-Msg ausgeben
+               bra.s      putmsg
+msg3:          move.w     #32,-(sp)     ;in Usermode
+               trap       #1
+               addq.l     #6,sp
+               pea        Text3
+               bra.s      putmsg
+msg4:          move.w     #32,-(sp)     ;in Usermode
+               trap       #1
+               addq.l     #6,sp
+               pea        Text4         ;Fehler-Msg ausgeben
+               bra.s      putmsg
+
+Text:          .DC.b 13,10,10
+               .DC.b "Hades-Cookie fÅr MagiC installiert...",13,10,10,0
+Text2:         .DC.b 13,10,10
+               .DC.b "kein Cookie-Jar existent !",13,10,10,0
+Text3:         .DC.b 13,10,10
+               .DC.b "Hades-Cookie gefunden !",13,10,10,0
+Text4:         .DC.b 13,10,10
+               .DC.b "Cookie-Jar ist belegt !",13,10,10,0
+               .EVEN 
+               .DATA 
+merk:          .DS.l 1
+               .BSS 
+               .END 
+
