@@ -15439,12 +15439,14 @@ dspcopydo:     lea.l      von(pc),a6
                move.b     (a2)+,2(a1)   ; Kanal 1,HighByte holen
                move.b     (a2)+,(a1)    ; Kanal 1,LowByte holen
                move.l     a2,(a6)+
-               move.w     #6,d5
-dspcopyd2:     movea.l    (a6),a2
+               movea.l    (a6),a2
                move.b     (a2)+,(a1)    ; Kanal 2..8,HighByte holen
                move.b     (a2)+,(a1)    ; Kanal 2..8,LowByte holen
                move.l     a2,(a6)+
-               dbra       d5,dspcopyd2
+               adda.l     #20,a6
+               movea.l    (a6),a2
+               adda.l     #2,a2
+               move.l     a2,(a6)+
                bra.s      dspcopye
 dspcopy24:     movea.l    (a6),a2
                move.b     (a2)+,2(a1)   ; Kanal 1,HighByte holen
@@ -15465,7 +15467,7 @@ dspcopye:      addq.l     #1,24(a5)     ; Playposition
                cmp.l      24(a5),d7
                ble        dsendplay
                cmpa.l     (a3),a2       ; halfbuffer voll ?
-               beq.s      dsplend
+               beq        dsplend
                cmpa.l     (a6),a2       ; Speicher voll ?
                beq.s      dspfrset8
 dspcpyx8:      dbra       d0,dspcopydo
@@ -15474,12 +15476,15 @@ dspcopy16:     movea.l    (a6),a2       ; 16ch/16bit
                move.b     (a2)+,2(a1)   ; Kanal 1,HighByte holen
                move.b     (a2)+,(a1)    ; Kanal 1,LowByte holen
                move.l     a2,(a6)+
-               move.w     #14,d5
-dspcopy16b:    movea.l    (a6),a2
-               move.b     (a2)+,(a1)    ; Kanal 9,HighByte holen
-               move.b     (a2)+,(a1)    ; Kanal 9,LowByte holen
+               addq.l     #4,a6         ; Kanal 9 Åberspringen
+               movea.l    (a6),a2
+               move.b     (a2)+,(a1)    ; Kanal 2,HighByte holen
+               move.b     (a2)+,(a1)    ; Kanal 2,LowByte holen
                move.l     a2,(a6)+
-               dbra       d5,dspcopy16b
+               adda.l     #48,a6
+               movea.l    (a6),a2
+               adda.l     #2,a2
+               move.l     a2,(a6)+
                addq.l     #1,24(a5)     ; Playposition
                move.l     endcount(pc),d7
                cmp.l      24(a5),d7
