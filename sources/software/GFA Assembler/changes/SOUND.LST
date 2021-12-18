@@ -1,6 +1,7 @@
 ;Xbios
 ;Xbios-Erweiterung fÅr Audiokarte StarTrack (VME)
 ;Release 7.12.1997 by SWE (Stephan Wilhelm EntwicklungsbÅro)
+; with Falcon Hardware-Register-Support - only for Test !!!
 
 cpu68k         equ 0      ; 1=68000er, 0=030er,040er,060er
 
@@ -135,6 +136,8 @@ noinfo:        pea        ihandler_play ; neue Interrupt-Routine
 ;               bsr        getsysbase
 
 ;cookiejar-test
+               lea.l      cookhades,a4
+               move.l     #0,(a4)
                clr.w      d7
                lea.l      vmestart,a2
                lea.l      vmemask,a3
@@ -183,6 +186,8 @@ cookt2d:       cmpi.l     #"MgMc",d1
 cookt2e:       cmpi.l     #"hade",d1
                bne        cookt1
                move.w     #-1,d7
+               lea.l      cookhades,a4
+               move.l     d2,(a4)
                move.l     #$feff0000,(a2)         ; VME-Start im hades
                move.l     #$ffff8717,(a3)         ; VME-Intmaske im hades
                bra        cookt1
@@ -229,7 +234,26 @@ cookt6:        move.l     a1,-(sp)
                trap       #13           ;
                addq.l     #8,sp         ; stack korrigieren
 
-               lea.l      berrsprung,a1
+               move.w     #0,vblinst
+               lea.l      cookhades,a4
+               tst.l      (a4)
+               beq.s      no_vblslot
+               move.w     $454,d0
+               lsl.w      #2,d0
+               movea.l    $456,a0
+               moveq.l    #4,d1
+search_vbslot: tst.l      0(a0,d1.w)
+               beq.s      slotvbl
+               addq.w     #4,d1
+               cmp.w      d0,d1
+               bne.s      search_vbslot
+               bra.s      no_vblslot
+slotvbl:       lea.l      vbl,a1
+               move.l     a1,d2
+               move.l     d2,0(a0,d1.w)
+               move.w     #1,vblinst
+
+no_vblslot:    lea.l      berrsprung,a1
                move.l     8,(a1)
                lea.l      Buserr030,a1
                lea.l      cookcpu,a4
@@ -437,7 +461,8 @@ nodspinit:     movem.l    (sp)+,d0-d7/a0-a6
                trap       #1            ;GEMDOS
                addq.l     #6,sp         ;* Stack sÑubern
 
-nogem:         clr.w      -(sp)
+nogem:         move.l     #$71273800,xbready
+               clr.w      -(sp)
                move.l     merklen,d0
                move.l     d0,-(sp)
                move.w     #$31,-(sp)    ;resident halten
@@ -12299,6 +12324,86 @@ installed:
                move.l     #$71273800,d0 ;magic
                rts        
 
+vbl:           tst.b      $ff8935
+               beq.s      vbl2
+               bsr        direct_freq
+vbl2:          tst.w      $ff8930
+               beq.s      vbl3
+               bsr        direct_crossin
+vbl3:          tst.w      $ff8932
+               beq.s      vblexit
+               bsr        direct_crossout
+vblexit:       rts        
+
+direct_freq:   cmpi.l     #$71273800,xbready
+               bne.s      direct_ex
+               clr.w      d0
+               move.b     $ff8935,d0
+               lea.l      stack(pc),a0
+               move.w     #0,(a0)+      ; src
+               move.w     #0,(a0)+      ; dst
+               move.w     #0,(a0)+      ; srcclk, war 3
+               move.w     d0,(a0)+      ; prescale
+               move.w     #1,(a0)+      ; protocol
+               lea.l      stack(pc),a0
+               bsr        devconnect
+               move.b     #0,$ff8935
+direct_ex:     rts        
+
+direct_crossin:           rts           
+
+direct_crossout:          
+               cmpi.l     #$71273800,xbready
+               bne.s      direct_ex
+               clr.w      d0
+               move.w     $ff8932,d0
+               asr.w      #1,d0
+               andi.w     #3,d0
+               lea.l      stack(pc),a0
+               move.w     d0,(a0)+      ; src
+               move.w     #4,(a0)+      ; dst=EXTOUT
+               move.w     srcclk,(a0)+
+               move.w     prescale,(a0)+
+               move.w     #1,(a0)+      ; protocol
+               lea.l      stack(pc),a0
+               bsr        devconnect
+               move.w     $ff8932,d0
+               asr.w      #5,d0
+               andi.w     #3,d0
+               lea.l      stack(pc),a0
+               move.w     d0,(a0)+      ; src
+               move.w     #8,(a0)+      ; dst=DAC
+               move.w     srcclk,(a0)+
+               move.w     prescale,(a0)+
+               move.w     #1,(a0)+      ; protocol
+               lea.l      stack(pc),a0
+               bsr        devconnect
+               move.w     $ff8932,d0
+               asr.w      #8,d0
+               asr.w      #1,d0
+               andi.w     #3,d0
+               lea.l      stack(pc),a0
+               move.w     d0,(a0)+      ; src
+               move.w     #1,(a0)+      ; dst=DMAREC
+               move.w     srcclk,(a0)+
+               move.w     prescale,(a0)+
+               move.w     #1,(a0)+      ; protocol
+               lea.l      stack(pc),a0
+               bsr        devconnect
+               move.w     $ff8932,d0
+               asr.w      #8,d0
+               asr.w      #5,d0
+               andi.w     #3,d0
+               lea.l      stack(pc),a0
+               move.w     d0,(a0)+      ; src
+               move.w     #2,(a0)+      ; dst=DSPREC
+               move.w     srcclk,(a0)+
+               move.w     prescale,(a0)+
+               move.w     #1,(a0)+      ; protocol
+               lea.l      stack(pc),a0
+               bsr        devconnect
+               move.w     #0,$ff8932
+               rts        
 
 ; ----------------StarTrack--Sprungtabelle-----------------------
 
@@ -12738,6 +12843,7 @@ cblbits:       .DS.b 2400
 cardlist:      .DS.l 8
 oldval:        .DS.l 1
 berrsprung:    .DS.l 1
+xbready:       .DC.l 0
 midisprung:    .DS.l 1
 mword:         .DC.b 0,0
 smpwert:       .DS.l 1
@@ -12914,6 +13020,8 @@ ncookfpu:      .DC.l 0
 emuladc:       .DC.w 0
 emulact8:      .DC.w 0
 cookmgmc:      .DC.l 0
+cookhades:     .DC.l 0
+vblinst:       .DC.w 0
 matout:        .DC.w 0
 time:          .DC.l 0
 slowmode:      .DC.w 0
