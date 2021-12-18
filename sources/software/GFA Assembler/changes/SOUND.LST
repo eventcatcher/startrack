@@ -1,10 +1,11 @@
 ; Xbios
 ; Xbios-Erweiterung fÅr Audiokarte StarTrack (VME)
-; Release 30.01.2000 by SWE (Stephan Wilhelm EntwicklungsbÅro)
+; Release 13.02.2000 by SWE (Stephan Wilhelm EntwicklungsbÅro)
 ; for Milan,Hades,Medusa,TT and Mega STE
 
 ; +Directstream-Support
 ; +Special 16Channel Multiplex-Mode & 24Bit-EightChannel-Support
+; for old and new hardware-release
 
                bra        startprog
 
@@ -13,14 +14,14 @@ creturn:       .DC.b 13,10,0
 infotext1:     .DC.b "StarTrack Xbios-Driver ",0
 infotext2:     .DC.b "Copyright by SWE,Stephan Wilhelm",13,10,10,0
 
-vtxt:          .DC.b "V2.10 / 30.01.2000",0
+vtxt:          .DC.b "V2.20 / 13.02.2000",0
                .EVEN 
 
 cpu68k         equ 0      ; 1=68000er, 0=030er,040er,060er
 
-myxcall        equ 500    ; xbios grundaufruf-nummer
+myxcall        equ 500    ; xbios basecall-number
 recbuflen      equ 8192
-lfifo          equ 4096
+lfifo          equ 4096   ; fifo depth
 resmagic       equ $31415926
 cjar           equ $5a0
 resval         equ $426
@@ -622,15 +623,60 @@ my_Dfound:     lsl.w      #1,d2
 
 spcinp:        .DC.b "insrc="           ; analog,opto,cinch
 spcout:        .DC.b "outsrc="          ; input,dma,ext
-spcmode:       .DC.b "mode="            ; stereo,falcon
+spcmode:       .DC.b "mode="            ; stereo, falcon,0-3
 spcvoli:       .DC.b "invol="           ; $00-$ff
 spcvolo:       .DC.b "outvol="          ; $00-$ff
 spcbt:         .DC.b "bitres="          ; normal,extended
 
-getspecs:      lea.l      asrc(pc),a6   ; asrc=analog
+spcinpt0:      .DC.b "insource=",0
+spcinpt1:      .DC.b "analog",CR,LF,0
+spcinpt2:      .DC.b "opto",CR,LF,0
+spcinpt3:      .DC.b "cinch",CR,LF,0
+spcopt0:       .DC.b "outsource=",0
+spcopt1:       .DC.b "input",CR,LF,0
+spcopt2:       .DC.b "dma",CR,LF,0
+spcopt3:       .DC.b "external",CR,LF,0
+spcmdt0:       .DC.b "mode=",0
+spcmdt1:       .DC.b "stereo",CR,LF,0
+spcmdt2:       .DC.b "falcon",CR,LF,0
+spcmont0:      .DC.b "monitor",0
+spcmont1:      .DC.b "=",0
+spcivt0:       .DC.b "involume",0
+spcivt1:       .DC.b "=$",0
+spcovt0:       .DC.b "outvolume",0
+spcbtt0:       .DC.b "bitres=",0
+spcbtt1:       .DC.b "normal",CR,LF,0
+spcbtt2:       .DC.b "extended",CR,LF,0
+spcbyet0:      .DC.b CR,LF,"configfile SOUND.INF not found! ",CR,LF,0
+spcbyet1:      .DC.b "set to standard falconmode...(analog/out=inp/44.1kHz)",CR,LF,0
+               .EVEN 
+
+specout:       tst.w      gem
+               bne.s      nospectex
+               movem.l    d0-d7/a0-a4,-(sp)
+               move.l     a6,-(sp)      ; Msgtext specific
+               move.l     a5,-(sp)      ; Msgtext main
+               move.w     #9,-(sp)      ;* ausgeben
+               trap       #1            ;GEMDOS
+               addq.l     #6,sp         ;* Stack sÑubern
+               move.w     #9,-(sp)      ;* ausgeben
+               trap       #1            ;GEMDOS
+               addq.l     #6,sp         ;* Stack sÑubern
+               movem.l    (sp)+,d0-d7/a0-a4
+nospectex:     rts        
+
+getspecs:      tst.w      cardz
+               beq        nospex
+               lea.l      asrc(pc),a6   ; asrc=analog
                move.w     #1,(a6)
+               move.l     #0,montrack
                lea.l      dsrc(pc),a6   ; digital source=opto
                move.w     #0,(a6)       ; wert
+               lea.l      adwert(pc),a6
+               move.l     #0,(a6)       ; adc still
+               lea.l      dawert(pc),a6
+               move.l     #0,(a6)       ; dac still
+               bsr        setupvol
                lea.l      adwert(pc),a6
                move.w     #$c0,(a6)+
                move.w     #$c0,(a6)
@@ -642,7 +688,7 @@ getspecs:      lea.l      asrc(pc),a6   ; asrc=analog
                lea.l      modr24(pc),a3
                move.b     #0,(a3)
                lea.l      playmod(pc),a6
-               move.w     #0,(a6)
+               move.w     #2,(a6)
                clr.w      -(sp)
                lea.l      specnam(pc),a0
                move.l     a0,-(sp)
@@ -651,6 +697,12 @@ getspecs:      lea.l      asrc(pc),a6   ; asrc=analog
                addq.l     #8,sp
                cmpi.l     #0,d0
                bmi        nospecs
+               movem.l    d0/a0,-(sp)
+               pea        creturn       ;Msg ausgeben
+               move.w     #9,-(sp)      ;* ausgeben
+               trap       #1            ;GEMDOS
+               addq.l     #6,sp         ;* Stack sÑubern
+               movem.l    (sp)+,d0/a0
                lea.l      filebuf,a0
                move.l     a0,-(sp)
                move.l     #512,-(sp)    ; ein sektor
@@ -697,7 +749,12 @@ spcnxt2:       move.b     (a0),d0
                move.w     #62,-(sp)
                trap       #1
                addq.l     #4,sp
-nospecs:       clr.l      d0
+               clr.l      d0
+               rts        
+nospecs:       lea.l      spcbyet0(pc),a5
+               lea.l      spcbyet1(pc),a6
+               bsr        specout
+nospex:        move.l     #-1,d0
                rts        
 spcfnd:        addi.w     #1,d2
                addq.l     #1,a0
@@ -726,21 +783,30 @@ spcfnd1:       move.b     (a0),d1
                beq.s      spc12
                cmpi.b     #"C",d1
                beq.s      spc13
-               bra        spcnxt1
+               bra        spcnxte
 spc11:         lea.l      asrc(pc),a6   ; asrc=analog
                move.w     #1,(a6)
-               bra        spcnxt1
+               lea.l      spcinpt0(pc),a5
+               lea.l      spcinpt1(pc),a6
+               bsr        specout
+               bra        spcnxte
 
 spc12:         lea.l      asrc(pc),a6   ; asrc=digi
                move.w     #0,(a6)
                lea.l      dsrc(pc),a6   ; digital source=opto
                move.w     #0,(a6)       ; wert
-               bra        spcnxt1
+               lea.l      spcinpt0(pc),a5
+               lea.l      spcinpt2(pc),a6
+               bsr        specout
+               bra        spcnxte
 spc13:         lea.l      asrc(pc),a6   ; asrc=digi
                move.w     #0,(a6)
                lea.l      dsrc(pc),a6   ; digital source=coax
                move.w     #1,(a6)       ; wert
-               bra        spcnxt1
+               lea.l      spcinpt0(pc),a5
+               lea.l      spcinpt3(pc),a6
+               bsr        specout
+               bra        spcnxte
 
 spcfnd2:       move.b     (a0),d1
                bclr       #5,d1
@@ -750,13 +816,22 @@ spcfnd2:       move.b     (a0),d1
                beq.s      spc22
                cmpi.b     #"E",d1
                beq.s      spc23
-               bra        spcnxt1
+               bra        spcnxte
 spc21:         move.w     #0,osrc
-               bra        spcnxt1
+               lea.l      spcopt0(pc),a5
+               lea.l      spcopt1(pc),a6
+               bsr        specout
+               bra        spcnxte
 spc22:         move.w     #1,osrc
-               bra        spcnxt1
+               lea.l      spcopt0(pc),a5
+               lea.l      spcopt2(pc),a6
+               bsr        specout
+               bra        spcnxte
 spc23:         move.w     #2,osrc
-               bra        spcnxt1
+               lea.l      spcopt0(pc),a5
+               lea.l      spcopt3(pc),a6
+               bsr        specout
+               bra        spcnxte
 
 spcfnd3:       lea.l      playmod(pc),a6
                move.b     (a0),d1
@@ -765,17 +840,57 @@ spcfnd3:       lea.l      playmod(pc),a6
                beq.s      spc31
                cmpi.b     #"F",d1
                beq.s      spc32
-               bra        spcnxt1
+               bra        spcnxte
 spc31:         move.w     #0,(a6)
-               bra        spcnxt1
+               lea.l      spcmdt0(pc),a5
+               lea.l      spcmdt1(pc),a6
+               bsr        specout
+               bra        spcnxte
 spc32:         move.w     #2,(a6)
-               bra        spcnxt1
+               lea.l      spcmdt0(pc),a5
+               lea.l      spcmdt2(pc),a6
+               bsr        specout
+               adda.l     #6,a0
+spc33:         move.b     (a0)+,d1
+               cmpi.b     #",",d1
+               bne        spcnxte
+               move.b     (a0)+,d1
+               andi.w     #$ff,d1
+               move.l     a0,-(sp)
+               move.w     d1,-(sp)
+               subi.b     #48,d1
+               andi.w     #3,d1
+               move.w     d1,montrack
+               lea.l      spcmont0(pc),a5
+               lea.l      spcmont1(pc),a6
+               bsr        specout
+               move.w     #2,-(sp)
+               trap       #1
+               addq.l     #4,sp
+               pea        creturn       ;Msg ausgeben
+               move.w     #9,-(sp)      ;* ausgeben
+               trap       #1            ;GEMDOS
+               addq.l     #6,sp         ;* Stack sÑubern
+               movea.l    (sp)+,a0
+               bra        spcnxte
 
 spcfnd4:       lea.l      adwert(pc),a6
+               lea.l      spcivt0(pc),a5
 spcfnd4a:      move.b     (a0)+,d1
                cmpi.b     #"$",d1
                bne        spcnxt1
+               move.l     a6,-(sp)
+               lea.l      spcivt1(pc),a6
+               bsr        specout
+               movea.l    (sp)+,a6
                move.b     (a0)+,d1
+               move.l     a0,-(sp)
+               move.w     d1,-(sp)
+               move.w     #2,-(sp)
+               trap       #1
+               addq.l     #2,sp
+               move.w     (sp)+,d1
+               movea.l    (sp)+,a0
                subi.b     #48,d1
                cmpi.b     #9,d1
                ble.s      nohex1
@@ -783,10 +898,16 @@ spcfnd4a:      move.b     (a0)+,d1
                cmpi.b     #15,d1
                ble.s      nohex1
                subi.b     #32,d1
-
 nohex1:        move.w     d1,d3
                lsl.w      #4,d3
                move.b     (a0)+,d1
+               move.l     a0,-(sp)
+               move.w     d1,-(sp)
+               move.w     #2,-(sp)
+               trap       #1
+               addq.l     #2,sp
+               move.w     (sp)+,d1
+               movea.l    (sp)+,a0
                cmpi.w     #48,d1
                blt.s      spcfnd4b
                subi.b     #48,d1
@@ -800,11 +921,17 @@ nohex2:        andi.w     #$f,d1
                or.b       d1,d3
 spcfnd4b:      move.w     d3,(a6)+
                move.w     d3,(a6)
-               bra        spcnxt1
+               move.l     a0,-(sp)
+               pea        creturn       ;Msg ausgeben
+               move.w     #9,-(sp)      ;* ausgeben
+               trap       #1            ;GEMDOS
+               addq.l     #6,sp         ;* Stack sÑubern
+               movea.l    (sp)+,a0
+               bra        spcnxte
 
 spcfnd5:       lea.l      dawert(pc),a6
-               movea.l    a5,a4
-               bra.s      spcfnd4a
+               lea.l      spcovt0(pc),a5
+               bra        spcfnd4a
 
 spcfnd6:       move.b     (a0),d1
                lea.l      modr24(pc),a3
@@ -813,10 +940,22 @@ spcfnd6:       move.b     (a0),d1
                beq.s      spc61
                cmpi.b     #"E",d1
                beq.s      spc62
-               bra        spcnxt1
+               bra        spcnxte
 spc61:         move.b     #0,(a3)
-               bra        spcnxt1
+               lea.l      spcbtt0(pc),a5
+               lea.l      spcbtt1(pc),a6
+               bsr        specout
+               bra        spcnxte
 spc62:         move.b     #1,(a3)
+               lea.l      spcbtt0(pc),a5
+               lea.l      spcbtt2(pc),a6
+               bsr        specout
+
+spcnxte:       move.b     (a0)+,d1
+               cmpi.b     #0,d1
+               beq        spcnxt1
+               cmpi.b     #CR,d1
+               bne.s      spcnxte
                bra        spcnxt1
 
 speedtst:      movea.l    (a0)+,a1      ; buffer
@@ -5013,7 +5152,6 @@ delplugs:      move.w     #0,0(a1,d2.w)
                lea.l      aesreg,a1
                move.b     #0,(a1)
                move.b     #0,$c0(a6)
-               move.l     #0,montrack
                bsr        recreset
                lea.l      cmdaddr(pc),a1          ; adderin=matrix
                move.w     #2,(a1)
@@ -5056,7 +5194,6 @@ delplugs:      move.w     #0,0(a1,d2.w)
 inimodus:      bsr        falcmodus
 iclrbuf:       bsr        clearbuffers
 
-               clr.w      d0
                bsr        pushaesr
 
                move.w     #2,d7
@@ -5109,7 +5246,7 @@ idigi:         lea.l      dsrc(pc),a5   ; opto,cinch oder xlr
 ikoax:         lea.l      lowreg(pc),a1
                move.b     d0,(a1)
                move.b     d0,(a6)
-               lea.l      adwert(pc),a6
+setupvol:      lea.l      adwert(pc),a6
                lea.l      param,a0
                move.w     (a6)+,(a0)+
                move.w     (a6),(a0)
@@ -5155,6 +5292,10 @@ iniaflc:       move.w     d0,(a0)+      ; prescale=44.1k or spdif
                move.w     #1,(a0)       ; protocol
                lea.l      stack,a0
                bsr        devconnect
+               lea.l      stack,a0
+               move.w     montrack,d0
+               move.w     d0,(a0)       ; schreiben
+               bsr        setmontrack
                rts        
 
 nmodus:        move.w     #0,d2
@@ -10770,7 +10911,7 @@ pushaesr:      movem.l    d0-d7/a0-a6,-(sp)
                move.w     (a1),d1
                cmpi.w     #2,d1         ; 128Bit mode ?
                blt.s      pmonleave
-               bsr        setmontr2     ; monitorchannel einstellen
+               bsr        setmontr2     ; monitorchannel aktualisieren
 pmonweg:       movem.l    (sp)+,d0-d7/a0-a6
                rts        
 pmonleave:     lea.l      montrack(pc),a1
@@ -11881,7 +12022,6 @@ mode24:        move.w     (a0)+,d0
                blt.s      errmd24
                lea.l      modr24(pc),a3
                move.b     d0,(a3)
-               clr.w      d0
                bsr        pushaesr
                clr.l      d0
                rts        
@@ -12906,7 +13046,6 @@ oldsetmontr:   lea.l      montrack(pc),a1
                bra        monterr
 
 osetmontr2:               ; setmontrack - neuen wert in d0 Åbergeben
-               move.w     d7,d0
                lea.l      montrack(pc),a1
                move.w     2(a1),d7      ; letzten montrackwert holen
                move.w     (a1),d0       ; neuen montrackwert holen
@@ -12989,16 +13128,14 @@ getmontr:      clr.l      d0
                move.w     (a1),d0
                rts        
 
-setmontr2:                ; setmontrack - neuen wert in d0 Åbergeben
-               move.w     d0,d7
+setmontr2:                ; setmontrack - wert aktualisieren,original in (a1)
                bsr        nhrdtst
                btst       #0,d0         ; neue oder alte hardware?
                bne        osetmontr2
-               move.w     d7,d0
                lea.l      montrack(pc),a1
-               move.w     2(a1),d7      ; letzten montrackwert holen
-               move.w     (a1),d0       ; neuen montrackwert holen
-               move.w     d0,2(a1)      ; alten montrackwert aktualisieren
+               move.w     2(a1),d7      ; montrack-backup holen
+               move.w     (a1),d0       ; aktuellen montrackwert holen
+               move.w     d0,2(a1)      ; make backup vom aktuellen montrackwert
                move.w     d0,d6
                lea.l      vmestart(pc),a6
                movea.l    (a6),a6
@@ -18047,6 +18184,266 @@ sdspeff8:      .DC.b "_START MIX128B 0000 0000 0000 DSP56000 5.3.2",13,10
                .DC.b "_END 0000",13,10
 edspeff8:      .EVEN 
 
+extmxdsp:      .DC.b "_START EXTALL3",13,10
+               .DC.b "_DATA P 0000",13,10
+               .DC.b "0C0100",13,10
+               .DC.b "_DATA P 000C",13,10
+               .DC.b "0BF080 0001D3 0BF080 0001D3 0BF080 0001DE 0BF080 0001DE",13,10
+               .DC.b "_DATA P 0020",13,10
+               .DC.b "0BF080 0001EB 0BF080 0001F1 0BF080 0001F2 0BF080 0001F5",13,10
+               .DC.b "0BF080 00020D",13,10
+               .DC.b "_DATA P 0040",13,10
+               .DC.b "0BF080 000221 0BF080 000239 0BF080 00024D",13,10
+               .DC.b "_DATA P 0100",13,10
+               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0502BA 0500BB 66F400",13,10
+               .DC.b "000400 05F426 FFFFFF 08F4A1 000000 08F4A3 000000 08F4AC",13,10
+               .DC.b "004700 08F4AD 00F800 08F4BF 003800 08F4A1 00FFE8 65F400",13,10
+               .DC.b "002800 64F400 002000 45F400 002FF8 22B300 05F420 FFFFFF",13,10
+               .DC.b "05F421 FFFFFF 05F422 FFFFFF 05F423 000FFF 05F424 000FFF",13,10
+               .DC.b "05F425 000FFF 05F427 FFFFFF 60F400 0000A6 0AA980 000134",13,10
+               .DC.b "084E2B 000000 000000 0C012E 08F4A8 000005 00FCB8 22AE00",13,10
+               .DC.b "226666 200055 0EA137 62F400 000062 61F400 000074 67F400",13,10
+               .DC.b "000051 47F000 000050 0AC702 00018F 46DA00 635E00 0BF080",13,10
+               .DC.b "000177 63FE00 000000 47DB00 0BF080 000177 47FB00 635E00",13,10
+               .DC.b "61F400 0000A6 061080 000155 47FB00 477900 226600 62F400",13,10
+               .DC.b "000086 0BF080 000161 61F400 000097 0BF080 000161 63FE00",13,10
+               .DC.b "0C0137 060880 000175 56DA00 44D900 21CF00 47F400 000008",13,10
+               .DC.b "200076 0AF0AA 000171 20007C 47F43B 000001 20CE78 0AF080",13,10
+               .DC.b "000172 20CE3B 47D910 21D300 000000 446300 00000C 060880",13,10
+               .DC.b "00018D 0A5F80 00017F 0BF080 0001CA 0AF080 00018D 47E300",13,10
+               .DC.b "44D900 46F0B1 000072 200032 21C700 46DAB1 200032 565B00",13,10
+               .DC.b "47DB45 0AF0AF 00018D 567900 44D900 000000 00000C 46DA00",13,10
+               .DC.b "060880 0001A6 0A5F80 000198 0BF080 0001C1 0AF080 0001A6",13,10
+               .DC.b "47E300 44D900 46F0B1 000072 200032 21C700 46DAB1 200032",13,10
+               .DC.b "565B00 200045 0AF0AF 0001A6 567900 44D900 000000 635E00",13,10
+               .DC.b "61F400 00009E 060880 0001AE 47FB00 000000 477900 000000",13,10
+               .DC.b "226600 62F400 000086 060880 0001BD 44D900 57DA00 20CE00",13,10
+               .DC.b "000000 200010 000000 21D300 000000 446300 000000 63FE00",13,10
+               .DC.b "0C0137 46DA00 56DB00 44D900 200045 0AF0AF 0001C9 567900",13,10
+               .DC.b "44D900 00000C 46DA00 56DB00 44D900 47DB45 0AF0AF 0001D2",13,10
+               .DC.b "567900 44D900 00000C 0AAEA3 0001D7 085DAF 000004 565E00",13,10
+               .DC.b "22AE00 200066 21D500 56FE00 085DAF 000004 0AAEA2 0001E2",13,10
+               .DC.b "08DCAF 000004 575E00 228F00 20006E 21F400 000000 57DC00",13,10
+               .DC.b "57FE00 08DCAF 000004 565E00 56F000 00FFEB 565800 56FE00",13,10
+               .DC.b "000004 000004 60F400 0000A6 000004 565E00 575E00 445E00",13,10
+               .DC.b "60F400 0000A6 000000 57D800 000000 44E000 56F400 000062",13,10
+               .DC.b "000000 200010 000000 21D000 000000 446000 000000 60F400",13,10
+               .DC.b "0000A6 44FE00 57FE00 56FE00 000004 565E00 575E00 56F400",13,10
+               .DC.b "000074 57F000 0000A6 000000 200010 000000 21D000 000000",13,10
+               .DC.b "56E000 08CE2B 2E0000 566000 60F400 0000A6 57FE00 56FE00",13,10
+               .DC.b "000004 565E00 575E00 445E00 60F400 0000A6 000000 57D800",13,10
+               .DC.b "000000 44E000 56F400 000086 000000 200010 000000 21D000",13,10
+               .DC.b "000000 446000 000000 60F400 0000A6 44FE00 57FE00 56FE00",13,10
+               .DC.b "000004 565E00 575E00 445E00 60F400 0000A6 56F400 000051",13,10
+               .DC.b "57D800 44E000 200010 000000 21D000 000000 446000 60F400",13,10
+               .DC.b "0000A6 44FE00 57FE00 56FE00 000004 445E00 60F400 0000A6",13,10
+               .DC.b "000000 44E000 000000 60F400 000050 000000 446000 60F400",13,10
+               .DC.b "0000A6 65F400 002800 64F400 002000 0AC422 00026B 45F400",13,10
+               .DC.b "002FF8 0AC421 000267 08F4AC 004700 0AF080 000269 08F4AC",13,10
+               .DC.b "006700 44FE00 000004 45F400 002FF0 65F400 002800 64F400",13,10
+               .DC.b "002000 0AC421 000276 08F4AC 004F00 0C0269 08F4AC 006F00",13,10
+               .DC.b "0C0269",13,10
+               .DC.b "_DATA X 0050",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000001",13,10
+               .DC.b "000002 000003 000004 000005 000006 000007 000008 000009",13,10
+               .DC.b "00000A 00000B 00000C 00000D 00000E 00000F 000000 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "_END 0000",13,10
+xtmxdsp:       .EVEN 
+
+panmxdsp:      .DC.b "_START PANALL3",13,10
+               .DC.b "_DATA P 0000",13,10
+               .DC.b "0C0080",13,10
+               .DC.b "_DATA P 000C",13,10
+               .DC.b "0BF080 0001B7 0BF080 0001B7 0BF080 0001C2 0BF080 0001C2",13,10
+               .DC.b "_DATA P 0020",13,10
+               .DC.b "0BF080 0001CF 0BF080 0001D6 0BF080 0001D7 0BF080 0001DA",13,10
+               .DC.b "0BF080 0001EE",13,10
+               .DC.b "_DATA P 0040",13,10
+               .DC.b "0BF080 000202 0BF080 000216 0BF080 00022A",13,10
+               .DC.b "_DATA P 0080",13,10
+               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0502BA 0500BB 66F400",13,10
+               .DC.b "000400 05F426 FFFFFF 08F4A1 000000 08F4A3 000000 08F4AC",13,10
+               .DC.b "004700 08F4AD 00F800 08F4BF 003800 08F4A1 00FFE8 65F400",13,10
+               .DC.b "002800 64F400 002000 45F400 002FF8 22B300 05F420 FFFFFF",13,10
+               .DC.b "05F421 FFFFFF 05F422 FFFFFF 05F423 000FFF 05F424 000FFF",13,10
+               .DC.b "05F425 000FFF 240000 05F427 FFFFFF 60F400 0000DA 447000",13,10
+               .DC.b "000050 0AA980 0000B5 084E2B 0C00B1 08F4A8 000005 00FCB8",13,10
+               .DC.b "65F400 002800 64F400 002000 22B300 0A7008 000050 22AE00",13,10
+               .DC.b "226666 200055 0EA0BF 62F413 000062 61F41B 0000A6 46DA00",13,10
+               .DC.b "47F000 000050 000000 0AC728 0000B8 0AC722 0000D2 000000",13,10
+               .DC.b "0AF080 00014C 635E00 0BF080 000134 226700 63FE00 475E00",13,10
+               .DC.b "475E00 47DB00 0BF080 000134 63FE00 44D900 0A67A0 0000E3",13,10
+               .DC.b "21C700 46DAB1 21E732 200045 0AF0AF 0000E8 567900 44D900",13,10
+               .DC.b "44D900 0A6780 0000ED 0AF080 0000EF 2000B9 20003A 27004D",13,10
+               .DC.b "0AF0AF 0000F3 577900 46F000 000050 000000 0AC621 000122",13,10
+               .DC.b "061080 0000FA 477B00 0AC620 00010D 226600 61F400 0000C8",13,10
+               .DC.b "21C700 56D900 200050 000000 21D300 000000 475B00 000000",13,10
+               .DC.b "47DB00 000000 576300 0AF080 000132 565B00 21C700 46F400",13,10
+               .DC.b "008000 2000B0 505B00 260000 465B00 465B00 465B00 465B00",13,10
+               .DC.b "465B00 465B00 575B00 21E700 46F400 008000 2000B0 505B00",13,10
+               .DC.b "0AF080 000132 477B00 477B00 477B00 477B00 477B00 477B00",13,10
+               .DC.b "477B00 577B00 477B00 477B00 477B00 477B00 477B00 477B00",13,10
+               .DC.b "477B00 567B00 63FE00 0C00BF 060880 00014A 44D900 47E300",13,10
+               .DC.b "565E00 46DAB0 46DA32 47E345 0AF0AF 000140 567900 44D900",13,10
+               .DC.b "46DAB0 200032 44FE00 47DB40 200011 575E00 46DAB8 47DB3A",13,10
+               .DC.b "44FE00 200048 200019 00000C 060880 000162 44D900 47E300",13,10
+               .DC.b "565E00 46DAB0 46DA32 47E345 0AF0AF 000158 567900 44D900",13,10
+               .DC.b "46DAB0 200032 44FE00 47DB40 200011 575E00 46DAB8 20003A",13,10
+               .DC.b "44FE00 200048 200019 62F400 0000A2 61F400 0000B6 67F400",13,10
+               .DC.b "000061 44D900 46DA00 0A67A0 000170 21C700 46DAB1 21E732",13,10
+               .DC.b "200045 0AF0AF 000175 567900 44D900 44D900 0A6780 00017B",13,10
+               .DC.b "635E00 0AF080 00017D 635EB9 20003A 27004D 0AF0AF 000181",13,10
+               .DC.b "577900 46F000 000050 000000 0AC621 0001AD 060880 000188",13,10
+               .DC.b "477B00 0AC620 00019C 226600 61F400 0000C8 21C700 56D900",13,10
+               .DC.b "200050 000000 21D300 000000 476300 56E100 200050 21D300",13,10
+               .DC.b "000000 576300 0AF080 0001B5 565B00 21C700 46F400 008000",13,10
+               .DC.b "2000B0 505B00 260000 465B00 465B00 575B00 21E700 46F400",13,10
+               .DC.b "008000 2000B0 505B00 0AF080 0001B5 477B00 477B00 477B00",13,10
+               .DC.b "577B00 477B00 477B00 477B00 567B00 63FE00 0C00BF 0AAEA3",13,10
+               .DC.b "0001BB 085DAF 000004 565E00 22AE00 200066 21D500 56FE00",13,10
+               .DC.b "085DAF 000004 0AAEA2 0001C6 08DCAF 000004 575E00 228F00",13,10
+               .DC.b "20006E 21F400 000000 57DC00 57FE00 08DCAF 000004 565E00",13,10
+               .DC.b "56F000 00FFEB 000000 565800 56FE00 000004 000004 60F400",13,10
+               .DC.b "0000DA 000004 565E00 575E00 445E00 60F400 0000DA 56F400",13,10
+               .DC.b "000062 57D800 44E000 200010 000000 21D000 000000 446000",13,10
+               .DC.b "60F400 0000DA 44FE00 57FE00 56FE00 000004 565E00 575E00",13,10
+               .DC.b "56F400 0000A6 57F000 0000DA 000000 200010 000000 21D000",13,10
+               .DC.b "000000 56E000 08CE2B 2E0000 566000 60F400 0000DA 57FE00",13,10
+               .DC.b "56FE00 000004 565E00 575E00 445E00 60F400 0000DA 56F400",13,10
+               .DC.b "0000B8 57D800 44E000 200010 000000 21D000 000000 446000",13,10
+               .DC.b "60F400 0000DA 44FE00 57FE00 56FE00 000004 565E00 575E00",13,10
+               .DC.b "445E00 60F400 0000DA 56F400 000051 57D800 44E000 200010",13,10
+               .DC.b "000000 21D000 000000 446000 60F400 0000DA 44FE00 57FE00",13,10
+               .DC.b "56FE00 000004 0003F8 445E00 60F400 0000DA 000000 44E000",13,10
+               .DC.b "000000 0AC468 60F400 000050 000000 446000 60F400 0000DA",13,10
+               .DC.b "65F400 002800 64F400 002000 22B300 0AC422 00024D 45F400",13,10
+               .DC.b "002FF8 0AC421 000247 08F4AC 004700 0AF080 000249 08F4AC",13,10
+               .DC.b "006700 44FE00 00FCB8 000000 000004 45F400 002FF0 0AC421",13,10
+               .DC.b "000254 08F4AC 004F00 0C0249 08F4AC 006F00 0C0249",13,10
+               .DC.b "_DATA X 0050",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 000000 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000001 000002 000003 000004 000005 000006 000007",13,10
+               .DC.b "000008 000009 00000A 00000B 00000C 00000D 00000E 00000F",13,10
+               .DC.b "000000 000001 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000",13,10
+               .DC.b "_END 0000",13,10
+xpanmxdsp:     .EVEN 
+
+balmxdsp:      .DC.b "_START BALMIXER",13,10
+               .DC.b "_DATA P 0000",13,10
+               .DC.b "0C0100",13,10
+               .DC.b "_DATA P 000C",13,10
+               .DC.b "0BF080 0001FC 0BF080 0001FC 0BF080 000207 0BF080 000207",13,10
+               .DC.b "_DATA P 0020",13,10
+               .DC.b "0BF080 000214 0BF080 00021E 0BF080 00021F 0BF080 000222",13,10
+               .DC.b "0BF080 000242",13,10
+               .DC.b "_DATA P 0040",13,10
+               .DC.b "0BF080 000256 0BF080 000276",13,10
+               .DC.b "_DATA P 0100",13,10
+               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0502BA 0500BB 364000",13,10
+               .DC.b "05F426 FFFFFF 08F4A1 000000 08F4A3 000000 08F4AC 004700",13,10
+               .DC.b "08F4AD 00F800 08F4BF 003800 08F4A1 00FFE8 65F400 002800",13,10
+               .DC.b "05F425 000FFF 64F400 002000 05F424 000FFF 45F400 002FF8",13,10
+               .DC.b "22B300 05F423 000FFF 05F420 000FFF 05F427 00FFFF 60F400",13,10
+               .DC.b "000073 0AA980 00012F 084E2B 000000 000000 0C0129 08F4A8",13,10
+               .DC.b "000005 00FCB8 22AE00 226666 200055 0EA132 62F400 000055",13,10
+               .DC.b "61F400 00005F 67F400 000050 47DB00 44D900 0A6780 000143",13,10
+               .DC.b "20EE00 0AF080 000146 46DA00 2000B0 200032 46DA45 0AF0AF",13,10
+               .DC.b "00014B 567900 44D900 47DB00 0A5F80 000151 20EF00 0AF080",13,10
+               .DC.b "000153 2000B8 20003A 44D900 46DA4D 0AF0AF 000159 577900",13,10
+               .DC.b "44D900 47DB00 565E00 0A6780 000160 20EE00 0AF080 000162",13,10
+               .DC.b "2000B0 200032 44D900 46DA45 0AF0AF 000168 567900 44D900",13,10
+               .DC.b "44FE00 200040 200011 47DB00 44D900 575E00 0A5F80 000173",13,10
+               .DC.b "20EF00 0AF080 000175 2000B8 20003A 46DA4D 0AF0AF 00017A",13,10
+               .DC.b "577900 44D900 44FE00 200048 200019 47DB00 44D900 565E00",13,10
+               .DC.b "0A6780 000185 20EE00 0AF080 000187 2000B0 200032 46DA45",13,10
+               .DC.b "0AF0AF 00018C 567900 44D900 44FE00 200040 200011 47DB00",13,10
+               .DC.b "44D900 575E00 0A5F80 000197 20EF00 0AF080 000199 2000B8",13,10
+               .DC.b "20003A 46DA4D 0AF0AF 00019E 577900 44D900 44FE00 200048",13,10
+               .DC.b "200019 47DB00 44D900 565E00 0A6780 0001A9 20EE00 0AF080",13,10
+               .DC.b "0001AB 2000B0 200032 46DA45 0AF0AF 0001B0 567900 44D900",13,10
+               .DC.b "44FE00 200040 200011 47DB00 44D900 575E00 0A5F80 0001BB",13,10
+               .DC.b "20EF00 0AF080 0001BD 2000B8 20003A 46DA4D 0AF0AF 0001C2",13,10
+               .DC.b "577900 44D900 44FE00 200048 200019 21C700 44D900 0A67A0",13,10
+               .DC.b "0001CB 2000B1 200032 46DA45 0AF0AF 0001D0 567900 44D900",13,10
+               .DC.b "21E700 44D900 0A67A0 0001D6 2000B9 20003A 20004D 0AF0AF",13,10
+               .DC.b "0001DB 577900 44D900 635E00 270000 060880 0001DF 477B00",13,10
+               .DC.b "226600 21C700 61F400 000071 000000 000000 56D900 000000",13,10
+               .DC.b "000000 200050 000000 000000 21D300 000000 000000 476300",13,10
+               .DC.b "56E100 000000 000000 200050 000000 000000 21D300 000000",13,10
+               .DC.b "000000 576300 63FE00 0C0132 0AAEA3 000200 085DAF 000004",13,10
+               .DC.b "565E00 22AE00 200066 21D500 56FE00 085DAF 000004 0AAEA2",13,10
+               .DC.b "00020B 08DCAF 000004 575E00 228F00 20006E 21F400 000000",13,10
+               .DC.b "57DC00 57FE00 08DCAF 000004 565E00 000000 000000 56F000",13,10
+               .DC.b "00FFEB 000000 000000 565800 56FE00 000004 000004 60F400",13,10
+               .DC.b "000073 000004 565E00 575E00 445E00 000000 000000 60F400",13,10
+               .DC.b "000073 000000 000000 57D800 000000 000000 44E000 56F400",13,10
+               .DC.b "000055 000000 000000 200010 000000 000000 21D000 000000",13,10
+               .DC.b "000000 446000 000000 000000 60F400 000073 44FE00 57FE00",13,10
+               .DC.b "56FE00 000004 565E00 575E00 56F400 00005F 57F000 000073",13,10
+               .DC.b "000000 200010 000000 21D000 000000 56E000 08CE2B 2E0000",13,10
+               .DC.b "566000 60F400 000073 57FE00 56FE00 000004 565E00 575E00",13,10
+               .DC.b "445E00 000000 000000 60F400 000073 000000 000000 57D800",13,10
+               .DC.b "000000 000000 44E000 56F400 000069 000000 000000 200010",13,10
+               .DC.b "000000 000000 21D000 000000 000000 446000 000000 000000",13,10
+               .DC.b "60F400 000073 44FE00 57FE00 56FE00 000004 565E00 575E00",13,10
+               .DC.b "445E00 60F400 000073 56F400 000050 57D800 44E000 200010",13,10
+               .DC.b "000000 21D000 000000 446000 60F400 000073 44FE00 57FE00",13,10
+               .DC.b "56FE00 000004",13,10
+               .DC.b "_DATA X 0050",13,10
+               .DC.b "000000 000000 000000 000000 000000 1FFF00 1FFF00 1FFF00",13,10
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 000000",13,10
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
+               .DC.b "000000 000000 000001 000002 000003 000004 000005 000006",13,10
+               .DC.b "000007 000000 000001",13,10
+               .DC.b "_END 0000",13,10
+xbalmxdsp:     .EVEN 
+
+setdspmxext:   jsr        dspreset
+               jsr        dsp_stdinit   ; DSP-Initialize
+               bsr        dspcall1
+               lea.l      extmxdsp(pc),a0
+               lea.l      xtmxdsp(pc),a2
+               bsr        dspcall2
+               rts        
+
+setdspmxpan:   jsr        dspreset
+               jsr        dsp_stdinit   ; DSP-Initialize
+               bsr        dspcall1
+               lea.l      panmxdsp(pc),a0
+               lea.l      xpanmxdsp(pc),a2
+               bsr        dspcall2
+               rts        
+
+setdspmxbal:   jsr        dspreset
+               jsr        dsp_stdinit   ; DSP-Initialize
+               bsr        dspcall1
+               lea.l      balmxdsp(pc),a0
+               lea.l      xbalmxdsp(pc),a2
+               bsr        dspcall2
+               rts        
+
 setpassthru:   jsr        dspreset
                jsr        dsp_stdinit   ; DSP-Initialize
                lea.l      passthru24(pc),a6
@@ -18290,6 +18687,7 @@ Rlist2:        .DC.w 1,2  ; cookie/copyright
                .DC.w 410,411,412,413,414,415,416  ; sndcall/dsp/devco list
 
                .DC.w 500,501,502,503,504,505,506,507        ; dsproutinen
+               .DC.w 510,511,512        ; dspmixer
 
                .DC.w 0    ; end
 
@@ -18485,6 +18883,10 @@ R_addr2:       .DC.l installed          ; cookie XBIOS-Treiber
                .DC.l setdspplay8        ; host dspplay8 dsp-routine laden
                .DC.l setdspmix8         ; mixing8 dsp-routine laden
                .DC.l setdspeff8         ; mixeffect8 dsp-routine laden
+
+               .DC.l setdspmxbal        ; balance mixer
+               .DC.l setdspmxpan        ; panpot mixer
+               .DC.l setdspmxext        ; external mixer
 
 ; ---------------Falcon/MagicMac-Sprungtabelle-----------------------
 
@@ -18685,6 +19087,10 @@ R_addr4:       .DC.l installed          ; cookie XBIOS-Treiber
                .DC.l setdspplay8        ; host dspplay8 dsp-routine laden
                .DC.l setdspmix8         ; mixing8 dsp-routine laden
                .DC.l setdspeff8         ; mixeffect8 dsp-routine laden
+
+               .DC.l setdspmxbal        ; balance mixer
+               .DC.l setdspmxpan        ; panpot mixer
+               .DC.l setdspmxext        ; external mixer
 
                .DATA 
 stack:         .DS.b 512
