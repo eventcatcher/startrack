@@ -1,0 +1,7 @@
+CLS
+FOR i=0 TO 40
+  a=DPEEK(&HFEFF0500)
+  b=INT(a/256)
+  a=a-b*256
+  PRINT b,a
+NEXT i

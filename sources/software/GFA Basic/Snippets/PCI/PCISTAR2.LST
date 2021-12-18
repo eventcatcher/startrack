@@ -1,0 +1,118 @@
+CLS
+adr=&HA0080000    ! Config PLX
+adr2=&H81000000   ! PLX Registers Memory Mapped         ,80H
+adr3=&HB0001000   ! PLX Registers I/O Mapped            ,80H
+adr4=&HB0001100   ! PLX Local Adress Space I/O Mapped   ,100H
+'
+@init
+'
+@wordintel(adr+2,device)
+@wordintel(adr,vendor)
+POKE adr+4,3                  ! enables CS for memory and io-space in the command-register
+@wordintel(adr+6,status)
+@wordintel(adr+4,command)
+'
+@longintel(adr+&H10,base0)  ! Base Adress Memory Mapped Registers
+@longintel(adr+&H14,base1)  ! Base Adress I/O Mapped Registers
+@longintel(adr+&H18,base2)  ! Base Adress Local Adress Space
+@longintel(adr+&H1C,base3)
+@longintel(adr+&H20,base4)
+@longintel(adr+&H24,base5)
+'
+PRINT "device,vendor:",HEX$(device),HEX$(vendor)
+PRINT "status,command:",HEX$(status),HEX$(command)
+PRINT "base 0-5:",HEX$(base0),HEX$(base1),HEX$(base2),HEX$(base3),HEX$(base4),HEX$(base5)
+'
+longwrite(adr2+4,&H2000001)  ! Remap to IC3 /SELM Adress Space
+@longintel(adr2+&H18,region)
+PRINT BIN$(region),HEX$(region)
+region=&X1000000000000110000000100000111
+@longwrite(adr2+&H18,region)
+@longintel(adr2+&H18,region)
+PRINT BIN$(region),HEX$(region)
+'
+PRINT
+@longwrite(adr4,1)
+@longwrite(adr4+4,8)
+@longintel(adr4+4,int)
+PRINT BIN$(int)
+PAUSE 50
+PRINT
+'
+a=&X10000000
+b=&X11110000
+a=XBIOS(500,320,a,b)
+'
+b=GEMDOS(32,L:0)
+a=PEEK(&HFFFFFA85)
+' PRINT "MFP-DIR:";BIN$(a)
+a=PEEK(&HFFFFFA89)
+' PRINT "MFP-MSK:";BIN$(a)
+a=(a AND 254)+1
+'
+b=GEMDOS(32,L:b)
+@longintel(adr2+&H68,intc)
+intc=intc OR 2048
+@longwrite(adr2+&H68,intc)
+@longintel(adr2+&H68,intc)
+PRINT "PCI-INTC:";BIN$(intc)
+'
+ttmfp=PEEK(&HFFFFFA81)
+PRINT "TT-MFP:";BIN$(ttmfp)
+ttpend=PEEK(&HFFFFFA8D)
+PRINT "TT-IPRB:";BIN$(ttpend)
+STOP
+'
+a=&X11100000
+b=&X11110000
+'
+ax=&H80
+ax2=&H80+&H40
+REPEAT
+  @longintel(adr4+4,int)
+  int=(int AND 2)
+  IF int=0 THEN
+    a=XBIOS(500,310,255,15)
+  ENDIF
+UNTIL MOUSEK
+'
+END
+'
+> PROCEDURE init
+  pmem=MALLOC(4)
+RETURN
+'
+> PROCEDURE longintel(memadr,VAR a)
+  LPOKE pmem,LPEEK(memadr)
+  a1=PEEK(pmem)
+  a2=PEEK(pmem+1)
+  a3=PEEK(pmem+2)
+  a4=PEEK(pmem+3)
+  POKE pmem,a4
+  POKE pmem+1,a3
+  POKE pmem+2,a2
+  POKE pmem+3,a1
+  a=LPEEK(pmem)
+RETURN
+'
+> PROCEDURE wordintel(memadr,VAR a)
+  DPOKE pmem,DPEEK(memadr)
+  a1=PEEK(pmem)
+  a2=PEEK(pmem+1)
+  POKE pmem,a2
+  POKE pmem+1,a1
+  a=DPEEK(pmem)
+RETURN
+'
+> PROCEDURE longwrite(memadr,a)
+  LPOKE pmem,a
+  a1=PEEK(pmem)
+  a2=PEEK(pmem+1)
+  a3=PEEK(pmem+2)
+  a4=PEEK(pmem+3)
+  POKE pmem,a4
+  POKE pmem+1,a3
+  POKE pmem+2,a2
+  POKE pmem+3,a1
+  LPOKE memadr,LPEEK(pmem)
+RETURN

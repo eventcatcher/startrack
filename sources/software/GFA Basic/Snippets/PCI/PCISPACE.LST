@@ -1,0 +1,17 @@
+'
+' Config,Ram,IO1,IO2
+'
+CLS
+a=XBIOS(500,320)
+cfg=LPEEK(a)
+mem=LPEEK(a+4)
+io1=LPEEK(a+8)
+io2=LPEEK(a+12)
+PRINT HEX$(cfg)
+PRINT HEX$(mem)
+PRINT HEX$(io1)
+PRINT HEX$(io2)
+'
+PRINT
+PRINT HEX$(LPEEK(io2))
+PRINT HEX$(LPEEK(io2+4))

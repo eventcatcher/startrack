@@ -1,0 +1,7 @@
+'
+' Config,Ram,IO1,IO2
+'
+io2=&HB0001100
+'
+CLS
+PRINT BIN$(PEEK(io2+4))

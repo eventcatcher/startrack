@@ -1,0 +1,6 @@
+CLS
+'
+a=XBIOS(500,20,0)
+'
+a=XBIOS(500,600)
+PRINT DPEEK(a),DPEEK(a+2)

@@ -1,0 +1,51 @@
+CLS
+a=XBIOS(500,250)
+PRINT a
+IF a>0 THEN
+  FOR i=1 TO 10
+    a=XBIOS(500,253,i)
+    PRINT "Plugin Nr.";i,": ";a
+  NEXT i
+  a=XBIOS(500,253,1)
+  IF a<>-1 THEN
+    PRINT
+    PRINT
+    nam=LPEEK(a)
+    nam$=""
+    REPEAT
+      b=PEEK(nam)
+      nam$=nam$+CHR$(b)
+      INC nam
+    UNTIL b=0
+    PRINT "Plugin-Name:";nam$
+    PRINT "Plugin-Taktzyklen:";LPEEK(a+4)
+    PRINT "Plugin-Window:";HEX$(LPEEK(a+8))
+    '
+    c=XBIOS(500,256)
+    PRINT "max Taktzyklen:",c
+    c=XBIOS(500,258)
+    PRINT "verbrauchte play-Taktzyklen:",c
+    '
+    c=XBIOS(500,254,L:-1)
+    REPEAT
+      d=DPEEK(c)
+      PRINT "plugin playliste:";d
+      c=c+2
+    UNTIL d=0
+    '
+    l=MALLOC(100)
+    DPOKE l,1
+    DPOKE l+2,0
+    c=XBIOS(500,254,L:l)
+    '
+    c=XBIOS(500,258)
+    PRINT "verbrauchte play-Taktzyklen:",c
+    '
+    c=XBIOS(500,254,L:-1)
+    REPEAT
+      d=DPEEK(c)
+      PRINT "plugin playliste:";d
+      c=c+2
+    UNTIL d=0
+  ENDIF
+ENDIF

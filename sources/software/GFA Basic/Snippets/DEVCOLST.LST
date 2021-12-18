@@ -1,0 +1,10 @@
+a=XBIOS(500,310)
+b=DPEEK(a)
+PRINT b
+'
+PRINT
+FOR i=1 TO b
+  c=DPEEK(a+2+i*4-4)
+  d=DPEEK(a+4+i*4-4)
+  PRINT c,d
+NEXT i
