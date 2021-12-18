@@ -988,7 +988,7 @@ RETURN
     @clocklook(cdivsms)
     dopix=FALSE
     shading=vshading
-    @rsc_draw(nr,0)
+    @rsc_draw(nr,1)
     @markhlp
     REPEAT
       REPEAT
@@ -8263,16 +8263,16 @@ ENDIF
 rsc_handle%(tree&)=0
 ~WIND_UPDATE(0)                                      ! END_UPDATE
 IF rsc_window&>0 THEN
-IF nr=partsel& OR nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info& OR nr=trakker& THEN
+IF nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info& OR nr=trakk
   nr=smpedit&
   tree&=smpedit&
   rsc_message(tree&,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
+  IF rsc_handle%(tree&)>0 AND rsc_handle%(tree&)<1000
+    fly=FALSE
+  ELSE
+    fly=TRUE
+  ENDIF
 ENDIF
-ENDIF
-IF rsc_handle%(tree&)>0 AND rsc_handle%(tree&)<1000
-fly=FALSE
-ELSE
-fly=TRUE
 ENDIF
 ELSE
 IF rsc_list$<>"" THEN
@@ -9014,7 +9014,7 @@ UNTIL BTST(OB_FLAGS(rsc_adr%,obj&),5)          ! LAST_OB ?
 title&=0
 RETURN 0                                       ! nicht gef. oder disabled
 ENDFUNC
-> FUNCTION rsc_alert(icon&,text$,def&,button$)
+FUNCTION rsc_alert(icon&,text$,def&,button$)
 ' Fliegende ALERT-Box...
 $F%
 LOCAL a&,b&,h&,i&,l&,len&,w&,x&,y&,z&,ab&,ah&,rsc&,rsc_adr%,a$,knr,kobj,rdraw
@@ -20657,7 +20657,7 @@ ENDIF
 @setbutton3(plgplay&,0,nr)
 @setbutton3(plgrec&,1,nr)
 wahl=0
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 REPEAT
 REPEAT
 obj=@rsc_do(nr,0,popup&)
@@ -25592,7 +25592,7 @@ nr=vornr
 @editselect
 ENDIF
 nr=ndnr
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 ENDIF
 ELSE
 '
@@ -25837,7 +25837,7 @@ ELSE
 db$=STR$(0)+CHR$(0)
 ENDIF
 @textfeld2(nr,normdb&,db$,1)
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 @normtest
 REPEAT
@@ -27001,7 +27001,7 @@ a$="FREETIME: "+a$
 @textfeld2(nr,recfree&,a$,1)
 timekey=4
 @timekey
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,rtime)
@@ -29140,7 +29140,7 @@ RETURN
 @testcopyright
 vornr=nr
 nr=moving&
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
@@ -31264,7 +31264,7 @@ string=LPEEK(LPEEK(zu%+24*savetxt&+12))
 FOR it=1 TO LEN(a$)
 POKE string+it-1+(versatz-1),ASC(MID$(a$,it,1))
 NEXT it
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
@@ -31564,7 +31564,7 @@ string=LPEEK(LPEEK(zu%+24*savetxt&+12))
 FOR it=1 TO LEN(a$)
 POKE string+it-1+(versatz-1),ASC(MID$(a$,it,1))
 NEXT it
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
@@ -32883,7 +32883,7 @@ ENDIF
 dopix=FALSE
 shading=vshading
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
@@ -33492,7 +33492,7 @@ tfsplus=tfsmax/tflist2           ! Einzelschritt
 dopix=FALSE
 shading=vshading
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @rsc_state(nr,fsordner&,3,TRUE)
 @rsc_state(nr,fsadd&,3,TRUE)
 @rsc_state(nr,fsnew&,3,TRUE)
@@ -33722,7 +33722,7 @@ a$=LEFT$(a$,60)+CHR$(0)
 ENDIF
 a$=a$+CHR$(0)
 @editfeld2(nr,trkctxin&,a$)
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @wischwasch
 @markhlp
 REPEAT
@@ -33761,7 +33761,7 @@ edit_obj&=0
 obj&=0
 obj=0
 @restaura2
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 IF xobj=trkcok& THEN
 a$=trkcom$(i3)+CHR$(0)
 @textfeld(mrkobj,a$,1)
@@ -34012,7 +34012,7 @@ fil$=ordner$+b$
 ENDIF
 IF nr=fsel& THEN
 @rsc_back(nr)
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 ENDIF
 '  @rsc_put(ab,rscx&(nr),rscy&(nr),1)
 '  @rsc_redraw_obj(nr,0)
@@ -35681,9 +35681,9 @@ dopix=FALSE
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 IF ldtrk2=FALSE THEN
 IF infbutt=TRUE THEN
-@rsc_draw(nr,0)    ! sollte 5 sein
+@rsc_draw(nr,1)    ! sollte 5 sein
 ELSE
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 ENDIF
 @markhlp
 edit_obj&=0
@@ -37576,7 +37576,7 @@ ELSE
 @setbutton3(adjresmp&,0,nr)
 ENDIF
 ENDIF
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 edit_obj&=0
 next_obj&=0
 obj=0
@@ -39784,7 +39784,7 @@ m=tplaystart
 dt=INT(toffs2/10)
 timekey=4
 @timekey
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,dt)
@@ -40489,7 +40489,7 @@ m=tplaystart
 dt=INT(tplaystart/thz*100)
 timekey=4
 @timekey
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,dt)
@@ -40547,7 +40547,7 @@ m=tplayend
 dt=INT(tplayend/thz*100)
 timekey=4
 @timekey
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,dt)
@@ -41511,7 +41511,7 @@ m=tplaystart
 dt=INT(trktime(atrkp)/thz*100)
 timekey=4
 @timekey
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,dt)
@@ -42442,7 +42442,7 @@ m=trkstrt(trkp)
 dt=INT(m/thz*100)
 timekey=4
 @timekey
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,dt)
@@ -44076,7 +44076,7 @@ m=trkend(trkp)
 dt=INT(m/thz*100)
 timekey=4
 @timekey
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,dt)
@@ -44280,7 +44280,7 @@ db$=RIGHT$("000"+STR$(resorig),3)+CHR$(0)
 resoth=INT(arrsrate%(pbz+myi)/100)/10
 db$=RIGHT$("000"+STR$(INT(resoth*10)),3)+CHR$(0)
 @editfeld2(nr,resother&,db$)
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 edit_obj&=0
 next_obj&=0
 obj=0
@@ -44934,7 +44934,7 @@ IF LEN(a$)>6 THEN
 a$=LEFT$(a$,5)+CHR$(0)
 ENDIF
 @editfeld2(nr,trktxtin&,a$)
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
@@ -44984,7 +44984,7 @@ IF LEN(a$)>12 THEN
 a$=LEFT$(a$,12)
 ENDIF
 @editfeld2(nr,memname&,a$)
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
@@ -45361,7 +45361,7 @@ ENDIF
 shading=vshading
 dopix=FALSE
 @wischwasch
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 REPEAT
 REPEAT
 REPEAT
@@ -46687,7 +46687,7 @@ vbtime=btime
 vaback=aback
 vaback2=aback
 vabacknam=abacknam
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 REPEAT
 REPEAT
@@ -46816,7 +46816,7 @@ vornr=nr
 nr=inftxt&
 '
 '
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 btim$=TIME$
 IF mbs>0 THEN
@@ -47210,7 +47210,7 @@ a$=LEFT$(a$,25)+CHR$(0)
 ENDIF
 a$=a$+CHR$(0)
 @editfeld2(nr,mtex&,a$)
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @wischwasch
 @markhlp
 REPEAT
@@ -47361,7 +47361,7 @@ edsms=1
 @edmfsetnr(edsms)
 dopix=FALSE
 shading=vshading
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @wischwasch
 REPEAT
 REPEAT
@@ -48782,7 +48782,7 @@ dt=INT(cs/hz/mbit*100)
 ENDIF
 shading=vshading
 dopix=FALSE
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 IF tedart=1 THEN
 t=0
@@ -49060,7 +49060,7 @@ nr=disked&
 a$=nam$+CHR$(0)
 @textfeld2(nr,dskedtxt&,a$,1)
 @editfeld2(nr,dskedit&,CHR$(0))
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 UNTIL @mousek=0
@@ -49162,7 +49162,7 @@ timekey=4
 ENDIF
 shading=vshading
 dopix=FALSE
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 IF tedart=1 THEN
 REPEAT
@@ -49334,7 +49334,7 @@ ENDIF
 @swtosrate(hz)
 dopix=FALSE
 shading=vshading
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 UNTIL @mousek=0
@@ -50152,7 +50152,7 @@ vdb=db
 vresoth=resoth
 vadjresmp=adjresmp
 vrealtime=realtime
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 '
 REPEAT
@@ -52459,7 +52459,7 @@ a$="MAX.TIME: "+a$
 spc=0
 timekey=4
 @timekey
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,spc)
@@ -53119,7 +53119,7 @@ ENDIF
 IF public=TRUE THEN
 @hidetree2(stream&,TRUE)
 ENDIF
-@rsc_draw(nr,7)
+@rsc_draw(nr,1)
 winh=BSET(winh,nr)
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 @markhlp
@@ -54410,7 +54410,7 @@ a$="MAX.TIME: "+a$
 m=tplaystart
 timekey=4
 @timekey
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,cuediv)
@@ -55335,7 +55335,7 @@ IF xx=partsel& THEN
 @rsc_back(xx)
 ENDIF
 nr=record&
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 @timeinp(mmax,mg)
@@ -55349,7 +55349,7 @@ xobj=obj
 IF xx=partsel& THEN
 @rsc_back(nr)
 nr=partsel&
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 ELSE
 @restaura2
 ENDIF
@@ -58056,7 +58056,7 @@ dopix=TRUE
 '
 dopix=FALSE
 shading=vshading
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
@@ -58384,7 +58384,7 @@ nr=dsmove&
 FOR i=dsil1& TO dsir16&
 @setbutton3(i,0,nr)
 NEXT i
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 vds_ltrk=0
 vds_rtrk=0
@@ -59129,7 +59129,7 @@ db$=STR$(ch)+CHR$(0)
 @makenote
 dopix=FALSE
 shading=vshading
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
@@ -59480,7 +59480,7 @@ vornr=nr
 nr=marknumb&
 mn$=STR$(value)+CHR$(0)
 @textfeld2(nr,mnumtxt&,mn$,1)
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
