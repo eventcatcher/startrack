@@ -418,6 +418,8 @@ IF rsc_mtsk!=TRUE THEN
   ~MENU_REGISTER(ap_id&,"  VME_SMP16")
 ENDIF
 '
+'
+'
 mtype=INT(C:rsc_cookie%(L:CVL("_MCH"))/&H10000)   ! COOKIE-ABFRAGE Maschinentyp : 0,1=ST   2=TT,Medusa
 magicmac=INT(C:rsc_cookie%(L:CVL("MgMc")))        ! COOKIE-ABFRAGE MagicMac
 magix=INT(C:rsc_cookie%(L:CVL("MagX")))           ! COOKIE-ABFRAGE MagiC
@@ -512,6 +514,8 @@ IF EXIST(s$+rsc$)=TRUE AND EXIST(s$+rsc2$)=TRUE AND EXIST(s$+rsc3$)=TRUE THEN
 ELSE
   rscda=FALSE
 ENDIF
+'
+'
 IF away=FALSE THEN
   IF rscda=TRUE THEN ! File$,Trees,Popup,Menu,Alert
     @setcopyright
@@ -1955,6 +1959,7 @@ RETURN
 > PROCEDURE killarrmem
   IF arrmem>0 THEN
     ~MFREE(arrmem)
+    arrmem=0
   ENDIF
 RETURN
 '
@@ -2389,7 +2394,6 @@ RETURN
       ELSE
         sms2=2
       ENDIF
-      PRINT sms2
       IF nr=smpedit& THEN
         IF ksms2<>sms2 AND ksms2<>0 THEN
           @selblkshak(ksms2,0)
@@ -2794,7 +2798,7 @@ RETURN
           k=@mousek
           ~FRE(0)
           @peakbreak
-          IF BTST(em,0) AND (ky AND 255)=32 THEN
+          IF BTST(em,0) AND ascii|=32 THEN
             @keymarkers
           ENDIF
           IF falcon=TRUE AND sloop!=FALSE THEN
@@ -3099,7 +3103,7 @@ RETURN
             ENDIF
           ENDIF
           @peakbreak
-          IF BTST(em,0) AND (ky AND 255)=32 THEN
+          IF BTST(em,0) AND ascii|=32 THEN
             @keymarkers
           ENDIF
           @read_digsrate
@@ -3266,7 +3270,7 @@ RETURN
           ~FRE(0)
           back3%=LPEEK(peakexit)
           @peakbreak
-          IF BTST(em,0) AND (ky AND 255)=32 THEN
+          IF BTST(em,0) AND ascii|=32 THEN
             @keymarkers
           ENDIF
           @read_digsrate
@@ -3627,7 +3631,7 @@ RETURN
       ENDIF
       @zeigtime
       @peakbreak
-      IF BTST(em,0) AND (ky AND 255)=32 THEN
+      IF BTST(em,0) AND ascii|=32 THEN
         @keymarkers
       ENDIF
       IF nr<>cuelist& AND allcount<=0 THEN
@@ -3682,7 +3686,7 @@ RETURN
       ENDIF
       @zeigtime
       @peakbreak
-      IF BTST(em,0) AND (ky AND 255)=32 THEN
+      IF BTST(em,0) AND ascii|=32 THEN
         @keymarkers
       ENDIF
       IF nr<>cuelist& AND allcount<=0 THEN
@@ -3703,7 +3707,7 @@ RETURN
   ENDIF
   @zeigtime
   @peakbreak
-  IF BTST(em,0) AND (ky AND 255)=32 THEN
+  IF BTST(em,0) AND ascii|=32 THEN
     @keymarkers
   ENDIF
 RETURN
@@ -4036,7 +4040,7 @@ RETURN
         ELSE
           @zeigtime
           @peakbreak
-          IF BTST(em,0) AND (ky AND 255)=32 THEN
+          IF BTST(em,0) AND ascii|=32 THEN
             @keymarkers
           ENDIF
         ENDIF
@@ -4181,7 +4185,7 @@ RETURN
         k=@mousek
         ~FRE(0)
         @peakbreak
-        IF BTST(em,0) AND (ky AND 255)=32 THEN
+        IF BTST(em,0) AND ascii|=32 THEN
           @keymarkers
         ENDIF
       UNTIL back4%=1 OR back3%=1 OR k=3 OR k=2
@@ -4269,7 +4273,7 @@ RETURN
       ENDIF
       IF recp=FALSE THEN
         @peakbreak2
-        IF BTST(em,0) AND (ky AND 255)=32 THEN
+        IF BTST(em,0) AND ascii|=32 THEN
           @keymarkers
         ENDIF
       ENDIF
@@ -4315,7 +4319,7 @@ RETURN
       ENDIF
       IF recp=FALSE THEN
         @peakbreak2
-        IF BTST(em,0) AND (ky AND 255)=32 THEN
+        IF BTST(em,0) AND ascii|=32 THEN
           @keymarkers
         ENDIF
       ENDIF
@@ -4334,7 +4338,7 @@ RETURN
   ENDIF
   IF recp=FALSE THEN
     @peakbreak2
-    IF BTST(em,0) AND (ky AND 255)=32 THEN
+    IF BTST(em,0) AND ascii|=32 THEN
       @keymarkers
     ENDIF
   ENDIF
@@ -4495,6 +4499,7 @@ RETURN
         @fliphz2
         nofliphz=FALSE
         ~MFREE(beep)
+        beep=0
         @digout(FALSE)
         IF (nr=peak& OR nr=smpedit& OR nr=arranger& OR nr=trakker&) AND falcon=FALSE THEN
           IF hrd=0 THEN
@@ -4860,7 +4865,7 @@ RETURN
               ELSE
                 @zeigtime2
                 @peakbreak2
-                IF BTST(em,0) AND (ky AND 255)=32 THEN
+                IF BTST(em,0) AND ascii|=32 THEN
                   @keymarkers
                 ENDIF
               ENDIF
@@ -7785,7 +7790,7 @@ ENDSELECT
 '
 ENDIF
 RETURN
-> PROCEDURE rsc_back(tree&)                                                      ! Einzige ge„nderte Routine fr Snap !!!!
+> PROCEDURE rsc_back(tree&)                                                ! Alle Fensternamen hier eintragen (zur Unterscheidung Flydial oder nicht) !!!
 .| Glob. Var.: rsc_window&,nr#,smp16&,blkfunc&,peak&,loop&,editfade&
 .|     arranger&,info&,trakker&,smpedit&,edit_obj&,idx&,rsc_list$
 .| Felder    : rsc_handle%(),rscx&(),rscy&(),rscw&(),rsch&(),rsc_adr%()
@@ -7798,7 +7803,6 @@ RETURN
 '
 ' ---------------------------------------------------- Als Fenster-Dialog
 IF windowda=TRUE THEN
-fly=FALSE
 IF rsc_handle%(tree&)>0 AND rsc_handle%(tree&)<1000
 '
 ~WIND_UPDATE(1)                                    ! BEG_UPDATE
@@ -7807,40 +7811,54 @@ rsc_menu_ienable(TRUE)                             ! ...Men wieder w„hlbar
 '
 IF rsc_window&                                     ! Fenster existiert...
 '
-'        ~WIND_CLOSE(rsc_handle%(tree&))
-'        ~WIND_DELETE(rsc_handle%(tree&))                 ! ...schliežen & abmelden
+~WIND_CLOSE(rsc_handle%(tree&))
+~WIND_DELETE(rsc_handle%(tree&))                 ! ...schliežen & abmelden
 '
 DEC rsc_window&                                  ! Anz. offene Fenster-1
 '
 ELSE                                               ! Sonst Redraw ausl”sen...
-'        ~FORM_DIAL(3,0,0,0,0,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
+~FORM_DIAL(3,0,0,0,0,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
 ENDIF
 ' -------------------------------------------------- Als normaler Dialog
 rsc_handle%(tree&)=0
 ~WIND_UPDATE(0)                                      ! END_UPDATE
 IF rsc_window&>0 THEN
-IF nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info& OR nr=trakker& THEN
+IF nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info& OR nr=trakker& THEN
   nr=smpedit&
   tree&=smpedit&
-  '          rsc_message(tree&,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
+  rsc_message(tree&,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
 ENDIF
+ENDIF
+IF rsc_handle%(tree&)>0 AND rsc_handle%(tree&)<1000
+fly=FALSE
+ELSE
+fly=TRUE
 ENDIF
 ELSE
+IF rsc_list$<>"" THEN
 rsc_list$=LEFT$(rsc_list$,SUB(LEN(rsc_list$),2))   ! Dialog aus der Liste entf.
+ENDIF
 '
 IF rsc_handle%(tree&)                              ! Hintergrund gerettet...
-'        rsc_bitblt(rsc_handle%(tree&),rscw&(tree&),rsch&(tree&),0,0,0,0,0,rscw&(tree&),rsch&(tree&),rscx&(tree&),rscy&(tree&))
+rsc_bitblt(rsc_handle%(tree&),rscw&(tree&),rsch&(tree&),0,0,0,0,0,rscw&(tree&),rsch&(tree&),rscx&(tree&),rscy&(tree&))
 ~MFREE(rsc_handle%(tree&))
 '
 ELSE                                               ! Desktop redrawen...
-'        ~FORM_DIAL(3,0,0,0,0,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
+~FORM_DIAL(3,0,0,0,0,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
 IF rsc_list$<>""                                 ! Noch ein Dialog drunter...
-  '          ~OBJC_DRAW(rsc_adr%(CVI(RIGHT$(rsc_list$,2))),0,7,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
+  ~OBJC_DRAW(rsc_adr%(CVI(RIGHT$(rsc_list$,2))),0,7,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
 ENDIF                                            ! ...diesen auch redrawen
 ENDIF
 rsc_handle%(tree&)=0
 ~WIND_UPDATE(0)                                      ! END_UPDATE
+IF rsc_handle%(vornr)>0 AND rsc_handle%(vornr)<1000
+fly=FALSE
+ELSE
+fly=TRUE
 ENDIF
+ENDIF
+ELSE
+fly=FALSE
 ENDIF
 RETURN
 > PROCEDURE rsc_text(tree&,robj&,a$)
@@ -18385,6 +18403,7 @@ CLOSE #1
 ENDIF
 ENDIF
 ~MFREE(ptest)
+ptest=0
 ENDIF
 RETURN
 '
@@ -21340,6 +21359,7 @@ ENDIF
 ENDIF
 IF away=FALSE THEN
 mdat%=@malloc(hbuf,0)         ! Buffer fr Header-Read & sdload/sdsave & Parameter
+mdatf=mdat%
 IF mdat%>0 THEN
 mdat%=INT(mdat%/2)*2+2
 IF notmem=FALSE THEN
@@ -21361,7 +21381,6 @@ away=TRUE
 ENDIF
 tim$=TIME$
 btim$=tim$
-mdatf=mdat%
 IF gemvers>=&H1900 THEN
 mr=@mxalloc(-1,1)+@mxalloc(-1,0)
 ELSE
@@ -23743,7 +23762,7 @@ ENDIF
 IF xload=TRUE THEN
 ~@xrsrc_free(1)    ! gibt RSC frei
 ~@xrsrc_free(2)    ! gibt RSC frei
-'    ~@xrsrc_free(3)    ! gibt RSC frei
+~@xrsrc_free(3)    ! gibt RSC frei (nicht unter MagiC - Absturz !!!)
 xload=FALSE
 ENDIF
 IF xinit=TRUE THEN
@@ -38598,6 +38617,7 @@ ENDIF
 ENDIF
 IF recmem%>0 THEN
 ~MFREE(recmem%)     ! Peak-Buffer
+recmem%=0
 ENDIF
 @setbutton(pause2&,0)
 brkex2=FALSE
@@ -44705,7 +44725,7 @@ hl=virtln-2
 stp=(INT(mlen/xm))
 stp=(INT((stp+1)/mbit)*mbit)
 z=INT(hl/stp+stp)
-IF cwerte1>0 THEN
+IF cwert>0 THEN
 ~MFREE(cwert)
 cwert=0
 ENDIF
@@ -48218,6 +48238,7 @@ IF EXIST(dfil2$) AND dfil2$<>"" THEN
 @copyfile(dfil2$,dfil3$,cpstart,cpmem)
 ENDIF
 ~MFREE(cpstart)
+cpstart=0
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 ELSE
 @nomem
@@ -59663,61 +59684,41 @@ ENDIF
 autorec=FALSE
 RETURN
 '
-> PROCEDURE exit
-.| Glob. Var.: cwerte1#,cwert#,merkfrei#,mdatf2#,mdatf#,big#,anfloadx#,virt$
-.|     virt2$
-.| Aufruf in : goodbye-1,
+> FUNCTION freemem(vv)
+IF vv>0 THEN
+~MFREE(vv)
+vv=0
+ENDIF
+RETURN vv
+ENDFUNC
 '
-IF dspbuf>0 THEN
-~MFREE(dspbuf)
-dspbuf=0
-ENDIF
-IF tmem>0 THEN
-~MFREE(tmem)
-tmem=0
-ENDIF
-IF mixmem%>0 THEN
-~MFREE(mixmem%)
-mixmem%=0
-ENDIF
-IF nonstm>0 THEN
-~MFREE(nonstm)
-nonstm=0
-ENDIF
+> PROCEDURE exit
+arrmem=@freemem(arrmem)
+dspbuf=@freemem(dspbuf)
+tmem=@freemem(tmem)
+mixmem%=@freemem(mixmem%)
+nonstm=@freemem(nonstm)
 IF windcache=TRUE THEN
-IF memfade>0 THEN
-~MFREE(memfade)
-memfade=0
-ENDIF
-IF memc>0 THEN
-~MFREE(memc)
-memc=0
-ENDIF
-IF memtrak>0 THEN
-~MFREE(memtrak)
-memtrak=0
-ENDIF
+memfade=@freemem(memfade)
+memc=@freemem(memc)
+memtrak=@freemem(memtrak)
 ENDIF
 IF peakmem%>0 AND nopeakmem=FALSE AND peakmemda=TRUE THEN
-~MFREE(peakmem%)
-peakmem%=0
+peakmem%=@freemem(peakmem%)
 ENDIF
-IF cwerte1>0 THEN
-~MFREE(cwert)
-cwert=0
-ENDIF
-IF merkfrei>0 THEN
-~MFREE(merkfrei)
-merkfrei=0
-ENDIF
-IF mdatf>0 THEN
-~MFREE(mdatf)
-mdatf=0
-ENDIF
+cwert=@freemem(cwert)
+merkfrei=@freemem(merkfrei)
+mdatf=@freemem(mdatf)
 IF big=0 AND anfloadx>0 THEN
-~MFREE(anfloadx)
-anfloadx=0
+anfloadx=@freemem(anfloadx)
 ENDIF
+'
+beep=@freemem(beep)
+peakmem2%=@freemem(peakmem2%)
+recmem%=@freemem(recmem%)
+ptest=@freemem(ptest)
+cpstart=@freemem(cpstart)
+'
 IF EXIST(virt$) THEN
 KILL virt$
 ENDIF
