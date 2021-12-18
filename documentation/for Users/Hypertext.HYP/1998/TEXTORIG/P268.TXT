@@ -1,0 +1,34 @@
+
+
+
+
+5.2.2 PartitionsüDatei "STARTRK.LFW"
+
+
+
+In dieser Datei sind alle Dateipfade untereinander aufgelistet,die bei  der
+
+Aufnahme ber mehrere Partitionen (Partitonmode) verwendet werden drfen.
+
+
+
+partitions ; Hier sind alle erlaubten Partitionen ohne Trennzeichen aufgelistet
+
+
+
+partitionmode ; Hier kann man den Partitionmode aktivieren (true)
+
+
+
+Beispiel: 
+
+Die Laufwerke C: und D: drfen im Partitionmode (aktiviert) verwendet werden:
+
+
+
+partitions=de 
+
+partitionmode=true
+
+
+

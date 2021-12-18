@@ -1,0 +1,140 @@
+2.1.3 HDD 5 1/4üZollüEinschub
+
+Ist ihr Rechner in einem PCüGeh„use (Hades,Medusa,Milan oder umgebauter AtariTT) eingebaut ? Dann ist fr sie die 5
+1/4üZoll Einbauversion genau richtig.Der Einbau ist hier sehr einfach: Einfach in einen freien 5 1/4üZoll
+Laufwerkseinschub montieren,und mit der HIFIüAnlage oder Mischpult verbinden. Wie das genau gemacht wird,werden wir
+ihnen ausfhrlich zeigen.
+Haben sie die DSPüErweiterung gleich mitbestellt,dann ist die DSPüErweiterung
+bereits von uns auf die StartracküKarte aufgesteckt worden.Wollen sie das System nachtr„glich mit der DSPüKarte
+erweitern,dann muá diese zuerst auf die StartracküKarte aufgesteckt werden.
+
+
+2.1.3.1 DSPüErweiterung einbauen:
+Bauen sie also den 5 1/4üZollüEinschub mit der StartracküKarte bei ausgeschaltetem Rechner aus dem Geh„use aus.Vergessen
+sie bitte nicht,vorher das VMEüKabel abzuziehen.Stecken sie die DSPüKarte nun vorsichtig auf die StartracküKarte,und
+zwar mit der Bauteilseite nach unten.Die beiden Erweiterungsstecker der DSPüKarte mssen dabei in Richtung der
+Cinchanschlsse (nicht in Richtung des VMEüSteckers!) zeigen.Achten sie dabei unbedingt darauf,daá die Steckkontakte der
+DSPüKarte genau in die dafr vorgesehenen Buchsenkontakte auf der StartracküKarte passen,und die Kontaktreihen nicht
+versehentlich verschoben sind.Drcken sie anschlieáend
+gleichm„áig die beiden Kontaktreihen der DSPüKarte (am „uáeren Ende der Platinen) in die StartracküBuchsenkontakte
+(Bravo,die erst Hrde ist genommen). Auf der Frontblende des Einschubs befinden sich zwei Leuchtdioden die noch mit der
+DSPüKarte verbunden werden mssen.Diese zeigen den Status des DSP an.Hierfr sind am linken Rand der DSPüKarte vier
+kleine Pins vorhanden (siehe Zeichnung der DSPüErweiterung,Kapitel 2.1.6).
+
+Auf der Platine sind diese mit DEBUG und LOCK bezeichnet. Die rote LED ist fr LOCK und die grne LED fr DEBUG
+vorgesehen. Die 4 Anschlsse werden nun folgendermaáen mit den LEDs verl”tet (von links nach rechts):
+
+
+Die Anode einer LED ist zu erkennen durch den l„ngeren Anschluá und den schmaleren in der LED sichtbaren Anschluáteil
+Die Kathode einer LED ist zu erkennen durch den krzeren Anschluá und den dickeren in der LED sichtbaren Anschluáteil
+
+
+   1.Anschluá mit der Kathode der grnen LED verl”ten
+   2.Anschluá mit der Anode der grnen LED verl”ten
+   3.Anschluá mit der Kathode der roten LED verl”ten
+   4.Anschluá mit der Anode der roten LED verl”ten.
+
+
+Sollte die rote LED im Betrieb nicht leuchten,so haben sie die beiden Anschlsse
+wahrscheinlich vertauscht.Die grne LED leuchtet nur,wenn der DSP im DebugüMode ist,wenn also z.B. das EVM56KüProgramm
+gestartet wurde.
+Haben sie zwei linke H„nde oder keinen L”tkolben zur Hand,wenden sie sich bitte an ihren H„ndler der dies sicherlich
+gerne fr sie macht.
+Haben sie die StartracküKarte komplett mit der DSPüErweiterung erworben,
+
+so ist diese L”tarbeit natrlich nicht n”tig.
+
+
+Brauchen sie den DSPüPort fr den Anschluá eines Analog8,FA8,JamüIn, JamüOut,ADAT,Clockmoduls oder einer anderen
+DSPüPortüErweiterung ?
+Dann sollten sie nun das DSPüPortüKabel mit der DSPüKarte verbinden:
+
+
+2.1.3.2 DSPüPortüKabel anschlieáen:
+Das DSPüPortüKabel (das dickere) wird mit der DSPüErweiterung verbunden.
+
+Sie sehen auf der DSPüErweiterung 2 doppelreihige Stecker. Der eine ist 10polig (ONCEüPort),der andere unser 26poliger
+DSPüPort.Wenn sie auf die Kontakte schauen (von der Anschluáseite mit den Cinchanschlssen aus gesehen),ist der 10polige
+ONCEüPort links und der 26polige DSPüPort rechts (siehe Zeichnung,
+
+Kapitel 2.1.6). Nun mssen sie das DSPüKabel aufstecken,aber bitte richtigrum: Pin 1 des DSPüPortüSteckers ist unten
+links (von vorne gesehen),Pin 1 des Kabels ist rot,und sollte sich nach dem Aufstecken ebenfalls unten links auf dem
+Stecker befinden.
+
+
+Haben sie einen PCükompatiblen Rechner,auáerdem Ambitionen zur DSPüProgrammierung ?
+Dann sollten sie nun das ONCEüPortüKabel mit der DSPüKarte verbinden:
+
+
+2.1.3.3 ONCEüPortüKabel anschlieáen:
+Das ONCEüPortüKabel (das dnnere) wird mit der DSPüErweiterung verbunden. Sie sehen auf der DSPüErweiterung 2
+doppelreihige Stecker.Der eine ist 26polig (DSPüPort),der andere unser 10poliger ONCEüPort.Wenn sie auf die Kontakte
+schauen (von der EinschubüFrontseite mit den Cinchanschlssen aus gesehen),ist der 10polige ONCEüPort links und der
+26polige DSPüPort rechts (siehe Zeichnung,Kapitel 2.1.6). Nun mssen sie das ONCEüKabel aufstecken,aber bitte
+richtigrum: Pin 1 des ONCEüPortü Steckers ist unten links (von vorne gesehen). Das Kabel ist dreiadrig (Pin 7=grn, Pin
+9=weiá, Pin 10=braun),der braune Anschluá befindet sich nach dem Aufstecken oben am rechten Rand des Steckers,wenn sie
+alles richtig gemacht haben.
+
+
+2.1.3.4 Einbau in das Geh„use:
+Ziehen sie das VMEüKabel durch den gewnschten Laufwerksschacht nach drauáen.
+
+
+
+Sollten sie im Besitz eines Hades,Medusa oder MilanüRechners sein und feststellen,daá ihr VMEüKabel zu kurz ist,so
+k”nnen sie von uns oder einem H„ndler ihres Vertrauens ein Verl„ngerungskabel beziehen.Wir raten davon ab,ein eigenes
+Verl„ngerungskabel zu basteln.Man macht schnell einen Fehler,und kann dadurch seinen Rechner oder die StartracküKarte
+durch eine Unachtsamkeit zerst”ren. Auáerdem sind handgel”tete Kabel nicht sehr stabil,die Kabel reiáen schnell ab,und
+die St”rfestigkeit gegen hohe Frequenzen die an so einem Bus auftauchen,ist nicht gut. Eigene schlechte Erfahrungen,
+unter anderem auf der AtariüMesse 1996 in Neuss,haben dies belegt. Daher benutzen wir ein spezielles VMEüKabel,daá
+direkt mit den Steckern per Messerü Schneidtechnik (Crimp oder IPCüTechnik) verbunden wird.Dieses Kabel ist sehr
+hochwertig und st”runanf„llig ü leider sind aber die Stecker und Kabel sehr teuer.Es gibt aber keine Alternative
+dazu.Der TT ist ein Sonderfall,da er eine relativ geringe Treiberleistung des VMEüBus besitzt.Daher sollte das
+Verbindungskabel m”glichst kurz sein.Gleiches gilt natrlich auch fr Hades und Milan ü Das Kabel sollte m”glichst kurz
+sein,die L„nge ist hier aber etwas unkritischer.
+
+
+Die StartracküKarte sitzt in einem Kunststoffschlitten.An dessen Ende kann man die 96polige VMEüBuchse des Kabels
+festschrauben.Verschrauben sie nun die 96polige VMEüBuchse des VMEüKabels mit dem Kunststoffschlitten,und verbinden sie
+die VMEüBuchse des anderen Kabelendes,mit dem VMEüAnschluá auf dem Motherboard (bei Hades) bzw. der VMEüKarte (bei
+Milan). Fhren sie nun die Kabel (VMEüKabel, bei vorhandener DSPüErweiterung zus„tzlich die ONCEü und DSPüPortüKabel) in
+den Laufwerksschacht des PCüGeh„uses,und fhren diese durch die hintere ™ffnung in das Geh„useinnere.Schieben sie nun
+den Einschub nach,und ziehen dabei gleichzeitig die Kabel weiter durch.
+Bauen sie nun den 5 1/4üZollüEinschub in einen freien Laufwerkseinschub
+des PCüGeh„uses ein.Verschrauben sie den Einschub mit dem PCüGeh„use,so wie sie es vom Laufwerkseinbau gewohnt sind.
+
+
+
+Nun mssen sie noch die Kabel fr ONCEüPort und DSPüPort aus dem Rechnergeh„use fhren. Dafr gibt es mehrere
+M”glichkeiten:
+
+
+1. Sie k”nnen die Buchsen am Kabelende mit einem Slotblech (sogenannte Brackets,siehe Bild am Ende des Kapitels)
+verschrauben,so wie man das von PCüKarten her kennt. Slotbleche hierfr k”nnen von uns bezogen werden. Wenden sie sich
+an ihren H„ndler.
+
+
+2. Die DSPüPortüBuchse am Ende des Kabels wird mit dem Frontblech des Einschubs verschraubt.Hierfr ist eine
+Festschraubm”glichkeit am Einschub vorgesehen.Entfernen sie die eventuell vorhandene Steckerblende am Einschub, und
+schrauben sie den DSPüPortüStecker fest.
+
+Dies ist der krzeste Weg des DSPüPorts zur Auáenwelt.
+Der ONCEüPortüAnschluá wird wie bei L”sung 1 beschrieben mit einem Slotblech verschraubt.Das Kabel hierfr sollte lang
+genug sein. Es kann aber auch problemlos verl„ngert werden.
+Das Kabel des DSPüPorts ist nicht beliebig verl„ngerbar,die Maximall„nge ist
+ungef„hr 20cm, da es ansonsten zu St”rungen (Knackser) bei den DSPüPortüErweiterungen kommt.Das ist verst„ndlich wenn
+man bedenkt, welch hohe Frequenzen das Kabel bew„ltigen muá (ber 6 MHz).Dabei kommt es ab einer bestimmten L„nge
+zwangsl„ufig zu nderungen in Timing und Flanken der Signale,die eine sichere und st”rfreie šbertragung unm”glich
+machen. Daher sollte dieses Kabel m”glichst kurz sein.In einem DesktopüGeh„use oder Minitower ist die Entfernung
+zwischen Laufwerkseinschub und Slotblechen meistens kurz genug fr L”sung 1.Bei einem BigTower sieht es da schon anders
+aus.Dann fhrt nur L”sung 2 zum Ziel.
+
+
+Nun mssen sie als letztes noch den ONCEüPort mit dem PC verbinden,falls sie
+ihn ben”tigen.Wenn nicht sind sie jetzt fertig mit dem Einbau ü Glckwunsch !
+
+
+Sie mssen jetzt nur noch ihre StartracküKarte mit einer
+HIFIüAnlage oder Mischpult verbinden,und k”nnen dann gleich loslegen.
+
+Wie das geht erfahren sie im Kapitel "Verbindung zu Audioger„ten".

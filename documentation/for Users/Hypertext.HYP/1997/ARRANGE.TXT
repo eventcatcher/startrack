@@ -1,0 +1,71 @@
+MIDI-Arranger-Fenster
+
+
+šber dieses Fenster wird die Ansteuerung eines (oder mehrerer)
+MIDI-Keyboards realisiert.
+Dazu erstellt man hier eine Liste der verwendeten Samples. Man kann hier die
+Loopart, Start- und Endpunkt, Midikanal, Midinote usw. fr jedes einzelne
+Sample bestimmen. Dabei k”nnen sich im Sample-Memory befindende Samples
+genauso eingebunden werden wie auf Festplatte gespeicherte Samples.
+Die fertige Liste kann als Arrangement-File (Endung *.ARR) abgespeichert
+werden. Zur besseren Verst„ndnis sollte man das İBILDİARRANGE.IMGİ des
+Arranger-Fensters zu Rate ziehen.
+Aufgerufen wird das Arranger-Fenster durch den Arrange-Button im
+Edit-Fenster, oder durch Eingabe von CTRL-A, oder ber das optionale
+Dropdown-Men unter Fenster/Arranger.
+Dieses Fenster mu aber nochmal berarbeitet werden, da ich derzeit aber
+kein MIDI-Keyboard zum austesten besitze dauert dies noch etwas.
+Die Funktion wurde schonmal getestet, dies ist aber schon ca. 1 Jahr her.
+Trotzdem sollte MIDI-Play funktionieren.
+
+Das Arranger-Fenster besteht aus folgenden Funktionsgruppen:
+
+
+1) İButton-ToolbarİABUTTONS.TXTİ
+-----------------
+Hierber erreicht man die wichtigsten İHauptfunktionenİABUTTONS.TXTİ.
+
+2) İArranger-FeldİARRFELD.TXTİ
+----------------
+Hier werden die einzelnen Samples mit den fr das abspielen ber ein
+MIDI-Keyboard wichtigen İParameternİARRFELD.TXTİ eingestellt.
+
+3) İHelp/Printer/ClipboardİPRTCLIP.TXTİ
+-------------------------
+Die Funktion dieser Buttons werden auf der İClipboard-SeiteİPRTCLIP.TXTİ erkl„rt.
+
+4) İSteuerungsfeldİASOUND.TXTİ
+-----------------
+Hierber k”nnen die Samples abgespielt bzw. nach Geh”r ein Start- und
+Endpunkt des Samples definiert werden.
+Es stehen s„mtliche bekannten Laufwerksfunktionen zur Verfgung.
+Auerdem kann man die Blockmarken des Samples
+(aus dem Information-File *.INF) einfach ins MIDI-Arrangement bernehmen.
+
+5) Mlleimer
+------------
+Wenn man den Mlleimer anklickt, wird das gesamte MIDI-Arrangement gel”scht.
+
+6) Slider
+---------
+Hiermit kann man den sichtbaren Teil der 100 Arranger-Eintr„ge bestimmen.
+Es sind immer 4 Eintr„ge sichtbar.
+
+7) Exit
+-------
+Hiermit wird das Arranger-Fenster geschlossen. Alle Einstellungen bleiben
+bis zum n„chsten Aufruf unver„ndert.
+Man kann jedoch mehrere Fenster gleichzeitig ge”ffnet lassen und hat so
+immer den direkten Zugriff auf die Funktionen.
+
+8) Startpoint-Button
+--------------------
+Wenn man mit den Laufwerksfunktionen einen Sample-Startpunkt gefunden hat,
+kann man ihn hiermit als "Startpoint" in die Arrange-Parameterliste
+bernehmen. 
+
+9) Endpoint-Button
+------------------
+Wenn man mit den Laufwerksfunktionen einen Sample-Endpunkt gefunden hat,
+kann man ihn hiermit als "Endpoint" in die Arrange-Parameterliste
+bernehmen. 

@@ -1,0 +1,151 @@
+' --------------------------------------------------------------------------------------------------------------------------------
+' -------------------------------------------------STARTRACK-REGISTERS------------------------------------------------------------
+' --------------------------------------------------------------------------------------------------------------------------------
+' ------------------------------------------------- release 29.11.97 -------------------------------------------------------------
+' --------------------------------------------------------------------------------------------------------------------------------
+'
+' Get the register adresses with the XBIOS-Function cardadr !
+'
+'
+'
+' READ  byte      playstat                         Bit0-2 -> FIFO-WRempty,FIFO-WRhalf,FIFO-WRfull
+'
+'                                                  The Flags of the Play-FIFOs
+'                                 0  WRempty     - 0=FIFO empty, fill the buffer before you lost data
+'                                 1  WRhalf      - 0=FIFO more as half filled, 1=FIFO less/half filled,
+'                                                                                initiate a interrupt
+'                                 2  WRfull      - 0=FIFO full, don't write another data 
+'
+'
+'
+' READ  byte      recstat                          Bit0-2 -> FIFO-RDempty,FIFO-RDhalf,FIFO-RDfull
+'
+'                                                  The Flags of the Record-FIFOs
+'                                 0  RDempty     - 0=FIFO empty, don't read data
+'                                 1  RDhalf      - 0=FIFO more as half filled, 1=FIFO less/half filled,
+'                                                                                initiate a interrupt
+'                                 2  RDfull      - 0=FIFO full, readout the buffer before you lost the data
+'
+'
+'
+'
+' RD/WR word      sample                           Bit0-8 -> FIFO
+'
+'               - Here you write or read the sample data.
+'                 For record, read wordwide the data. In Bit8 you become a startbit that show
+'                 you that the sample is for the right or left channel and that a new sample
+'                 is begin to transfer.
+'                 Bit8=1 - left channel highbyte, start of sample
+'                 Bit8=1 - left channel lowbyte
+'                 Bit8=0 - right channel highbyte
+'                 Bit8=0 - right channel lowbyte, end of sample
+'                 The Bits D0-D7 transfer the sample.
+'                 For play, write bytewide the data. Adressline A1 identify the left or
+'                 right channel of the sample.
+'                 A1=1 - left channel
+'                 A1=0 - right channel
+'                 First, you write the Highbyte of the sample and then the lowbyte.
+'                 This transfermode is correct for the Stereomode (2 channels)
+'                 and the Fourchannel mode.
+'                   
+'                 In the Falcon 8channel Recordmode defines Bit8=1 the start of the 128Bit blocks
+'                 The rest of Bytes in a Block is Bit8=0:
+'                 Bit8=1 highbyte channel 1,start of Block
+'                 Bit8=0 lowbyte channel 1
+'                 Bit8=0 highbyte channel 2
+'                 Bit8=0 lowbyte channel 2
+'                 ...
+'                 Bit8=0 lowbyte channel 8,End of Block
+'                 The Falcon 8channel Recordmode runs only with ADAT
+'                 (or Jam-In in the future). 
+'                   
+'                 In the Falcon 8channel Playmode defines Adressline A1=1 the
+'                 start of the 128Bit blocks. The rest of bytes
+'                 in a block is Adressline A1=0:
+'                 A1=1 highbyte channel 1,start of block
+'                 A1=0 lowbyte channel 1
+'                 A1=0 highbyte channel 2
+'                 A1=0 lowbyte channel 2
+'                 ...
+'                 A1=0 lowbyte channel 8,end of first block
+'                 A1=1 highbyte channel 1, begin of next block
+'                 You can reduce the Datablock if you use only 2,4 or 6 channels
+'                 to blocks of 32,64 or 96 bits. You don't transfer this channels
+'                 in the block and starts easy a new block with A1=1.
+'                 For use the ADC in the 8channelmode you must read the ADC
+'                 in Stereomode and transfer the data in the 8channel Playmode and
+'                 send it to the DAC,DSPREC or EXTOUT.
+'                   
+'                 The transmission in the 16channelmode is equivalent to the
+'                 8channelmode. The only difference between this modes is the
+'                 numbers of channels in a block and the arrangement of channels:
+'             
+'                 In the 16channel PlayMode defines Adressline A1=1 the 
+'                 start of the 256Bit blocks. The rest of bytes in a block
+'                 is marked with A1=0:
+'                 A1=1 highbyte channel 1,start of block
+'                 A1=0 lowbyte channel 1
+'                 A1=0 highbyte channel 8
+'                 A1=0 lowbyte channel 8
+'                 A1=0 highbyte channel 2
+'                 A1=0 lowbyte channel 2
+'                 
+'                 ...
+'                 A1=0 lowbyte channel 15
+'                 A1=1 highbyte channel 15,begin of next block
+'                 You can reduce the Datablock if you use only 4,8 or 12 channels
+'                 to blocks of 64,128 or 192 bits. You don't transfer this channels
+'                 in the block and starts easy a new block with A1=1.
+'                 For use the ADC in the 16channelmode you must read the ADC
+'                 in Stereomode and transfer the data in the 16channel Playmode and
+'                 send it to the DAC,DSPREC or EXTOUT.
+'                  
+'
+'
+' The registers from x00h - x07h are on the DSP-Expansionboard 
+'
+' RD/WR byte      dsp             0-7  DSP-DATA  - /CS for the DSP. The DSP have 8 Hostregisters.
+'                                                  The HI-Register ICR,CVR,ISR,IVR,RXH,RXM,RXL and 
+'                                                  ICR,CVR,ISR,IVR,TXH,TXM,TXL.
+'
+'                  Memory spaces in the falconcompatible mode (dspmem=0):
+'
+'                  Y-memoryspace: $0000-$00FF -> internal RAM
+'                                 $0100-$3FFF -> 16K external Y-memory
+'                                 $4000-$7FFF -> shadow of 16K external Y-memory
+'                                 $8000-$BFFF -> shadow of 16K external Y-memory
+'                                 $C000-$FFBF -> shadow of 16K external Y-memory
+'                                 $FFC0-$FFFF -> external peripheral (registers)
+'
+'                  X-memoryspace: $0000-$01FF -> internal RAM/ROM
+'                                 $0200-$3FFF -> 16K external X-memory  
+'                                 $4000-$7FFF -> shadow of 16K external X-memory  
+'                                 $8000-$BFFF -> shadow of 16K external X-memory
+'                                 $C000-$FFBF -> shadow of 16K external X-memory
+'                                 $FFC0-$FFFF -> internal peripheral (registers)
+'
+'                  P-memoryspace: $0000-$003F -> internal Interrupts/Vectors
+'                                 $0040-$01FF -> Internal program memory
+'                                 $0200-$3FFF -> shadow of external Y-memory (16K)
+'                                 $4000-$7FFF -> shadow of external X-memory (16K)
+'                                 $8000-$BFFF -> shadow of external Y-memory (16K)
+'                                 $C000-$FFFF -> shadow of external X-memory (16K)
+'
+'
+'                  Memory spaces in the extended mode (dspmem=1):
+'      
+'                  Y-memoryspace: $0000-$00FF -> internal RAM
+'                                 $0100-$FFBF -> 64K external Y-memory  
+'                                 $FFC0-$FFFF -> external peripheral (registers)
+'
+'                  X-memoryspace: $0000-$01FF -> internal RAM/ROM
+'                                 $0200-$FFBF -> 64K external X-memory
+'                                 $FFC0-$FFFF -> internal peripheral (registers)
+'
+'                  P-memoryspace: $0000-$003F -> internal Interrupts/Vectors
+'                                 $0040-$01FF -> internal program memory
+'                                 $0200-$7FFF -> shadow of external Y-memory (lower 32K)
+'                                 $8000-$FFFF -> shadow of external X-memory (lower 32K)
+'
+' Important:The upper 32K of the X- and Y-memory is not shadowed in the adress space !
+'

@@ -1,0 +1,31 @@
+Arrange-Name-Dialog
+
+
+Dieser Dialog ist fr die Dateinamen-Eingabe im İArranger-FensterİARRANGE.TXTİ zust„ndig.
+Zur besseren Verst„ndnis sollte man das İBILDİNAME.IMGİ zu Rate ziehen.
+
+1) Name
+-------
+Hier kann man den neuen Namen eintragen. Sinnvoll ist eine nderung, um dem
+Soundfile eine passendere Beschreibung  zu geben, falls der Name der
+Sounddatei nicht eindeutig genug ist. Die ge„nderten Namen werden im
+Arranger-File (Fileendung *.ARR) mit abgespeichert. Der Name kann dabei
+beliebig sein, und mu nicht im TOS-Fileformat 8+3 erfolgen, d.h. die
+max. 12 Zeichen k”nnen beliebig gew„hlt werden.
+
+2) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+3) Exit
+-------
+Hiermit wird der Arrange-Name-Dialog geschlossen. Der ge„nderte
+Namenseintrag wird nicht beachtet und ist ungltig.
+Der alte Name bleibt erhalten.
+
+4) OK
+-----
+Hiermit wird der Arrange-Name-Dialog geschlossen.
+Der ge„nderte Namenseintrag ist gltig und wird eingetragen.

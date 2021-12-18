@@ -1,0 +1,45 @@
+AUTO-Button im Optimize-Dialog
+
+
+Durch die Auto-Option wird das Sample auf maximale Lautst„rke angehoben.
+Zur besseren Verst„ndnis sollte man das İBILDİAUTO.IMGİ zu Rate ziehen.
+
+1) Auto
+-------
+Hiermit wird die automatische Vollaussteuerung ausgew„hlt. Die Samplewerte
+werden auf maximale Lautst„rke angehoben. Es wird dabei nicht bersteuert
+und die Dynamikverh„ltnisse der Samplewerte zueinander bleiben erhalten.
+
+2) Adjust
+---------
+Hiermit wird zum İADJUSTİADJUST.TXTİ-Dialog gewechselt. Man kann dann einen
+Lautst„rke-H”chstwert angeben, auf den dann alle Samplewerte umgerechnet
+werden. Mann kann damit auch zu laute Samples auf eine kleinere
+Lautst„rke umrechnen.
+
+3) Peak dB
+----------
+Hier erscheint der h”chste im Sample momentan enthaltene Wert in
+Dezibel (dB). Dieser wird aus dem Sample ermittelt. Deshalb kann die
+Ermittlung des H”chstwertes bei langen Samples etwas dauern.
+
+4) new dB
+---------
+Hier erscheint der neue H”chstwert in Dezibel (dB). Bei automatischer
+Vollaussteuerung ist das 0dB.
+
+5) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+6) Exit
+-------
+Hiermit wird der Optimize-Dialog geschlossen.
+Die Optimize-Funktion wird nicht ausgefhrt.
+
+7) OK
+-----
+Hiermit wird der Optimize-Dialog geschlossen und die Funktion ausgefhrt.
+

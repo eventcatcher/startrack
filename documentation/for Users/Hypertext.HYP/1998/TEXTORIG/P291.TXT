@@ -1,0 +1,63 @@
+7.2 Wie es weitergeht
+
+
+
+In Zukunft werden sicherlich,gerade in Verbindung mit der MilanüEuphorie,
+
+einige weitere FalconüProgramme an die StarTracküAudiokarte angepaát.
+
+
+
+Auch die eigene StartracküSoftware wird natrlich weiterentwickelt. 
+
+Vorrangig wird in den n„chsten Monaten an folgenden Features gearbeitet:
+
+
+
+ü Nondestruktive Fades und Crossfades im Tracker mit grafischer Eingabe der
+
+  Parameter inkl. EffektüSends.
+
+
+
+ü MehrkanalüMischkonsole mit DSPüEffekten
+
+
+
+ü MixerüAutomation
+
+
+
+ü Halbautomatisches Timestretching
+
+
+
+ü spezielle EntryüVersionen fr Falcon und Milanblaster
+
+
+
+Weiterentwicklungen der Hardware sind ebenfalls nicht auszuschlieáen,die aber durch die reprogrammierbare Logik auf den
+StartracküPlatinen den Besitzern „lterer StartracküHardware ebenfalls offensteht.
+
+
+
+Ebenfalls sind neue Erweiterungen fr den DSPüPort denkbar,z.B. mit 24Bit
+
+A/D und D/AüWandlern.Das erweiterte MatrixüProtokoll des DSPüPorts untersttzt den recht einfachen Anschluá solcher
+Wandler. Solange die Qualit„t dieser 24BitüWandler aber noch so schlecht ist,das sie nicht einmal die Werte von blichen
+18BitüWandlern bertreffen,kann man darauf verzichten.Was derzeit (11/98) an 24BitüWandlern angeboten wird,hat den Namen
+nicht verdient und dient lediglich Vermarktungszwecken.Dennoch sind bereits einige 24BitüWandler in der Erprobungsphase
+fr externe MehrkanalüErweiterungen.
+
+Professionelle 24BitüWandler mit sehr guten Werten sind leider noch sehr teuer.
+
+Das k”nnte sich im zuge der DVDüEinfhrung jedoch schnell „ndern.
+
+
+
+
+
+SWE im November1998
+
+
+

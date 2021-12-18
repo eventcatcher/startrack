@@ -1,0 +1,33 @@
+4.14.3 Trackname-Eingabe
+
+
+
+Dieser Dialog ist fr die Eingabe eines Spurnamen im Tracker zust„ndig.
+Dieser Name hilft die vielen Spuren,die sich bei einem solchen Tracker-Setup ansammeln,besser identifizieren zu k”nnen
+(z.B. DRUM fr Schlagzeugspur, SING fr Gesangsspur usw.).
+Die Spurnamen werden im Tracker-File (*.TRK) mit den anderen ben”tigten
+Daten abgespeichert,und bleiben dadurch erhalten.Man gelangt in diesen
+Dialog,indem man einfach das zu „ndernde Spurnamen-Feld im Spurfeld anklickt.
+
+
+
+1) Name
+
+Hier kann man einen maximal 5 Zeichen langen Namen eingeben.
+
+
+2) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+3) Exit
+
+Hiermit wird der Trackname-Dialog geschlossen.Die Eingabe wird nicht
+beachtet und ist ungltig.Der alte Eintrag bleibt erhalten.
+
+
+4) OK
+
+Hiermit wird der Trackname-Dialog geschlossen.
+Die Spurnameneingabe ist gltig,und wird im Spurfeld gesetzt.

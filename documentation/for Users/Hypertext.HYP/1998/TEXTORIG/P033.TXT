@@ -1,0 +1,41 @@
+2.1.4 ONCEüPort mit dem PC verbinden :
+
+
+Die SubüDüBuchse des ONCEüPortüKabels wird mit einer freien seriellen
+V24üSchnittstelle des PC verbunden.Die Belegung der 9poligen SubüDüBuchse ist
+kompatibel zu den ebenfalls 9poligen seriellen Anschlssen der PCs.Da das Kabel etwas Kurz ist (ist nur fr den Einbau
+in das Computergeh„use vorgesehen),sollte man es mit einem einfachen Joystik oder Mausü Verl„ngerungskabel
+verl„ngern.Hauptsache die Pins des Kabels sind 1:1 (eins zu eins) miteinander verbunden.Ein serielles Verl„ngerungskabel
+ist also auch m”glich,solange es 9polige und nicht die 25poligen SubüDüAnschlsse besitzt. Nun kann man das Kabel mit
+der seriellen PCüSchnittstelle verbinden.
+Das entsprechende DSPüDebuggerüProgramm nennt sich EVM56K,und ist eigentlich Bestandteil des Motorola
+DSPüEntwicklungspakets fr das EVM56002.
+
+Der Debugger ist aber kostenlos erh„ltlich,und liegt z.B. in der MotorolaüMailbox (Tel: 089/92103ü111): 
+
+
+
+Als User geben sie "bbs" ein und gelangen so in die MotorolaüMailbox.Nun w„hlen sie mit den Cursortasten den Menpunkt
+"Programs and infos for the digital signal processors" aus,anschlieáend w„hlen sie den Menpunkt "Support SW for
+DSP56002EVM" und bekommen eine Liste von Programmfiles.
+
+W„hlen sie nun das File "evm27.zip" (oder „hnlich) aus,und laden sie diese Datei auf ihren Rechner und entpacken sie
+diese auf dem PC mit einem UNZIPüProgramm, daá das File dekomprimiert.
+Starten sie nun das File EVM22.EXE (oder „hnlich).Das Programm entpackt nun das komplette Programmpaket ü fertig !
+
+
+Sollte der Debugger sich nach der Installation nicht starten lassen
+(Fehlermeldung z.B. "can not initialize DSP56002 EVM"),so ist entweder
+die StartracküKarte nicht in Betrieb (Rechner muá eingeschaltet sein ü logo),
+oder die serielle Schnittstelle des PC ist nicht richtig konfiguriert
+(siehe auch das READ.MEüFile im EVMüProgrammpaket),oder sie haben das
+falsche Verl„ngerungskabel bzw. es ist defekt oder nicht richtig angeschlossen.
+Sobald das DebugüProgramm gestartet wurde,sollte die grne DEBUGü Leuchtdiode(LED) auf der Frontseite der
+StartracküAnschlsse leuchten. Damit wird angezeigt,daá der DSP im DebugüMode betrieben wird. Auáerdem im Programmpaket
+enthalten ist der DSPüAssembler "ASM56000.EXE",und ein Programm mit dem man die vom Assembler erzeugte CLDüDatei in das 
+bekannte LODüFormat konvertieren kann ("CLDLOD.EXE").
+
+
+
+Die rote LOCKüLeuchtdiode zeigt brigens an,daá der DSP im korrekten
+Betriebszustand ist (bzw. das die PLL auf die Taktfrequenz des DSPüMastertaktes eingerastet ist).

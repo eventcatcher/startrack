@@ -1,0 +1,69 @@
+4.1.15 Sampleinformation
+
+
+Dieser Dialog zeigt einige Informationen zum Sample an,und erlaubt die
+Eingabe einer Sample-Beschreibung (Kommentar).Dieser Dialog erscheint,
+wenn man das Samplenamen-Feld im Editor-Fenster anklickt,und beim
+
+Laden oder Speichern von Samples.
+
+
+1) Name
+
+Anzeige des Sample-Dateinamen.
+
+
+2) Samplerate
+
+Anzeige der Samplerate mit der das Sample aufgenommen wurde.
+
+
+3) L„nge
+
+L„nge des Samples mit Angabe der Samplewerte und der daraus resultierenden Spielzeit.
+
+
+
+4) Datum
+
+Datum der Aufnahme bzw. der Sampledatei
+
+
+5) Source
+
+Dieses Kommentarfeld ist zur Sample-Titeleingabe gedacht.
+
+
+6) Comment
+
+Dieses Kommentarfeld kann beliebig ausgefllt werden,und dient wie das
+Source-Feld zur Beschreibung des Samples.
+
+
+7) Loops
+
+Hier werden die ersten paar Markerwerte angezeigt,die in der Sampledatei gespeichert sind bzw. werden.Die
+unterschiedlichen Sample-Dateiformate bieten eine unterschiedliche Anzahl von Markereintr„gen.Es wird beim Abspeichern
+eines Samples zus„tzlich eine INF-Datei angegelegt,in der alle Markereintr„ge enthalten sind.Dort wird auch der
+Samplekommentar gespeichert.
+
+Das INF-File ist n”tig um allen Sampleformaten diese M”glichkeiten zu bieten.
+
+
+8) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+9) Exit
+
+Hiermit wird der Sample-Information-Dialog geschlossen,und eine nderung in den Kommentarfeldern oder Markereintr„gen
+nicht beachtet.
+
+
+10) OK
+
+Hiermit wird der Sample-Information-Dialog geschlossen und die INF-Datei
+mit den ge„nderten Kommentarfeldern und Markereintr„gen abgespeichert. Man kann also den Kommentar und die Marker
+jederzeit „ndern !

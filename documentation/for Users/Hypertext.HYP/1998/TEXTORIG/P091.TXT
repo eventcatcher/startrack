@@ -1,0 +1,154 @@
+4.1.6 Markerbereich
+
+
+Im Markerbereich werden die Markereintr„ge (Nummer,Startzeit,Endzeit,Intro,
+Release,Name) aufgefhrt,und k”nnen editiert werden.Diese werden beim Abspeichern des Samples in der Information-Datei
+(Dateiendung *.INF) gesichert. Die Markerfelder (8) k”nnen angeklickt werden.Es erscheint dann jeweils eine Dialogbox,in
+der man den Wert editieren kann.Die Marker werden als senkrechte Striche mit ihrem Kennbuchstaben (S,E,I,R) im
+Samplefenster dargestellt.Es werden der šbersichtlichkeit halber nicht alle Markereintr„ge dargestellt,sondern immer nur
+der aktive (kann man mit dem Slider(10) ausw„hlen).Ein Marker muá vor der Benutzung initialisiert werden.
+
+Man drckt dafr auf den entsprechenden Marker-Button (4-7).
+Der Marker wird dann an Zeitposition 0 am linken Rand des Sample-Windows
+gesetzt.Nun kann man ihn mit den Markerpfeilen im Setbereich bewegen
+(Function-Dropdown muá auf MARK stehen),oder indem man die Markerlinien mit der Maus greift, und an eine andere Stelle
+bewegt.
+Sind die Marker aus dem Sichtfeld geraten (kann bei Zoom der Fall sein),
+gengt ein Druck auf die linke Maustaste,und der aktuelle Marker
+(selektierter Marker-Button) wird an die Stelle im Sample-Window bewegt,
+auf die mit der Maus gezeigt wurde.Es gibt zwei unterschiedliche
+Darstellungsarten fr die Markerwerte.Die Darstellungsart der Markerwerte
+kann im Setup-Dialog (View-Button) oder mit ALTüV im Editor eingestellt werden. Man hat die Wahl zwischen der
+Zeitanzeige (auf Frames genau) und der Anzeige in Samplewerten (genauer).šber das Clipboard kann man Markerfelder
+kopieren.Dabei fungiert das Clipboard als eine Art Zwischenspeicher.Man kann ein Marker-Feld kopieren,indem man den
+Marker-Button(4ü7) anklickt,und bei gedrckter linker Maustaste auf das Clipboard- Icon zieht (bzw. draggt). Dabei wird
+das Clipboard-Symbol selektiert.Nun l„át man die Maustaste los.
+
+Damit wurde das Feld zun„chst ins Clipboard kopiert.Nun sucht man mit dem Slider den gewnschten Eintrag,auf den das
+ganze kopiert werden soll.Hat man das gewnschte Feld ausgew„hlt,klickt man auf das Clipboard.Man h„lt dabei die linke
+Maustaste gedrckt.An der Maus h„ngt nun das Marker-Symbol. 
+
+Dieses zieht man jetzt ber den Marker-Button des Feldes,in das kopiert werden soll.Dabei wird der Marker-Button des
+Feldes automatisch selektiert. Ist der
+Marker-Button selektiert,l„át man die Maus los - fertig.
+Man kann aber nicht nur die einzelnen Markereintr„ge kopieren (mit den
+Markerbuttons),sondern auch den kompletten Eintrag (bestehend aus den
+4 Markerfeldern und dem Markertext).Dabei draggt man stattdessen das
+Eintragsnummer-Feld(9) in das Clipboard.Dann w„hlt man den Zieleintrag mit dem Slider aus,und draggt den Clipboardinhalt
+auf das Eintragsnummer-Feld des Zieleintrags.Der Clipboard-Inhalt bleibt solange vorhanden,bis man ein
+anderes Feld oder einen kompletten Eintrag hineinkopiert.
+
+
+
+1) Startwert Sample-Window
+
+Hier steht der Anfangswert des sichtbaren Sample-Bereichs. Dieser
+kann editiert werden,indem man das Startwert-Feld(1) anklickt.In der nun
+erscheinenden Dialogbox kann man den Wert eingeben.
+
+Wenn man stattdessen den MINüText (ber dem StartwertüFeld) anklickt,wird der Startwert auf 0 gesetzt.Man erspart sich
+so den Aufruf der Dialogbox.
+
+Es gibt zwei unterschiedliche Darstellungsarten.Die Darstellungsart kann im Setup-Dialog (View-Button) eingestellt
+werden. Man hat die Wahl zwischen der Zeitanzeige (Frames) und der Anzeige in Samplewerten (genauer).
+
+
+2) Endwert Sample-Window
+
+Hier steht der Endwert des sichtbaren Sample-Bereichs. Dieser kann
+editiert werden, indem man das Endwert-Feld(2) anklickt. In der nun
+erscheinenden Dialogbox kann man den Wert eingeben.
+
+Wenn man stattdessen den MAXüText (ber dem EndwertüFeld) anklickt,wird der Startwert auf den Maximalwert gesetzt.Man
+erspart sich so den Aufruf der Dialogbox. Es gibt zwei unterschiedliche Darstellungsarten.Die Darstellungsart kann im
+Setup-Dialog (View-Button) eingestellt werden.Man hat die Wahl zwischen der Zeitanzeige (Frames) und der Anzeige in
+Samplewerten (genauer).
+
+
+3) Marker-Kommentar
+
+Dies ist der Marker-Kommentar.Man kann fr jeden Markereintrag einen Kommentar definieren.Das ist ntzlich,um die
+Funktion oder Bedeutung eines Markereintrages schneller identifizieren zu k”nnen.Um den Kommentar eingeben zu
+k”nnen,klickt man einfach auf das Kommentarfeld.Im dann erscheinenden Dialog kann man den Kommentar editieren.Die
+Kommentare werden zusammen mit den Markerwerten beim Speichern im Info-File
+
+(Extension *.INF) gesichert.
+
+
+4) Marker-S
+
+Der Start-Marker wird zum aktuellen Marker (bzw. initialisiert),indem man
+ihn anklickt.Daneben erscheint der Wert des Start-Markers in Samples,oder im Format Stunden:Minuten:Sekunden Frames
+(abh„ngig von ViewüOption).
+Der Start-Marker definiert den Anfang eines Sampleblocks oder eines Loops.
+Man kann den Markerwert in das Clipboard kopieren,indem man den
+Markerbutton in das Clipboard zieht (draggt).
+
+
+5) Marker-E
+
+Der End-Marker wird zum aktuellen Marker (bzw. initialisiert),indem man
+ihn anklickt.Daneben erscheint der Wert des End-Markers in Samples,oder im Format Stunden:Minuten:Sekunden Frames
+(abh„ngig von ViewüOption).
+Der End-Marker definiert das Ende eines Sampleblocks oder eines Loops.
+Man kann den Markerwert in das Clipboard kopieren,indem man den
+Markerbutton in das Clipboard zieht (draggt).
+
+
+6) Marker-I
+
+Der Init-Marker wird zum aktuellen Marker (bzw. initialisiert),indem man
+ihn anklickt.Daneben erscheint der Wert des Init-Markers in Samples,oder im Format Stunden:Minuten:Sekunden Frames
+(abh„ngig von ViewüOption).
+Der Init-Marker definiert den Anfang des Samples fr die Wiedergabe.
+Die Marker I und R spielen vor allem beim Spielen der Samples ber ein
+MIDI-Keyboard eine Rolle.Beim Druck auf die Keyboardtaste beginnt die
+Wiedergabe.H„lt man die Keyboardtaste gedrckt,wird das Sample im
+Loopbereich (definiert durch Marker-S und Marker-E) so lange wiederholt,
+bis die Keyboardtaste losgelassen wird.Nach dem Loslassen wird noch der
+Ausklingbereich (Bereich zwischen Marker-E und Marker-R) abgespielt.
+Man kann den Markerwert in das Clipboard kopieren,indem man den
+Markerbutton in das Clipboard zieht (draggt).Diese Funktion ist aber noch
+nicht implementiert,und der Wert ist im Editor-Fenster derzeit nutzlos.
+
+
+7) Marker-R
+
+Der Release-Marker wird zum aktuellen Marker (bzw. initialisiert),indem
+man ihn anklickt.Daneben erscheint der Wert des Release-Markers in Samples, oder im Format Stunden:Minuten:Sekunden
+Frames (abh„ngig von ViewüOption)
+Der Release-Marker definiert den Ausklingbereich des Samples fr die
+Wiedergabe.Die Marker I und R spielen vor allem beim Spielen der Samples
+ber ein MIDI-Keyboard eine Rolle.Beim Druck auf die Keyboardtaste beginnt
+die Wiedergabe.H„lt man die Keyboardtaste gedrckt,wird das Sample im
+Loopbereich (definiert durch Marker-S und Marker-E) so lange wiederholt,
+bis die Keyboardtaste losgelassen wird.Nach dem Loslassen wird noch der
+Ausklingbereich  (Bereich zwischen Marker-E und Marker-R) abgespielt.
+Man kann den Markerwert in das Clipboard kopieren,indem man den
+Markerbutton in das Clipboard zieht (draggt).Diese Funktion ist aber noch
+nicht implementiert, und der Wert ist im Editor-Fenster derzeit nutzlos.
+
+
+8) Markerwert
+
+Dies ist der Bereich in dem die Markerwerte stehen und editiert werden k”nnen.
+
+
+
+9) Markernummer
+
+Von den Markereintr„gen ist immer nur einer aktiv bzw. sichtbar.
+
+Mit dem Slider(10) kann man den Markereintrag ausw„hlen.
+Hier erscheint dann die Nummer des Markereintrags.Man kann einen
+kompletten Markereintrag in das Clipboard kopieren,indem man das
+Nummernfeld in das Clipboard zieht (draggt).
+
+Wenn man direkt auf das MarkernummerüFeld klickt,kann man den Eintrag
+
+im MarkernummerüDialog direkt anw„hlen.
+
+
+10) Slider
+
+Hiermit kann der aktuelle Markereintrag ausgew„hlt werden.

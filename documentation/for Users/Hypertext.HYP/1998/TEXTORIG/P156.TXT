@@ -1,0 +1,116 @@
+4.7.6 Musicbox
+
+
+Dieser Dialog bietet die Funktion einer Musicbox,eine Art Wurlitzer des
+Computerzeitalters.Dazu erstellt man zun„chst eine Musicbox-Sampleliste,die angibt,welche Samples in welcher Reihenfolge
+abgespielt werden sollen.Die Musicbox erreicht man,indem man den Audio-Fileselector aufruft,und mit dem Wurlitzer-Button
+(7) zur Musicbox wechselt.Zuvor sollte man aber im Audio-Fileselector die Musicbox-Liste erstellen.Wie das geht ist
+unter dem Stichwort Audio-Fileselector erkl„rt.
+Es stehen auáerdem die Grundfunktionen eines CD-Players zur Verfgung,
+also Play,Stop,Forward,Rewind,Pause (siehe 12-16).Auáerdem gibt es eine
+Anspielautomatik bei der die ersten 10 Sekunden eines Titels angespielt werden. 
+
+
+
+1) Filename
+
+Hier wird der Name und Suchpfad der aktuellen Musicboxliste angezeigt,falls eine Musicboxliste geladen oder gespeichert
+wurde (sonst hat sie ja noch keinen Namen).
+
+
+2) Slider
+
+Hiermit w„hlt man den sichtbaren Listenbereich aus.
+
+
+3) Sampledatei-Name
+
+Hier werden die Original-Dateinamen der Samples aufgelistet.Diese Felder
+k”nnen angeklickt werden,um sie auszuw„hlen.Diese Felder erscheinen mit
+einem blauen Rahmen,um sie als selektierbar zu kennzeichnen.Die einzige
+Funktion hierfr ist,das ausgew„hlte Sample anschlieáend aus der
+Musicbox-Liste zu l”schen (8) (und nur da, das Sample bleibt also auf der
+Festplatte unberhrt).
+
+
+4) Sampledatei-Kommentar
+
+Hier erscheint der Kommentar zu einem Sample,der in der Info-Datei des
+Samples (Endung *.INF) enthalten ist.Dieser kann nach der Aufnahme eines
+Samples im Editor eingegeben werden (auf SamplenameüFeld klicken).
+
+
+5) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+6) Time
+
+Hier wird die Abspielposition eines Samples angezeigt,und zwar im Format
+Stunden:Minuten:Sekunden Frames.
+
+
+7) Musicbox
+
+Hiermit schaltet man zwischen Fileselektor und Musicbox um.
+
+
+8) Delete
+
+Selektiertes Sample aus der Musicbox-Liste l”schen.
+
+
+9) Load
+
+Musicbox-Liste laden.Die Musicbox-Liste (Dateiendung *.BOX) wird
+anschlieáend im FilenameüFeld (1) angezeigt.
+In der Musicbox-Liste wird der komplette Pfad der Samples gespeichert.
+
+
+10) Save
+
+Hiermit kann die erstellte Musicbox-Liste (Dateiendung *.BOX) gespeichert
+werden.
+
+
+11) Trash
+
+Hiermit wird die Musicbox-Liste gel”scht (nur im Speicher, und nicht auf der Festplatte).
+
+
+12) Break
+
+Hiermit wird die Wiedergabe bzw. die Abarbeitung der MusicboxüListe komplett
+
+abgebrochen.
+
+ 
+
+13) Pause
+
+Die Wiedergabe des Samples (3) wird unterbrochen,bis zur n„chsten Bet„tigung
+
+der Pausentaste.
+
+
+14) Stop
+
+Abbruch der Wiedergabe des aktuellen Sample in der Musicbox-Liste. Die
+Wiedergabe geht dann mit dem n„chsten Sample in der Musicbox-Liste weiter.
+
+
+15) Play
+
+Wiedergabe der Musicbox starten.
+
+
+16) Anspielen
+
+Anspielen der ersten 10 Sekunden der Samples in der Musicbox-Liste.
+
+
+17) Exit
+
+Hiermit wird der Musicbox-Dialog geschlossen.

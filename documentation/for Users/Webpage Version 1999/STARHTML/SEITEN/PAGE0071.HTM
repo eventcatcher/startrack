@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.7.7"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0070.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0072.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.7.7 Partitionmode</H3>
+<IMG SRC="../images/p159.gif" WIDTH="400" HEIGHT="480">
+
+ In diesem Dialog kann der Partitionmode aktiviert und die Partitionen
+ ausgew&auml;hlt werden, die f&uuml;r die Aufnahme verwendet werden d&uuml;rfen.
+ Ist der Partitionmode aktiviert, k&ouml;nnen Aufnahmen gemacht werden, die
+ automatisch &uuml;ber mehrere Partitionen verteilt werden. Wenn eine Partition
+ voll ist, wird die Aufnahme auf der n&auml;. Partition automatisch fortgesetzt,
+ ohne das es dabei zu Unterbrechungen oder St&ouml;rungen kommt. Dadurch ist man 
+ unabh&auml;ngig von der maximal m&ouml;glichen Partitionsgr&ouml;&szlig;e des Filesystems und
+ kann somit Aufnahmen mit fast unbegrenzter L&auml;nge machen. Die Pfade der
+ zusammengeh&ouml;renden Teile des Audiofiles werden in der <A HREF="page0140.htm">Sampleinfo-Datei</A>
+ (*.INF) gesichert. Da diese mit einem ASCII-Editor editiert werden kann,
+ k&ouml;nnen die Samples auch auf andere Partitionen verschoben oder kopiert werden.
+ Die Pfadliste mu&szlig; dann entsprechend angepa&szlig;t werden.
+ Die Aufnahmen k&ouml;nnen nat&uuml;rlich auch wieder abgespielt werden. Ist das Ende
+ des einen Teils der Aufnahme auf der Partition abgespielt, wird automatisch
+ mit dem n&auml;chsten Teil auf einer anderen Partition fortgefahren.
+ Es gibt allerdings einige Einschr&auml;nkungen bei der Verarbeitung solcher
+ &quot;verteilter&quot; Aufnahmen. S&auml;mtliche destruktiven Blockfunktionen im Editor
+ sind lediglich auf die einzelnen Files anwendbar und nicht als Gesamtheit.
+ Die Verwendung im Tracker betrifft dies ebenfalls. Dort werden die Einzelfiles
+ zwar automatisch geladen und hintereinander angeordnet, sie bleiben jedoch
+ Einzelobjekte.
+ Aufgerufen wird der Partitionmode-Dialog durch den <A HREF="page0058.htm">Partition-Button</A> im
+ Edit-Fenster, durch Eingabe von ALT-P oder &uuml;ber das optionale
+ Programm-Men&uuml; im <A HREF="page0108.htm">Dropdown Datei/Partition-Mode</A>.
+
+
+ 1) Partitions-Auswahl
+
+ Hier kann man die Partitionen ausw&auml;hlen, die f&uuml;r die Aufnahme &uuml;ber mehrere
+ Partitionen verwendet werden d&uuml;rfen.
+
+
+ 2) Partitionskennung
+
+ Hier wird die Partitionskennung angezeigt. Laufwerke ab Buchstabe Q: setzen
+ Bigdos oder MagiC voraus. Unter PlainTOS ohne Bigdos sind nur Kennungen bis
+ P: nutzbar. Mit Bigdos sind max. 32 Laufwerke (A-Z und 1-6) ansprechbar.
+ Nicht vorhandene oder gesperrte Partitionen sind nicht anw&auml;hlbar.
+
+
+ 3) Speicherplatz
+
+ In diesem Feld wird der freie Platz auf der Partition in KB angezeigt.
+
+
+ 4) activate partitionmode
+
+ Hier wird der Partitionmode aktiviert/deaktiviert. Bei deaktiviertem
+ Partitionmode wird keine <A HREF="page0136.htm">Partitionsliste</A> in der <A HREF="page0140.htm">Sampleinfo-Datei</A> des
+ Samples angelegt. Alle Angaben &uuml;ber freigegebene Laufwerke sind
+ dann wirkungslos.
+
+
+ 5) Help
+
+ Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wenn sie nicht wissen wie
+ das funktioniert, schauen sie sich die Anleitung zu 1stGuide einmal genauer an.
+
+
+ 6) Load
+
+ Hiermit wird die <A HREF="page0136.htm">Partitionsliste</A> (STARTRK.LFW) geladen. Diese enth&auml;lt alle
+ im Partitionmode-Dialog ausgew&auml;hlten Laufwerke und Optionen.
+
+
+ 7) Save
+
+ Hiermit wird die <A HREF="page0136.htm">Partitionsliste</A> abgespeichert. Diese enth&auml;lt alle im
+ Partitionmode-Dialog ausgew&auml;hlten Laufwerke und Optionen.
+
+
+ 8) Exit
+
+ Hiermit wird der Partitionmode-Dialog geschlossen. Alle Einstellungen sind
+ hinf&auml;llig und werden nicht verwendet.
+
+
+ 9) Ok
+
+ Hiermit wird der Partitionmode-Dialog geschlossen. Alle Einstellungen sind
+ sofort wirksam.
+
+</PRE>
+
+<A HREF="#4.7.7">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

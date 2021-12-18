@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.13.2"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0082.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0084.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.13.2 Parameter-Feld</H3>
+<A HREF="p195.htm" TARGET="_new"><IMG SRC="../images/scaled/p195.gif" WIDTH="313" HEIGHT="32"></A>
+
+ Hier werden die einzelnen Samples mit den f&uuml;r das Abspielen &uuml;ber ein
+ MIDI-Keyboard wichtigen Parametern eingestellt.
+
+ 1) Eintragsnummer
+
+ Hier erscheint die Nummer des Eintrags.
+
+
+ 2) Cache
+
+ Die Samples werden soweit m&ouml;glich in den Speichercache geladen, bevor sie
+ abgespielt werden k&ouml;nnen. Die Samples, die im Cache Platz finden, werden
+ in diesem Feld mit dem Buchstaben C gekennzeichnet.
+
+
+ 3) load Sample
+
+ Hier kann man ein Sample ausw&auml;hlen, da&szlig; man in die Arrange-Liste aufnehmen
+ m&ouml;chte. Hierzu erscheint dann ein Fileselector mit dem man die Sampledatei
+ ausw&auml;hlt. Dann erscheint hier der Name der Sampledatei. Man kann dem
+ Eintrag bei Bedarf nun auch einen anderen Namen geben, z.B. um die Eintr&auml;ge
+ besser unterscheiden zu k&ouml;nnen, falls sich die verwendeten Dateinamen zu sehr
+ &auml;hneln. Dazu klickt man nach dem Laden nochmal auf den Button.
+ Es erscheint dann eine <A HREF="page0084.htm">Dialogbox</A>, in der man den neuen Namen eingeben kann.
+ Die neuen Namen werden auch in der <A HREF="page0141.htm">Midi-Sampleplayer-Datei</A> (*.ARR) abgespeichert.
+
+
+ 4) edit-sample
+
+ Hiermit w&auml;hlt man das zu bearbeitende (aktuelle) Sample aus. Alle
+ Laufwerksfunktionen wirken nun auf das ausgew&auml;hlte Sample. Man kann einen
+ Eintrag hier&uuml;ber auch kopieren, indem man den Button anklickt und bei
+ gedr&uuml;ckter linker Maustaste auf das Clipboard-Icon zieht (bzw. draggt).
+ Dabei wird das Clipboard-Symbol selektiert. Nun l&auml;&szlig;t man die Maustaste los.
+ Damit wurde der Eintrag zun&auml;chst ins Clipboard kopiert (eine Art
+ Zwischenspeicher). Nun sucht man mit dem Slider den gew&uuml;nschten
+ Eintrag, auf den das ganze kopiert werden soll. Hat man den leeren Eintrag
+ im Sichtfeld, klickt man auf das Clipboard. Man h&auml;lt dabei die linke Maustaste
+ gedr&uuml;ckt. An der Maus h&auml;ngt nun das Edit-Symbol. Dieses zieht man jetzt &uuml;ber
+ den Edit-Button des Eintrags, in den kopiert werden soll. Dabei wird der
+ Edit-Button des Eintrags automatisch selektiert. Ist der Edit-Button selektiert,
+ l&auml;&szlig;t man die Maus los - fertig. Der Clipboard-Inhalt bleibt solange vorhanden,
+ bis man einen anderen Eintrag hineinkopiert.
+
+
+ 5) kill sample
+
+ Hiermit l&ouml;scht man den Sample-Eintrag aus der Liste.
+
+
+ 6) Samplerate
+
+ Hier erscheint die Original-Samplerate der ausgew&auml;hlten Sampledatei.
+ Alle Samples werden mit der gleichen Samplerate abgespielt, die im
+ Samplerate-Dropdown im Editor oder Connection-Fenster ausgew&auml;hlt wurde.
+ Das sollte man bei der Auswahl der Samples beachten.
+
+
+ 7) Loopart
+
+ Es gibt drei M&ouml;glichkeiten das Sample abzuspielen, daher wurde ein
+ Tristate-Button (f&uuml;r 3 Zust&auml;nde) benutzt.
+</PRE>
+
+<TABLE>
+<TR>
+<TD VALIGN=TOP>Feld leer</TD>
+<TD VALIGN=TOP>=</TD>
+<TD VALIGN=TOP WIDTH=340>vorw&auml;rts abspielen</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>Feld angekreuzt</TD>
+<TD VALIGN=TOP>=</TD>
+<TD VALIGN=TOP WIDTH=340>r&uuml;ckw&auml;rts abspielen</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>Feld gepunktet</TD>
+<TD VALIGN=TOP>=</TD>
+<TD VALIGN=TOP WIDTH=340>cross-play d.h. vorw&auml;rts und dann r&uuml;ckw&auml;rts abspielen</TD>
+</TR>
+</TABLE>
+
+<PRE>
+
+ 8) Loop-Button
+
+ Hiermit bestimmt man, ob man das Sample loopen 
+ (Endloswiedergabe) m&ouml;chte oder nicht.
+ </PRE>
+
+<TABLE>
+<TR>
+<TD VALIGN=TOP WIDTH=100>nicht
+selektiert</TD>
+<TD VALIGN=TOP>=</TD>
+<TD VALIGN=TOP WIDTH=510>Sample wird bei Druck auf Keyboardtaste nur einmal abgespielt, auch wenn die
+Keyboardtaste l&auml;nger gedr&uuml;ckt bleibt. L&auml;&szlig;t man die Keyboardtaste los, wird die
+Wiedergabe des Samples nat&uuml;rlich sofort beendet.</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP WIDTH=100>ist selektiert</TD>
+<TD VALIGN=TOP>=</TD>
+<TD VALIGN=TOP WIDTH=510>Sample wird bei Druck auf Keyboardtaste endlos abgespielt, solange die
+Keyboardtaste gedr&uuml;ckt bleibt. L&auml;&szlig;t man die Keyboardtaste los, wird die Wiedergabe 
+des Samples nat&uuml;rlich sofort beendet. Wurde der Start- und Endpunkt des Loops
+geschickt definiert, sollte der Loop&uuml;bergang unh&ouml;rbar sein.</TD>
+</TR>
+</TABLE>
+
+<PRE>
+
+ 9) MIDI-Channel
+
+ In diesem Feld erscheint die Midi-Kanalnummer, &uuml;ber die man das Sample mit
+ einem MIDI-Keyboard ansteuern kann. Wenn man auf dieses Feld klickt,
+ erscheint ein <A HREF="page0064.htm">Dialog</A>, in dem man den Midikanal und die Midinote des Samples
+ einstellen kann.
+
+
+ 10) Midinote
+
+ In diesem Feld erscheint die Midi-Note, &uuml;ber die man das Sample mit einem
+ MIDI-Keyboard ansteuern kann. Wenn man auf dieses Feld klickt, erscheint ein
+ <A HREF="page0064.htm">Dialog</A>, in dem man den Midikanal und die Midinote des Samples einstellen
+ kann. Beim Start des Programms werden die Arranger-Eintr&auml;ge mit einem
+ Notenwert initialisiert. Als Basis wird der Midikanal und die Midinote gew&auml;hlt,
+ die im <A HREF="page0064.htm">Midi-Dialog</A> im Editor angegeben wurde. Die weiteren Eintr&auml;ge werden
+ dann fortlaufend durchgez&auml;hlt.
+
+
+ 11) play sampleblock
+
+ Dr&uuml;ckt man auf diese Taste, wird der durch Startpoint (12) und Endpoint (13)
+ definierte Block des Sample abgespielt.
+
+
+ 12) Startpoint
+
+ Hier erscheint der Start-Zeitpunkt des Samples. Man kann ihn durch Druck auf
+ den Startpoint-Button (linkspfeil) vom Laufwerks-Z&auml;hlerstand &uuml;bernehmen
+ oder durch &Uuml;bernahme der Blockmarker des Samples (siehe unter <A HREF="page0085.htm">Steuerungsfeld</A>).
+
+
+ 13) Endpoint
+
+ Hier erscheint der End-Zeitpunkt des Samples. Man kann ihn durch Druck auf
+ den Endpoint-Button (rechtspfeil) vom Laufwerks-Z&auml;hlerstand &uuml;bernehmen oder
+ durch &Uuml;bernahme der Blockmarker des Samples (siehe unter <A HREF="page0085.htm">Steuerungsfeld</A>).
+
+
+ 14) Len
+
+ Hier erscheint die L&auml;nge des Sampleblocks (real-button selektiert) oder die
+ Gesamtl&auml;nge (real-Button deselektiert) des Samples.
+
+</PRE>
+
+<A HREF="#4.13.2">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,31 @@
+2.1.5 Verbindung zu Audioger„ten
+
+
+Die digitalen Einü und Ausg„nge k”nnen mit einem DigitalüAudioüGer„t verbunden werden wie z.B. CD,DAT,DCC,MD.Hierfr
+gibt es passende Lichtleiterkabel fr den optischenAnschluá und passende CinchüKabel fr den koaxialen Digitalanschluss.
+Dieses sollte m”glichst ein fr DigitalüAudio genormtes 75 Ohm Kabel sein,und nicht ein einfaches AudioüCinchkabel.
+
+Die Digitalfrequenzen sind wesentlich h”her als die Audiofrequenzen !
+Fr die Analogverbindung zur HIFIüAnlage oder Mischpult sollte man m”glichst hochwertige Kabel verwenden.Die
+BilligüCinchkabel sind meist schlecht abgeschirmt und neigen zu Brummst”rungen,gerade bei l„ngeren Kabeln.Haben sie
+Brummst”rungen,so kann das mehrere Ursachen haben.
+So kann das Fernsehü oder Rundfunkkabel fr diese St”rung verantwortlich sein.Abhilfe schafft ein Mantelstromfilter das
+man im guten HIFIüHandel bekommt.Eine doppelte Erdung ist auch oft Ursache von Brummst”rungen.
+Es wurde auáerdem bei der StartracküKarte darauf geachtet,das sie nur einmal
+mit Masse in Verbindung kommt,und zwar ber den VMEüStecker.Deshalb
+ist bei der 5 1/4üZollüEinschubversion der Einschub auch aus Kunststoff
+und nicht aus Metall. Da das Frontblech mit den Anschluábezeichnungen beschriftet ist,erbrigt sich deren Erkl„rung
+eigentlich:
+
+
+Der Analogausgang wird mit einem freien Eingang (Tape,CD,LINE...aber nicht PHONO !) des Verst„rkers verbunden.
+Der Analogeingang wird mit einem Aufnahmeausgang des Verst„rkers (TAPEüREC oder „hnlich) verbunden.
+Die Digitaleing„nge k”nnen beide gleichzeitig angeschlossen werden,also z.B. der optische Eingang mit einem CDüPlayer
+und der digitale CinchüEingang mit einem DATüRecorder.
+
+
+Die Einüund Ausg„nge kann man leicht unterscheiden,da sie r„umlich getrennt sind: Die Eing„nge sind auf der linken
+H„lfte und die Ausg„nge auf der rechten H„lfte des Frontblechs zu finden.
+
+
+Apropos Frontblech: Es besteht aus nichtrostendem Edelstahl !

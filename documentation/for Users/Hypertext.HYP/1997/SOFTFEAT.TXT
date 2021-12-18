@@ -1,0 +1,260 @@
+Die Software-Features:
+----------------------
+Die Liste bezieht sich auf die Alpha-Version der STARTRACK-Software
+und die Leistungsmerkmale k”nnen (und werden) sich sicherlich bis zur
+Final-Version noch „ndern !
+ 
+Das Programm l„uft unter Tos 2.06, Multitos und (h”chstwahrscheinlich)
+Magic. Auerdem sind alle Fenster, wo dies sinnvoll ist, nonmodal und k”nnen
+ge”ffnet bleiben.
+
+- Edit-Fenster (immer offen, unmodal)
+  Das ist die Schaltzentrale des Programms. Von hier aus werden s„mtliche
+  Bearbeitungsfunktionen ausgefhrt.
+  Zentraler Bestandteil des Edit-Fensters ist die graphische Darstellung der
+  Samples. Direkt per Drag & Drop k”nnen Marker verschoben & gesetzt,
+  Samples im Speicher kopiert & verschoben werden. Natrlich k”nnen nicht
+  nur Samples im Speicher (destruktiv) bearbeitet werden.
+  Es gibt einen virtual-mode wo auf Festplatte gespeicherte Samples die
+  nicht komplett in den Speicher passen, genauso bearbeitet werden k”nnen.
+  Wenn man versucht ein File zu laden, da nicht mehr in den Speicher pat,
+  erscheint eine Dialogbox, in der man w„hlen kann, ob man die virtuelle
+  Bearbeitung wnscht, oder ob man nur einen Block laden m”chte.
+  Diesen Block kann man frei w„hlen und kann sich den ausgew„hlten Teil vor
+  dem laden anh”ren, um zu testen ob man den richtigen Teil erwischt hat. 
+  Der Editor ist zur Kontrolle und zur direkten Ver„nderung von Sampledaten
+  gedacht und arbeitet deswegen destruktiv direkt auf die Daten.
+  Zoom & Scroll-Funktionen sind ebenso vorhanden wie die M”glichkeit mehrere
+  Samples zusammenzufgen. Samples k”nnen nachtr„glich weich ein und
+  ausgeblendet werden. Dafr gibt es sogar ein Fade-Editor in dem man die
+  Fader-Kurve frei editieren kann.
+  Man kann Knackser in einer Aufnahme im Editor direkt mit der Maus
+  entfernen bzw. die Werte den Schwingungen anpassen.                  
+  Zoomkomandos werden automatisch aufgezeichnet und bei Zoom-Rckw„rts-
+  schritten landet man genau an der Stelle an der man vorher im Editor war.
+  Die Marker kann man auch direkt per Dateneingabe in Samples oder
+  Zeiteinheiten (sec) eingeben.
+  Die Aufnahme/Widergabe-Funktionen k”nnen hier direkt ausgefhrt werden.
+  Dabei zeigt ein Marker die momentane Widergabe/Aufnahmestelle an (bei
+  Aufnahme/Widergabe aus dem Speicher).
+  Man kann auch gleichzeitig ein Sample abspielen lassen w„hrend man ein
+  neues Sample aufnimmt. Das ist praktisch um Zeitsynchron weitere Spuren
+  aufzunehmen, wie das z.B. in Tonstudios geschieht.
+  Z.B. zuerst die Aufnahme des Schlagzeug, dann Bass, Leadguitar, Stimme.
+  Der Editor bietet eine Nullstellen-Suchfunktion die einfach per
+  Drag & Drop funktioniert.
+  Man nimmt einen Marker und drckt die linke oder rechte Shifttaste.
+  L„t man den Marker nun los, sucht der Marker die n„chste Nullstelle
+  links oder rechts vom Ausgangspunkt wo man losgelassen hat.
+  So einfach ist das - sehr praktisch um Loop-Punkte zu finden.
+  Man kann im Editor Teile eines Samples loopen und auch per Midi-Keyboard
+  abspielen. Dafr legt man das Sample einfach auf einen einstellbaren
+  Midikanal und dessen Midinote.
+  Der Editor hat auch eine Auto-Backup-Funktion die es erlaubt, automatisch
+  nach einer eingestellten Zeit eine Sicherungskopie auf Festplatte zu
+  machen.
+  Das Programm erlaubt die Bearbeitung folgender Sampleformate: S16,WAV,AVR,
+  SND,SD,AU & SMP.
+  Es gibt vielf„ltige Einstellungsm”glichkeiten im Setup um die Darstellung
+  im Editor,Pfade etc. einzustellen.
+  Man kann auch einstellen, das s„mtliche ge”ffneten Fenster beim n„chsten
+  Start des Programms an exakt der gleichen Stelle erscheinen. Alle
+  wichtigen Einstellungen k”nnen ebenso abgespeichert werden und werden beim
+  n„chsten Start automatisch gesetzt.
+
+Am oberen Rand des Editfensters sind allerlei Buttons fr die
+gebr„uchlichsten Funktionen und zum Aufruf von weiteren Fenstern.
+Als da w„ren:
+
+- Connection-Fenster (unmodal)
+  * Anzeige von Fehlercodes & Samplerate der digitalen Eing„nge
+  * Anzeige der Aufnahmeart der digitalen Eing„nge
+   (SCMS,Emphasis,Audio/Data,Consumer/Professional)
+
+- Editor-Toolbar (unmodal)
+   mit Funktionen fr Cut,Insert,Space,Optimize,Resample,Stereo/Mono,
+   Negate,Change
+   * Cut zum Schneiden von Samples (Cut in/out/del)
+   * Insert zum zusammenfgen von mehreren Samples
+   * Space zum Einfgen von Leerstellen
+   * Optimize zum korrigieren der Lautst„rke
+   * Resample zum ver„ndern der Samplerate bzw. der Geschwindigkeit
+   * Stereo/Mono zur Monoumwandlung von Stereoaufnahmen
+   * Negate zum negieren der Sampledaten (positive Schwingungen werden
+     negativ & umgekehrt)
+   * Change zum wechseln der Kan„le von links nach rechts & umgekehrt
+
+- Peakmeter (unmodal)
+  Das ist das zentrale Fenster fr die Aufnahme und Widergabe.
+  Man kann das zwar auch im Edit-Fenster machen, aber das Peakmeter ist
+  komfortabler. Man hat eine sehr genaue Aussteuerungsanzeige mit
+  Lautst„rkeregler, eine Mute-Taste, einen Balance-Regler, eine
+  Aufnahmezeit-Anzeige, Peak- und Errorz„hler zur Fehleranzeige.
+  Damit kann man sehr schnell feststellen, ob man bersteuert oder der
+  eigene Rechner zu wenig Rechenzeit bietet (Pufferberlauf-Sampledaten
+  gehen verloren), weil zu viele Programme laufen (MTOS,Magic) oder der
+  Rechner einfach zu langsam ist (68000er).
+  So kann z.B. die Aufnahme im Peakmeter-Fenster geschehen und durch einen
+  Klick auf das Edit-Fenster wird das gerade aufgenommene Sample im
+  Edit-Fenster dargestellt und kann bearbeitet werden - auerst praktisch.
+  Das Peakfenster bietet die blichen Steuerfunktionen eines Cassettendecks
+  (Aufnahme,Widergabe,Stop,Pause).
+  Auerdem kann bei Aufnahme optional auf einen einstellbaren
+  Lautst„rkepegel gewartet werden, um die Aufnahme bei einsetzen der Musik
+  zu starten. Und natrlich kann man w„hlen, ob die Aufnahme bzw. Widergabe
+  in den Speicher oder auf Festplatte erfolgen soll. Diese Steuerfunktionen
+  hat man auch im Edit-Fenster nur das man dort auf eine
+  Aussteuerungsanzeige verzichten mu.
+  Bei der direkten Aufnahme auf Festplatte wird vor dem Aufnahmestart ein
+  INF-File angelegt, in dem die Samplerate, Datum der Aufnahme, Loop-Marker
+  und ein Kommentar vermerkt werden.
+  Diesen Kommentar kann man in einem Edit-Feld eingeben. Das kann man z.B.
+  fr eine genauere Titelbeschreibung mit Aufnahmequelle verwenden. Damit
+  lassen sich Aufnahmen sp„ter leichter identifizieren und ausw„hlen.
+  Dieses INF-File wird beim laden angezeigt, oder in der speziellen
+  Fileselect-Box (siehe Musicbox).
+  Bei der Aufnahme wird eine PBF-Datei angelegt, in der eine komprimierte
+  Version des Amplitudenverlaufs gespeichert wird. Das beschleunigt den
+  Bildschirmaufbau beim laden von sehr langen Samples enorm, da
+  normalerweise alle Samplewerte zur Berechnung der Amplitudendarstellung
+  herangezogen werden was bei 50-100MB schon etwas dauern kann. Stattdessen
+  wird daher w„hrend der Aufnahme schon eine Berechnung vorgenommen und
+  abgespeichert. Diese werden dann stattdessen zur Berechnung herangezogen.
+  Also quasi ein Amplituden-Caching. ;-)
+  Digitalaufnahmen von den digitalen Eing„ngen k”nnen natrlich nicht
+  ausgesteuert werden (wozu auch).
+  Die Aussteuerung kann man auch noch nachtr„glich bei der Widergabe
+  kontrollieren (also sehen).
+
+- Midi & Playlist-Fenster (unmodal)
+  Hier kann man die auf Festplatte gesammelten Samples auf entsprechende
+  Midikan„le & Midinoten verteilen, und so die Samples auf einem Keyboard
+  "spielen". Es gibt hier eine sogenannte Playlist, in der die Samples
+  aufgefhrt werden. Man kann hier fr jedes Sample einstellen, ob die
+  Samples beim abspielen geloopt werden sollen und mit welcher Samplerate
+  sie abgespielt werden sollen.
+  Hier gibt es auch wieder Kopierfunktionen (Drag & Drop) und jede Menge
+  Editierfunktionen um Sampleteile auszuw„hlen (Startposition,Endposition,
+  Abh”r- und Aufnahmem”glichkeitem).
+  Auerdem lassen sich diese Midi-Playlisten abspeichern und laden.
+  Man kann diese Liste aber nicht nur zum Abspielen per Midi nutzen, denn
+  es gibt auch die M”glichkeit aus dieser Playlist ein neues Gesamtsample
+  mit frei w„hlbarer Samplefrequenz zu erzeugen. Dabei werden
+  unterschiedliche Samplefrequenzen automatisch umgerechnet.
+  Die Playlist-Dateien tragen die Endung ".ARR"
+
+- Loopfenster (unmodal)
+  Hier kann man einstellen, ob ein Sample vorw„rts, rckw„rts oder cross
+  (vorw„rts, dann rckw„rts) gespielt werden soll.
+
+- Fader-Fenster (unmodal)
+  Hier kann man den Fade-In und Fade-Out-Verlauf editieren.
+  Man kann neue Verl„ufe per Maus zeichnen oder aber auf vorgefertigte
+  Verl„ufe zurckgreifen (linear,square,exp,sqrt,log).
+  Diese Verl„ufe kann man abspeichern und laden (Fileendung ".FAD".
+
+- Monitor (funktion)
+  Mit dieser Funktion kann man kontrollieren, ob die Samples vom Eingang
+  bis zum Ausgang korrekt verarbeitet werden.
+
+- Midi-Note (modal)
+  Hier kann man die Midinote und dessen Kanal einstellen
+
+- Load & Save (modal)
+  Hier kann man den Speicherinhalt bzw. das Sample abspeichern oder laden.
+  Beim laden kann man w„hlen, ob nur dieses eine Sample in den Speicher
+  soll (dann wird vorher der Speicher gel”scht und dann das Sample an den
+  Anfang geladen) oder ob es an das Ende der schon im Speicher stehenden
+  Samples angeh„ngt werden soll.
+  Beim speichern kann man w„hlen, ob der gesamte Speicherinhalt
+  abgespeichert werden soll, oder nur ein Bereich, der durch Savemarker
+  vorher bestimmt wurde.
+
+- DSP-Toolbar (unmodal)
+  Hier kann man die Effekte in den DSP (sofern vorhanden) laden.
+  Zur Auswahl stehen momentan Echo,Lowpass,Flanger,Chorus,Pinknoise &
+  Bypass. Vorgesehen (sp„ter) sind noch Hall, High & Bandpass, Equalizer.
+  Da STARTRACK die DSP-Programme im LOD-Format verarbeitet und diese ber
+  die DSP-Toolbar auch ladbar sind, steht eigenen DSP-Programmen nichts
+  im Wege.
+
+- Musicbox-Fileselector (unmodal)
+  Hier kann man eine Playlist definieren (per Fileselektor) um ganze Titel
+  in einer festgelegten Reihenfolge abzuspielen. Diese Playlist kann
+  abgespeichert und geladen werden (Fileendung ".BOX").Man definiert zuerst
+  einen Suchpfad fr Samples und addiert diesen Pfad zu einer Pfadliste
+  (Fileendung ".SEL") mit "ADD".
+  So kann man mehrere Suchpfade definieren in denen gesucht werden soll.
+  M”chte man eine neue Pfadliste definieren drckt man auf den Button "NEW".
+  Die gefundenen Samples werden aufgelistet und vorhandene Kommentare zu den
+  Aufnahmen werden angezeigt um die Suche in groen Datenbest„nden zu
+  erleichtern.
+  Dann w„hlt man die Samples aus, die man spielen m”chte und fgt sie in
+  die Playlist ein. Wenn man dann den Musicbox-Button drckt, bekommt
+  man statt der Liste aller Samples nun die ausgew„hlten Samples
+  pr„sentiert.
+  Mit diesem Button kann man zwischen der Gesamtdarstellung und der Playlist
+  wechseln. Nun noch Play drcken - und ab geht die Musicbox.
+  Man kann dieses Fenster auch benutzen um Samples in den Editor zu laden.
+  Das ist komfortabler, da alle Suchpfade automatisch durchforstet werden,
+  und nur die Sample-Dateien mit Kommentaren angezeigt werden.
+
+- Multitrack-Fenster (unmodal)
+  Das ist wohl eines der wichtigsten Fenster.
+  Die X-Achse definiert die Zeiteinheit und auf der Y-Achse sind die Spuren
+  angeordnet.
+  Hier kann man eine Playlist fr momentan 99 virtuelle Stereokan„le
+  definieren. Davon k”nnen bis zu 16 Kan„le ausgew„hlt und in Echtzeit
+  gemischt und wiedergegeben werden (wie bei einem 16Spur-Tonband).
+  Dafr ben”tigt man keinen DSP, lediglich einen schnellen Rechner.
+  Der Hades kann derzeit bis zu 16 Spuren abspielen, der TT immerhin
+  noch bis zu 8 Spuren (mit DSP-Karte). 
+  In erster Linie h„ngt die Spuranzahl von der Geschwindigkeit der
+  Festplatte und natrlich der CPU-Power ab.
+  In diesem Fenster kann man also die Samples die auf der Festplatte liegen,
+  zu einem "Song" arrangieren. Man l„dt dazu die Samples und bestimmt grob
+  per Abh”ren (PLAY,STOP,Pause,Vorlauf,Rcklauf,Aufnahme) den Start und
+  das Ende eines Samples (nicht-destruktiv,Sampledaten werden nicht
+  ver„ndert). Man kann dann mittels Buttons oder Werteeingabe den Start und
+  das Ende eines Samples feinjustieren oder man bernimmt einfach die mit im
+  Sample abgespeicherten Loop-Marken fr Start & Ende.
+  Das Sample kann man danach wenn n”tig per Drag & Drop an eine andere
+  Abspielposition verschieben, oder halt ber Werteeingabe auf eine neue
+  Position setzen. Da man auch hier Zoom- und Scrollfunktionen benutzen
+  kann, geht das gerade per Drag & Drop sehr genau.
+  Der Lautst„rkeverlauf (Amplitude) der Samples wird im Fenster auf Wunsch
+  dargestellt. Dadurch kann man sehr genau die Samples der verschiedenen
+  Spuren aufeinander trimmen um z.B. mit einem bestimmten Rhythmus synchron
+  zu sein. Diese Playlist kann man natrlich auch speichern und laden
+  (Fileendung ".TRK"). Man kann auch Samples kopieren und so z.B. einen
+  widerkehrenden Rythmus erzeugen, ohne jedesmal erneut das File einzuladen
+  und Start & Endposition neu zu definieren.
+  Die komplette Bearbeitung der Samples (wie auch im Midi-Playlistfenster)
+  erfolgt nichtdestruktiv, d.h. ohne die Sampledaten tats„chlich zu
+  ver„ndern. Eine SMPTE-Synchronisierung via MTC ist zwar vorgesehen aber
+  noch nicht implementiert.
+
+- Setup-Fenster (modal)
+  Hier k”nnen einige wichtige Einstellungen fr den STARTRAK-Editor
+  vorgenommen werden. Man kann die Sampledarstellung eigenen Bedrfnissen
+  anpassen, die Ansprechschwelle fr Aufnahmen (treshold) einstellen,
+  den RAM-Speicherbedarf anpassen, den default-Suchpfad einstellen etc.
+
+Die Gr”e der Fenster ist bewut auf max. 640x400 beschr„nkt worden,
+um auch ohne Grobildschirm in ST-Aufl”sung arbeiten zu k”nnen.
+Fr h”here Aufl”sungen gibt es eine zus„tzliche Resource(RSC)-Datei, die
+die Fenster Editor  & Trakker gr”er darstellen.
+Das Programm sollte eigentlich auf jeder Grafikkarte (vorzugsweise in Farbe)
+laufen.
+Noch ein Tip: Man sollte sich ruhig die Arbeit machen, berall mal
+draufzuklicken. Manche Funktion ist im Editor gut versteckt, wenn man nicht
+wei wo man suchen soll.
+Das Programm ist auch mit Sicherheit noch nicht ann„hernd fehlerfrei.
+Es ist halt eine noch in heftiger Entwicklung befindliche Alpha-Version !
+Also bitte nicht nachtragend sein. :-)
+
+Es gibt eine WWW-Site im Internet mit den neuesten Informationen zu dem
+Projekt und mit der Downloadm”glichkeit der neuesten Version des
+Demoprogramms unter "http://members.aol.com/stepwil/index.html".
+Ich bin auerdem im Internet ber stepwil@aol.com und im Mausnet
+ber Stephan Wilhelm @ K2 zu erreichen.

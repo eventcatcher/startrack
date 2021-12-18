@@ -1,0 +1,176 @@
+Setup-Dialog
+
+
+Dieser Dialog ist prim„r fr verschiedene Einstellungen zust„ndig.
+Hier kann man das Aussehen der Sampledaten bestimmen und verschiedene
+Voreinstellungen vornehmen. Diese Einstellungen k”nnen in einer INF-Datei
+abgespeichert werden. Ist eine solche Datei vorhanden, wird sie beim Start
+des Programms automatisch geladen und die darin enthaltenen Einstellungen
+werden gesetzt.
+Zur besseren Verst„ndnis sollte man das İBILDİSETUP.IMGİ des
+Setup-Dialogs zu Rate ziehen.
+
+
+1) vertikal lines
+-----------------
+Darstellung der Samples als Peaks (Striche) bei Zoom gr”er als 1:1
+
+2) link dots
+------------
+Verbindung der Samples durch eine Ann„herungskurve bei Zoom gr”er als 1:1
+
+3) fill spaces
+--------------
+Fllung der Zwischenr„ume bei Zoom gr”er als 1:1
+
+4) horizontal-lines
+-------------------
+Horizontale Markierung bei 20/40/60/80 % Amplitude zur besseren lesbarkeit.
+
+5) Y-autozoom
+-------------
+Zoomt die Amplitude automatisch bis zum h”chsten vorhandenen Samplewert
+
+6) grid
+-------
+farbige Markierung der geladenen Samples und graues Hintergrundmuster
+
+7) autorecord treshold
+----------------------
+Ansprechschwelle in dB fr die Aufnahmeamplitude bei İAuto-Record-AutomatikİESOUND.TXTİ
+
+8) malloc
+---------
+Anzahl Bytes in Hex des fr Samples reservierten Speichers
+
+9) fileselector : New
+---------------------
+wenn gesetzt wird der neue, İintegrierte FileselectorİFSELPAGE.TXTİ benutzt. Ansonsten wird
+der normale Fileselector benutzt. Der neue Fileselector ist aber immer
+unter dem İBuchsymbolİEBUTTONS.TXTİ in der Buttonleiste des İEdit-FenstersİEDIT.TXTİ zu erreichen.
+
+10) record-time
+---------------
+einstellbare default-Aufnahmezeit.
+Kann jederzeit İvor der AufnahmeİRECORD.TXTİ ge„ndert
+werden. Als Arbeitserleichterung um nicht immer wieder
+die gleiche Aufnahmezeit einstellen zu mssen.
+Eine Aufnahme ist aber trotzdem jederzeit durch İSTOPİESOUND.TXTİ zu beenden.
+ 
+11) HDD-sektorlen
+-----------------
+Gr”e der Zugriffsbl”cke auf der Festplatte. Sollte
+vorerst immer auf 16384 gesetzt bleiben.
+
+12) digital-in clock : Synchronize
+----------------------------------
+Wenn gesetzt, wird alles vom digitalen Eingangstakt
+synchronisiert bzw. getaktet. Die İTaktratenauswahlİMAIN.TXTİ
+ist dann gesperrt und richtet sich nach dem Eingangstakt.
+Betrifft vor allem die Aufnahme und Widergabe ber die
+A/D und D/A-Wandler.
+
+13) Fileselect
+--------------
+Hiermit kann man einen Suchpfad fr Samples angeben, in dem bei
+Dateioperationen zuerst nach Sample-Dateien gesucht wird.
+
+14) default format
+------------------
+Art des File-extenders fr Samplefiles, also das voreingestellte
+Sampleformat. Es kann aber jederzeit ein anderes benutzt werden.
+Es ist lediglich eine Arbeitserleichterung bei der Arbeit.
+Es gibt folgende Sampleformate:
+
+S16 - eigenes Sampleformat
+WAV - Wave-Format. weitverbreitetes PC-Fileformat fr Samples
+AVR - bekanntes Atari-Sampleformat
+SND - bekanntes Atari-Sampleformat
+SD  - wird von einigen Sample-Editoren benutzt
+AU  - auf Unix-Maschinen und im Internet weitverbreitet.
+SMP - Steinberg Avalon-Format
+
+15) defaultpath
+---------------
+Der Name sagt es schon: Pfad fr die Sampleaufnahme- und
+Wiedergabe und andere Files, die vom Programm angelegt/benutzt werden.
+
+16) buttons
+-----------
+3D
+--
+farbige Darstellung der Programmoberfl„che im Multitos-Look (soweit m”glich)
+wird erst nach Neustart bercksichtigt !
+
+Flip
+----
+wenn gesetzt, springt die İFunction-AuswahlİEDIT.TXTİ im Edit-Fenster nach
+der Benutzung wieder auf MARK (weil meistbenutztes Feature).
+wenn gel”scht, bleibt die zuletzt benutzte İFunktionİFUNKTION.TXTİ eingestellt.
+ 
+0-Xsnap
+-------
+Suche nach Null-Durchg„ngen im Sample (zwecks Loop-Punkt) mittels
+Shift erm”glichen. Wenn man dann mit der Maus einen Marker "anfasst",
+dabei die linke Shifttaste gedrckt h„lt, und dann die Maus wieder losl„t,
+wird nach einem Nullpunkt links vom Marker gesucht, und der Marker an die
+neue Position bewegt. Wenn man dabei die rechte Shifttaste gedrckt h„lt,
+und dann die Maus wieder losl„t, wird nach einem Nullpunkt rechts vom
+Marker gesucht, und der Marker an die neue Position bewegt.
+
+Menue
+-----
+Menerzeugung an der oberen Bildschirmkante (optionales Dropdown-Men).
+wird erst nach Neustart bercksichtigt !
+
+View
+----
+wenn gel”scht, werden İMarkerpositionenİSAMPLE.TXTİ in 100tel Sekunden angegeben.
+wenn gesetzt, werden Markerpositionen in Samplewerten angegeben (genauer).
+
+Time
+----
+Zeitanzeige im İEdit-InfoİEINFO.TXTİ und İAuto-Backup-M”glichkeitİBACKPAGE.TXTİ erlauben.
+
+Show
+----
+Anzeige der Zeitposition der Maus bzw. Marker im İEdit-InfoİEINFO.TXTİ
+
+Turbo
+-----
+fr zeitoptimierte Aufnahme/Widergabe bei normalen STs wegen geringer
+Rechenleistung.  Relikt aus vergangener Zeit.
+Sollte vorerst eingeschaltet bleiben. Wird demn„chst anders gel”st.
+
+Freeze
+------
+wenn gesetzt dann merkt sich das Programm die Fenster-Positionen bei
+"SAVE im Setup" (und nur dann !) und setzt diese Fenster wieder auf
+die gleichen Positionen beim n„chsten Start des Programms. 
+
+Load
+----
+Laden der Setup-Datei. Das passiert auch automatisch beim Start des
+Programms.
+
+Save
+----
+Speichern der Setup-Datei "SMP16.INF"
+
+17) Help
+--------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+18) Exit
+--------
+Hiermit wird der Setup-Dialog geschlossen. Alle ge„nderten Einstellungen
+werden nicht beachtet und sind ungltig.
+
+19) OK
+------
+Hiermit wird der Setup-Dialog geschlossen. Alle ge„nderten Einstellungen
+sind gltig und werden gesetzt und soweit m”glich, sofort beachtet.
+Es gibt allerdings Einstellungen die erst bei einem erneuten Programmstart
+beachtet werden, wo dies nicht anders m”glich ist.

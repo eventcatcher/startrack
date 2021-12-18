@@ -1,0 +1,114 @@
+Viel Spaû mit der STARTRACK-Demo-Software V1.04a !                                            Kîln, den 21.10.1996
+
+Zuvor aber noch ein paar klarstellende und erklÑrende Worte.
+Alle Rechte an diesem Programm liegen bei Stephan Wilhelm,Niehler Str.312,50735 Kîln.
+Das Programm ist eine Alpha-Version und ich hafte nicht fÅr SchÑden die an Hard oder Software ihres
+Computers durch Benutzung dieses Programms dadurch eventuell entstehen kînnen (ist aber sehr unwahrscheinlich).
+
+Der Sound-Hardwaretreiber "SOUND.PRG" und die Library XRSRC.OVL wird automatisch von STARDEMO.PRG nachgeladen.
+Der Treiber wird bei der Demoversion zwar nicht benutzt, aber das Programm sucht danach. Die beiden Dateien sollten
+sich im gleichen Ordner wie das Programm befinden.
+Das Programm lÑuft ab einer Auflîsung von 640x400 monochrom, am meisten Spaû macht es aber ab der Auflîsung
+1024x768/256 Color da dann die Resource-Datei fÅr groûe Auflîsungen (STARHIG2.RSC) geladen wird, die im Editor
+und Trakker grîûere Fenster zur VerfÅgung stellt.
+Achtung ! Das Programm braucht mindestens 5MB freien Speicher !!! Davon sind ca. 1MB fÅr Cache-Zwecke, naja
+die Resource-Datei ist ziemlich groû und etwas Sample-Speicher (ca. 800KB) braucht's auch noch... 
+Wer mehr Speicher hat, kann das im Setup anpassen und Speicher zuteilen. 
+
+Nach dem Starten zeigt das Programm nicht sofort alle seine Optionen. Am besten sie schauen sich zuerst einmal
+das Setup an. Das verbirgt sich hinter dem Arztkoffer-Symbol in der oberen Buttonreihe des Edit-Fensters.
+Speichern sie das Setup ab. Begrenzen sie wenn nîtig den vom Programm angeforderten Speicher im Setup.
+Wichtig: Das Programm speichert auch die Fensterpositionen mit ab, und restauriert die Fenster nach dem nÑchsten Start.
+Das Library-Problem bei der Medusa ist nun behoben, und auch viele andere Fehler sind in der V1.04a beseitigt worden.
+Nun lÑuft das Programm auch fehlerfrei auf der Medusa und natÅrlich unter Multitos,MagicMac und TOS.
+Unter Magic konnte ich es noch nicht testen, da ich nur eine Medusa T40 habe, auf der Magic nicht lÑuft.
+Daher wÅrde es mich freuen, wenn jemand das mal testen wÅrde und mir darÅber Auskunft gibt.
+Unter MagicMac auf einem PowerPC gibt es leider noch Probleme. Keine Ahnung warum. Auf einem Apple-68K-Rechner
+lÑuft es nÑmlich.
+
+Es gibt nun eine Programmbeschreibung als Hypertext (im Ordner /STARHELP). Dieser arbeitet mit 1stGuide zusammen,
+und kann im Editor Åber die HELP-Taste aufgerufen werden. Man benîtigt also zusÑtzlich 1stGuide !
+
+Installierung von 1stGuide
+--------------------------
+
+1. Kopieren Sie die Datei 1STGUIDE.ACC in Ihr Boot-Verzeichnis.
+   Falls Sie Åber 1st Guide drucken mîchten, mu· GDOS installiert
+   sein.
+
+2. Wenn Sie eine Festplatte bzw. bei gro·em Arbeitsspeicher eine
+   genÅgend gro·e RAM-Disk besitzen, legen Sie dort einen neuen
+   Ordner an (z.B. "1STGUIDE"), und kopieren Sie den gesamten
+   Disketteninhalt dort hinein (falls nicht schon beim Auspacken
+   geschehen).
+
+3. Starten Sie Ihren Computer neu, klicken im Desk-MenÅ des Desktops
+   den Punkt "1st Guide" an und wÑhlen in der darauf erscheinenden
+   Datei-Auswahlbox die Datei "1STGUIDE.HLP" im entsprechenden
+   DatentrÑger/Ordner aus. Dort erhalten Sie weitere Benutzungs-
+   Informationen.
+
+Um 1stGuide mit dem STARTRACK-Programm nutzen zu kînnen, muû der
+Suchpfad fÅr STARTRAK.IDX in 1stGuide definiert sein.
+Sie gelangen in den Setup-Dialog von 1stGuide, indem sie das
+Accessory mit gedrÅckter rechter Maustaste und Doppelklick mit der
+linken Maustaste auf den Accessoryeintrag, aufrufen.
+Dort tragen sie unter Indexdatei den Suchpfad ein.
+Anschlieûend drÅcken sie auf Sichern - fertig.
+
+Besonderheiten bei der Arbeit mit STARTRACK
+-------------------------------------------
+Da 1stGuide von STARTRACK nicht nur aus einem Fenster, sondern auch aus
+einer Dialogbox heraus aufgerufen werden kann (normalerweise nicht
+mîglich) wird in diesem Falle die Dialogbox kurz entfernt und auf ein
+Fenster gewechselt, um 1stGuide aufrufen zu kînnen.
+Hat 1stGuide alle benîtigten Fenster geîffnet, erscheint wieder der
+Dialog und man kann seine Eingaben darin tÑtigen. Man muû dann zuerst
+die Dialogbox schlieûen, um Zugriff auf 1stGuide zu bekommen, da
+systembedingt (AES) beim Aufruf einer Dialogbox alle anderen Fenster
+gesperrt sind.
+Bei einem 1stGuide-Aufruf aus einem Fenster heraus, braucht man
+diesen "Trick" nicht anzuwenden.
+
+STARTRACK-Editor   Installation
+-------------------------------
+Nach dem Entpacken (mit ZIP) sollte der angelegte Ordner in etwa so aussehen:
+
+/STARHELP     -  Hypertext-System fÅr 1stGuide
+LIESMICH.TXT  -  Installationshinweise und letzte énderungen (vorher lesen !)
+REGISTER.TXT  -  Hardware-Registerbeschreibung fÅr Programmierer
+SOFT.TXT      -  Software-Features
+SOUND.PRG     -  Hardware-Treiber
+STARTRAK.PRG  -  Sample-Editor-Programm
+STARTRAK.UPL  -  Upload-Text fÅr die Verbreitung in Mailboxen
+STARHIG2.RSC  -  Fenster-Dialoge fÅr hohe Auflîsung (ab 1024x768)
+STARLOW2.RSC  -  Fenster-Dialoge fÅr niedrige Auflîsung (bis 1024x768)
+STARTRAK.TXT  -  Hardware-Features
+XRSRC.OVL     -  Resource-Treiber fÅr 3D-Dialoge
+
+Ansonsten braucht nichts installiert werden, ein Doppelklick auf STARTRAK.PRG
+genÅgt, um das Programm zu starten.
+Nach dem ersten Aufruf sollte man den SETUP-Dialog aufrufen, und einige
+Einstellungen vornehmen, um das Programm eigenen Erfordernissen anzupassen.
+Wichtig ist hierbei, das der Trakker zum einwandfreien Arbeiten nach mindestens
+8 MB freiem RAM verlangt ! Das kann man im SETUP-Dialog einstellen
+(fÅr 8MB : malloc=800000 und max-Feld angekreuzt).
+
+Das Programm ist noch eine Alpha-Entwicklungsversion und ist weder fertig noch fehlerfrei !
+Es soll lediglich einen ersten Eindruck vermitteln - mehr nicht.
+Wer Interesse hat, kann ja einen Falcon oder TT-Soundtreiber fÅr das Programm schreiben. Das dÅrfte nicht allzu
+schwierig sein. Eine Doku hierzu kann man von mir bekommen. Derzeit ist die Sound-ein/ausgabe nur Åber die
+STARTRACK-Hardware mîglich. Ansonsten sind alle Funktionen incl. laden und speichern mîglich.
+
+Falls du Fragen oder WÅnsche hast bin ich unter folgenden email-Adressen zu erreichen:
+
+Internet: stepwil@aol.com
+Mausnet:  Stephan Wilhelm @ K2
+
+Die neuste Version der Software ist im Internet unter ftp://members.aol.com/vmestartrk/stardemo.zip zu bekommen
+oder in der Maus K2.
+Meine Homepage ist unter http://members.aol.com/stepwil/index.html zu erreichen.
+
+
+Gruû Stephan
+  

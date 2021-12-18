@@ -1,0 +1,61 @@
+Funktionsfeld im Trakker-Fenster
+--------------------------------
+
+
+Auf der linken Seite des Funktionsfelds stehen alle Funktionen die nur das
+aktuelle Sample betreffen (Blockmarker,Copy,Delete,Play), auf der rechten
+Seite die Darstellungs- und Abspieloptionen. Zur besseren VerstÑndnis
+sollte man das ›BILD›BLOCKBUT.IMG› des Funktionsfelds zu Rate ziehen.
+
+
+1) Blockmarker
+--------------
+Hiermit kann man den ›Marker-Dialog›MARKPAGE.TXT› aufrufen. Man kann dann einen passenden
+Markereintrag des Samples auswÑhlen, der dann in den Trakker Åbernommen
+wird. Vorraussetzung ist natÅrlich, daû entsprechende Marker im Editor beim
+Abspeichern des Samples definiert wurden (Marker werden in der
+Information-Datei abgespeichert). Man kann zwar auch Åber die
+›Laufwerksfunktionen›TSOUND.TXT› einen Start- und Endpunkt des Blocks definieren, aber
+diese Methode ist genauer, besonders wenn man das Sample wiederholen
+(loopen) will.
+
+2) Sample kopieren
+------------------
+Das aktuelle Sample (roter Rahmen bei Farbe, gestrichelt bei Monochrome)
+wird kopiert, und wird direkt hinter dem aktuellen Sample eingesetzt.
+Das neue Sample wird automatisch zum aktuellen Sample.
+Damit kann man sehr einfach Mehrfach-Wiederholungen erzeugen.
+
+3) Spur lîschen
+---------------
+Hiermit wird die aktuelle Spur (selektierte Spurnummer) komplett gelîscht.
+
+4) Sampleblock abspielen
+------------------------
+Hiermit wird der aktuelle Sampleblock (selektiertes Sample) abgespielt,
+also der Bereich des aktuellen Samples, der durch den Start- und Endmarker
+definiert wurde. 
+
+5) Kommentardarstellung
+-----------------------
+Normalerweise wird in der Ecke oben links im Sampleblock der Name des
+Samples ausgegeben. Wird der Button selektiert, wird stattdessen das
+Kommentarfeld (wird beim ›Abspeichern›SMPINF.TXT› eines Sample im Editor definiert, und
+kann im ›Trakker-Fileselector›TRAKFSEL.TXT› geÑndert werden) an dieser Stelle eingeblendet.
+Ist der Block allerdings zu kurz, um den kompletten Text darstellen zu
+kînnen, wird die Textausgabe auf die LÑnge des Blocks gekÅrzt.
+Das gilt fÅr beide Darstellungsarten.
+
+6) Amplitudendarstellung
+------------------------
+Ist der Button selektiert, wird im Sampleblock zusÑtzlich der
+Amplitudenverlauf des Samples ausgegeben. Da dies allerdings etwas
+Rechenzeit beansprucht, kann die Bildschirmausgabe auf langsamen Rechnern
+dadurch etwas trÑge sein.
+Deshalb kann man die Amplitudendarstellung hier abschalten (deselektiert).
+
+7) Einzelspur-Wiedergabe
+------------------------
+Ist der Button selektiert, wird nur die aktuelle Spur
+(selektierte Spurnummer) beim abspielen wiedergegeben.
+Alle anderen Spuren sind dann stummgeschaltet.

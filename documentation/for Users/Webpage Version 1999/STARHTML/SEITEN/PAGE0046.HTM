@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.1.5"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0045.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0047.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.1.5 Move</H3>
+<IMG SRC="../images/p088.gif" WIDTH="320" HEIGHT="250">
+
+ Dieser Dialog ist f&uuml;r die Auswahl der Kopierart bei Move-Aktionen im Editor
+ zust&auml;ndig und erscheint vor jeder Move-Aktion im Editor-Fenster um zwischen
+ verschiedenen Arten der Move-Behandlung w&auml;hlen zu k&ouml;nnen.
+ Es gibt mehrere M&ouml;glichkeiten eine Move-Aktion auszuf&uuml;hren.
+</PRE>
+
+<TABLE>
+<TR>
+<TD VALIGN=TOP WIDTH=640>1. Man selektiert MOVE im <A HREF="page0045.htm">Function-Dropdown</A> im Edit-Fenster und draggt den markierten Block an die 
+neue Position.</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP WIDTH=640>2. Man selektiert MOVE im <A HREF="page0045.htm">Function-Dropdown</A> im Edit-Fenster  und dr&uuml;ckt dabei eine links- oder rechts-Taste
+im <A HREF="page0045.htm">Blockbereich</A> des Edit-Fenster. Dabei ist die neue Position dann links bzw. rechts neben dem alten 
+Block.</TD>
+</TR>
+</TABLE>
+<TABLE>
+<TR>
+<TD VALIGN=TOP WIDTH=100>Dabei bedeutet:</TD>
+<TD VALIGN=TOP>einfach-Pfeiltaste =</TD>
+<TD VALIGN=TOP WIDTH=390>Verschiebung um ein Drittel der Blockl&auml;nge nach links bzw. 
+rechts</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP WIDTH=100></TD>
+<TD VALIGN=TOP>zweifach-Pfeiltaste =</TD>
+<TD VALIGN=TOP WIDTH=390>Verschiebung um zwei Drittel der Blockl&auml;nge nach links bzw. 
+rechts</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP WIDTH=100></TD>
+<TD VALIGN=TOP>dreifach-Pfeiltaste =</TD>
+<TD VALIGN=TOP WIDTH=390>Verschiebung um eine Blockl&auml;nge nach links bzw. rechts</TD>
+</TR>
+</TABLE>
+<TABLE>
+<TR>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=620>CUT bezeichnet dabei ein Ausschneiden des markierten Blocks. Der Block wird dabei in den
+Movebuffer kopiert.</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=620>CLEAR bezeichnet dabei ein L&ouml;schen des markierten Blocks. Der Block wird aber vorher in den
+Movebuffer kopiert. Es entsteht dabei ein Leerraum an dieser Stelle.</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=620>INS (Insert) bezeichnet dabei ein Einf&uuml;gen des Movebuffer-Inhalts an die neue Position. Der Bereich 
+rechts daneben wird soweit nach rechts geschoben, bis genug Platz geschaffen ist, um den Block
+einsetzen zu k&ouml;nnen.</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=620>COPY bezeichnet dabei ein Kopieren des Movebuffer-Inhalts an die neue Position. Die urspr&uuml;nglich an 
+dieser Stelle vorhandenen Samplewerte werden dabei durch die neuen &uuml;berschrieben.</TD>
+</TR>
+</TABLE>
+
+<PRE>
+ Wird ein Sample durch diese Aktionen gr&ouml;&szlig;er als der vorhandene
+ Samplespeicher, dann wird in den <A HREF="page0066.htm">Virtual-Mode</A> gewechselt.
+
+
+ 1) CUT/INS
+
+ Der Block wird ausgeschnitten,und an der neuen Stelle wieder eingesetzt.
+ Dabei wird nach dem Ausschneiden des Blocks der Rest rechts neben dem Block
+ nach links geschoben, um die L&uuml;cke durch das Ausschneiden zu schlie&szlig;en.
+ Beim Einsetzen des Blocks an die neue Stelle wird der Bereich rechts daneben
+ soweit nach rechts geschoben,bis genug Platz geschaffen ist, um den Block
+ einsetzen zu k&ouml;nnen. Das Sample beh&auml;lt also durch diese Aktion die gleiche L&auml;nge.
+
+
+ 2) CLEAR/INS
+
+ Der Block wird in einen Buffer kopiert,und an der neuen Stelle wieder
+ eingesetzt. Danach wird der alte <A HREF="page0045.htm">Blockbereich</A> gel&ouml;scht. Es entsteht also an
+ der alten Blockposition ein gel&ouml;schter Leerraum im Sample.
+ Beim Einsetzen des Blocks an die neue Stelle wird der Bereich rechts daneben
+ soweit nach rechts geschoben, bis genug Platz geschaffen ist, um den Block
+ einsetzen zu k&ouml;nnen. Das Sample wird also durch diese Aktion etwas l&auml;nger.
+ Falls der Samplespeicher nicht ausreicht, wird in den <A HREF="page0066.htm">Virtual-Mode</A> gewechselt.
+
+
+ 3) CUT/COPY
+
+ Der Block wird ausgeschnitten, und an die neuen Stelle kopiert.
+ Dabei wird nach dem Ausschneiden des Blocks der Rest rechts neben dem Block
+ nach links geschoben, um die L&uuml;cke durch das Ausschneiden zu schlie&szlig;en.
+ Beim Kopieren des Blocks an die neue Stelle, werden alte Samplewerte
+ &uuml;berschrieben.
+
+
+ 4) CLEAR/COPY
+
+ Der Block wird in einen Buffer kopiert, dann wird der alte <A HREF="page0045.htm">Blockbereich</A>
+ gel&ouml;scht und anschlie&szlig;end wird der Buffer an die neuen Stelle kopiert.
+ Es entsteht also an der alten Blockposition ein gel&ouml;schter Leerraum im
+ Sample. Beim Kopieren des Blocks an die neue Stelle, werden alte Samplewerte
+ &uuml;berschrieben. Wird das Sample durch die Kopieraktion gr&ouml;&szlig;er als der
+ vorhandene Samplespeicher, dann wird automatisch in den <A HREF="page0066.htm">Virtual-Mode</A>
+ gewechselt.
+
+
+ 5) Help
+
+ Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wenn sie nicht wissen wie
+ das funktioniert, schauen sie sich die Anleitung zu 1stGuide einmal genauer an.
+
+
+ 6) Exit
+
+ Hiermit wird der Move-Dialog geschlossen bzw. abgebrochen.
+ Es wird keine Move-Aktion ausgef&uuml;hrt.
+
+</PRE>
+
+<A HREF="#4.1.5">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

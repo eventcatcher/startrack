@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Hardware</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="2.1.3.4"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0022.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0024.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Hardware</H1></CENTER>
+
+<PRE>
+
+<H3> 2.1.3.4 Einbau in das Geh&auml;use</H3>
+ Ziehen sie das VME-Kabel durch den gew&uuml;nschten Laufwerksschacht nach drau&szlig;en.
+
+ Sollten sie im Besitz eines Hades, Medusa oder Milan-Rechners sein und feststellen, da&szlig;
+ ihr VME-Kabel zu kurz ist, so k&ouml;nnen sie von uns oder einem H&auml;ndler ihres Vertrauens
+ ein Verl&auml;ngerungskabel beziehen. Wir raten davon ab, ein eigenes Verl&auml;ngerungskabel zu
+ basteln. Man macht schnell einen Fehler, und kann dadurch seinen Rechner oder die
+ Startrack-Karte durch eine Unachtsamkeit zerst&ouml;ren. Au&szlig;erdem sind handgel&ouml;tete Kabel
+ nicht sehr stabil, die Kabel rei&szlig;en schnell ab, und die St&ouml;rfestigkeit gegen
+ hohe Frequenzen die an so einem Bus auftauchen, ist nicht gut. Eigene schlechte
+ Erfahrungen, unter anderem auf der Atari-Messe 1996 in Neuss, haben dies belegt.
+ Daher benutzen wir ein spezielles VME-Kabel, da&szlig; direkt mit den Steckern per
+ Messer-Schneidtechnik (Crimp oder IPC-Technik) verbunden wird.
+ Dieses Kabel ist sehr hochwertig und st&ouml;runanf&auml;llig - leider sind aber die Stecker und
+ Kabel sehr teuer. Es gibt aber keine Alternative dazu. Der TT ist ein Sonderfall, da er
+ eine relativ geringe Treiberleistung des VME-Bus besitzt. Daher sollte das Verbindungskabel
+ m&ouml;glichst kurz sein. Gleiches gilt nat&uuml;rlich auch f&uuml;r Hades und Milan -
+ Das Kabel sollte m&ouml;glichst kurz sein, die L&auml;nge ist hier aber etwas unkritischer.
+
+ Die Startrack-Karte sitzt in einem <A HREF="page0026.htm">Kunststoffschlitten</A>. An dessen Ende kann man die
+ 96polige VME-Buchse des Kabels festschrauben. Verschrauben sie nun die 96polige VME-Buchse
+ des VME-Kabels mit dem Kunststoffschlitten, und verbinden sie die VME-Buchse des anderen
+ Kabelendes, mit dem VME-Anschlu&szlig; auf dem Motherboard (bei Hades) bzw. der VME-Karte
+ (bei Milan). F&uuml;hren sie nun die Kabel (VME-Kabel, bei vorhandener DSP-Erweiterung
+ zus&auml;tzlich die ONCE- und DSP-Port-Kabel) in den Laufwerksschacht des PC-Geh&auml;uses,
+ und f&uuml;hren diese durch die hintere &Ouml;ffnung in das Geh&auml;useinnere.
+ Schieben sie nun den Einschub nach, und ziehen dabei gleichzeitig die Kabel weiter durch.
+ Bauen sie nun den 5 1/4-Zoll-Einschub in einen freien Laufwerkseinschub des PC-Geh&auml;uses
+ ein. Verschrauben sie den Einschub mit dem PC-Geh&auml;use, so wie sie es vom Laufwerkseinbau
+ kennen.
+
+ Nun m&uuml;ssen sie noch die Kabel f&uuml;r ONCE-Port und DSP-Port aus dem Rechnergeh&auml;use f&uuml;hren.
+ Daf&uuml;r gibt es mehrere M&ouml;glichkeiten:
+</PRE>
+
+<TABLE>
+<TR>
+<TD VALIGN=TOP>1.</TD>
+<TD VALIGN=TOP WIDTH=620>Sie k&ouml;nnen die Buchsen am Kabelende mit einem Slotblech (sogenannte Brackets, siehe Bild am 
+Ende des Kapitels) verschrauben, so wie man das von PC-Karten her kennt. Slotbleche hierf&uuml;r 
+k&ouml;nnen von uns bezogen werden. Wenden sie sich an ihren H&auml;ndler.</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>2.</TD>
+<TD VALIGN=TOP WIDTH=620>Die DSP-Port-Buchse am Ende des Kabels wird mit dem Frontblech des Einschubs verschraubt. 
+Hierf&uuml;r ist eine Festschraubm&ouml;glichkeit am Einschub vorgesehen. Entfernen sie die 
+eventuell vorhandene Steckerblende am Einschub und schrauben sie den DSP-Port-Stecker fest.
+Dies ist der k&uuml;rzeste Weg des DSP-Ports zur Au&szlig;enwelt.</TD>
+</TR>
+</TABLE>
+
+<PRE>
+ Der ONCE-Port-Anschlu&szlig; wird wie bei L&ouml;sung 1 beschrieben mit einem Slotblech verschraubt.
+ Das Kabel hierf&uuml;r sollte lang genug sein. Es kann aber auch problemlos verl&auml;ngert werden.
+ Das Kabel des DSP-Ports ist nicht beliebig verl&auml;ngerbar,die Maximall&auml;nge ist ungef&auml;hr 20cm,
+ da es ansonsten zu St&ouml;rungen (Knackser) bei den DSP-Port-Erweiterungen kommt. Das ist
+ verst&auml;ndlich wenn man bedenkt, welch hohe Frequenzen das Kabel bew&auml;ltigen mu&szlig; (&uuml;ber 6 MHz).
+ Dabei kommt es ab einer bestimmten L&auml;nge zwangsl&auml;ufig zu &Auml;nderungen in Timing und Flanken
+ der Signale, die eine sichere und st&ouml;rfreie &Uuml;bertragung unm&ouml;glich machen. Daher sollte
+ dieses Kabel m&ouml;glichst kurz sein. In einem Desktop-Geh&auml;use oder Minitower ist die
+ Entfernung zwischen Laufwerkseinschub und Slotblechen meistens kurz genug f&uuml;r L&ouml;sung 1.
+ Bei einem BigTower sieht es da schon anders aus. Dann f&uuml;hrt nur L&ouml;sung 2 zum Ziel.
+
+ Nun m&uuml;ssen sie als letztes noch den ONCE-Port mit dem PC verbinden,falls sie
+ ihn ben&ouml;tigen. Wenn nicht sind sie jetzt fertig mit dem Einbau - Gl&uuml;ckwunsch !
+
+ Sie m&uuml;ssen jetzt nur noch ihre Startrack-Karte mit einer HIFI-Anlage oder
+ Mischpult verbinden, und k&ouml;nnen dann gleich loslegen.
+ Wie das geht erfahren sie im Kapitel <A HREF="page0025.htm">"Verbindung zu Audioger&auml;ten"</A>.
+
+<IMG SRC="../images/p032.gif" width="247" height="207">
+<B>Slotbleche f&uuml;r PC-Geh&auml;use - Slotbleche f&uuml;r VME-Geh&auml;use</B>
+
+</PRE>
+
+<A HREF="#2.1.3.4">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

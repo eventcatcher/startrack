@@ -1,0 +1,237 @@
+Connection-Fenster
+
+
+Dieses Fenster ist prim„r fr die Auswahl und Kontrolle der digitalen und analogen Einü und Ausg„nge und der
+DSP-Einbindung zust„ndig.
+Aufgerufen wird das Connection-Fenster durch den Connection-Button im Edit-Fenster,durch Eingabe von CTRL-G,oder ber
+das optionale Programm-Men im Dropdown Fenster/Grundeinstellungen.
+
+
+1) Digital IN
+
+Dieser Bereich zeigt einige Codes der digitalen Eing„nge an.šber die
+digitalen Eing„nge werden n„mlich nicht nur die reinen Sounddaten
+bertragen,sondern auch zus„tzliche Steuer- und Fehlercodes.Angezeigt
+werden die Daten des Eingangs,der ber den Digital-Input-Selector (6)
+ausgew„hlt wurde
+
+
+SCMS          - gesetzt  = SCMS-Kopierschutz ist aktiviert
+Emphasis     - gesetzt  = Die H”hen wurden bei der Aufnahme stark angehoben
+                                     und sollten bei der Wiedergabe um den gleichen
+                                     Wert ged„mpft werden.
+Audio           - gel”scht = CD-ROM oder andere Daten
+                    - gesetzt  = Musikdaten
+Professional      - gel”scht = Consumer-Format (das bliche Standartformat von
+                                           CDs)
+                        - gesetzt  = Profi-Format (Studioformat)
+
+
+2) Samplerate
+
+Die Samplerate der am digitalen Eingang anliegenden Daten.Angezeigt wird
+dabei der Eingang,der ber den Digital-Input-Selector (6) ausgew„hlt wurde.
+
+
+32      - 32 kHz   (z.B. bei DSR-Digitalradio)
+44.1   - 44.1 kHz (z.B. bei CD)
+48      - 48 kHz   (z.B. bei DAT-Rekordern)
+
+
+3) Error
+
+Die digitalen Daten k”nnen (z.B. durch Dropouts) fehlerbehaftet sein,oder
+die Datenbertragung ist durch ein fehlerhaftes Kabel gest”rt.Um solche
+Fehler frhzeitig zu erkennen,sind die Errorcodes recht ntzlich.
+Angezeigt wird dabei der Eingang,der ber den Digital-Input-Selector (6)
+ausgew„hlt wurde.
+
+
+No validity    - Daten ungltig (z.B. bei CD-Player-Stop)
+Transmission - šbertragungsfehler (z.B. Wackelkontakt im Kabel)
+Parity            - Prfsummen-Fehler (unsaubere Datenbertragung)
+Bi-Phase        - Tr„germodulation instabil (z.B. Wackelkontakt im Kabel)
+PLL-unlock   - Phasenmodulation gest”rt (Verbindungskabel fehlt oder
+                        unterbrochen)
+
+
+4) Input
+
+Der Eingang kann hier ber einen Rollbalken ausgew„hlt werden.
+
+
+Digital - Wahl des digitalen Eingangs.Hierbei werden bei Aufnahme die
+              digitalen Sounddaten direkt ber die Digitalschnittstellen(Coax,
+              SP/DIF,AES/EBU) berspielt.Eine Aussteuerung ist bei Aufnahme
+              nicht n”tig,da die Daten unver„ndert bernommen werden.Der
+              Volume- und Balance-Regler des Peakmeters ist dabei ohne Funktion.
+Analog  - Wahl des analogen Eingangs. Hierbei kommen die Daten in Form von
+                analogen Schwingungen ber den Eingangsverst„rker zum                                   A/D-Wandler,der
+die Schwingungen in digitale Datensignale                                 umwandelt.
+5) Samplerate
+
+Hier wird die Samplerate des analogen Eingangs ber einen Rollbalken
+ausgew„hlt.Bei Wiedergabe von Soundfiles wird mit der hier ausgew„hlten
+Samplerate abgespielt,sofern das Samplefile keinen anderen Wert vorgibt.
+Diese Samplerate l„át sich zus„tzlich auch im Editor-Fenster einstellen.
+Der Digitalausgang wird hiermit auch beeinfluát,so daá man die Aufnahmen
+z.B. zurck auf DAT-Band berspielen kann.Dabei muá man allerdings darauf
+achten,daá der DAT-Rekorder nur etwas mit den Sampleraten 32.0,44.1 und
+48.0 kHz anfangen kann.Ist im Setup-Dialog digital-in clock:Synchronize
+ausgew„hlt,so wird der analoge Eingang mit dem digitalen synchronisiert
+d.h. die Samplerate des digitalen Eingangs wirkt auf den analogen Eingang
+und es wird mit der Samplerate des digitalen Eingangs aufgenommen.Das ist
+sinnvoll um exakt gleiche Sampleraten zu gew„hrleisten.šber den externen
+Takteingang (ICLK auf der Platine und EXTCLK am DSPüPort) kann ein externer Takt eingespeist werden,der dann auf eine
+brauchbare Samplerate heruntergeteilt wird.Damit sind dann auch andere Sampleraten m”glich.Die Aufnahme wird mit der
+hier eingestellten Samplerate durchgefhrt,wenn der Analogeingang gew„hlt wurde,und die Synchronize-Option im
+Setup-Dialog abgeschaltet ist.Ansonsten wird die Samplerate des digitalen Eingangs benutzt.
+
+
+DSR 32.0 - 32.0 kHz (z.B. bei DSR-Digitalradio)
+CD 44.1   - 44.1 kHz (z.B. bei CD)
+DAT 48.0 - 48.0 kHz (z.B. bei DAT-Rekordern)
+
+HI 88.2    - 88.2 kHz (z.B. bei DAT mit Highsampling)
+
+HI 96.0    - 96.0 kHz (z.B. bei DVD,DAT mit Highsampling)
+8.0           - 8.0 kHz (32/4)
+11.0          - 11.025 kHz (44.1/4)
+12.0         - 12 kHz (48/4)
+16.0         - 16.0 kHz (32/2)
+16.5         - 16.5 kHz (16.9344MHz/256/4)
+22.1         - 22.05 kHz (44.1/2)
+24           - 24 kHz (48/2)
+33.1         - 33.1 kHz (16.9344MHz/256/2)
+EXT/768 - Externer Takt geteilt durch 768
+EXT/512  - Externer Takt geteilt durch 512
+EXT/384 - Externer Takt geteilt durch 384
+EXT/256 - Externer Takt geteilt durch 256
+
+DIV xyz  - Externer Takt geteilt durch Faktor 1ü15
+
+	                  (FalconüTaktraten bei 25.175MHzüMasterclock m”glich)
+
+
+6) Digital
+
+Hier wird der digitale Eingang ber einen Rollbalken ausgew„hlt.Es stehen
+3 digitale Quellen zur Verfgung,wobei der AES/EBU-Eingang in der
+Standardversion der Audiokarte nicht verfgbar ist.Dieser kann aber mit
+einer Zusatzkarte nachgerstet werden.Auf dieser XLR-Karte sind auáerdem
+ein digitaler AES/EBU-Ausgang und analoge XLR-Anschlsse (Ein- und Ausgang) vorhanden.
+
+
+Optical      - Optischer TOSLINK SP/DIF-Eingang
+Coaxial     - Digitaler SP/DIF-Cinch-Eingang
+AES/EBU - Professioneller XLR-Eingang nach AES/EBU-Norm
+
+
+7) Mode
+
+Hier kann ber einen Rollbalken die digitale šbertragungsnorm gew„hlt
+werden.
+
+
+Consumer  - Standardnorm fr CD-Player, DSR-Tuner & DAT-Rekorder fr  
+
+                     den Massenmarkt
+Profi           - Studionorm fr professionelle DAT-Rekorder (z.B. Tascam) und
+                     andere Digitalquellen
+
+
+8) SCMS-Copy
+
+Bei Digitalquellen fr den Massenmarkt wurde eine Kopiersperre eingefhrt,
+damit keine unbegrenzten Kopien von digitalem Musikmaterial m”glich sind.
+Dieses System wurde von der Musikindustrie zur Bedingung bei der Einfhrung
+des DAT-Rekorders gemacht,da man Angst vor Raubkopien hatte.
+
+Aus heutiger Sicht eigentlich Bl”dsinn,da es mittlerweile auch Profi-DAT- Rekorder gibt, die diese Kopiersperre
+(SCMS-Serial-Copy-Management-System) nicht aufweisen.Diese Kopiersperre l„át sich mit der Soundkarte umgehen.
+
+Die Einstellung der Kopiersperre ber diesen Rollbalken wirkt aber nicht nur bei der Aufnahme,sondern auch bei der
+Wiedergabe d.h beim Zurckspielen auf DAT.Dabei kann die Kopiersperre auch wieder gesetzt werden,um Eigenaufü nahmen vor
+ungewollten Kopieraktionen nach der šberspielung schtzen zu k”nnen.Dieser integrierte Kopierschutz-Decoder/Encoder
+sollte theoretisch auch bei der Profi-Norm AES/EBU funktionieren,mangels solcher Ger„te konnte ich das allerdings bisher
+noch nicht testen.Die Soundkarten-Hardware ist allerdings rekonfigurierbar,so daá man ohne Schaltungs„nderung eine
+fehlerhafte Funktion beheben kann.Man kann die Soundkarte auch als reinen Kopierschutzü dekoder verwenden,da die
+digitalen Eingangsdaten direkt zum Digitalausgang geleitet werden,wenn kein Soundfile wiedergegeben wird.Dafr muá
+allerdings bei Input (4) der Digitaleingang gew„hlt sein,und der Bypass (10) ausgeschaltet sein.
+
+
+No Copy    - Kein Kopieren m”glich
+One Copy  - Eine Kopie erlaubt
+Free Copy  - Unbegrenztes Kopieren erlaubt
+
+
+9) Deemphasis
+
+Einige,vor allem „ltere CD-Aufnahmen und viele Klassik-Aufnahmen,wurden
+und werden mit Emphasis aufgenommen,um den Rauschpegel bzw.
+Fremdspannungsabstand zu erh”hen,und damit eine h”here Aussteuerung zu
+erm”glichen.Dabei werden bei der Aufnahme die H”hen stark angehoben.
+
+Bei der Wiedergabe werden dann die H”hen mit einer Deemphasis-Schaltung um den gleichen Betrag wieder abgesenkt.Um
+solche CDs korrekt abspielen zu k”nnen,haben CD-Player eine solche Schaltung integriert.Damit man auch diese CDs korrekt
+ber die Audiokarte wiedergeben kann,ist eine solche Schaltung
+auch auf der Soundkarte vorhanden.Denn bei der Aufnahme ber den digitalen
+Eingang werden die Sounddaten direkt bertragen d.h. die angehobenen H”hen
+werden unver„ndert bernommen.Die Aufnahme wird lediglich im SP/DIF bzw. AES/EBU-Code gekennzeichnet (siehe
+Emphasis,1).Damit man solche
+Sampledaten korrekt per Digital- oder Analogausgang berspielen kann,gibt es die M”glichkeit,die Deemphasis-Schaltung
+ber den Rollbalken ein- bzw. auszuschalten.Dabei wirkt beim Analogausgang eine Deemphasis-Schaltung und beim
+Digitalausgang werden die Daten entsprechend gekennzeichnet (Emphasis-Bit im Code).
+
+
+Off - keine Deemphasis-Entzerrung
+On  - Deemphasis-Entzerrung eingeschaltet
+
+
+10) Bypass Digital In->Out
+
+Mit diesem Schalter kann man s„mtliche Ver„nderungen am digitalen
+Datensignal unwirksam machen,d.h. die digitalen Daten wandern unver„ndert
+vom Digitaleingang zum Digitalausgang und s„mtliche Einstellungen
+(Deemphasis,SCMS,Mode) bleiben unwirksam.
+
+
+11) Get Startmarkers/24Bit
+
+
+
+Im 24BitüModus k”nnen bei Aufnahmen die Startmarken von DATüRecordern
+
+als Marker bernommen werden.Die Hardware ist in der Lage,das Digitalsignal dementsprechend auszuwerten.Dadurch k”nnen
+also auch Startmarken erkannt werden,zwischen denen keine Pause besteht (z.B. bei MegamixüCDs).
+
+
+
+12) Switch DSP
+
+Mit diesem Rollbalken kann man den Wirkungsbereich des DSP (Digitaler
+Signalprozessor) beeinflussen.Die Einstellung hat natrlich nur bei vorhandener DSP-Karte einen Sinn,und sollte
+ansonsten auf Off stehen.
+
+
+Off       - DSP aus.Der DSP liefert keine Daten
+Input     - Der DSP wird in den Aufnahme-Signalkreis integriert. Dabei
+               wirkt der DSP schon bei der Aufnahme,und hat bei der Wiedergabe
+               keine Wirkung.
+Output  - Der DSP wird in den Wiedergabe-Signalkreis integriert.Dabei
+               wirkt der DSP erst bei der Wiedergabe,und nicht schon bei der
+               Aufnahme.
+
+
+13) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+14) Exit
+
+Hiermit wird das Connection-Fenster geschlossen. Alle Einstellungen
+bleiben bis zum n„chsten Aufruf unver„ndert.Man kann jedoch mehrere
+Fenster gleichzeitig ge”ffnet lassen,und hat so immer den direkten Zugriff
+auf die Funktionen.

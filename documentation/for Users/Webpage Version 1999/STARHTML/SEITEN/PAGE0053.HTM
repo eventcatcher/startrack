@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.1.12"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0052.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0054.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.1.12 Der Extclock-Dialog f&uuml;r externe Taktquellen</H3>
+<IMG SRC="../images/p104.gif" WIDTH="304" HEIGHT="340">
+
+ Wenn man im Sampleraten-Pulldown mit gedr&uuml;ckter CTRL-Taste auf den
+ DIV-Eintrag (letzter Eintrag im Pulldown) klickt, kann man weitere externe
+ Taktraten ausw&auml;hlen, sofern man am DSP-Port ein zus&auml;tzliches Clockmodul
+ angeschlossen hat.
+ Die Grundfrequenz des Clockmoduls mu&szlig; im <A HREF="page0081.htm">Workmode-Fenster</A> korrekt eingestellt
+ sein, da sonst die im Taktauswahl-Dialog angezeigten Sampleraten nicht mit den
+ tats&auml;chlich von der Hardware erzeugten Taktraten &uuml;bereinstimmen.
+ Der zus&auml;tzliche Frequenzteiler f&uuml;r externe Taktraten ist kompatibel mit dem
+ Clockteiler im Falcon, so da&szlig; hiermit alle Original-Sampleraten des Falcon
+ erzeugt werden k&ouml;nnen, wenn ein Clockmodul mit 25.175 MHz-Quarzoszillator am
+ DSP-Port angeschlossen ist. Man kann nat&uuml;rlich auch andere Sampleraten erzeugen.
+ Man braucht daf&uuml;r lediglich ein Clockmodul, da&szlig; die passenden Sampleraten
+ erzeugen kann. Im Extclock-Dialog kann man den Frequenzteiler (1-15) bzw. die
+ damit erzeugte Samplerate ausw&auml;hlen.
+ 
+ Die gr&ouml;&szlig;te Flexibilit&auml;t erreicht man allerdings nur mit dem neuen Roboclock-
+ Modul von uns, da dieses als einziges auf dem Falcon-Markt einen
+ Frequenzsythesizer besitzt, der jede beliebige Samplerate von 0-100kHz
+ erzeugen kann. Dann kann man die Samplerate im <A HREF="page0081.htm">Workmode-Fenster</A> direkt
+ eingeben bzw. erzeugen lassen, die Auswahl im Taktauswahl-Dialog ist dann
+ nicht notwendig.
+ Der Taktauswahl-Dialog ist lediglich f&uuml;r normale Clockmodule mit Festquarz
+ vorgesehen, kann aber prinzipiell auch mit Roboclock benutzt werden.
+
+
+ 1) Grundfrequenz
+
+ Hier wird die Grundfrequenz angezeigt, mit der das externe Clockmodul
+ arbeitet. Die Grundfrequenz kann im <A HREF="page0081.htm">Workmode-Fenster</A> angegeben werden.
+
+
+ 2) Auswahl der Samplerate
+
+ Hier wird die ausgew&auml;hlte Samplerate bzw. der Taktteiler angezeigt.
+ Mit dem Slider(3) kann man die passende Samplerate w&auml;hlen.
+
+
+ 3) Sampleraten-Slider
+
+ Mit dem Slider kann eine der m&ouml;glichen Sampleraten ausgew&auml;hlt werden,
+ die dann in der Sampleraten-Auswahl im markierten Feld(2) angezeigt wird.
+
+
+ 4) Help
+
+ Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wenn sie nicht wissen wie
+ das funktioniert, schauen sie sich die Anleitung zu 1stGuide einmal genauer an.
+
+
+ 5) Exit
+
+ Hiermit wird der Taktauswahl-Dialog geschlossen. Die Samplefrequenz-Auswahl
+ wird nicht beachtet und ist ung&uuml;ltig. Die alte Auswahl bleibt erhalten.
+
+
+ 6) OK
+
+ Hiermit wird der Taktauswahl-Dialog geschlossen.
+ Die Samplefrequenz-Auswahl ist g&uuml;ltig und wird gesetzt.
+ Diese steht nun zus&auml;tzlich zu den Standard-Sampleraten im 
+ Sampleraten-Pulldown (Eintrag DIV xyz) zur Auswahl.
+
+</PRE>
+
+<A HREF="#4.1.12">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

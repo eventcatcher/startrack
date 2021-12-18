@@ -1,0 +1,42 @@
+4.1.7 MarkernummerüEingabe
+
+
+
+Im MarkernummerüDialog kann man den Markereintrag direkt anw„hlen.
+
+Der Dialog erscheint,wenn man auf das MarkernummerüFeld(9) klickt.
+
+Man kann die Markernummer ebenfalls mit dem Slider(10) im Markerbereich
+
+des Editors ausw„hlen.Der Direktzugriff ist jedoch meistens schneller,wenn man
+
+die Nummer des gewnschten Markereintrags bereits kennt.
+
+
+
+1) Edit Marker
+
+
+
+Hier kann man die Markernummer direkt eingeben.
+
+
+
+2) Help
+
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+3) Exit
+
+Hiermit wird der Dialog geschlossen.Die eingegebene Markernummer wird
+nicht beachtet.Der alte Markereintrag bleibt aktiv.
+
+
+4) OK
+
+Hiermit wird der Dialog geschlossen und die Marker des ausgew„hlten
+
+Eintrags werden aktiviert bzw. k”nnen editiert werden. 

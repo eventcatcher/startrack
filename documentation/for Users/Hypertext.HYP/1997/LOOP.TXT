@@ -1,0 +1,39 @@
+Loop-Fenster
+
+
+Dieses Fenster ist fr die Loopfunktionen des Edit-Fensters zust„ndig.
+Man kann hier bestimmen in welcher Richtung das Sample abgespielt werden
+soll. Das abspielen startet aber erst durch Druck auf die Taste İPLAYİESOUND.TXTİ im
+Edit-Fenster. Ist der Blockbutton im İLimit-BereichİLIMIT.TXTİ aktiviert, und Marker-S
+und Marker-E definiert, so wird nur der markierte Bereich abgespielt.
+Ist der Loop-Button im İLimit-BereichİLIMIT.TXTİ aktiviert, wird das Sample solange
+wiederholt, bis man die İSTOPİESOUND.TXTİ-Taste drckt.  Zur besseren Verst„ndnis sollte
+man das İBILDİLOOP.IMGİ des Loop-Fensters zu Rate ziehen. Aufgerufen wird
+das Loop-Fenster durch den İLoop-ButtonİEBUTTONS.TXTİ im Edit-Fenster, oder durch Eingabe
+von CTRL-O, oder ber das optionale Dropdown-Men unter Fenster/Loops.
+
+
+1) Forward
+----------
+Das Sample wird vorw„rts abgespielt (standartm„ig).
+
+2) Cross
+--------
+Das Sample wird vorw„rts, und dann rckw„rts abgespielt.
+
+3) Backward
+-----------
+Das Sample wird rckw„rts abgespielt.
+
+4) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+5) Exit
+-------
+Hiermit wird das Loop-Fenster geschlossen. Alle Einstellungen bleiben bis
+zum n„chsten Aufruf unver„ndert. Man kann jedoch mehrere Fenster
+gleichzeitig ge”ffnet lassen und hat so immer den direkten Zugriff auf die
+Funktionen.

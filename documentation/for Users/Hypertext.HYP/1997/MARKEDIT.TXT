@@ -1,0 +1,45 @@
+Recordtime-Dialog
+
+Dieser Dialog ist fr die Eingabe der Aufnahmedauer zust„ndig.
+Immer wenn man eine Harddisk-Aufnahme beginnt erscheint dieser Dialog,
+nachdem man im Fileselector den Namen der Aufnahmedatei eingegeben, und im
+İInformation-DialogİSMPINF.TXTİ den Aufnahmekommentar eingegeben hat.
+In diesem Dialog bestimmt man die maximale Aufnahmedauer. Damit wird die
+Aufnahme auf die angegebene Zeit begrenzt und danach automatisch beendet.
+Man kann die Aufnahme aber trotzdem jederzeit mit dem İSTOP-ButtonİESOUND.TXTİ beenden.
+Die Aufnahme bis zu diesem Zeitpunkt wird dann auf Festplatte abgespeichert.
+Zur besseren Verst„ndnis sollte man das İBILDİRECORD.IMGİ des
+Recordtime-Dialogs zu Rate ziehen.
+
+
+1) Free Time
+------------
+Anzeige der maximal m”glichen Aufnahmezeit. Diese wird durch den freien
+Platz auf der benutzten Festplattenpartition bestimmt.
+
+2) Zeiteingabe
+--------------
+Hier stellt man die Aufnahmezeit ein. Die Zeitangabe ist in
+Stunden,Minuten,Sekunden und Hundertstel-Sekunden unterteilt, wobei jede
+Position direkt mit einem Pfeilbutton ver„ndert werden kann. Dabei sind die
+Doppelpfeil-Buttons fr die Zehnerpositionen und die Einpfeil-Buttons fr
+die Einerpositionen zust„ndig. Man kann im Edit-Feld aber auch direkte
+Eingaben machen. Fr kleinere Korrekturen sind die Pfeilbuttons aber recht
+praktisch.
+
+3) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+4) Exit
+-------
+Hiermit wird der Recordtime-Dialog geschlossen. Die Zeiteingabe wird nicht
+beachtet und ist ungltig.
+Die Aufnahme wird abgebrochen bzw. garnicht erst begonnen.
+
+5) OK
+-----
+Hiermit wird der Recordtime-Dialog geschlossen. Die Recordtime-Zeiteingabe
+ist gltig und der Harddisk-Sampler geht in Aufnahmebereitschaft.

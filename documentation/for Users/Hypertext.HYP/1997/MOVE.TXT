@@ -1,0 +1,84 @@
+Move-Dialog
+
+
+Dieser Dialog ist fÅr die Auswahl der Kopierart bei ›Move-Aktionen›FUNKTION.TXT› im Editor
+zustÑndig, und erscheint vor jeder Move-Aktion im Editor-Fenster um zwischen
+verschiedenen Arten der Move-Behandlung wÑhlen zu kînnen.
+Es gibt mehrere Mîglichkeiten eine Move-Aktion auszufÅhren.
+1. Man selektiert MOVE im Function-Dropdown im Edit-Fenster und draggt den
+   markierten Block an die neue Position
+2. Man selektiert MOVE im Function-Dropdown im Edit-Fenster und drÅckt dabei
+   eine links- oder rechts-Taste im ›Blockbereich›FUNKTION.TXT› des Edit-Fenster. Dabei ist
+   die neue Position dann links bzw. rechts neben dem alten Block.
+   Dabei bedeutet: einfach-Pfeiltaste  = verschiebung um ein drittel der
+                                         BlocklÑnge nach links bzw. rechts
+                   zweifach-Pfeiltaste = verschiebung um zwei drittel der
+                                         BlocklÑnge nach links bzw. rechts
+                   dreifach-Pfeiltaste = verschiebung um eine BlocklÑnge
+                                         nach links bzw. rechts
+- CUT bezeichnet dabei ein ausschneiden des markierten Blocks. Der Block
+  wird dabei in den Move-Buffer kopiert.
+- CLEAR bezeichnet dabei ein lîschen des markierten Blocks. Der Block wird
+  aber vorher in den Move-Buffer kopiert.
+  Es entsteht dabei ein Leerraum an dieser Stelle.
+- INS (Insert) bezeichnet dabei ein einfÅgen des Move-Buffer-Inhalts an die
+  neue Position. Der Bereich rechts daneben wird soweit nach rechts
+  geschoben, bis genug Platz geschaffen ist, um den Block einsetzen
+  zu kînnen.
+- COPY bezeichnet dabei ein kopieren des Move-Buffer-Inhalts an die neue
+  Position. Die ursprÅnglich an dieser Stelle vorhandenen Samplewerte
+  werden dabei durch die neuen Åberschrieben.
+Wird ein Sample durch diese Aktionen grîûer als der vorhandene
+Samplespeicher, dann wird in den ›Virtual-Mode›VIRTUAL.TXT› gewechselt.
+Zur besseren VerstÑndnis sollte man das ›BILD›MOVE.IMG› zu Rate ziehen.
+
+
+1) CUT/INS
+----------
+Der Block wird ausgeschnitten, und an der neuen Stelle wieder eingesetzt.
+Dabei wird nach dem ausschneiden des Blocks der Rest rechts neben dem Block
+nach links geschoben, um die LÅcke durch das ausschneiden zu schlieûen.
+Beim einsetzen des Blocks an die neue Stelle wird der Bereich rechts daneben
+soweit nach rechts geschoben, bis genug Platz geschaffen ist, um den Block
+einsetzen zu kînnen. Das Sample behÑlt also durch diese Aktion die gleiche
+LÑnge.
+
+2) CLEAR/INS
+------------
+Der Block wird in einen Buffer kopiert, und an der neuen Stelle wieder
+eingesetzt. Danach wird der alte Blockbereich gelîscht. Es entsteht also an
+der alten Blockposition ein gelîschter Leerraum im Sample.
+Beim einsetzen des Blocks an die neue Stelle wird der Bereich rechts daneben
+soweit nach rechts geschoben, bis genug Platz geschaffen ist, um den Block
+einsetzen zu kînnen. Das Sample wird also durch diese Aktion etwas lÑnger.
+Falls der Samplespeicher nicht ausreicht, wird in den ›Virtual-Mode›VIRTUAL.TXT›
+gewechselt.
+
+3) CUT/COPY
+-----------
+Der Block wird ausgeschnitten, und an die neuen Stelle kopiert.
+Dabei wird nach dem ausschneiden des Blocks der Rest rechts neben dem Block
+nach links geschoben, um die LÅcke durch das ausschneiden zu schlieûen.
+Beim kopieren des Blocks an die neue Stelle werden alte Samplewerte
+Åberschrieben.
+
+4) CLEAR/COPY
+-------------
+Der Block wird in einen Buffer kopiert, dann wird der alte Blockbereich
+gelîscht und anschlieûend wird  der Buffer an die neuen Stelle kopiert.
+Es entsteht also an der alten Blockposition ein gelîschter Leerraum im
+Sample. Beim kopieren des Blocks an die neue Stelle werden alte Samplewerte
+Åberschrieben. Wird das Sample durch die Kopieraktion grîûer als der
+vorhandene Samplespeicher, dann wird automatisch in den ›Virtual-Mode›VIRTUAL.TXT›
+gewechselt.
+
+5) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+                                                                             
+6) EXIT
+-------
+Hiermit wird der Move-Dialog geschlossen bzw. abgebrochen.
+Es wird keine Move-Aktion ausgefÅhrt.

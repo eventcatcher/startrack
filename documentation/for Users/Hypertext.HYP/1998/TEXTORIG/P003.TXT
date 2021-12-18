@@ -1,0 +1,467 @@
+Inhaltsverzeichnis
+
+
+
+1	   Installation                                                	             
+
+
+
+1.1		Installation von 1stGuide    				  																			                                             		11
+
+1.2		Installation der AudioüSuite  														                                                   12
+
+	
+
+2	   Hardware											                                
+
+
+
+2.1		HardwareüInstallation 					  		                                                         21
+
+2.1.1	  	Komplettversion im IPCüGeh„use					                                           21
+
+2.1.1.1	Nachtr„glicher Einbau der DSPüErweiterung			  		                      21
+
+2.1.1.2 	DSPüErweiterung einbauen					                                                     22
+
+2.1.1.3	DSPüPortüKabel anschlieáen				                                                   23
+
+2.1.1.4	ONCEüPortüKabel anschlieáen			                                                23
+
+2.1.1.5	Einbau in das Geh„use								                                                            23
+
+2.1.1.6	Anmerkungen								                                                            24
+
+2.1.1.7	Einbau der JamüOut Erweiterung im IPCüGeh„use			                 24
+
+2.1.1.8	Einbau der 4Slot VMEüBusüErweiterung im IPCüGeh„use	       25
+
+2.1.2		VMEüVersion						                                                            26
+
+2.1.2.1	DSPüErweiterung einbauen		                                                      26
+
+2.1.2.2	DSPüPortüKabel anschlieáen			                                                     27
+
+2.1.2.3	ONCEüPortüKabel anschlieáen	                                                 27
+
+2.1.2.4	Einbau in das Geh„use		                                                            27
+
+2.1.3  	5 1/4üZoll Einschub							                                                            29
+
+2.1.3.1	DSPüErweiterung einbauen		                                                      29
+
+2.1.3.2	DSPüPortüKabel anschlieáen	                                                    30
+
+2.1.3.3	ONCEüPortüKabel anschlieáen	                                                 30
+
+2.1.3.4	Einbau in das Geh„use	                                                            30
+
+2.1.4		ONCEüPort mit dem PC verbinden	                                          33
+
+2.1.5		Verbindung von Audioger„ten	                                                 34
+
+2.1.6		Zeichnungen fr Einbau	                                             		          35
+
+
+
+2.2		HardwareüTechnik					                                                            37
+
+2.2.1		Technische Daten						                                                            37
+
+2.2.1.1	Strombedarf						                                                            37
+
+2.2.1.2	Anzahl der Kan„le					                                                            37
+
+2.2.1.3	Belegung des DSPüPorts			                                                          38
+
+2.2.1.4	StartracküElektronik				                                                            38
+
+2.2.1.5	DSPüElektronik					                                                            39
+
+2.2.1.6	Audiodaten					                                                           	39
+
+2.2.2	Jumper und Anschlsse				                                                          41
+
+     		Anschluáü und Jumperplan der StartracküPlatine                     47
+
+     		Anschluáü und Jumperplan der DSP56002üPlatine                   48
+
+     		Meáergebnisse A/DüWandler                                                   49
+
+     		Meáergebnisse D/AüWandler                                                    50
+
+     		Meáergebnisse VolumeüController                                           51
+
+
+
+2.3		Features							                                                            52
+
+2.3.1		StartracküHardware					                                                            52
+
+2.3.2		DSPüKarte						                                                            53
+
+2.3.3		XLRüKarte			                                                             54
+
+2.3.4	Komplettsystem ü Unser RundumüSorglosüPaket	                      54
+
+
+
+3	  Einfhrung			                                
+
+
+
+3.1		Die erste Aufnahme				                                                            59
+
+
+
+3.2		Das erste HDüRecording (Aufnahme auf Festplatte)	                 62
+
+
+
+3.3		Einfhrung in die Arbeit mit Markern & Blockfunktionen	     65
+
+
+
+3.4		Einfhrung in die Arbeit mit mehreren Spuren	                       68
+
+
+
+4	  Referenz 			                                
+
+
+
+4.1		Editor                         		                                                           	 75
+
+4.1.1		EditorüFenster		                                                              75
+
+4.1.2		SampleüWindow		                                                            78
+
+4.1.3	   	Scrolljump 			                                                             80
+
+4.1.4		Setbereich					                                                             82
+
+4.1.5		Move		                                                             88
+
+4.1.6		Markerbereich		 	                                                           91
+
+4.1.7		MarkernummerüEingabe			                                                          95
+
+4.1.8		SamplewertüEingabe	                                                             96
+
+4.1.9		SampletimeüEingabe            	                                                   98
+
+4.1.10	Markerkommentar           	                                                       100
+
+4.1.11	Steuerungsbereich                	                                                    101
+
+4.1.12	ExtclocküDialog fr externe Taktquellen	                                 104
+
+4.1.13	Informationsbereich                            	                                   106
+
+4.1.14	Backup  			                                                           108
+
+4.1.15	Sampleinformation             	                                                   110
+
+4.1.16	LimitsüBereich                             	                                           112
+
+4.1.17	ButtonüToolbar 			                                                           114
+
+
+
+4.2		Info			                                                           120
+
+
+
+4.3		Setup		                                                           122
+
+
+
+4.4		Connection		                                                           128
+
+
+
+4.5		Record		                                                           134
+
+
+
+4.6		Loop/Midi		                                                           140
+
+4.6.1		LoopüFenster		                                                           140
+
+4.6.2	Midicontrol		                                                           142
+
+
+
+4.7		Filefunktionen				                                                           144 
+
+4.7.1		Load 				                                                           144
+
+4.7.2	VirtualüMode					                                                           146
+
+4.7.3		Save				                                                            149
+
+4.7.4	FileüUtilitys       	                                                                150
+
+4.7.5	AudioüFileselector	                                                                152
+
+4.7.6	Musicbox				                                                           156
+
+4.7.7	Partitionmode			                                                           159
+
+
+
+4.8		Fade			                                                           162
+
+
+
+4.9		DSPüPlugins		                                                           166
+
+4.9.1		DSPüFenster				                                                           166
+
+4.9.2	DSP PluginüFenster			                                                            168
+
+
+
+4.10		CPUüPlugins			                                                            170
+
+4.10.1	CPU EffektüFenster			                                                            170
+
+4.10.2	PluginüKonfiguration				                                                            172
+
+
+
+4.11		Blockfunktionen		                                                           174
+
+4.11.1	BlockfunktionenüFenster	                                                         174
+
+4.11.2	Space		                                                           177
+
+4.11.3	Optimize		                                                           179
+
+4.11.4 	Resample		                                                           183
+
+
+
+4.12		Workmode			                                                           186
+
+
+
+4.13		MidiüSampleplayer		          		                                                192
+
+4.13.1	MidiüSampleplayerüFenster                                                      192
+
+4.13.2	ParameterüFeld			                                                           195
+
+4.13.3	SamplenameüEingabe     	                                                         198
+
+4.13.4	Steuerungsfeld		                                                           199
+
+4.13.5	ButtonüToolbar		         	                                                 202
+
+
+
+4.14		Tracker		                                                           204
+
+4.14.1	TrackerüFenster		                                                           204
+
+4.14.2	Spurfeld		                                                           208
+
+4.14.3	TracknameüEingabe		                                                           213
+
+4.14.4	Zoomü und ScrollüSlider	                                                          214
+
+4.14.5	Timejump				                                                           215
+
+4.14.6	Markerfeld		                                                           217
+
+4.14.7	PlaystartüTime	                                                               220
+
+4.14.8	PlayendüTime		                                                           222
+
+4.14.9	SMPTEüTimecode		                                                           224
+
+4.14.10	Steuerungsfeld		                                                           226
+
+4.14.11	Funktionsfeld		                                                           228
+
+4.14.12	MarkerüImport		                                                           230
+
+4.14.13	Aussteuerungsfeld		                                                           233
+
+4.14.14	ButtonüToolbar		                                                           234
+
+4.14.15	Trackfinder 	                                                                238
+
+4.14.16	KommentarüEingabe	                                                           240
+
+
+
+4.15		Cuelist			                                                           242
+
+4.15.1	CuelistüFenster					                                                           242
+
+4.15.2	Funktionsfeld		                                                           247
+
+4.15.3 	TimeüOffset	                			                                               249
+
+4.15.4	Link			                                                           251
+
+
+
+4.16		Menleiste	                                                                252
+
+4.16.1	Das AccessorieüMen	                                                           252
+
+4.16.2	Das DateiüMen		                                                           252
+
+4.16.3	Das FensterüMen		                                                           253
+
+4.16.4	Das Funktionsmen		                                                           254
+
+4.16.5	Das PluginüMen				                                                           255
+
+
+
+5	  Anhang			                                
+
+
+
+5.1		Shortcuts		                                                           258
+
+5.1.1		Fenster allgemein		                                                           258
+
+5.1.2		Editor					                                                           258
+
+5.1.3		Dialoge mit Pfeiltasten links/rechts			                                        259
+
+5.1.4		Dialoge mit Pfeiltasten hoch/runter		                                        260
+
+5.1.5		Dialoge mit vertikalen Slidern		                                                260
+
+5.1.6		Dialoge mit horizontalen Slidern			                                            260
+
+5.1.7		Dialoge mit Laufwerksfunktionen		                                          260
+
+5.1.8		Tracker						                                                           260
+
+5.1.9		MidiüSampleplayer			                                                           262
+
+5.1.10	Peakmeter						                                                           263
+
+5.1.11	Blockfunktionen					                                                           263
+
+5.1.12	Resample				                                                           263
+
+5.1.13	Workmode					                                                           264
+
+5.1.14	Midicontrol																																									                                                          
+264
+
+5.1.15	FileüUtilitys			                                                           264
+
+5.1.16	AudioüFileselector/Musicbox/Tracksearch			                              264
+
+5.1.17	Cuelist					                                                           264
+
+5.1.18	Plugin					                                                           265
+
+5.1.19	Load/Save			                                                           265
+
+5.1.20	External Clock			                                                           265
+
+5.1.21	Setup			                                                           266
+
+5.1.22	Time					                                                           266
+
+
+
+5.2		Dateiformate	                                                               267
+
+5.2.1		Setup			                                                           267
+
+5.2.2	Partitions				                                                           268
+
+5.2.3		AudioüFileselector			                                                           269
+
+5.2.4	PluginüConfig				                                                           269
+
+5.2.5		Musicbox				                                                           269
+
+5.2.6		Sampleinfo				                                                           270
+
+5.2.7		MidiüSampleplayer				                                                           271
+
+5.2.8		Cuelist				                                                           272
+
+5.2.9		Tracker				                                                           273
+
+5.2.10	Startup				                                                           275
+
+
+
+6	  Erste Hilfe			                                
+
+
+
+6.1		Fragen und Antworten		                                                           279
+
+
+
+6.2		Distributoren und Vertriebe	                                                   284
+
+
+
+7      	Geschichte 						                       
+
+
+
+7.1		Wie alles begann 						                                                            289
+
+7.2		Wie es weitergeht					                                                            291
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

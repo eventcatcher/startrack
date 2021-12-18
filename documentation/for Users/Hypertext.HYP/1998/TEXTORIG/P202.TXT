@@ -1,0 +1,46 @@
+4.13.5 Button-Toolbar
+
+
+Hierber erreicht man die wichtigsten Hauptfunktionen.
+
+
+1) Arztkoffer
+
+Dieses Symbol hat bisher noch keinerlei Funktion.
+
+
+2) Midi-Player
+
+Hiermit geht der Sampler in den MIDI-Mode.Man kann nun die Samples ber ein MidiüKeyboard abspielen.Es ist wichtig,daá
+am Keyboard die richtige
+MIDI-Kanalnummer ausgew„hlt wurde,und das die definierten Noten ber das
+Keyboard auch zu erreichen sind.Man beendet den Midi-Mode,indem man die
+rechte Maustaste oder ESC auf der Tastatur drckt.
+
+
+3) Insert
+
+Falls man einen neuen Eintrag an einer bestimmten Stelle einfgen will die
+leider belegt ist,kann man wieder Platz schaffen,indem man alle Eintr„ge
+ab dem aktuellen Eintrag (aktuell ist das Feld in dem das Edit-Button
+selektiert ist) um einen Eintrag nach unten schiebt.Das kann man machen,
+indem man auf den Insert-Button drckt.
+
+
+4) Delete
+
+Das ist das Gegenstck zum Insert-Button.Drckt man auf den Delete-Button,
+werden alle Eintr„ge ab dem aktuellen Eintrag (aktuell ist das Feld in dem
+das Edit-Button selektiert ist) um einen Eintrag nach oben geschoben.Damit kann man Lcken in der Liste
+vermeiden.Besetzte Felder werden gel”scht!
+
+
+5) Load Arrangement
+
+Hiermit kann eine Midi Sampleplayer-Datei (Dateiendung *.ARR) geladen werden.
+
+
+6) Save Arrangement
+
+Hiermit kann die komplette Liste mit allen Parametereinstellungen als
+Midi Sampleplayer-Datei (Dateiendung *.ARR) abgespeichert werden.

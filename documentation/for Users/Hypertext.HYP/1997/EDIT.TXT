@@ -1,0 +1,149 @@
+Editor-Fenster
+
+
+Das ist das Hauptfenster, das immer ge”ffnet bleiben mu.
+Man kann hierber Samples aufnehmen, diese dann destruktiv bearbeiten und
+abspeichern. Die Sampledaten werden bei allen Bearbeitungsfunktionen direkt
+ver„ndert, also destruktiv verarbeitet.
+Zur besseren Verst„ndnis sollte man das İBILDİEDIT.IMGİ des
+Editor-Fensters zu Rate ziehen.
+Ab einer Aufl”sung von 1024x768 wird der Editor in einem gr”eren Fenster
+dargestellt. Sie hierzu das İBILDİBIGEDIT.IMGİ des Big-Editor-Fensters.
+
+
+Das Editor-Fenster besteht aus folgenden Funktionsgruppen:
+
+
+1) İButton-ToolbarİEBUTTONS.TXTİ
+-----------------
+Hierber erreicht man die wichtigsten İHauptfunktionenİEBUTTONS.TXTİ und die
+anderen Fenster.
+Genauere Informationen bekommt man unter dem Stichwort İButton-ToolbarİEBUTTONS.TXTİ.
+
+2) İSample-WindowİCURVE.TXTİ
+----------------
+Hier werden die İAmplitudenverl„ufeİCURVE.TXTİ der Samples dargestellt.
+Genauere Informationen bekommt man unter dem Stichwort İAmplitudenİCURVE.TXTİ.
+
+3) İSetbereichİFUNKTION.TXTİ
+-------------
+In diesem Feld befindet sich die Zoom-Behandlung, die Anzeige der
+Fenster-Darstellungsgrenzen und die Markerpfeile zum Bewegen der Marker und
+zum Ausfhren der Funktionen im Function-Dropdown (11).
+Genauere Informationen bekommt man unter dem Stichwort İSetbereichİFUNKTION.TXTİ.
+
+4) İMarkerbereichİEMARKER.TXTİ
+----------------
+Im İMarkerbereichİEMARKER.TXTİ werden die Markereintr„ge
+(Nummer,Startzeit,Endzeit,Intro,Release,Name) aufgefhrt, und k”nnen
+editiert werden.
+
+5) İSteuerungsbereichİESOUND.TXTİ
+--------------------
+Hierber k”nnen die Samples aufgenommen und abgespielt werden.
+Es stehen s„mtliche bekannten Laufwerksfunktionen zur Verfgung.
+Genauere Informationen bekommt man unter dem Stichwort İSteuerungsbereichİESOUND.TXTİ.
+
+6) İInformationsbereichİEINFO.TXTİ
+----------------------
+Hierber wird der Benutzer ber verschiedene Einstellungen informiert.
+Die blau umrandeten Felder k”nnen angeklickt werden.
+Hinter manchen dieser Felder verbergen sich weitere Information oder
+Funktionen. Genauere Informationen bekommt man unter dem
+Stichwort İInformationsbereichİEINFO.TXTİ.
+
+7) İLimits-BereichİLIMIT.TXTİ
+-----------------
+Hierber kann man bestimmte Einstellungen vornehmen, die die Wiedergabe und
+Aufnahme betreffen. Genauere Informationen bekommt man unter dem
+Stichwort İLimits-BereichİLIMIT.TXTİ.
+
+8) copy to Arranger
+-------------------
+Hat man einen Block (mit Marker-S und Marker-E) im Sample-Memory definiert,
+kann man die Marker in den MIDI-Arranger bernehmen.
+Die Marker werden in die MIDI-Liste eingetragen. Dabei bekommt das
+Sourcefeld im Arranger die Kennung M fr Memory und den Namen "Memory" im
+Feld Samplename des Arranger-Felds. Da mehrere Markerbl”cke in den Arranger
+bernommen werden k”nnen, gibt es als Merksttze den Blockz„hler (9), der
+die Anzahl der bisher in den Arranger kopierten Bl”cke anzeigt.
+Diese Funktionsweise wird aber nochmal berarbeitet, vielleicht f„llt sie
+auch ganz weg.
+
+9) Blockz„hler
+--------------
+Der Blockz„hler zeigt die Anzahl der bisher in den Arranger kopierten
+Bl”cke an. Diese Funktionsweise wird aber nochmal berarbeitet, vielleicht
+f„llt sie auch ganz weg.
+
+10) Trash
+---------
+Hiermit kann man das Sample-Memory komplett l”schen. Beim Wechsel in den
+Virtual-Mode (virtuelle Bearbeitung) wird der komplette Inhalt des
+Sample-Memory auf Festplatte gespeichert. Ist man im Virtual-Mode
+funktioniert der Trash-Button etwas anders: Das virtuelle Sample wird aus
+dem Speicher entfernt, und das vorher abgespeicherte Sample-Memory wird
+wieder geladen. Damit wird auch der Virtual-Mode beendet. 
+
+11) Function-Dropdown
+---------------------
+šber dieses Dropdown-Men kann man verschiedene Funktionen ausw„hlen:
+
+MARK   - Marker bewegen
+ZOOM   - Amplitudenfenster zoomen
+SCROLL - Amplitudendfenster scrollen bzw. Bildausschnitt w„hlen
+COPY   - Block kopieren
+MOVE   - Block bewegen
+INSERT - Block einfgen
+MERGE  - Block mischen
+FADE   - Block ein- oder ausblenden
+
+Die Funktion MARK kann auch per Drag&Drop ausgefhrt werden. Dazu fat man
+die senkrechte Markerlinie mit der Maus an (linke Maustaste gedrckt halten)
+und zieht (draggt) die Markerlinie an die neue Position.
+Die Funktionen COPY und MOVE k”nnen auch per Drag&Drop ausgefhrt werden.
+Dazu positioniert man die Maus innerhalb des definierten Blocks und h„lt
+die linke Maustaste gedrckt. Nun kann man den Block zur gewnschten
+Position ziehen (draggen) und l„t danach die Maus los.Der Blockinhalt
+wird beim draggen angezeigt. Daher kann man den Block sehr genau
+positionieren bzw. mit einem anderen Sample kombinieren.
+Eine genauere Erkl„rung erfolgt unter dem Stichwort İSetbereichİFUNKTION.TXTİ.
+
+12) Clipboard
+-------------
+šber das Clipboard kann man Markerfelder kopieren. Dabei fungiert das
+Clipboard als eine Art Zwischenspeicher.
+Man kann ein Marker-Feld kopieren, indem man den Marker-Button anklickt und
+bei gedrckter linker Maustaste auf das Clipboard-Icon zieht (bzw. draggt).
+Dabei wird das Clipboard-Symbol selektiert. Nun l„t man die Maustaste los.
+Damit wurde das Feld zun„chst ins Clipboard kopiert (eine Art
+Zwischenspeicher). Eventuell sucht man nun mit dem Slider den gewnschten
+Eintrag auf den das ganze kopiert werden soll. Hat man das gewnschte Feld
+im Sichtfeld, klickt man auf das Clipboard. Man h„lt dabei die linke
+Maustaste gedrckt. An der Maus h„ngt nun das Marker-Symbol. Dieses zieht
+man jetzt ber den Marker-Button des Feldes, in das kopiert werden soll.
+Dabei wird der Marker-Button des Feldes automatisch selektiert. Ist der
+Marker-Button selektiert l„t man die Maus los - fertig.
+Man kann aber nicht nur die einzelnen Markereintr„ge kopieren (mit den
+Markerbuttons) sondern auch den kompletten Eintrag (bestehend aus den
+4 Markerfeldern und dem Markertext). Dabei draggt man stattdessen das
+Eintragsnummer-Feld in das Clipboard. Dann w„hlt man den Zieleintrag mit
+dem Slider aus, und draggt den Clipboardinhalt auf das Eintragsnummer-Feld
+des Zieleintrags. Der Clipboard-Inhalt bleibt solange vorhanden, bis man
+ein anderes Feld oder einen kompletten Eintrag hineinkopiert.
+
+13) Undo
+--------
+Die Undo-Funktion ist derzeit noch nicht implementiert.
+
+14) Help
+--------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+15) Quit
+--------
+Hiermit beendet man das Programm. Das geht aber auch ber die
+Tastenkombination CTRL-Q oder ber das Fenster-Schliefeld
+oder ber das optionale Dropdown-Men unter Datei/Ende.

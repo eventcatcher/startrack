@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.14"></A>
+<A NAME="4.14.1"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0086.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0088.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.14 Tracker</H3>
+<H3> 4.14.1 Tracker-Fenster</H3>
+<A HREF="p068_1.htm" TARGET="_new"><IMG SRC="../images/scaled/p068_1.gif" WIDTH="480" HEIGHT="340"></A>
+
+ &Uuml;ber dieses Fenster wird die Mehrspurwiedergabe realisiert. Momentan sind bis
+ 16 Spuren mit 32kHz Samplerate bzw. 12 Spuren mit 48 kHz machbar (Hades 060).
+ Die Verarbeitungsgeschwindigkeit ist aber noch nicht optimiert, so da&szlig;
+ man sicherlich noch mehr herausholen kann. Das Zusammenmischen der Samples
+ erledigt dabei wahlweise der Prozessor oder der DSP. Mit einem leistungsstarken
+ DSP (Digitaler Signalprozessor, gibt es mit Motorola DSP56002-66 als Zusatz-
+ Aufsteckkarte f&uuml;r die Startrack-Audiokarte) gibt es in diesem Punkt dann
+ keine Probleme mehr, so da&szlig; auf einem schw&auml;cheren System wie dem TT mit
+ dem DSP auch 8 Spuren/48kHz mischbar sind. Man kann die Samples auf bis
+ zu 99 virtuelle Spuren verteilen. Das sollte auch f&uuml;r gr&ouml;&szlig;ere Projekte
+ ausreichend sein. Davon kann man dann eine bestimmte Anzahl an Spuren ausw&auml;hlen,
+ die zusammengemischt und abgespielt werden sollen. Wieviele Spuren gleichzeitig
+ wiedergegeben werden k&ouml;nnen, h&auml;ngt von der Geschwindigkeit der Festplatte und
+ des Rechners ab. Es sind bis zu 16 Spuren mischbar. Diese k&ouml;nnen auch &uuml;ber
+ Interfaces (z.B. Analog8) einzeln ausgegeben werden. Man l&auml;dt die einzelnen
+ Samples zun&auml;chst in den Tracker und verteilt diese auf die gew&uuml;nschten Spuren.
+ Man kann die Samples, aber auch ganze Spuren, per Drag&amp;Drop kopieren oder
+ verschieben, Start- und Endmarker definieren oder aus der <A HREF="page0140.htm">Information-Datei</A>
+ (*.INF) &uuml;bernehmen, probeh&ouml;ren etc. Alle wichtigen Funktionen sind vorhanden.
+ Die Samples werden dabei nichtdestruktiv bearbeitet, d.h. die Sampledateien
+ werden nicht ver&auml;ndert. Ist man mit der Zusammenstellung zufrieden, kann die
+ fertige Trackliste als <A HREF="page0143.htm">Playlist-File</A> (Endung *.TRK) abgespeichert werden.
+ Die X-Achse definiert die Zeiteinheit und auf der Y-Achse sind die Spuren
+ angeordnet. In diesem Fenster kann man also die Samples die auf der
+ Festplatte liegen, zu einem fertigen &quot;Song&quot; arrangieren. Die Samples kann man
+ danach wenn n&ouml;tig, per Drag &amp; Drop an eine andere Abspielposition verschieben
+ oder &uuml;ber Werteeingabe auf eine neue Position setzen.
+ Da man auch hier Zoom- und Scrollfunktionen benutzen kann, geht das gerade
+ per Drag &amp; Drop sehr einfach und genau. Eine SMPTE-Synchronisierung via MTC
+ ist ebenfalls m&ouml;glich (siehe <A HREF="page0081.htm">Workmode-Fenster</A>).
+ Im Tracker k&ouml;nnen 16Bit und 24Bit-Samples gemeinsam verwendet werden, allerdings
+ spurgetrennt. Alle Samples einer Spur m&uuml;ssen die gleiche Bitaufl&ouml;sung haben.
+ Verwendet man im 24Bit-Modus des Trackers nur 16Bit-Samples, dann werden
+ diese automatisch in ein 24Bit-Ausgangssignal gemischt. Durch eine spezielle
+ Mischroutine geht dabei kein Bit verloren, wie dies im 16Bit-Modus der Fall
+ w&auml;re. Die volle 16Bit-Aufl&ouml;sung bleibt hierbei erhalten!
+ Im 24Bit-Modus werden alle Samples von der CPU gemischt, die Ausgabe &uuml;ber die
+ Matrix zum DSP ist hierbei nicht m&ouml;glich.
+ Aufgerufen wird das Tracker-Fenster durch den <A HREF="page0058.htm">Tracker-Button</A> im Edit-Fenster,
+ durch Eingabe von CTRL-T oder &uuml;ber das optionale Programm-Men&uuml; im <A HREF="page0109.htm">Dropdown Fenster/Tracker</A>.
+ Ab einer Aufl&ouml;sung von 1024x768 verwendet das Programm eine andere Resourcedatei,
+ um die Text- und Objektgr&ouml;&szlig;en auf ein f&uuml;r die Augen ertr&auml;gliches Ma&szlig; zu
+ vergr&ouml;&szlig;ern. Das Tracker-Fenster kann mit dem Sizer (unten rechts) in der Gr&ouml;&szlig;e
+ ver&auml;ndert werden.
+
+ Das Tracker-Fenster besteht aus folgenden Funktionsgruppen:
+
+ 1) <A HREF="page0100.htm">Button-Toolbar</A>
+
+ Hier&uuml;ber erreicht man die wichtigsten Hauptfunktionen.
+
+
+ 2) Zeitachse
+ <A HREF="p205.htm" TARGET="_new"><IMG SRC="../images/scaled/p205.gif" WIDTH="390" HEIGHT="10"></A>
+
+ Die Zeitachse dient zur besseren Orientierung, exakten Positionierung der
+ Samples und markiert in einem bestimmten Abstand Zeitpositionen auf der
+ X-Achse.
+
+
+ 3) <A HREF="page0088.htm">Spurfeld</A>
+
+ Hier werden am linken Rand die Parameter-Einstellungen f&uuml;r die Spur
+ vorgenommen, wie z.B. Lautst&auml;rke der Spur. Hinter dem Parameterblock folgen
+ die Samplebl&ouml;cke, wobei auch der Amplitudenverlauf der Samples dargestellt
+ werden kann. Damit l&auml;&szlig;t sich z.B. sehr gut Rhythmus, Anfang, Ende, Pausen usw.
+ eines Samples erkennen. Das ist n&uuml;tzlich um z.B. zu einem Schlagzeugrythmus
+ auf Spur A, einen Bassguitar-Rythmus auf Spur B, so anzuordnen, da&szlig; beides im
+ Rhythmus zueinander pa&szlig;t. Man kann also die Samples rein visuell anordnen
+ und hat durch die Amplitudendarstellung schon in etwa eine Vorstellung vom
+ klanglichen Ergebniss.
+
+
+ 4) <A HREF="page0090.htm">Zoom- und Scroll-Slider</A>
+
+ &Uuml;ber den Zoom-Slider kann man den Zeitma&szlig;stab &auml;ndern und die
+ Darstellungsgenauigkeit anpassen. &Uuml;ber den Scrollslider rechts daneben,
+ kann man den dargestellten Zeitausschnitt w&auml;hlen.
+
+
+ 5) <A HREF="page0092.htm">Markerfeld</A>
+
+ Im <A HREF="page0092.htm">Markerfeld</A> werden die Parameter des aktuellen Samples
+ (Startzeit, Endzeit, L&auml;nge, Position usw.) und des Playblocks aufgef&uuml;hrt.
+
+
+ 6) <A HREF="page0096.htm">Steuerungsfeld</A>
+
+ Hier&uuml;ber k&ouml;nnen die Samples abgespielt bzw. nach Geh&ouml;r ein Start- und
+ Endpunkt des Samples definiert werden.
+ Es stehen s&auml;mtliche bekannten Laufwerksfunktionen zur Verf&uuml;gung.
+
+
+ 7) <A HREF="page0097.htm">Funktionsfeld</A>
+
+ Auf der linken Seite des Funktionsfelds stehen alle Funktionen, die nur das
+ aktuelle Sample betreffen (Blockmarker, Copy, Delete, Play), auf der rechten
+ Seite die Darstellungs- und Abspieloptionen.
+
+
+ 8) <A HREF="page0099.htm">Aussteuerungsfeld</A>
+
+ Hier kann man die Lautst&auml;rke des Mischergebnisses (sogenannter Master-Fader)
+ regeln. Dazu hat man einen Volumeregler und eine Aussteuerungsanzeige.
+
+
+ 9) Kanalanzahl
+
+ Hier kann man die Zahl der zusammenzumischenden Kan&auml;le w&auml;hlen. Es gibt
+ f&uuml;r jede Auswahl (4, 8, 12 oder 16 Kan&auml;le) eine optimierte Mischroutine.
+ Je langsamer der Computer bzw. die Festplatte ist, desto weniger Kan&auml;le kann
+ man zusammenmischen. Ist der Rechner bzw. die Festplatte zu langsam,
+ merkt man das an Dropouts (kleine Unterbrechungen) oder H&auml;ngern bei der
+ Wiedergabe. Je nach Mixmode (siehe <A HREF="page0081.htm">Workmode-Fenster</A>) wird hiermit auch
+ der Matrixmodus beeinflu&szlig;t (getrennte Ausgabe &uuml;ber 4, 8 oder 16 Outputs).
+
+
+ 10) Spur-Slider
+
+ Da immer nur 4 der nutzbaren Spuren gleichzeitig darstellbar sind, kann man
+ hiermit den sichtbaren Teil ausw&auml;hlen.
+
+
+ 11) Play-Marker
+
+ Die beiden Playmarker definieren den Teil der Trackerliste, der 
+ zusammengemischt und wiedergegeben werden soll. Das ist sinnvoll, da man
+ beim Arrangieren oft kontrollieren mu&szlig;, ob der zeitliche Ablauf stimmt,
+ oder das Sample an der eingef&uuml;gten Stelle auch richtig zu den anderen
+ Spuren pa&szlig;t. Man w&auml;hlt dann einfach den zu kontrollierenden Teil mit den
+ Playmarkern aus. Ist kein Playmarker definiert, wird alles vom Anfang bis
+ zum Ende der Liste abgespielt. Die Playmarker k&ouml;nnen im <A HREF="page0092.htm">Markerfeld</A> (5)
+ gesetzt werden. Diese erscheinen dann als senkrechte Linien mit ihrem
+ Kennbuchstaben. Diese Linien lassen sich mit der Maus anfassen und an eine
+ andere Position bewegen.
+
+
+ 12) Monitorkanal
+
+ Hier kann bei Wiedergabe &uuml;ber die Falcon-Matrix ein Stereokanal gew&auml;hlt
+ werden, der &uuml;ber den eingebauten Stereo-Ausgang abgeh&ouml;rt werden kann
+ (1-2, 3-4, 5-6 oder 7-8). Mit der rechten Maustaste kann w&auml;hrend der Wiedergabe
+ zum n&auml;chsten Kanalpaar (bzw. mit zus&auml;tzlich gedr&uuml;ckter Shift-Taste r&uuml;ckw&auml;rts)
+ geschaltet werden.
+
+
+ 13) Help
+
+ Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wenn sie nicht wissen wie
+ das funktioniert, schauen sie sich die Anleitung zu 1stGuide einmal genauer an.
+
+
+ 14) Exit
+
+ Hiermit wird das Tracker-Fenster geschlossen. Alle Einstellungen bleiben
+ bis zum n&auml;chsten Aufruf unver&auml;ndert. Man kann jedoch mehrere Fenster
+ gleichzeitig ge&ouml;ffnet lassen und hat so immer den direkten Zugriff auf die
+ Funktionen.
+
+</PRE>
+
+<A HREF="#4.14">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

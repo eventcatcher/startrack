@@ -1,0 +1,34 @@
+Track-Name-Dialog
+
+
+Dieser Dialog ist fr die Eingabe eines Spurnamen im İTrakkerİTRAKKER.TXTİ zust„ndig.
+Dieser Name hilft die vielen Spuren die sich bei einem solchen
+Trakker-Setup ansammeln, besser identifizieren zu k”nnen (z.B. DRUM fr
+Schlagzeugspur, SING fr Gesangsspur usw.).
+Die Spurnamen werden im Tracker-File (*.TRK) mit den anderen ben”tigten
+Daten abgespeichert und bleiben dadurch erhalten. Man gelangt in diesen
+Dialog, indem man einfach das zu „ndernde İSpurnamen-FeldİBLOCK.TXTİ im
+Trakker-Fileselector anklickt.
+Zur besseren Verst„ndnis sollte man das İBILDİTRAKNAME.IMGİ des
+Track-Name-Dialogs zu Rate ziehen.
+
+
+1) Name
+-------
+Hier kann man einen maximal 5 Zeichen langen Namen eingeben.
+
+2) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+3) Exit
+-------
+Hiermit wird der Track-Name-Dialog geschlossen. Die Eingabe wird nicht
+beachtet und ist ungltig. Der alte Spurnameneintrag bleibt erhalten.
+
+4) OK
+-----
+Hiermit wird der Track-Name-Dialog geschlossen.
+Die Spurnameneingabe ist gltig und wird im Spurfeld gesetzt.

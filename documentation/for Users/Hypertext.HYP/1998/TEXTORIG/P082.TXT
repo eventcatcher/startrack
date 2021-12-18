@@ -1,0 +1,275 @@
+4.1.4 Setbereich
+
+
+
+In diesem Feld befindet sich die Zoom-Behandlung,die Markerpfeile zum Bewegen der Marker,und zum Ausfhren der
+Funktionen des 
+
+Function-Dropdown.
+
+
+
+1) Zoom-Slider
+
+
+Hiermit kann man in das Sample bis zur Einzelsample-Ebene hineinzoomen.
+Die Zoomstufe wird im Sliderbutton angezeigt.Es gibt aber noch mehr
+M”glichkeiten,in das Sample zu zoomem: Man wechselt in den Zoomü VolumeüMode. Dazu selektiert man in der ButtonüToolbar
+im Modebereich den ZoomüButton(Toobar,18),und kann nun imSample-Window ein Gummiband aufziehen,um den zu zoomenden
+Bereich auszuw„hlen.
+
+Dabei wird nicht nur der Darstellungsü bereich ausgew„hlt,sondern auch der Amplituden- Darstellungsbereich.Wenn man
+z.B.auf der Y-Achse das Sample mit dem Gummiband bis zur 40-Prozent-Marke umfaát,wird die Amplitude bis zur
+40-Prozent-Marke gezoomt.Man kann wieder aus der Amplitude herauszoomen,indem man mit gedrckter ALT-Taste ein Gummiband
+aufzieht und die Maus dann losl„át.Der Darstellungsbereich bleibt dabei unver„ndert.Man kann mit der Zoomfunktion bis
+auf ein 1:1 Verh„ltnis und darber hinaus in das Sample zoomen.Ab einem Verh„ltnis von 2:1 kann man im Editor die
+einzelnen Samplewerte mit der Maus korrigieren,oder eigene Samplewerte einzeichnen. 
+
+
+
+2) Zoom to 1:1
+
+Hiermit wird auf Einzelsample-Ebene gezoomt.
+
+Das bedeutet: Ein Pixel auf dem Bildschirm entspricht einem Samplewert.
+3) FunctionüDropdown:
+
+
+
+šber dieses Dropdown-Men kann man verschiedene Funktionen ausw„hlen:
+
+
+MARK    - Marker bewegen
+ZOOM    - Amplitudenfenster zoomen
+SCROLL - Amplitudendfenster scrollen bzw. Bildausschnitt w„hlen
+COPY     - Block kopieren
+MOVE     - Block bewegen
+INSERT  - Block einfgen
+MERGE  - Block mischen
+FADE      - Block ein- oder ausblenden
+
+
+4) Pfeiltasten
+
+Die Funktion der Pfeiltasten ist abh„ngig von der Auswahl des
+Bearbeitungsmodus im Function-Dropdown.Dabei entspricht die Pfeilmenge
+
+auf den Buttons (1-3 Pfeile) in etwa dem Schrittverh„ltnis:
+einpfeil-Button : kleine Schrittweite
+zweipfeil-Button: mittlere Schrittweite
+dreipfeil-Button: groáe Schrittweite
+Fr alle Funktionen auáer MARK,muá ein Blockbereich mit Marker-S und
+Marker-E definiert sein.
+
+
+MARK:
+
+Mit dieser Funktion kann man die Marker bewegen.
+Die Schrittweite berechnet sich aus dem sichtbaren Blockbereich geteilt
+durch die Breite des Sample-Window in Pixeln.
+Wie nennen diese Gr”áe hier der Einfachheit halber X.
+einpfeil-Button : Schrittweite ist X
+zweipfeil-Button: Schrittweite ist X*3
+dreipfeil-Button: Schrittweite ist x*10
+
+
+ZOOM:
+
+Mit dieser Funktion kann man in das Sample hineinzoomen.Mit den
+Rechtspfeil-Buttons wird hineingezoomt,mit den Linkspfeil-Buttons wird
+herausgezoomt.Die Zoomaktionen werden in einer Zoomliste protokolliert,und
+k”nnen mit den Linkspfeil-Buttons in mehreren Stufen rckg„ngig gemacht
+werden (Undo).Fr die Zoomfunktion muá zuerst mit den Markern (S+E) ein
+Zoombereich definiert werden.Dieser Bereich wird dann als Berechnungsü grundlage fr die Zoomstufen-Berechnung benutzt.
+Die Zoomstufe berechnet sich dann immer aus dem sichtbaren Blockbereich
+geteilt durch 1.5,2 oder 3.
+Wie nennen den Zoom-Blockbereich hier der Einfachheit halber X.
+einrechtspfeil-Button : X/1.5
+zweirechtspfeil-Button: X/2
+dreirechtspfeil-Button: X/3
+einlinkspfeil-Button : eine gespeicherte Zoomstufe zurck
+zweilinkspfeil-Button: zwei gespeicherte Zoomstufen zurck
+dreilinkspfeil-Button: drei gespeicherte Zoomstufen zurck
+
+
+SCROLL:
+
+Mit dieser Funktion kann man den sichtbaren Bereich verschieben(scrollen).
+Die Schrittweite berechnet sich aus dem sichtbaren Blockbereich geteilt
+durch  4,2, oder 1.
+einpfeil-Button : Scrolle um 1/4 des sichtbaren Bereichs nach links oder rechts
+zweipfeil-Button: Scrolle um 1/2 des sichtbaren Bereichs nach links oder rechts
+dreipfeil-Button: Scrolle um den sichtbaren Bereich nach links oder rechts
+Die Buttons 5,6 und 7 haben dabei keine Funktion.
+
+
+COPY:
+
+Mit dieser Funktion kann mam den Blockbereich nach links oder rechts
+kopieren.Die Kopie liegt dann genau rechts bzw. links neben dem
+Original-Block.Diese Funktion funktioniert also „hnlich wie der Copy-Button
+im Tracker.Man kann diese Funktion z.B. gut benutzen,um mehrere
+Wiederholungen (loops) eines Samples zu erzeugen.Wurden die Blockmarker
+geeignet gesetzt,sollte man beim šbergang keinen Knackser h”ren.Ob die
+Marker geeignet gesetzt sind,kann man mit der Loop-Abspieloption testen.
+Alle drei Buttons(ein,zwei- und dreipfeil-Buttons) haben dabei die gleiche
+Funktion.
+
+
+MOVE:
+
+Mit dieser Funktion kann man den Blockbereich nach links oder rechts
+bewegen.Die Schrittweite berechnet sich aus dem Blockbereich geteilt durch
+4,2 oder 1.
+einpfeil-Button : Bewege Block um 1/4 des Bereichs nach links oder rechts
+zweipfeil-Button: Bewege Block um 1/2 des Bereichs nach links oder rechts
+dreipfeil-Button: Bewege Block um den Bereich nach links oder rechts
+Es gibt 4 verschiedene MOVE- bzw. Verknpfungsoptionen.
+INSERT:
+
+Mit dieser Funktion kann man ein Sample in ein bestehendes Samplefile integrieren.
+
+
+
+MERGE:
+
+
+Mit dieser Funktion kann man ein externes Sample zum RAMüSample mischen.
+Mischfunktion in V2.0 noch nicht implementiert.
+
+
+FADE:
+
+Mit dieser Funktion kann man den Blockbereich einblenden (linkspfeil) oder
+ausblenden (rechtspfeil).Es wird dafr die im Fade-Editor definierte
+Einblendkurve bzw. Ausblendkurve benutzt.
+Alle drei Buttons(ein,zwei- und dreipfeil-Buttons) haben dabei die gleiche
+Funktion.Die Buttons 6,7 und 8 haben dabei keine Funktion.
+
+
+5) zum Anfang
+
+Die Funktion ist abh„ngig von der Auswahl des Bearbeitungsmodus im
+Function-Dropdown.Fr alle Funktionen auáer MARK,muá ein Blockbereich
+mit Marker-S und Marker-E definiert sein.
+
+
+MARK:
+
+
+Hiermit kann man den Marker zum Anfang des Sample-Memory bzw. des Samples bewegen.
+
+
+ZOOM:
+
+Die Zoomaktionen werden in einer Zoomliste protokolliert.Mit diesem Button
+gelangt man zum Anfang der Zoomliste.
+
+
+COPY:
+
+Hiermit kann man den Blockbereich an den Anfang des Sample-Memory bzw.
+Samples kopieren.
+
+
+MOVE:
+
+Hiermit kann man den Blockbereich an den Anfang des Sample-Memory bzw.
+Samples bewegen.Es gibt 4 verschiedene MOVE-Aktionen.
+INSERT:
+
+
+Mit dieser Funktion kann man ein Sample am Anfang eines bestehenden Samplefile einfgen.
+
+
+MERGE:
+
+
+Mit dieser Funktion kann man ein externes Sample zum RAMüSample mischen.
+Mischfunktion in V2.0 noch nicht implementiert.
+
+
+6) zur Mitte
+
+Die Funktion ist abh„ngig von der Auswahl des Bearbeitungsmodus im
+Function-Dropdown.Fr alle Funktionen auáer MARK,muá ein Blockbereich mit Marker-S und Marker-E definiert sein.
+
+
+MARK:
+
+Hiermit kann man den Marker zur Mitte des Sample-Memory bzw. des Samples
+bewegen.
+
+
+ZOOM:
+
+Die Zoomaktionen werden in einer Zoomliste protokolliert.Mit diesem Button
+gelangt man zur Mitte der Zoomliste.
+
+
+COPY:
+
+Keine Funktion.
+
+
+MOVE:
+
+Hiermit kann man den Blockbereich in die Mitte des Sample-Memory bzw.
+Samples bewegen.Es gibt 4 verschiedene MOVE-Aktionen.
+
+
+INSERT:
+
+Keine Funktion
+
+
+MERGE:
+
+
+Mit dieser Funktion kann man ein externes Sample zum RAMüSample mischen.
+Mischfunktion in V2.0 noch nicht implementiert.
+
+
+7) zum Ende
+
+Die Funktion ist abh„ngig von der Auswahl des Bearbeitungsmodus im
+Function-Dropdown.Fr alle Funktionen auáer MARK,muá ein Blockbereich
+mit Marker-S und Marker-E definiert sein.
+
+
+MARK:
+
+Hiermit kann man den Marker zum Ende des Sample-Memory bzw. des Samples bewegen.
+
+
+ZOOM:
+
+Die Zoomaktionen werden in einer Zoomliste protokolliert.Mit diesem Button
+gelangt man zum Ende der Zoomliste.
+
+
+COPY:
+
+Hiermit kann mam den Blockbereich an das Ende des Sample-Memory bzw.
+Samples kopieren.
+
+
+MOVE:
+
+Hiermit kann man den Blockbereich an das Ende des Sample-Memory bzw.
+Samples bewegen.Es gibt 4 verschiedene MOVE-Aktionen.
+
+
+INSERT:
+
+
+Mit dieser Funktion kann man ein Sample am Ende eines bestehenden Samplefile einfgen.
+
+
+MERGE:
+
+
+Mit dieser Funktion kann man ein externes Sample zum RAMüSample mischen.
+Mischfunktion in V2.0 noch nicht implementiert.
+
+

@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.1.11"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0051.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0053.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.1.11 Steuerungsbereich</H3>
+<IMG SRC="../images/p101.gif" WIDTH="304" HEIGHT="200">
+
+ Hier&uuml;ber k&ouml;nnen die Samples aufgenommen und abgespielt werden.
+ Es stehen s&auml;mtliche bekannten Laufwerksfunktionen zur Verf&uuml;gung.
+ Dar&uuml;berhinaus kann hier die Samplefrequenz und die Bittiefe bestimmt werden.
+ Bei Aufnahme oder Wiedergabe k&ouml;nnen durch Druck auf die Spacetaste 
+ &quot;on the fly&quot; <A HREF="page0047.htm">Marker</A> gesetzt werden. Diese sind sp&auml;ter weiterhin editierbar.
+
+
+ 1) Resolution
+
+ Hier kann man die Bittiefe (16 bzw. 24Bit) einstellen, mit der die Aufnahme
+ und Verarbeitung durchgef&uuml;hrt werden soll. 24Bit-Aufnahmen k&ouml;nnen nur
+ &uuml;ber die digitalen Eing&auml;nge durchgef&uuml;hrt werden. Die Wiedergabe ist &uuml;ber
+ den digitalen Ausgang mit 24Bit m&ouml;glich, &uuml;ber den analogen Ausgang im 24Bit-Mode
+ automatisch mit maximal m&ouml;glicher 18Bit Aufl&ouml;sung.
+
+
+ 2) Samplerate
+
+ Hier wird die Samplerate des analogen Eingangs &uuml;ber einen Rollbalken
+ (Dropdown) ausgew&auml;hlt. Bei Wiedergabe von Soundfiles wird mit der hier
+ ausgew&auml;hlten Samplerate abgespielt, sofern das Samplefile keinen anderen Wert
+ vorgibt oder der Digital-Synchronmodus <A HREF="page0060.htm">(Setup)</A> aktiviert wurde.
+ Diese Samplerate l&auml;&szlig;t sich zus&auml;tzlich auch im <A HREF="page0061.htm">Einstellungen-Fenster</A> einstellen.
+ Der Digitalausgang wird hiermit auch beeinflu&szlig;t, so da&szlig; man die
+ Aufnahmen z.B. zur&uuml;ck auf DAT-Band &uuml;berspielen kann. Dabei mu&szlig; man
+ allerdings darauf achten, da&szlig; der DAT-Rekorder nur etwas mit den Sampleraten
+ 32.0, 44.1 und 48.0 kHz anfangen kann. Ist im <A HREF="page0060.htm">Setup-Dialog</A> digital-in
+ clock:Synchronize ausgew&auml;hlt, so wird der analoge Eingang mit dem
+ digitalen synchronisiert, d.h. die Samplerate des digitalen Eingangs wirkt
+ auf den analogen Eingang und es wird mit der Samplerate des digitalen
+ Eingangs aufgenommen. Das ist sinnvoll um exakt gleiche Sampleraten zu 
+ gew&auml;hrleisten. &Uuml;ber den Externen Takteingang (<A HREF="page0033.htm">ICLK auf der Paltine</A>) kann ein
+ externer Takt eingespeist werden, der dann auf eine brauchbare Samplerate
+ heruntergeteilt wird. Damit sind dann auch andere Sampleraten m&ouml;glich.
+ Die Aufnahme wird mit der hier eingestellten Samplerate durchgef&uuml;hrt, wenn
+ der Analogeingang gew&auml;hlt wurde und die Synchronize-Option im <A HREF="page0060.htm">Setup-Dialog</A> 
+ abgeschaltet ist. Ansonsten wird die Samplerate des digitalen Eingangs benutzt.
+</PRE>
+
+<TABLE>
+<TR>
+<TD VALIGN=TOP>DSR 32.0</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>32.0 kHz (z.B. bei DSR-Digitalradio)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>CD 44.1</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>44.1 kHz (z.B. bei CD)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>DAT 48.0</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>48.0 kHz (z.B. bei DAT-Rekordern)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>HI 88.2</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>88.2 kHz (z.B. bei DAT mit Highsampling)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>HI 96.0</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>96.0 kHz (z.B. bei DVD, DAT mit Highsampling)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>8.0</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>8.0 kHz (32/4)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>11.0</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>11.025 kHz (44.1/4)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>12.0</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>12 kHz (48/4)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>16.0</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>16.0 kHz (32/2)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>16.5</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>16.5 kHz</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>22.1</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>22.05 kHz (44.1/2)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>24</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>24 kHz (48/2)</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>33.1</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>33.1 kHz</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>EXT/768</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>Externer Takt geteilt durch 768</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>EXT/512</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>Externer Takt geteilt durch 512</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>EXT/384</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>Externer Takt geteilt durch 384</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>EXT/256</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>Externer Takt geteilt durch 256</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>DIV xxx</TD>
+<TD VALIGN=TOP>-</TD>
+<TD VALIGN=TOP WIDTH=360>Externer Takt geteilt durch Frequenzteiler (Faktor 1-15)</TD>
+</TR>
+</TABLE>
+
+<PRE>
+ 
+ 3) Zeitz&auml;hler
+
+ Hier wird die momentane Abspiel- bzw. Aufnahmeposition angezeigt.
+
+
+ 4) play and record
+
+ Hiermit kann man ein Sample abh&ouml;ren und parallel dazu ein neues Sample
+ aufnehmen. Diese Funktion ist allerdings bisher nur im Sample-Memory
+ (Memory-Projekt) m&ouml;glich. Diese Funktion wird aber zu einem sp&auml;teren
+ Zeitpunkt auch f&uuml;r Harddisk-Projekte m&ouml;glich sein.
+
+
+ 5) Harddisk-Projekt
+
+ Hiermit schaltet man zwischen Memory- und Harddisk-Projekt um. Ist das Icon
+ deselektiert, dann handelt es sich um ein Memory-Projekt, d.h. Aufnahme,
+ Wiedergabe und Bearbeitungsfunktionen beziehen sich auf das Sample-Memory.
+ Ist das Icon selektiert, dann handelt es sich um ein Harddisk-Projekt, d.h.
+ Aufnahme, Wiedergabe und Bearbeitungsfunktionen wirken direkt auf die
+ Festplatten-Samples. Die Aufnahmel&auml;nge wird nur durch den Platz auf der
+ Festplatte begrenzt. Wechselt man in den <A HREF="page0066.htm">Virtual-Mode</A> (indem man ein Sample
+ l&auml;dt, das nicht komplett ins Sample-Memory pa&szlig;t), wird das Icon automatisch
+ selektiert, um anzuzeigen, da&szlig; es sich hierbei um ein 
+ Harddisk-Projekt handelt.
+
+
+ 6) auto-record
+
+ Automatische Aufnahme. Hierbei wird vor dem Aufnahmebeginn zuerst auf ein
+ Eingangssignal gewartet. Wird ein bestimmter Schwellwert &uuml;berschritten,
+ beginnt automatisch die Aufnahme. Diesen Schwellwert kann man im
+ <A HREF="page0060.htm">Setup-Dialog</A> unter autorecord-treshold in Dezibel (dB) einstellen.
+
+
+ 7) record
+
+ Hiermit wird die Aufnahme gestartet. Handelt es sich bei der Aufnahme um ein
+ Harddisk-Projekt (5), dann erscheint danach ein Fileselector in dem man den
+ Namen der Aufnahmedatei eingibt. Das System geht nun in Aufnahmebereitschaft
+ (Pause). Anschlie&szlig;end kann die Aufnahme durch Druck auf die Pausetaste
+ (10) gestartet werden. Bei einem Harddisk-Projekt wird das Sample w&auml;hrend der
+ Aufnahme auf Festplatte gespeichert, ist es ein Memory-Projekt, wird das Sample
+ w&auml;hrend der Aufnahme in das Sample-Memory geschrieben.
+
+
+ 8) play
+
+ Hiermit startet man die Wiedergabe des Samples. Falls es sich um ein
+ Memory-Projekt handelt, wird das Sample im Sample-Memory abgespielt,
+ ansonsten erscheint eine Fileselektor-Box in der man das abzuspielende
+ Sample w&auml;hlen kann. Es wird dann direkt von Festplatte abgespielt. Ist man
+ im HD-Projektmode (virtuelle Bearbeitung) wird das Sample so behandelt, als
+ w&auml;re es komplett im Speicher. Die Wiedergabe wird dann sofort gestartet.
+
+
+ 9) stop
+
+ Hiermit wird die Aufnahme bzw. Wiedergabe gestoppt.
+
+
+ 10) pause
+
+ Damit kann man die Aufnahme bzw. die Wiedergabe eines Samples 
+ vor&uuml;bergehend stoppen. Bei einem weiteren Druck auf die Pause-Taste wird die
+ Aufnahme bzw. die Wiedergabe fortgesetzt.
+
+</PRE>
+
+<A HREF="#4.1.11">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

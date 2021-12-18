@@ -1,0 +1,34 @@
+Midi-Dialog
+
+
+Dieser Dialog ist fr die Auswahl von Midi-Note & Midi-Kanal zust„ndig.
+Man erreicht diesen Dialog ber das İNoten-SymbolİEBUTTONS.TXTİ im İEditorİEDIT.TXTİ- oder unter NOTE
+bzw. CH im İArranger-FeldİARRFELD.TXTİ des İArranger-FensterİARRANGE.TXTİ.
+Er wird benutzt um dem Sample eine bestimmte Midinote und
+einen Midikanal zum Abspielen ber ein Midi-Keyboard zuzuordnen.
+Zur besseren Verst„ndnis sollte man das İBILDİMIDI.IMGİ zu Rate ziehen.
+
+
+1) Note
+-------
+Hier wird die Note ausgew„hlt. Mit den links am Notenfeld angeordneten
+Pfeiltasten kann man den Grundton ausw„hlen, mit den rechts am Notenfeld
+angeordneten Pfeiltasten kann man die Oktave w„hlen. Grogeschriebene Noten
+gelten als Banote, ansonsten sind die Noten kleingeschrieben. Die Oktaven
+reichen fr den Babereich von 3-1, fr den normalen Tonbereich von 0-6.
+
+2) Channel
+----------
+Hier wird der Midikanal ausgew„hlt. Mit den Pfeiltasten kann der Midikanal
+(1-16) gew„hlt werden.
+
+3) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+                                                                             
+4) OK
+-----
+Hiermit wird der Midi-Dialog geschlossen. Die ausgew„hlten Werte sind
+gltig und werden benutzt.

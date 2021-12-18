@@ -1,0 +1,51 @@
+1.1 Installation von 1stGuide
+
+
+1. Normalerweise wird 1stGuide automatisch bei der Installation des
+
+		   OnlineüHilfesystems (Disk2) auf die Bootpartition kopiert. Bei manueller   	  
+
+   Installation kopieren Sie die Datei 1STGUIDE.ACC in Ihr Boot-Verzeichnis.
+    1stGuide finden sie im STARHELPüOrdner im Unterordner 1STGUIDE.
+
+    1stGuide ist auáerdem in vielen Mailboxen und im Internet erh„ltlich. 
+
+   Falls Sie ber 1st Guide drucken m”chten, muá ein GDOS(z.B.NVDI)  
+
+    installiert sein.
+
+
+2. Wenn Sie eine Festplatte bzw. bei groáem Arbeitsspeicher eine
+   gengend groáe RAM-Disk besitzen, legen Sie dort einen neuen
+   Ordner an (z.B. "1STGUIDE"), und kopieren Sie den gesamten
+   Disketteninhalt dort hinein (falls nicht schon beim Auspacken
+   geschehen).
+
+
+3. Starten Sie Ihren Computer neu, klicken im Desk-Men des Desktops
+   den Punkt "1st Guide" an und w„hlen in der darauf erscheinenden
+   Datei-Auswahlbox die Datei "1STGUIDE.HLP" im entsprechenden
+   Datentr„ger/Ordner aus. Dort erhalten Sie weitere Benutzungs-
+   Informationen.
+
+
+Um 1stGuide mit dem STARTRACK-Programm nutzen zu k”nnen, muá der
+Suchpfad fr STARTRAK.IDX in 1stGuide definiert sein.
+Sie gelangen in den Setup-Dialog von 1stGuide, indem sie das
+Accessory mit gedrckter rechter Maustaste und Doppelklick mit der
+linken Maustaste auf den Accessoryeintrag, aufrufen.
+Dort tragen sie unter Indexdatei den Suchpfad ein.
+Anschlieáend drcken sie auf Sichern - fertig.
+
+
+Besonderheiten bei der Arbeit mit STARTRACK
+
+
+Da 1stGuide von STARTRACK nicht nur aus einem Fenster, sondern auch aus
+einer Dialogbox heraus aufgerufen werden kann (normalerweise nicht
+m”glich) wird in diesem Fall die Dialogbox kurz entfernt,um 1stGuide aufrufen zu k”nnen. Hat 1stGuide alle ben”tigten
+Fenster ge”ffnet, erscheint wieder der
+Dialog,und man kann seine Eingaben darin t„tigen. Man muá dann zuerst
+die Dialogbox schlieáen, um Zugriff auf 1stGuide zu bekommen, da
+systembedingt (AES) beim Aufruf einer Dialogbox alle anderen Fenster
+gesperrt sind. Bei einem 1stGuide-Aufruf aus einem Fenster heraus, braucht die Software diesen "Trick" nicht anzuwenden.

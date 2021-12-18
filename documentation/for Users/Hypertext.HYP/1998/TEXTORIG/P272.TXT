@@ -1,0 +1,48 @@
+5.2.8 CuelistüDatei "*.CUE"
+
+
+
+In dieser Datei werden s„mtliche Einstellungen der Cuelist gesichert. 
+
+Da der Dateiname frei w„hlbar ist,k”nnen mehrere dieser CuelistüDateien angelegt werden.So kann man individuelle
+Konfigurationen fr verschiedene Remixes zusammenstellen.Tr„gt die Cuelist den Namen des Originalsamples, wird dieses
+automatisch zusammen mit dem Sample in das Programm geladen.
+
+
+
+original ; Vollst„ndiger Pfad mit Dateiname des Originalsamples
+
+
+
+max entrys ; Maximalanzahl der CuelistüEintr„ge
+
+
+
+page ; Darstellungsseite (SliderüPosition)
+
+
+
+pointer ; Zeiger auf ausgew„hlten (aktiven) Eintrag
+
+
+
+statusxyz ; Status des Eintrags xyz (link=Bit2,disabled=Bit1,aktiv=Bit0)
+
+
+
+smptexyz ; Absolute Startzeit des CuelistüEintrags in Samples
+
+
+
+startxyz ; Startposition im Originalsample des Eintrags xyz
+
+
+
+endxyz ;  Endposition im Originalsample des Eintrags xyz
+
+
+
+offsetxyz ; Offset bis zum Abspielstart des Eintrags xyz
+
+
+

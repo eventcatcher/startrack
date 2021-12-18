@@ -1,0 +1,68 @@
+5.2.7 MidiüSampleplayerüDatei "*.ARR"
+
+
+
+In dieser Datei werden s„mtliche Einstellungen des Sampleplayers (ehem. Arranger) gesichert.Da der Dateiname frei
+w„hlbar ist,k”nnen mehrere dieser
+
+SampleplayerüDateien angelegt werden.So kann man individuelle Konfigurationen fr verschiedene Verwendungszwecke
+zusammenstellen.
+
+
+
+max entrys ; Maximalanzahl der SampleüEintr„ge
+
+
+
+main samplerate ; WiedergabeüSamplerate fr alle verwendeten Samples
+
+
+
+namexyz ; Dateiname des SampleüEintrags xyz
+
+
+
+pathxyz ; Kompletter Dateipfad mit Dateiname des SampleüEintrags xyz
+
+
+
+startxyz ; StartmarkerüPosition in Samples des SampleüEintrags xyz
+
+
+
+endxyz ; EndmarkerüPosition in Samples des SampleüEintrags xyz
+
+
+
+lengthxyz ; Gesamtl„nge in Samples des SampleüEintrags xyz
+
+
+
+bitdepthxyz ; Bittiefe (16 oder 24Bit) des SampleüEintrags xyz
+
+
+
+header lenxyz ; Headerl„nge in Byte des SampleüEintrags xyz
+
+
+
+sampleratexyz ; OriginalüSamplerate in Hz des SampleüEintrags xyz
+
+
+
+midi channelxyz ; Verwendeter MidiüChannel des SampleüEintrags xyz
+
+
+
+midi notexyz ; Verwendete MidiüNote (Klartext) des SampleüEintrags xyz
+
+
+
+loopxyz ; SampleüEintrag xyz endlos wiederholen (true) bis loslassen der Taste
+
+
+
+directionxyz ; Abspielrichtung (forward,backward,cross) des SampleüEintrags xyz
+
+
+

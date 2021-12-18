@@ -1,0 +1,228 @@
+4.14.14 Button-Toolbar
+
+
+Hierber erreicht man die wichtigsten Hauptfunktionen des TrackerüFensters.
+
+
+FunctionüBereich:
+
+In diesem Bereich der Toolbar haben sie Zugriff auf alle wichtigen Hauptü funktionen,Fenster und Dialoge. 
+
+
+
+1) Trackfinder
+
+Der Dialog gibt eine šbersicht ber die im Tracker verwendeten Samplebl”cke,
+und erlaubt das Suchen eines solchen Sampleblocks.Bei vielen Samples kann
+die šbersicht schnell verloren gehen,und deshalb gibt es dieses komfortable Suchwerkzeug.Nach der Suche wird das Sample
+automatisch im Tracker
+selektiert,und in die Ecke links oben gescrollt.Angezeigt werden im Fileselector die Namen der Sampledateien,und die
+entsprechenden Kommentare,die in den Info-Dateien enthalten sind (Dateiendung *.INF).Den Kommentaren wird bei der
+Anzeige die Tracker-Spurnummer vorangestellt (T012 = Track 12),die
+
+anzeigt,auf welcher Spur das Sample zu finden ist.Die Samples werden nach Spur und SMPTE-Startzeit sortiert.Man w„hlt
+das entsprechende Sample im Sampledatei-Name-Bereich aus,indem man das entsprechende Feld selektiert, und klickt
+anschlieáend auf Search - und das Sample wird im Tracker gesucht. Man kann hier auch die Sample-Kommentare „ndern.Dafr
+klickt man auf das entsprechende Kommentartext-Feld,und es erscheint der Tracker-Kommentar- Dialog,in dem man den
+Kommentar eingeben kann.Diese Kommentare werden im Tracker-File (Endung *.TRK) abgespeichert.Diese stehen also beim
+Laden eines solchen Tracker-Files wieder zur Verfgung. 
+
+
+
+2) trash
+
+Hiermit l”scht man alle Spuren bzw. alle Spureintr„ge im Tracker.
+
+
+3) Trackbouncing
+
+Hiermit kann man sich das aktuelle MultitracküArrangement zu einer
+einzigen Stereo Sample-Datei zusammenmischen lassen.Alle Tracks,die mit 
+
+MultitracküPlay (5) h”rbar sind,werden hierbei bercksichtigt,also alle,die als
+
+"active" gekennzeichnet wurden (siehe Spurfeld). Die neue "gebouncte" Datei wird anschlieáend automatisch in die
+selektierte Spur geladen.
+4) CDüExport
+
+
+
+Hiermit kann die Trackliste in das CDüWriterüProgramm Extendos Gold
+
+exportiert werden.Die zu brennenden Audiodateien mssen sich jeweils auf
+
+einer eigenen Spur befinden,und von Spur 1 an durchgehend untereinander
+
+stehen,also pro Spur nur eine Audiodatei.Durch CDüExport wird dann eine
+
+Liste fr ExtendosüGold generiert,mit der man anschlieáend die Audiofiles in der gleichen Reihenfolge brennen kann.In
+Zukunft soll auch das Soundpoolü
+
+Programm CDüRecorder mit seinen weitreichenden M”glichkeiten untersttzt
+
+werden.
+
+
+
+5) multitrack-play
+
+Hiermit startet man die Wiedergabe des Trackers.Die aktivierten Spuren
+werden zusammengemischt und abgespielt.Der Abspielbereich kann durch die Playmarker eingegrenzt werden.In Zukunft wird
+sich hier ein MischpultüFenster ”ffnen,das die komfortable Echtzeitkontrolle wichtiger Parameter wie Volume,
+
+Balance und Effekte erm”glichen soll.
+
+
+6) delete sample
+
+Das aktuelle Sample (roter bzw. gestrichelter Rand) wird aus der Spurliste
+gel”scht.Das Sample bleibt natrlich auf der Festplatte vorhanden.
+
+
+7) Clipboard
+
+šber das Clipboard kann man ganze Spuren kopieren.Wenn man eine ganze Spur kopieren m”che,selektiert man die Spurnummer
+und zieht (draggt) sie mit gedrckter Maustaste in das Clipboard.Dabei wird das Clipboard-Symbol selektiert.Nun l„át man
+die Maustaste los.Damit wurde die gesamte Spur mit allen Sampleeintr„gen zun„chst ins Clipboard kopiert (eine Art
+Zwischenü speicher).Nun sucht man mit dem Slider die gewnschte Spur,auf die das ganze kopiert werden soll.Hat man die
+Zielspur im Sichtfeld, klickt man auf das Clipboard.Man h„lt dabei die linke Maustaste gedrckt.An der Maus h„ngt nun
+das Spurnummer-Symbol.Dieses zieht man jetzt ber den Spurnummer-Button des Spurfeldes,in das kopiert werden soll.Dabei
+wird der Spurnummer-Button der Zielspur automatisch selektiert.Ist der Spurnummer-Button selektiert,l„át man die Maus
+los - fertig.Der Clipboard-Inhalt bleibt solange vorhanden,bis man einen anderen Track oder Sampleblock
+hineinkopiert.Man kann aber nicht nur ganze Spuren,sondern auch einzelne Samplebl”cke kopieren.Das Vorgehen dabei ist
+sehr „hnlich.Man zieht (draggt) den zu kopierenden Sampleblock (mit Maus auf Block zeigen und rechte Maustaste zusammen
+mit den Tasten CTRL+ALT drcken) auf das Clipboard.Eventuell sucht man nun mit dem Slider die gewnschte Spur,auf die
+der Sampleblock kopiert werden soll.Hat man die Zielspur im Sichtfeld,klickt man auf das Clipboard.Man h„lt dabei die
+linke Maustaste gedrckt.An der Maus h„ngt nun der Sampleblock.Diesen zieht man jetzt auf die gewnschte Spur,und l„át
+die Maus los - fertig.
+
+
+ModeüBereich:
+
+In diesem Bereich der Toolbar haben sie Zugriff auf alle wichtigen
+
+Editierü und Zeichenfunktionen.
+
+
+
+8) select sample
+
+
+
+Hiermit w„hlt man den Selektiermodus.In diesem Modus kann man die Samples aktivieren.Diese k”nnen anschlieáend
+vielf„ltig bearbeitet werden.
+
+
+
+9) move sample
+
+
+
+Hiermit w„hlt man den Movemodus.In diesem Modus kann man die Samples
+
+mit der Maus auf der Timeline verschieben,oder auf eine andere Spur wechseln.
+
+Der Movemodus wird automatisch gew„hlt,wenn man die rechte Maustaste drckt und das Sample verschiebt (siehe auch
+TrackerüSpurfeld:Drag&Drop) .
+
+
+
+10) copy sample
+
+
+
+Hiermit w„hlt man den Kopiermodus.In diesem Modus k”nnen die Samples
+
+kopiert werden.Man zieht dabei mit der Maus einfach eine Kopie aus dem Sample,und legt die Kopie im Spurfeld ab.Der
+Copymodus wird automatisch gew„hlt,wenn man die ALTüTaste zus„tzlich zur Maustaste drckt (siehe auch
+TrackerüSpurfeld:Drag&Drop) .
+
+
+
+11) clip sample
+
+
+
+Hiermit w„hlt man den ClipüModus.In diesem Modus k”nnen die Samples auf das Klemmbrett gezogen werden.Anschlieáend
+k”nnen aus dem Klemmbrett beliebig viele Kopien gezogen,und im Spurfeld abgelegt werden.
+
+Der Clipmodus wird automatisch gew„hlt,wenn man die CTRL+ALTüTasten zus„tzlich zur Maustaste drckt (siehe auch
+TrackerüSpurfeld:Drag&Drop).
+
+
+
+12) edit sample
+
+
+
+Hiermit w„hlt man den Editiermodus.In diesem Modus kann man die Marker sehr exakt ver„ndern bzw. setzen.Man klickt
+einfach das zu editierende Sample an.Es wird anschlieáend automatisch in den Editor geladen.Dort k”nnen die Marker
+editiert werden.Anschlieáend drckt man im Editor auf Quit.Danach wird nicht etwa das Programm beendet,sondern die
+Marker werden in den Tracker bernommen.Der Editmodus wird automatisch gew„hlt,wenn man die CTRLüTaste zus„tzlich zur
+Maustaste drckt (siehe auch TrackerüSpurfeld: Drag&Drop).
+
+13) snap sample
+
+
+
+Hiermit w„hlt man den Snapmodus.In diesem Modus kann man sehr einfach
+
+mehrere Samples ohne Lcke aneinanderreihen.Drckt man die linke Shifttaste und mit der Maus auf das Sample,springt es
+bndig an das  links in n„chster N„he stehende Sample.Bei Druck auf die rechte Shifttaste springt es entsprechend bndig
+an das rechts in n„chster N„he stehende Sample.
+
+
+
+14) size sample
+
+
+
+Hiermit w„hlt man den Sizemodus.Sobald angew„hlt,werden in jeder Ecke
+
+des Sampleblocks kleine Quadrate sichtbar.An diesen kann man den Anfang bzw. Ende des Sampleblocks in seiner L„nge
+verschieben,und somit sehr einfach
+
+Startü und Endpunkt in einem Sample definieren. 
+
+Diese Funktion ist in der V2.00 noch nicht enthalten,wird aber voraussichtlich in der n„chsten Version enthalten sein.
+
+
+
+15) draw effectüsends
+
+
+
+Hiermit w„hlt man den Drawmode.In diesem Modus kann man beliebig viele EffektüSends (fr kontinuierliche
+Lautst„rkeanpassung und DSPüEffekte) in die Spurfelder einzeichnen.Hierfr werden zuerst mit der rechten Maustaste
+Sttzpunkte definiert,die dann mit der linken Maustaste verschoben werden k”nnen.Diese werden automatisch durch
+Bezierkurven verbunden,und bilden
+
+so die Einü und Ausblendkurven fr die EffektüSends.
+
+Diese Funktion ist in der V2.00 noch nicht enthalten,wird aber voraussichtlich in der n„chsten Version enthalten sein.
+
+
+
+FileüBereich:
+
+In diesem Bereich der Toolbar haben sie Zugriff auf alle wichtigen
+
+Filefunktionen des Trackers.
+
+
+
+16) load sample
+
+Hiermit l„dt man ein Sample in den Tracker.Es erscheint dabei immer als letztes Sample der aktuellen Spur (selektierte
+Spurnummer),und wird als aktuelles Sample (roter bzw. gestrichelter Rand) gekennzeichnet.
+
+
+17) load Tracker-File
+
+Hiermit kann man die Tracker-Datei (Dateiendung *.TRK) laden.
+
+
+18) save Tracker-File
+
+Hiermit kann man die Tracker-Datei (Dateiendung *.TRK) abspeichern.In ihr werden s„mtliche verwendeten
+Spuren,Samplebl”cke und Abspielparameter gespeichert.

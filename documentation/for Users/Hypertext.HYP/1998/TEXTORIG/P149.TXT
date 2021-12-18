@@ -1,0 +1,32 @@
+4.7.3 Save
+
+
+Den Save-Dialog erreicht man ber das Save-Symbol in der Buttonleiste des
+Edit-Fensters,durch Eingabe von CTRL-S,oder ber das optionale Programmü
+Men im Dropdown Datei/Sample speichern.In diesem Dialog kann man w„hlen,ob man den kompletten Samplespeicher,oder nur
+den markierten Block speichern m”chte.Hat man eine Wahl getroffen,erscheint zuerst ein Fileselector, in dem man den
+Namen der Sampledatei eingibt.Die Dateiendung entscheidet dabei ber das Dateiformat (siehe auch Setup-Dialog).Danach
+erscheint der Information-Dialog,in dem man dem Sample eine Beschreibung (Kommentar) zur besseren Identifikation geben
+kann.Dann wird das Sample abgespeichert. 
+
+
+
+1) save all
+
+Hiermit wird das komplette Sample-Memory gespeichert.
+
+
+2) save block
+
+Hiermit wird der markierte Sample-Memorybereich (Bereich zwischen Marker-S und Marker-E) gespeichert.
+
+
+3) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+4) Exit
+
+Hiermit wird der Save-Dialog geschlossen bzw. der Save-Vorgang abgebrochen.

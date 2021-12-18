@@ -1,0 +1,35 @@
+4.6.2 Midicontrol
+
+
+Dieser Dialog ist fr die Auswahl von Midi-Note & Midi-Kanal zust„ndig.
+Man erreicht diesen Dialog ber das Noten-Symbol im Editor- bzw. unter NOTE bzw. CH im Arranger-Feld des
+Arranger-Fenster,durch Eingabe von CTRLüN,oder ber das optionale ProgrammüMen im Dropdown Funktion/ Midicontrol.Er
+wird benutzt,um dem Sample eine bestimmte Midinote und einen Midikanal zum Abspielen ber ein Midi-Keyboard zuzuordnen.
+
+
+1) Note
+
+Hier wird die Note ausgew„hlt.Mit den links am Notenfeld angeordneten
+Pfeiltasten kann man den Grundton ausw„hlen,mit den rechts am Notenfeld
+angeordneten Pfeiltasten kann man die Oktave w„hlen.Groágeschriebene Noten
+gelten als Baánote,ansonsten sind die Noten kleingeschrieben.Die Oktaven
+reichen fr den Baábereich von 3-1,fr den normalen Tonbereich von 0-6.
+
+
+2) Channel
+
+Hier wird der Midikanal ausgew„hlt.Mit den Pfeiltasten kann der Midikanal
+(1-16) gew„hlt werden.
+
+
+3) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+4) OK
+
+Hiermit wird der Midicontrol-Dialog geschlossen.Die ausgew„hlten Werte sind
+gltig und werden benutzt.Die hier eingestellen Werte werden im MidiüSampleplayer auáerdem als Basis fr alle weiteren
+Notenwerte verwendet
+
+(beim Erstaufruf des MidiüSampleplayerüFensters oder beim L”schen mit dem TrashüButton im MidiüSampleplayer).

@@ -1,0 +1,133 @@
+4.13.2 Parameter-Feld
+
+
+
+Hier werden die einzelnen Samples mit den fr das Abspielen ber ein MIDI-Keyboard wichtigen Parametern eingestellt.
+
+
+1) Eintragsnummer
+
+Hier erscheint die Nummer des Eintrags.
+
+
+
+2) Cache
+
+
+Die Samples werden soweit m”glich in den Speichercache geladen,bevor sie abgespielt werden k”nnen.Die Samples,die im
+Cache Platz finden,werden in
+
+diesem Feld mit dem Buchstaben C gekennzeichnet.
+
+
+
+3) load Sample
+
+Hier kann man ein Sample ausw„hlen das man in die Arrange-Liste aufnehmen m”chte.Hierzu erscheint dann ein Fileselector
+mit dem man die Sampledatei ausw„hlt.Dann erscheint hier der Name der Sampledatei.Man kann dem Eintrag bei Bedarf nun
+auch einen anderen Namen geben,z.B. um die Eintr„ge besser unterscheiden zu k”nnen,falls sich die verwendeten Dateinamen
+zu sehr „hneln. Dazu klickt man nach dem Laden nochmal auf den Button.
+Es erscheint dann eine Dialogbox,in der man den neuen Namen eingeben kann.
+Die neuen Namen werden auch in der MidiüSampleplayer-Datei (*.ARR) abgespeichert.
+
+
+4) edit-sample
+
+Hiermit w„hlt man das zu bearbeitende (aktuelle) Sample aus.Alle Laufwerksü funktionen wirken nun auf das ausgew„hlte
+Sample.Man kann einen Eintrag hierber auch kopieren,indem man den Button anklickt und bei gedrckter linker Maustaste
+auf das Clipboard-Icon zieht (bzw. draggt).Dabei wird das Clipboard-Symbol selektiert.Nun l„át man die Maustaste
+los.Damit wurde der Eintrag zun„chst ins Clipboard kopiert (eine Art Zwischenspeicher).Nun sucht man nun mit dem Slider
+den gewnschten Eintrag,auf den das ganze kopiert werden soll.Hat man den leeren Eintrag im Sichtfeld,klickt man auf das
+Clipboard.Man h„lt dabei die linke Maustaste gedrckt.An der Maus h„ngt nun das Edit-Symbol.Dieses zieht man jetzt ber
+den Edit-Button des Eintrags,in
+
+den kopiert werden soll.Dabei wird der Edit-Button des Eintrags automatisch selektiert.Ist der Edit-Button
+selektiert,l„át man die Maus los - fertig.Der Clipboard-Inhalt bleibt solange vorhanden,bis man einen anderen Eintrag
+hineinkopiert.
+
+
+5) kill sample
+
+Hiermit l”scht man den Sample-Eintrag aus der Liste
+
+
+6) Samplerate
+
+Hier erscheint die OriginalüSamplerate der ausgew„hlten Sampledatei.
+
+Alle Samples werden mit der gleichen Samplerate abgespielt,die im SamplerateüDropdown im Editor oder ConnectionüFenster
+ausgew„hlt wurde. Das sollte man bei der Auswahl der Samples beachten.
+
+
+7) Loopart
+
+Es gibt drei M”glichkeiten das Sample abzuspielen,daher wurde ein
+Tristate-Button (fr 3 Zust„nde) benutzt.
+
+
+Feld leer            = vorw„rts abspielen
+Feld angekreuzt = rckw„rts abspielen
+Feld gepunktet   = cross-play d.h. vorw„rts und dann rckw„rts abspielen
+
+
+8) Loop-Button
+
+Hiermit bestimmt man,ob man das Sample loopen (Endloswiedergabe)
+
+m”chte,oder nicht.
+
+
+nicht selektiert = Sample wird bei Druck auf Keyboardtaste nur einmal
+                           abgespielt,auch wenn die Keyboardtaste l„nger gedrckt
+                          bleibt.L„át man die Keyboardtaste los,wird die
+                          Wiedergabe des Samples natrlich sofort beendet.
+ist selektiert = Sample wird bei Druck auf Keyboardtaste endlos
+                      abgespielt,solange die Keyboardtaste gedrckt bleibt.
+                      L„át man die Keyboardtaste los,wird die Wiedergabe des
+                      Samples natrlich sofort beendet.
+                      Wurde der Start- und Endpunkt des Loops geschickt
+                      definiert,sollte der Loopbergang unh”rbar sein.
+9) MIDI-Channel
+
+In diesem Feld erscheint die Midi-Kanalnummer,ber die man das Sample mit
+einem MIDI-Keyboard ansteuern kann.Wenn man auf dieses Feld klickt erscheint ein Dialog,in dem man den Midikanal und die
+Midinote des Samples einstellen kann.
+
+
+10) Midinote
+
+In diesem Feld erscheint die Midi-Note,ber die man das Sample mit einem
+MIDI-Keyboard ansteuern kann.Wenn man auf dieses Feld klickt erscheint ein Dialog,in dem man den Midikanal und die
+Midinote des Samples einstellen kann.Beim Start des Programms werden die ArrangerüEintr„ge mit einem
+
+Notenwert initialisiert.Als Basis wird der Midikanal und die Midinote gew„hlt,
+
+die im MidiüDialog im Editor angegeben wurde.Die weiteren Eintr„ge werden
+
+dann fortlaufend durchgez„hlt.
+
+
+11) play sampleblock
+
+Drckt man auf diese Taste, wird der durch Startpoint (12) und Endpoint (13)
+definierte Block des Sample abgespielt.
+
+
+12) Startpoint
+
+Hier erscheint der Start-Zeitpunkt des Samples.Man kann ihn durch Druck auf
+den Startpoint-Button (linkspfeil) vom Laufwerks-Z„hlerstand bernehmen,
+oder durch šbernahme der Blockmarker des Samples (siehe unter Steuerungsfeld)
+
+
+13) Endpoint
+
+Hier erscheint der End-Zeitpunkt des Samples.Man kann ihn durch Druck auf
+den Endpoint-Button (rechtspfeil) vom Laufwerks-Z„hlerstand bernehmen,oder durch šbernahme der Blockmarker des Samples
+(siehe unter Steuerungsfeld).
+
+
+14) Len
+
+Hier erscheint die L„nge des Sampleblocks (real-button selektiert),oder die
+Gesamtl„nge (real-Button deselektiert) des Samples.

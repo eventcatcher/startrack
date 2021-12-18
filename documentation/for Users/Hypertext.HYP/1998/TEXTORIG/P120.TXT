@@ -1,0 +1,43 @@
+Info-Fenster
+
+
+Dieses Fenster zeigt das Programmlogo,die Copyright-Vermerke und die Versionsnummer der Software. 
+Aufgerufen wird das Info-Fenster durch den Info-Button im Edit-Fenster,oder ber das optionale ProgrammüMen im
+AccessorieüDropdown unter
+Startrack/šber Startrack.. Wenn das InfoüFenster aktiv ist,wird ein kleines
+
+Testsample abgespielt.
+
+
+1) Name des Programms
+
+
+Startrack natrlich ;-)
+
+
+2) Serialisierung
+
+
+
+Hier ist der Inhaber der registrierten Version und die Seriennummer vermerkt.
+
+3) Copyright- und Versionsvermerke
+
+
+Versionsnummer und Copyright,auáerdem Danksagung an
+
+Gregor Duchalski & Olaf Meisiek fr die GFA-RSC-Bibliothek.
+
+
+4) Help
+
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+5) Exit
+
+Hiermit wird das Info-Fenster geschlossen.
+Man kann jedoch mehrere Fenster gleichzeitig ge”ffnet lassen und hat so
+immer den direkten Zugriff.

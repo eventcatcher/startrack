@@ -1,0 +1,36 @@
+Load-Dialog
+
+
+Den Load-Dialog erreicht man Åber das Load-Symbol in der ›Buttonleiste›EBUTTONS.TXT› des
+Edit-Fensters oder durch Eingabe von CTRL-L, oder Åber das optionale
+Dropdown-MenÅ unter Datei/Sample laden. In diesem Dialog kann man wÑhlen,
+ob man das Sample ganz oder als Block laden mîchte. Anschlieûend wird das
+Sample in den Editor geladen. Falls es dort nicht hineinpaût, erscheint der
+›Virtual-Dialog›VIRTUAL.TXT›. In diesem kann man wÑhlen ob man einen Block laden mîchte,
+der noch in das Sample-Memory paût,
+oder ob man in den Virtual-Mode (virtuelle Bearbeitung) wechseln mîchte.
+Zur besseren VerstÑndnis sollte man das ›BILD›LOAD.IMG› zu Rate ziehen.
+
+1) full-loading
+---------------
+Hiermit wird das Sample an den Anfang des Samplespeichers geladen.
+Dabei wird zuerst der Speicher gelîscht, d.h. es ist als einziges Sample
+im Speicher.
+
+2) block-loading
+----------------
+Hiermit wird das Sample an die Position des Marker-S geladen. Dabei bleiben
+der Speicher vor dem Marker-S unverÑndert. Der Speicherinhalt wird ab dem
+Marker-S von dem geladenen Sample Åberschrieben. Diese Funktion ist
+nÅtzlich, um Samples an eine bestimmte Position einzusetzen, oder um
+mehrere Samples im Speicher zu halten.
+
+3) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+4) Exit
+-------
+Hiermit wird der Load-Dialog geschlossen bzw. der Load-Vorgang abgebrochen.

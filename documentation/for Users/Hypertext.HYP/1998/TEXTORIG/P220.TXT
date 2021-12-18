@@ -1,0 +1,71 @@
+4.14.7 Playstart-Time
+
+
+Dieser Dialog ist fr die Eingabe der Playstart-Zeit zust„ndig.
+Man erreicht den Playstart-Time-Dialog,indem man einfach auf das Playstart- Zeitanzeigefeld im Tracker klickt.Die Angabe
+der Playstart- und Playend-Zeit grenzt den Wiedergabebereich im Tracker ein,und funktioniert „hnlich wie die Marker im
+Editor-Fenster,d.h. die Wiedergabe startet bei der Playstart-Zeitmarke und endet bei der Playend-Zeitmarke.Diese beiden
+Playmarker werden im Tracker durch senkrechte Linien dargestellt.Man kann diese im Tracker auch direkt greifen,und auf
+die gewnschte Position verschieben.Auáerdem hat man neben dem Playstart-Zeitanzeigefeld noch zwei Pfeilbuttons,mit
+denen man den Playmarker verschieben kann. 
+
+
+1) Max.Time
+
+Anzeige der maximal m”glichen Zeitposition. Diese wird durch die L„nge des
+Tracker-Arrangements bestimmt.
+
+
+2) Zeiteingabe
+
+Hier stellt man die Playstart-Zeitmarke ein.Die Zeitangabe ist in Stunden, Minuten,Sekunden und Frames unterteilt,wobei
+jede Position direkt mit einem Pfeilbutton ver„ndert werden kann.Dabei sind die Doppelpfeil-Buttons fr die
+Zehnerpositionen,und die Einpfeil-Buttons fr die Einerpositionen zust„ndig. Man kann im Edit-Feld aber auch direkte
+Eingaben machen.Fr kleinere Korrekturen sind die Pfeilbuttons aber recht praktisch.
+
+
+3) Min
+
+
+
+Hiermit kann man den PlaystartüMarker auf den MinimalüZeitwert setzen
+
+(normalerweise Null).
+
+
+
+4) Max
+
+
+
+Hiermit kann man den PlaystartüMarker auf den MaximalüZeitwert (1) setzen.
+
+
+
+5) aktueller Editslot
+
+
+
+Die Dialogbox kann komplett per Tastatur bedient werden.Hier wird das
+
+aktuelle Feld ausgew„hlt (mit CTRL Pfeilülinks bzw. rechts),auf daá sich die Bedienung der Pfeilbuttons per Shortcut
+(CTRL Pfeilühoch bzw. runter) bezieht.Die ShortcutüBelegung ist im Anhang unter "Shortcuts" nachzulesen.
+
+
+
+6) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+7) Exit
+
+Hiermit wird der Playstart-Time-Dialog geschlossen.Die Playstart-Zeiteingabe wird nicht beachtet und ist ungltig.Der
+alte Playstart-Zeiteintrag,sofern vorhanden,bleibt erhalten.
+
+
+8) OK
+
+Hiermit wird der Playstart-Time-Dialog geschlossen.
+Die Playstart-Zeiteingabe ist gltig,und wird gesetzt.

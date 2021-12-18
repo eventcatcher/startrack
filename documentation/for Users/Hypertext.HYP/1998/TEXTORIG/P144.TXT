@@ -1,0 +1,40 @@
+4.7.1 Load
+
+
+
+
+Den Load-Dialog erreicht man ber das Load-Symbol in der Buttonleiste des
+Edit-Fensters,durch Eingabe von CTRL-L,oder ber das optionale Programm- Men im Dropdown Datei/Sample laden.In diesem
+Dialog kann man w„hlen,ob man das Sample ganz oder als Block laden m”chte.Wird es als Block geladen, wird es an der
+aktiven Markerposition eingefgt.Anschlieáend wird das Sample in den Editor geladen.Falls es dort nicht hineinpaát
+(abh„ngig von der Gr”áe des SampleüRAM),erscheint der Virtual-Dialog.In diesem kann man w„hlen,ob man einen Block laden
+m”chte,der noch in das Sample-Memory paát,oder ob man in den Virtual-Mode (virtuelle Bearbeitung bzw. HDüProjekt)
+wechseln m”chte.
+
+
+1) load all
+
+Hiermit wird das Sample an den Anfang des Samplespeichers geladen.
+Dabei wird zuerst der Speicher gel”scht,d.h. es ist als einziges Sample
+im Speicher.
+
+
+2) load block
+
+
+Hiermit wird das Sample an die Position des Marker-S geladen.Dabei bleibt
+der Speicher vor dem Marker-S unver„ndert.Der Speicherinhalt wird ab dem
+Marker-S von dem geladenen Sample berschrieben.Diese Funktion ist
+ntzlich,um Samples an einer bestimmten Position einzusetzen,oder um
+mehrere Samples im Speicher miteinander zu kombinieren.
+
+
+3) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+4) Exit
+
+Hiermit wird der Load-Dialog geschlossen bzw. der Load-Vorgang abgebrochen.

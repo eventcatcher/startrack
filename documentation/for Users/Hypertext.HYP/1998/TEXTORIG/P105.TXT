@@ -1,0 +1,46 @@
+1) Grundfrequenz
+
+
+
+Hier wird die Grundfrequenz angezeigt,mit der das externe Clockmodul arbeitet.Die Grundfrequenz kann im WorkmodeüFenster
+angegeben werden.
+
+
+
+2) Auswahl der Samplerate
+
+
+
+Hier wird die ausgew„hlte Samplerate bzw. der Taktteiler angezeigt.
+
+Mit dem Slider(3) kann man die passende Samplerate w„hlen.
+
+
+
+3) SampleratenüSlider
+
+
+
+Mit dem Slider kann eine der m”glichen Sampleraten ausgew„hlt werden,
+
+die dann in der SampleratenüAuswahl im markierten Feld(2) angezeigt wird.
+
+
+
+4) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+5) Exit
+
+Hiermit wird der Taktauswahl-Dialog geschlossen.Die SamplefrequenzüAuswahl wird nicht beachtet und ist ungltig.Die alte
+Auswahl bleibt erhalten.
+
+
+6) OK
+
+Hiermit wird der Taktauswahl-Dialog geschlossen.
+Die SamplefrequenzüAuswahl ist gltig und wird gesetzt.
+Diese steht nun zus„tzlich zu den StandardüSampleraten im SampleratenüPulldown (Eintrag DIV xyz) zur Auswahl.

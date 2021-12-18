@@ -1,0 +1,68 @@
+4.14.15 Trackfinder
+
+
+Dieser Dialog gibt eine šbersicht ber die im Tracker verwendeten Sampleü bl”cke,und erlaubt das Suchen eines solchen
+Sampleblocks.Bei vielen Samples kann n„mlich die šbersicht schnell verloren gehen,und dafr gibt es dieses
+Suchwerkzeug.Nach der Suche wird das Sample automatisch im Tracker selektiert,und in die Ecke links oben
+gescrollt.Angezeigt werden im Fileselector die Namen der Sampledateien,und die entsprechenden Kommentare,die in den
+Info-Dateien enthalten sind (Dateiendung *.INF). Den Kommentaren wird bei der Anzeige die Tracker-Spurnummer
+vorangestellt (T012 = Track 12), die anzeigt,auf welcher Spur das Sample zu finden ist.Die Samples werden nach Spur und
+SMPTE-Zeit sortiert.Man w„hlt das entsprechende Sample im Sampledatei-Name-Bereich aus (1),indem man das entsprechende
+Feld selektiert, und klickt anschlieáend auf Search - und das Sample wird im Tracker gesucht. Man kann hier auch die
+Sample-Kommentare „ndern.Dafr klickt man auf das entsprechende Kommentartext-Feld (2),und es erscheint der Kommentar-
+Eingabedialog,in dem man den Kommentar eingeben kann.Diese Kommentare werden im Tracker-File (Endung *.TRK) mit
+abgespeichert.Diese stehen also beim Laden eines solchen Tracker-Files wieder zur Verfgung,und gehen nicht
+
+verloren.
+
+
+
+1) Sampledatei-Name
+
+Hier werden die Original-Dateinamen der Samples aufgelistet.Diese Felder
+k”nnen angeklickt werden,um sie auszuw„hlen.Diese Felder erscheinen mit
+einem blauen Rahmen,um sie als selektierbar zu kennzeichnen.Das gilt fr
+das ganze Programm.Wo immer ein solches blau umrandetes Textfeld auftaucht, ist dieses auch selektierbar (l”st meistens
+eine bestimmte Funktion aus).
+
+
+2) Sampledatei-Kommentar
+
+Hier erscheint der Kommentar zu einem Sample,der in der Info-Datei des
+Samples (Endung *.INF) enthalten ist.Dieser Text kann aber jederzeit ge„ndert werden.Dafr klickt man einfach auf das
+Kommentarfeld,und gibt den neuen Kommentartext ein.
+
+
+3) Slider
+
+Funktioniert wie beim Original-Fileselektor auch,und w„hlt den Darstellungsü
+
+bereich aus.
+
+
+4) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+5) Sortierart
+
+Hiermit kann man ausw„hlen,wie die Samples sortiert werden sollen.
+
+
+deselektiert = Die Samples werden nach Spur und Startzeit sortiert.
+    selektiert = Die Samples werden nach ihren Dateinamen alphabetisch
+                     sortiert. Diese Option ist allerdings noch nicht
+                     implementiert !
+
+
+6) Exit
+
+Hiermit wird der Trackfinder-Dialog geschlossen.
+
+
+7) Search
+
+Hiermit wird der Trackfinder-Dialog geschlossen.Das selektierte Sample wird gesucht,und in die Ecke oben links gescrollt
+und selektiert.

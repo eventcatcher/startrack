@@ -1,0 +1,56 @@
+Copyright
+
+
+
+Kein Teil der Software oder des Handbuchs darf ohne schriftliche Genehmigung
+
+der Fa. Stephan Wilhelm, Entwicklungsbro fr Hardü und Software,K”ln  in irgendeiner Form reproduziert und
+weitergegeben werden.
+
+Startrack ist urheberrechtlich geschtzt
+
+
+
+Gew„hrleistungen
+
+
+
+Die Software und das Handbuch wurden mit gr”áter Sorgfalt erstellt. Nur bei
+
+Programmfehlern, die ein Arbeiten mit der StartracküSoftware unm”glich machen, leistet Fa. Stephan Wilhelm,
+Entwicklungsbro fr Hardü und Software, K”ln nach Rcksendung der Systemdisketten kostenfreien Ersatz.
+
+
+
+Haftungsausschluá
+
+
+
+Die Fa. Stephan Wilhelm, Entwicklungsbro fr Hardü und Software,K”ln kann
+
+keine Haftung fr irgendwelche direkten oder indirekten Sch„den ü einschlieálich aber nicht beschr„nkt auf materielle
+oder finanzielle ü bernehmen , die auf Programmfehler,inkorrekte Angaben im Handbuch, unsachgem„áe Benutzung der
+Hardware und/oder Software oder die Untauglichkeit derselben fr einen bestimmten Zweck entstehen.
+
+
+
+Die Wiedergabe von Warenbezeichnungen, Handelsnamen oder sonstigen Kennzeichen in diesem Buch berechtigt nicht zu der
+Annahme, daá diese von jedermann frei genutzt werden drfen. Es kann sich auch dann um eingetragene Warenzeichen oder
+sonstige geschtzte Kennzeichen handeln, wenn sie nicht als solche gekennzeichnet sind. In diesem Handbuch genannte
+Produkte sind in der Regel durch Warenzeichen oder Patente ihrer Hersteller geschtzt.
+
+
+
+
+
+Copyright			½ 1997ü1998 by SWE
+
+Stephan Wilhelm, Entwicklungsbro fr Hardü und Software, Niehler Str. 312, 50735 K”ln, Telefon 0221ü7127380, Fax:
+0221ü685184
+
+
+
+Email: stepwil@aol.com, InternetüHomepage: http://members.aol.com/swenet/
+
+Mausnet: Stephan Wilhelm @ K2
+

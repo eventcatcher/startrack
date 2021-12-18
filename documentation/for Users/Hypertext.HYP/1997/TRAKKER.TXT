@@ -1,0 +1,135 @@
+Trakker-Fenster
+
+
+šber dieses Fenster wird die Mehrspurwiedergabe realisiert. Momentan sind
+16 Spuren mit 32kHz Samplerate bzw. 12 Spuren mit 48 kHz machbar (auf einer
+Medusa oder Hades). Der TT schafft mit der DSP-Karte immerhin noch bis
+zu 8 Spuren. Die Verarbeitungsgeschwindigkeit ist aber noch nicht optimiert,
+so da man sicherlich noch mehr herausholen kann. Mit einem leistungsstarken
+DSP (Digitaler Signalprozessor,gibt es mit Motorola DSP56002-66 als
+Erweiterungskarte) sollte es in diesem Punkt dann keine Probleme mehr geben.
+Der DSP ist vor allem fr den TT sehr empfehlenswert !
+Man kann die Samples auf bis zu 99 virtuelle İSpurenİBLOCK.TXTİ verteilen.
+Das sollte wirklich auch fr gr”ere Projekte ausreichend sein. Davon kann
+man dann eine bestimmte Anzahl an Spuren ausw„hlen, die zusammengemischt
+und abgespielt werden sollen. Wieviele Spuren gleichzeitig wiedergegeben
+werden k”nnen h„ngt von der Geschwindigkeit der Festplatte und des Rechners
+ab. Es sind 4,8,12 oder 16 Spuren-Modus ausw„hlbar. Damit kann man die
+maximalen M”glichkeiten des Rechners ausloten, da fr jeden Modus eine
+optimierte Berechnungsroutine vorhanden ist.
+Man l„dt die einzelnen Samples zun„chst in den Trakker und verteilt diese
+auf die gewnschten Spuren. Man kann die Samples, aber auch ganze Spuren
+per Drag&Drop kopieren oder verschieben, Start- und Endmarker definieren
+oder aus der Information-Datei (*.INF) bernehmen, probeh”ren etc.
+Die Samples werden dabei nichtdestruktiv bearbeitet, d.h. die Sampledateien
+werden nicht ver„ndert. Ist man mit der Zusammenstellung zufrieden kann die
+fertige Trakkerliste als Playlist-File (Endung *.TRK) abgespeichert werden.
+Die İX-AchseİTIMELINE.IMGİ definiert die Zeiteinheit und auf der Y-Achse sind die İSpurenİBLOCK.TXTİ
+angeordnet. In diesem Fenster kann man also die Samples die auf der
+Festplatte liegen, zu einem "Song" arrangieren. Das Sample kann man danach
+wenn n”tig per Drag & Drop an eine andere Abspielposition verschieben, oder
+ber Werteeingabe auf eine neue Position setzen.
+Da man auch hier Zoom- und Scrollfunktionen benutzen kann, geht das gerade
+per Drag & Drop sehr genau. Eine SMPTE-Synchronisierung via MTC ist zwar
+vorgesehen aber noch nicht implementiert.
+Zur besseren Verst„ndnis sollte man das İBILDİTRAKK.IMGİ des
+Trakker-Fensters zu Rate ziehen. Aufgerufen wird das Trakker-Fenster durch
+den İTrakker-ButtonİEBUTTONS.TXTİ im Edit-Fenster, oder durch Eingabe von CTRL-T, oder ber
+das optionale Dropdown-Men unter Fenster/Trakker.
+Ab einer Aufl”sung von 1024x768 wird der Trakker in einem gr”eren Fenster
+dargestellt. Sie hierzu das İBILDİBIGTRAKK.IMGİ des Big-Trakker-Fensters.
+
+Das Trakker-Fenster besteht aus folgenden Funktionsgruppen:
+
+
+1) İButton-ToolbarİTBUTTONS.TXTİ
+-----------------
+Hierber erreicht man die wichtigsten İHauptfunktionenİTBUTTONS.TXTİ.
+
+2) Zeitachse
+------------
+Die Zeitachse dient zur besseren Orientierung und markiert in einem
+bestimmten Abstand Zeitpositionen auf der X-Achse.
+Zur besseren Verst„ndnis sollte man das İBILDİTIMELINE.IMGİ zu Rate ziehen.
+
+3) İSpurfeldİBLOCK.TXTİ
+-----------
+Hier werden am linken Rand die Parameter-Einstellungen fr die Spur
+vorgenommen wie z.B. Lautst„rke der Spur. Hinter dem Parameterblock folgen
+die İSamplebl”ckeİBLKFSEL.IMGİ, wobei auch der Amplitudenverlauf der Samples dargestellt
+werden kann. Damit l„t sich z.B. sehr gut Rhythmus,Anfang,Ende,Pausen usw.
+eines Samples erkennen. Das ist ntzlich um z.B. zu einem Schlagzeugrythmus
+auf Spur A, einen Bassguitar-Rythmus auf Spur B so anzuordnen das beides im
+Rhythmus zueinander pat. Man kann also die Samples rein visuell anordnen
+und hat durch die Amplitudendarstellung schon in etwa eine Vorstellung vom
+klanglichen Ergebniss. Eine genauere Erkl„rung der einzelnen Einstellungen
+folgt unter dem Stichwort İSpureinstellungenİBLOCK.TXTİ.  
+
+4) İZoom- und Scroll-SliderİZOOMSCRL.TXTİ
+--------------------------
+šber den Zoom-Slider kann man den Zeitmastab „ndern und die
+Darstellungsgenauigkeit anpassen. šber den Scrollslider rechts daneben kann
+man den Zeit-Darstellungsausschnitt w„hlen.
+Siehe dazu auch die Erkl„rung unter dem Stichwort İSliderİZOOMSCRL.TXTİ.
+
+5) İMarkerfeldİTMARKS.TXTİ
+-------------
+Im İMarkerfeldİTMARKS.TXTİ werden die Parameter des aktuellen Samples
+(Startzeit,Endzeit,L„nge,Position usw.) und des Playblocks aufgefhrt.
+
+6) İSteuerungsfeldİTSOUND.TXTİ
+-----------------
+Hierber k”nnen die Samples abgespielt bzw. nach Geh”r ein Start- und
+Endpunkt des Samples definiert werden.
+Es stehen s„mtliche bekannten İLaufwerksfunktionenİTSOUND.TXTİ zur Verfgung.
+
+7) İFunktionsfeldİBLOCKBUT.TXTİ
+----------------
+Auf der linken Seite des İFunktionsfeldsİBLOCKBUT.TXTİ stehen alle Funktionen die nur das
+aktuelle Sample betreffen (Blockmarker,Copy,Delete,Play), auf der rechten
+Seite die Darstellungs- und Abspieloptionen. 
+
+8) İAussteuerungsfeldİVOLPEAK.TXTİ
+--------------------
+Hier kann man die Lautst„rke des Mischergebnisses (sogenannter Master-Fader)
+regeln. Dazu hat man einen İVolumereglerİVOLPEAK.TXTİ und eine İAussteuerungsanzeigeİVOLPEAK.TXTİ.
+
+9) Kanalanzahl
+--------------
+Hier kann man die Zahl der zusammenzumischenden Kan„le w„hlen. Es gibt fr
+jede Auswahl (4,8,12 oder 16 Kan„le) eine optimierte Mischroutine.
+Je langsamer der Computer bzw. die Festplatte ist, desto weniger Kan„le kann
+man zusammenmischen. Ist der Rechner bzw. die Festplatte zu langsam,
+merkt man das an Dropouts (kleine Unterbrechungen) oder H„ngern bei der
+Wiedergabe.
+
+10) Spur-Slider
+---------------
+Da immer nur 4 der 99 Spuren gleichzeitig darstellbar sind, kann man
+hiermit den sichtbaren Teil ausw„hlen.
+
+11) Play-Marker
+---------------
+Die beiden İPlaymarkerİTMARKS.TXTİ definieren den Teil der Trakkerliste, der
+zusammengemischt und wiedergegeben werden soll. Das ist praktisch, da man
+beim Arrangieren oft Kontrollieren mu, ob der zeitliche Ablauf stimmt,
+oder das Sample an der eingefgten Stelle auch richtig zu den anderen
+Spuren pat. Man w„hlt dann einfach den zu kontrollierenden Teil mit den
+Playmarkern aus. Ist kein Playmarker definiert, wird alles vom Anfang bis
+bis zum Ende der Liste abgespielt. Die Playmarker k”nnen im Markerfeld (5)
+gesetzt werden. Diese erscheinen dann als senkrechte Linien mit ihrem
+Kennbuchstaben. Diese Linien lassen sich mit der Maus anfassen und an eine
+andere Position bewegen.
+
+12) Help
+--------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+13) Exit
+--------
+Hiermit wird das Trakker-Fenster geschlossen. Alle Einstellungen bleiben
+bis zum n„chsten Aufruf unver„ndert.
+Man kann jedoch mehrere Fenster gleichzeitig ge”ffnet lassen und hat so
+immer den direkten Zugriff auf die Funktionen.

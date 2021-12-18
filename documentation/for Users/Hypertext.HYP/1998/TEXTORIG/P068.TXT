@@ -1,0 +1,153 @@
+3.4 Einfhrung in die Arbeit mit mehreren Spuren
+
+
+Nun wollen wir einmal 8 Spuren (sogenannte Tracks) zusammenmischen und abspielen. Nehmen sie dafr aber zuerst 4
+komplette Stcke (jeweils ca. 3ü4 Minuten) auf Festplatte auf.Nehmen sie dafr m”glichst eine mindestens 200 MB
+groáe,leere Partition.Sie sehen schon,HDüRecording braucht Unmengen an Festplattenkapazit„t.W„hlen sie danach in der
+ButtonüToolbar den TrackerüButton(6) aus.Es ”ffnet sich das TrackerüFenster.
+
+
+
+
+
+Hier kann man komplette Musikstcke arrangieren wie bei einem analogen MehrspurüTonbandger„t,nur wesentlich komfortabler
+und rein digital.
+Vertikal sind die einzelnen Tracks angeordnet.Hier werden auch sp„ter unsere
+Samples dargestellt.Das kennen sie ja bereits vom EditorüFenster,allerdings
+k”nnen hier nicht nur 2,sondern bis zu 99 Spuren dargestellt werden.
+
+
+Wir werden nun unsere 4 vorher aufgenommenen Musikstcke auf die 4 sichtbaren Stereospuren verteilen. Am linken Rand des
+Fensters im Spurfeld(3)
+sehen sie die Nummerierung der Tracks.
+
+
+
+Klicken sie nun diesen SpurnummerüButton(1) mit Track Nr.1 (oberste Spur) an. Der SpurnummerüButton wird selektiert
+(schwarz),und ist nun der aktuelle Track,auf den sich alle weiteren Aktionen beziehen.Schauen sie nun auf die
+ButtonüToolbar am oberen Rand des TrackerüFensters.
+Im Filebereich finden sie den LoadüButton(16).
+
+
+
+Hiermit laden sie eines der aufgenommenen Musikstcke in den ausgew„hlten Track.Sie sehen nun einen schmalen
+rotumrandeten
+(bei monochrom gestrichelt) Block am linken Rand des Spurfeldes.
+Sie k”nnen nun ausw„hlen,welchen Bereich sie in den Tracker fr ihr Arrangement bernehmen m”chten.Es gibt hierfr
+vielf„ltige M”glichkeiten, diese alle hier zu erkl„ren aber den Rahmen sprengen wrde.Drcken sie im Steuerungsfeld des
+TrackerüFensters nun die PlayüTaste.Sie h”ren das gerade geladene Stck.Sie k”nnen durch die Abh”rfunktion ohne
+Parameter bzw. Zeiteingabe direkt den Block ausw„hlen,der sie interessiert. Drcken sie nach
+
+ca. 30 Sekunden die StopüTaste.Sie m”chten diese Stelle nun als Startpunkt definieren.Drcken sie hierfr im Markerfeld
+nun den StartüButton(1).
+
+
+
+
+
+Drcken sie anschlieáend wieder die PlayüTaste (Space).Die Wiedergabe wird an der gleichen Stelle fortgefhrt.Drcken
+sie nach einer gewissen Zeit (ca. 1ü2 Minuten) wieder die StopüTaste.Diesen Punkt m”chten wir nun als Ende des Blocks
+definieren.Drcken sie hierfr im Markerfeld den EndüButton(2).
+Sie sehen anschlieáend den markierten Block mit der Sampledarstellung,wie sie das schon vom Editor her kennen.Drcken
+sie nun den SpurnummerüButton mit der Nummer 2.Dieser ist nun unser aktueller Track. Laden sie nun das zweite
+Musikstck, wie vorhin gezeigt wurde. Wir wollen nun das gesamte Musikstck als Block markieren.Drcken sie dafr im
+Steuerungsfeld die endüTaste(11).
+
+Hiermit gelangen sie direkt zum Ende des Musikstcks.Drcken sie nun
+im Markerfeld wieder den EndüButton.Das komplette Musikstck wird nun als Block bernommen und dargestellt. Wiederholen
+sie das fr die Stcke 3 und 4 auf den entsprechenden Tracks (Spurnummer 3 und 4).
+Sie sehen nun die 4 Stereospuren (also insgesamt 8 Monospuren=8 Tracks)
+untereinander aufgereiht.
+
+
+Sie k”nnen die Spuren kleiner oder gr”áer darstellen (zoomen).
+Probieren sie einmal etwas mit dem Zoomslider(1) herum.
+
+
+
+Sie sehen die Zeitachse wird gedehnt bzw. gestaucht. Zoomen sie einen Ausschnitt etwas n„her heran.Sie k”nnen sich mit
+dem Scrollslider(2) rechts daneben in der Zeitachse bewegen.Sie sehen,die Sampledarstellung ist sehr detailiert.Gehen
+sie wieder auf Zeitposition Null (Scrollslider ganz nach links bewegen),und zoomen sie die Bl”cke so,daá sie komplett in
+der Sampledarstellung dargestellt werden und rechts daneben noch etwas Luft ist.
+
+
+Nun m”chten wir unsere 8 Spuren zusammenmischen und abspielen lassen.
+Wir mssen aber zuerst dem Tracker mitteilen,welche der insgesamt
+m”glichen 99 Spuren wir mischen m”chten.Dafr gibt es am linken Rand des Spurfeldes den activateüButton(2).
+
+
+
+
+
+Ist er selektiert,erscheint er als roter Punkt.Das bedeutet,daá diese Spur als Mischspur gekennzeichnet,also mit den
+anderen Spuren zusammen wiedergegeben werden soll."Aktivieren" sie nun hiermit alle 4 Stereospuren.
+Wenn sie alles richtig gemacht haben,k”nnen wir nun mit der Wiedergabe der
+
+4 Stereotracks beginnen.Allerdings sollten wir dem Tracker noch mitteilen, wieviele Spuren insgesamt gemischt werden
+sollen.Jetzt werden
+sie sagen,daá haben wir doch bereits durch die activatedüButtons getan. Das stimmt im Prinzip auch,aber es ist so,daá
+das Progamm Rcksicht auf leistungsschw„chere Rechner nehmen muá.Daher gibt es jeweils optimierte Mischroutinen fr
+4,8,12 und 16 Spuren.Auf der rechten Seite,unten im
+TrackerüFenster,sehen sie die KanalanzahlüButtons.
+
+
+Hier w„hlen sie bitte den 8üButton fr 8 Spuren aus.
+
+
+Nun wollen wir unser erstes Arrangement abspeichern.
+Gehen sie in die ButtonüToolbar und w„hlen den SaveallüButton(18) aus.
+
+
+
+
+
+Geben sie dem Arrangement einen Namen.
+Die Dateiendung hierfr (*.TRK) wird automatisch eingefgt,sie k”nnen diese aber selbstverst„ndlich auch manuell
+eingeben.
+
+
+Je nach TrackerüWiedergabemodus wird mit den KanalanzahlüButtons
+auch der 4Kanal,8Kanal und 16KanalüModus ausgew„hlt.
+
+Da das Zusammenmischen mehrerer Spuren sehr rechenintensiv ist,gibt es mehrere M”glichkeiten dies zu optimieren,vor
+allem um leistungsschw„cheren Rechnern wie dem TT dies zu erm”glichen.
+
+
+Lesen sie sich nun bitte zuerst das Kapitel "Workmode" im Referenzteil des
+
+Handbuchs durch,um die richtige Auswahl des Mischverfahrens zu treffen.
+
+
+
+Nun,ich hoffe sie haben das WorkmodeüKapitel einigermaáen verstanden.
+
+™ffnen sie nun das WorkmodeüFenster mit der Tastenkombination CTRLüW.
+Haben sie einen Hades oder MilanüRechner mit leistungsstarker CPU,so w„hlen sie bitte den CPUüMixmode im
+WorkmodeüFenster. Haben sie einen TT,so sollten sie unbedingt den DSPüMixmode w„hlen.Voraussetzung dafr ist
+natrlich die DSPüErweiterung.Haben sie eine DSPüErweiterung und m”chten die 8 Kan„le getrennt ber ein
+Einzelausgangsinterface (ADAT,JamüOut, Soundpool Analog8,FA8) am DSPüPort ausgeben,so w„hlen sie bitte den
+MatrixüMixmode.
+
+
+Nun wollen wir endlich mit der Wiedergabe der 8 Spuren beginnen.
+
+Wechseln sie nun wieder vom EditüFenster in das dahinterliegende TrackerüFenster (Fenster einfach anklicken).
+Drcken sie nun fr die Wiedergabe der 8 Spuren in der ButtonüToolbar den MixerüButton(5). Das System geht in
+WiedergabeüBereitschaft (Pause).
+
+Drcken sie nun die PauseüTaste um die Wiedergabe zu starten.Abbrechen k”nnen sie wie bei allen Fenstern mit
+Laufwerksfunktionen,mit der ESCüTaste bzw. dem StopüButton.
+
+
+
+Sie h”ren nun den etwas chaotisch klingenden Mix der vier berhaupt nicht zusammenpassenden Musikstcke.Nunja,hier geht
+es ja um die prinzipielle Vorgehensweise.Ich hoffe,sie haben bis hierher alles nachvollziehen k”nnen.
+
+
+Sie k”nnen die Bl”cke auch per Drag&Drop in der Zeitachse und auch auf
+andere Spuren verschieben (mit der rechten Maustaste bewegen). Wie das genau geht erfahren sie im Kapitel
+"Tracker/Spurfeld" unter Samplebl”cke(12).
+
+
+Viel Spaá bei der weiteren Lektre und gutes Gelingen.
+		

@@ -1,0 +1,39 @@
+
+- Editor mit Blockbearbeitungsfunktionen
+  (Cut,Insert,Space,Optimize,Resample,Stereo/Mono,Negate,Change,Copy,Move)
+
+- 100 Marker fÅr start,stop,intro & release
+
+- unmodale Fenster¸Dialoge, lÑuft mit TOS & Multitos, ab 640x400 in Monochrom & Farbe
+
+- Hypertext-Dokumentation
+
+  * funktionssensitiv d.h. bei Druck auf HELP¸Taste werden die Funktionen des aktuellen
+
+    Fensters erklÑrt.
+
+- viele Funktionen per drag & drop bedienbar
+
+- virtuelle Speicherverwaltung (fÅr Samples > Arbeitsspeicher)
+
+- ausgefeilte Zoom- und Scrollfunktionen mit Memory¸Option
+
+- editierbare Fader-Kurven, automatische Suche nach Loop¸Punkten
+
+- Sampleformate: S16,WAV,AVR,SND,SD,AU & SMP
+
+- Anzeige von Fehlercodes/Samplerate/Aufnahmeart der digitalen EingÑnge
+
+- Aussteuerungs-Peakmeter
+
+- MIDI-playlist (abspielen von Samples Åber MIDI-Keyboard)
+
+- DSP-Effekte (Echo,Flanger,Chorus,Lowpass,Pinknoise)
+
+- Track-playlist (eine Art Musicbox)
+
+- Multitrack-Fenster zum Arrangieren, mischen und abspielen von bis zu 99 virtuellen Spuren
+  * 12 Tracks bei 48 kHz, 14 Tracks bei 44.1 kHz,16 Tracks bei 32 kHz (Hades 060)
+  * Caching der Track-Darstellung
+
+- Abspeichern der kompletten Arbeitsumgebung

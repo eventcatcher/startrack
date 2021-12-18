@@ -1,0 +1,16 @@
+4.11.3 Optimize
+
+
+In diesem Dialog kann man die Einstellungen fr die Optimize-Funktion
+t„tigen.Die Optimize-Funktion ist im Blockfunktionen-Fenster unter dem
+Optimize-Button erreichbar.Man kann hiermit die Lautst„rke eines Samples
+nachtr„glich „ndern.Dafr wird ein H”chstwert in Dezibel (dB) angegeben,
+und anschlieáend das Sample auf die ge„nderte Lautst„rke umgerechnet.
+
+Nach dem ™ffnen des OptimizeüDialogs wird zuerst der H”chstwert des Samples gesucht.Das kann bei l„ngeren Samples etwas
+Zeit beanspruchen.
+- Falls man die Lautst„rke manuell anpassen will,sollte man den
+  Adjust-Button im Optimize-Dialog anw„hlen.
+- Falls man die Lautst„rke auf den maximal m”glichen Wert
+  (0dB Vollaussteuerung) anheben will,sollte man den AUTO-Button im                 Optimize-Dialog anw„hlen.Die
+manuelle H”chstwerteingabe f„llt dann weg.

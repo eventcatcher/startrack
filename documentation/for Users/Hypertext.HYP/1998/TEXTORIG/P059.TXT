@@ -1,0 +1,193 @@
+3.1 Die erste Aufnahme
+
+
+Ich gehe davon aus,das die StartracküKarte korrekt installiert und
+richtig mit der HIFIüAnlage verbunden ist.Sollte das nicht der Fall
+sein,empfehle ich das Kapitel HardwareüInstallation durchzulesen.
+
+
+Nach dem Start des Programms ”ffnet sich automatisch das EditorüFenster.
+W„hle nun in der EditorüToolbar am oberen Rand des Fensters
+den ConnectionüButton (2). Hiermit ”ffnen sie das ConnectionüFenster
+in dem man u.a. die Auswahl der Eing„nge vornehmen kann.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wir w„hlen hier den Analogeingang mit dem InputüButton(4) aus.
+
+Als Samplerate w„hlen wir 48 kHz mit dem SamplerateüButton(5).Nun sollte die Musik am Analogeingang ber die Soundkarte
+h”rbar sein.Ist dies nicht der Fall,ist h”chstwahrscheinlich die Soundkarte nicht richtig mit der HIFIüAnlage
+verbunden.Immer wenn die Soundkarte keine Samples abspielt,wird
+automatisch die Musik am Eingang auf die Ausg„nge gelegt (bypassümode).
+Wir verlassen das Fenster wieder mit dem ExitüButton(14) und sind
+nun wieder im EditorüFenster.
+
+
+Nun w„hlen wir in der EditorüToolbar den PeakmeterüButton(4).
+Es ”ffnet sich ein weiteres Fenster in dem man die Aussteuerung von
+Analogaufnahmen (Digitalaufnahmen brauchen nicht ausgesteuert werden)
+vornimmt und die Aufnahme starten kann.
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Die Lautst„rke (Aussteuerung) wird mit dem vertikalen Schieberegler(13) vorgenommen.Dieser kann auch w„hrend der
+Aufnahme korrigiert werden.
+Pegeln sie den Eingang so ein,daá die Aussteuerungsanzeige(2) bis zum
+oberen Drittel reicht.Man sollte bei der Aussteuerung immer etwas Reserve
+lassen,um eventuell auftretende Lautst„rkesprnge nicht zu bersteuern.
+
+Auf keinen Fall sollte die ClippingüAnzeige(1) leuchten.Das bedeutet eine šbersteuerung,und fhrt zu extremen
+Verzerrungen.Kommt die Aussteuerung in den Grenzbereich,f„rbt sich die blaue Aussteuerungsanzeige in diesem Bereich
+rot.Ist man mit der Aussteuerung zufrieden,w„hlt man den AufnahmeüButton(17) um die Aufnahme zu starten.Diese erste
+Aufnahme wird nun nicht auf Festplatte aufgezeichnet, sondern landet im SampleüRAM.Im MaxüFeld(3) wird die maximal
+m”gliche Aufnahmel„nge angezeigt.Je mehr RAM man fr das Sampleram reserviert,desto l„nger kann man in den Sampleram
+aufnehmen.Im PositionüFeld(4) wird die bereits abgelaufene Aufnahmezeit angezeigt.Nach der Aufnahme wird automatisch
+wieder in das EditorüFenster gewechselt. Dort wird sofort das gerade aufgenommene Sample im SampleüWindow angezeigt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+Nun kann man im Steuerungsbereich die Wiedergabe mit dem
+PlayüButton(6) starten.Man kann die Wiedergabe jederzeit mit dem
+StopüButton(7) stoppen oder mit dem PauseüButton(8) unterbrechen.
+Ein weiterer Druck auf den PauseüButton f„hrt mit der Wiedergabe fort.
+
+
+
+
+
+
+
+
+
+
+Ein senkrechter Strich im Samplebereich zeigt die aktuelle Wiedergabeposition an.Das war nun ihre erste Aufnahme in den
+Sampleram mit anschlieáender Abspielkontrolle.Herzlichen Glckwunsch !
+
+
+Tip: Die Gr”áe des Sampleram kann man im SetupüDialog einstellen.
+
+Diesen erreicht man mit dem BleistiftüSymbol in der EditorüToolbar.
+
+
+
+
+
+
+
+
+Das Sampleram wird unter anderem auch als Zwischenspeicher (Cache)
+fr andere Aufgaben innerhalb des Programms verwendet,und sollte idealerweise mindestens 8MB betragen,da ansonsten fr
+die Wiedergabe mehrerer Spuren zu wenig Speicher bereitsteht und es so u.a zu Aussetzern in der Wiedergabe kommen
+kann.Diesen Wert kann man im mallocüFeld in
+
+KB (Kilobyte=1024Byte) einstellen.
+
+
+
+
+
+
+
+
+
+
+
+Auáerdem sollte das maxüFeld angekreuzt sein, da ansonsten der komplette Speicher angefordert wird.Das ist jedoch gerade
+unter Multitaskingü
+Betriebssystemen wie MagiC oder NAES unerwnscht,da dann kein Platz mehr fr andere Programme frei bleibt.Man sollte
+auch nicht zu viel SampleüRAM reservieren,da mit zunehmendem Speicher die Darstellung der Samples immer langsamer
+wird.Es ist halt ein Unterschied,ob die Amplitudenwerte von 8MB oder von 128MB berechnet werden mssen.Und das ist bei
+jeder nderung an den Samples der Fall (z.B. durch Schneiden der Samples,Lautst„rkekorrektur etc.).Hat man seine
+Einstellung vorgenommen,speichert man die SetupüEinstellungen mit dem SAVEüButton ab.Die neue Einstellung des SampleüRAM
+wird allerdings erst beim n„chsten Programmstart beachtet !
+
+
+
+
+
+
+	

@@ -1,0 +1,176 @@
+2.1.1 Komplettversion im IPCüGeh„use
+
+Sie haben das Komplettsystem im 19üZollüIPC IndustrieüPCüGeh„use
+mit eingebautem Milan,Medusa,Hades040 oder Hades060 und fertig eingebauter
+StartracküKarte gekauft,und haben eigentlich mit der HardwareüInstallation nichts mehr zu tun, da wir die gesamte Hardü
+und Software bereits fr sie fertig installiert haben. Sie brauchen also nur noch das Programm "STARTRAK.PRG" (auf dem
+Desktop zu finden) zu starten und k”nnen gleich loslegen !
+
+
+Sie mssen jetzt nur noch ihre StartracküKarte mit einer HIFIüAnlage oder Mischpult verbinden und k”nnen dann gleich
+loslegen.
+
+Wie das geht, erfahren sie im Kapitel "Verbindung zu AudioüGer„ten"
+
+
+M”chten sie die interne JamüOutüErweiterung (fr 8 Einzelausg„nge)
+oder andere Erweiterungen nachtr„glich installieren,lesen sie bitte weiter.
+
+
+2.1.1.1 Nachtr„glicher Einbau der DSPüErweiterung:
+
+Bauen sie die StartracküKarte aus dem Geh„use aus.
+Alles weitere h„ngt davon ab, welche Einbauversion sie haben.
+Haben sie die HDDüEinbauversion,so lesen sie bitte alles weitere
+im entsprechenden Kapitel ber die 5 1/4üZollüEinschubüVersion nach.
+
+
+Haben sie die Spezialversion fr den Einbau in die VMEüSloterweiterung (mit
+4 VMEüSlots) so gehen sie vor wie folgt:
+
+
+2.1.1.2 DSPüErweiterung einbauen:
+Ziehen sie also die StartracküKarte bei ausgeschaltetem Rechner aus dem VMEüSlot heraus,und stecken die DSPüKarte
+vorsichtig auf die StartracküKarte, und zwar mit der Bauteilseite nach unten,die beiden Erweiterungsstecker der
+DSPüKarte mssen dabei in Richtung der Cinchanschlsse (nicht in Richtung des VMEüSteckers!) zeigen. Achten sie dabei
+unbedingt darauf,daá die Steckkontakte der DSPüKarte genau in die dafr vorgesehenen Buchsenkontakte auf der
+StartracküKarte passen,und die Kontaktreihen nicht versehentlich verschoben sind ! Drcken sie anschlieáend gleichm„áig
+die beiden Kontaktreihen der DSPüKarte (am „uáeren Ende der Platinen) in die StartracküBuchsenkontakte (Bravo,die erst
+Hrde ist genommen).
+Auf der Frontblende der StartracküKarte befinden sich zwei Leuchtdioden die noch mit der DSPüKarte verbunden werden
+mssen. Diese zeigen den Status des DSP an. Hierfr sind am linken Rand der DSPüKarte vier kleine Pins vorhanden (siehe
+Zeichnung der DSPüErweiterung,Kapitel 2.1.6). Auf der Platine sind diese mit DEBUG und LOCK bezeichnet. Die rote LED ist
+fr LOCK und die grne LED fr DEBUG vorgesehen. Die 4 Anschlsse werden nun folgendermaáen mit den LEDs verl”tet (von
+links nach rechts):
+
+
+
+Die Anode einer LED ist zu erkennen durch den l„ngeren Anschluá und den schmaleren in der LED sichtbaren Anschluáteil.
+Die Kathode einer LED ist zu erkennen durch den krzeren Anschluá und den dickeren in der LED sichtbaren Anschluáteil.
+
+
+   1.Anschluá mit der Kathode der grnen LED verl”ten
+   2.Anschluá mit der Anode der grnen LED verl”ten
+   3.Anschluá mit der Kathode der roten LED verl”ten
+   4.Anschluá mit der Anode der roten LED verl”ten.
+
+
+Sollte die rote LED im Betrieb nicht leuchten,so haben sie die beiden Anschlsse
+wahrscheinlich vertauscht. Die grne LED leuchtet nur,wenn der DSP im DebugüMode ist,wenn also z.B. das EVM56KüProgramm
+gestartet wurde.
+Haben sie zwei linke H„nde oder keinen L”tkolben zur Hand,wenden sie sich bitte an ihren H„ndler der dies sicherlich
+gerne fr sie macht.
+Haben sie die StartracküKarte komplett mit der DSPüErweiterung erworben,
+
+so ist diese L”tarbeit natrlich nicht n”tig.
+
+
+Brauchen sie den DSPüPort fr den Anschluá eines Analog8,FA8,JamüIn, JamüOut, ADAT, Clockmoduls oder einer anderen
+DSPüPortüErweiterung ?
+Dann sollten sie nun das DSPüPortüKabel mit der DSPüKarte verbinden:
+
+
+2.1.1.3 DSPüPortüKabel anschlieáen:
+Das DSPüPortüKabel(das dickere) wird mit der DSPüErweiterung verbunden
+
+Sie sehen auf der DSPüErweiterung 2 doppelreihige Stecker.Der eine ist 10polig (ONCEüPort), der andere unser 26poliger
+DSPüPort.Wenn sie auf die Kontakte schauen (von der Anschluáseite mit den Cinchanschlssen aus gesehen) ist der 10polige
+ONCEüPort links und der 26polige DSPüPort rechts (siehe Zeichnung,
+
+Kapitel 2.1.6).Nun mssen sie das DSPüKabel aufstecken,aber bitte richtigrum: Pin 1 des DSPüPortüSteckers ist unten
+links (von vorne gesehen), Pin 1 des Kabels ist rot und sollte sich nach dem Aufstecken ebenfalls unten links auf dem
+Stecker befinden.
+
+
+Haben sie einen PCükompatiblen Rechner, auáerdem Ambitionen zur DSPüProgrammierung ?
+Dann sollten sie nun das ONCEüPortüKabel mit der DSPüKarte verbinden:
+
+
+2.1.1.4 ONCEüPortüKabel anschlieáen:
+Das ONCEüPortüKabel(das dnnere) wird mit der DSPüErweiterung verbunden. Sie sehen auf der DSPüErweiterung 2
+doppelreihige Stecker. Der eine ist 26polig (DSPüPort),der andere unser 10poliger ONCEüPort. Wenn sie auf die Kontakte
+schauen (von der Anschluáseite mit den Cinchanschlssen aus gesehen),ist der 10polige ONCEüPort links und der 26polige
+DSPüPort rechts (siehe Zeichnung, Kapitel 2.1.6).Nun mssen sie das ONCEüKabel aufstecken, aber bitte richtigrum: Die
+obenliegende Seite des ONCEüPortüSteckers ist mit "O" bezeichnet, die Unterseite mit "U". Pin 1 des ONCEüPort ist unten
+links.Das Kabel ist dreiadrig (Pin 7=grn, Pin 9=weiá, Pin 10=braun),der braune Anschluá befindet sich nach dem
+Aufstecken oben am rechten Rand des Steckers,wenn sie alles richtig gemacht haben.
+
+
+
+2.1.1.5 Einbau in das Geh„use:
+
+Ist dieser Teil getan, k”nnen sie die StartracküKarte in den VMEüSlot einschieben. Fhren sie zuallererst die Kabel in
+den VMEüSchacht,und fhren sie durch die obere ™ffnung des VMEüKastens in das Rechnerinnere. Schieben sie nun die
+StartracküKarte nach,und ziehen dabei gleichzeitig das Kabel weiter durch. Drcken sie anschlieáend den 96poligen
+VMEüStecker der StartracküKarte in die entsprechende 96polige VMEüBuchse des Slots,bis er einrastet bzw. bis zum
+Anschlag ü Fertig, der Einbau ist berstanden.
+
+
+Nun mssen sie noch die Kabel fr ONCEüPort und DSPüPort aus dem Rechnergeh„use fhren: Verschrauben sie die Stecker am
+Kabelende mit den Slotblechen (sogenannte Brackets),so wie man das von PCüKarten her kennt. Slotbleche hierfr k”nnen
+von uns bezogen werden. Wenden sie sich an ihren H„ndler.
+2.1.1.6 Anmerkungen:
+
+
+Das Kabel des DSPüPorts ist nicht beliebig verl„ngerbar,die Maximall„nge ist
+ungef„hr 20cm,da es ansonsten zu St”rungen (Knackser) bei den DSPüPortü Erweiterungen kommt. Das ist verst„ndlich wenn
+man bedenkt, welch hohe Frequenzen das Kabel bew„ltigen muá (ber 6 MHz). Dabei kommt es ab einer bestimmten L„nge
+zwangsl„ufig zu nderungen in Timing und Flanken der Signale,die eine sichere und st”rfreie šbertragung unm”glich
+machen. Daher sollte dieses Kabel m”glichst kurz sein.
+
+
+Das Frontblech dieser Version ist etwas krzer als die von normalen VMEüBusüKarten,damit es von auáen in das Geh„use
+eingeschoben werden kann. Die PCüSlotaussparungen sind fr normale VMEüKarten etwas zu kurz. Vorteil dieser Methode: Die
+StartracküKarte ist von auáen zug„nglich bzw. austauschbar ohne das man das Geh„use dafr vorher ”ffnen muá. Andere
+VMEüKarten k”nnen nur fest eingebaut werden,da die Frontbleche l„nger als die PCüSlotaussparungen des IPCüGeh„use sind.
+
+
+Nun mssen sie als letztes noch den ONCEüPort mit dem PC verbinden,falls sie
+ihn ben”tigen.Wenn nicht,sind sie jetzt fertig,und brauchen die StartracküKarte
+nur noch mit einer HIFIüAnlage oder Mischpult verbinden,und k”nnen dann gleich loslegen. Lesen sie dafr bitte das
+entsprechende Kapitel "Verbindung zu
+
+AudioüGer„ten" durch.
+
+
+2.1.1.7 Einbau der JamüOutüErweiterung im IPCüGeh„use
+
+Im von uns gelieferten IPCüGeh„use ist schon alles fr den Einbau einer
+JamüOutüErweiterung vorbereitet. šber den Slots ist horizontal ein Blech mit
+8 Bohrungen fr die 6.3mm Klinkenbuchsen des JamüOut.Dieses ist mit zwei
+Schrauben an den Enden des Bleches befestigt.Schrauben sie dieses Blech
+heraus.Verschrauben sie nun alle 8 Klinkenbuchsen mit den beim JamüOut
+vorgesehenen Befestigungsschrauben der Klinkenbuchsen. Setzen sie nun
+das Blech wieder ein,und zwar so,daá die Platinenunterseite des JamüOut nach oben zeigt (also auf den Kopf
+stellen).Schrauben sie das Blech wieder fest.Nun mssen sie nur noch das DSPüPortüKabel des JamüOut mit dem DSPüPort der
+StartracküKarte verbinden.Und das geht folgendermaáen: Das JamüOut beinhaltet ein kleines P„ckchen mit DSPüStecker und
+durchgeschleifter DSPüPortüBuchse fr den Anschluá weiterer DSPüPortüErweiterungen, ich nenne es der Einfachheit halber
+PortüAdapter. Zuerst wird die DSPüPortüBuchse der StartracküKarte vom Slotblech abgeschraubt,und mit dem einen Ende des
+PortüAdapter verbunden.Das andere Ende(SubüDüBuchse) wird wieder mit dem Slotblech verschraubt. Die Abzweigung des
+PortüAdapters ist fr den Anschluá des JamüOut vorgesehen und wird damit verbunden. Dieses Kabel muá soweit m”glich
+gekrzt werden ! Die Gesamtl„nge des DSPüKabels ist sonst zu groá,
+und fhrt zu St”rungen. Insgesamt jedoch wurden mit dem JamüOut
+beste Erfahrungen gemacht. Es hat eine gute Klangqualit„t,und kommt
+auch mit etwas l„ngeren Kabeln zurecht. Das Analog8 von Soundpool
+ist da etwas empfindlicher, funktioniert mit einem kurzen Kabel aber
+ebenfalls problemlos. Die Kanalbelegung von der Rckseite aus gesehen:
+
+
+Kanalnummer    8   7   6   5   4   3   2   1    
+Anschlsse          O  O  O  O  O  O  O  O
+
+
+2.1.1.8 Einbau der 4Slot VMEüBusüErweiterung im IPCüGeh„use
+
+Die Sloterweiterung besteht aus einem Einschubgeh„use aus Aluminium mit integrierter VMEüBusüSlotrckwand fr 4
+VMEüKarten.Die VMEüRckwand ist aktiv terminiert,und ist damit sehr st”rsicher. Die Sloterweiterung wird von uns auf
+Wunsch mit in das IPCüGeh„use eingebaut. Da hierfr einige nderungen am Geh„use vorgenommen werden mssen,kann dies nur
+beim autorisierten Fachh„ndler geschehen.
+
+
+
+
+
+
+
+

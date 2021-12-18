@@ -1,0 +1,322 @@
+WorkmodeüFenster
+
+
+Dieses Fenster ist fr die Auswahl wichtiger Arbeitsparameter zust„ndig:
+Anzahl der Aufnahmekan„le,die Art der Zusammenmischung mehrerer Spuren im Tracker,das Aufnehmen und Wiedergeben im 16
+oder 24BitüModus,den Modus des DSPüSRAM und alle SynchronisationsüFunktionen.Aufgerufen wird das WorkmodeüFenster durch
+den WorkmodeüButton im EditüFenster,durch Eingabe von CTRLüW,oder ber das optionale ProgrammüMen im Dropdown
+Fenster/Workmode.
+
+
+Bereich mixmode:
+
+In diesem Bereich w„hlt man die Art und Weise aus,wie im Tracker die Spuren gemischt werden.
+
+
+1) CPU
+
+Die Spuren im Tracker werden von der CPU des Computers berechnet bzw. gemischt und abgespielt.Der Atari TT ist dafr
+etwas zu langsam,ein Medusa, Hades oder MilanüRechner schafft momentan bis zu 16 Spuren.Das h„ngt natrlich auch von der
+Samplerate und dem Arrangement ab.
+2) matrix
+
+Im matrixmode haben die KanalanzahlüButtons im Tracker zus„tzliche Funktionen: Ist der 4KanalüButton aktiviert,werden
+die Spuren im 4KanalüModus ausgegeben.Hierbei wird je ein Stereokanal ber den Analogausgang und den Digitalausgang
+wiedergegeben.Ist der 8KanalüButton aktiviert,werden die 8 Spuren wie im Falcon als 128BitüWort ber die Matrix zum
+DSPüPort geschickt. Ein angeschlossenes DSPüPortüInterface kann diese Spuren weiterverarbeiten,und z.B. ber 8
+Einzelausg„nge auf ein Mischpult ausgeben.Erfolgreich getestet wurde bisher das Analog8 und ADAT von Soundpool und das
+JamüOut von LineAudio.Bei der Wiedergabe der Spuren im Tracker kann man im 8KanalüMode mit der rechten Maustaste
+zwischen den Monitorspuren umschalten.Wie im Falcon auch,kann dadurch jeweils ein Sterokanal auf den Ausgang (AnalogüOut
+und DigitalüOut) der Audiokarte gelegt werden.
+Ist der 16KanalüButton aktiviert,werden zwei MatrixüDatenpakete zum
+DSPüPort geschickt.Mit zwei EinzelausgangsüInterfaces kann man dann bis zu 16 Spuren einzeln ausgeben,und z.B. an ein
+Mischpult anschlieáen.
+
+
+3) DSP
+
+Hierbei werden die maximal 8 Kan„le zuerst zum DSP geschickt.Dieser bernimmt dann das Zusammenmischen der Kan„le. Die
+Kan„le 1ü6 bleiben dabei unver„ndert,Kanal 7 und 8 enthalten das zusammengemischte Ergebnis. Alle 8 Kan„le werden vom
+DSP ebenfalls ber den DSPüPort ausgegeben.
+Bei der Wiedergabe der Spuren im Tracker kann man mit der rechten Maustaste
+zwischen den Monitorspuren umschalten.Wie im Falcon auch,kann jeweils ein
+Sterokanal dadurch auf den Ausgang (AnalogüOut und DigitalüOut) der Audiokarte gelegt werden.
+
+
+Bereich mastering:
+
+In diesem Bereich kann gew„hlt werden, ob die Aufnahme und Wiedergabe mit
+16Bit oder 24Bit geschehen soll.
+
+
+4) sixteen bit
+
+Aufnahme und Wiedergabe mit 16Bit.Die Matrix kann wie im Falcon auch,nur mit 16Bit arbeiten.
+
+
+5) twentyfour bit
+
+
+Aufnahme und Wiedergabe mit 24Bit.Aufnahmen k”nnen ber die digitalen Eing„nge mit 24Bit gemacht werden.Die Wiedergabe
+l„uft ebenfalls ber die digitalen Ausg„nge mit 24Bit.Der D/AüWandler wird dabei mit 18Bit angesteuert, profitiert also
+ebenso von der h”heren Dynamik.Auch der DSP kann die 24Bit voll nutzen.Ebenso gelangen die 24BitüDaten ber den DSPüPort
+zur Auáenwelt. Es w„re denkbar,in Zukunft hierber hochwertige 24Bit A/D und D/AüWandler anzuschlieáen.Normale
+FalconüInterfaces wie das Analog8 k”nnen nicht im
+
+24BitüModus angesteuert werden,da sowohl Format als auch Datenrate dabei
+
+unterschiedlich (nicht Falcon kompatibel) sind.
+
+
+6) recordmode
+
+
+2 channels
+
+
+
+	Aufnahme in Stereo ber die analogen oder digitalen Eing„nge der Audiokarte.
+
+
+4 channels
+
+
+
+	Aufnahme von vier Spuren.Dabei werden die Analogü und	Digitaleing„nge parallel betrieben,und somit beide
+Musikquellen	gleichzeitig aufgenommen.
+
+Die zweite Stereospur bekommt die		gleiche Filebezeichnung wie die erste mit	angeh„ngter zwei (z.B.	Erster Stereokanal
+"RECORD.S16",	zweiter Stereokanal bekommt	dann Filenamen "RECORD2.S16").
+
+
+8 channels
+
+
+
+	Aufnahme von 8 Spuren.Dieser Modus ist vorgesehen fr die	Aufnahme ber ein 8KanalüEingangsinterface (JAMüIn
+von	LineAudio) oder ADATüInterface (von Soundpool) fr den	DSPüPort.Das JamüIn konnte allerdings bisher noch nicht
+getestet werden,da am JamüIn voraussichtlich dafr einige nderungen	vorgenommen werden mssen.
+ 
+
+7) DspüRam
+
+
+Das DSPüRAM kennt zwei verschiedene Modi,um volle Leistung trotz  Kompatibilit„t zum Falcon gew„hrleisten zu k”nnen:
+
+
+falcon
+
+
+
+	Das DSPüRAM des Falcon wird emuliert,damit es zu Falcon	DSPüProgrammen kompatibel ist,also mit den
+gleichen	Adreáspiegelungen und gleicher Speichergr”áe (32Kx24) wie	im Falcon.
+
+
+extend
+
+
+
+	Hier wird der volle Speicherbereich der DSPüErweiterung	ausgenutzt,die ja viermal soviel Speicher besitzt wie der DSP
+im	Falcon.Dabei ist die Adreádekodierung natrlich anders,aber trotzdem weitgehend kompatibel zum
+
+Falcon.Fr	Details lesen sie bitte die ProgrammierüDokumentation.
+
+
+Bereich sync:
+
+
+
+8) PCG
+
+
+
+Fr die StarTracküAudiokarte (und fr den Falcon) wurde ein neuartiges Clockmodul fr den DSPüPort entwickelt.Dieses
+kann,anders als die bisher auf
+
+dem AtariüMarkt vorhandenen,beliebige Sampleraten im Bereich 0ü100kHz
+
+generieren.Das Roboclock ist ein programmierbarer Clockgenerator (PCG).
+
+Ist ein solches Modul vorhanden,kann man dieses mit der Option PCG in der StarTrack AudioüSuite aktivieren.
+
+
+
+9) Generate Clock
+
+
+
+Hiermit startet man die Frequenzprogrammierung im PCGüChip des RoboclocküModuls.Dafr muá eine sinnvolle Samplerate (10)
+eingegeben werden,und die PCGüOption(8) muá ebenfalls eingeschaltet sein. 
+
+
+
+10) Samplerate
+
+
+
+Hier gibt man die gewnschte Samplerate ein,die das RoboclocküModul erzeugen soll.Es ist jede beliebige Samplerate
+zwischen 0ü100 kHz m”glich.Bedenken sie
+
+jedoch,das die H”chstgrenze fr die verwendeten Analogwandler bei 48kHz
+
+liegen.In der Praxis funktionieren diese aber bis mind. ca. 70kHz oder mehr.
+
+Die Verwendung von Sampleraten ber 48kHz geschieht aber auf eigene Gefahr.
+
+Es kann fr die ordnungsgem„áe Funktion keine Garantie gegeben werden, auch nicht fr m”gliche Sch„den,die dabei
+entstehen k”nnten (ist aber h”chst unwahrscheinlich).Die hier definierte Samplerate wird mit dem Button
+
+GenerateüClock(9) zum RoboclocküModul bertragen.Da es gewisse Einschr„nkungen in der Genauigkeit der erzeugten
+Samplefrequenz gibt,wird die eingegebene Samplerate danach falls n”tig,durch die tats„chlich erzeugte,die aber nur
+gering von der eingegebenen abweicht,ersetzt.
+
+
+
+11) ADAT
+
+
+
+Man kann die Audiokarte ebenfalls mit dem Soundpool ADATüInterface
+
+fr den DSPüPort betreiben.Besitzt man ein solches ADATüInterface,kann man hiermit die ADATüOption einschalten.Dadurch
+synchronisiert sich die Audiokarte bei Aufnahme (Recordmode: 8 channels,siehe 6) automatisch zum ADAT.Man kann dann im
+Peakmeter die Kan„le fr Aufnahme ausw„hlen,
+
+und vom ADAT beliebige Kan„le in den Rechner berspielen.Im Tracker
+
+werden entsprechend die 8 Kan„le dann zum ADAT bertragen (Matrixü oder 
+
+DSPüMixmode,siehe 1ü3).
+
+Da sich die Karte zum 48kHzüTakt des ADAT synchronisieren muá,
+
+ist das SamplerateüDropdown bzw. die Sampleratenünderung im Editor
+
+und ConnectionüFenster gesperrt,solange die ADATüOption eingschaltet ist.
+
+12) only Falconclocks
+
+
+
+Auáer dem RoboclocküModul,k”nnen natrlich auch die blichen Clockmodule
+
+fr den DSPüPort verwendet werden.Da die Audiokarte aber bereits die 44.1kHz untersttzt,die blicherweise von den
+FalconüClockmodulen erzeugt werden,
+
+sollte man den Quarz in den Clockmodulen gegen einen mit 25.175 Mhz
+
+austauschen.Denn damit kann man dann auch s„mtliche spezielle Falconü Sampleraten wie z.B. 49170 Hz erzeugen und mit der
+StarTrack nutzen.
+
+Da die Audiokarte noch zus„tzliche Frequenzteiler besitzt,sind dann sogar
+
+noch weitere Sampleraten m”glich.Diese werden im ExtclocküDialog
+
+angezeigt.Klickt man mit gedrckter ControlüTaste auf den DIVüEintrag im
+
+SamplerateüDropdown (letzter Eintrag),erscheint dieser ExtclocküDialog.
+
+Dort kann man eine der vom Externen Clockmodul erzeugten Sampleraten
+
+ausw„hlen.M”chte man auf die Anzeige aller nutzbaren Sampleraten verzichten,
+
+und sich nur auf die FalconüSampleraten beschr„nken,w„hlt man die Option
+
+"only Falconclock" aus.Ist diese Option abgeschaltet,werden alle m”glichen 
+
+Sampleraten im ExtclocküDialog angezeigt.
+
+
+
+13) MHz
+
+
+
+Hier wird der Grundtakt des Clockmoduls (nicht bei Roboclock) angegeben,
+
+also z.B. 25175000 Hz fr die Falcon SampleratenüErzeugung.Die Taktrate
+
+des Clockmoduls muá hiermit bereinstimmen,sonst werden im ExtclocküDialog falsche Sampleratenwerte angezeigt.
+
+
+
+14) MTC
+
+
+
+Es ist m”glich,die Audiokarte per Midi Timecode extern zu synchronisieren
+
+(Audiokarte arbeitet als Slave),z.B. zu einem CubaseüSequencer eines anderen Rechners.Hierfr muá die MTCüOption
+eingeschaltet sein.Die Aufnahme oder Wiedergabe startet dann mit dem Startwert,der als SmpteüBase (16) eingetragen
+wurde.
+
+
+
+15) Xmit
+
+
+
+Soll die Audiokarte selbst MidiüTimecode ausgeben (Master),kann man das
+
+mit der XmitüOption einschalten.
+
+
+
+16) SmpteüBase
+
+
+
+Hier kann man die verschiedenen SmpteüFrameraten einstellen.Diese gelten
+
+aber nicht nur fr den Midibereich.Alle Zeitangaben im Programm arbeiten automatisch mit der hier definierten
+Framerate.Auáer den typischen SmpteüFrameraten findet man auch solche fr CD (75 Frames).Dadurch kann
+
+man die Marker bzw. Schnittdaten verl„álich fr die Produktion einer CD 
+
+erzeugen,und in ein entsprechendes Writerprogramm (z.B.Extendos) exportieren.
+
+
+
+17) Smpte
+
+
+
+Hier kann man den Startwert fr MidiüTimecode eingeben.Die Aufnahmeü oder
+
+Wiedergabe startet dann,wenn die angegebene Zeitmarke erreicht wurde.
+
+
+
+18) MidiüController
+
+
+
+Es ist m”glich,die komplette Lautst„rkeregelung im Peakmeter,Tracker und
+
+Mischer mit einem externen Midi VolumeüController zu steuern.Getestet wurde
+
+dies mit einem Peavey PC1600xüController mit 16 Fadern.Das m”glicherweise von Ger„t zu Ger„t variierende Protokoll ist
+im SetupüFile (STARTRK.SET) editierbar.Somit lassen sich auch Digitalmischpulte zur Steuerung verwenden.
+
+Wie dies gemacht wird,ist im Anhang unter Dateiformate erkl„rt.
+
+
+
+19) Help
+
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+20) Exit
+
+
+Hiermit wird das WorkmodeüFenster geschlossen.Alle Einstellungen
+bleiben bis zum n„chsten Aufruf unver„ndert.Man kann jedoch mehrere
+Fenster gleichzeitig ge”ffnet lassen,und hat so immer den direkten Zugriff
+auf die Funktionen.
+
+
+
+

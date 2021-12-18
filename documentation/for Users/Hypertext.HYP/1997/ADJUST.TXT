@@ -1,0 +1,54 @@
+ADJUST im Optimize-Dialog
+
+Durch die Adjust-Option wird das Sample auf eine einstellbare Lautst„rke
+umgerechnet.
+Zur besseren Verst„ndnis sollte man das İBILDİADJUST.IMGİ zu Rate ziehen.
+
+1) Auto
+-------
+Hiermit wird zum İAUTOİAUTO.TXTİ-Dialog gewechselt. Die Samplewerte werden
+auf maximale Lautst„rke angehoben. Es wird dabei nicht bersteuert und die
+Dynamikverh„ltnisse der Samplewerte zueinander bleiben erhalten.
+
+2) Adjust
+---------
+Hiermit wird die einstellbare Aussteuerung gew„hlt. Man kann dann einen
+Lautst„rke-H”chstwert angeben, auf den dann alle Samplewerte umgerechnet
+werden. Mann kann damit auch zu laute Samples auf eine kleinere
+Lautst„rke umrechnen.
+
+3) Peak dB
+----------
+Hier erscheint der h”chste im Sample momentan enthaltene Wert in
+Dezibel (dB). Dieser wird aus dem Sample ermittelt. Deshalb kann die
+Ermittlung des H”chstwertes bei langen Samples etwas dauern.
+
+4) new dB
+---------
+Hier erscheint der neue H”chstwert in Dezibel (dB). Diesen kann man mit
+den Pfeiltasten einstellen.
+
+5) Pfeiltasten
+--------------
+Mit den Pfeiltasten kann man den H”chstwert einstellen, und zwar mit
+3 verschiedenen Schrittweiten:
+einfach-Pfeiltaste  = 0.02 dB
+zweifach-Pfeiltaset = 0.2 dB
+dreifach-Pfeiltaste = 2 dB
+
+6) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+7) Exit
+-------
+Hiermit wird der Optimize-Dialog geschlossen. Die Optimize-Funktion wird
+nicht ausgefhrt.
+
+8) OK
+-----
+Hiermit wird der Optimize-Dialog geschlossen und die Funktion ausgefhrt.
+
+

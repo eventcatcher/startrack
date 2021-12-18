@@ -1,0 +1,55 @@
+4.16.5 Das PluginüMen
+
+
+Plugin No 1..10      F1..F10
+
+Hier k”nnen die max. zehn CPU Plugins aufgerufen werden.
+
+Das geht auch mit den Funktionstasten F1üF10.
+
+Die Plugins werden automatisch aus dem CPUüPluginüOrdner geladen (*.PLG).
+
+Der Name des Plugins wird vor der Funktionstastenbezeichnung angezeigt.
+
+Die leeren Eintr„ge bleiben disabled bzw. nicht anw„hlbar.
+
+
+
+Konvertieren
+
+Mit dieser Funktion k”nnen die PluginüEffekte destruktiv in die Audiodaten
+
+eingerechnet werden.Dies muá nicht in Echtzeit geschehen.
+
+Die Konvertierfunktion kann auch mit der Tastenkombination SHIFTüALTüN
+
+aufgerufen werden.Diese Funktion ist in der V2.00 noch nicht implementiert.
+
+
+
+Modul laden
+
+Mit dieser Funktion kann man CPUüPlugins in das Programm nachladen.
+
+Das geht auch mit der Tastenkombination SHIFTüALTüM.
+
+Diese Funktion ist in der V2.00 noch nicht implementiert.
+
+
+
+Modul entfernen
+
+Mit dieser Funktion kann man CPUüPlugins aus dem Speicher entfernen.
+
+Das geht auch mit der Tastenkombination SHIFTüALTüK
+
+Diese Funktion ist in der V2.00 noch nicht implementiert.
+
+
+
+Konfigurieren
+
+Hiermit ”ffnet man den KonfigurationsüDialog fr CPUüPlugins.
+
+Das geht auch mit der Tastenkombination SHIFTüALTüC
+

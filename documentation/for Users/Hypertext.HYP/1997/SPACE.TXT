@@ -1,0 +1,42 @@
+Space-Dialog
+
+
+Dieser Dialog ist fr die Eingabe der Pausenl„nge bzw. der Leerraumzeit fr
+die Space-Funktion zust„ndig. Dabei wird ein Leeraum bzw. eine Pause
+definierter L„nge in das Sample an die durch den Marker-S bestimmte Position
+eingefgt. Die Space-Funktion ist im İBlockfunktionen-FensterİBLKPAGE.TXTİ unter dem
+Space-Button erreichbar. Zur besseren Verst„ndnis sollte man das
+İBILDİSPACE.IMGİ des Space-Dialogs zu Rate ziehen.
+
+
+1) max. Time
+------------
+Anzeige der maximal m”glichen Pausenzeit. Diese wird durch die Gr”e des
+Sample-Memory bzw. des freien Speicherplatzes auf der Festplattenpartition
+bestimmt.
+
+2) Zeiteingabe
+--------------
+Hier stellt man die Pausenzeit ein. Die Zeitangabe ist in
+Stunden,Minuten,Sekunden und Hundertstel-Sekunden unterteilt, wobei jede
+Position direkt mit einem Pfeilbutton ver„ndert werden kann. Dabei sind die
+Doppelpfeil-Buttons fr die Zehnerpositionen und die Einpfeil-Buttons fr
+die Einerpositionen zust„ndig. Man kann im Edit-Feld aber auch direkte
+Eingaben machen. Fr kleinere Korrekturen sind die Pfeilbuttons aber recht
+praktisch.
+
+3) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+4) Exit
+-------
+Hiermit wird der Space-Dialog geschlossen. Die Pausenzeit wird nicht
+beachtet und die Space-Funktion wird nicht ausgefhrt.
+
+5) OK
+-----
+Hiermit wird der Space-Dialog geschlossen. Die Space-Pausenzeiteingabe ist
+gltig und der Leeraum wird in das Sample eingefgt.

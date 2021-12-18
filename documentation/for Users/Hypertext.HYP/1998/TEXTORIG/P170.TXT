@@ -1,0 +1,80 @@
+4.10.1 CPU EffektüFenster
+
+
+
+Nach der Auswahl eines CPUüPlugin durch die Funktionstasten F1üF10 bzw. im PluginüDropdown des optionalen
+ProgrammüMens,”ffnet sich automatisch das CPU EffektüFenster.Dort kann man die Parameter des CPUüPlugin ver„ndern.
+
+
+
+1) PluginüBezeichnung
+
+
+
+Hier wird der Name des Plugins angezeigt.
+
+
+
+2) Parameterwert
+
+
+
+Hier wird der eingestellte Parameterwert angezeigt.Der Maximalwert und die
+
+Parametereinheit h„ngt vom Plugin ab.Die Pluginschnittstelle erlaubt zur Zeit
+
+die šbergabe von ms (millisekunden) und db (dezibel). Weitere Einheiten werden bei Bedarf in das System integriert.Der
+Vorteil hierbei ist eine eindeutige, logische Zuordnung der Effektparameter.
+
+
+
+3) ParameterüEinstellung
+
+
+
+Mit den Slidern kann der Parameterwert eingestellt werden.
+
+
+
+4) Parameterbezeichnung
+
+
+
+Hier wird die Bezeichnung bzw. Funktion des Parameters angezeigt.
+
+
+
+5) Parametereinheit
+
+
+
+Hier wird die Einheit des Parameters angezeigt.Die Pluginschnittstelle erlaubt zur Zeit die Verwendung von ms
+(millisekunden) und db (dezibel).
+
+Weitere Einheiten werden bei Bedarf in das System integriert.
+
+Der Vorteil hierbei ist eine eindeutige,logische Zuordnung der Effektparameter.
+
+
+
+6) CopyrightüInfo
+
+
+
+Hier werden die Copyrightvermerke des PluginüHerstellers angezeigt.
+
+
+
+7) Help
+
+
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+8) Ok
+
+
+
+Hiermit wird das CPU EffektüFenster geschlossen.Die Parametereinstellungen bleiben bis zum n„chsten Zugriff erhalten.

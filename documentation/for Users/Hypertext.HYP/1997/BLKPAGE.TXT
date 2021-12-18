@@ -1,0 +1,97 @@
+Blockfunktionen-Fenster
+
+
+Dieses Fenster ist fr die Blockfunktionen des Edit-Fensters zust„ndig.
+Zur besseren Verst„ndnis sollte man das ÝBILDÝBLKFUNC.IMGÝ des
+Blockfunktionen-Fensters zu Rate ziehen. Aufgerufen wird das
+Blockfunktionen-Fenster durch den Blockfunktionen-Button (B) im
+Edit-Fenster, oder durch Eingabe von CTRL-B, oder ber das optionale
+Dropdown-Men unter Fenster/Blockfunktionen.
+Der Wirkungsbereich der Funktionen l„žt sich im Edit-Fenster, mit den
+ÝMarkernÝEMARKER.TXTÝ beeinflussen. Dafr muž das Block-Icon (I) selektiert sein, die
+Funktion wirkt nur im Bereich zwischen Marker-S und Marker-E.
+Ist kein Block definiert, wird die Funktion nicht ausgefhrt !
+
+1) Cut In
+---------
+L”scht den Bereich zwischen Marker-S und Marker-E.
+
+2) Cut Out
+----------
+L”scht den Bereich aužerhalb des Bereichs zwischen Marker-S und Marker-E.
+Es wird also alles gel”scht, aužer dem Bereich zwischen den beiden Markern.
+
+3) Cut Del
+----------
+L”scht den Bereich zwischen Marker-S und Marker-E, und schliežt die Lcke,
+indem der Bereich der rechts neben dem definierten Block liegt, soweit nach
+links geschoben wird, bis die Lcke geschlossen wird.
+
+4) Insert
+---------
+Damit kann ein Soundfile an die durch Marker-S definierte Position geladen
+und eingefgt werden. Dabei wird der nachfolgende Samplebereich nicht
+berschrieben. Der nachfolgende Samplebereich wird lediglich an das Ende
+des dazugeladenen Samples geschoben. Reicht dazu der Samplespeicher nicht
+aus, wird automatisch in den Virtual-Mode (virtuelle Speicherverwaltung)
+gewechselt.
+
+5) Space
+--------
+Damit wird an die durch Marker-S definierte Position eine Pause bzw.
+Leerraum eingefgt. Dabei wird der nachfolgende Samplebereich nicht
+berschrieben. Der nachfolgende Samplebereich wird lediglich an das Ende des
+Pausenbereichs geschoben. Reicht dazu der Samplespeicher nicht aus, wird
+automatisch in den Virtual-Mode (virtuelle Speicherverwaltung) gewechselt.
+Die Pausenl„nge kann man dabei im nun erscheinenden ÝSpace-DialogÝSPACE.TXTÝ bestimmen.
+
+6) Mix
+------
+Damit kann man mehrere Samples zusammenmischen. Diese Funktion ist derzeit
+noch nicht enthalten, ist aber im Trakker-Fenster implementiert.
+
+7) Optimize
+-----------
+Damit kann man die Lautst„rke des Samples zwischen Marker-S und Marker-E
+ver„ndern. Dabei erscheint die ÝOptimize-DialogboxÝNORMALIZ.TXTÝ in der man bestimmen kann,
+auf welchen dB-Wert der Bereich angehoben bzw. abgesenkt werden soll.
+W„hlt man Auto, dann wird der Bereich auf Maximalaussteuerung (0dB)
+angehoben.
+
+8) Resample
+-----------
+Damit kann man den Bereich zwischen Marker-S und Marker-E resampeln, d.h.
+man kann die Samplerate auf einen anderen Wert umrechnen. Dabei erscheint
+zun„chst der ÝResample-DialogÝRESAMPLE.TXTÝ in dem man die neue Samplerate bestimmen kann.
+Wird das Sample dadurch gr”žer, wird der aužerhalb der Marker liegende
+Bereich berschrieben, bzw. bei kleiner werdenden Speicher entsteht ein
+Leerraum.
+
+9) Stereo->Mono
+---------------
+Damit kann man den Bereich zwischen Marker-S und Marker-E von Stereo in
+Mono umrechnen.
+
+10) Negate
+----------
+Damit werden die Samplewerte zwischen Marker-S und Marker-E gedreht, d.h.
+positive Amplitudenwerte werden negativ, und negative Amplitudenwerte
+werden positiv.
+
+11) Change
+----------
+Damit werden die Kan„le zwischen Marker-S und Marker-E getauscht, d.h.
+links wird rechts und rechts wird links.
+
+12) Help
+--------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu Ý1stGuideÝGUIDE.TXTÝ einmal genauer an.
+
+13) Exit
+--------
+Hiermit wird das Blockfunktionen-Fenster geschlossen. Alle Einstellungen
+bleiben bis zum n„chsten Aufruf unver„ndert.
+Man kann jedoch mehrere Fenster gleichzeitig ge”ffnet lassen und hat so
+immer den direkten Zugriff auf die Funktionen.

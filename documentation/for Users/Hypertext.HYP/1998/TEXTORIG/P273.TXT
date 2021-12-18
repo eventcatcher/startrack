@@ -1,0 +1,174 @@
+5.2.9 TrackerüDatei "*.TRK"
+
+
+
+In dieser Datei werden s„mtliche Einstellungen des Multitrackers gesichert. 
+
+Da der Dateiname frei w„hlbar ist,k”nnen mehrere dieser TrackerüDateien angelegt werden.So kann man individuelle
+Konfigurationen fr verschiedene Remixes zusammenstellen. 
+
+
+
+main resolution ; Bittiefe der Matrix (16 oder 24BitüModus)
+
+
+
+main samplerate ; Samplerate der Matrix
+
+
+
+max channels ; Maximalanzahl der Kan„le (momentan 16)
+
+
+
+channels select ; Mischmodus (1,2,4,8,Stereokan„le)
+
+
+
+channel monitor ; Monitorkanal
+
+
+
+max tracks ; Maximalanzahl virtuelle Spuren im Tracker
+
+
+
+track select ; ausgew„hlte (aktivierte) Spur 
+
+
+
+sample entrys ; Anzahl der SampleüEintr„ge
+
+
+
+sample select ; Nummer des ausgew„hlten (aktiven) Samples
+
+
+
+zoomdepth ; Zoomtiefe bzw. Darstellungsbereich
+
+
+
+scroll hardpos ; Darstellungsbereich hardpitch (Slider)
+
+
+
+scroll softpos ; Darstellungsbereich finepitch (Slider)
+
+
+
+sample view curve ; Anzeige der Amplitudenverl„ufe (true)
+
+
+
+sample view comment ; Anzeige der SampleüKommentare (true)
+
+
+
+marker start ; HauptüStartmarker
+
+
+
+marker end ; HauptüEndmarker
+
+
+
+mastervolume ; AusgangsüLautst„rkeregelung
+
+
+
+track activexyz=abc ; Zuordnung der Tracks zu den Ausg„ngen,   		   	
+
+				                              xyz=Ausgang,abc=Virtuelle Spur 
+
+
+
+track pointerxyz ; Zeiger auf erstes Sample der Spur xyz
+
+
+
+track volumexyz ; Lautst„rkefaktor (0ü200) der Spur xyz
+
+
+
+track balancexyz ; StereoüBalance der Spur xyz
+
+
+
+track mutexyz ; Stummschaltung (true) der Spur xyz
+
+
+
+track stereoxyz ; Stereospur (true) oder Monospur (false)
+
+
+
+track namexyz ; Bezeichnung (5 Zeichen) fr Spur xyz
+
+
+
+sample namexyz ; Dateiname des Samples xyz
+
+
+
+sample pathxyz ; Kompletter Pfad mit Dateiname des Samples xyz
+
+
+
+sample headerxyz ; Headerl„nge des Samples xyz
+
+
+
+sample commentxyz ; Kommentarfeld des Samples xyz.Alle Zeichen auáer "|"                                       sind
+erlaubt.Dieses Zeichen markiert das Ende des                                                Kommentars. 
+
+
+
+sample smptexyz ; TimelineüPosition des Samples xyz
+
+
+
+sample startxyz ; StartmarkerüPosition innerhalb des Samples xyz
+
+
+
+sample endxyz ; EndmarkerüPosition innerhalb des Samples xyz
+
+
+
+sample lengthxyz ; Gesamtl„nge des Samples xyz
+
+
+
+sample resolutionxyz ; Bitaufl”sung (16 oder 24Bit) des Samples xyz
+
+
+
+sample ratexyz ; OriginalüSamplerate des Samples xyz
+
+
+
+sample loopxyz ; Sample xyz loopen (true),derzeit nicht implementiert
+
+
+
+sample directionxyz ; SampleüWiedergaberichtung (forward,backward,cross),
+
+                                  derzeit nicht implementiert
+
+
+
+sample trackxyz=abc ; Spurzuordnung Sample xyz auf Spur abc
+
+
+
+sample pointer backxyz=abc ; Zeiger von Sample xyz auf voriges Sample abc
+
+
+
+sample pointer nextxyz=abc ; Zeiger von Sample xyz auf n„chstes Sample abc
+
+
+
+
+

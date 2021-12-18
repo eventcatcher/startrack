@@ -1,0 +1,175 @@
+4.1.1 Editor-Fenster
+
+
+
+
+Das ist das Hauptfenster, das immer ge”ffnet bleiben muá.
+Man kann hier Samples aufnehmen,und alle destruktiven Bearbeitungsü schritte durchfhren.
+
+Alle Bearbeitungsschritte im Editor ver„ndern direkt die Sampledaten.
+Ab einer Aufl”sung von 1024x768 verwendet das Programm eine andere
+
+Resourcedatei,um die Textü und Objektgr”áen auf ein fr die Augen ertr„gliches Maá zu vergr”áern.Das Fenster kann mit
+dem Sizer (unten rechts) in der Gr”áe ver„ndert werden.
+
+
+
+Das Editor-Fenster besteht aus folgenden Funktionsgruppen:
+
+
+1) Button-Toolbar
+
+
+Hierber erreicht man die wichtigsten Hauptfunktionen und die
+anderen Fenster.
+
+
+2) Sample-Window
+
+Hier werden die Amplitudenverl„ufe der Samples dargestellt.
+
+
+3) Setbereich
+
+In diesem Feld befindet sich die Zoom-Behandlung,die Markerpfeile zum Bewegen der Marker,und zum Ausfhren der
+Funktionen des ...
+
+
+
+Function-Dropdown:
+
+
+šber dieses Dropdown-Men kann man verschiedene Funktionen ausw„hlen:
+
+
+MARK   - Marker bewegen
+ZOOM   - Amplitudenfenster zoomen
+SCROLL - Amplitudendfenster scrollen bzw. Bildausschnitt w„hlen
+COPY   - Block kopieren
+MOVE   - Block bewegen
+INSERT - Block einfgen
+MERGE  - Block mischen
+FADE   - Block ein- oder ausblenden
+
+
+Die Funktion MARK kann auch per Drag&Drop ausgefhrt werden. Dazu faát man die senkrechte Markerlinie mit der Maus an
+(linke Maustaste gedrckt halten) und zieht (draggt) die Markerlinie an die neue Position.
+Die Funktionen COPY und MOVE k”nnen auch per Drag&Drop ausgefhrt werden. Dazu positioniert man die Maus innerhalb des
+definierten Blocks,und h„lt die linke Maustaste gedrckt.Nun kann man den Block zur gewnschten Position ziehen
+(draggen),und l„át danach die Maus los.Der Blockinhalt wird beim draggen angezeigt. Daher kann man den Block sehr genau
+positionieren bzw. mit einem anderen Sample kombinieren.
+
+
+4) Markerbereich
+
+Im Markerbereich werden die Markereintr„ge (Nummer,Startzeit,Endzeit,Intro, Release,Name) aufgefhrt und editiert. Hier
+k”nnen ebenfalls die FensterüDarstellungsgrenzen eingestellt werden.
+
+
+5) Steuerungsbereich
+
+Hierber k”nnen die Samples aufgenommen und abgespielt werden.
+Es stehen s„mtliche bekannten Laufwerksfunktionen zur Verfgung.
+
+šber dem eigentlichen Steuerungsbereich befinden sich Dropdowns zum
+
+Einstellen der Samplerate und der SampleüBittiefe.
+
+
+6) Informationsbereich
+
+Hierber wird der Benutzer ber verschiedene Einstellungen informiert.
+Die blau umrandeten Felder k”nnen angeklickt werden. Hinter manchen
+
+dieser Felder verbergen sich weitere Information oder Funktionen.
+
+7) Limits-Bereich
+
+Hierber kann man bestimmte Einstellungen vornehmen,die die Wiedergabe und Aufnahme betreffen.
+
+
+8) Clipboard
+
+
+
+šber das Clipboard kann man Markerfelder kopieren.Dabei fungiert das
+Clipboard als eine Art Zwischenspeicher.
+Man kann ein Marker-Feld kopieren,indem man den Marker-Button anklickt und bei gedrckter linker Maustaste auf das
+Clipboard-Icon zieht (bzw. draggt).
+Dabei wird das Clipboard-Symbol selektiert.Nun l„át man die Maustaste los.
+
+Damit wurde das Feld zun„chst ins Clipboard kopiert (eine Art Zwischenü speicher).Nun sucht man mit dem Slider den
+gewnschten Eintrag,auf den das ganze kopiert werden soll.Hat man das gewnschte Feld im Sichtfeld, klickt man auf das
+Clipboard.Man h„lt dabei die linke Maustaste gedrckt. An der Maus h„ngt nun das Marker-Symbol.Dieses zieht man jetzt
+ber den Marker-Button des Feldes,in das kopiert werden soll.Dabei wird der Marker-Button des Feldes automatisch
+selektiert.Ist der Marker-Button selektiert,l„át man die Maus los - fertig.
+Man kann aber nicht nur die einzelnen Markereintr„ge kopieren (mit den
+Markerbuttons),sondern auch den kompletten Eintrag (bestehend aus den
+4 Markerfeldern und dem Markertext).Dabei draggt man stattdessen das
+
+Eintragsnummer-Feld in das Clipboard.Dann w„hlt man den Zieleintrag mit
+dem Slider aus,und draggt den Clipboardinhalt auf das Eintragsnummer-Feld des Zieleintrags.Der Clipboard-Inhalt bleibt
+solange vorhanden, bis man ein anderes Feld oder einen kompletten Eintrag hineinkopiert.
+
+
+
+9) Trash
+
+Hiermit kann man das Sample-Memory komplett l”schen.Beim Wechsel in den Virtual-Mode (virtuelle Bearbeitung) wird der
+komplette Inhalt des
+Sample-Memory auf Festplatte gespeichert.Ist man im Virtual-Mode,
+funktioniert der Trash-Button etwas anders: Das virtuelle Sample wird aus
+dem Speicher entfernt, und das vorher abgespeicherte Sample-Memory wird
+wieder geladen. Damit wird auch der Virtual-Mode beendet.
+
+
+10) Help
+
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+11) Quit
+
+Hiermit beendet man das Programm. Das geht aber auch ber die
+Tastenkombination CTRL-Q,ber das Fenster-Schlieáfeld,
+oder ber das optionale Dropdown-Men unter Datei/Ende.
+4.1.2 Sample-Window
+
+
+
+Hier werden die Amplitudenverl„ufe der Samples dargestellt.
+
+
+
+1) Start-Markerline
+
+Das ist die Markerlinie fr den Startmarker (Marker-S).Am oberen Ende steht der Kennbuchstabe (S,E,I oder R),der den
+Marker als Start,End,Init oder Release-Marker kennzeichnet.Man kann die Marker mit der Maus anfassen,und an die
+gewnschte Stelle schieben. Dafr muá man aber mit der Maus sehr genau auf die Markerlinien zielen,da der Fangbereich
+etwa bei plus/minus 2 Pixel liegt.
+
+
+2) End-Markerline
+
+Das ist die Markerlinie fr den Endmarker (Marker-S).Am oberen Ende steht der Kennbuchstabe (S,E,I oder R),der den
+Marker als Start,End,Init oder Release-Marker kennzeichnet.Man kann die Marker mit der Maus anfassen,und an die
+gewnschte Stelle schieben.Dafr muá man aber mit der Maus sehr genau auf die Markerlinien zielen,da der Fangbereich
+etwa bei plus/minus 2 Pixel liegt.
+
+
+Es gibt auáerdem noch Marker-I und Marker-R,die hier nicht dargestellt
+sind,aber genauso funktionieren und aussehen.
+
+
+3) Vertikale Pegelbeschriftung
+
+Hier wird der Pegel in Prozent angegeben.Bei der Y-Autozoom-Option
+(einstellbar im Setup-Dialog) wird die Pegelbeschriftung dem Maximalpegel
+des Samples angepaát.
+
+
+
+
+

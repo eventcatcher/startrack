@@ -1,0 +1,415 @@
+' --------------------------------------------------------------------------------------------------------------------------------
+' -------------------------------------------------STARTRACK-REGISTER-------------------------------------------------------------
+' --------------------------------------------------------------------------------------------------------------------------------
+' --------------------------------------------------- Stand 2.7.97 ---------------------------------------------------------------
+' --------------------------------------------------------------------------------------------------------------------------------
+'
+'
+' READ  401h   Status Low                          Bit 0-2,6,7 -> MAGICVOL,MAGICXLR,MAGICDIGI,MAGICADDA
+'
+'                                 0  MAGICVOL    - 0=kein zweiter Volume-Controller fr Ausgang vorhanden
+'                                                  1=zweiter Volume-Controller fr Ausgang vorhanden
+'                                 1  MAGICXLR    - 0=keine XLR-Erweiterung vorhanden
+'                                                  1=XLR-Erweiterung vorhanden
+'                                 2  MAGICDIGI   - 0=keine digitalen Schnittstellen vorhanden
+'                                                  1=digitale Schnittstellen vorhanden
+'                                 6  MAGICHS96   - 0=keine 96KHz-Highsampling,Takt kommt von ICLK-Anschluss
+'                                                  1=96KHz-Highsampling m”glich,interne Taktverdopplung des 18.432MHz-Taktes
+'                                 7  MAGICADDA   - 0=keine A/D und D/A-Wandler vorhanden
+'                                                  1=A/D und D/A-Wandler vorhanden
+'
+'
+'
+' WRITE 401h   Register Low  Bytewide              Bit0-7 -> SWAES,SWDIGIN,TAKT0,TAKT1,EXTAKT,EXTEX,EXTTF,EXTTW
+'
+'                                 0  SWAES       - 0=digitaler Eingang, 1=Analogeingang
+'                                 1  SWDIGIN     - 0=optischer Digitaleingang, 1=koaxialer Digitaleingang
+'                               2,3  TAKT0,TAKT1 - 0=Takt vom Digital-Input, 1=32khz, 2=44.1khz, 3=48khz
+'                                                  Wird ein externer Takt eingespeist wird das Signal TAKT0 mibraucht, um
+'                                                  zwischen 256/384facher Teilung des Mastertaktes umzuschalten. Das Ergebnis sind
+'                                                  die Samples/s
+'                                                  TAKT0:  0=256facher Takt, 1=384facher Takt
+'                                 4  EXTAKT      - 0=intern generierter MCLK-Takt, 1=ber EXTMCLK zugefhrter 256/384facher
+'                                                    Sampletakt
+'
+'                                 folgende Register wirken nur in Verbindung mit EXTAKT=1, also extern zugefhrter Takt
+'
+'                                 5  EXTEX       - 0=internen MCLK-Takt fr Taktteiler nutzen (16.9344/24.576 MHz)
+'                                                  1=extern ber EXTMCLK zugefhrten MCLK fr Taktteiler nutzen
+'                                 6  EXTTF       - 0=durch 2(bei EXTEX=0) geteilten Takt fr EXTMCLK nutzen. Bei EXTEX=1 keine
+'                                                    Teilung
+'                                                - 1=durch 4(bei EXTEX=0) geteilten Takt fr EXTMCLK nutzen. Bei EXTEX=1 Teilung
+'                                                    durch 2, also 512facher/768facher Takt (siehe TAKT0)
+'                                 7  EXTTW       - 0=16.9344 MHz, 1=12.288MHz fr Taktteiler - nur in Verbindung mit EXTEX=0
+'                                                    relevant
+'
+'
+'
+' READ  421h   Status Mid                          Bit0-2,7 -> ERR0,ERR1,ERR2,EMPH
+'
+'            wenn  SUBFR=0        0  ERR0        - Fehlercodes vom Digitaleingang
+'            wenn  SUBFR=0        1  ERR1        - Fehlercodes vom Digitaleingang
+'            wenn  SUBFR=0        2  ERR2        - Fehlercodes vom Digitaleingang
+'                                                  Fehlercodes: 0=no error, 1=validity bit high, 2=confidence flag,
+'                                                               3=slipped sample
+'                                                               4=CRC-error, 5=parity-error, 6=Bi-Phase coding error, 7=no lock
+'                                                               (siehe auch CS8412-Manual)
+'
+'            wenn  SUBFR=1        0  USE         - 0=Profi, 1=Consumer
+'            wenn  SUBFR=1        1  AUDIO       - 0=DATA, 1=Audio
+'            wenn  SUBFR=1        2  PROT        - 0=no Copy-prohibit - SCMS not active, 1=Copy prohibit - SCMS is active
+'            wenn  SUBFR=1        7  EMPH        - 0=no emphasis, 1=emphasis is active
+'
+'
+'
+' READ  441h   Status High                         Bit0-2 -> FIFO-WRempty,FIFO-WRhalf,FIFO-WRfull
+'
+'                                                  Die Flags des Play-FIFOs
+'                                 0  WRempty     - 0=FIFO leer, mu nachgefllt werden sonst Datenverlust
+'                                 1  WRhalf      - 0=FIFO mehr als halb gefllt, 1=FIFO weniger/bis halb gefllt, l”st
+'                                                  auch INT aus
+'                                 2  WRfull      - 0=FIFO voll, weiterschreiben wird mit Datenverlust bestraft :-)
+'
+' WRITE 441h   Register High  Bytewide             Bit0-7 -> SWPROT,SWRES-FIFO,MATRIX_OUT,PREEMPH,SWSUBFR,GENERA,CATEG0,GATEG1
+'
+'                                 0  SWPROT(C2)  - 0=SCMS-Copybit aktiv, 1=SCMS-Copybit entfernen - Digitalkopie erlaubt (Bit C2)
+'                                                  Wenn SWPROT=1 ist und der Categorycode 11 (DAT) ist,
+'                                                  hat das GENERA-Bit keine Bedeutung
+'                                                  und der Kopierschutz ist vollst„ndig entfernt.
+'                                                  Wenn SWPROT=0 ist und der Categorycode 11 (DAT) ist, und das
+'                                                  GENERA-Bit 1 ist, dann kann nach der šberspielung noch einmal kopiert werden.
+'                                                  Wenn SWPROT=1 ist und der Categorycode 00 (General) ist, und das
+'                                                  GENERA-Bit 0 ist, dann
+'                                                  kann nach der šberspielung nicht mehr digital berspielt werden (SCMS)
+'                                 1  SWRES-FIFO  - 0=REC-FIFO-Reset deaktiviert, 1=REC-FIFO-Reset aktiv - mu manuell
+'                                                  rckgesetzt werden
+'                                                  Hiermit wird auerdem der A/D,D/A,die Digitalchips und die Volumecontroller
+'                                                  zurckgesetzt und der D/A mu mit Kickstart gestartet werden
+'                                                  (siehe Manual zu CS4328) 
+'                                 2  MATRIX_OUT  - Matrix Ausgangskanal bzw. Register-Ziel (fr Wahl des Inputmode) ausw„hlen
+'                                                  0=Z„hler zurcksetzen
+'                                                  1= erster Zugriff -> DMA-Aufnahmekanal ausw„hlen     (00)
+'                                                     zweiter Zugriff -> D/A-Wandlerkanal ausw„hlen     (01)
+'                                                     dritter Zugriff -> DSP-Eingangskanal ausw„hlen
+'                                                                        (oder DSP-Port-Wiedergabekanal (10)
+'                                                     vierter Zugriff -> Vierkanalmode ausw„hlen (Sonderfall - hat nichts 
+'                                                                      direkt mit der Matrix zu tun,war aber nicht anders m”glich)
+'                                                  Da der Z„hler auf einem unbestimmten Wert stehen k”nnte, sollte man unbedingt
+'                                                  den Z„hler vor jeder Ausgangswahl l”schen !
+'                                 3  PREEMPH(C3) - 0=Preemphasis aus, 1=Preemphasis an, wirksam bei Digital-Ausgang (Bit C3)
+'                                                                                       und D/A-Ausgang
+'                                 4  SWSUBFR(SEL)- 0=Error information des Digitaleingangs (siehe Status Mid: ERR0,ERR1,ERR2)
+'                                                  1=Channel status information des Digitaleingangs (siehe Status Mid: USE,
+'                                                  AUDIO,PROT)
+'
+'                                                  Die Bits PREEMPH,CATEG0,CATEG1 & GENERA wirken nur bei Sampler-PLAY auf den
+'                                                  Digitalausgang und nicht bei direkten Digitalberspielungen als SCMS-Dekoder
+'                                 5  GENERA(C15) - 0=no indication, einmal kopierbar 1=orginal/nicht kopierbar
+'                                                  Das GENERA-Bit hat nur eine Bedeutung, wenn Digitalkopie erlaubt, also SWPROT=1
+'                                                  und der Categorycode 00 ist, dann kann 1x kopiert werden
+'                                 6  CATEG0(C8)  - Categorycode
+'                                 7  CATEG1(C9)  - Categorycode
+'                                                  00=General, 01=PCM encoder/decoder, 10=laser optical(CD,MD),
+'                                                  11=magnetic tape(DAT,DCC)
+'                                 Im Professional-Mode haben einige Leitungen andere Bedeutungen. Alle wichtigen Steuerleitungen
+'                                 sind vorhanden um auch den Professional-Mode nutzen zu k”nnen. Damit sind auch AES/EBU-
+'                                 Anschlsse denkbar.
+'
+'
+'
+' READ  461h   Status xHigh                        Bit0-2 -> FIFO-RDempty,FIFO-RDhalf,FIFO-RDfull
+'
+'                                                  Die Flags des Record-FIFOs
+'                                 0  RDempty     - 0=FIFO leer, weiterlesen wird mit Zufallsdaten bestraft
+'                                 1  RDhalf      - 0=FIFO mehr als halb gefllt, 1=FIFO weniger/bis halb gefllt,
+'                                                  l”st auch INT aus
+'                                 2  RDfull      - 0=FIFO voll, mu ausgelesen werden sonst Datenverlust
+'
+'
+'
+' WRITE 481h   DSP-Register  Bytewide              Bit0-7 -> MATI0,MATI1,VOLCS1,VOLCLK,VOLDATAI(CKS wenn EXTAKT=1),VOLCS2,
+'                                                            NC,AECFREQ
+'
+'                               0,1  MATI0,MATI1 - Matrix Eingangskanal-Auswahl - verbindet den mit MATRIX_OUT ausgew„hlten
+'                                                  Sender mit einem Eingangssignal:
+'                                                  00 - keine Verbindung
+'                                                  01 - DMA-Wiedergabekanal
+'                                                  10 - A/D-Wandlerkanal (oder wahlweise Digital-Input,siehe SWAES)
+'                                                  11 - DSP-Ausgangskanal (oder DSP-Port-Aufnahmekanal,w„hlbar)
+'                                                  Steht MATRIX_OUT auf Vierkanalmode(11) haben Bits 0+1 eine andere Bedeutung:
+'                                 0  REC4          0 - normal-mode
+'                                                  1 - Vierkanal-Aufnahme(parallel ber DSP-Sender und A/D-Kanal bzw. Digital-In)
+'                                 1  PLAY4         0 - normal-mode
+'                                                  1 - Vierkanal-Wiedergabe (parallel ber DSP-Empf„nger und D/A-Kanal
+'                                                      bzw. Digital-Out)
+'                                 2  VOLCS1      - /CS-Signal fr A/D Volume-Controller
+'                                 3  VOLCLK      - Clock-Signal fr Volume-Controller um Volume-Daten 8Bit Stereo l/r einzutakten
+'                                 4  VOLDATAI    - Dateneingang des Volume-Controllers
+'                                 5  VOLCS2      - /CS-Signal fr D/A Volume-Controller
+'                                 6  NC          - ohne Funktion
+'                                 7  AESFREQ       Zeigt die Samplerate des Digitalsignals an (dekodiert dafr das Eingangssignal)
+'                                                  Das Bit SWSUBFR schaltet dabei den Status um: SWSUBFR=High->Highbit, SWSUBFR=Low->Lowbit
+'                                                  0=44.1khz, 2=48khz, 3=32khz
+'
+'
+'
+' WRITE 4C1h   AES-Register  Bytewide              Bit0-4,7 -> SWPROF,SWCOPY,DIGMODE,PLAY128,REC128,SPEBU
+'
+'                                 0  SWPROF      - 0=Consumer-Mode und Transparent-Mode
+'                                                  1=Professional-Mode
+'
+' Das folgende Bit hat 2 verschiedene Bedeutungen je nach MACH-Programmierung:
+' im 8Kanal-MACH:
+'                                 1  SWCOPY      - 0=SCMS-Kopierschutz im Kopiermodus vollst„ndig entfernen
+'                                                  1=SCMS-Kopierschutz erlaubt im Kopiermodus nur eine Kopie, danach ist
+'                                                    SCMS wieder drinn
+' im 16Kanal-MACH:
+'                                 1  PCH16       - 0=8Kanal-Modus
+'                                                  1=16Kanal-Modus
+'                                                  Im 16Kanal-MACH fehlt das SWCOPY-Bit und ebenso die
+'                                                  Frequenz-Flags AESC24 bzw. AESC25 ! Das ist bedingt durch
+'                                                  Platzprobleme fr den neuen 16Kanal-Modus
+'
+'                                 2  DIGMODE     - Wahl des Digitalmodes bzw. Register-Ziel
+'                                                  0=Z„hler zurcksetzen,normalmode
+'                                                  1= erster Zugriff -> normalmode ausw„hlen     (00)
+'                                                     zweiter Zugriff -> SWMAL2 ausw„hlen        (01)
+'                                                     dritter Zugriff -> DIG24 ausw„hlen         (10)
+'                                                     vierter Zugriff -> SWMAL2 und DIG24        (11)
+'                                    SWMAL2      - 0=normalen externen Takt benutzen
+'                                                  1=externen Takt verdoppeln fr HighSampling mit 96KHz
+'                                                    (18.432x2 = 36.864 MHz / 384 = 96000KHz)
+'                                    DIG24       - 0=normaler 16Bit-Mode
+'                                                  1=erweiterter 24Bit-Mode fr 24Bit-Mastering
+'                                                  Da der Z„hler auf einem unbestimmten Wert stehen k”nnte, sollte man unbedingt
+'                                                  den Z„hler vor jeder Digitalmode-Auswahl l”schen !
+'                                 3  PLAY128     - Wahl des digitalen Wiedergabeformats    
+'                                                  0=Z„hler zurcksetzen,normalmode (Stereo,16Bit)
+'                                                  1= erster Zugriff  -> Falcon 128Bit-Matrixmode fr Play
+'                                                                        (8Kan„le/16Bit) ausw„hlen 
+'                                                     alle weiteren Zugriffe bestimmen den Monitorkanal
+'                                                     (Wiedergabe-Stereokanal im 128Bit-Matrixmode, wie im Falcon) 
+'                                                     zweiter Zugriff  -> Channel0 ausw„hlen
+'                                                     Hiermit kann auch ein Kickstart initiiert werden fr den D/A-Wandler
+'                                                     Dafr mu Channel0 selektiert werden, danach mu der Z„hler wieder
+'                                                     zurckgesetzt werden - fertig (n”tig nach SWRES-FIFO oder RESET)
+'                                                     Tut man dies nicht, kann es sein das der D/A-Wandler abschaltet ! 
+'                                                     dritter Zugriff  -> Channel1 ausw„hlen 
+'                                                     vierter Zugriff  -> Channel2 ausw„hlen 
+'                                                     fnfter Zugriff  -> Channel3 ausw„hlen 
+'                                                     sechster Zugriff -> Channel 0 ausw„hlen usw.
+'                                 4  REC128      - Wahl des digitalen Aufnahmeformats    
+'                                                  0=Z„hler zurcksetzen,normalmode (Stereo,16Bit)
+'                                                  1= erster Zugriff -> Falcon 128Bit-Matrixmode (8Kan„le/16Bit)
+'                                                                       fr Aufnahme ausw„hlen
+'                                                     zweiter Zugriff -> CBL-Mode (Channel-Status-Block auslesen)    
+'                                 7  SPEBU       - 0=SP/DIF-Anschlsse nutzen
+'                                                  1=AES/EBU-Profianschlsse nutzen
+'
+'
+'
+' RD/WR 500h   Sample Read/Write  Wordwide
+'
+'                               0-8  FIFO        - Hier werden die Samples eingeschrieben oder ausgelesen, und zwar in
+'                                                  8Bit-H„ppchen
+'                                                  Beim Lesen (REC) mit einer Kennung im Bit8 die anzeigt, ob das Sample zum
+'                                                  linken oder rechten Kanal geh”rt.
+'                                                  Bit8=0 - Rechter Kanal
+'                                                  Bit8=1 - Linker Kanal
+'                                                  Beim Schreiben werden auch 8Bit-H„ppchen geschrieben, dabei zeigt Adreleitung
+'                                                  A1 an, ob der rechte oder linke Kanal bertragen wird.
+'                                                  A1=0 - Rechter Kanal
+'                                                  A1=1 - Linker Kanal
+'                                                  Zuerst wird das Highbyte des 16Bit-Samples geschrieben/gelesen, und dann
+'                                                  das Lowbyte.
+'
+'
+'
+'       600h  DSP-Erweiterung                    
+'
+' Die folgenden Register von 600h - 67Fh befinden sich auf der DSP-Erweiterungskarte und sind in der Standartversion
+' nicht enthalten:
+'
+' RD/WR 600h  Byte              0-7  DSP-DATA    - /CS fr den DSP. Der DSP hat 8 Hostregister von 601h-607h.                     
+'                                                  Die HI-Register ICR,CVR,ISR,IVR,RXH,RXM,RXL bzw.
+'                                                  ICR,CVR,ISR,IVR,TXH,TXM,TXL sind hierber zu erreichen.
+'
+'
+'
+' WRITE 611h  DSP-PATH            Bytewide         Bit0-3 -> SC0PATH,SC1PATH,SC2PATH,DSPRES
+'
+'                              R  0  SC0PATH     - 0=trennt Matrix-Clock von SC0 des DSP
+'                                                  1=verbindet Matrix-Clock mit SC0 des DSP,default
+'                              P  1  SC1PATH     - 0=trennt MatrixSC1 von SC1 des DSP                                                      
+'                                                  1=verbindet MatrixSC1 mit SC1 des DSP,default                                                                   
+'                              P  2  SC2PATH     - 0=trennt MatrixSC2 von SC2 des DSP
+'                                                  1=verbindet MatrixSC2 mit SC2 des DSP,default
+'                                 3  DSPRES      - 1=/RESET fr den DSP, du mut das Register manuell auf 0 zurcksetzen
+'                                                  0=normalzustand
+'
+'
+'
+' RD/WR 613   DSP-PORT            Bytewide         Bit0-3 -> GPIO0,GPIO1,GPIO2,GPIODIR0
+'
+'                                 0  GPIO0       - liest bzw. schreibt das Portbit 0 des DSP-Ports (abh„ngig von PGIODIR0)
+'                                 1  GPIO1       - liest bzw. schreibt das Portbit 1 des DSP-Ports (abh„ngig von PGIODIR1)
+'                                 2  GPIO2       - liest bzw. schreibt das Portbit 2 des DSP-Ports (abh„ngig von PGIODIR2)
+'                                 3  GPIODIR0    - 0=lesen GPIO0
+'                                                  1=schreiben GPIO0
+'
+'
+'
+' WRITE 615   DSP-PATH2           Bytewide         Bit0-3 -> SRDPATH,STDPATH1,STDPATH0,CONVMAST
+'
+'                              R  0  SRDPATH     - 0=trennt Matrix-SRD von SRD des DSP
+'                                                  1=verbindet Matrix-SRD mit SRD des DSP,default                                  
+'                               1,2  STDPATH     - Auswahl der Datenquelle fr Matrix-Inputdaten      
+'                                                  00=DSP-Outputdaten                                 
+'                                                  01=DSP-Port Inputdaten (RDATA) 
+'                                                  10=Matrix-Outputdaten
+'                                                  Die Daten liegen im 128Bit Matrixformat des Falcon vor. Da die Outputs
+'                                                  (D/A und Digital-Out) nichts damit anfangen k”nnen, kann man optional einen
+'                                                  Stereokanal (siehe CMAST) ausw„hlen und auf die Outputs legen.
+'                                                  Dafr mu das 128Bit-Signal in ein Stereo-Signal konvertiert werden:
+'                                                  Die hier ausgew„hlte Datenquelle geht also auch zum Stereokonverter und liefert
+'                                                  dann entweder die Original 128Bit-Matrixdaten oder das konvertierte
+'                                                  Stereosignal an die Matrix: 
+'                                 3  CONVMAST    - 0=Original 128Bit-Daten an die Matrix liefern
+'                                                  1=Stereokanal konvertieren und an die Matrix liefern
+'
+'
+'
+' WRITE 617   DSP-CONV            Bytewide         Bit0-3 -> GPIODIR1,GPIODIR2,CMAST1,CMAST0
+'
+'                                 0  GPIODIR1    - 0=lesen GPIO1                                  
+'                                                  1=schreiben GPIO1                  
+'                                 1  GPIDIR2     - 0=lesen GPIO2                                                       
+'                                                  1=schreiben GPIO2                                                                    
+'                               2,3  CMAST       - 00=Kanal 1+2 der 128Bit-Matrix konvertieren in Stereo-Signal 
+'                                                  01=Kanal 3+4 der 128Bit-Matrix konvertieren in Stereo-Signal
+'                                                  10=Kanal 5+6 der 128Bit-Matrix konvertieren in Stereo-Signal
+'                                                  11=Kanal 7+8 der 128Bit-Matrix konvertieren in Stereo-Signal
+'
+'
+'
+' WRITE 641   PDAT                Bytewide         Bit0-2 -> PDAT1,PDAT0,MEMART
+'
+'                               0,1  PDAT        - Auswahl der Datenquelle fr den PDATA-Ausgang des DSP-Ports
+'                                                  00=Matrix-Outputdaten                              
+'                                                  01=DSP-Outputdaten              
+'                                                  10=DSP-Port Inputdaten (RDATA)
+'                                 2  MEMART      - 0=Speicheraufteilung wie im Falcon (simulierte 96Kx24Bit)
+'                                                  1=extended Memory (128Kx24Bit) mit anderer Speicheraufteilung
+'                                 3  DSPIN       - Auswahl der Datenquelle fr den DSP-Receive Input
+'                                                  0=Daten von Matrix-Output
+'                                                  1=DSP-Port Inputdaten (RDATA)
+'
+'
+'                                 Speicheraufteilung im Falcon-Mode (MEMART=0):
+'      
+'                                 Y-Speicher:    $0000-$00FF -> Internes RAM
+'                                                $0100-$3FFF -> 16K externer Y-Speicher
+'                                                $4000-$7FFF -> shadow der 16K externer Y-Speicher
+'                                                $8000-$BFFF -> shadow der 16K externer Y-Speicher
+'                                                $C000-$FFBF -> shadow der 16K externer Y-Speicher
+'                                                $FFC0-$FFFF -> externe Peripherie (Register)
+'
+'                                 X-Speicher:    $0000-$01FF -> Internes RAM/ROM
+'                                                $0200-$3FFF -> 16K externer X-Speicher
+'                                                $4000-$7FFF -> shadow der 16K externer X-Speicher
+'                                                $8000-$BFFF -> shadow der 16K externer XSpeicher
+'                                                $C000-$FFBF -> shadow der 16K externer X-Speicher
+'                                                $FFC0-$FFFF -> interne Peripherie (Register)
+'
+'                                 P-Speicher:    $0000-$003F -> Interne Interrupts/Vektoren
+'                                                $0040-$01FF -> Interner Programmspeicher
+'                                                $0200-$3FFF -> shadow des externen Y-Speichers (16K)
+'                                                $4000-$7FFF -> shadow des externen X-Speichers (16K)
+'                                                $8000-$BFFF -> shadow des externen Y-Speichers (16K)
+'                                                $C000-$FFFF -> shadow des externen X-Speichers (16K)
+'
+'
+'                                 Speicheraufteilung im Extended-Mode (MEMART=1):
+'      
+'                                 Y-Speicher:    $0000-$00FF -> Internes RAM
+'                                                $0100-$FFBF -> 64K externer Y-Speicher
+'                                                $FFC0-$FFFF -> externe Peripherie (Register)
+'
+'                                 X-Speicher:    $0000-$01FF -> Internes RAM/ROM
+'                                                $0200-$FFBF -> 64K externer X-Speicher
+'                                                $FFC0-$FFFF -> interne Peripherie (Register)
+'
+'                                 P-Speicher:    $0000-$003F -> Interne Interrupts/Vektoren
+'                                                $0040-$01FF -> Interner Programmspeicher
+'                                                $0200-$7FFF -> shadow des externen Y-Speichers (untere 32K)
+'                                                $8000-$FFFF -> shadow des externen X-Speichers (untere 32K)
+'
+'                                                Wichtig: Die oberen 32K des X- und Y-Speichers bleiben also von Spiegelungen im
+'                                                Adressraum komplett verschont !!!
+'
+'
+'
+' WRITE 643   CLKDIV              Bytewide         Bit0-3 -> CDIV3,CDIV2,CDIV1,CDIV0 
+'
+'                               0-3  CDIV          Takt von DSP-Port EXTCLK (bei 25.175MHz)
+'                                                  Input         -> Output        -> Samplerate
+'                                                  --------------------------------------------
+'                                                  0000=CKOUT/1  -> 25.175MHz/512 -> 49170 Hz
+'                                                  0001=CKOUT/2  -> 12.587MHz/256 -> 49170 Hz
+'                                                  0010=CKOUT/2  -> 12.587MHz/256 -> 49170 Hz                
+'                                                  0011=CKOUT/3  ->  8.392MHz/256 -> 32780 Hz                                                 
+'                                                  0100=CKOUT/4  ->  6.294MHz/256 -> 24585 Hz                                                               
+'                                                  0101=CKOUT/5  ->  5.035MHz/256 -> 19668 Hz
+'                                                  0110=CKOUT/6  ->  4.196MHz/256 -> 16390 Hz
+'                                                  0111=CKOUT/7  ->  3.596MHz/256 -> 14049 Hz
+'                                                  1000=CKOUT/8  ->  3.147MHz/256 -> 12292 Hz
+'                                                  1001=CKOUT/9  ->  2.797MHz/256 -> 10927 Hz
+'                                                  1010=CKOUT/10 ->  2.518MHz/256 ->  9833 Hz            
+'                                                  1011=CKOUT/11 ->  2.289MHz/256 ->  8940 Hz                                                  
+'                                                  1100=CKOUT/12 ->  2.098MHz/256 ->  8195 Hz                                                               
+'                                                  1101=CKOUT/13 ->  1.937MHz/256 ->  7565 Hz
+'                                                  1110=CKOUT/14 ->  1.798MHz/256 ->  7024 Hz
+'                                                  1111=CKOUT/15 ->  1.678MHz/256 ->  6556 Hz
+'
+'                                                  Takt von CKOUT des DSP (bei 66.00 MHz DSP-Takt)                     
+'                                                  Input -> ICLK_Output/Wandler_Vorteiler -> Samplerate
+'                                                  ----------------------------------------------------
+'                                                  0000=CKOUT/1  -> 66.000MHz/768 ->  85938 Hz
+'                                                  0001=CKOUT/2  -> 33.000MHz/512 ->  64453 Hz
+'                                                  0010=CKOUT/2  -> 33.000MHz/512 ->  64453 Hz
+'                                                  0011=CKOUT/3  -> 22.000MHz/512 ->  42969 Hz                                                 
+'                                                  0100=CKOUT/4  -> 16.500MHz/512 ->  32227 Hz                                                               
+'                                                  0101=CKOUT/5  -> 13.200MHz/512 ->  25781 Hz
+'                                                  0110=CKOUT/6  -> 11.000MHz/512 ->  21484 Hz
+'                                                  0111=CKOUT/7  ->  9.428MHz/512 ->  18415 Hz
+'                                                  1000=CKOUT/8  ->  8.250MHz/512 ->  16113 Hz
+'                                                  1001=CKOUT/9  ->  7.333MHz/512 ->  14323 Hz
+'                                                  1010=CKOUT/10 ->  6.600MHz/512 ->  12891 Hz            
+'                                                  1011=CKOUT/11 ->  6.000MHz/512 ->  11719 Hz                                                  
+'                                                  1100=CKOUT/12 ->  5.500MHz/512 ->  10742 Hz                                                               
+'                                                  1101=CKOUT/13 ->  5.077MHz/512 ->   9916 Hz
+'                                                  1110=CKOUT/14 ->  4.714MHz/512 ->   9208 Hz
+'                                                  1111=CKOUT/15 ->  4.400MHz/512 ->   8594 Hz
+'
+' Weitere Taktraten sind m”glich (Wandler_Vorteiler /256,/384,/512 und /768 sind nutzbar,
+' also insg. 64 neue Taktraten durch CLKDIV !
+'
+'
+' RD/WR 651h  SMPTE             0-7  SMPTE-DATA  - freier Bereich fr optionale Erweiterungen (bis 65Fh)
+'
+'
+'
+' RD/WR 681h  Interrupt-Freigabe  Bytewide         Bit 0,1 -> PLAY-INT,REC-INT
+'
+'                                                  Der Startrack-Sampler erzeugt getrennte Vektoren fr Aufnahme und Wiedergabe
+'                                                  Soll eine Interruptgesteuerte Aufnahme/Wiedergabe gestartet werden mu dafr
+'                                                  eine Interruptroutine geschrieben/installiert werden. Das ganze wird aber erst
+'                                                  gestartet, wenn das zust„ndige INT-Register gesetzt wird.
+'                                                  Die Aufnahme/Wiedergabe kann durch Rcksetzen des zust„ndigen INT-Registers
+'                                                  gestoppt werden.
+'                                 0  PLAY-INT   - 0=kein Play-Interrupt, 1=PLAY-Interrupt aktiviert bzw. ausgel”st
+'                                                   Vector Nr.122
+'                                 1  REC-INT    - 0=kein Record-Interrupt, 1=Record-Interrupt aktiviert bzw. ausgel”st
+'                                                   Vector Nr.123
+'
+'

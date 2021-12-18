@@ -1,0 +1,50 @@
+STARTRACK-Hardware
+------------------
+
+- 4fach-Multilayer-Platine zum Anschlu an alle Atari-kompatiblen
+  mit VME-Bus (MegaSTE,TT,Eagle,Medusa,Hades)
+  vollst„ndig getrennter Analog- und Digitalbereich
+  (separate Masseverbindungen,getrennter Aufbau)
+  eigene Spannungswandler (2 fr A/D-Wandler und 2 fr D/A-Wandler)  
+- digitale Ein/Ausg„nge in Cinch und Opto(TOSLINK)-Ausfhrung
+  šbertragung nach Consumer-Norm SP/DIF,
+  Studio-Norm AES/EBU optional nachrstbar (XLR-Karte)
+- 3 softwarem„ig umschaltbare Digitaleing„nge (optisch,koaxial und optional AES/EBU)
+  Das erspart st„ndiges Umstecken der Kabel.
+  M”gliche Sampleraten der Digital-Schnittstellen: 32/44.1/48kHz
+- erkennt Fehler in der digitalen Datenbertragung und zeigt die Art des Fehlers an
+- hardwarem„ige Samplerate-Erkennung am digitalen Eingang
+- Der Kopierschutz kann aus SCMS-geschtzten Digitalaufnahmen vollst„ndig entfernt werden
+  Das gilt fr ALLE digitalen Quellen, also auch fr Profi-Studio-Formate.
+- Aufnahmen k”nnen verlustfrei digital zurck per DAT/DCC/MD berspielt werden
+- Copybit frei w„hlbar (keine Kopien, 1Kopie oder uneingeschr„nktes Kopieren)
+- Stereo 16Bit A/D und D/A-Wandler mit 64fachem Oversampling und
+  Sigma-Delta-Linearwandlern (Crystal)
+  Die A/D und D/A-Wandler k”nnen mit den blichen 32/44.1 und 48kHz arbeiten,
+  zus„tzlich aber noch mit 8/11/12/16/16.5/22.05/24/33.1 kHz oder einem optional
+  extern angelegten Takt der durch 768/512/384 oder 256 intern geteilt wird
+- Der Wandlertakt kann optional (ber ein Koaxkabel) einem CD-Laufwerk zugefhrt werden
+  Das ist bei einigen HighEnd-Laufwerken m”glich und verhindert wirkungsvoll Jitter.
+- integrierte,schaltbare De-Emphasis-Schaltung 
+  n”tig weil einige CDs (z.B. von Heaven 17) zwecks Rauschminderung mit stark
+  angehobenen H”hen auf CD verewigt wurden 
+- digital steuerbare Highend-Lautst„rkeregler/verst„rker am A/D-Wandler-Eingang,
+  kanalgetrennt regelbar von -96dB bis +32dB mit 256 Abstufungen,
+  optional auch fr den D/A-Wandler
+- Harddisk-Recording (FIFO-Buffering)
+- gleichzeitige Wiedergabe und Aufnahme m”glich
+  fr digitale Hinterbandkontrolle, Synchronaufnahme zu vorhandenem Sample
+
+Erweiterungs-Optionen:
+----------------------
+- DSP-Karte mit einem Motorola DSP56002-66MHz mit 96K-no-waitstate-SRAM
+  Der DSP kann wahlweise in den Aufnahme- oder Wiedergabezweig
+  integriert werden (softwarem„ig steuerbar)
+  Der DSP ist fr das Harddisk-Recording nicht notwendig, da die Karte
+  den Transfer selbst puffert.
+  Daher steht der DSP quasi komplett fr Effekt-Berechnungen zur Verfgung.
+- XLR-Karte
+  h”here Line-Pegel und alle Anschlsse in XLR-Anschlunorm 
+  AES/EBU-Digitalschnittstellen (Input&Output)
+
+

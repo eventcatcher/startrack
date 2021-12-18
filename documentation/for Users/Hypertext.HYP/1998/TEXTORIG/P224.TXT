@@ -1,0 +1,75 @@
+4.14.9 SMPTE-Timecode
+
+
+
+Dieser Dialog ist fr die Eingabe der SMPTE-Startposition eines Sampleblocks
+im Tracker zust„ndig.Der Wert bezeichnet den Zeitpunkt der Wiedergabe bei der Tracker-Mehrspurwiedergabe.Man erreicht
+diesen Dialog,indem man das
+SMPTE-Zeitfeld im Tracker-Fenster anklickt.Man kann die SMPTE-Startzeit
+bzw. die Position des Samples auch direkt an eine andere Position draggen.
+Dafr klickt man den Sampleblock an,und schiebt das Sample mit gedrckter
+rechter Maustaste auf die neue Position.
+
+
+
+1) max. Time
+
+Anzeige der maximal m”glichen Zeitposition.Diese wird durch die L„nge des
+Tracker-Arrangements bestimmt.
+
+
+2) Zeiteingabe
+
+Hier stellt man die SMPTE-Startzeit ein.Die Zeitangabe ist in Stunden,Minuten, Sekunden und Frames unterteilt,wobei jede
+Position direkt mit einem Pfeilbutton ver„ndert werden kann.Dabei sind die Doppelpfeil-Buttons fr die Zehnerü
+positionen,und die Einpfeil-Buttons fr die Einerpositionen zust„ndig.
+
+Man kann im Edit-Feld aber auch direkte Eingaben machen.
+
+Fr kleinere Korrekturen sind die Pfeilbuttons aber recht praktisch.
+
+
+3) Min
+
+
+
+Hiermit kann man die SampleüZeitposition auf den MinimalüZeitwert setzen
+
+(normalerweise Null).
+
+
+
+4) Max
+
+
+
+Hiermit kann man die SampleüZeitposition auf den MaximalüZeitwert (1) setzen.
+
+
+
+5) aktueller Editslot
+
+
+
+Die Dialogbox kann komplett per Tastatur bedient werden.Hier wird das aktuelle Feld ausgew„hlt (mit CTRL Pfeilülinks
+bzw. rechts),auf daá sich die Bedienung der Pfeilbuttons per Shortcut (CTRL Pfeilühoch bzw. runter) bezieht. 
+
+Die ShortcutüBelegung ist im Anhang unter "Shortcuts" nachzulesen.
+
+
+
+6) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+7) Exit
+
+Hiermit wird der SMPTE-Dialog geschlossen.Die Zeiteingabe wird nicht beachtet, und ist ungltig.
+
+
+8) OK
+
+Hiermit wird der SMPTE-Dialog geschlossen.Die SMPTE-Startzeiteingabe ist
+gltig,und das Sample wird auf die neue SMPTE-Zeitposition gesetzt.

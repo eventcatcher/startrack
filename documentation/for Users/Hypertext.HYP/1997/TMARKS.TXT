@@ -1,0 +1,91 @@
+Markerfeld im Trakker-Fenster
+-----------------------------
+
+
+Im Markerfeld werden die Parameter des aktuellen Samples (Startzeit,Endzeit,
+L„nge,Position usw.) und des Playblocks aufgefhrt. Hier k”nnen die
+Markerwerte auch ge„ndert werden. Zur besseren Verst„ndnis sollte man das
+İBILDİTMARKS.IMGİ des Markerfelds zu Rate ziehen.
+
+
+1) Start-Marker
+---------------
+Hier wird der Startzeitpunkt des aktuellen Sampleblocks angegeben. Man kann
+den Startpunkt mit den beiden Pfeiltasten rechts neben dem Startmarkerfeld
+verschieben. Hat man mit den Laufwerksfunktionen einen brauchbaren
+Startpunkt gefunden, reicht ein Klick auf das Startmarkerfeld, um die
+Position vom Zeitz„hlwerk zu bernehmen. Man kann auch einen Markereintrag
+des Samples aus dem Information-File (*.INF) mit dem Blockmarker-Button
+(siehe unter İFunktionsfeldİBLOCKBUT.TXTİ) bernehmen.
+
+2) End-Marker
+-------------
+Hier wird der Endzeitpunkt des aktuellen Sampleblocks angegeben. Man kann
+den Endpunkt mit den beiden Pfeiltasten rechts neben dem Endmarkerfeld
+verschieben. Hat man mit den Laufwerksfunktionen einen brauchbaren Endpunkt
+gefunden, reicht ein Klick auf das Endmarkerfeld, um die Position vom
+Zeitz„hlwerk zu bernehmen. Man kann auch einen Markereintrag des Samples
+aus dem Information-File (*.INF) mit dem Blockmarker-Button (siehe unter
+İFunktionsfeldİBLOCKBUT.TXTİ) bernehmen.
+
+3) Duration
+-----------
+Hier wird die Blockl„nge des Samples angegeben, also die Abspielzeit
+zwischen Start- und Endmarker.
+
+4) Len
+------
+Hier wird die Gesamtl„nge des Samples angegeben.
+
+5) SMPTE
+--------
+Hier wird der Start-Zeitpunkt des Samples auf der Spur angegeben.
+Man kann den Start-Zeitpunkt mit den beiden Pfeiltasten rechts neben dem
+SMPTE-Feld verschieben. Der Wert l„t sich auch direkt „ndern, indem man auf
+das İSMPTE-FeldİSMPTE.TXTİ klickt. Es erscheint dann ein Dialog zur Zeiteingabe.
+Die SMPTE-Synchronisation ist noch nicht implementiert, aber fr die
+Zukunft vorgesehen.
+
+6) Playstart-Marker
+-------------------
+Die beiden Playmarker definieren den Teil der Trakkerliste, der
+zusammengemischt und wiedergegeben werden soll. Das ist praktisch, da man
+beim Arrangieren oft Kontrollieren mu, ob der zeitliche Ablauf stimmt,
+oder das Sample an der eingefgten Stelle auch richtig zu den anderen Spuren
+pat. Man w„hlt dann einfach den zu kontrollierenden Teil mit den
+Playmarkern aus. Ist kein Playmarker definiert, wird alles vom Anfang bis
+bis zum Ende der Liste abgespielt. Der Playstart-Marker kann gesetzt werden,
+indem man das Playstart-Feld (oberes Playfeld) anklickt. Es erscheint dann
+ein Dialog zur İZeiteingabeİPLAYSTRT.TXTİ. Man kann den Playstart-Zeitpunkt auch mit den
+beiden Pfeiltasten rechts neben dem Playstart-Feld verschieben. Der
+Playstart-Marker erscheint im Trakker als İsenkrechte LinieİTRAKKER.TXTİ mit dem
+Kennbuchstaben S. Diese Linie l„t sich mit der Maus anfassen und an eine
+andere Position bewegen.
+
+7) Playend-Marker
+-----------------
+Die beiden Playmarker definieren den Teil der Trakkerliste, der
+zusammengemischt und wiedergegeben werden soll. Das ist praktisch, da man
+beim Arrangieren oft Kontrollieren mu, ob der zeitliche Ablauf stimmt,
+oder das Sample an der eingefgten Stelle auch richtig zu den anderen Spuren
+pat. Man w„hlt dann einfach den zu kontrollierenden Teil mit den
+Playmarkern aus. Ist kein Playmarker definiert, wird alles vom Anfang bis
+bis zum Ende der Liste abgespielt. Der Playend-Marker kann gesetzt werden,
+indem man das Playend-Feld (unteres Playfeld) anklickt. Es erscheint dann
+ein Dialog zur İZeiteingabeİPLAYEND.TXTİ. Man kann den Playend-Zeitpunkt auch mit den
+beiden Pfeiltasten rechts neben dem Playend-Feld verschieben. Der
+Playend-Marker erscheint im Trakker als İsenkrechte LinieİTRAKKER.TXTİ mit dem
+Kennbuchstaben E. Diese Linie l„t sich mit der Maus anfassen und an eine
+andere Position bewegen.
+
+8) Markerfeld
+-------------
+Im Markerfeld werden die Zeitangaben des aktuellen Samples angegeben. Alle
+blau umrandeten Felder sind anklickbar, hier kann man die Werte bernehmen
+oder ver„ndern. Die anderen Felder sind nur zur Information.
+
+9) Pfeiltasten
+--------------
+Mit den Pfeiltasten k”nnen die Marker bzw. Start- und Endpunkte verschoben
+werden. Man kann die Tasten dabei gedrckt lassen, um die Marker weiter zu
+verschieben.

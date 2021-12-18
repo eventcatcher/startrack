@@ -1,0 +1,118 @@
+Informationsbereich im Editor-Fenster
+-------------------------------------
+
+
+Hierber wird der Benutzer ber verschiedene Einstellungen informiert.
+Die blau umrandeten Felder k”nnen angeklickt werden. Hinter manchen dieser
+Felder verbergen sich weitere Information oder Funktionen.
+Zur besseren Verst„ndnis sollte man das İBILDİEINFO.IMGİ des
+Informationsbereichs zu Rate ziehen.
+
+
+1) L„nge des Samples/Sample-Memory in Kilobyte
+----------------------------------------------
+Hier wird die L„nge des geladenen Samples angegeben. Wurde kein Sample
+geladen entspricht dieser Wert der L„nge des Sample-Memory in KB (Kilobyte).
+Klickt man auf das Anzeigefeld, wird die Gesamtl„nge des Sample-Memory in
+KB (Kilobyte) angegeben.
+
+2) Spielzeit des Samples/Sample-Memory
+--------------------------------------
+Hier wird die Spielzeit des geladenen Samples im Format HH:MM:SS XX
+angegeben. Wurde kein Sample geladen entspricht dieser Wert der Spielzeit
+des Sample-Memory. Klickt man auf das Anzeigefeld, wird die Spielzeit des
+Sample-Memory angegeben.
+
+3) Name der Sample-Datei
+------------------------
+Hier erscheint der Name der zuletzt geladenen bzw. gespeicherten
+Sample-Datei. Klickt man auf dieses Anzeigefeld, erh„lt man noch genauere
+Informationen ber das Sample im dann erscheinenden
+İSample-Information-DialogİSMPINF.TXTİ. 
+
+4) Adjust-Samplerate-Wert
+-------------------------
+Wenn man beim Resampling im İResample-DialogİRESAMPLE.TXTİ die Option
+Adjust-Resampling-Rate ausw„hlt, wird in diesem Feld die neue Samplerate
+angezeigt, um an die ge„nderte Samplerate zu erinnern.
+
+5) Freier Speicherplatz im Setup- und Sample-Suchpfad
+-----------------------------------------------------
+Hier wird der freie Speicherplatz auf der Festplatte in KB (Kilobyte)
+angezeigt, und zwar links fr die Start-Partition (die Partition von der
+das Programm geladen wurde) und rechts fr die im Setup-Dialog definierte
+Sample-Partition.
+
+6) Zeitposition des Mauszeigers bzw. Markers beim draggen
+---------------------------------------------------------
+Der Wert zeigt die Markerposition beim Draggen an. Wenn man mit der Maus
+ber das İsample-windowİCURVE.TXTİ f„hrt, wird hier die Position des Mauszeigers im
+Sample angezeigt. Es gibt zwei unterschiedliche Darstellungsarten.
+Die Darstellungsart kann im İSetup-DialogİSETUP.TXTİ (View-Button) eingestellt werden.
+Man hat die Wahl zwischen der Zeitanzeige (auf 100tel Sekunde genau) und
+der Anzeige in Samplewerten (genauer).
+
+7) Darstellungsmastab
+----------------------
+Hier wird der Darstellungsmastab, also das Verh„ltnis der dargestellten
+Samples zur Gesamtzahl der Samples angegeben. Bei einem Verh„ltnis von z.B.
+1:2 entspricht 1 Pixel im sample-window 2 Samplewerten. Man kann mit der
+İZoomfunktionİFUNKTION.TXTİ bis auf ein 1:1 Verh„ltnis und darber hinaus in das Sample
+zoomen. Ab einem Verh„ltnis von 2:1 kann man im Editor die einzelnen
+Samplewerte mit der Maus korrigieren oder eigene Samplewerte einzeichnen.
+Diese Korrekturfunktionen sind derzeit fehlerhaft, werden aber in einer
+neuen Programmversion korrigiert. 
+
+8) Sample-Amplitudenwerte links/rechts
+--------------------------------------
+Hier werden beim draggen die Sample-Amplitudenwerte
+(in Hexadezimalschreibweise) an der Markerstelle angezeigt.
+Wenn man mit der Maus ber das sample-window f„hrt, werden hier die
+Sample-Amplitudenwerte an der Mauszeiger-Stelle angezeigt. Links steht der
+Wert fr den linken, und rechts der Wert fr den rechten Kanal.
+
+9) Uhrzeit
+----------
+Hier steht die momentane Uhrzeit der Systemuhr. Dahinter steckt aber auch
+der İBackup-DialogİBACKPAGE.TXTİ. Man gelangt in den Backup-Dialog, indem man auf das
+Uhrzeit-Feld klickt. Ist die Auto-Backup-Option eingeschaltet, wird das
+Feld selektiert dargestellt. Dann wird nach der eingestellten Zeit jeweils
+ein Backup der Arbeitsumgebung durchgefhrt.
+
+10) Sample-Rate
+---------------
+Hier wird die Samplerate des analogen Eingangs ber einen Rollbalken
+ausgew„hlt. Bei Wiedergabe von Soundfiles wird mit der hier ausgew„hlten
+Samplerate abgespielt, sofern das Samplefile keinen anderen Wert vorgibt.
+Diese Samplerate l„t sich zus„tzlich auch im İEinstellungen-FensterİMAIN.TXTİ
+einstellen. Der Digitalausgang wird hiermit auch beeinflut, so da man die
+Aufnahmen z.B. zurck auf DAT-Band berspielen kann. Dabei mu man
+allerdings darauf achten, da der DAT-Rekorder nur etwas mit den Sampleraten
+32.0,44.1 und 48.0 kHz anfangen kann. Ist im İSetup-DialogİSETUP.TXTİ
+digital-in clock:Synchronize ausgew„hlt, so wird der analoge Eingang mit dem
+digitalen synchronisiert d.h. die Samplerate des digitalen Eingangs wirkt
+auf den analogen Eingang und es wird mit der Samplerate des digitalen
+Eingangs aufgenommen. Das ist sinnvoll um exakt gleiche Sampleraten zu
+gew„hrleisten.  šber den Externen Takteingang (ICLK auf der Platine) kann
+ein externer Takt eingespeist werden, der dann auf eine brauchbare
+Samplerate heruntergeteilt wird. Damit sind dann auch andere Sampleraten
+m”glich. Die Aufnahme wird mit der hier eingestellten Samplerate
+durchgefhrt, wenn der Analogeingang gew„hlt wurde, und die
+Synchronize-Option im İSetup-DialogİSETUP.TXTİ abgeschaltet ist. Ansonsten wird die
+Samplerate des digitalen Eingangs benutzt.
+
+DSR 32.0  - 32.0 kHz (z.B. bei DSR-Digitalradio)
+CD 44.1   - 44.1 kHz (z.B. bei CD)
+DAT 48.0  - 48.0 kHz (z.B. bei DAT-Rekordern)
+8.0       - 8.0 kHz (32/4)
+11.0      - 11.025 kHz (44.1/4)
+12.0      - 12 kHz (48/4)
+16.0      - 16.0 kHz (32/2)
+16.5      - 16.5 kHz 
+22.1      - 22.05 kHz (44.1/2)
+24        - 24 kHz (48/2)
+33.1      - 33.1 kHz 
+EXT/768   - Externer Takt geteilt durch 768
+EXT/512   - Externer Takt geteilt durch 512
+EXT/384   - Externer Takt geteilt durch 384
+EXT/256   - Externer Takt geteilt durch 256

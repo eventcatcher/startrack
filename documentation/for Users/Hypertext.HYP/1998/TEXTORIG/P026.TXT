@@ -1,0 +1,130 @@
+2.1.2 VMEüVersion
+
+
+Haben sie einen TT oder MegaSTE mit VMEüBus,dann sind sie im Besitz der VMEüVersion. Der Einbau ohne die DSPüErweiterung
+ist simpel: Einfach in den VMEüBus einstecken und mit der HIFIüAnlage oder Mischpult verbinden.
+
+Wie das genau gemacht wird,werden wir ihnen ausfhrlich im Kapitel
+
+"Verbindung zu Audioger„ten" zeigen.
+
+Haben sie die DSPüErweiterung gleich mitbestellt,dann ist die DSPüErweiterung bereits von uns auf die StartracküKarte
+aufgesteckt worden.
+Wollen sie das System nachtr„glich mit der DSPüKarte erweitern,dann muá
+diese zuerst auf die StartracküKarte aufgesteckt werden.
+
+
+2.1.2.1 DSPüErweiterung einbauen:
+Ziehen sie also die StartracküKarte bei ausgeschaltetem Rechner aus dem VMEüSlot heraus,und stecken die DSPüKarte
+vorsichtig auf die StartracküKarte, und zwar mit der Bauteilseite nach unten,die beiden Erweiterungsstecker der
+DSPüKarte mssen dabei in Richtung der Cinchanschlsse (nicht in Richtung des VMEüSteckers!) zeigen.Achten sie dabei
+unbedingt darauf,daá die Steckkontakte der DSPüKarte genau in die dafr vorgesehenen Buchsenkontakte auf der
+StartracküKarte passen,und die Kontaktreihen nicht versehentlich verschoben sind ! Drcken sie anschlieáend gleichm„áig
+die beiden Kontaktreihen der DSPüKarte (am „uáeren Ende der Platinen) in die StartracküBuchsenkontakte (Bravo,die erst
+Hrde ist genommen).
+Auf der Frontblende der StartracküKarte befinden sich zwei Leuchtdioden,die noch mit der DSPüKarte verbunden werden
+mssen. Diese zeigen den Status des DSP an. Hierfr sind am linken Rand der DSPüKarte vier kleine Pins vorhanden (siehe
+Zeichnung der DSPüErweiterung,Kapitel 2.1.6). Auf der Platine sind diese mit DEBUG und LOCK bezeichnet. Die rote LED ist
+fr LOCK und die grne LED fr DEBUG vorgesehen. Die 4 Anschlsse werden nun folgendermaáen mit den LEDs verl”tet (von
+links nach rechts):
+
+
+Die Anode einer LED ist zu erkennen durch den l„ngeren Anschluá und den schmaleren in der LED sichtbaren Anschluáteil
+Die Kathode einer LED ist zu erkennen durch den krzeren Anschluá und den dickeren in der LED sichtbaren Anschluáteil
+ 
+
+   1.Anschluá mit der Kathode der grnen LED verl”ten
+   2.Anschluá mit der Anode der grnen LED verl”ten
+   3.Anschluá mit der Kathode der roten LED verl”ten
+   4.Anschluá mit der Anode der roten LED verl”ten.
+
+
+Sollte die rote LED im Betrieb nicht leuchten,so haben sie die beiden Anschlsse
+wahrscheinlich vertauscht. Die grne LED leuchtet nur,wenn der DSP im DebugüMode ist,wenn also z.B. das EVM56KüProgramm
+gestartet wurde.
+Haben sie zwei linke H„nde oder keinen L”tkolben zur Hand,wenden sie sich bitte an ihren H„ndler,der dies sicherlich
+gerne fr sie macht.
+Haben sie die StartracküKarte komplett mit der DSPüErweiterung erworben,
+
+so ist diese L”tarbeit natrlich nicht n”tig.
+
+
+Brauchen sie den DSPüPort fr den Anschluá eines Analog8,FA8,JamüIn, JamüOut,ADAT, Clockmoduls oder einer anderen
+DSPüPortüErweiterung ?
+Dann sollten sie nun das DSPüPortüKabel mit der DSPüKarte verbinden:
+
+
+2.1.2.2 DSPüPortüKabel anschlieáen:
+Das DSPüPortüKabel (das dickere) wird mit der DSPüErweiterung verbunden
+
+Sie sehen auf der DSPüErweiterung 2 doppelreihige Stecker. Der eine ist 10polig (ONCEüPort),der andere unser 26poliger
+DSPüPort. Wenn sie auf die Kontakte schauen (von der Anschluáseite mit den Cinchanschlssen aus gesehen),ist der
+10polige ONCEüPort links und der 26polige DSPüPort rechts (siehe Zeichnung,
+
+Kapitel 2.1.6). Nun mssen sie das DSPüKabel aufstecken,aber bitte richtigrum: Pin 1 des DSPüPortüSteckers ist unten
+links (von vorne gesehen), Pin 1 des Kabels ist rot und sollte sich nach dem Aufstecken ebenfalls unten links auf dem
+Stecker befinden.
+
+
+Haben sie einen PCükompatiblen Rechner,auáerdem Ambitionen zur DSPüProgrammierung ?
+Dann sollten sie nun das ONCEüPortüKabel mit der DSPüKarte verbinden:
+
+
+2.1.2.3 ONCEüPortüKabel anschlieáen:
+Das ONCEüPortüKabel (das dnnere) wird mit der DSPüErweiterung verbunden. Sie sehen auf der DSPüErweiterung 2
+doppelreihige Stecker.Der eine ist 26polig (DSPüPort),der andere unser 10poliger ONCEüPort.Wenn sie auf die Kontakte
+schauen (von der Anschluáseite mit den Cinchanschlssen aus gesehen),ist der 10polige ONCEüPort links und der 26polige
+DSPüPort rechts (siehe Zeichnung,
+
+Kapitel 2.1.6). Nun mssen sie das ONCEüKabel aufstecken,aber bitte richtigrum: Die obenliegende Seite des
+ONCEüPortüSteckers ist mit "O" bezeichnet,die Unterseite mit "U".
+
+Pin 1 des ONCEüPort ist unten links.Das Kabel ist dreiadrig (Pin 7=grn, Pin 9=weiá, Pin 10=braun),der braune Anschluá
+befindet sich nach dem Aufstecken oben am rechten Rand des Steckers,wenn sie alles richtig gemacht haben.
+
+
+2.1.2.4 Einbau in das Geh„use:
+
+Nun kommt der leider etwas aufwendigere Teil: Der VMEüEinschub des TT und MegaSTE ist komplett in einem Metallk„fig
+gekapselt.Da wir unsere beiden Kabel nach auáen fhren m”chten,kommen wir nicht umhin,in den Blechdeckel mit einem
+Seitenschneider eine kleine Aussparung zu schneiden (siehe Zeichnung,Kapitel 2.1.6).Bitte nicht auss„gen, der feine
+Metallstaub der dabei entsteht,kann im Ger„t zu Kurzschlssen fhren !
+Im Blechdeckel ist bereit ein kleines Loch, etwa in der Mitte,rechts von der
+Rckseite des Rechners aus gesehen.Von hier aus schneiden wir die kleine Aussparung jeweils von den beiden R„ndern des
+Lochs bis zum rechten Auáenrand des Blechs. Ist dieser Teil getan,k”nnen sie die StartracküKarte in den VMEüSlot
+einschieben.Fhren sie zuallererst die Kabel in den VMEüSchacht, und fhren sie durch die geschnittene ™ffnung des
+Blechdeckels. 
+
+Schieben sie nun die StartracküKarte nach,und ziehen dabei gleichzeitig das Kabel weiter durch die Blech”ffnung. Drcken
+sie anschlieáend den 96poligen VMEüStecker der StartracküKarte in den entsprechenden 96poligen VMEüBuchse des
+Rechners,bis er einrastet bzw. bis zum Anschlag.
+
+
+Nun mssen sie noch einen geeigneten Weg finden,die beiden Kabel aus dem
+Rechnergeh„use zu fhren. Dafr gibt es mehrere M”glichkeiten:
+
+
+1. Am Romport vorbei herausfhren.Die ™ffnung ist breit genug dafr,    
+
+   behindert allerdings etwas den Zugriff auf den Romport.
+
+
+2. Eine kleine Aussparung aus dem Kunstoffgeh„use schneiden,und die Kabel
+    hierdurch herausfhren.
+
+
+3. Den Geh„usedeckel nehmen,und in die Rckseite ein oder zwei Aussparungen     fr den Einbau der SubüDüSteckverbinder
+der Kabel ausfeilen.Das geht bei    
+
+   Kunststoff recht problemlos.Weitere Vorschl„ge werden dankbarangenommen.
+
+
+Nun mssen sie als letztes noch den ONCEüPort mit dem PC verbinden,falls sie
+ihn ben”tigen.Wenn nicht sind sie jetzt fertig mit dem Einbau ü Glckwunsch !
+
+
+Sie mssen jetzt nur noch ihre StartracküKarte mit einer HIFIüAnlage oder Mischpult verbinden,und k”nnen dann gleich
+loslegen. Wie das geht,wird
+
+ausfhrlich im Kapitel "Verbindung zu Audioger„ten" erkl„rt.
+   

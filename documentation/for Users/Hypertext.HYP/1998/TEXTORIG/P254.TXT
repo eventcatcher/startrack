@@ -1,0 +1,74 @@
+4.16.4 Das Funktionsmen
+
+
+
+Setup
+
+Hiermit ”ffnet man den SetupüDialog.
+Das geht auch mit der Tastenkombination CTRLüE.
+
+
+Fader
+
+Hiermit ”ffnet man den FaderüDialog.
+Das geht auch mit der Tastenkombination CTRLüF.
+
+
+MIDIüNote
+
+Hiermit ”ffnet man den MidicontrolüDialog.
+Das geht auch mit der Tastenkombination CTRLüN.
+
+
+Monitor
+
+Hiermit kommt man in den Monitor.
+Das geht auch mit der Tastenkombination CTRLüM.
+Damit wird eine direkte Kontrolle des Samplingvorgangs vor der Aufnahme
+erm”glicht.Die Sampledaten werden dafr vom Eingang der Soundkarte
+eingesampelt und sofort wieder vom Programm an den SoundkartenüAusgang
+ausgegeben.Dabei sollten keine Unterbrechungen oder St”rungen im
+Musiksignal auftreten.
+
+
+Aufnahme Auto
+
+Damit wird die Aufnahme gestartet.
+Das geht auch mit der Tastenkombination CTRLüSPACE.
+Allerdings geht das Programm vorher in Lauerstellung,und wartet auf ein Eingangssignal bestimmter H”he,bevor die
+Aufnahme startet.
+
+Die H”he dieses Schwellwerts (treshold) kann man im Setup einstellen.
+
+
+Aufnahme Manuell
+
+Damit wird die Aufnahme gestartet.
+Das geht auch mit der Tastenkombination SHIFTüSPACE.
+
+
+Wiedergabe
+
+Damit wird die Wiedergabe gestartet. Das geht auch mit der Taste SPACE.
+
+
+Play links
+
+Diese Option bewirkt,das alle Wiedergabefunktionen nur noch den linken
+
+Kanal abspielen.
+
+
+
+Play rechts
+
+Diese Option bewirkt,das alle Wiedergabefunktionen nur noch den rechten
+
+Kanal abspielen.
+
+
+
+Play stereo
+
+Diese Option bewirkt,das alle Wiedergabefunktionen auf beiden Kan„len abspielen.
+

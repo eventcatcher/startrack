@@ -1,0 +1,116 @@
+4.10.2 PluginüKonfiguration
+
+
+
+In diesem Dialog wird die CPU PluginüEinbindung konfiguriert.Der Atari TT bzw. 030er CPUs sind fr diese
+rechenintensiven Anwendungen leider zu schmalbrstig.Es muá mindestens ein Rechner mit 040er CPU sein.Doch auch mit
+diesem Prozessor reicht die Rechenleistung nur fr ca. 1ü2 Plugins.Erst mit einem 060er Prozessor hat man eine
+ausreichende Geschwindigkeit fr ca. 4ü5 Plugins.Die Plugins haben eine definierte Programmierschnittstelle,die es auch
+Fremdanbietern erm”glicht,spezielle Algorithmen fr das StarTracküSystem anbieten zu k”nnen.Es sind maximal 5 Plugins
+pro Effektweg m”glich.
+
+Aufgerufen wird der KonfigurationsüDialog durch Eingabe von SHIFTüALTüC,
+
+oder ber das optionale ProgrammüMen im Dropdown Plugins/Konfigurieren.
+
+
+
+1) PluginüListe
+
+
+
+Hier werden alle vorhandenen Plugins aufgelistet.Die Plugins werden in die
+
+RecüList(2) oder PlayüList(3) bernommen,indem man einfach auf den Eintrag
+
+klickt.
+
+
+
+2) RecordüList
+
+
+
+Das ist die PluginüListe fr den Aufnahmezweig.Die Plugins werden in der angegebenen Reihenfolge von der CPU
+abgearbeitet.Dabei kann ein Plugin auch
+
+mehrfach in der Liste stehen bzw. verwendet werden.Die Plugins k”nnen auch
+
+gleichzeitig im Recordü und Wiedergabezweig verwendet werden.
+
+3) PlayüList
+
+
+
+Das ist die PluginüListe fr den Wiedergabezweig.Die Plugins werden in der angegebenen Reihenfolge von der CPU
+abgearbeitet.Dabei kann ein Plugin auch
+
+mehrfach in der Liste stehen bzw. verwendet werden.Die Plugins k”nnen auch
+
+gleichzeitig im Recordü und Wiedergabezweig verwendet werden.
+
+
+
+4) RecüSelect
+
+
+
+Wenn der Button RecüSelect ausgew„hlt wurde,wird die Auswahl der Plugins
+
+aus der PluginüListe(1) in die RecordüList fr den Aufnahmezweig eingetragen..
+
+
+
+5) PlayüSelect
+
+
+
+Wenn der Button PlayüSelect ausgew„hlt wurde,wird die Auswahl der Plugins
+
+aus der PluginüListe(1) in die PlayüList fr den Wiedergabezweig eingetragen.
+
+
+
+6 Help
+
+
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+7) Load
+
+
+
+Hiermit kann man die PluginüKonfigurationsdatei (Endung *.CFG) laden.
+
+
+
+8) Save
+
+
+
+Hiermit kann man die Konfiguration der Plugins in einer Datei (Endung *.CFG)
+
+abspeichern.Man kann sich so mehrere,fr den gewnschten Einsatzweck
+
+passende,Konfigurationen anlegen.
+
+
+
+9) Clear
+
+
+
+Hiermit wir die komplette RecordüList bzw. PlayüList gel”scht,je nachdem ob
+
+der Button RecüSelect oder PlayüSelect ausgew„hlt wurde.
+
+
+
+10) Ok
+
+
+
+Hiermit wird der Dialog fr die PluginüKonfiguration geschlossen.Die PluginüListen sind sofort anwendbar.

@@ -1,0 +1,197 @@
+Doku Falcon XBIOS-Routinen der Startrack-Karte, stand 18.11.97
+
+Alle Cookies werden beim Start auf die Werte des Falcon-TOS gesetzt.
+Ebenso wird ein TOS 4.04 vorgeschwindelt (sysbase-Ver„nderung bei $4F2).
+Dieser TOS-Emulationsmode ist nun auch abschaltbar. Siehe hierfr die
+Funktion "compatible" im NEWSYS.TXT. Der Emulationsmode wurde eingebaut,
+um Programme die normalerweise nur auf Falcon-Rechnern l„uft, zur
+"Zusammenarbeit" zu berreden.
+
+- locksnd: wird voll untersttzt
+
+- unlocksnd: wird voll untersttzt
+
+- soundcmd: Die Einstellungen von LTATTEN,RTATTEN,LTGAIN und RTGAIN werden untersttzt.
+            Dabei ist momentan der Ausgangspunkt 0dB. Der Falcon bietet nur 16 Abstufungen
+            und nur Abschw„chung am Ausgang und Verst„rkung am Eingang. Besser ist es
+            auf jeden Fall die Volume-Controller direkt ber die speziellen XBIOS-Funktionen
+            volad(50) und volda(51) anzusprechen, da diese Verst„rkung und Abschw„chung in je
+            256 Stufen fr Eingang UND Ausgang bieten.
+            
+            ADDRIN wird nicht untersttzt, da die Hardware der verwendeten D/A-Wandler
+            dies nicht untersttzt (Hardwareaddierer findet man nur in CODECs).
+            Falls ein DSP-Programm dieses Feature verwendet,mu das DSP-Programm
+            dahingehend angepat werden, das die DSP-Eingangsquelle digital zum Ausgang
+            (mit ADD-Befehl) hinzugemischt wird um so im Endeffekt das gleiche Resultat zu erzielen.
+            
+            ADCINPUT hat derzeit keine Funktion, es wird immer der Analog- oder Digitaleingang benutzt.
+            Ein Soundchipanschlu ist auf der StarTrack-Karte nicht vorhanden und wird daher
+            nicht untersttzt. Man kann den Analog- oder Digitaleingang mit der neuen XBIOS-Funktion
+            "digana" ausw„hlen.
+            
+            SETPRESCALE wird nicht untersttzt da die angegebenen Taktteiler nicht vorhanden sind.
+            
+- setbuffer: wird voll untersttzt
+
+- setsndmode: wird voll untersttzt
+
+- settrack: wird untersttzt. Die Funktionsweise h„ngt aber vom Aufnahme- und Wiedergabemodus ab, der
+  durch die XBIOS-Funktionen recmode(26) und playmode(27) bestimmt wird.
+  Nach dem laden des XBIOS-Treibers SOUND.PRG ist der Stereomodus(0) aktiv, d.h. die Angabe
+  von settrack wird hier ignoriert. Der Achtkanalmode ist nun in buffoper eingebunden,
+  der 4Kanal- und 16Kanal-Mode ist noch nicht implementiert. Die Falcon-Programme kennen
+  aber sowieso nur den Achtkanalmode, funktionieren teilweise aber auch im Stereomode
+  (solange der DSP nicht genutzt wird).
+  
+- setmontrack: wird untersttzt, hat aber nur im Acht- oder 16Kanalmodus eine Auswirkung.
+  Im Stereomodus wird die Angabe ignoriert.
+  
+- setinterrupt: wird untersttzt, funktioniert aber etwas anders.
+  Da die StarTrack-Audiokarte ber den VME-Bus angeschlossen wird, besteht keine
+  M”glichkeit nach einem Bufferberlauf einen MFP-INT Level15 ber die MFP-Leitung IO7
+  zu erzeugen. Daher wird bei jedem buffoper-Aufruf der Inhalt der Interruptvektoren
+  von DMA-Sound aktiv/Monochrome Detect MFP-Int15 ($13C) und Timer-A MFP-Int13 ($134)
+  ausgelesen und als Sprungziel eingetragen. Nach einem Bufferdurchlauf wird dann
+  dorthin gesprungen. Es wird also quasi "knstlich" ein Interrupt erzeugt. 
+  Ob ber den MFP-INT15 oder den TIMER-A-Interrupt MFP-INT13 gesprungen wird,
+  kann man wie blich mit setinterrupt einstellen.
+  Wichtig ist auch, das der Timer-A NICHT als Counter fr die Bufferdurchl„ufe verwendet
+  bzw. programmiert werden kann. Das mu man nun mit einem eigenen Counter, den man
+  entsprechend hochz„hlt, machen. Auerdem ist es wichtig, das man NICHT die Interrupts
+  des MFP freigibt ! Diesen Teil kann man in den Programmen weglassen. 
+  Es ist bisher nicht m”glich, die Interrupts gemischt einzusetzen, also z.B. Timer-A fr
+  Record und MFP-Int fr Play. Ich bin mir auch noch nicht ganz sicher, ob der Falcon
+  diese gemischte Betriebsart untersttzt. Der setinterrupt-Aufruf l„t dies prinzipiell zu.
+  setinterrupt l„t auch ein Ausl”sen beider Ints an einem play/record-Bufferende zu.
+  Wie das funktionieren soll, ist mir allerdings ein R„tsel. Ich gehe daher davon aus,
+  das es auf dem Falcon keinen gemischten Betrieb der Ints gibt.
+
+- buffoper: wird untersttzt. Der Stereomodus funktioniert. Der spezielle Vierkanalmodus
+  bei dem die Aufnahme und Wiedergabe ber die digitalen und analogen Anschlsse parallel
+  erfolgt, wird noch nicht untersttzt, die eigenen XBIOS-Funktionen hierfr funktionieren
+  aber. Der Achtkanalmodus ist eingebunden aber noch nicht getestet. Das hole ich in den
+  n„chsten Tagen nach. Der 16Kanal-Modus wird auch noch nicht untersttzt, nur mit den
+  eigenen XBIOS-Funktionen derzeit m”glich. Zur Umschaltung der Aufnahme- und Wiedergabemodi
+  der Startrack-Karte siehe die XBIOS-Doku, Funktionen recmode(26) und playmode(27).
+
+- dsptristate: ist eingebunden, ich wei allerdings nicht genau ob es richtig gemacht wurde.
+  dspxmit: koppelt die DSP-Leitungen SC1 und SC2 von der Matrix an/ab.
+  dsprec:  koppelt die DSP-Leitungen SC0 und SRD von der Matrix an/ab.
+
+  Die Gefahr von Kurzschlssen besteht nicht, da die SRD-Leitung entsprechend
+  abgekoppelt wird. Die STD-Leitung wird nicht abgekoppelt, da die Matrix in der StarTrack
+  so realisiert ist,das auf dieser Leitung nur Daten vom DSP empfangen und NICHT gesendet werden
+  und daher die Gefahr eines Kurzschlusses nicht gegeben ist. Die STD-Leitung ist nur ein 
+  Matrix-Eingang von vielen und kann wahlweise die DSP-Outputdaten,RDATA vom DSP-Port oder
+  die Matrix-Outputdaten zum Matrix-Input bef”rdern. Siehe dazu auch die entsprechende
+  Matrix-Zeichnung MATRIX.IMG, da die Matrix der StarTrack etwas anders funktioniert. 
+  Hardwarem„ig k”nnen die Leitungen SRD,SC0,SC1 und SC2 des DSP
+  einzeln abgekoppelt bzw. mit der Matrix verbunden werden.
+ 
+  
+- gpio: wird voll untersttzt.
+  Dabei erfolgt die Taktumschaltung vollautomatisch nach der Soundpool-Spezifikation
+  
+- devconnect: Die Connection-Matrix wird voll untersttzt mit den Einschr„nkungen der
+              Matrixrealisierung in Startrack- und DSP-Erweiterung. Siehe dazu auch
+              die Matrix-Zeichnung die ihr von mir bekommen habt.
+              
+              srcclk: wird voll untersttzt und ist zum Teil erweitert. Die Taktraten sind teilweise
+              auch etwas anders als im Falcon.
+              
+              0 - Interne Taktraten der Startrack-Karte, Taktrateneinbindung wie bei XBIOS-Funktion
+                  sclock(23) beschrieben
+                  
+              1 - Externen Takt benutzen. Das ist der Takt der ber den DSP-Port EXCLK-Anschlu eingespeist wird.
+                  Dabei spielen die GPIO-Bits des DSP-Ports eine wichtige Rolle: Diese werden nach den Soundpool-
+                  Spezifikationen interpretiert:
+                  GPIO2=0 -> SP/DIF (dabei wird die interne SP/DIF angesprochen)
+                  GPIO2=1 -> ADAT (Samplerate kommt von ADAT-PLL ber den EXCLK-Input)
+                  GPIO1=0 -> SP/DIF pll (Samplerate kommt von Digital-In)
+                  GPIO1=1 -> SP/DIF quartzgeneriert (Samplerate abh„ngig von GPIO0)
+                  GPIO0=0 -> 44.1 kHz quartzgeneriert
+                  GPIO0=1 -> 48 kHz quartzgeneriert
+
+              2 - Erweiterte CLKDIV-Teiler auf der DSP-Karte in Verbindung mit dem Externen Takt 
+                  nutzen. Dadurch sind 60 zus„tzliche Taktraten m”glich ! Siehe dazu auch XBIOS-Funktion
+                  clkdivide. Hier die Auflistung der Taktraten:
+                  
+                   0..14 -> extclock/256/x     x=0..14
+                  15..29 -> extclock/384/x     x=0..14
+                  30..44 -> extclock/512/x     x=0..14
+                  45..59 -> extclock/768/x     x=0..14
+                  
+              3 - Falcon-kompatible Taktraten durch externes 25.175 MHZ-Clockmodul und CLKDIV-Teiler auf DSP-Karte.
+                  Die Taktraten werden entsprechend den devconnect->prescale Definitionen erzeugt.
+                  Im Unterschied zum Falcon k”nnen alle Sampleraten mit dem A/D und D/A-Wandler genutzt werden.
+                  Da es teilweise erhebliche Fehler in den verschiedenen Dokus gibt, hier die einzig wahre:
+                  
+                   0 -> digital pll (es gibt keinen STE-mode)
+                   1 -> 49170 Hz
+                   2 -> 32780 Hz
+                   3 -> 24585 Hz
+                   4 -> 19668 Hz
+                   5 -> 16390 Hz
+                   6 -> 14049 Hz
+                   7 -> 12292 Hz
+                   8 -> 10927 Hz
+                   9 -> 9834 Hz
+                  10 -> 8940 Hz
+                  11 -> 8195 Hz
+                  12 -> 7565 Hz
+                  13 -> 7024 Hz
+                  14 -> 6556 Hz
+                  15 -> n.c. (bei Falcon 6146 Hz)
+              
+              Die Funktionsnummern 0 und 3 k”nnen durch die XBIOS-Funktion extclkmode(75) vertauscht werden.
+              Dann hat man unter der Original-Funktionsnummer 0 wirklich die Falcon-kompatiblen Taktraten.
+              Die zus„tzlichen Taktraten der Startrack-Karte liegen dann auf Funktionsnummer 3.
+              
+              clkfalcon: XBIOS 500,75,wert = 0 - kein externes 25.175 MHz-Clockmodul vorhanden 
+                                             1 - externes 25.175 MHz-Clockmodul vorhanden
+                     
+              prescale: wird voll untersttzt, liefert zum Teil aber andere Taktraten als der Falcon, je
+                        nach ausgew„hltem srcclk-modus (siehe oben).                        
+                        
+              protocol: wird nicht untersttzt. Es gibt nur einen Modus, da die Hardware
+                        der Audiokarte immer mit Handshaking arbeitet. Ist der Rechner aber
+                        zu langsam um die Datenpakete rechtzeitig abzuholen,
+                        k”nnen durchaus Daten bei der šbertragung verlorengehen. 
+                        
+- sndstatus: wird teilweise untersttzt. Bei šbersteuerung werden die šberlaufbits gesetzt und durch
+             auslesen von sndstatus wieder zurckgesetzt. Noch nicht getestet ob die Verhaltensweise
+             beim Falcon gleich ist. Ich denke aber, es ist so.
+             Die Bits fr ungltiges Kontrollfeld,ungltiges Sync-Format und ungltiger Takt
+             werden nicht untersttzt, da die Hardware hierfr keine Informationen liefert.
+             Auch reset(1) wird untersttzt. Dabei wird das Soundsystem komplett zurckgesetzt,
+             so wie es nach dem Start der XBIOS-Erweiterung initialisiert war. Die Behandlung
+             ist allerdings noch nicht genau gleich wie im Falcon. Hier wird in Zukunft der
+             Resetvorgang an den Falcon angepat.
+             Die Erkennung der FDI-Erweiterung durch $4711 ist bereits eingebaut, d.h. das
+             Vorhandensein einer FDI-Erweiterung wird vorgespielt. Es sind ja bereits SP/DIF
+             Ein- und Ausg„nge auf der Karte vorhanden.
+             
+- buffptr: wird voll untersttzt.
+
+Alle DSP-spezifischen XBIOS-Funktionen die mit DSP_... beginnen sind nun implementiert
+und wurden von MagiC for Falcon fr die StarTrack-Audiokarte portiert.
+
+Direkte Zugriffe auf Falcon Hardware-Register werden NICHT abgefangen !
+
+Der DSP ist ab Adresse $FEFF0600 zu erreichen. Durch das Hades bzw. Medusa MMU-Accessorie
+werden diese in den Falcon-Adressraum eingeblendet ($FFA200).
+Das gleiche ist prinzipiell auch auf dem TT machbar, der Treiber dafr ist aber noch nicht erh„ltlich.
+Die DSP-Register k”nnen nur Byteweise angesprochen werden. Word- und Longword-Zugriffe
+sind nicht m”glich ! Der Falcon setzt diese wohl in 8Bit-Zugriffe um. Das ist jedoch
+fr die Startrack-Realisierung zu aufwendig gewesen und daher weggefallen. Der DSP
+hat nur einen 8Bit Hostport, auch im Falcon ist das so.
+
+Fr die DSP-Programmierung im 2Kanal- und 8Kanal-Modus sollte man sich die beigefgten
+DSP-Beispielsourcen anschauen.
+
+ENDE
+
+              
+               
+              
+

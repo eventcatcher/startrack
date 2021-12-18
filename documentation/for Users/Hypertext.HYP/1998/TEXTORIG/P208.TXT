@@ -1,0 +1,227 @@
+4.14.2 Spurfeld
+
+
+Hier werden am linken Rand die Parameter-Einstellungen fr die Spur
+vorgenommen wie z.B. Lautst„rke der Spur.Hinter dem Parameterblock folgen
+die Samplebl”cke,wobei auch der Amplitudenverlauf der Samples dargestellt
+werden kann.
+
+
+
+1) Spurnummer
+
+Hier steht die Nummer der Spur.Es gibt insgesamt 99 Spuren.Man kann eine
+Spur ausw„hlen,indem man die Spurnummer selektiert.Samples die geladen
+werden,erscheinen automatisch als letztes Sample auf der selektierten,
+ausgew„hlten Spur.Wenn man eine ganze Spur kopieren m”chte,selektiert man
+die Spurnummer,und zieht (draggt) sie mit gedrckter Maustaste in das
+Clipboard.Dabei wird das Clipboard-Symbol selektiert.Nun l„át man die
+Maustaste los.Damit wurde die gesamte Spur mit allen Sampleeintr„gen
+zun„chst ins Clipboard kopiert (eine Art Zwischenspeicher).Nun sucht man
+
+mit dem Slider die gewnschte Spur,auf die der Clipboardeintrag kopiert
+
+werden soll.Hat man die Zielspur im Sichtfeld,klickt man auf das Clipboard.
+Man h„lt dabei die linke Maustaste gedrckt.An der Maus h„ngt nun das
+Spurnummer-Symbol.Dieses zieht man jetzt ber den Spurnummer-Button
+
+des Spurfeldes,in das kopiert werden soll.Dabei wird der Spurnummer-Button
+der Zielspur automatisch selektiert.Ist der Spurnummer-Button selektiert,
+l„át man die Maus los - fertig.Der Clipboard-Inhalt bleibt solange vorhanden, bis man eine andere Spur oder Sampleblock
+hineinkopiert.
+
+
+2) active
+
+Man w„hlt hiermit aus allen virtuellen Spuren die Spuren aus,die bei der
+Wiedergabe gemischt und abgespielt werden sollen.Ist der Button selektiert,gilt die Spur als ausgew„hlt.Es k”nnen soviel
+Spuren als "active" gekennzeichnet werden,wie im Tracker-Kanalanzahlfeld angegeben wurde.Dabei z„hlen Stereospuren als 2
+Spuren, d.h. wenn im Kanalanzahl-Feld z.B. 8 selektiert wurde, k”nnen maximal 8 Spuren gemischt werden,also k”nnen dann
+max. 4 Stereospuren oder 2 Stereo- und 4 Monospuren als activated gekennzeichnet werden.
+
+
+3) Stereosample
+
+Hiermit kann man w„hlen,ob es sich um eine Stereo- oder Monospur handelt.
+Ist das Feld deselektiert,handelt es sich um eine Monospur.Man kann auf einer solchen Spur nur Mono-Samples verwenden !
+Ist das Feld selektiert,handelt es sich um eine Stereospur.Man kann auf einer solchen Spur nur Stereo-Samples verwenden
+!
+Die bestehenden Routinen sind bisher allerdings nur in der Lage,Stereospuren
+
+zu verarbeiten.Die Verarbeitung von Monospuren folgt in einer sp„teren Version des Programms.Daher sollte dieser Button
+normalerweise auf "S" stehen.
+
+ 
+
+4) mute
+
+Ist der mute-Button selektiert,wird diese Spur stummgeschaltet,d.h. auch wenn sie als activated gekennzeichnet wurde,ist
+diese Spur bei der Wiedergabe unh”rbar bzw. abgeschaltet.
+
+
+5) Volume up
+
+Hiermit wird die Lautst„rke um 1 Prozent erh”ht.Man kann den Button auch
+gedrckt lassen,um die Lautst„rke weiter zu erh”hen.Man kann die
+Lautst„rke des Originals maximal um Faktor 2 auf 200 Prozent verst„rken.
+
+
+6) Volume down
+
+Hiermit wird die Lautst„rke um 1 Prozent verringert.Man kann den Button
+auch gedrckt lassen (RepeatüFunktion),um die Lautst„rke weiter zu verringern.
+
+
+7) Volume
+
+Hier wird der Wert des Spur-Lautst„rkereglers angegeben.Jede Spur kann einzeln in seiner Lautst„rke eingestellt
+werden.Der Wert gibt das Verh„ltnis zur Originallautst„rke in Prozent an,und bewegt sich von 0-200.
+
+Die Lautst„rkeeinstellung wird in zuknftigen Versionen durch die M”glichkeit,Volumeü und Effektkurven in die Spuren
+einzuzeichnen,erg„nzt. 
+
+
+8) Spurname
+
+Hier erscheint der Name der Spur.Man kann jeder Spur einen Namen zur
+schnelleren Identifikation geben.Dafr klickt man auf das Spurname-Feld.
+Es erscheint dann ein Dialog,in dem man den max. fnfstelligen Namen
+eingeben kann.Die max. 5 Stellen sind ein Zugest„ndnis an die beengten
+Platzverh„ltnisse,da die Software ab einer Bildaufl”sung von 640x400
+
+laufen soll.
+9) balance left
+
+Hiermit wird die Balance nach links verschoben. Man kann den
+Button auch gedrckt lassen,um die Balance weiter zu verschieben.
+Die Balance l„át sich um 50 Prozent nach links und rechts verschieben.
+
+
+10) balance right
+
+Hiermit wird die Balance nach rechts verschoben.Man kann den
+Button auch gedrckt lassen,um die Balance weiter zu verschieben.
+Die Balance l„át sich um 50 Prozent nach links und rechts verschieben.
+
+
+11) balance
+
+Hier wird der Wert des Spur-Balancereglers angegeben.Jede Spur kann einzeln
+in seiner Balance eingestellt werden.Der Wert gibt das Verh„ltnis zur
+Originallautst„rke in Prozent an,und bewegt sich von 0-50 Prozent.
+Der vorangestellte Buchstabe kennzeichnet die Balanceverschiebung nach
+L-inks oder R-echts.
+
+
+12) Sample-Bl”cke
+
+Die Samples werden als Bl”cke dargestellt.Dabei gibt es verschiedene
+Darstellungsoptionen fr die Sample-Bl”cke.Die L„nge der Bl”cke entspricht
+der L„nge bzw. Abspieldauer des Sample-Blocks.Ein Sampleblock wird durch
+den Start- und Endpoint-Marker definiert.
+Normalerweise wird in den Bl”cken zus„tzlich der Amplitudenverlauf,„hnlich
+wie im Editor,dargestellt.Der Amplitudenverlauf des linken Kanals wird in
+der oberen H„lfte,und der Amplitudenverlauf des rechten Kanals in der
+unteren H„lfte im Sampleblock dargestellt. Man kann die Amplitudendarstellung aber auch abschalten (siehe unter
+Funktionsfeld),da die Darstellung auf langsamen Rechnern etwas tr„ge sein kann.In jedem Sampleblock steht in der Ecke
+oben links der Name der Sample-Datei:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+Man kann sich hier aber auch den Sample-Kommentar einblenden lassen,der in der Information-Datei (*.INF) definiert
+wurde.Dieser ist normalerweise aussagekr„ftiger.Deshalb ist diese Anzeigeart sehr zu empfehlen:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+Diesen Kommentar kann man im Tracker-Fileselector (siehe Button-Toolbar) beliebig „ndern.Die ge„nderten Kommentarfelder
+werden in der TrackerüDatei
+
+(*.TRK) abgespeichert,der Kommentar im SampleInfoüFile (*.INF) bleibt
+
+unver„ndert.
+
+
+Das Drag&Drop-Konzept wurde hier voll verwirklicht:
+
+
+Man w„hlt einen Block aus,indem man mit der Maus auf den Block zeigt,und auf die linke Maustaste (wechselt dadurch
+automatisch in den Selectmode) klickt. Dabei wird der Block mit einem roten (bei Farbe) oder gestrichelten Rand
+dargestellt.Man kann den Block per Drag&Drop anfassen,und auf der Zeitachse oder auf eine andere Spur verschieben.Dazu
+zeigt man mit der Maus auf den Block,und drckt die rechte Maustaste.Man h„lt die rechte Maustaste (wechselt dadurch
+automatisch vom Selectmode in den Movemode) gedrckt,und zieht dabei den Block auf die gewnschte Position.Da dabei der
+Blockinhalt dargestellt wird,kann man den Block sehr genau zu anderen Bl”cken passend positionieren.
+
+Hat man die richtige Position gefunden, l„át man die rechte Maustaste wieder los - fertig.
+
+
+H„lt man bei dieser Aktion zus„tzlich die Taste ALT gedrckt (wechselt dadurch automatisch in den Copymode),wird der
+Block kopiert,der Block bleibt an der alten Position und der neue Block h„ngt an der Maus und kann beliebig positioniert
+werden.H„lt man stattdessen die Tasten CTRL+ALT gedrckt (wechselt dadurch automatisch in den Clipmode),kann man den
+Block in das Clipboard schieben.Ist das Clipboard selektiert,l„át man die Maustaste los. Das Clipboard flackert auf,der
+Sampleblock wurde in das Clipboard kopiert.
+
+Wenn man nun mit der linken Maustaste auf das Clipboard klickt,klebt der zuvor kopierte Sampleblock an der Maus.Man kann
+nun den Sampleblock an die gewnschte Position schieben,und l„át die Maustaste wieder los - fertig.
+H„lt man stattdessen die linke Shifttaste gedrckt,wandert der Block an das Ende des zeitlich vor ihm liegenden
+Sampleblocks.Ist das aktuelle Sample das erste in der Liste,wandert es zum Anfang der Liste.
+
+
+H„lt man stattdessen die rechte Shifttaste gedrckt,wandert der Block vor den Anfang des zeitlich hinter ihm liegenden
+Sampleblocks.Ist das aktuelle Sample das erste in der Liste,bleibt der Block an der alten Stelle.
+
+
+Drckt man die CTRL-Taste und klickt mit der linken Maustaste auf den
+Sampleblock,wird das Sample in den Editor bertragen.Dort kann man nun die
+Marker (Marker-S und Marker-E) definieren,die in den Tracker bernommen
+werden sollen.Ist man mit den Markern zufrieden,klickt man auf den QUIT- Button im Editor.Dabei wird aber nicht das
+Programm verlassen wie es
+normal der Fall ist,sondern die Marker werden in den Tracker als Start- und Endpunkt des Sampleblocks bernommen.
+
+
+
+Damit man sich die vielen Tastenkombinationen nicht merken muá,kann man die verschiedenen Blockoperationen auch direkt
+in der ButtonüToolbar (ModeüBereich) ausw„hlen.Eine Erkl„rung der entsprechenden Buttons finden
+
+sie im Kapitel "ButtonüToolbar".

@@ -1,0 +1,48 @@
+4.9.2 DSP PluginüFenster
+
+
+
+Nach der Auswahl eines DSPüPlugin ”ffnet sich automatisch das PluginüFenster.
+
+Dort kann man die Parameter des DSPüPlugin ver„ndern.
+
+
+
+1) Parameterwert
+
+
+
+Hier wird der eingestellte Parameterwert (0ü100) angezeigt.
+
+
+
+2) ParameterüEinstellung
+
+
+
+Mit den Slidern kann der Parameterwert eingestellt werden.
+
+Bei allen DSPüPlugins werden die Parameter auf den Maximalwert 100
+
+umgerechnet,damit eine einheitliche und logische Strukturierung vorhanden ist.
+
+
+
+Beim EqualizerüPlugin (Sonderfall) kann man die Slider fr linken und rechten Kanal synchron bewegen,indem man
+zus„tzlich die Shifttaste gedrckt h„lt, w„hrend man mit der Maus die Parameter ver„ndert.
+
+
+
+3) Help
+
+
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+4) Ok
+
+
+
+Hiermit wird das PluginüFenster geschlossen.Die Parametereinstellungen bleiben bis zum n„chsten Zugriff erhalten.

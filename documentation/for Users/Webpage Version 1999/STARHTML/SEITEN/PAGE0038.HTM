@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Einf&uuml;hrung</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="3."></A>
+<A NAME="3.1"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0037.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0039.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Einf&uuml;hrung</H1></CENTER>
+
+<PRE>
+
+<H3> 3.1 Die erste Aufnahme</H3> 
+ 
+ Ich gehe davon aus, das die Startrack-Karte korrekt installiert und
+ richtig mit der HIFI-Anlage verbunden ist. Sollte das nicht der Fall
+ sein, empfehle ich das Kapitel <A HREF="page0004.htm">"Hardware-Installation"</A> durchzulesen.
+ 
+ Nach dem Start des Programms &ouml;ffnet sich automatisch das Editor-Fenster.
+ W&auml;hle nun in der Editor-Toolbar am oberen Rand des Fensters
+ den Connection-Button (2). Hiermit &ouml;ffnen sie das Connection-Fenster
+ in dem man u.a. die Auswahl der Eing&auml;nge vornehmen kann.
+ 
+<IMG SRC="../images/p059_1.gif" WIDTH="560" HEIGHT="420">
+ 
+ Wir w&auml;hlen hier den Analogeingang mit dem Input-Button(4) aus. Als
+ Samplerate w&auml;hlen wir 48 kHz mit dem Samplerate-Button(5). Nun sollte die
+ Musik am Analogeingang &uuml;ber die Soundkarte h&ouml;rbar sein. Ist dies nicht der
+ Fall, ist h&ouml;chstwahrscheinlich die Soundkarte nicht richtig mit der HIFI-Anlage
+ verbunden. Immer wenn die Soundkarte keine Samples abspielt, wird
+ automatisch die Musik am Eingang auf die Ausg&auml;nge gelegt (bypass-mode).
+ Wir verlassen das Fenster wieder mit dem Exit-Button(14) und sind
+ nun wieder im Editor-Fenster.
+
+<A HREF="p114.htm" TARGET="_new"><IMG SRC="../images/scaled/p114.gif" WIDTH="302" HEIGHT="24"></A>
+
+ Nun w&auml;hlen wir in der Editor-Toolbar den Peakmeter-Button(4).
+ Es &ouml;ffnet sich ein weiteres Fenster in dem man die Aussteuerung von
+ Analogaufnahmen (Digitalaufnahmen brauchen nicht ausgesteuert werden)
+ vornimmt und die Aufnahme starten kann.
+
+<IMG SRC="../images/p060_1.gif" WIDTH="480" HEIGHT="500">
+ 
+ Die Lautst&auml;rke (Aussteuerung) wird mit dem vertikalen Schieberegler(13)
+ vorgenommen. Dieser kann auch w&auml;hrend der Aufnahme korrigiert werden.
+ Pegeln sie den Eingang so ein, da&szlig; die Aussteuerungsanzeige(2) bis zum
+ oberen Drittel reicht.Man sollte bei der Aussteuerung immer etwas Reserve
+ lassen,um eventuell auftretende Lautst&auml;rkespr&uuml;nge nicht zu &uuml;bersteuern.
+ Auf keinen Fall sollte die Clipping-Anzeige(1) leuchten. Das bedeutet eine
+ &Uuml;bersteuerung, und f&uuml;hrt zu extremen Verzerrungen. Kommt die Aussteuerung
+ in den Grenzbereich, f&auml;rbt sich die blaue Aussteuerungsanzeige in diesem
+ Bereich rot. Ist man mit der Aussteuerung zufrieden, w&auml;hlt man den
+ Aufnahme-Button(17) um die Aufnahme zu starten. Diese erste Aufnahme wird
+ nun nicht auf Festplatte aufgezeichnet, sondern landet im Sample-RAM. Im
+ Max-Feld(3) wird die maximal m&ouml;gliche Aufnahmel&auml;nge angezeigt. Je mehr
+ RAM man f&uuml;r das Sampleram reserviert, desto l&auml;nger kann man in den
+ Sampleram aufnehmen. Im Position-Feld(4) wird die bereits abgelaufene
+ Aufnahmezeit angezeigt. Nach der Aufnahme wird automatisch wieder in das
+ Editor-Fenster gewechselt. Dort wird sofort das gerade aufgenommene Sample
+ im Sample-Window angezeigt.
+
+<IMG SRC="../images/p060_2.gif" WIDTH="624" HEIGHT="175">
+
+ Nun kann man im Steuerungsbereich die Wiedergabe mit dem
+ Play-Button(6) starten. Man kann die Wiedergabe jederzeit mit dem
+ Stop-Button(7) stoppen oder mit dem Pause-Button(8) unterbrechen.
+ Ein weiterer Druck auf den Pause-Button f&auml;hrt mit der Wiedergabe fort.
+
+<IMG SRC="../images/p061_1.gif" WIDTH="240" HEIGHT="150">
+
+ Ein senkrechter Strich im Samplebereich zeigt die aktuelle Wiedergabeposition
+ an. Das war nun ihre erste Aufnahme in den Sampleram mit anschlie&szlig;ender
+ Abspielkontrolle. Herzlichen Gl&uuml;ckwunsch !
+
+ Tip: Die Gr&ouml;&szlig;e des Sampleram kann man im <A HREF="page0060.htm">Setup-Dialog</A> einstellen.
+ Diesen erreicht man mit dem Bleistift-Symbol in der Editor-Toolbar.
+ 
+<IMG SRC="../images/p061_2.gif" WIDTH="64" HEIGHT="41"> 
+ 
+ Das Sampleram wird unter anderem auch als Zwischenspeicher (Cache)
+ f&uuml;r andere Aufgaben innerhalb des Programms verwendet, und sollte
+ idealerweise mindestens 8MB betragen, da ansonsten f&uuml;r die Wiedergabe
+ mehrerer Spuren zu wenig Speicher bereitsteht und es so u.a. zu Aussetzern in
+ der Wiedergabe kommen kann. Diesen Wert kann man im malloc-Feld in
+ KB (Kilobyte=1024Byte) einstellen.
+
+<IMG SRC="../images/p061_3.gif" WIDTH="224" HEIGHT="59">
+
+ Au&szlig;erdem sollte das max-Feld angekreuzt sein, da ansonsten der komplette
+ Speicher angefordert wird. Das ist jedoch gerade unter Multitasking-
+ Betriebssystemen wie MagiC oder NAES unerw&uuml;nscht, da dann kein Platz mehr
+ f&uuml;r andere Programme frei bleibt. Man sollte auch nicht zu viel Sample-RAM
+ reservieren, da mit zunehmendem Speicher die Darstellung der Samples immer
+ langsamer wird. Es ist halt ein Unterschied, ob die Amplitudenwerte von 8MB
+ oder von 128MB berechnet werden m&uuml;ssen. Und das ist bei jeder &Auml;nderung an
+ den Samples der Fall (z.B. durch Schneiden der Samples, Lautst&auml;rkekorrektur etc.).
+ Hat man seine Einstellung vorgenommen, speichert man die Setup-Einstellungen
+ mit dem SAVE-Button ab. Die neue Einstellung des Sample-RAM wird allerdings
+ erst beim n&auml;chsten Programmstart beachtet !
+
+</PRE>
+
+<A HREF="#3.">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

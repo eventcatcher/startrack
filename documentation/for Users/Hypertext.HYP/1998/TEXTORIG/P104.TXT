@@ -1,0 +1,30 @@
+4.1.12 Der ExtclocküDialog fr externe Taktquellen
+
+
+
+Wenn man im SampleratenüPulldown mit gedrckter CTRLüTaste auf den DIVüEintrag (letzter Eintrag im Pulldown) klickt,kann
+man weitere externe Taktraten ausw„hlen,sofern man am DSPüPort ein zus„tzliches Clockmodul angeschlossen hat.Die
+Grundfrequenz des Clockmoduls muá im WorkmodeüFenster korrekt eingestellt sein,da sonst die im TaktauswahlüDialog
+angezeigten Sampleraten nicht mit den tats„chlich von der Hardware erzeugten Taktraten bereinstimmen.Der zus„tzliche
+Frequenzteiler fr externe Taktraten ist kompatibel mit dem Clockteiler im Falcon,so daá hiermit alle Originalü
+
+Sampleraten des Falcon erzeugt werden k”nnen,wenn ein Clockmodul mit
+
+25.175 MHzüQuarzoszillator am DSPüPort angeschlossen ist.
+
+Man kann natrlich auch andere Sampleraten erzeugen.Man braucht dafr
+
+lediglich ein Clockmodul,daá die passenden Sampleraten erzeugen kann.
+
+Im ExtclocküDialog kann man den Frequenzteiler (1ü15) bzw. die damit
+
+erzeugte Samplerate ausw„hlen.
+
+
+
+Die gr”áte Flexibilit„t erreicht man allerdings nur mit dem neuen Roboclockü
+
+Modul von uns,da dieses als einziges auf dem FalconüMarkt einen Frequenzü sythesizer besitzt,der jede beliebige
+Samplerate von 0ü100kHz erzeugen kann. Dann kann man die Samplerate im WorkmodeüFenster direkt eingeben bzw. erzeugen
+lassen,die Auswahl im TaktauswahlüDialog ist dann nicht notwendig. Der TaktauswahlüDialog ist lediglich fr normale
+Clockmodule mit Festquarz vorgesehen,kann aber auch mit Roboclock benutzt werden (w„re unsinnig).

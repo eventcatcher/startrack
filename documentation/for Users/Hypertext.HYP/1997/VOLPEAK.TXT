@@ -1,0 +1,26 @@
+Aussteuerungsfeld im Trakker-Fenster
+------------------------------------
+
+
+Hier kann man die Lautst„rke des Mischergebnisses (sogenannter Master-Fader)
+regeln. Dazu hat man einen Volumeregler und eine Aussteuerungsanzeige.
+Zur besseren Verst„ndnis sollte man das İBILDİVOLPEAK.IMGİ des
+Aussteuerungsfelds zu Rate ziehen.
+
+
+1) Volume-Regler
+----------------
+Hiermit kann man die Gesamtlautst„rke (sogenannter Master-Fader) bei der
+Wiedergabe regeln. Diese Funktion ist derzeit noch nicht implementiert !
+
+2) Aussteuerungsanzeige
+-----------------------
+Hier kann man die Aussteuerung bei der Wiedergabe kontrollieren.
+
+3) Peak
+-------
+Das ist die šbersteuerungsanzeige. Wenn eines dieser Felder aufleuchtet,
+ist das Signal bersteuert bzw. zu laut. Man sollte dann mit dem
+Volumeregler die Lautst„rke etwas herunterregeln. Da der Masterfader
+derzeit noch ohne Funktion ist, mu man die Spuren mit den Volumereglern
+im Spurfeld einzeln herunterregeln.

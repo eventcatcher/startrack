@@ -1,0 +1,37 @@
+4.1.10 Markerkommentar
+
+
+Dieser Dialog ist fr die Eingabe eines Marker-Kommentars zust„ndig.
+Man kann fr jeden Markereintrag einen Kommentar definieren.Das ist ntzlich,um die Funktion oder Bedeutung eines
+Markereintrages schneller
+
+zuordnen zu k”nnen.Man erreicht den Marker-Kommentar-Dialog,indem man einfach auf den Markertext-Button im Editor
+klickt.Die Kommentare werden beim abspeichern eines Samples im InfüFile gesichert,und bleiben dadurch erhalten.Bei der
+Blockauswahl im MidiüSampleplayer und Tracker sind die Kommentare sehr ntzlich,um die verschiedenen Marker
+unterscheiden und gezielt ausw„hlen zu k”nnen.
+
+
+
+1) Comment
+
+Hier kann man einen maximal 25 Zeichen langen Kommentar eingeben.
+
+
+2) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+3) Exit
+
+Hiermit wird der Marker-Kommentar-Dialog geschlossen.
+
+Die Kommentareingabe wird nicht beachtet und ist ungltig.
+Der alte Kommentareintrag bleibt erhalten.
+
+
+4) OK
+
+Hiermit wird der Marker-Kommentar-Dialog geschlossen.
+Die Kommentareingabe ist gltig und wird gesetzt.

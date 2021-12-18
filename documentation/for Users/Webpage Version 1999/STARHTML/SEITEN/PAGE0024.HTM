@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Hardware</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="2.1.4"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0023.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0025.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Hardware</H1></CENTER>
+
+<PRE>
+
+<H3> 2.1.4 ONCE-Port mit dem PC verbinden</H3>
+ Die Sub-D-Buchse des ONCE-Port-Kabels wird mit einer freien seriellen V24-Schnittstelle
+ des PC verbunden. Die Belegung der 9poligen Sub-D-Buchse ist kompatibel zu den ebenfalls
+ 9poligen seriellen Anschl&uuml;ssen der PCs. Da das Kabel etwas Kurz ist (ist nur f&uuml;r
+ den Einbau in das Computergeh&auml;use vorgesehen), sollte man es mit einem einfachen Joystik
+ oder Maus- Verl&auml;ngerungskabel verl&auml;ngern. Hauptsache die Pins des Kabels sind 1:1
+ (eins zu eins) miteinander verbunden. Ein serielles Verl&auml;ngerungskabel ist also auch
+ m&ouml;glich, solange es 9polige und nicht die 25poligen Sub-D-Anschl&uuml;sse besitzt.
+ Nun kann man das Kabel mit der seriellen PC-Schnittstelle verbinden. Das entsprechende
+ DSP-Debugger-Programm nennt sich EVM56K, und ist eigentlich Bestandteil des Motorola
+ DSP-Entwicklungspakets f&uuml;r das EVM56002.
+
+ Der Debugger ist aber kostenlos erh&auml;ltlich,und liegt z.B. in der Motorola-Mailbox
+ (Tel: 089/92103-111): 
+
+ Als User geben sie "bbs" ein und gelangen so in die Motorola-Mailbox. Nun w&auml;hlen sie mit
+ den Cursortasten den Men&uuml;punkt "Programs and infos for the digital signal processors" aus,
+ anschlie&szlig;end w&auml;hlen sie den Men&uuml;punkt "Support SW for DSP56002EVM" und bekommen eine
+ Liste von Programmfiles.
+
+ W&auml;hlen sie nun das File "evm27.zip" (oder &auml;hnlich) aus, und laden sie diese Datei auf
+ ihren Rechner und entpacken sie diese auf dem PC mit einem UNZIP-Programm, da&szlig; das File
+ dekomprimiert. Starten sie nun das File EVM22.EXE (oder &auml;hnlich).
+ Das Programm entpackt nun das komplette Programmpaket - fertig !
+
+ Sollte der Debugger sich nach der Installation nicht starten lassen (Fehlermeldung z.B.
+ "can not initialize DSP56002 EVM"), so ist entweder die Startrack-Karte nicht in Betrieb
+ (Rechner mu&szlig; eingeschaltet sein - logo), oder die serielle Schnittstelle des PC ist
+ nicht richtig konfiguriert (siehe auch das READ.ME-File im EVM-Programmpaket), oder sie
+ haben das falsche Verl&auml;ngerungskabel bzw. es ist defekt oder nicht richtig angeschlossen.
+ Sobald das Debug-Programm gestartet wurde,sollte die gr&uuml;ne DEBUG- Leuchtdiode(LED) auf
+ der Frontseite der Startrack-Anschl&uuml;sse leuchten. Damit wird angezeigt, da&szlig; der DSP
+ im Debug-Mode betrieben wird. Au&szlig;erdem im Programmpaket enthalten ist der DSP-Assembler
+ "ASM56000.EXE", und ein Programm mit dem man die vom Assembler erzeugte CLD-Datei in das 
+ bekannte LOD-Format konvertieren kann ("CLDLOD.EXE").
+
+ Die rote LOCK-Leuchtdiode zeigt &uuml;brigens an,da&szlig; der DSP im korrekten Betriebszustand
+ ist (bzw. das die PLL auf die Taktfrequenz des DSP-Mastertaktes eingerastet ist).
+
+</PRE>
+
+<A HREF="#2.1.4">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,35 @@
+4.13.3 Samplename-Eingabe
+
+
+Dieser Dialog ist fr die Dateinamen-Eingabe im Midi Sampleplayer-Fenster zust„ndig.
+
+
+1) Name
+
+Hier kann man den neuen Namen eintragen.Sinnvoll ist eine nderung,um 
+
+dem Soundfile eine passendere Beschreibung  zu geben,falls der Name der
+Sounddatei nicht eindeutig genug ist.Die ge„nderten Namen werden im
+Sampleplayer-File (Fileendung *.ARR) mit abgespeichert.Der Name kann dabei
+beliebig sein,und muá nicht im TOS-Fileformat 8+3 erfolgen.
+
+
+2) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+3) Exit
+
+Hiermit wird der Samplename-Dialog geschlossen.
+
+Der ge„nderte Namenseintrag wird nicht beachtet,und ist ungltig.
+
+Der alte Name bleibt erhalten.
+
+
+4) OK
+
+Hiermit wird der Samplename-Dialog geschlossen.
+Der ge„nderte Namenseintrag ist gltig,und wird eingetragen.

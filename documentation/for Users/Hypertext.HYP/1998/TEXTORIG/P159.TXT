@@ -1,0 +1,122 @@
+4.7.7 Partitionmode
+
+
+In diesem Dialog kann der Partitionmode aktiviert,und die Partitionen ausgew„hlt werden,die fr die Aufnahme verwendet
+werden drfen.
+
+Ist der Partitionmode aktiviert,k”nnen Aufnahmen gemacht werden,die automatisch ber mehrere Partitionen verteilt
+werden.Wenn eine Partition voll
+
+ist,wird die Aufnahme auf der n„chsten Partition automatisch fortgesetzt,ohne
+
+das es dabei zu Unterbrechungen oder St”rungen kommt.Dadurch ist man 
+
+unabh„ngig von der maximal m”glichen Partitionsgr”áe des Filesystems,
+
+und kann somit Aufnahmen mit fast unbegrenzter L„nge machen.
+
+Die Pfade der zusammengeh”renden Teile des Audiofiles werden in der
+
+SampleinfoüDatei (*.INF) gesichert.Da diese mit einem ASCIIüEditor editiert
+
+werden kann,k”nnen die Samples auch auf andere Partitionen verschoben
+
+oder kopiert werden.Die Pfadliste muá dann entsprechend angepaát werden.
+
+Die Aufnahmen k”nnen natrlich auch wieder abgespielt werden.Ist das Ende des einen Teils der Aufnahme auf der Partition
+abgespielt,wird automatisch mit dem n„chsten Teil auf einer anderen Partition fortgefahren.
+
+Es gibt allerdings einige Einschr„nkungen bei der Verarbeitung solcher
+
+"verteilter" Aufnahmen.S„mtliche destruktiven Blockfunktionen im Editor
+
+sind lediglich auf die einzelnen Files anwendbar,und nicht als Gesamtheit.
+
+Die Verwendung im Tracker betrifft dies ebenfalls.Dort werden die Einzelfiles
+
+zwar automatisch geladen und hintereinander angeordnet,sie bleiben jedoch
+
+Einzelobjekte.
+
+Aufgerufen wird der Partitionmode-Dialog durch den Partition-Button im Edit-Fenster,durch Eingabe von ALT-P,oder ber
+das optionale Programm-Men im Dropdown Datei/PartitionüMode.
+
+
+1) PartitionsüAuswahl
+
+Hier kann man die Partitionen ausw„hlen,die fr die Aufnahme ber mehrere Partitionen verwendet werden drfen.
+
+
+
+2) Partitionskennung
+
+
+
+Hier wird die Partitionskennung angezeigt.Laufwerke ab Buchstabe Q: setzen
+
+Bigdos oder MagiC voraus.Unter PlainTOS ohne Bigdos sind nur Kennungen bis P: nutzbar.Mit Bigdos sind max. 32 Laufwerke
+(AüZ und 1ü6) ansprechbar.
+
+Nicht vorhandene oder gesperrte Partitionen sind nicht anw„hlbar.
+
+
+
+3) Speicherplatz
+
+
+
+In diesem Feld wird der freie Platz auf der Partition in KB angezeigt.
+
+
+
+4) activate partitionmode
+
+
+
+Hier wird der Partitionmode aktiviert/deaktiviert.Bei deaktiviertem Partitionmode wird keine Partitionsliste in der
+SampleinfoüDatei des Samples angelegt.Alle Angaben ber freigegebene Laufwerke sind dann wirkungslos.
+
+
+
+5) Help
+
+
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+6) Load
+
+
+
+Hiermit wird die Partitionsliste (STARTRK.LFW) geladen.Diese enth„lt alle im PartitionmodeüDialog ausgew„hlten Laufwerke
+und Optionen.
+
+
+
+7) Save
+
+
+
+Hiermit wird die Partitionsliste abgespeichert.Diese enth„lt alle im PartitionmodeüDialog ausgew„hlten Laufwerke und
+Optionen.
+
+
+
+8) Exit
+
+
+
+Hiermit wird der PartitionmodeüDialog geschlossen.Alle Einstellungen sind hinf„llig und werden nicht verwendet.
+
+
+
+9) Ok
+
+
+
+Hiermit wird der PartitionmodeüDialog geschlossen.Alle Einstellungen sind
+
+sofort wirksam.
+
+ 

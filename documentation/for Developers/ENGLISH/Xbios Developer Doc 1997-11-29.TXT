@@ -1,0 +1,1652 @@
+Startrack Developer-Documentation, Released 27.11.97
+----------------------------------------------------
+
+The DSP registers starts at adress dsp-host, see XBIOS function cardadr (13)
+This registers are bytewide at succeeding adresses and are only bytedwide adressable.
+
+Word and Longword access on the DSP registers are prohibited !
+
+The transfer of the Sampledata for recording is wordwide with the lower 9 Databits (D0-D8).
+For play is the transfer of the Data bytewide (odd adresses) with the lower 8 Databits (D0-D7).
+The adress (sample) shall you find out by the XBIOS Function cardadr (13):
+
+sample Read/Write  wordwide
+
+0-8  FIFO        - Here you write or read the sample data.
+                   For record, read wordwide the data. In Bit8 you become a startbit that show
+                   you that the sample is for the right or left channel and that a new sample
+                   is begin to transfer.
+                   Bit8=1 - left channel highbyte, start of sample
+                   Bit8=1 - left channel lowbyte
+                   Bit8=0 - right channel highbyte
+                   Bit8=0 - right channel lowbyte, end of sample
+                   The Bits D0-D7 transfer the sample.
+                   For play, write bytewide the data. Adressline A1 identify the left or
+                   right channel of the sample.
+                   A1=1 - left channel
+                   A1=0 - right channel
+                   First, you write the Highbyte of the sample and then the lowbyte.
+                   This transfermode is correct for the Stereomode (2 channels)
+                   and the Fourchannel mode.
+                   
+                   In the Falcon 8channel Recordmode defines Bit8=1 the start of the 128Bit blocks
+                   The rest of Bytes in a Block is Bit8=0:
+                   Bit8=1 highbyte channel 1,start of Block
+                   Bit8=0 lowbyte channel 1
+                   Bit8=0 highbyte channel 2
+                   Bit8=0 lowbyte channel 2
+                   ...
+                   Bit8=0 lowbyte channel 8,End of Block
+                   The Falcon 8channel Recordmode runs only with ADAT
+                   (or Jam-In in the future). 
+                   
+                   In the Falcon 8channel Playmode defines Adressline A1=1 the
+                   start of the 128Bit blocks. The rest of bytes
+                   in a block is Adressline A1=0:
+                   A1=1 highbyte channel 1,start of block
+                   A1=0 lowbyte channel 1
+                   A1=0 highbyte channel 2
+                   A1=0 lowbyte channel 2
+                   ...
+                   A1=0 lowbyte channel 8,end of first block
+                   A1=1 highbyte channel 1, begin of next block
+                   You can reduce the Datablock if you use only 2,4 or 6 channels
+                   to blocks of 32,64 or 96 bits. You don't transfer this channels
+                   in the block and starts easy a new block with A1=1.
+                   For use the ADC in the 8channelmode you must read the ADC
+                   in Stereomode and transfer the data in the 8channel Playmode and
+                   send it to the DAC,DSPREC or EXTOUT.
+                   
+                   The transmission in the 16channelmode is equivalent to the
+                   8channelmode. The only difference between this modes is the
+                   numbers of channels in a block and the arrangement of channels:
+              
+                   In the 16channel PlayMode defines Adressline A1=1 the 
+                   start of the 256Bit blocks. The rest of bytes in a block
+                   is marked with A1=0:
+                   A1=1 highbyte channel 1,start of block
+                   A1=0 lowbyte channel 1
+                   A1=0 highbyte channel 8
+                   A1=0 lowbyte channel 8
+                   A1=0 highbyte channel 2
+                   A1=0 lowbyte channel 2
+                   
+                   ...
+                   A1=0 lowbyte channel 15
+                   A1=1 highbyte channel 15,begin of next block
+                   You can reduce the Datablock if you use only 4,8 or 12 channels
+                   to blocks of 64,128 or 192 bits. You don't transfer this channels
+                   in the block and starts easy a new block with A1=1.
+                   For use the ADC in the 16channelmode you must read the ADC
+                   in Stereomode and transfer the data in the 16channel Playmode and
+                   send it to the DAC,DSPREC or EXTOUT.
+                   
+It is very very important that you NOT use direct accesses to Falcon-registers.
+
+
+new XBIOS-Calls for the Startrack Audiocard
+
+All functions uses the XBIOS-Call 500 (xbs=500)
+(basis) and divide it with a second call-number in the different subcalls.
+
+play-mode   : comparable with DMAPLAY in the Falcon
+rec-mode    : comparable with DMAREC in the Falcon
+bypass-mode : the outputs are connect with the input-source of the ADC
+              or digital-source.
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+  1  installed         ; cookie XBIOS-driver
+
+     status=xbios(xbs,1)
+     LONG status;
+
+     status:&H71273800 -> XBIOS-driver is installed
+     
+     cookie meant here the internal XBIOS-Cookie and NOT the Cookie-Jar.
+     With this function you can see, that the driver is installed or not.
+     
+     Additional you have a StarTrack CookieJar entry "strk".
+     This shows additional informations of the StarTrack Audiosystem:
+     In the upper word gets you the number of installed Audiocards (normally 1)
+     and in the lower word gets you the value of cardmagic (see below).
+--------------------------------------------------------------------------------
+ 10  cardslot           ; number of installed Audiocards
+
+     ret=xbios(xbs,10)
+     LONG ret;
+
+     ret:number of installed Audiocards (1-8)
+     
+     Using of more than 1 Audiocard is possible, but not implemented
+     in the driver at this time. You must use special slave-versions of
+     the Audiocard for this intention.
+--------------------------------------------------------------------------------
+ 11  cardsel            ; select Audiocard
+
+     ret=xbios(xbs,11,csel)
+     WORD csel;
+     LONG ret;
+
+     csel:selected Audiocard (1-8)
+     
+     ret:0 - no error
+         with csel=-1 you get back the number of the active Audiocard
+
+     Important: All other Function-Calls refer to the selected Audiocard.
+                Each Audiocard becomes her own Adress-space !
+--------------------------------------------------------------------------------
+ 12  cardmagic          ; read the magic of the Audiocard
+
+     status=xbios(xbs,12)
+     LONG status;
+
+     status: bit0=1 -> second Volume-Controller for DAC-Output is found
+             bit1=1 -> XLR-Expansionboard is found
+             bit2=1 -> digital interface (SP/DIF) is found
+             bit3=1 -> 96kHz highsampling is possible
+             bit4=1 -> A/D and D/A-Wandler is found
+             bit5=1 -> DSP56002 is found
+--------------------------------------------------------------------------------
+ 13  cardadr            ; Important adresses of the Audiocard
+
+     pointer=xbios(xbs,13)
+     LONG pointer;
+              
+     pointer: points to a address with important adresses of the Audiocard
+              (additional look into the DEVREGS.TXT):
+
+     LONG sample    : Adress Sample read/write
+     LONG recstat   : Adress status of recordfifo 
+     LONG playstat  : Adress status of playfifo
+     LONG dsp       : Adress dsp Host
+     
+     This adresses are important if you will write your own direct-driver.
+     Additional look into the DEVREGS.TXT
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 20  digana             ; digital/analog input
+
+     ret=xbios(xbs,20,inp)
+     WORD input;
+     LONG ret;
+
+     inp:select the input
+         0 - digitalinput
+         1 - analoginput
+     
+     ret:0 - no error
+         with inp=-1 you get back the status
+--------------------------------------------------------------------------------
+ 21  digcom             ; digital source
+
+     ret=xbios(xbs,21,dq)
+     WORD dq;
+     LONG ret;
+
+     dq:selection of the digital source
+        0 - opto (TOSLINK)
+        1 - cinch
+        2 - XLR  (AES/EBU)
+     
+     ret:0 - no error
+         with dq=-1 you get back the status
+--------------------------------------------------------------------------------
+ 22  dspmode            ; dsprouting no/input/output
+
+     ret=xbios(xbs,22,dspmode)
+     WORD dspmode;
+     LONG ret;
+
+     dspmode:selects the DSP-routing
+             0 - dspoff       - DSP is not used
+             1 - dsp_to_rec   - DSP is switched in the record signal-line
+             2 - dsp_to_play  - DSP is switched in the play signal-line
+     
+     ret:0 - no error
+         with dspmode=-1 you get back the status
+
+     Of course,the connection of the DSP is possible via devconnect too.
+--------------------------------------------------------------------------------
+ 23  sclock             ; samplerate
+
+     ret=xbios(xbs,23,srate)
+     WORD srate;
+     LONG ret;
+
+     srate:selects the samplerate
+           0 - digital_pll - clock come from the digital source
+           1 - 32khz     ~ 12.2880 MHz /384 
+           2 - 44.1khz   ~ 16.9344 MHz /384  
+           3 - 48khz     ~ 12.2880 MHz /256
+           4 - 8000 Hz   ~ 12.2880 MHz /4/384      
+           5 - 11025 Hz  ~ 16.9344 MHz /4/384
+           6 - 12000 Hz  ~ 12.2880 MHz /4/256
+           7 - 16000 Hz  ~ 12.2880 MHz /2/384   
+           8 - 16537 Hz  ~ 16.9344 MHz /4/256
+           9 - 22050 Hz  ~ 16.9344 MHz /2/384
+          10 - 24000 Hz  ~ 12.2880 MHz /2/256   
+          11 - 33075 Hz  ~ 16.9344 MHz /2/256
+          12 - ext/768     ext=external clock   
+          13 - ext/512     ext=external clock
+          14 - ext/384     ext=external clock
+          15 - ext/256     ext=external clock
+     
+     ret:0 - no error
+         with srate=-1 you get back the status
+     
+     Together with the clockdivider on the DSP-Expansion is it possible to
+     generate additional clocks. All samplerates up to ca. 60 kHz you can use
+     with the ADC and DAC converters.
+     The digital interface can only work with 32/44.1/48 kHz
+     (with Highspeed-SP/DIF additional 88.2 and 96kHz).
+--------------------------------------------------------------------------------
+ 24  highsrate          ; highsampling
+
+     ret=xbios(xbs,24,hs)
+     WORD hs;
+     LONG ret;
+
+     hs:high-sampling with 96khz
+        0 - no highsampling
+        1 - highsampling select
+     
+     ret:0 - no error
+         with hs=-1 you get back the status
+     
+     Highsampling is possible only together with the new HighSpeed-SP/DIFs.
+     This function doubling the samplerate (only by play) from
+     44.1 and 48 kHz to 88.2 and 96 kHz.
+     The analog converters indeed are total overcharged with this high samplerates.
+     The highsampling option is only convenient for play digital via SP/DIF.
+--------------------------------------------------------------------------------
+ 25  bypass             ; bypass/sampleplay
+
+     ret=xbios(xbs,25,bypass)
+     WORD bypass;
+     LONG ret;
+
+     bypass:Source of the outputs
+            0 - bypass - Outputs are connected wit the
+                         Input-source (ADC or digital-in)
+            1 - play - Outputs connected with the play-hardware
+     
+     ret:0 - no error
+         with bypass=-1 you get back the status
+
+     Of course,the connection of the DAC and digital output is possible via
+     devconnect too. The bypass-function is only another, easier way to handle
+     the connection matrix for switch between monitoring and DMAPLAY.
+--------------------------------------------------------------------------------
+ 26  recmode            ; matrix record mode           
+
+     ret=xbios(xbs,26,mrec)
+     WORD mrec;
+     LONG ret;
+
+     mrec:record mode
+         0 - normal - for record 2 channel in 64Bit-Mode (A/D or digital-In)
+         1 - four   - for record 4 channels in 64Bit-Mode (A/D and Digital-In)
+         2 - eight  - for record 8 channels in 128Bit-Mode (ADAT or Jam-In)
+     
+     ret:0 - no error
+         with mrec=-1 you get back the status
+
+     The recordmatrix and playmatrix can work in different modes !
+     The Falcon works normally only in the Eightchannelmode
+     (mrec=2), in this mode you can receive up to 8 channels.
+     This format is useful for recording via ADAT or external
+     Eightchannel recording-interfaces such as the Jam-In from LineAudio.
+     But, the ADC can not directly handle this format.
+     For record from the ADC you normally use the Stereomode (mrec=0), in this
+     mode the ADC can directly work with all other connections (DAC,DSP etc.)
+     You can use the ADC and the digital input in parallel for make records
+     with four channels (mrec=1). The DSP recording from the ADC
+     (via host-interface), and the matrix recording from the digital-input.
+     For use the ADC in the Eightchannelmode, please use the ADC8 emulationmode.
+--------------------------------------------------------------------------------
+ 27  playmode           ; matrix play mode         
+
+     ret=xbios(xbs,27,mplay)
+     WORD mplay;
+     LONG ret;
+
+     mplay:play mode
+          0 - normal  -  for play 2 channels in 64Bit-Mode 
+          1 - four    -  for play 4 channels in 64Bit-Mode via D/A and Digital-Out
+          2 - eight   -  for play 8 channels in 128Bit-Mode
+          3 - sixteen - for play 16 channels in 2x128Bit-Mode
+     
+      ret:0 - no error
+         with mplay=-1 you get back the status
+
+     The playmatrix and recordmatrix can work in different modes !
+     The Falcon works normally only in the Eightchannelmode
+     (mplay=2), in this mode you can transfer up to 8 channels
+     This format is useful for processing the channels separate with the DSP
+     or output the channels separate with a Analog 8 interface from Soundpool,
+     Jam-Out or ADAT.
+     But, the DAC can not directly handle this format. On the DSP-Expansion
+     is implemented a own converter-chip that converts one Stereochannel
+     of the 8 channels to a DAC-compatible 64Bit-format. You can use the
+     DAC directly in the Stereomode (mplay=0), in this mode the DAC and the
+     digital output works and understand the serial format (64bit).
+     You can use the DAC and digital output in parallel for play and
+     output four separate channels (mplay=1).
+     In the sixteenchannel mode (mplay=3) can you output 16 separate channels
+     to the DSP-Port-Interfaces (2xJam-Out,2xAnalog8). But, the DSP can only handle
+     the first 8 channels, the other 8 channels goes directly to the DSP-Port.
+     (You have two separate Data streams with 128bit)
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 28  mode24             ; Matrix wordlength (16/24Bit)
+
+     ret=xbios(xbs,28,mode24)
+     WORD mode24;
+     LONG ret;
+
+     mode24:Matrix wordlength
+          0 - normal    -  16Bit 
+          1 - extended  -  24Bit
+               
+      ret:0 - no error
+         with mode24=-1 you get back the status
+
+     The Audiocard can work additional with 24Bit, but only in the twochannel
+     and fourchannel mode, in the eightchannelmode would you become other
+     samplerates (e.g. 8x16Bit x 44100 Hz = 5.644 MHz in 16bit-mode
+                       8x24Bit x 44100 Hz = 8.467 MHz in 24bit-mode)
+     And: The converter chip works only in 16bitmode and is very tricky
+          and has no capability for work in 24 bit in the eightchannelmode)
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 30  digmode            ; digitaloutput consumer/professional
+
+     ret=xbios(xbs,30,digmode)
+     WORD digmode;
+     LONG ret;
+
+     digmode:selects the digital format of the SP/DIF output
+             0 - consumer - use the consumer format (HIFI)
+             1 - professional - use the professional format (Studio)
+     
+     ret:0 - no error
+         with digmode=-1 you get back the status
+--------------------------------------------------------------------------------
+ 31  scmsmode           ; clear SCMS
+
+     ret=xbios(xbs,31,scmsmode)
+     WORD scmsmode;
+     LONG ret;
+
+     scmsmode:digital copy protection
+              0 - bypass - transmits data of the digital input unchanged
+                           to the digital output
+              1 - clear  - delete the SCMS copy protection from the data
+                           of the digital input and transmit it to the
+                           digital output
+     
+     ret:0 - no error
+         with scmsmode=-1 you get back the status
+         
+     This function works how a SCMS copyprotection decoder,only in the bypassmode.
+     The hardware eliminates the complete copy protection and uses no Computer-
+     Software or Resources. You can use the Audiocard in the same way as a
+     SCMS-Decoderbox to copy a CD or DAT record.
+--------------------------------------------------------------------------------
+ 32  mycopybit          ; own SCMS copy protection no/one/all
+
+     ret=xbios(xbs,32,myscms)
+     WORD myscms;
+     LONG ret;
+
+     myscms:copy protection for digital output in playmode
+            (for own digital records)
+            0 - no  - no copy allowed
+            1 - one - one copy allowed
+            2 - all - no copy protection,free copy allowed
+     
+     ret:0 - no error
+         with myscms=-1 you get back the status
+         
+     With this function you can set the SCMS copybits for protect your own records.
+     This works only with DMAPLAY, and not in the bypassmode.
+--------------------------------------------------------------------------------
+ 33  emphasis           ; de-emphasis
+
+     ret=xbios(xbs,33,emph)
+     WORD emph;
+     LONG ret;
+
+     emph:De-Emphasis(lowpass),active onto the digital and analog output (in playmode)
+            0 - normal      - no lowpass
+            1 - de-emphasis - lowpass active
+     
+     ret:0 - no error
+         with emph=-1 you get back the status
+         
+     The DeEmphasis is a relict of older times, new records uses no Emphasis
+     for amplify the high frequencys (i hope so).
+     With deemphasis the Audiocard can play correct the records that are
+     recorded with emphasis (older classic-cds, older Heaven17-CDs...) 
+     You should not make own records with emphasis (bah..)
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 40  digsrate           ; samplerate status of the digital input
+
+     status=xbios(xbs,40)
+     LONG status;
+
+     status: 0 -> invalid
+             1 -> 32khz
+             2 -> 44.1khz
+             3 -> 48khz
+             
+     This function read out the samplerate of the digital inputformat.
+     With the functions cblmode and cblread you can read out the complete
+     status informations, but then you can not use the matrix for music data.
+     The digsrate-function works parallel to the Audio and don't use the Matrix.
+--------------------------------------------------------------------------------
+ 41  digcode            ; recordcode of the digital input
+
+     status=xbios(xbs,41)
+     LONG status;
+
+     status: bit0 -> 0:professional
+                     1:consumer
+             bit1 -> 0:data
+                     1:audio
+             bit2 -> 0:no copy-prohibit=SCMS not active
+                     1:copy prohibit=SCMS active
+             bit3 -> 0:no emphasis
+                     1:emphasis active
+                     
+     This function read out more informations of the digital inputformat.
+     With the functions cblmode and cblread you can read out the complete
+     status informations, but then you can not use the matrix for music data.
+     The digcode-function works parallel to the Audio and don't use the Matrix.
+--------------------------------------------------------------------------------
+ 42  errorcode          ; errorcode of the digital input
+
+     status=xbios(xbs,42)
+     LONG status;
+
+     status: 0 -> no error
+             1 -> validity bit high
+             2 -> confidence flag
+             3 -> slipped sample
+             4 -> CRC-error
+             5 -> parity error
+             6 -> biphase coding error
+             7 -> no lock
+ 
+     This function read out the error informations of the digital inputformat.
+     This function disturb not the audio and don't use the matrix.
+
+     For further information look into the CS8412 manual 
+--------------------------------------------------------------------------------
+ 43  cblmode            ; enable matrix to CBL mode
+
+     ret=xbios(xbs,43,cblmode)
+     WORD cblmode;
+     LONG ret;
+
+     cblmode:Channel Status-Block readmode
+              0 - normal  - no cbl mode, Matrix used for audiodata
+              1 - cblread - cbl-mode, Matrix transport statutbits
+                            of the digital input
+     ret:0 - no error
+         with cblmode=-1 you get back the status
+         
+     The cblread function read out the complete information of the Channel
+     Status Block. The Matrix is used for transport the status data
+     to the Computer. Please setup the cblmode=1 before you use the
+     cblread-function. In this time you can't do play or hear music.
+     Please, deselect the DAC from the matrix with devconnect,before you use
+     the cblmode (or will you hear the statusdata ? wow, a new technosound).
+--------------------------------------------------------------------------------
+ 44  cblread            ; read out the channel statusbytes
+
+     pointer=xbios(xbs,44)
+     LONG pointer;
+              
+     pointer: points to a adress with the readed 24 statusbytes:
+
+     BYTE cbl0    : Channel Statusbyte 0 : Bit 7 -> Channel-Statusbit0
+     BYTE cbl0    : Channel Statusbyte 0 : Bit 6 -> Channel-Statusbit1
+     BYTE cbl0    : Channel Statusbyte 0 : Bit 5 -> Channel-Statusbit2
+     BYTE cbl0    : Channel Statusbyte 0 : Bit 4 -> Channel-Statusbit3
+     BYTE cbl0    : Channel Statusbyte 0 : Bit 3 -> Channel-Statusbit4
+     BYTE cbl0    : Channel Statusbyte 0 : Bit 2 -> Channel-Statusbit5
+     BYTE cbl0    : Channel Statusbyte 0 : Bit 1 -> Channel-Statusbit6
+     BYTE cbl0    : Channel Statusbyte 0 : Bit 0 -> Channel-Statusbit7
+     ...
+     BYTE cbl23   : Channel Statusbyte 23
+
+     The cblread function read out the complete information of the Channel
+     Status Block. The Matrix is used for transport the status data
+     to the Computer. Please setup the cblmode=1 before you use the
+     cblread-function. In this time you can't do play or hear music.
+     Please, deselect the DAC from the matrix with devconnect,before you use
+     the cblmode (or will you hear the statusdata ? wow, a new technosound).
+--------------------------------------------------------------------------------
+ 45  recstat            ; status of the record fifo
+
+     status=xbios(xbs,45)
+     LONG status;
+
+     status: bit0 -> 0:FIFO empty
+                     1:FIFO not empty
+             bit1 -> 0:FIFO more as half filled,initiate a Interrupt
+                     1:FIFO less/half filled
+             bit2 -> 0:FIFO full
+                     1:FIFO not full
+
+     Here you can read out the status of the recordbuffer. If you make a record,
+     you should guaranty that the buffer is read out before the buffer is full
+     and lost data. The adequate XBIOS routines do it automatic and interrupts
+     the program (see the interrupt-functions below) if the buffer is more
+     than half filled.
+--------------------------------------------------------------------------------
+ 46  playstat           ; status of the play fifo
+
+     status=xbios(xbs,46)
+     LONG status;
+
+     status: bit0 -> 0:FIFO empty
+                     1:FIFO not empty
+             bit1 -> 0:FIFO more as half filled
+                     1:FIFO less/half filled,initiate a Interrupt
+             bit2 -> 0:FIFO full
+                     1:FIFO not full
+
+     Here you can read out the status of the playbuffer. If you will play a sample,
+     you should guaranty that the buffer is filled before the buffer is empty
+     and lost data. The adequate XBIOS routines do it automatic and interrupts
+     the program (see the interrupt-functions below) if the buffer is less
+     than half filled.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 50  volad              ; input volume controller
+
+     ret=xbios(xbs,50,lvol,rvol)
+     WORD lvol;
+     WORD rvol;
+     LONG ret;
+
+     lvol:level left channel in 0.5db steps (0-255)
+     rvol:level right channel in 0.5db steps (0-255)
+     
+     ret:0 - no error
+         with lvol=-1 you get back the status: high-word=lvol,low-word=rvol
+
+     The Volume controller can attenuate/amplify in the range of -96 to +32db:
+      
+     value  db
+     -----------
+        0  -96   
+      192    0   
+      255  +31.5 
+--------------------------------------------------------------------------------
+ 51  volda              ; output volume controller
+
+     ret=xbios(xbs,51,lvol,rvol)
+     WORD lvol;
+     WORD rvol;
+     LONG ret;
+
+     lvol:level left channel in 0.5db steps (0-255)
+     rvol:level right channel in 0.5db steps (0-255)
+     
+     ret:0 - no errors
+         with lvol=-1 you get back the status: high-word=lvol,low-word=rvol
+
+     The Volume controller can attenuate/amplify in the range of -96 to +32db:
+      
+     value  db
+     -----------
+        0  -96   
+      192    0   
+      255  +31.5 
+--------------------------------------------------------------------------------
+ 52  readsmp            ; read sample
+
+     pointer=xbios(xbs,52)
+     LONG pointer;
+
+     pointer:Adress to a valuetable, -1=error
+            WORD  0 left
+            WORD  2 right
+            
+     This function read out single samples out of the fifobuffer. 
+     But, normally it's better to use or programming faster Blocktransfer
+     functions. The blocktransfer-functions works much effectively.
+     With the readsmp function you could lose samples, this function must
+     synchronize to the datastream before it can read a correct sample.
+--------------------------------------------------------------------------------
+ 53  writesmp           ; write sample
+
+     WORD left
+     WORD right
+     ret=xbios(xbs,53,left,right)
+     LONG ret;
+
+     left :sample left (16bit)
+     right:sample right (16bit)
+     
+     ret:0 - no error
+
+     This function writes single samples in the fifobuffer.
+     But, normally it's better to use or programming faster Blocktransfer
+     functions. The blocktransfer-functions works much effectively.     
+--------------------------------------------------------------------------------
+ 54  intact             ; interrupt mask register for FIFO
+
+     ret=xbios(xbs,54,int)
+     LONG ret;
+
+     int: bit0 -> 0:stop play    ~ no Interrupt
+                  1:start play   ~ Interupt enabled
+          bit1 -> 0:stop record  ~ no interrupt
+                  1:start record ~ Interrupt enabled
+     ret:0 - no error
+         with int=-1 you get back the status
+
+     Interrupt Vector for play    : Vector 122
+     Interrupt Vector for record  : Vector 123
+
+     For record and play,the Audiocard use little buffers (fifo) for a
+     guaranteed continuitly datatransfer from and to the Audiocard.
+     For a fast and reliable transfer is it better to use an interrupt-mechanism
+     and not a looped status readout that blokate the complete system for other
+     things. Here you can enable or disable the Interrupt(mask) that comes from
+     the Audiocard to the CPU. The functions 120-144 installs a corresponding
+     Interrupt-Routine for handle this interrupt-transfer. If you will starts
+     the transmission, you must first install a Interrupt-routine with this
+     functions, and thereafter you enable the Interrupt. You can stop
+     the transfer always by disable the Interrupt with intact.
+     Before you install a new Interruptroutine with the Functions 120-144
+     you should be sure that the corresponding Interrupt is disabled.
+     The Audiocard can make interrupts for 3 system-pieces: recordfifo,playfifo
+     and dsp. You can install a interrupt routine for each process.
+     The Fifo Interrupt Vectors are not changeable.
+     All Interrupts uses Level Int5.
+--------------------------------------------------------------------------------
+ 55  dspintact          ; interrupt enable for DSP
+
+     WORD wert
+     ret=xbios(xbs,55,dint)
+     LONG ret;
+
+    dint: bit0 -> 0:stop dspreceive
+                  1:start dspreceive
+          bit1 -> 0:stop dsptransmit
+                  1:start dsptransmit
+     ret:0 - no error
+         with dint=-1 you get back the status
+     
+     Interrupt Vector for DSP: Vector 124
+     (Vector are used from the driver,but indeed programmable)     
+
+     For the datatransfer from and to the DSP you can also use a Interrupt.
+     For the internal DSP Interruptroutines 120-144 is used the Vector 124.
+     Falcon programs uses certainly another Vector, it's free programmable. 
+     The DSP uses also the Interrupt Level Int5.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 60  sysreset           ; delete record-FIFO,offset calibration,Kickstart for DAC
+                        ; Reset for ADC,DAC,volume controller,digital SP/DIF
+
+     ret=xbios(xbs,60)
+     LONG ret;
+
+     ret:0 - no error
+     
+     With this function you reset the complete Audiosystem and the ADC,DAC,
+     volume controller and OP-Amplifiers makes an Offset calibration.
+     This softreset should you use before you make a record or if you use
+     another samplerate. It is recommendable then to make a offset-calibration
+     for better results.
+--------------------------------------------------------------------------------
+ 61  dspreset           ; reset for DSP
+
+     ret=xbios(xbs,61)
+     LONG ret;
+
+     ret:0 - no error
+     
+     If it runs a damaged DSP programm and the DSP is hangup or the DSP must
+     reboot for load another program into the DSP (hostboot),
+     you can reset the DSP with this function.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 70  dspmemory          ; DSP memorymode          
+
+     ret=xbios(xbs,70,dspmem)
+     WORD dspmem;
+     LONG ret;
+
+     dspmem:DSP memorymode
+          0 - normal  -  32Kx24Bit falconcompatible mode 
+          1 - big     -  128Kx24Bit extended mode
+     
+      ret:0 - no error
+         with dspmem=-1 you get back the status
+
+For full compatibility to the DSP in the Falcon is it important, that the
+Memoryspaces of the DSP-Memory is hundretpercent the same.
+That is important,if a Program using the shadow memoryspaces and suppose
+an equal matter as the memory of the Falcon DSP.
+In this reason you cannot use the complete memory in the falconcompatible mode.
+If you will use the complete memory, you must change in the extended mode.
+In this mode you have other shadow memoryspaces and it could be that a program
+for the falcon not run that suppose the original memory spaces.
+Probably the most Falcon programs run also in the extended mode without problems.
+
+Memory spaces in the falconcompatible mode (dspmem=0):
+
+Y-memoryspace: $0000-$00FF -> internal RAM
+               $0100-$3FFF -> 16K external Y-memory
+               $4000-$7FFF -> shadow of 16K external Y-memory
+               $8000-$BFFF -> shadow of 16K external Y-memory
+               $C000-$FFBF -> shadow of 16K external Y-memory
+               $FFC0-$FFFF -> external peripheral (registers)
+
+X-memoryspace: $0000-$01FF -> internal RAM/ROM
+               $0200-$3FFF -> 16K external X-memory  
+               $4000-$7FFF -> shadow of 16K external X-memory  
+               $8000-$BFFF -> shadow of 16K external X-memory
+               $C000-$FFBF -> shadow of 16K external X-memory
+               $FFC0-$FFFF -> internal peripheral (registers)
+
+P-memoryspace: $0000-$003F -> internal Interrupts/Vectors
+               $0040-$01FF -> Internal program memory
+               $0200-$3FFF -> shadow of external Y-memory (16K)
+               $4000-$7FFF -> shadow of external X-memory (16K)
+               $8000-$BFFF -> shadow of external Y-memory (16K)
+               $C000-$FFFF -> shadow of external X-memory (16K)
+
+
+Memory spaces in the extended mode (dspmem=1):
+      
+Y-memoryspace: $0000-$00FF -> internal RAM
+               $0100-$FFBF -> 64K external Y-memory  
+               $FFC0-$FFFF -> external peripheral (registers)
+
+X-memoryspace: $0000-$01FF -> internal RAM/ROM
+               $0200-$FFBF -> 64K external X-memory
+               $FFC0-$FFFF -> internal peripheral (registers)
+
+P-memoryspace: $0000-$003F -> internal Interrupts/Vectors
+               $0040-$01FF -> internal program memory
+               $0200-$7FFF -> shadow of external Y-memory (lower 32K)
+               $8000-$FFFF -> shadow of external X-memory (lower 32K)
+
+Important:The upper 32K of the X- and Y-memory is not shadowed in the adress space !
+--------------------------------------------------------------------------------
+ 71  clkdivide          ; DSP-clockdivider           
+
+     ret=xbios(xbs,71,clkdiv)
+     WORD clkdiv;
+     LONG ret;
+
+     clkdiv:clock dividingfactor
+
+           Clock from EXTOUT of the DSP-Port (with 25.175 MHz Clock)                     
+           Input -> ICLK_Output/wordclock_predivider -> samplerate
+           clkdiv        -> output        -> samplerate
+           ------------------------------------------------
+           0000=CKOUT/1  -> 25.175MHz/512 -> 49170 Hz
+           0001=CKOUT/2  -> 12.587MHz/256 -> 49170 Hz
+           0010=CKOUT/2  -> 12.587MHz/256 -> 49170 Hz                
+           0011=CKOUT/3  ->  8.392MHz/256 -> 32780 Hz                                                 
+           0100=CKOUT/4  ->  6.294MHz/256 -> 24585 Hz                                                               
+           0101=CKOUT/5  ->  5.035MHz/256 -> 19668 Hz
+           0110=CKOUT/6  ->  4.196MHz/256 -> 16390 Hz
+           0111=CKOUT/7  ->  3.596MHz/256 -> 14049 Hz
+           1000=CKOUT/8  ->  3.147MHz/256 -> 12292 Hz
+           1001=CKOUT/9  ->  2.797MHz/256 -> 10927 Hz
+           1010=CKOUT/10 ->  2.518MHz/256 ->  9833 Hz            
+           1011=CKOUT/11 ->  2.289MHz/256 ->  8940 Hz                                                  
+           1100=CKOUT/12 ->  2.098MHz/256 ->  8195 Hz                                                               
+           1101=CKOUT/13 ->  1.937MHz/256 ->  7565 Hz
+           1110=CKOUT/14 ->  1.798MHz/256 ->  7024 Hz
+           1111=CKOUT/15 ->  1.678MHz/256 ->  6556 Hz
+
+           Clock from CKOUT of the DSP (with 66.00 MHz DSP-Clock)                     
+           Input -> ICLK_Output/wordclock_predivider -> samplerate
+           clkdiv        -> output        -> samplerate
+           ----------------------------------------------------
+           0000=CKOUT/1  -> 66.000MHz/768 ->  85938 Hz
+           0001=CKOUT/2  -> 33.000MHz/512 ->  64453 Hz
+           0010=CKOUT/2  -> 33.000MHz/512 ->  64453 Hz
+           0011=CKOUT/3  -> 22.000MHz/512 ->  42969 Hz                                                 
+           0100=CKOUT/4  -> 16.500MHz/512 ->  32227 Hz                                                               
+           0101=CKOUT/5  -> 13.200MHz/512 ->  25781 Hz
+           0110=CKOUT/6  -> 11.000MHz/512 ->  21484 Hz
+           0111=CKOUT/7  ->  9.428MHz/512 ->  18415 Hz
+           1000=CKOUT/8  ->  8.250MHz/512 ->  16113 Hz
+           1001=CKOUT/9  ->  7.333MHz/512 ->  14323 Hz
+           1010=CKOUT/10 ->  6.600MHz/512 ->  12891 Hz            
+           1011=CKOUT/11 ->  6.000MHz/512 ->  11719 Hz                                                  
+           1100=CKOUT/12 ->  5.500MHz/512 ->  10742 Hz                                                               
+           1101=CKOUT/13 ->  5.077MHz/512 ->   9916 Hz
+           1110=CKOUT/14 ->  4.714MHz/512 ->   9208 Hz
+           1111=CKOUT/15 ->  4.400MHz/512 ->   8594 Hz
+
+           More clockrates are possible (wordclock_predivider
+           /256,/384,/512 and /768 are useful,
+           altogether 60 new clockrates with CLKDIV !
+ 
+      ret:0 - no error
+         with clkdiv=-1 you get back the status
+         
+      On the DSP-Expansion is implemeted a additional clockdivider for
+      possible to work with the original Falcon samplerates.
+      Hereto you must have a additional clockmodule, similar the typical
+      Falcon-Clockmodules for 44.1 kHz for the DSP-Port, but with a
+      25.175 MHz-Masterclock. Additional, you can jumper the ckout-clock of
+      the DSP to the clockdivider for works with additional samplerates.
+      With it, you can also works with exotic samplerates.
+--------------------------------------------------------------------------------
+ 72  pathset            ; tristate the DSP connections 
+
+     ret=xbios(xbs,72,path)
+     WORD path;
+     LONG ret;
+
+     path:DSP connections
+      Bit 0 - connect Matrix with the line SC0 of the DSP (0=tristate,1=connected)
+      Bit 1 - connect Matrix with the line SC1 of the DSP (0=tristate,1=connected)
+      Bit 2 - connect Matrix with the line SC2 of the DSP (0=tristate,1=connected)
+      Bit 3 - connect Matrix with the line SRD of the DSP (0=tristate,1=connected)
+  
+     ret:0 - no error
+         with path=-1 you get back the status
+         
+     With this function you can disconnect the DSP-lines to the Matrix,
+     also with the dsptristate-Function from the Falcon XBIOS.
+     But with pathset you can connect/disconnect separate each connection.
+     Normally all lines are connected with the Matrix, the matrix works a little
+     bit different as in the Falcon and don't supports driving the lines in
+     the other direction.
+     (The Matrix works only in the Continous-Mode and not in the Handshake-Mode)
+--------------------------------------------------------------------------------
+ 73  dsp_hostcommand    ; starts DSP hostcommand 
+
+     ret=xbios(xbs,73,command)
+     WORD command;
+     LONG ret;
+
+     command:number of the DSP hostcommand
+         0 - DSP hostcommand (DSP adress $0024,default)
+        ...
+        11 - DSP hostcommand (DSP adress $003A)
+        14 - DSP hostcommand (DSP adress $0040)
+        ...
+        45 - DSP hostcommand (DSP adress $007E)
+     
+     ret:0 - no error
+--------------------------------------------------------------------------------
+ 74  dspclear           ; readout the DSP receivebuffer                            
+
+     ret=xbios(xbs,74)
+     LONG ret;
+
+     ret:0 - no error
+     
+     This function is useful for delete the receivebuffer, if you won't get the
+     data in the buffer and you'll trash the old data before you starts
+     a new transfer.
+--------------------------------------------------------------------------------
+ 75  extclkmode         ; Utilization of external clocks
+
+     ret=xbios(xbs,75,extclkmode)
+     WORD extclkmode;
+     LONG ret;
+
+     extclkmode:utilization of external clocks in devconnect(srcclk)
+               0 - normal - sclock                                            
+               1 - compatible - compatible Falcon samplerates                        
+     
+     ret:0 - no error
+         with extclkmode=-1 you get back the status
+     
+     This function appoints the utilization of srcclk in the
+     devconnect-call. Normally with srcclk=0 we use the own
+     StarTrack samplerate-table of the Funktion "sclock".
+     With the DSP-Expansioncard and a additional clockmodule with 25.175MHz
+     we can generate the original Falcon samplerates. This Samplerates are
+     normally used with the new sourceclock-parameter srcclk=3.
+     For full compatibility to the Falcon we can exchange the tables with
+     extclkmode=compatible. If you use the compatible-mode,the original
+     Falcon samplerate-table is now present with srcclk=0 for more compatibility
+     and the StarTrack samplerate-table is present with srcclk=3.
+     Please read the explanation of the function "devconnect" in FALCBIOS.TXT too.   
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+100  mix               ; mixes 2,4,6 or 8 stereochannels (=4,8,12 or 16 tracks)
+                         and join it to a stereochannel
+
+     ret=xbios(xbs,100,channels,startadr,len,zieladr,voltab)
+     WORD channels
+     LONG startadr;
+     LONG len;
+     LONG zieladr
+     LONG voltab
+     LONG ret;
+
+      channels:number of tracks (4,8,12 or 16)
+     startradr:startadress of the sourcetracks
+           len:length of a stereotrack
+       zieladr:startadress of the destination stereotrack
+        voltab:pointer to a track volumetable
+               BYTE VOL-STEREOTRACK1  
+               BYTE VOL-STEREOTRACK2 etc.
+               ...
+               BYTE VOL-STEREOTRACK8
+     
+     ret:0 - no error
+
+     The sourcetracks are disposed in the memory as stereotracks one after another.
+     The volume-table is a table with the volumes of the channels
+     in the scale of 0-200:
+       0=mute
+      50=half volume
+     100=original volume
+     200=double volume
+--------------------------------------------------------------------------------
+101  dspmix                ; mixes or toothing stereochannels (4,8 or 16 tracks)
+                             to Falcon compatible 128Bit words
+                             
+     ret=xbios(xbs,101,channels,startadr,len,zieladr)
+     WORD channels;
+     LONG startadr;
+     LONG len;
+     LONG zieladr
+     LONG ret;
+
+      channels:4,8 or 16 tracks 
+     startradr:startadress of the sourcetracks
+           len:length of a stereotrack
+       zieladr:startadress of the destination stereotrack
+     
+     ret:0 - no error
+
+     The sourcetracks are disposed in the memory as stereotracks one after another.
+     The volume-table is a table with the volumes of the channels
+     in the scale of 0-200:
+       0=mute
+      50=half volume
+     100=original volume
+     200=double volume
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+110  monitor            ; record and play-bypass
+
+     ret=xbios(xbs,110)
+     LONG ret;
+
+     ret:0 - no error
+     
+     With this function you can test the possibiliy of a correct data transfer.
+     Can you hear interruptions or noises is perhaps your Computer too slow.
+     The function samples the input-source (ADC or Digital input) in a
+     little buffer and transmit it now direct to the output (DAC). 
+     Please press a key for exit this function.
+--------------------------------------------------------------------------------
+111  recwait            ; wait to autorecord treshold volume
+
+     ret=xbios(xbs,111,treshold)
+     WORD treshold;
+     LONG ret;
+
+     treshold:treshold value (0-32767)
+     
+     ret:0 - no error
+     
+     This function read out the Recordfifo and wait until the volume-value
+     is greater then the treshold value. This is useful to starts automatic
+     the recording if the music on the input begin.
+     For exit the function please press a key.
+--------------------------------------------------------------------------------
+112  memrec             ; memory-record without interrupts
+
+     ret=xbios(xbs,112,startadr,endadr)
+     LONG startadr;
+     LONG endadr;
+     LONG ret;                                          
+
+     startradr:record startadress
+        endadr:record endadress
+     
+     ret:last record memoryposition
+     
+     this function is buggy at this time !!!
+     A survival of old,interruptless times.
+     Shouldn't be used, use the better interrupt-routines     
+--------------------------------------------------------------------------------
+113  memplay            ; memory-play without interrupts
+
+     pointer=xbios(xbs,113,startadr,endadr,step,mode,midi)
+     LONG startadr;
+     LONG endadr;
+     WORD step;
+     WORD mode;
+    (WORD midi;)
+     LONG pointer;
+
+     startradr:play startadress
+        endadr:play endadress (plays backward if endadr<startadr)
+          step:speed of play (0..x)
+               0=normal
+               1=double 
+               2=threefold etc...
+          mode:                                          
+               bit0 -> loop
+               bit1 -> crossplay
+               bit2 -> midi
+          midi:Midinote to start play
+               this is optional,put it to the stack only if modebit2 is set !
+     
+     pointer:adress returntable , -1=error
+            LONG  0 memposition
+            LONG  4 loops (replay 1=one, 2=two etc.)
+                           for crossplay the routine counts the loops separate
+                           for each direction (forward & backward)
+                           
+     midi not tested !!!                           
+     A survival of old,interruptless times.
+     Shouldn't be used, use the better interrupt-routines     
+--------------------------------------------------------------------------------
+114  recplay            ; memory record and play without interrupts
+
+     reserved,not implemented
+--------------------------------------------------------------------------------
+115  hardrec            ; HD record without interrupts
+
+     ret=xbios(xbs,115,startadr,len,sectors,handle)
+     LONG startadr;
+     LONG len;
+     LONG sectors;
+     WORD handle;
+     LONG ret;
+
+     startradr:recordbuffer startadress
+           len:recordbuffer length (sector-length)
+       sectors:number of record sectors
+        handle:handle of recordfile
+     
+     ret:number of complete writed sectors, -1=error
+     
+     sample-breaks with too small FIFO !!!
+     A survival of old,interruptless times.
+     Shouldn't be used, use the better interrupt-routines     
+--------------------------------------------------------------------------------
+116  hardplay           ; HD play without interrupts
+
+     pointer=xbios(xbs,116,startadr,len,sectors,seek,handle,step,mode,midi)
+     LONG startadr;
+     LONG len;
+     LONG sectors;
+     LONG seek;
+     WORD handle;
+     WORD step;
+     WORD mode;
+    (WORD midi;)
+     LONG pointer;
+
+     startradr:playbuffer startadress
+           len:playbuffer length (plays backward if the value is negative)
+       sectors:number of sectors
+          seek:file startposition
+        handle:handle of the playfile
+          step:speed of play (0..x)
+               0=normal
+               1=double
+               2=threefold etc...
+          mode:
+               bit0 -> loop
+               bit1 -> crossplay
+               bit2 -> midi
+               bit3 -> break
+          midi:Midinote to start play
+               this is optional,put it to the stack only if modebit2 is set !
+     
+       pointer:adress returntable , -1=error
+              LONG  0 played sectors
+              LONG  4 loops (replay 1=one, 2=two etc.)
+                           for crossplay the routine counts the loops separate
+                           for each direction (forward & backward)
+
+     sample-breaks with too small FIFO !!!
+     no backward play at this time !
+     A survival of old,interruptless times.
+     Shouldn't be used, use the better interrupt-routines     
+--------------------------------------------------------------------------------
+117  hrecplay           ; HD record and play without interrupts
+
+     reserved,not implemented
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+120  init_peak          ; installs a interupt-routine for peakvalue-output
+
+     pointer=xbios(xbs,120)
+     LONG pointer;
+
+     pointer:adress returntable, -1=error
+             LONG 0 peakwert
+             LONG 8 break (1=new value ready to readout. 
+                           After read you must delete the old value with the peakshake-function. 
+--------------------------------------------------------------------------------
+121  init_imemrec       ; installs a interrupt-routine for memory-record
+
+     pointer=xbios(xbs,121,select,startadr,endadr)
+     WORD select;
+     LONG startadr;
+     LONG endadr;
+     LONG pointer;
+
+      select:recording mode
+            0 = recording with 16Bit via FIFO
+            2 = recording with 24Bit via FIFO
+    startadr:recording startadress
+      endadr:recording endadress
+     
+     pointer:adress returntable, -1=error
+            LONG  0 memposition
+            LONG  8 break
+            LONG 12 errors
+            LONG 24 counterposition
+--------------------------------------------------------------------------------
+122  init_imemplay      ; installs a interrupt-routine for memory-play 
+
+     pointer=xbios(xbs,122,select,startadr,endadr,counter,step,mode,midi)
+     WORD select;
+     LONG startadr;
+     LONG endadr;
+     LONG counter;
+     WORD step;
+     WORD mode;
+    (WORD midi);
+     LONG pointer;
+
+        select:playmode
+              0 = play with 16Bit via FIFO
+              1 = play with 16Bit via DSP
+              2 = play with 24Bit via FIFO
+     startradr:play startadress
+        endadr:play endadress
+       counter:counter startvalue
+          step:speed of play
+               0=normal
+               1=double
+               2=threefold etc...
+           mode:
+               bit0 -> loop
+               bit1 -> crossplay (not if select=2)
+               bit2 -> midi 
+          midi:Midinote to start play
+               this is optional,put it to the stack only if modebit2 is set !
+     
+     pointer:adress returntable, -1=error
+            LONG  0 memposition
+            LONG  8 break
+            LONG 12 errors
+            LONG 24 counterposition
+            LONG 28 loops
+--------------------------------------------------------------------------------
+123  init_implaymix  ; installs a interrupt-routine for memory-play & record-mix
+
+     pointer=xbios(xbs,123,select,startadr,endadr,counter,step,mode,midi)
+     WORD select;
+     LONG startadr;
+     LONG endadr;
+     LONG counter;
+     WORD step;
+     WORD mode;
+    (WORD midi);
+     LONG pointer;
+
+        select:playmode
+              0 = play with 16Bit via FIFO
+     startradr:play startadress
+        endadr:play endadress
+       counter:counter startvalue
+          step:speed of play
+               0=normal
+               1=double
+               2=threefold etc...
+           mode:
+               bit0 -> loop
+               bit1 -> crossplay (not with select=2)
+               bit2 -> midi 
+          midi:Midinote to start play
+               this is optional,put it to the stack only if modebit2 is set !
+     
+     pointer:adress returntable, -1=error
+            LONG  0 memposition
+            LONG  8 break
+            LONG 12 errors
+            LONG 24 counterposition
+            LONG 28 loops
+--------------------------------------------------------------------------------
+124  init_hrec          ; installs a interrupt-routine for HD-record
+
+     pointer=xbios(xbs,124,startadr,len,sectors,handle,fileart)
+     LONG startadr;
+     LONG len;
+     LONG sectors;
+     WORD handle;
+     WORD fileart;
+     LONG pointer;
+
+     startradr:recordbuffer startadress
+           len:recordbuffer length (sectorlength)
+       sectors:number of recordsectors
+        handle:handle of the recordfile
+       fileart:3=save as WAV-file (Intel format)
+     
+     pointer:adress returntable
+            LONG  0 memposition 
+            LONG  4 number of recorded sectors
+            LONG  8 break 
+            LONG 12 error
+            
+     this function is buggy at this time !!!
+     A survival of old times.
+     Shouldn't be used,GEMDOS-calls (fwrite) in a Interrupt-routine is
+     not allowed in multitasking systems
+     Use the halfbuffer interrupt-routines for HD recording     
+--------------------------------------------------------------------------------
+125  init_hplay         ; installs a interrupt-routine for HD play
+
+     pointer=xbios(xbs,125,startadr,len,sectors,seek,handle,fileart,step,mode,midi)
+     LONG startadr;
+     LONG len;
+     LONG sectors;
+     LONG seek;
+     WORD handle;
+     WORD fileart;
+     WORD step;
+     WORD mode;
+    (WORD midi;)
+     LONG pointer;
+
+     startradr:playbuffer startadress
+           len:playbuffer length (sectorlength)
+       sectors:number of sectors
+          seek:file startposition
+        handle:handle of the playfile
+       fileart:3=read WAV-file (Intel format)
+          step:speed of play
+               0=normal
+               1=double
+               2=threefold etc...
+          mode:
+               bit0 -> loop
+               bit1 -> crossplay
+               bit2 -> midi
+               bit3 -> break
+          midi:Midinote to start play
+               this is optional,put it to the stack only if modebit2 is set !
+     
+     pointer:adress returntable
+            LONG  0 memposition 
+            LONG  4 number of played sectors
+            LONG  8 break 
+            LONG 12 errors
+            LONG 28 number of loops
+
+     this function is buggy at this time !!!
+     A survival of old times.
+     Shouldn't be used,GEMDOS-calls (fread) in a Interrupt-routine is
+     not allowed in multitasking systems
+     Use the halfbuffer interrupt-routines for HD play     
+--------------------------------------------------------------------------------
+126  init_ihplaymix     ;  installs a interrupt-routine for HD-play & record-mix
+
+     reserved,not implemented
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+130  init_mrecpeak; installs a interrupt-routine for memory-rec and peakvalue-output
+
+     pointer=xbios(xbs,130,select,startadr,endadr)
+     WORD select;
+     LONG startadr;
+     LONG endadr;
+     LONG pointer;
+
+        select:recording mode
+              0 = recording with 16Bit via FIFO
+              1 = recording with 16Bit via DSP
+     startradr:recording startadress
+        endadr:recording endadress
+     
+     pointer:adress returntable
+            LONG  0 memposition
+            LONG  8 break
+            LONG 12 error
+            LONG 16 peakvalue
+            LONG 24 counterposition
+--------------------------------------------------------------------------------
+131  init_mplaypeak; installs a interrupt-routine for memory-play and peakvalue-output
+
+     reserved,not implemented
+--------------------------------------------------------------------------------
+132  init_mrppeak       ; installs a interrupt-routine for memory play and
+                          record-mix and peakvalue-output
+
+     reserved,not implemented
+--------------------------------------------------------------------------------
+133  init_hrecpeak; installs a interrupt-routine for HD-rec and peakvalue-output
+
+     pointer=xbios(xbs,133,startadr,len,sectors,handle,fileart)
+     LONG startadr;
+     LONG len;
+     LONG sectors;
+     WORD handle;
+     WORD fileart;
+     LONG pointer;
+
+     startradr:recordbuffer startadress
+           len:recordbuffer length (sectorlength)
+       sectors:number of recordsectors
+        handle:handle of the recordfile
+       fileart:3=save as WAV-file (Intel format)
+     
+     pointer:adress returntable
+            LONG  0 memposition 
+            LONG  4 number of recorded sectors
+            LONG  8 break
+            LONG 12 error
+            LONG 16 peakvalue 
+
+     sample-breaks with too small FIFO !!!
+     A survival of old times.
+     Shouldn't be used,GEMDOS-calls (fwrite) in a Interrupt-routine is
+     not allowed in multitasking systems
+     Use the halfbuffer interrupt-routines for HD recording     
+--------------------------------------------------------------------------------
+134  init_hplaypeak; installs a interrupt-routine for HD-play & peakvalue-output
+
+     reserved,not implemented
+--------------------------------------------------------------------------------
+135  init_hrppeak       ; installs a interrupt-routine for HD play and
+                          record-mix and peakvalue-output
+
+     reserved,not implemented
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+This routines use a halfbuffer-system and are the actual
+recommended routines for recording and play transcations:
+
+140  init_xmemrec; installs a interrupt-routine for memory-recording with halfbuffer
+
+     pointer=xbios(xbs,140,select,startadr1,startadr2,len,endcount,fileart,peakbuf)
+     WORD select
+     LONG startadr1;
+     LONG startadr2;
+     LONG len;
+     LONG endcount;
+     WORD fileart;
+     LONG peakbuf;
+     LONG pointer;
+
+         select:recording mode
+               0 = recording with 16Bit via FIFO
+               1 = recording with 16Bit via DSP
+               2 = 8channel-recording with 16Bit via FIFO
+     startradr1:recording startadress Buffer1
+     startradr2:recording startadress Buffer2
+            len:blocklength of a buffer
+       endcount:recordinglength/counterend (in byte)
+        fileart:3=WAV-fileformat (Intel format)
+        peakbuf:adress buffer for peakvalues
+     
+        pointer:adress returntable
+               LONG  0 memposition
+               LONG  4 memflag
+               LONG  8 break
+               LONG 12 errors (not with select=1)
+               LONG 16 peakvalue (only with select=0)
+               LONG 20 peakbuffer-position (only with select=0)
+               LONG 24 counterposition
+               
+     at this time the routine saves only one stereochannel in the
+     8channelmode (select=2) !!!               
+--------------------------------------------------------------------------------
+141  init_xmemplay; installs a interrupt-routine for memory-play with halfbuffer
+
+     pointer=xbios(xbs,141,select,startadr1,startadr2,len,counter,
+                           endcount,fileart,step,mode,midi)
+     WORD select;
+     LONG startadr1;
+     LONG startadr2;
+     LONG len;
+     LONG counter;
+     LONG endcount;
+     WORD fileart;
+     WORD step;
+     WORD mode;
+    (WORD midi;)
+     LONG pointer;
+
+         select:playmode
+                0 = play with 16Bit via FIFO
+                1 = play with 16Bit via DSP
+                2 = 8channel-play with 16Bit via FIFO
+                3 = 16channel-play with 16Bit via FIFO
+     startradr1:play startadress Buffer 1
+     startradr2:play startadress Buffer 2
+            len:blocklength of a buffer
+        counter:counter startvalue
+       endcount:playlength/counterend (in byte)
+        fileart:3=WAV-fileformat
+           step:speed of play
+               0=normal
+               1=double
+               2=threefold etc...
+           mode:
+                bit0 -> loop
+                bit1 -> crossplay
+                bit2 -> midi
+                bit3 -> break
+          midi:Midinote to start play
+               this is optional,put it to the stack only if modebit2 is set !
+     
+        pointer:adress returntable
+               LONG  0 memposition
+               LONG  4 memflag
+               LONG  8 break
+               LONG 12 errors (not with select=1)
+               LONG 16 peakwert (only with select=0)
+               LONG 24 counterposition
+               LONG 40 lastblock
+--------------------------------------------------------------------------------
+142  init_xmixplay ; installs a interrupt-routine for record and mix this to
+                     the playfile and play in halfbuffer
+
+     reserved,not implemented
+--------------------------------------------------------------------------------
+143  init_xmemrec4 ; installs a interrupt-routine for memory-record in halfbuffer
+                     of 4 channels (analog/digital)
+
+     pointer=xbios(xbs,143,startadr1,startadr2,dstartadr1,dstartradr2,len,
+                           endcount,fileart,peakbuf,dpeakbuf)
+     LONG startadr1;
+     LONG startadr2;
+     LONG dstartadr1;
+     LONG dstartadr2;
+     LONG len;
+     LONG endcount;
+     WORD fileart;
+     LONG peakbuf;
+     LONG dpeakbuf;
+     LONG pointer;
+
+     startradr1:FIFO recording startadress Buffer 1
+     startradr2:FIFO recording startadress Buffer 2
+    dstartradr1:DSP recording startadress Buffer 1
+    dstartradr2:DSP recording startadress Buffer 2
+            len:length of a buffer
+       endcount:recordinglength/counterend (in byte)
+        fileart:3=WAV fileformat (Intel format)
+        peakbuf:adress buffer for peakvalues from FIFO-data
+       dpeakbuf:adress buffer for peakvalues from the DSP
+     
+        pointer:adress returntable
+               LONG  0 memposition fifo
+               LONG  4 memflag fifo
+               LONG  8 break fifo
+               LONG 12 errors fifo
+               LONG 16 peakvalue fifo
+               LONG 24 counterposition fifo
+               
+               LONG 32 memposition dsp
+               LONG 36 memflag dsp
+               LONG 40 break dsp
+               LONG 44 errors dsp
+               LONG 48 peakvalue dsp
+               LONG 56 counterposition dsp
+---------------------------------------------------------------------------------
+144  init_xmemplay4 ; installs a interrupt-routine for memory-play in halfbuffer
+                      of 4 channels (analog/digital)
+
+     pointer=xbios(xbs,144,startadr1,startadr2,dstartadr1,dstartadr2,len,
+                           counter,endcount,fileart,step,mode,midi)
+     LONG startadr1;
+     LONG startadr2;
+     LONG dstartadr1;
+     LONG dstartadr2;
+     LONG len;
+     LONG counter;
+     LONG endcount;
+     WORD fileart;
+     WORD step;
+     WORD mode;
+    (WORD midi;)
+     LONG pointer;
+
+     startradr1:FIFO play startadress Buffer 1
+     startradr2:FIFO play startadress Buffer 2
+    dstartradr1:DSP play startadress Buffer 1
+    dstartradr2:DSP play startadress Buffer 2
+       dendadr2:length of a buffer
+        counter:counter startvalue
+       endcount:playlength/counterend (in byte)
+        fileart:3=WAV fileformat (Intel format)
+           step:speed of play
+               0=normal
+               1=double
+               2=threefold etc...
+           mode:
+                bit0 -> loop
+                bit1 -> crossplay
+                bit2 -> midi
+                bit3 -> break
+          midi:Midinote to start play
+               this is optional,put it to the stack only if modebit2 is set !
+     
+        pointer:Adresse Rckgabewerte
+               LONG  0 memposition fifo
+               LONG  4 memflag fifo
+               LONG  8 break fifo
+               LONG 12 errors fifo
+               LONG 16 peakvalue fifo
+               LONG 24 counterposition fifo
+
+               LONG 32 memposition dsp
+               LONG 36 memflag dsp
+               LONG 40 break dsp
+               LONG 44 errors dsp
+               LONG 48 peakvalue dsp
+               LONG 56 counterposition dsp
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+150  peakshake          ; peakvalue-handshake (generate a new value)
+
+     ret=xbios(xbs,170)
+  
+     ret:0 - no error
+
+     With this function read you the actual peakvalue. Before you can use this
+     function, you must first install the Interrupt-Routine init_peak.
+     With the peakshake-function you can read the measured peakvalue and say to
+     the peakroutine that it should generate a new value.
+--------------------------------------------------------------------------------
+160  compatible         ; Falcon-TOS Emulationmode                
+
+     ret=xbios(xbs,160,tosmode)
+     WORD tosmode;
+     LONG ret;
+
+     tosmode:select the Falcon-TOS mode
+         0 - normal - set original TOS values and Cookie values
+         1 - emulate - set values of a Falcon-TOS 4.04 and his cookies
+     
+     ret:0 - no error
+         with tosmode=-1 you get back the status
+
+     All cookies would be readout by the start of the driver.
+     If you select the emulate mode, the driver set all cookies
+     and OS-messages from an original TOS 4.04 of the Falcon. 
+     (sysbase-change in $4F2). This TOS-Emulationmode is also deselectable.
+     The Emulationmode is useful vor use older Falcon-programs that only runs
+     if it found a original Falcon-TOS.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+165  init_emuladc8      ; convert the ADC stereomode in the eigthchannelmode
+
+     ret=xbios(xbs,165,adcmode)
+     WORD adcmode;
+     LONG ret;
+
+     adcmode:ADC-transfermode         
+             0 - none - ADC in stereomode,no emulation
+             1 - adc8 - convert the ADC-samples in the eigthchannelmode
+     
+     ret:0 - no error
+         with adcmode=-1 you get back the status
+
+     The ADC converter on the StarTrack Audiocard can't work in the
+     128Bit mode of the Falcon. It works only in Stereo and fourchannelmode.
+     For use the ADC in the eigthchannelmode, you must convert the ADC-samples
+     with the adc8 emulationmode. This function read out the data of the ADC
+     in a small buffer and transfer it in the eightchannelmode with DMAPLAY
+     to DSP,DAC and EXTOUT (e.g. for Analog8).
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+228  showconnects        ; read devconnect values and other configvalues      
+
+     ret=xbios(xbs,228)
+     LONG ret;
+
+     ret:0 - no error
+               
+    With this function you have an easy way to control the devconnect
+    and found errors in the devconnect Matrix-crossbar or wrong setted modes.
+    This is useful to change Falcon programs for the little bit other
+    functionality of the StarTrack Audiocard.
+    The showconnects-function prints a Statusline on your screen,
+    with this messages: 
+
+     X->R X->MX X->DA Y->EX Y->DI Y->MX CVTx PMx RMx EADCx xb
+
+     For a detailed explanation please read the SHOWCONN.TXT
+     
+     This Function is only implemented for Error-Analysation. 
+--------------------------------------------------------------------------------
+229  getfclocks          ; read the value of the devconnect clock and prescale       
+
+     ret=xbios(xbs,229)
+     LONG clocks;
+
+     clocks: High-WORD -> srcclk
+             Low-WORD -> prescale
+            
+     This Function is only implemented for Error-Analysation. 
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------

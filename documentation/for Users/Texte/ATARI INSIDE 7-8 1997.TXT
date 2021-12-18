@@ -1,0 +1,144 @@
+Bitte durchlesen und Meinung bilden !
+;-)
+
+News-Artikel fÅr Atari-inside 7+8/97
+
+
+  - Startrack,die HD-Recordingkarte- 
+     Aufbruch in neue Dimensionen
+----------------------------------------
+Startrack ist die neue HD-Recording-
+Soundkarte fÅr alle Atari TT,Hades &
+Medusa-Systeme mit VME-Bus. Die 
+Startrack-Karte und die DSP-Erweiterung
+sind in Produktion und sind Ende
+Juli/Anfang August definitiv lieferbar.
+
+Es gibt wieder einige neue Features der
+Startrack-Karte und der DSP-Erweiterung
+die seit dem Artikel in der Atari-inside
+3+4/97 neu hinzugekommen sind.
+
+Mehr DSP
+--------
+So wird nun definitiv auf der DSP-
+Erweiterung ein Motorola DSP56002 mit
+66MHz Taktrate verwendet, der voll
+kompatibel zum im Falcon verwendeten
+DSP56001 ist. Dieser bringt die
+doppelte Leistung verglichen zum Falcon.
+In Zeiten hoher CPU-Taktfrequenzen
+scheint das nicht allzu hoch zu sein,
+man darf jedoch nicht vergessen das der
+DSP ein auf die Signalverarbeitung
+hochoptimierter Chip ist, der mehrere
+Befehle gleichzeitig verarbeiten kann
+und ohne Waitstates (bei 66MHz alle
+15ns) auf den Speicher zugreift.
+In einer Musik-Fachzeitschrift war vor
+kurzem von kompetenter Seite zu lesen,
+daû ein solcher DSP eine zum Intel
+Pentium pro(R) mit 200MHz vergleichbare
+Leistung bringt, bezogen auf die
+Musik-Signalverarbeitung.
+
+Auf der DSP-Karte ist zusÑtzlich ein
+sehr schneller Cache-Speicher mit
+384KByte SRAM. Das ist 4mal soviel wie
+im Falcon und ist fast der maximal
+mîgliche Speicherausbau den der DSP
+ansprechen kann.
+
+Der Debug-Port (ONCE) ist serienmÑûig
+vorhanden. Hiermit und mit einem
+PC-Debugger der kostenlos erhÑltlich
+ist, kann man in den DSP-Programmablauf
+eingreifen, direkt Registerinhalte
+einsehen und verÑndern usw. Der
+Debug-Port ist hierfÅr mit dem PC
+Åber einen seriellen COM-Port verbunden.
+Auûerdem ist dabei auch gleich noch eine
+serielle Verbindung zum Host-Port
+des DSP abgefallen. Aber das
+interessiert sicherlich nur einige
+Hardwarefreaks und Programmierer...
+
+Mehr Sound
+----------
+Auch bei der Startrack-Karte ist noch
+einiges hinzugekommen:
+
+So werden nun die allerneuesten
+SP/DIF-ICs verwendet die sogar ein
+rein digitales 24Bit-Mastering mit
+96kHz Samplerate erlauben.
+Somit dÅrfte dies weltweit die erste
+Samplingkarte mit 96kHz-Verarbeitung
+sein.
+Auûerdem ist es durch einen grîûeren
+(leider auch teureren) Chip nun mîglich, Åber einen erweiterten DSP-Port sogar
+zwei Falcon-Erweiterungen parallel zu
+betreiben.
+
+Was das bedeutet ?
+------------------
+Man kann z.B. zwei Soundpool-Analog8
+anschlieûen, und hat dann 16 !!
+EinzelausgÑnge. Dabei werden alle
+16 KanÑle mit den vollen 16Bit
+verarbeitet und ausgegeben
+(keine Falcon-Åbliche Datenreduktion
+fÅr 16 Spur-Modus).
+Da dieses Feature aber nicht von jedem
+gebraucht wird und die Karte dadurch
+teurer wÅrde, gibt es dieses Feature
+nur optional gegen Aufpreis.
+Man kann diesen Double-DSP-Port aber
+jederzeit bei Bedarf nachrÅsten lassen.
+
+Volle Leistung sogar mit Atari TT
+---------------------------------
+Die Soundkarte wurde grÅndlich auf dem
+TT getestet. Da die Rechenleistung
+einer 68030er CPU nicht allzu hoch ist,
+empfiehlt sich hier unbedingt die
+DSP-Erweiterung die den TT beim mischen
+u.a. deutlich entlastet. So sind mit
+der DSP-Erweiterung auch auf dem TT
+problemlos 8 Spuren/48kHz mîglich !
+
+Preise & VerfÅgbarkeit
+----------------------
+Die Preise stehen nun auch fest:
+
+Startrack-Karte incl. HDR-Editing-
+Software = 1495.-
+
+DSP-Erweiterung mit Motorola 56002
+(100% kompatibel zum Falcon-DSP),
+DSP-Port fÅr Falcon-Erweiterungen
+(Soundpool Analog8 & ADAT,Jam IN/Out
+etc.),Motorola ONCE (Debug-Port,
+voll kompatibel zu Motorola EVM56002)
+= 550.-
+
+Startrack-Karte, DSP-Erweiterung &
+Software komplett = 1950.-
+
+Editing-Software einzeln = 348.-
+
+Optionen:
+
+Erweiterter DSP-Port zum Anschluû von
+2 Port-Erweiterungen
+(z.B. 2 x Analog8 = 16 EinzelausgÑnge)
+incl. Software = 200.-
+ 
+XLR-Erweiterung im Herbst '97 verfÅgbar
+
+Fordern sie noch heute Info-Material an:
+----------------------------------------
+MW electronic ComputerSysteme
+Heisterbacher Str. 96
+D-53639 Kînigswinter
+Tel: 02223/1567, Fax: 26982

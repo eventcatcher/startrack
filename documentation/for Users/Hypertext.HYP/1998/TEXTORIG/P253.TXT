@@ -1,0 +1,77 @@
+4.16.3 Das FensterüMen
+
+
+Grundeinstellungen
+
+Hiermit ”ffnet man das Fenster fr die Grundeinstellungen bzw. holt es in den Vordergrund,falls es von einem anderen
+Fenster verdeckt wird.
+
+Das geht auáerdem auch mit der Tastenkombination CTRLüG.
+
+
+Blockfunktionen
+
+Hiermit ”ffnet man das Fenster fr die Blockfunktionen bzw. holt es in den Vordergrund,falls es von einem anderen
+Fenster verdeckt wird.
+
+Das geht auáerdem auch mit der Tastenkombination CTRLüB.
+
+
+Peakmeter
+
+Hiermit ”ffnet man das Fenster fr die Aussteuerung und Aufnahme bzw. holt es in den Vordergrund,falls es von einem
+anderen Fenster verdeckt wird.
+
+Das geht auáerdem auch mit der Tastenkombination CTRLüP.
+
+
+Arranger
+
+Hiermit ”ffnet man das Fenster fr den MIDIüSampleplayer bzw. holt es in den Vordergrund,falls es von einem anderen
+Fenster verdeckt wird.
+
+Das geht auáerdem auch mit der Tastenkombination CTRLüA.
+
+
+Tracker
+
+Hiermit ”ffnet man das Fenster fr die Mehrspurfunktionen bzw. holt es in den Vordergrund,falls es von einem anderen
+Fenster verdeckt wird.
+
+Das geht auáerdem auch mit der Tastenkombination CTRLüT.
+
+
+Loops
+
+Hiermit ”ffnet man das Fenster fr die Loopfunktionen bzw. holt es in den Vordergrund,falls es von einem anderen Fenster
+verdeckt wird.
+
+Das geht auáerdem auch mit der Tastenkombination CTRLüO.
+
+
+DSP
+
+Hiermit ”ffnet man das Fenster fr die DSPüEffekte bzw. holt es in den Vordergrund,falls es von einem anderen Fenster
+verdeckt wird.
+
+Das geht auáerdem auch mit der Tastenkombination CTRLüD.
+
+
+Workmode
+
+Hiermit ”ffnet man das Fenster fr Syncü und Datenpfadeinstellungen bzw. holt es in den Vordergrund,falls es von einem
+anderen Fenster verdeckt wird.
+
+Das geht auáerdem auch mit der Tastenkombination CTRLüW.
+
+
+Cuelist
+
+Hiermit ”ffnet man das Fenster fr die CuelistüFunktionen bzw. holt es in den
+
+Vordergrund,falls es von einem anderen Fenster verdeckt wird.
+
+Das geht auáerdem auch mit der Tastenkombination CTRLüC.
+
+
+

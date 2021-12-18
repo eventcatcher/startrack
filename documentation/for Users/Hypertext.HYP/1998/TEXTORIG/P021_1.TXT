@@ -1,0 +1,25 @@
+Herzlichen Glckwunsch zum Erwerb ihres Highend StartracküSoundsystems.
+Sie halten nun eine hochprofessionelle, modular ausbaubare HDüRecordingüKarte
+in ihren H„nden,und m”chten verst„ndlicherweise sofort loslegen.
+
+
+Aber bitte haben sie etwas Geduld und lesen sich die folgende Installationsü
+anleitung sorgf„ltig durch,um Besch„digungen durch unsachgem„áes Handeln zu verhindern.
+
+
+Es gibt 3 verschiedene Verkaufsversionen der Karte, die sich insbesondere
+durch die Art des Einbaus in ihren Rechner unterscheiden: 
+
+
+
+a) Komplettversion im IPCüGeh„use
+
+
+b) VMEüVersion
+
+
+c) HDDüVersion (5 1/4üZollüEinschub)
+
+
+
+Diese werden wir nun in den folgenden Kapiteln ausfhrlich behandeln.

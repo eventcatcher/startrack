@@ -1,0 +1,45 @@
+Button-Toolbar im Arranger-Fenster
+----------------------------------
+
+
+Hierber erreicht man die wichtigsten Hauptfunktionen.
+Zur besseren Verst„ndnis sollte man das İBILDİABUTTONS.IMGİ der
+Button-Toolbar zu Rate ziehen.
+
+
+1) Arztkoffer
+-------------
+hat bisher noch keinerlei Funktion
+
+2) Midi-Player
+--------------
+Hiermit geht der Sampler in den MIDI-Mode. Man kann nun die Samples ber ein
+Keyboard abspielen. Es ist wichtig das am Keyboard die richtige
+İMIDI-KanalnummerİMIDI.TXTİ ausgew„hlt wurde und das die definierten Noten ber das
+Keyboard auch zu erreichen sind. Man beendet den Midi-Mode indem man die
+rechte Maustaste drckt.
+
+3) Insert
+---------
+Falls man einen neuen Eintrag an einer bestimmten Stelle einfgen will die
+leider belegt ist, kann man wieder Platz schaffen, indem man alle Eintr„ge
+ab dem aktuellen Eintrag (aktuell ist das Feld in dem das Edit-Button
+selektiert ist) um einen Eintrag nach unten schiebt. Das kann man machen,
+indem man auf den Insert-Button drckt.
+
+4) Delete
+---------
+Das ist das Gegenstck zum Insert-Button. Drckt man auf den Delete-Button,
+werden alle Eintr„ge ab dem aktuellen Eintrag (aktuell ist das Feld in dem
+das Edit-Button selektiert ist) um einen Eintrag nach oben geschoben.
+Damit kann man Lcken in der Liste vermeiden.
+Besetzte Felder werden berschrieben !
+
+5) Load Arrangement
+-------------------
+Hiermit kann eine Arranger-Datei (Dateiendung *.ARR) geladen werden.
+
+6) Save Arrangement
+-------------------
+Hiermit kann die komplette Liste mit allen Parametereinstellungen als
+Arranger-Datei (Dateiendung *.ARR) abgespeichert werden.

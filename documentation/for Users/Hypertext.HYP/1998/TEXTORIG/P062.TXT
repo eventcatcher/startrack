@@ -1,0 +1,94 @@
+3.2 Das erste HDüRecording (Aufnahme auf Festplatte)
+
+
+
+W„hle im ConnectionüFenster den Analogeingang aus.
+
+Als Samplerate w„hlen wir 48 kHz.Wie das geht haben sie ja im Kapitel "Die erste Aufnahme" gelernt.Wir verlassen das
+Fenster und gehen nun in das Setup.
+
+Die maximale Aufnahmezeit kann im Setup (Toolbar,13) vorgegeben werden.
+
+Wir m”chten 1 Minute aufzeichnen und stellen dies nun im Setup ein.
+
+Das maxüFeld sollte ebenfalls ausgew„hlt sein,da sonst der gesamte freie
+
+Platz auf der Festplatte verwendet wird. Das w„re allerdings nicht schlimm,
+
+da ja die Aufnahme jederzeit mit dem StopüButton unterbrochen werden kann.
+
+Pro Minute sollten bei 48kHz mindestens 10 MB auf dem Laufwerk frei sein !
+
+Speichern sie das Setup nun mit dem SaveüButton und verlassen sie das Setup. Gehen sie nun in das
+PeakmeterüFenster.Pegeln sie den Eingang so ein,das die Aussteuerungsanzeige bis zum oberen Drittel reicht.Man sollte
+bei der Aussteuerung immer etwas Reserve lassen,um eventuell auftretende Lautst„rkesprnge nicht zu bersteuern. Auf
+keinen Fall sollte die OverüAnzeige leuchten. Das bedeutet eine šbersteuerung,und fhrt zu extremen Verzerrungen.  Ist
+man mit der Aussteuerung zufrieden,selektiert man den HDRüButton(20).Damit w„hlt man zwischen Aufnahme in das Sampleram
+oder ü wie hier ü Aufnahme direkt auf Festplatte.Anschlieáend w„hlt man den AufnahmeüButton um die Aufnahme zu starten.
+
+Bevor es soweit ist,muá man allerdings noch  den Dateinamen fr das Sample im Fileselector eingeben.Dabei kann man die
+Extension (*.S16) auch weglassen, also nur den Namen (z.B. "TEST").Dann wird der Name automatisch mit der Extension des
+DefaultüSampleformat (im Setup ausw„hlbar) erweitert.
+
+Nun geht das System in Aufnahmebereitschaft. Sobald sie den PauseüButton anklicken,wird die Aufnahme gestartet.Sie
+k”nnen die Aufnahmebereitschaft
+
+bzw. Aufnahme mit dem StopüButton (oder der ESCüTaste) jederzeit abbrechen.
+
+Diese erste Aufnahme wird nun direkt auf Festplatte aufgezeichnet.
+
+Im MaxüFeld(3) wird die maximal m”gliche Aufnahmel„nge angezeigt,also in diesem Fall 1 Minute = 00:01:00 00.
+Im PositionüFeld(4) wird die bereits abgelaufene Aufnahmezeit angezeigt.
+
+
+Das war nun ihre erste Aufnahme auf Festplatte. Herzlichen Glckwunsch !
+
+
+
+
+Nach der Aufnahme wird automatisch in den Editor gewechselt und das Sample im Samplebereich dargestellt.Dort kann man es
+auch direkt bearbeiten.
+
+Nun wollen wir die gerade gemachte Aufnahme abspielen.
+Dafr kann die Wiedergabe mit dem PlayüButton(19) gestartet werden.
+Man kann die Wiedergabe jederzeit mit dem StopüButton(18) stoppen oder mit dem PauseüButton(21) unterbrechen.
+Ein weiterer Druck auf den PauseüButton f„hrt mit der Wiedergabe fort.
+
+
+Damit es bei groáen Projekten nicht so schnell zum Chaos kommt,gibt es die
+
+M”glichkeit,durch zus„tzliche Informationen bzw. Angaben erg„nzend zum
+
+Filenamen,die šbersichtlichkeit zu erh”hen.Diese Zusatzinformationen werden
+
+mit den Markern in der SampeInfüDatei abgespeichert (*.INF).
+
+Klicken sie nun im InfoüBereich des Editors auf den Namen des Samples.  
+
+Nun erscheint der SampleüInformationüDialog.Hier werden
+verschiedene Angaben zum Sample gemacht,wie z.B. Aufnahmel„nge, Samplerate und unter anderem kann man hier im
+SourceüFeld(5) und CommentüFeld(6) die Zusatzinformationen eintragen. 
+
+ Das SourceüFeld ist fr die Angabe des Musiktitels vorgesehen,
+
+z.B. "I believeüCelvin Rotane".Im CommentüFeld kann man weitere Angaben zum Titel machen (z.B. fr
+Aufnahmequelle,sp„teres Verwendungsziel,BPM).
+
+Man kann hier natrlich beliebige Informationen eingeben.Diese sind jederzeit
+
+wieder „nderbar,wenn das Sample in den Editor geladen wurde.Durch Klick auf
+
+den OKüButton werden die Kommentare und Marker ge„ndert und abgespeichert.
+
+
+Tip: Das Programm untersttzt dieses InfoüSystem durch
+einen speziellen AudioüFileselector der diese Angaben zus„tzlich zum
+Filenamen anzeigt.Diesen erreicht man ber die EditorüToolbar mit dem
+AudioüFileselectüButton(22).
+
+
+
+
+
+
+

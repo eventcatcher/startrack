@@ -1,0 +1,40 @@
+4.14.16 Kommentar-Eingabe
+
+
+
+Dieser Dialog ist fr die Eingabe eines Marker-Kommentars zust„ndig.Dieser Kommentar hilft,„hnlich wie im
+Sample-Information-Dialog,die vielen Samples die sich bei einem solchen Tracker-Setup ansammeln,besser identifizieren zu
+k”nnen.Die Kommentare werden im Tracker-File (*.TRK) mit den anderen ben”tigten Daten abgespeichert,und bleiben dadurch
+erhalten.
+
+Die Kommentarfelder werden beim Laden der Samples in den Tracker mit den
+zugeh”rigen Kommentaren der Sample-Informations-Files (*.INF) geladen.
+Danach erscheint die Sampledatei mit dem Kommentartext auch im Trackfinder. Dann kann man den Kommentartext im
+Trackfinder beliebig „ndern.Das macht man,indem man einfach auf den Kommentartext-Button im Trackfinder klickt. Bei der
+Identifizierung der Samples im Tracker sind die Kommentare sehr ntzlich,um die verschiedenen Samples unterscheiden,und
+gezielt ausw„hlen zu k”nnen.Man kann den Kommentartext anstatt des Sample-Filenamens in den SpurfeldüBl”cken anzeigen
+lassen.Man kann die Anzeige mit dem Comment- Button im Tracker umschalten.
+
+
+
+1) Comment
+
+Hier kann man einen maximal 60 Zeichen langen Kommentar eingeben.
+
+
+2) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+3) Exit
+
+Hiermit wird der Tracker Kommentar-Dialog geschlossen. Die Kommentareingabe wird nicht beachtet,und ist ungltig.Der
+alte Kommentareintrag bleibt erhalten.
+
+
+4) OK
+
+Hiermit wird der Tracker Kommentar-Dialog geschlossen.
+Die Kommentareingabe ist gltig,und wird gesetzt.

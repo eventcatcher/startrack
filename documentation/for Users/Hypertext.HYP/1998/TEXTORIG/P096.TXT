@@ -1,0 +1,54 @@
+4.1.8 Samplewert-Eingabe
+
+
+
+In diesem Dialog kann man den Marker auf einen neuen Samplewert setzen.
+Dieser Dialog erscheint,wenn man einen der 4 Marker-Editfelder im
+Editor-Fenster anklickt.Es gibt auch die Mîglichkeit,den Marker Åber
+Zeiteingabe zu steuern.Welche Art der Eingabe man bevorzugt,kann man im
+Setup-Dialog mit dem View-Button einstellen.Die Marker werden im Editor-Fenster durch senkrechte Linien dargestellt.
+Man kann diese im Editor auch direkt greifen,und auf die gewÅnschte Position
+verschieben.Man kann die Marker auch mit den Pfeiltasten im Setbereich des Editors bewegen, falls MARK im Work-Dropdown
+aktiviert bzw. ausgewÑhlt ist.
+
+
+
+1) Edit-Samples
+
+Hier gibt man die Sample-Position des Markers ein.
+
+
+2) Min
+
+
+
+Hiermit kann man den Markerwert auf den Minimalwert setzen
+
+(normalerweise Null).
+
+
+
+3) Max
+
+
+
+Hiermit kann man den Markerwert auf den Maximalwert setzen.
+
+
+
+4) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+5) Exit
+
+Hiermit wird der Dialog geschlossen.Der eingegebene Marker-Samplewert wird
+nicht beachtet.Der alte Marker-Samplewert bleibt,sofern vorhanden,erhalten.
+
+
+6) OK
+
+Hiermit wird der Dialog geschlossen,und der Marker auf den neuen Samplewert
+gesetzt.

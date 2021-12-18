@@ -1,0 +1,92 @@
+DSP-Fenster
+
+
+Dieses Fenster ist fÅr die DSP-Effektauswahl zustÑndig.
+Dabei sind einige Effekte schon im Programm enthalten, und kînnen hierÅber
+in den DSP geladen werden. Andere Effekte bzw. DSP-Programme kînnen in den
+DSP via Load geladen werden, da das Programm die DSP-LOD-Files verarbeiten
+kann. Dadurch ist es prinzipiell mîglich,Effekte anderer Hersteller
+anzupassen bzw. in das Programm zu integrieren. FÅr die Nutzung dieser
+Effekprogramme ist natÅrlich die optional erhÑltliche DSP-Karte mit einem
+Motorola DSP-56K notwendig. Karten mit anderen, noch leistungsfÑhigeren
+DSPs sind bereits in Planung und machen die Soundkarte hiermit sehr flexibel
+und sehr leistungsfÑhig.
+Dieser Teil der Software wird sich in Zukunft sicherlich noch stark
+verÑndern, da hier noch ein groûes Potential steckt. Da die Software in
+Zukunft eine Modulschnittstelle bekommt, wird es mîglich sein mit relativ
+wenig Aufwand Effekte und Programmteile anderer Hersteller zu integrieren.
+Dabei wird die Software mit dem Zusatztool kommunizieren kînnen, so daû
+sich die Zusatztools in die OberflÑche einklinken, als wÑren sie
+Bestandteil des Programms. 
+Zur besseren VerstÑndnis sollte man das ›BILD›DSP.IMG› des DSP-Fensters zu
+Rate ziehen. Aufgerufen wird das DSP-Fenster durch den ›DSP-Button›EBUTTONS.TXT› im
+Edit-Fenster, oder durch Eingabe von CTRL-D, oder Åber das optionale
+Dropdown-MenÅ unter Fenster/DSP.
+
+
+1) Echo
+-------
+Damit wird ein Echo-Effekt-Programm in den DSP geladen.
+
+2) Hall
+-------
+Damit wird ein Hall-Effekt-Programm in den DSP geladen.
+
+3) Lowpass
+----------
+Damit wird ein Tiefpass-Filter-Programm in den DSP geladen.
+
+4) Highpass
+-----------
+Damit wird ein Hochpass-Filter-Programm in den DSP geladen.
+Derzeit ist dieser Effekt aber noch nicht verfÅgbar.
+
+5) Bandpass
+-----------
+Damit wird ein Bandpass-Filter-Programm (Kombination von Hoch & Tiefpass) 
+in den DSP geladen. Derzeit ist dieser Effekt aber noch nicht verfÅgbar.
+
+6) Flanger
+----------
+Damit wird ein Flanger-Effekt-Programm in den DSP geladen.
+
+7) Chorus
+---------
+Damit wird ein Chorus-Effekt-Programm in den DSP geladen.
+
+8) EQ
+-----
+Damit wird ein Equalizer-Effekt-Programm in den DSP geladen
+Derzeit ist dieser Effekt aber noch nicht verfÅgbar.
+
+9) Pink-Noise
+-------------
+Damit wird ein rosa-rauschen vom DSP erzeugt.
+
+10) Pass
+--------
+Damit werden die Daten vom DSP-Eingang unverÑndert zum DSP-Ausgang
+durchgereicht.
+
+11) Load
+--------
+Hiermit kînnen LOD-Files vom DSP geladen werden.
+
+12) Save
+--------
+Hiermit kînnen im DSP befindliche Programme als LOD-Files abgespeichert
+werden. In Verbindung mit einem parallel laufenden DSP-Debugger ist das
+durchaus sinnvoll.
+Die Funktion ist aber derzeit noch nicht implementiert.
+
+13) Help
+--------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+14) Exit
+--------
+Hiermit wird das DSP-Fenster geschlossen.
+Man kann mehrere Fenster gleichzeitig geîffnet lassen und hat so immer den
+direkten Zugriff auf die Funktionen.

@@ -1,0 +1,122 @@
+4.11.1 Blockfunktionen-Fenster
+
+
+Dieses Fenster ist fr die Blockfunktionen des Edit-Fensters zust„ndig.
+Aufgerufen wird das Blockfunktionen-Fenster durch den Blockfunktionen- Button imEdit-Fenster,durch Eingabe von
+CTRL-B,oder ber das optionale Programm-Men im Dropdown Fenster/Blockfunktionen.
+Der Wirkungsbereich der Funktionen l„át sich im Edit-Fenster mit den
+Markern beeinflussen.Dafr muá das Block-Icon (siehe Bild) selektiert sein,
+
+die Funktion wirkt nur im Bereich zwischen Marker-S und Marker-E.
+
+Ist kein Block definiert,wird die Funktion nicht ausgefhrt (Cut) oder auf
+
+das gesamte Sample angewendet !
+
+
+1) Cut In
+
+L”scht den Bereich zwischen Marker-S und Marker-E.
+
+
+2) Cut Out
+
+L”scht den Bereich auáerhalb des Bereichs zwischen Marker-S und Marker-E.
+Es wird also alles gel”scht,auáer dem Bereich zwischen den beiden Markern.
+3) Cut Del
+
+L”scht den Bereich zwischen Marker-S und Marker-E,und schlieát die Lcke,
+indem der Bereich der rechts neben dem definierten Block liegt,soweit nach
+links geschoben wird,bis die Lcke geschlossen wurde.
+
+
+4) Insert
+
+Damit kann ein Soundfile an die durch Marker-S definierte Position geladen
+und eingefgt werden (bzw. ans Ende,falls kein Block definiert wurde).
+
+Dabei wird der nachfolgende Samplebereich nicht berschrieben.
+
+Der nachfolgende Samplebereich wird lediglich an das Ende des dazugeladenen Samples geschoben.Reicht dazu der
+Samplespeicher nicht aus,wird automatisch in den Virtual-Mode (virtuelle Speicherverwaltung,HDüProjekt) gewechselt.
+
+
+5) Space
+
+Damit wird an die durch Marker-S definierte Position (bzw. am Ende,falls kein Block definiert wurde) eine Pause bzw.
+Leerraum eingefgt.Dabei wird der nachfolgende Samplebereich nicht berschrieben.Der nachfolgende Samplebereich wird
+lediglich an das Ende des Pausenbereichs geschoben.
+
+Reicht dazu der Samplespeicher nicht aus,wird automatisch in den Virtual-Mode (virtuelle Speicherverwaltung,HDüProjekt)
+gewechselt.Die Pausenl„nge kann man dabei im nun erscheinenden Space-Dialog bestimmen.
+
+
+6) Negate
+
+Damit werden die Samplewerte zwischen Marker-S und Marker-E (bzw. der ganze Bereich,falls kein Block definiert wurde)
+gedreht,d.h. positive Amplitudenwerte werden negativ,und negative Amplitudenwerte werden positiv.
+
+
+7) Optimize
+
+Damit kann man die Lautst„rke des Samples zwischen Marker-S und Marker-E
+(bzw. das komplette Sample,falls kein Block definiert wurde) ver„ndern.Dabei erscheint die Optimize-Dialogbox,in der man
+bestimmen kann,auf welchen dB-Wert der Bereich angehoben bzw. abgesenkt werden soll.W„hlt man Auto, dann wird der
+Bereich auf Maximalaussteuerung (0dB) angehoben.
+
+
+8) Resample
+
+Damit kann man den Bereich zwischen Marker-S und Marker-E (bzw. das komplette Sample,falls kein Block definiert wurde)
+resampeln,d.h. man kann
+
+die Samplerate auf einen anderen Wert umrechnen.Dabei erscheint zun„chst
+
+der Resample-Dialog,in dem man die neue Samplerate bestimmen kann.Wird das Sample dadurch gr”áer,wird der auáerhalb der
+Marker liegende Bereich berschrieben bzw. bei kleiner werdenden Speicher entsteht ein Leerraum.
+9) Stereo->Mono
+
+Damit kann man den Bereich zwischen Marker-S und Marker-E (bzw. das komplette Sample,falls kein Block definiert wurde)
+von Stereo in Mono umrechnen.
+
+
+10) Change
+
+Damit werden die Kan„le zwischen Marker-S und Marker-E (bzw. des kompletten Bereichs,falls kein Block definiert wurde)
+getauscht,d.h. links wird rechts und rechts wird links.
+
+
+11) 24ü>16
+
+
+
+Mit dieser Funktion kann man ein 24BitüSample in ein Sample mit
+
+16Bit Aufl”sung konvertieren.Dabei kann nur das komplette Sample konvertiert werden.Eine eventuell existierende
+Blockmarkierung wird ignoriert,da es unsinnig w„re,verschiedene Bittiefen in einem Sample zu mischen.
+
+
+
+12) 16ü>24
+
+
+
+Mit dieser Funktion kann man ein 16BitüSample in ein Sample mit
+
+24Bit Aufl”sung konvertieren.Dabei kann nur das komplette Sample konvertiert werden.Eine eventuell existierende
+Blockmarkierung wird ignoriert,da es unsinnig w„re,verschiedene Bittiefen in einem Sample zu mischen.
+
+
+
+13) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+14) Exit
+
+Hiermit wird das Blockfunktionen-Fenster geschlossen.Alle Einstellungen
+bleiben bis zum n„chsten Aufruf unver„ndert.
+Man kann jedoch mehrere Fenster gleichzeitig ge”ffnet lassen,und hat so
+immer den direkten Zugriff auf die Funktionen.

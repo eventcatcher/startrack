@@ -1,0 +1,96 @@
+' --------------------------------------------------------------------------------------------------------------------------------
+' -------------------------------------------------STARTRACK-REGISTER-------------------------------------------------------------
+' --------------------------------------------------------------------------------------------------------------------------------
+' --------------------------------------------------- Stand 2.7.97 ---------------------------------------------------------------
+' --------------------------------------------------------------------------------------------------------------------------------
+
+Zum Erfragen der Adressen sollten sie unbedingt die XBIOS-Funktion cardadr benutzen !
+
+'
+'
+' READ  byte      playstat                         Bit0-2 -> FIFO-WRempty,FIFO-WRhalf,FIFO-WRfull
+'
+'                                                  Die Flags des Play-FIFOs
+'                                 0  WRempty     - 0=FIFO leer, muž nachgefllt werden sonst Datenverlust
+'                                 1  WRhalf      - 0=FIFO mehr als halb gefllt, 1=FIFO weniger/bis halb gefllt, l”st
+'                                                  auch INT aus
+'                                 2  WRfull      - 0=FIFO voll, weiterschreiben wird mit Datenverlust bestraft :-)
+'
+'
+'
+' READ  byte      recstat                          Bit0-2 -> FIFO-RDempty,FIFO-RDhalf,FIFO-RDfull
+'
+'                                                  Die Flags des Record-FIFOs
+'                                 0  RDempty     - 0=FIFO leer, weiterlesen wird mit Zufallsdaten bestraft
+'                                 1  RDhalf      - 0=FIFO mehr als halb gefllt, 1=FIFO weniger/bis halb gefllt,
+'                                                  l”st auch INT aus
+'                                 2  RDfull      - 0=FIFO voll, muž ausgelesen werden sonst Datenverlust
+'
+'
+'
+'
+' RD/WR word      sample                           Bit0-8 -> FIFO
+'
+'                                 0-8            - Hier werden die Samples eingeschrieben oder ausgelesen, und zwar in
+'                                                  8Bit-H„ppchen
+'                                                  Beim Lesen (REC) mit einer Kennung im Bit8 die anzeigt, ob das Sample zum
+'                                                  linken oder rechten Kanal geh”rt.
+'                                                  Bit8=0 - Rechter Kanal
+'                                                  Bit8=1 - Linker Kanal
+'                                                  Beim Schreiben werden auch 8Bit-H„ppchen geschrieben, dabei zeigt Adrežleitung
+'                                                  A1 an, ob der rechte oder linke Kanal bertragen wird.
+'                                                  A1=0 - Rechter Kanal
+'                                                  A1=1 - Linker Kanal
+'                                                  Zuerst wird das Highbyte des 16Bit-Samples geschrieben/gelesen, und dann
+'                                                  das Lowbyte.
+'
+'
+'
+' Die folgenden Register von x00h - x07h befinden sich auf der DSP-Erweiterungskarte 
+'
+' RD/WR byte      dsp             0-7  DSP-DATA  - /CS fr den DSP. Der DSP hat 8 Hostregister.
+'                                                  Die HI-Register ICR,CVR,ISR,IVR,RXH,RXM,RXL bzw.
+'                                                  ICR,CVR,ISR,IVR,TXH,TXM,TXL sind hierber zu erreichen.
+'
+'                                 Speicheraufteilung im Falcon-Mode (MEMART=0):
+'      
+'                                 Y-Speicher:    $0000-$00FF -> Internes RAM
+'                                                $0100-$3FFF -> 16K externer Y-Speicher
+'                                                $4000-$7FFF -> shadow der 16K externer Y-Speicher
+'                                                $8000-$BFFF -> shadow der 16K externer Y-Speicher
+'                                                $C000-$FFBF -> shadow der 16K externer Y-Speicher
+'                                                $FFC0-$FFFF -> externe Peripherie (Register)
+'
+'                                 X-Speicher:    $0000-$01FF -> Internes RAM/ROM
+'                                                $0200-$3FFF -> 16K externer X-Speicher
+'                                                $4000-$7FFF -> shadow der 16K externer X-Speicher
+'                                                $8000-$BFFF -> shadow der 16K externer XSpeicher
+'                                                $C000-$FFBF -> shadow der 16K externer X-Speicher
+'                                                $FFC0-$FFFF -> interne Peripherie (Register)
+'
+'                                 P-Speicher:    $0000-$003F -> Interne Interrupts/Vektoren
+'                                                $0040-$01FF -> Interner Programmspeicher
+'                                                $0200-$3FFF -> shadow des externen Y-Speichers (16K)
+'                                                $4000-$7FFF -> shadow des externen X-Speichers (16K)
+'                                                $8000-$BFFF -> shadow des externen Y-Speichers (16K)
+'                                                $C000-$FFFF -> shadow des externen X-Speichers (16K)
+'
+'
+'                                 Speicheraufteilung im Extended-Mode (MEMART=1):
+'      
+'                                 Y-Speicher:    $0000-$00FF -> Internes RAM
+'                                                $0100-$FFBF -> 64K externer Y-Speicher
+'                                                $FFC0-$FFFF -> externe Peripherie (Register)
+'
+'                                 X-Speicher:    $0000-$01FF -> Internes RAM/ROM
+'                                                $0200-$FFBF -> 64K externer X-Speicher
+'                                                $FFC0-$FFFF -> interne Peripherie (Register)
+'
+'                                 P-Speicher:    $0000-$003F -> Interne Interrupts/Vektoren
+'                                                $0040-$01FF -> Interner Programmspeicher
+'                                                $0200-$7FFF -> shadow des externen Y-Speichers (untere 32K)
+'                                                $8000-$FFFF -> shadow des externen X-Speichers (untere 32K)
+'
+'                                                Wichtig: Die oberen 32K des X- und Y-Speichers bleiben also von Spiegelungen im
+'                                                Adressraum komplett verschont !!!
+

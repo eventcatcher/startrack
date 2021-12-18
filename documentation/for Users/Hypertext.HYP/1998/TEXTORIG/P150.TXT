@@ -1,0 +1,56 @@
+4.7.4 FileüUtilitys
+
+
+Mit diesem Dialog sind verschiedene Dateioperationen m”glich,die man bei der t„glichen Arbeit mit Audiodateien gut
+gebrauchen kann.
+Der Vorteil hierbei ist,daá man fr solche Sachen wie l”schen und umbenennen von Dateien nicht das Programm verlassen
+muá.Bei Aufruf des Dialogs ber den entsprechenden Button im Edit-Fenster,durch Eingabe von ALT-D,oder ber das
+optionale ProgrammüMen im Dropdown Datei/DisküUtility,erscheint zuerst eine Fileselector- Box,mit der das Soundsample
+das umbenannt,gel”scht oder kopiert werden soll,ausgew„hlt wird. Dann erscheint die Dialogbox.
+
+
+1) Actual Name
+
+
+Hier erscheint der aktuelle Dateiname.
+
+
+2) Delete
+
+Mit diesem Button l”scht man das Sample,die dazugeh”rige Cache-Datei
+(Endung *.PBF),und die Info-Datei (Endung *.INF).
+
+
+3) New Name
+
+Hier kann man den neuen Namen der Datei eingeben,und zwar ohne den
+File-Extender,.Dieser wird n„mlich automatisch eingefgt,um Fehler bei der
+Umbenennung zu vermeiden.
+
+
+4) Rename
+
+
+Hiermit wird das Audiofile umbenannt,incl. der dazugeh”rigen Cache-Datei
+(Endung *.PBF) und der Info-Datei (Endung *.INF).Die Dateien bekommen den Namen,der im Namensfeld(3) eingegeben wurde.
+
+
+5) Copy
+
+
+
+Hiermit wird das Audiofile kopiert,incl. der dazugeh”rigen Cache-Datei
+(Endung *.PBF) und der Info-Datei (Endung *.INF).Die kopierten Dateien bekommen den Namen,der im Namensfeld(3)
+eingegeben wurde.
+
+
+
+6) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+7) Exit
+
+Hiermit wird der Fileutility-Dialog geschlossen.

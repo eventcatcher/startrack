@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.15"></A>
+<A NAME="4.15.1"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0102.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0104.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.15 Cuelist</H3>
+<H3> 4.15.1 Das Cuelist-Fenster</H3>
+
+<IMG SRC="../images/p242.gif" WIDTH="704" HEIGHT="450">
+
+ Dieses Fenster stellt sehr komfortable Cuelist-Funktionen bereit.
+ Die Cuelist arbeitet dabei sehr eng mit dem <A HREF="page0042.htm">Editor</A> zusammen.
+ Mit Hilfe der Cuelist erstellt man eine Abspielliste. Man definiert hierf&uuml;r
+ im <A HREF="page0042.htm">Editor</A> mit den <A HREF="page0047.htm">Markerfunktionen</A> geeignete Bl&ouml;cke (sogenannte Parts), die
+ man dann in der Cuelist neu bzw. in anderer Reihenfolge anordnen kann.
+ Dabei k&ouml;nnen Bl&ouml;cke mehrfach wiederholt bzw. kopiert werden,Parts k&ouml;nnen
+ vor&uuml;bergehend stummgeschaltet werden etc. Au&szlig;erdem hat man die M&ouml;glichkeit,
+ ein fertig bearbeitetes Musikst&uuml;ck abmischen zu lassen und als neues File
+ abzuspeichern (Downmix). Zudem gibt es die M&ouml;glichkeit, die Cuelist direkt
+ in CD Writer-Programme wie Extendos-Gold oder CD-Recorder (Update) zu
+ exportieren und direkt auf CD zu brennen. Alle Funktionen arbeiten
+ nondestruktiv, also ohne das Original zu ver&auml;ndern.
+ Aufgerufen wird das Cuelist-Fenster durch den <A HREF="page0058.htm">Cuelist-Button</A> im Edit-Fenster,
+ durch Eingabe von CTRL-C oder &uuml;ber das optionale Programm-Men&uuml; im
+ <A HREF="page0109.htm">Dropdown Fenster/Cuelist</A>.
+
+ Wichtig: Das Originalsample mu&szlig; in den <A HREF="page0042.htm">Editor</A> geladen werden, wenn die
+ Cuelist erzeugt oder ver&auml;ndert wird. Die <A HREF="page0142.htm">Cuelist-Files</A> haben die Extension
+ *.CUE. Beim Laden des Originalsample, wird eine vorhandene Cuelist gleichen
+ Namens automatisch geladen und kann im Cuelist-Fenster editiert werden.
+ Die Darstellung der Partmarker kann in Timecode oder Samplewert erfolgen
+ Dies ist abh&auml;ngig von der <A HREF="page0060.htm">View-Option im Setup</A>.
+
+ In der Samplewert-Darstellung pr&auml;sentiert sich das Fenster folgenderma&szlig;en:
+
+<IMG SRC="../images/p243.gif" WIDTH="576" HEIGHT="325">
+
+ Die Samplewert-Anzeige wird f&uuml;r eine bessere &Uuml;bersichtlichkeit automatisch
+ in 1000er-Bereiche aufgeteilt. Bei der Arbeit mit Markern im <A HREF="page0042.htm">Editor</A> ist die
+ Samplewert-Einstellung genauer (eben Samplegenau). Dies betrifft jedoch
+ nicht die &Uuml;bernahme der Marker in die Cuelist. Einmal definierte Marker
+ behalten ihre Genauigkeit auch in der Timecode-Darstellung. Es kann aber
+ durchaus notwendig sein, in der Samplewert-Darstellung zu arbeiten, z.B. um
+ sehr genaue Offsets einstellen zu k&ouml;nnen oder wenn man samplegenau eine
+ bestimmte Gesamtl&auml;nge nicht &uuml;berschreiten darf oder falls man gezwungen ist,
+ eine Gesamtl&auml;nge genau einhalten zu m&uuml;ssen.
+
+
+ 1) Mute
+
+ Wenn man dieses Feld selektiert (X) wird dieser Part nicht abgespielt und
+ beim Downmix nicht verwendet. Damit hat man eine M&ouml;glichkeit, vor&uuml;bergehend
+ Parts in einer Cuelist nicht verwenden zu m&uuml;ssen, ohne das man diese
+ deshalb l&ouml;schen m&uuml;&szlig;te.
+
+
+ 2) Part-Nummer
+
+ Die Cuelist-Eintr&auml;ge sind durchnummeriert. Die Maximalanzahl der Eintr&auml;ge
+ kann im Setup-File (STARTRK.SET) editiert werden (siehe <A HREF="page0135.htm">Anhang/Dateiformate</A>).
+ Zwischen den Cuelist-Eintr&auml;gen darf keine L&uuml;cke bestehen, da beim
+ Abspielen oder Downmix bei der ersten L&uuml;cke abgebrochen wird. Diesen
+ Umstand kann man geschickt dazu nutzen, den Endpunkt vor&uuml;bergehend vor
+ das eigentliche Ende des Musikst&uuml;cks bzw. der Cuelist zu setzen, falls man
+ nur einen Teil der Cuelist abh&ouml;ren oder abmischen m&ouml;chte. Um einen Part
+ (Markerblock) aus dem Musikst&uuml;ck ausw&auml;hlen (10) zu k&ouml;nnen, mu&szlig; zuerst der 
+ entsprechende Eintrag selektiert werden. Man klickt hierf&uuml;r einfach auf die
+ entsprechende Eintrag-Nummer (2). Alle weiteren Funktionen wirken immer
+ auf den aktivierten Eintrag. Beim Abspielen der Cuelist wird automatisch der
+ Eintrag selektiert, der gerade abgespielt wird. Der sichtbare Bereich der
+ Liste wird dabei automatisch gescrollt, so das immer der momentan abgespielte
+ Part sichtbar ist. Danach wird wieder der zuletzt aktivierte Eintrag angezeigt.   
+
+
+ 3) Smpte-Timecode
+
+ Die Cuelist f&uuml;hrt hier alle absoluten Startzeiten der Parts auf. Dadurch sieht
+ man auf einen Blick, wann welcher Part abgespielt wird. Stummgeschaltete Parts
+ (1) werden aus dieser Liste herausgenommen, der n&auml;chste Part startet also an
+ der gleichen Stelle, da ein stummgeschalteter Part die L&auml;nge 0 besitzt.
+ Wird ein stummgeschalteter Part wieder aktiviert (1), wird auch der Timecode
+ automatisch entsprechend angepa&szlig;t. Klickt man auf den Smpte-Eintrag, kann
+ man einen Offset eingeben. Dadurch wird vor dem eigentlichen Part eine L&uuml;cke
+ bzw. eine Pause eingef&uuml;gt. Das ist z.B. n&ouml;tig, falls ein Part sonst zu fr&uuml;h
+ abgespielt w&uuml;rde. Die Offset-Funktion ist in der V2.00 noch nicht komplett
+ implementiert (Abspielroutine kennt noch keine Offsets). In Zukunft wird man
+ auch negative Offsets (f&uuml;r &Uuml;berblendeffekte bzw. Crossfades) verwenden k&ouml;nnen.
+ N&auml;heres zum Offset-Dialog finden sie im Kapitel <A HREF="page0105.htm">&quot;Time-Offset&quot;</A>.
+
+
+ 4) Startmarker
+
+ Hier wird der Part-Startmarker angezeigt, also seine Startposition innerhalb des
+ Original-Samples. Der Startmarker wird aus der <A HREF="page0098.htm">Markerliste</A> des Originalsample
+ &uuml;bernommen (10).
+
+
+ 5) Endmarker
+
+ Hier wird der Part-Endmarker angezeigt, also seine Endposition innerhalb des
+ Original-Samples. Der Endmarker wird aus der <A HREF="page0098.htm">Markerliste</A> des Originalsample
+ &uuml;bernommen (10).
+
+
+ 6) L&auml;nge
+
+ Hier wird die L&auml;nge des Parts angezeigt. Diese ergibt sich aus der Definition
+ von Start- und Endmarker des Parts.
+
+
+ 7) Slider
+
+ Mit dem Slider kann man den Bereich der sichtbaren Parteintr&auml;ge ausw&auml;hlen.
+
+
+ 8) Size
+
+ Hier wird die Gesamtl&auml;nge der Cuelist bzw. die Gesamtspielzeit angezeigt.
+
+
+ 9) Pos
+
+ Hier wird die momentane Abspielposition angezeigt.
+
+
+ 10) Add
+
+ Hiermit &ouml;ffnet sich die <A HREF="page0098.htm">Markerliste</A> des Originalfiles (vorher in <A HREF="page0042.htm">Editor</A> laden),
+ in der man einen Part ausw&auml;hlen und in die Cuelist einf&uuml;gen kann.
+
+
+ 11) Change
+
+ Hiermit &ouml;ffnet sich die <A HREF="page0098.htm">Markerliste</A> des Originalfiles (vorher in <A HREF="page0042.htm">Editor</A> laden),
+ in der man nun einen Ersatzpart ausw&auml;hlen kann. Der alte Part wird dann
+ durch den neuen ersetzt. Alle Links auf den Masterpart (siehe 12), werden
+ ebenfalls durch den neuen Part ersetzt. 
+
+
+ 12) Link
+
+ Die Linkfunktion ist ein sehr m&auml;chtiges Werkzeug, um die Verwendung und
+ Verwaltung gleicher bzw. sich wiederholender Parts zu erleichtern.
+ Ein Link ist im Prinzip ein Zeiger auf einen Originalpart. Jede &Auml;nderung am
+ Originalpart f&uuml;hrt zur gleichen &Auml;nderung am Link. Die Verwendung von Links
+ kann &auml;u&szlig;erst praktisch sein, wenn man einen Part mehrfach in einem
+ Musikst&uuml;ck verwenden m&ouml;chte. Angenommen, man hat einen Loop im <A HREF="page0042.htm">Editor</A>
+ markiert und als Part in die Cuelist &uuml;bernommen. Nun stellt man fest,
+ da&szlig; der Loop knackt, also ungeeignet ist und m&ouml;chte diesen nun ver&auml;ndern.
+ Hat man das getan, mu&szlig; der Loop nun mit Change(11) durch den neuen Loop
+ ersetzt werden. Hat man diesen Loop aber bereits vielfach in der Cuelist
+ verwendet, m&uuml;&szlig;te man normalerweise jetzt alle diese Parts einzeln bearbeiten.
+ Wurden diese Parts aber als Link auf den Masterpart definiert, &auml;ndern sich
+ diese Kopien automatisch, da sie automatisch alle Einstellungen des Masterparts
+ &uuml;bernehmen. Da solche Anwendungen sehr oft vorkommen, hat man hiermit eine
+ echte Arbeitserleichterung. Um einen Link zu erzeugen, w&auml;hlt man den
+ entsprechenden Eintrag aus (klick auf Partnummer) und dr&uuml;ckt den Link-Button.
+ Danach &ouml;ffnet sich der Link-Dialog. Dort gibt man dann die Partnummer des
+ Masterparts an. Umgekehrt kann man auch den Masterpart aktivieren und den
+ Link-Dialog aufrufen und gibt dann die Nummer des gew&uuml;nschten Link-
+ Eintrags an. Es ist jedoch nicht m&ouml;glich, einen Link auf einen Link zu
+ definieren. N&auml;heres hierzu finden sie im Kapitel <A HREF="page0106.htm">&quot;Link&quot;</A>.
+
+
+ 13) Insert
+
+ Hiermit schiebt man alle Part-Eintr&auml;ge vom aktiven Part an, einen Eintrag nach
+ unten. So kann man Platz zwischen 2 Eintr&auml;gen schaffen, um einen neuen
+ einf&uuml;gen zu k&ouml;nnen. Wird diese L&uuml;cke nicht mit einem Parteintrag geschlossen,
+ wird an dieser Stelle der Abspiel- oder Downmixvorgang beendet.
+
+
+ 14) Delete
+
+ Hiermit l&ouml;scht man den aktiven Parteintrag. Ist dieser bereits leer, werden alle
+ Eintr&auml;ge ab dem aktiven, einen Eintrag nach oben geschoben. Das ist notwendig,
+ um L&uuml;cken schlie&szlig;en zu k&ouml;nnen,oder Eintr&auml;ge zu l&ouml;schen. 
+
+
+ 15) Funktionsfeld
+
+ Das Funktionsfeld beinhaltet s&auml;mtliche Abspiel- und Filefunktionen.
+ N&auml;heres hierzu finden sie im Kapitel <A HREF="page0104.htm">&quot;Funktionsfeld&quot;</A>.
+
+
+ 16) Help
+
+ Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wenn sie nicht wissen wie
+ das funktioniert, schauen sie sich die Anleitung zu 1stGuide einmal genauer an.
+
+
+ 17) Ok
+
+ Hiermit wird das Cuelist-Fenster geschlossen. Alle Einstellungen bleiben bis
+ zum n&auml;chsten Aufruf unver&auml;ndert. Man kann jedoch mehrere Fenster
+ gleichzeitig ge&ouml;ffnet lassen und hat so immer den direkten Zugriff auf
+ die Funktionen.
+
+</PRE>
+
+<A HREF="#4.15">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

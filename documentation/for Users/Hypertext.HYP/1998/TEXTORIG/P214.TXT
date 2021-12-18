@@ -1,0 +1,29 @@
+4.14.4 Zoom- und Scroll-Slider
+
+
+šber den Zoom-Slider kann man den Zeitmaástab „ndern,und die
+Darstellungsgenauigkeit anpassen.šber den Scrollslider rechts daneben,kann
+man den Zeit-Darstellungsausschnitt w„hlen. 
+
+
+
+1) Zoom-Slider
+
+Wird die Darstellungsgenauigkeit mit diesem Slider ver„ndert,werden die
+Amplitudenverl„ufe neu berechnet,und der neue Zeitausschnitt im Spurfeld
+dargestellt.Alle einmal berechneten Amplitudenver„ufe werden in einem Cache zwischengespeichert,und brauchen so nicht
+jedesmal neu berechnet zu werden, wodurch der Bildaufbau deutlich beschleunigt wird.
+
+
+2) Scroll-Slider
+
+Wird der Zeitdarstellungsausschnitt ver„ndert,werden die neuen Amplitudenü verl„ufe berechnet,und der neue
+Zeitausschnitt im Spurfeld dargestellt.
+
+Alle einmal berechneten Amplitudenver„ufe werden in einem Cache zwischenü gespeichert,und brauchen so nicht jedesmal neu
+berechnet zu werden,wodurch der Bildaufbau deutlich beschleunigt wird.
+
+
+Durch Doppelklick auf den Scrollslider kann man direkt zu einer neuen Zeitposition springen.Es ”ffnet sich ein
+TimejumpüDialog.Dort kann man die neue TimelineüPosition direkt eingeben.N„heres hierzu erfahren sie im Kapitel
+"Timejump".

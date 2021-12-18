@@ -1,0 +1,57 @@
+4.14.11 Funktionsfeld
+
+
+Auf der linken Seite des Funktionsfelds stehen alle Funktionen die nur das
+aktuelle Sample betreffen (Blockmarker,Copy,Delete),auf der rechten Seite die Darstellungs- und Abspieloptionen. 
+
+
+
+1) Blockmarker
+
+Hiermit kann man den Marker-Dialog aufrufen.Man kann dann einen passenden Markereintrag des Samples ausw„hlen,der dann
+in den Tracker bernommen wird.Vorraussetzung ist natrlich,daá entsprechende Marker im Editor beim Abspeichern des
+Samples definiert wurden (Marker werden in der
+Inf-Datei abgespeichert).Man kann zwar auch ber die Laufwerksfunktionen einen Start- und Endpunkt des Blocks
+definieren,aber diese Methode ist genauer, besonders wenn man das Sample wiederholen (loopen) will.
+
+
+2) Sample kopieren
+
+Das aktuelle Sample (roter Rahmen bei Farbe, gestrichelt bei Monochrome)
+wird kopiert,und direkt hinter dem aktuellen Sample eingesetzt.
+Das neue Sample wird automatisch zum aktuellen Sample.
+Damit kann man sehr einfach Mehrfach-Wiederholungen erzeugen.
+
+
+3) Spur l”schen
+
+Hiermit wird die aktuelle Spur (selektierte Spurnummer) komplett gel”scht.
+
+
+4) Sampleblock abspielen
+
+Hiermit wird der aktuelle Sampleblock (selektiertes Sample) abgespielt,
+also der Bereich des aktuellen Samples,der durch den Start- und Endmarker
+definiert wurde.
+
+
+5) Kommentardarstellung
+
+Normalerweise wird in der Ecke oben links im Sampleblock der Name des
+Samples ausgegeben.Wird der Button selektiert,wird stattdessen das Kommentarü feld (wird bei Bedarf nach dem Abspeichern
+eines Sample im Editor definiert, und kann im Tracker-Fileselector ge„ndert werden) an dieser Stelle eingeblendet.
+Ist der Block allerdings zu kurz,um den kompletten Text darstellen zu k”nnen, wird die Textausgabe auf die L„nge des
+Blocks gekrzt.
+
+
+6) Amplitudendarstellung
+
+Ist der Button selektiert,wird im Sampleblock zus„tzlich der Amplitudenverlauf des Samples dargestellt.Da dies
+allerdings etwas Rechenzeit beansprucht,kann die Bildschirmausgabe auf langsamen Rechnern dadurch etwas tr„ge werden.
+Deshalb kann man die Amplitudendarstellung hier abschalten (deselektiert).
+
+
+7) Einzelspur-Wiedergabe
+
+Ist der Button selektiert,wird nur die aktuelle Spur (selektierte Spurnummer) beim Abspielen wiedergegeben.Alle anderen
+Spuren sind dann stummgeschaltet.

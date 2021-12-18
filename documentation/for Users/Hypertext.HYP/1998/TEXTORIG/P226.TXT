@@ -1,0 +1,96 @@
+4.14.10 Steuerungsfeld
+
+
+Hierber k”nnen die Samples abgespielt bzw. nach Geh”r ein Start- und
+Endpunkt des Samples definiert werden.Es stehen s„mtliche bekannten
+Laufwerksfunktionen zur Verfgung.Das zu bearbeitende Sample w„hlt man mit der linken Maustaste aus (mit der Maus auf
+den Block klicken).Beim Laden
+eines Samples wird dieses automatisch zum aktuellen Sample.Das aktuelle
+Sample wird mit einem roten (bei Farbe) bzw. gestrichelten (bei monochrome)
+Rahmen dargestellt.
+
+
+1) Trackerdatei-Name
+
+Hier wird der Suchpfad und Name der geladenen oder gespeicherten
+Tracker-Datei (Dateiendung *.TRK) dargestellt.
+
+
+2) Sample-Dateiname
+
+Hier steht der Name des ausgew„hlten Samples,daá nun bearbeitet werden kann. Alle Laufwerksfunktionen dienen
+letztendlich nur dem Zweck,geeignete Start- und Endpunkte zu finden.
+
+
+3) Zeit-Z„hlwerk
+
+Dies ist das Z„hlwerk.Es zeigt immer die aktuelle Abspielposition im Sample an. Dieser Wert kann mit dem Startpoint-
+oder Endpoint-Button bernommen werden.
+
+
+4) auto-record
+
+Automatische Aufnahme.Hierbei wird vor dem Aufnahmebeginn zuerst auf ein
+Eingangssignal gewartet.Wird ein bestimmter Schwellwert berschritten,
+beginnt automatisch die Aufnahme.Diesen Schwellwert kann man im Setup  (autorecord-treshold) in Dezibel (dB)
+einstellen.Nach der Aufnahme wird das
+
+Sample automatisch in die aktivierte Spur geladen,und dargestellt.
+5) record
+
+Hiermit wird die Aufnahme gestartet.Es handelt sich dabei immer um ein
+Harddisk-Projekt.Es erscheint zuerst ein Fileselector,in dem man den Namen
+der Aufnahmedatei eingibt.Danach geht das System in Aufnahmebereitschaft
+
+(Pause).Anschlieáend kann die Aufnahme gestartet werden,indem man den
+
+PauseüButton bet„tigt.Nach der Aufnahme wird das Sample automatisch in die aktivierte Spur geladen,und dargestellt.
+
+
+6) begin
+
+Hiermit gelangt man zum Anfang des Samples.
+
+
+7) rewind
+
+Damit wird das Sample quasi im Rckw„rts-Schnelldurchlauf abgeh”rt.
+
+
+8) backplay
+
+Hiermit wird das Sample rckw„rts abgespielt.
+
+
+9) play
+
+Hiermit startet man die Wiedergabe des Samples.
+
+
+10) forward
+
+Damit wird das Sample quasi im Vorw„rts-Schnelldurchlauf abgeh”rt.
+
+
+11) end
+
+Hiermit gelangt man zum Ende des Samples.
+
+
+12) stop
+
+Hiermit wird die Aufnahme bzw. Wiedergabe gestoppt.
+
+
+13) pause
+
+Damit kann man die Aufnahme bzw. die Wiedergabe eines Samples vorbergehend stoppen.Bei einem weiteren Druck auf die
+Pausetaste wird die Aufnahme bzw. die Wiedergabe fortgefhrt.
+
+
+14) play and record
+
+Hiermit kann man das TrackerüArrangement abh”ren,und parallel dazu ein neues Sample aufnehmen.Es erscheint zuerst ein
+Fileselector,in dem man den Namen der Aufnahmedatei eingibt.Danach geht das System in Aufnahmeü bereitschaft
+(Pause).Anschlieáend kann die Aufnahme gestartet werden,indem man den PauseüButton bet„tigt.Nach der Aufnahme wird das
+Sample automatisch in die aktivierte Spur geladen,und dargestellt.

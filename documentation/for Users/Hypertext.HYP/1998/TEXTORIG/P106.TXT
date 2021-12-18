@@ -1,0 +1,86 @@
+4.1.13 Informationsbereich
+
+
+
+Hierber wird der Benutzer ber verschiedene Einstellungen informiert.
+Die blau umrandeten Felder k”nnen angeklickt werden.Hinter manchen dieser Felder verbergen sich weitere Information oder
+Funktionen.
+
+
+1) L„nge des Samples/Sample-Memory in Kilobyte
+
+Hier wird die L„nge des geladenen Samples angegeben.Wurde kein Sample
+geladen,entspricht dieser Wert der L„nge des Sample-Memory in KB (Kilobyte).
+Klickt man auf das Anzeigefeld,wird die Gesamtl„nge des Sample-Memory in
+KB (Kilobyte) angegeben.
+
+
+2) Spielzeit des Samples/Sample-Memory
+
+Hier wird die Spielzeit des geladenen Samples im Format HH:MM:SS XX
+angegeben.Wurde kein Sample geladen,entspricht dieser Wert der Spielzeit
+des Sample-Memory.Klickt man auf das Anzeigefeld, wird die Spielzeit des
+Sample-Memory angegeben.
+
+
+3) Name der Sample-Datei
+
+Hier erscheint der Name der zuletzt geladenen bzw. gespeicherten
+Sample-Datei.Klickt man auf dieses Anzeigefeld,erh„lt man noch genauere
+Informationen ber das Sample im dann erscheinenden Sample-Information- Dialog.Hier kann man jederzeit die zum Sample
+geh”renden Kommentarfelder eingeben bzw. editieren und die Markerliste aktualisieren (OKüButton).
+
+
+4) Uhrzeit
+
+Hier steht die momentane Uhrzeit der Systemuhr.Dahinter steckt aber auch
+der Backup-Dialog.Man gelangt in den Backup-Dialog,indem man auf das
+Uhrzeit-Feld klickt.Ist die Auto-Backup-Option eingeschaltet,wird das Feld selektiert dargestellt.Dann wird nach der
+eingestellten Zeit jeweils ein Backup der Arbeitsumgebung durchgefhrt.
+
+5) Zeitposition des Mauszeigers bzw. Markers beim Draggen
+
+Der Wert zeigt die Markerposition beim Draggen an.Wenn man mit der Maus
+ber das Sample-Window f„hrt,wird hier die Position des Mauszeigers im
+Sample angezeigt.Es gibt zwei unterschiedliche Darstellungsarten.
+Die Darstellungsart kann im Setup-Dialog (View-Button) eingestellt werden.
+Man hat die Wahl zwischen der Zeitanzeige (auf Frames genau) und der Anzeige in Samplewerten (genauer).
+
+
+6) Darstellungsmaástab
+
+Hier wird der Darstellungsmaástab, also das Verh„ltnis der dargestellten
+Samples zur Gesamtzahl der Samples angegeben. Bei einem Verh„ltnis von z.B.
+1:2 entspricht 1 Pixel im Sample-Window 2 Samplewerten.Man kann mit der
+Zoomfunktion bis auf ein 1:1 Verh„ltnis und darber hinaus in das Sample
+zoomen.Ab einem Verh„ltnis von 2:1 kann man im Editor die einzelnen
+Samplewerte mit der Maus korrigieren,oder eigene Samplewerte einzeichnen.
+
+
+7) Sample-Amplitudenwerte links/rechts
+
+Hier werden beim Draggen die Sample-Amplitudenwerte (in Hexadezimalü schreibweise) an der Markerstelle angezeigt.Wenn
+man mit der Maus ber das Sample-Window f„hrt,werden hier die Sample-Amplitudenwerte an der Mauszeiger-Stelle
+angezeigt.Links steht der Wert fr den linken,und rechts der Wert fr den rechten Kanal.
+
+
+8) Adjust-Samplerate-Wert
+
+Wenn man beim Resampling im Resample-Dialog die Option Adjust- Resampling-Rate ausw„hlt, wird in diesem Feld die neue
+Samplerate
+angezeigt,um an die ge„nderte Samplerate zu erinnern.
+
+
+9) Freier Speicherplatz im Setup- und Sample-Suchpfad
+
+Hier wird der freie Speicherplatz auf der Festplatte in KB (Kilobyte)
+angezeigt,und zwar links fr die Start-Partition (die Partition von der
+das Programm geladen wurde),und rechts fr die im Setup-Dialog definierte
+Sample-Partition.
+
+
+
+
+
+
+

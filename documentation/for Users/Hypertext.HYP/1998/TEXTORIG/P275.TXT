@@ -1,0 +1,19 @@
+5.2.10 StartupüDatei "STARTUP.INF"
+
+
+
+In dieser Datei werden s„mtliche Einstellungen fr das StartupüProgramm
+
+"STARTUP.PRG" vorgenommen.Das StartupüProgramm kann aus dem 
+
+Autoordner gestartet werden bzw. unter MagiC aus dem GemsysüStartordner.
+
+Es spielt beim Start des Rechners eine kurze Melodie ab.Diese muá komplett in den Speicher passen.Die Wiedergabe kann
+jederzeit durch Tastendruck beendet werden. 
+
+
+
+1.Zeile : Kompletter Pfad mit Dateiname
+
+2.Zeile : LOOP=FALSE ; Wiedergabe loopen (true)
+

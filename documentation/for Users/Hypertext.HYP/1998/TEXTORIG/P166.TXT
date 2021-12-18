@@ -1,0 +1,90 @@
+4.9.1 DSP-Fenster
+
+
+
+Dieses Fenster ist fr die DSP-Effektauswahl zust„ndig.Die EffektüPlugins werden als externe LODüFiles nachgeladen.Zu
+jeder LODüDatei geh”rt eine
+
+Parameterdatei,die Angaben ber Bedienelemente,deren Wertebereich und Bezeichnung beinhaltet,und kompatibel zu Winrec
+ist.Viele Effekte geh”ren schon zum Lieferumfang der StarTracküSoftware,unter anderem alle WinrecüEffekte (mit
+freundlicher Genehmigung von A.Binner).
+
+Die EffektüPlugins k”nnen hier aktiviert bzw. in den DSP geladen werden. Andere Effekte (ohne Parameter) k”nnen in den
+DSP auch via Load geladen werden,da das DSP-LOD-Format direkt vom Programm verarbeiten werden kann. Dadurch ist es
+prinzipiell m”glich,Effekte anderer Hersteller anzupassen bzw. in das Programm zu integrieren. Fr die Nutzung dieser
+Effekprogramme ist natrlich die DSP-Karte mit einem Motorola DSP-56002 notwendig. Karten mit anderen,noch
+leistungsf„higeren DSPs sind bereits in Planung,und machen die Soundkarte hiermit auch in Zukunft zu einem sehr
+professionellen System.
+Aufgerufen wird das DSP-Fenster durch den DSP-Button im
+Edit-Fenster,durch Eingabe von CTRL-D,oder ber das optionale Programmü Men im Dropdown Fenster/DSP.
+
+
+Nach der Auswahl eines DSPüPlugin ”ffnet sich automatisch das PluginüFenster.
+
+Dort kann man die Parameter des DSPüPlugin ver„ndern.
+
+
+
+Folgende Effekte sind bereits vorhanden:
+
+
+
+ü Borg (Roboter„hnlicher Stimmeffekt)
+
+ü Chorus
+
+ü Echo
+
+ü Flanger
+
+ü Equalizer (10 Band Stereo)
+ü Hall
+ü Harmonizer (erzeugt Oberwellen/Harmonische)
+
+ü Karaoke (filtert Stimmen aus dem Musiksignal)
+
+ü Soft Limiter (DynamiküBegrenzung)
+
+ü Noise Limiter (Rauschunterdrckung)
+
+ü Pitchbend (Tonh”hen„nderung)
+
+ü EasyüPinknoise (Rosa Rauschen)
+
+ü EasyüBypass (schleift das Signal ohne Effekt durch den DSP)
+
+
+3) Load
+
+Hiermit k”nnen LOD-Files vom DSP geladen werden.
+
+
+4) Save
+
+Hiermit k”nnen im DSP befindliche Programme als LOD-Files abgespeichert
+werden.In Verbindung mit einem parallel laufenden DSP-Debugger ist das
+durchaus sinnvoll.Die Funktion ist aber derzeit noch nicht implementiert.
+
+
+5) DSPüSwitch
+
+
+
+Hier kann die Einbindung des DSP bestimmt werden.Man kann den DSP in die
+
+Aufnahmekette (Input),oder den Wiedergabezweig (Output) integrieren,oder ganz aus dem Effektweg entfernen (Off).Diese
+Einstellungen sind auch im ConnectionüFenster m”glich,sind hier jedoch zur sinnvollen und praktischen Erreichbarkeit
+nochmal vorhanden.
+
+
+
+6) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+7) Exit
+
+Hiermit wird das DSP-Fenster geschlossen.Man kann mehrere Fenster gleichzeitig ge”ffnet lassen und hat so immer den
+direkten Zugriff auf die Funktionen.

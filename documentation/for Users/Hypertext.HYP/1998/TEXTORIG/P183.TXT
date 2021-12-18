@@ -1,0 +1,98 @@
+4.11.4 Resample
+
+
+
+In diesem Dialog kann man die Einstellungen fr die Resample-Funktion t„tigen.Die Resample-Funktion ist im
+Blockfunktionen-Fenster unter dem
+Resample-Button erreichbar.Man kann hiermit die Samplerate nachtr„glich
+„ndern.Dafr wird die neue Samplerate in Kilohertz (1000 Schwingungen/ Sekunde = 1 kHz) angegeben,und anschlieáend das
+Sample auf die ge„nderte Samplerate umgerechnet.
+
+
+
+1) Original Samplerate
+
+Hier wird die momentan gltige Samplerate angegeben.Falls die angezeigte
+Samplerate nicht mit der wirklichen bereinstimmt,kann man dies hier
+korrigieren.Das ist z.B. notwendig,wenn die Audiohardware die Originalü Samplerate nicht generieren kann.
+
+
+2) SamplerateüSelection
+
+Hier kann man die neue Samplerate aus den von der Audiohardware untersttzten M”glichkeiten ausw„hlen.
+
+
+
+3) Time
+
+Hier wird die nach der Umrechnung zu erwartende Sampledauer angezeigt.
+
+
+4) Samples
+
+Hier wird die nach der Umrechnung zu erwartende Samplel„nge angezeigt.
+
+
+5) Factor
+
+Hier wird das Umrechnungs-L„ngenverh„ltnis angezeigt,also das Verh„ltnis
+neue L„nge/alte L„nge.Ist der Faktor >1 wird das Sample l„nger,ist der Faktor <1 dann wird das Sample krzer.
+
+
+6) New Samplerate
+
+Hier wird die Samplerate in kHz angegeben,auf die das Sample umgerechnet
+werden soll.Hier kann die Samplerate editiert werden,falls die vom System untersttzten Sampleraten (2) nicht ausreichen
+sollten.
+
+Die Samplerate kann man auch mit den Pfeiltasten (7) „ndern,oder aus der Sampleraten-Liste (2) ausw„hlen.
+
+
+7) Pfeiltasten
+
+Mit den Pfeiltasten kann man die Samplerate einstellen,falls die blichen
+Sampleraten (siehe 2) nicht ausreichen,und zwar mit 3 verschiedenen
+Schrittweiten:
+
+
+einfach-Pfeiltaste    = 0.1 kHz
+zweifach-Pfeiltaste  = 1 kHz
+dreifach-Pfeiltaste   = 5 kHz
+
+
+8) Adjust Resampling-Rate
+
+
+Soll nur das Sample auf die neue Samplerate umgerechnet werden,ohne die
+Samplerate beim Abspielen anzupassen,dann sollte man den Button deselektieren.Wird das Sample bei der Umrechnung krzer
+(Faktor<1) entsteht
+ein MickyMaus-Effekt,wird das Sample gr”áer entsteht ein Zeitlupen-Effekt
+bei der Wiedergabe, da sich die Samplerate bei der Wiedergabe ja nicht ge„ndert hat.Man kann natrlich eine passende
+Samplerate im SamplerateüDropdown ausw„hlen,damit die Geschwindigkeit wieder stimmt.Falls keine passende Samplerate im
+Dropdown vorhanden ist,w„hlt man die bestm”gliche.Ist der Button selektiert,dann wird automatisch nach dem Konvertieren
+auf die neue Samplerate umgeschaltet.Bei der Wiedergabe wird dann das Abspielen mit der neuen Samplerate
+erzwungen,sofern die Soundkarte hardwarem„áig in der Lage ist,diese Samplerate zu erzeugen.Alle Zeitangaben beziehen
+sich dann auf die neue Samplerate.Die neue Samplerate wird auch im Editor im Adjust-Feld angezeigt,um an die ge„nderte
+Samplerate zu erinnern.Eine manuelle Sampleraten„nderung im Sampleraten-Dropdown ist dann gesperrt,solange der Adjust-
+Button selektiert ist.Man muá ihn deselektieren,wenn man die Samplerate im Dropdown „ndern m”chte (anschlieáend
+Resample-Dialog mit Exit verlassen).Diese Funktionsweise wird sich vielleicht noch „ndern,da sie etwas umst„ndlich
+erscheint (nobody is perfect).
+
+
+9) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+10) Exit
+
+Hiermit wird der Resample-Dialog geschlossen.Die Resample-Funktion wird
+nicht ausgefhrt.
+
+
+11) OK
+
+Hiermit wird der Resample-Dialog geschlossen und die Funktion ausgefhrt.
+
+

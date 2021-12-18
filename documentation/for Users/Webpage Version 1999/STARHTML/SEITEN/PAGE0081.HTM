@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.12"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0080.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0082.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.12 Workmode</H3>
+
+<H3> Workmode-Fenster</H3>
+<IMG SRC="../images/p186.gif" WIDTH="512" HEIGHT="460">
+
+ Dieses Fenster ist f&uuml;r die Auswahl wichtiger Arbeitsparameter zust&auml;ndig:
+ Anzahl der Aufnahmekan&auml;le, die Art der Zusammenmischung mehrerer Spuren
+ im <A HREF="page0087.htm">Tracker</A>, das Aufnehmen und Wiedergeben im 16 oder 24Bit-Modus, den
+ Modus des DSP-SRAM und alle Synchronisations-Funktionen. Aufgerufen wird
+ das Workmode-Fenster durch den <A HREF="page0058.htm">Workmode-Button</A> im Edit-Fenster, durch
+ Eingabe von CTRL-W oder &uuml;ber das optionale Programm-Men&uuml; im <A HREF="page0109.htm">Dropdown
+ Fenster/Workmode</A>.
+
+ Bereich mixmode:
+
+ In diesem Bereich w&auml;hlt man die Art und Weise aus, wie im <A HREF="page0087.htm">Tracker</A> die Spuren
+ gemischt werden.
+
+
+ 1) CPU
+
+ Die Spuren im <A HREF="page0087.htm">Tracker</A> werden von der CPU des Computers berechnet bzw.
+ gemischt und abgespielt. Der Atari TT ist daf&uuml;r etwas zu langsam, ein Medusa,
+ Hades oder Milan-Rechner schafft momentan bis zu 16 Spuren. Das h&auml;ngt
+ nat&uuml;rlich auch von der Samplerate und dem Arrangement ab.
+
+
+ 2) matrix
+
+ Im Matrixmode haben die <A HREF="page0087.htm">Kanalanzahl-Buttons</A> im <A HREF="page0087.htm">Tracker</A> zus&auml;tzliche
+ Funktionen: Ist der 4Kanal-Button aktiviert, werden die Spuren im
+ 4Kanal-Modus ausgegeben. Hierbei wird je ein Stereokanal &uuml;ber den
+ Analogausgang und den Digitalausgang wiedergegeben. Ist der 8Kanal-Button
+ aktiviert, werden die 8 Spuren wie im Falcon als 128Bit-Wort &uuml;ber die Matrix
+ zum DSP-Port geschickt. Ein angeschlossenes DSP-Port-Interface kann diese
+ Spuren weiterverarbeiten und z.B. &uuml;ber 8 Einzelausg&auml;nge auf ein Mischpult
+ ausgeben. Erfolgreich getestet wurde bisher das Analog8 und ADAT von
+ Soundpool und das Jam-Out von LineAudio. Bei der Wiedergabe der Spuren im
+ <A HREF="page0087.htm">Tracker</A> kann man im 8Kanal-Mode mit der rechten Maustaste zwischen den
+ Monitorspuren umschalten. Wie im Falcon auch, kann dadurch jeweils ein
+ Sterokanal auf den Ausgang (Analog-Out und Digital-Out) der Audiokarte
+ gelegt werden. Ist der 16Kanal-Button aktiviert, werden zwei Matrix-Datenpakete
+ zum DSP-Port geschickt. Mit zwei Einzelausgangs-Interfaces kann man dann bis zu
+ 16 Spuren einzeln ausgeben und z.B. an ein Mischpult anschlie&szlig;en.
+
+
+ 3) DSP
+
+ Hierbei werden die maximal 8 Kan&auml;le zuerst zum DSP geschickt. Dieser
+ &uuml;bernimmt dann das Zusammenmischen der Kan&auml;le. Die Kan&auml;le 1-6 bleiben
+ dabei unver&auml;ndert, Kanal 7 und 8 enthalten das zusammengemischte Ergebnis.
+ Alle 8 Kan&auml;le werden vom DSP ebenfalls &uuml;ber den DSP-Port ausgegeben.
+ Bei der Wiedergabe der Spuren im <A HREF="page0087.htm">Tracker</A> kann man mit der rechten Maustaste
+ zwischen den Monitorspuren umschalten. Wie im Falcon auch, kann jeweils ein
+ Sterokanal dadurch auf den Ausgang (Analog-Out und Digital-Out) der Audiokarte
+ gelegt werden.
+
+ Bereich mastering:
+
+ In diesem Bereich kann gew&auml;hlt werden, ob die Aufnahme und Wiedergabe mit
+ 16Bit oder 24Bit geschehen soll.
+
+
+ 4) sixteen bit
+
+ Aufnahme und Wiedergabe mit 16Bit. Die Matrix kann wie im Falcon auch,
+ nur mit 16Bit arbeiten.
+
+
+ 5) twentyfour bit
+
+ Aufnahme und Wiedergabe mit 24Bit. Aufnahmen k&ouml;nnen &uuml;ber die digitalen
+ Eing&auml;nge mit 24Bit gemacht werden. Die Wiedergabe l&auml;uft ebenfalls &uuml;ber die
+ digitalen Ausg&auml;nge mit 24Bit. Der D/A-Wandler wird dabei mit 18Bit
+ angesteuert, profitiert also ebenso vom h&ouml;heren Dynamikumfang. Auch der DSP
+ kann die 24Bit voll nutzen. Ebenso gelangen die 24Bit-Daten &uuml;ber den DSP-Port
+ zur Au&szlig;enwelt. Es w&auml;re denkbar, in Zukunft hier&uuml;ber hochwertige 24Bit A/D
+ und D/A-Wandler anzuschlie&szlig;en. Normale Falcon-Interfaces wie das Analog8 k&ouml;nnen
+ nicht im 24Bit-Modus angesteuert werden, da sowohl Format als auch Datenrate
+ dabei unterschiedlich (nicht Falcon kompatibel) sind.
+
+
+ 6) recordmode
+
+ 2 channels
+ 
+ Aufnahme in Stereo &uuml;ber die analogen oder digitalen Eing&auml;nge der Audiokarte.
+
+
+ 4 channels
+
+ Aufnahme von vier Spuren. Dabei werden die Analog- und Digitaleing&auml;nge
+ parallel betrieben und somit beide Musikquellen gleichzeitig aufgenommen.
+ Die zweite Stereospur bekommt die gleiche Filebezeichnung wie die erste mit
+ angeh&auml;ngter zwei (z.B. Erster Stereokanal &quot;RECORD.S16&quot;, zweiter Stereokanal
+ bekommt dann Filenamen &quot;RECORD2.S16&quot;).
+
+
+ 8 channels
+
+ Aufnahme von 8 Spuren. Dieser Modus ist vorgesehen f&uuml;r die Aufnahme
+ &uuml;ber ein 8Kanal-Eingangsinterface (JAM-In von LineAudio) oder
+ ADAT-Interface (von Soundpool) f&uuml;r den DSP-Port. Das Jam-In ben&ouml;tigt
+ hierf&uuml;r den Signalverst&auml;rker JAM-ADAP (bei SWE erh&auml;ltlich),da dieses
+ Interface sehr empfindlich auf abgeschliffene Signalflanken reagiert.
+ 
+
+ 7) DSP-Ram
+
+ Das DSP-RAM kennt zwei verschiedene Modi, um volle Leistung trotz
+ Kompatibilit&auml;t zum Falcon gew&auml;hrleisten zu k&ouml;nnen:
+ 
+ falcon
+ 
+ Das DSP-RAM des Falcon wird emuliert, damit es zu Falcon DSP-Programmen
+ kompatibel ist, also mit den gleichen Adre&szlig;spiegelungen und gleicher
+ Speichergr&ouml;&szlig;e (32Kx24) wie im Falcon.
+
+
+ extend
+
+ Hier wird der volle Speicherbereich der DSP-Erweiterung ausgenutzt, die ja
+ viermal soviel Speicher besitzt wie der DSP im Falcon. Dabei ist die
+ Adre&szlig;dekodierung nat&uuml;rlich anders, aber trotzdem weitgehend kompatibel zum
+ Falcon. F&uuml;r Details lesen sie bitte die Programmier-Dokumentation.
+
+
+ Bereich sync:
+
+ 8) PCG
+
+ F&uuml;r die StarTrack-Audiokarte (und f&uuml;r den Falcon) wurde ein neuartiges
+ Clockmodul f&uuml;r den DSP-Port entwickelt. Dieses kann, anders als die bisher auf
+ dem Atari-Markt vorhandenen, beliebige Sampleraten im Bereich 0-100kHz
+ generieren. Das Roboclock ist ein programmierbarer Clockgenerator (PCG).
+ Ist ein solches Modul vorhanden, kann man dieses mit der Option PCG in der
+ StarTrack Audio-Suite aktivieren.
+
+
+ 9) Generate Clock
+ 
+ Hiermit startet man die Frequenzprogrammierung im PCG-Chip des 
+ Roboclock-Moduls. Daf&uuml;r mu&szlig; eine sinnvolle Samplerate (10) eingegeben
+ werden und die PCG-Option(8) mu&szlig; ebenfalls eingeschaltet sein. 
+
+
+ 10) Samplerate
+
+ Hier gibt man die gew&uuml;nschte Samplerate ein, die das Roboclock-Modul erzeugen
+ soll. Es ist jede beliebige Samplerate zwischen 0-100 kHz m&ouml;glich. Bedenken sie
+ jedoch, da&szlig; die H&ouml;chstgrenze f&uuml;r die verwendeten Analogwandler bei 48kHz
+ liegen. In der Praxis funktionieren diese aber bis mind. ca. 70kHz oder mehr.
+ Die Verwendung von Sampleraten &uuml;ber 48kHz geschieht aber auf eigene Gefahr.
+ Es kann f&uuml;r die ordnungsgem&auml;&szlig;e Funktion keine Garantie gegeben werden,
+ auch nicht f&uuml;r m&ouml;gliche Sch&auml;den, die dabei entstehen k&ouml;nnten (ist aber h&ouml;chst
+ unwahrscheinlich). Die hier definierte Samplerate wird mit dem Button
+ Generate-Clock(9) zum Roboclock-Modul &uuml;bertragen. Da es gewisse
+ Einschr&auml;nkungen in der Genauigkeit der erzeugten Samplefrequenz gibt, wird die
+ eingegebene Samplerate danach falls n&ouml;tig, durch die tats&auml;chlich erzeugte,
+ die aber nur gering von der eingegebenen abweicht, ersetzt.
+
+
+ 11) ADAT
+
+ Man kann die Audiokarte ebenfalls mit dem Soundpool ADAT-Interface
+ f&uuml;r den DSP-Port betreiben. Besitzt man ein solches ADAT-Interface, kann
+ man hiermit die ADAT-Option einschalten. Dadurch synchronisiert sich die
+ Audiokarte bei Aufnahme (Recordmode: 8 channels, siehe 6) automatisch zum
+ ADAT. Man kann dann im <A HREF="page0062.htm">Peakmeter</A> die Kan&auml;le f&uuml;r Aufnahme ausw&auml;hlen
+ und vom ADAT beliebige Kan&auml;le in den Rechner &uuml;berspielen. Im <A HREF="page0087.htm">Tracker</A>
+ werden entsprechend die 8 Kan&auml;le dann zum ADAT &uuml;bertragen (Matrix-
+ oder DSP-Mixmode, siehe 1-3).
+ Da sich die Karte zum 48kHz-Takt des ADAT synchronisieren mu&szlig;, ist das
+ Samplerate-Dropdown bzw. die Sampleraten-&Auml;nderung im Editor und
+ Connection-Fenster gesperrt, solange die ADAT-Option eingeschaltet ist.
+
+
+ 12) only Falconclocks
+
+ Au&szlig;er dem Roboclock-Modul, k&ouml;nnen nat&uuml;rlich auch die &uuml;blichen Clockmodule
+ f&uuml;r den DSP-Port verwendet werden. Da die Audiokarte aber bereits die 44.1kHz
+ unterst&uuml;tzt, die &uuml;blicherweise von den Falcon-Clockmodulen erzeugt werden,
+ sollte man den Quarz in den Clockmodulen gegen einen mit 25.175 Mhz
+ austauschen. Denn damit kann man dann auch s&auml;mtliche spezielle Falcon-
+ Sampleraten wie z.B. 49170 Hz erzeugen und mit der StarTrack nutzen.
+ Da die Audiokarte noch zus&auml;tzliche Frequenzteiler besitzt, sind dann sogar
+ noch weitere Sampleraten m&ouml;glich. Diese werden im <A HREF="page0053.htm">Extclock-Dialog</A>
+ angezeigt. Klickt man mit gedr&uuml;ckter Control-Taste auf den DIV-Eintrag im
+ Samplerate-Dropdown (letzter Eintrag), erscheint dieser <A HREF="page0053.htm">Extclock-Dialog</A>.
+ Dort kann man eine der vom Externen Clockmodul erzeugten Sampleraten
+ ausw&auml;hlen.M&ouml;chte man auf die Anzeige aller nutzbaren Sampleraten verzichten
+ und sich nur auf die Falcon-Sampleraten beschr&auml;nken, w&auml;hlt man die Option
+ &quot;only Falconclock&quot; aus. Ist diese Option abgeschaltet, werden alle m&ouml;glichen 
+ Sampleraten im <A HREF="page0053.htm">Extclock-Dialog</A> angezeigt.
+
+
+ 13) MHz
+
+ Hier wird der Grundtakt des Clockmoduls (nicht bei Roboclock) angegeben,
+ also z.B. 25175000 Hz f&uuml;r die Falcon Sampleraten-Erzeugung. Die Taktrate
+ des Clockmoduls mu&szlig; hiermit &uuml;bereinstimmen, sonst werden im 
+ <A HREF="page0053.htm">Extclock-Dialog</A> falsche Sampleratenwerte angezeigt.
+
+
+ 14) MTC
+
+ Es ist m&ouml;glich, die Audiokarte per Midi Timecode extern zu synchronisieren
+ (Audiokarte arbeitet als Slave), z.B. zu einem Cubase-Sequencer eines anderen
+ Rechners. Hierf&uuml;r mu&szlig; die MTC-Option eingeschaltet sein. Die Aufnahme oder
+ Wiedergabe startet dann mit dem Startwert, der als Smpte-Base (16) eingetragen
+ wurde.
+
+
+ 15) Xmit
+
+ Soll die Audiokarte selbst Midi-Timecode ausgeben (Master), kann man das
+ mit der Xmit-Option einschalten.
+
+
+ 16) Smpte-Base
+
+ Hier kann man die verschiedenen Smpte-Frameraten einstellen. Diese gelten
+ aber nicht nur f&uuml;r den Midibereich. Alle Zeitangaben im Programm arbeiten
+ automatisch mit der hier definierten Framerate. Au&szlig;er den typischen
+ Smpte-Frameraten findet man auch solche f&uuml;r CD (75 Frames). Dadurch kann
+ man die Marker bzw. Schnittdaten verl&auml;&szlig;lich f&uuml;r die Produktion einer CD 
+ erzeugen und in ein entsprechendes Writerprogramm (z.B.Extendos) exportieren.
+
+
+ 17) Smpte
+
+ Hier kann man den Startwert f&uuml;r Midi-Timecode eingeben. Die Aufnahme- oder
+ Wiedergabe startet dann, wenn die angegebene Zeitmarke erreicht wurde.
+
+
+ 18) Midi-Controller
+
+ Es ist m&ouml;glich, die komplette Lautst&auml;rkeregelung im <A HREF="page0062.htm">Peakmeter</A>, <A HREF="page0087.htm">Tracker</A> und
+ Mischer mit einem externen Midi Volume-Controller zu steuern. Getestet wurde
+ dies mit einem Peavey PC1600x-Controller mit 16 Fadern. Das m&ouml;glicherweise
+ von Ger&auml;t zu Ger&auml;t variierende Protokoll ist im <A HREF="page0135.htm">Setup-File</A> (STARTRK.SET)
+ editierbar. Somit lassen sich auch Digitalmischpulte zur Steuerung verwenden.
+ Wie dies gemacht wird, ist im Anhang unter <A HREF="page0134.htm">Dateiformate</A> erkl&auml;rt.
+
+
+ 19) Help
+
+ Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wenn sie nicht wissen wie
+ das funktioniert, schauen sie sich die Anleitung zu 1stGuide einmal genauer an.
+
+
+ 20) Exit
+
+ Hiermit wird das Workmode-Fenster geschlossen. Alle Einstellungen
+ bleiben bis zum n&auml;chsten Aufruf unver&auml;ndert. Man kann jedoch
+ mehrere Fenster gleichzeitig ge&ouml;ffnet lassen und hat so immer den
+ direkten Zugriff auf die Funktionen.
+
+</PRE>
+
+<A HREF="#4.12">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Hardware</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="2.1.2.1"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0014.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0016.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Hardware</H1></CENTER>
+
+<PRE>
+
+<H3> 2.1.2.1 DSP-Erweiterung einbauen</H3>
+ Ziehen sie also die Startrack-Karte bei ausgeschaltetem Rechner aus dem VME-Slot heraus,
+ und stecken die DSP-Karte vorsichtig auf die Startrack-Karte, und zwar mit der Bauteilseite
+ nach unten, die beiden Erweiterungsstecker der DSP-Karte m&uuml;ssen dabei in Richtung der
+ Cinchanschl&uuml;sse (nicht in Richtung des VME-Steckers!) zeigen. Achten sie dabei unbedingt
+ darauf, da&szlig; die Steckkontakte der DSP-Karte genau in die daf&uuml;r vorgesehenen Buchsenkontakte
+ auf der Startrack-Karte passen, und die Kontaktreihen nicht versehentlich verschoben sind!
+ Dr&uuml;cken sie anschlie&szlig;end gleichm&auml;&szlig;ig die beiden Kontaktreihen der DSP-Karte
+ (am &auml;u&szlig;eren Ende der Platinen) in die Startrack-Buchsenkontakte (Bravo, die erste
+ H&uuml;rde ist genommen).
+ Auf der Frontblende der Startrack-Karte befinden sich zwei Leuchtdioden,die noch mit der
+ DSP-Karte verbunden werden m&uuml;ssen. Diese zeigen den Status des DSP an. Hierf&uuml;r sind am
+ linken Rand der DSP-Karte vier kleine Pins vorhanden (siehe Zeichnung der DSP-Erweiterung,
+ <A HREF="page0026.htm">Kapitel 2.1.6</A>). Auf der Platine sind diese mit DEBUG und LOCK bezeichnet. Die rote LED ist
+ f&uuml;r LOCK und die gr&uuml;ne LED f&uuml;r DEBUG vorgesehen. Die 4 Anschl&uuml;sse werden nun
+ folgenderma&szlig;en mit den LEDs verl&ouml;tet (von links nach rechts):
+
+ Die Anode einer LED ist zu erkennen durch den l&auml;ngeren Anschlu&szlig; und den schmaleren in der
+ LED sichtbaren Anschlu&szlig;teil
+ Die Kathode einer LED ist zu erkennen durch den k&uuml;rzeren Anschlu&szlig; und den dickeren in der
+ LED sichtbaren Anschlu&szlig;teil
+ 
+   1. Anschlu&szlig; mit der Kathode der gr&uuml;nen LED verl&ouml;ten
+   2. Anschlu&szlig; mit der Anode der gr&uuml;nen LED verl&ouml;ten
+   3. Anschlu&szlig; mit der Kathode der roten LED verl&ouml;ten
+   4. Anschlu&szlig; mit der Anode der roten LED verl&ouml;ten.
+
+ Sollte die rote LED im Betrieb nicht leuchten,so haben sie die beiden Anschl&uuml;sse
+ wahrscheinlich vertauscht. Die gr&uuml;ne LED leuchtet nur,wenn der DSP im Debug-Mode ist,
+ wenn also z.B. das <A HREF="page0024.htm">EVM56K-Programm</A> gestartet wurde.
+ Haben sie zwei linke H&auml;nde oder keinen L&ouml;tkolben zur Hand, wenden sie sich bitte an
+ ihren H&auml;ndler,der dies sicherlich gerne f&uuml;r sie macht.
+ Haben sie die Startrack-Karte komplett mit der DSP-Erweiterung erworben, so ist diese
+ L&ouml;tarbeit nat&uuml;rlich nicht n&ouml;tig.
+
+ Brauchen sie den DSP-Port f&uuml;r den Anschlu&szlig; eines Analog8, FA8, Jam-In, Jam-Out,ADAT,
+ Clockmoduls oder einer anderen DSP-Port-Erweiterung ?
+ Dann sollten sie nun das DSP-Port-Kabel mit der DSP-Karte verbinden:
+
+</PRE>
+
+<A HREF="#2.1.2.1">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

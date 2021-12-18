@@ -1,0 +1,960 @@
+neue XBIOS-Aufrufe fÅr die Startrack-Soundkarte
+
+Alle Funktionen gehen Åber XBIOS-Aufruf 500 (xbs=500)
+und teilen sich dann in die verschiedenen Unterfunktionsaufrufe auf.
+
+play-mode   : vergleichbar mit DMA-play beim Falcon
+rec-mode    : vergleichbar mit DMA-rec beim Falcon
+bypass-mode : die ausgÑnge sind mit den eingÑngen verbunden.
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+  1  installed         ; cookie XBIOS-Treiber
+
+     status=xbios(xbs,1)
+     LONG status;
+
+     status:&H71273800 -> XBIOS-Treiber installiert
+--------------------------------------------------------------------------------
+ 10  cardslot           ; Anzahl Soundkarten im System
+
+     ret=xbios(xbs,10)
+     LONG ret;
+
+     ret:Anzahl der installierten Soundkarten (1-8)
+--------------------------------------------------------------------------------
+ 11  cardsel            ; Soundkarte auswaehlen
+
+     ret=xbios(xbs,11,csel)
+     WORD csel;
+     LONG ret;
+
+     csel:ausgewÑhlte Soundkarte (1-8)
+     ret:0 - kein Fehler
+
+     Wichtig: Alle weiteren Funktionsaufrufe beziehen sich auf die hier
+              selektierte Soundkarte !
+--------------------------------------------------------------------------------
+ 12  cardmagic          ; Soundkarten-magic auslesen
+
+     status=xbios(xbs,12)
+     LONG status;
+
+     status: bit0=1 -> zweiter Volume-Controller fÅr Ausgang vorhanden
+             bit1=1 -> XLR-Erweiterung vorhanden
+             bit2=1 -> digitale Schnittstellen (SP/DIF) vorhanden
+             bit3=1 -> 96kHz-Highsampling mîglich
+             bit4=1 -> A/D und D/A-Wandler vorhanden
+--------------------------------------------------------------------------------
+ 13  cardadr            ; Soundkarten-Adressen
+
+     pointer=xbios(xbs,13)
+     LONG pointer;
+              
+     pointer: zeigt auf eine Adresse ab der verschiedene Soundkarten-Adressen
+              abgelegt sind (siehe auch Register-Beschreibung):
+
+     LONG sample    : Adresse Sample lesen/schreiben
+     LONG recstat   : Adresse recordfifo-status
+     LONG playstat  : Adresse playfifo-status
+     LONG dsp       : Adresse dsp-Host
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 20  digana             ; Digital/Analogeingang
+
+     ret=xbios(xbs,20,inp)
+     WORD input;
+     LONG ret;
+
+     inp:Wahl des Eingangs
+         0 - digitalinput
+         1 - analoginput
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 21  digcom             ; Digitalquelle
+
+     ret=xbios(xbs,21,dq)
+     WORD dq;
+     LONG ret;
+
+     dq:Wahl der Digitalquelle
+        0 - opto (TOSLINK)
+        1 - cinch
+        2 - XLR  (AES/EBU)
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 22  dspmode            ; dsprouting no/input/output
+
+     ret=xbios(xbs,22,dspmode)
+     WORD dspmode;
+     LONG ret;
+
+     dspmode:Wahl der Einbindung des DSP-output
+             0 - dspoff       - DSP-output nicht im Signalweg
+             1 - dsp_to_rec   - DSP-output im record-Signalweg
+             2 - dsp_to_play  - DSP-output im play-Signalweg
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 23  sclock             ; Samplerate
+
+     ret=xbios(xbs,23,srate)
+     WORD srate;
+     LONG ret;
+
+     srate:Wahl der Einbindung des DSP-output
+           0 - digital_pll - input-clock am Digitaleingang benutzen
+           1 - 32khz        
+           2 - 44.1khz      
+           3 - 48khz
+           4 - 8khz         
+           5 - 11khz
+           6 - 16khz      
+           7 - 16.5khz
+           8 - 22khz      
+           9 - 22khz
+          10 - 24khz      
+          11 - 33khz
+          12 - ext/768      
+          13 - ext/512
+          14 - ext/384
+          15 - ext/256
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 24  highsrate          ; highsampling
+
+     ret=xbios(xbs,24,hs)
+     WORD hs;
+     LONG ret;
+
+     hs:high-sampling mit 96khz
+        0 - kein highsampling
+        1 - highsampling wÑhlen
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 25  bypass             ; bypass/sampleplay
+
+     ret=xbios(xbs,25,bypass)
+     WORD bypass;
+     LONG ret;
+
+     bypass:Ausgangsquelle
+            0 - bypass - AusgÑnge sind mit dem Eingang verbunden
+            1 - play - AusgÑnge erhalten ihre Daten von der play-hardware
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 30  digmode            ; digitaloutput consumer/professional
+
+     ret=xbios(xbs,30,digmode)
+     WORD digmode;
+     LONG ret;
+
+     digmode:Wahl des SP/DIF-Outputformat
+             0 - consumer - Ausgabe im Consumer-Format (HIFI-GerÑte)
+             1 - professional - Ausgabe im Professional-Format (StudiogerÑte)
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 31  scmsmode           ; clear SCMS
+
+     ret=xbios(xbs,31,scmsmode)
+     WORD scmsmode;
+     LONG ret;
+
+     scmsmode:Kopierschutz
+              0 - bypass - digitale Eingangsdaten unverÑndert zum Ausgang leiten
+              1 - clear - SCMS-Kopierschutz vollstÑndig entfernen
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 32  mycopybit          ; eigener SCMS-Kopierschutz no/one/all
+
+     ret=xbios(xbs,32,myscms)
+     WORD myscms;
+     LONG ret;
+
+     myscms:Kopierschutz fÅr digitalausgang im play-mode (fÅr Eigenaufnahmen)
+            0 - no  - kein kopieren mîglich
+            1 - one - einmal kopieren mîglich
+            2 - all - kein Kopierschutz, freies kopieren mîglich
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 33  emphasis           ; de-emphasis
+
+     ret=xbios(xbs,33,emph)
+     WORD emph;
+     LONG ret;
+
+     emph:De-Emphasis(Hîhenabsenkung), wirkt auf Digitalausgang (im play-mode)
+          und Analogausgang
+            0 - normal      - keine Hîhenabsenkung
+            1 - de-emphasis - Hîhenabsenkung
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 40  digsrate           ; samplerate-erkennung vom digitalinput
+
+     status=xbios(xbs,40)
+     LONG status;
+
+     status: 0 -> ungÅltig
+             1 -> 32khz
+             2 -> 44.1khz
+             3 -> 48khz
+--------------------------------------------------------------------------------
+ 41  digcode            ; Digitalinput-Aufnahmeart-Code
+
+     status=xbios(xbs,41)
+     LONG status;
+
+     status: bit0 -> 0:professional
+                     1:consumer
+             bit1 -> 0:data
+                     1:audio
+             bit2 -> 0:no copy-prohibit=SCMS not active
+                     1:copy prohibit=SCMS active
+             bit3 -> 0:no emphasis
+                     1:emphasis active
+--------------------------------------------------------------------------------
+ 42  errorcode          ; Digitalinput-Fehlercode
+
+     status=xbios(xbs,42)
+     LONG status;
+
+     status: 0 -> no error
+             1 -> validity bit high
+             2 -> confidence flag
+             3 -> slipped sample
+             4 -> CRC-error
+             5 -> parity error
+             6 -> biphase coding error
+             7 -> no lock
+
+     Siehe dazu auch das CS8412-Manual von Crystal
+--------------------------------------------------------------------------------
+ 43  recstat            ; recfifo-status
+
+     status=xbios(xbs,43)
+     LONG status;
+
+     status: bit0 -> 0:FIFO leer
+                     1:FIFO nicht leer
+             bit1 -> 0:FIFO mehr als halb gefÅllt,lîst Interrupt aus
+                     1:FIFO weniger/bis halb gefÅllt
+             bit2 -> 0:FIFO voll
+                     1:FIFO nicht voll
+--------------------------------------------------------------------------------
+ 44  playstat           ; playfifo-status
+
+     status=xbios(xbs,44)
+     LONG status;
+
+     status: bit0 -> 0:FIFO leer
+                     1:FIFO nicht leer
+             bit1 -> 0:FIFO mehr als halb gefÅllt
+                     1:FIFO weniger/bis halb gefÅllt,lîst Interrupt aus
+             bit2 -> 0:FIFO voll
+                     1:FIFO nicht voll
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 50  volad              ; volume-controller fuer input
+
+     ret=xbios(xbs,50,lvol,rvol)
+     WORD lvol;
+     WORD rvol;
+     LONG ret;
+
+     lvol:LautstÑrke linker Kanal in 0.5db-Schritten (0-255)
+     rvol:LautstÑrke rechter Kanal in 0.5db-Schritten (0-255)
+     ret:0 - kein Fehler
+
+     Die Volume-Controller kînnen im Bereich von -96 bis +32db regeln:
+      
+     Wert   db
+     -----------
+        0  -96   
+      192    0   
+      255  +31.5 
+--------------------------------------------------------------------------------
+ 51  volda              ; volume-controller fuer output
+
+     ret=xbios(xbs,51,lvol,rvol)
+     WORD lvol;
+     WORD rvol;
+     LONG ret;
+
+     lvol:LautstÑrke linker Kanal in 0.5db-Schritten (0-255)
+     rvol:LautstÑrke rechter Kanal in 0.5db-Schritten (0-255)
+     ret:0 - kein Fehler
+
+     Die Volume-Controller kînnen im Bereich von -96 bis +32db regeln:
+      
+     Wert   db
+     -----------
+        0  -96   
+      192    0   
+      255  +31.5 
+--------------------------------------------------------------------------------
+ 52  readsmp            ; sample lesen ?
+
+     ret=xbios(xbs,52)
+     LONG ret;
+
+     ret:Samplewert
+--------------------------------------------------------------------------------
+ 53  writesmp           ; sample schreiben ?
+
+     WORD wert
+     ret=xbios(xbs,53,wert)
+     LONG ret;
+
+     wert:Samplewert
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 54  intact             ; interrupt-freigabe
+
+     WORD wert
+     ret=xbios(xbs,54,int)
+     LONG ret;
+
+     int: bit0 -> 0:play stoppen
+                  1:play starten
+          bit1 -> 0:rec stoppen
+                  1:play starten
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 60  recreset           ; record-FIFO loeschen
+
+     ret=xbios(xbs,60)
+     LONG ret;
+
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 61  dspreset           ; reset fuer DSP
+
+     ret=xbios(xbs,61)
+     LONG ret;
+
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 70  read_rlow          ; low-register lesen
+
+     status=xbios(xbs,70)
+     LONG status;
+
+     status: bit0 -> SWAES
+             bit1 -> SWDIGIN
+             bit2 -> TAKT0
+             bit3 -> TAKT1
+             bit4 -> EXTAKT
+             bit5 -> EXTEX
+             bit6 -> EXTTF
+             bit7 -> EXTTW
+--------------------------------------------------------------------------------
+ 71  read_rhi           ; high-register lesen
+
+     status=xbios(xbs,71)
+     LONG status;
+
+     status: bit0 -> SWPROT
+             bit1 -> SWRES-FIFO
+             bit2 -> SWDIGOUT
+             bit3 -> SWSUBFR
+             bit4 -> PREEMPH
+             bit5 -> GENERA
+             bit6 -> CATEG0
+             bit7 -> CATEG1
+--------------------------------------------------------------------------------
+ 72  read_rdsp          ; dsp-register lesen
+
+     status=xbios(xbs,72)
+     LONG status;
+
+     status: bit0 -> DSPON
+             bit1 -> DSPIN
+             bit2 -> VOLCS1
+             bit3 -> VOLCLK
+             bit4 -> VOLDATAI
+             bit5 -> VOLCS2
+             bit6 -> AESC24
+             bit7 -> AESC25
+--------------------------------------------------------------------------------
+ 73  read_raes          ; aes-register lesen
+
+     status=xbios(xbs,73)
+     LONG status;
+
+     status: bit0 -> SWPROF
+             bit1 -> SWCOPY
+             bit2 -> SWMAL2
+             bit7 -> SPEBU
+--------------------------------------------------------------------------------
+ 74  read_rint          ; interrupt-register lesen
+
+     status=xbios(xbs,74)
+     LONG status;
+
+     status: bit0 -> PLAY-INT
+             bit1 -> REC-INT
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 80  wr_rlow            ; low-register schreiben
+
+     status=xbios(xbs,80,wert)
+     WORD wert;
+     LONG status;
+
+     wert: bit0 -> SWAES
+           bit1 -> SWDIGIN
+           bit2 -> TAKT0
+           bit3 -> TAKT1
+           bit4 -> EXTAKT
+           bit5 -> EXTEX
+           bit6 -> EXTTF
+           bit7 -> EXTTW
+--------------------------------------------------------------------------------
+ 81  wr_rhi             ; high-register schreiben
+
+     status=xbios(xbs,81,wert)
+     WORD wert;
+     LONG status;
+
+     wert: bit0 -> SWPROT
+           bit1 -> SWRES-FIFO
+           bit2 -> SWDIGOUT
+           bit3 -> SWSUBFR
+           bit4 -> PREEMPH
+           bit5 -> GENERA
+           bit6 -> CATEG0
+           bit7 -> CATEG1
+--------------------------------------------------------------------------------
+ 82  wr_rdsp            ; dsp-register schreiben
+
+     status=xbios(xbs,82,wert)
+     WORD wert;
+     LONG status;
+
+     wert: bit0 -> DSPON
+           bit1 -> DSPIN
+           bit2 -> VOLCS1
+           bit3 -> VOLCLK
+           bit4 -> VOLDATAI
+           bit5 -> VOLCS2
+           bit6 -> AESC24
+           bit7 -> AESC25
+--------------------------------------------------------------------------------
+ 83  wr_raes            ; aes-register schreiben
+
+     status=xbios(xbs,83,wert)
+     WORD wert;
+     LONG status;
+
+     wert: bit0 -> SWPROF
+           bit1 -> SWCOPY
+           bit2 -> SWMAL2
+           bit7 -> SPEBU
+--------------------------------------------------------------------------------
+ 84  wr_rint            ; interrupt-register schreiben
+
+     status=xbios(xbs,84,wert)
+     LONG status;
+
+     wert: bit0 -> PLAY-INT
+           bit1 -> REC-INT
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 90  fastcut            ; speicherbereich loeschen im samplemem
+
+     ret=xbios(xbs,90,anfmem,endmem)
+     LONG anfmem;
+     LONG endmem;
+     LONG ret;
+
+     anfmem:Anfangsadresse
+     endmem:Endadresse (erster ungÅltiger Wert)
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+ 91  peaksuch           ; peakwert-suche im samplemem
+
+     pointer=xbios(xbs,91,anfmem,endmem)
+     LONG anfmem;
+     LONG endmem;
+     LONG ret;
+
+     anfmem:Anfangsadresse
+     endmem:Endadresse (erster ungÅltiger Wert)
+     pointer:Zeiger auf Wertetabelle
+             WORD rpos; maximalwert positive Halbwelle rechts
+             WORD rneg; maximalwert negative Halbwelle rechts
+             WORD lpos; maximalwert positive Halbwelle links
+             WORD lneg; maximalwert negative Halbwelle links
+--------------------------------------------------------------------------------
+ 92  zerono             ; nullstellen-suche im samplemem
+
+     adr=xbios(xbs,92,anfmem,endmem,side)
+     LONG anfmem;
+     LONG endmem;
+     LONG side;
+     LONG adr;
+
+     anfmem:Anfangsadresse
+     endmem:Endadresse (erster ungÅltiger Wert)
+       side:Suchrichtung
+     adr:Adresse der Fundstelle
+--------------------------------------------------------------------------------
+ 93  fading             ; sample-fading im samplemem
+
+     ret=xbios(xbs,93,data,werte,anfmem,endmem)
+     LONG data
+     LONG werte
+     LONG anfmem;
+     LONG endmem;
+     LONG ret;
+
+     data:Pointer auf Faderkurvenwerte
+     werte:Anzahl der Faderwerte
+     anfmem:Anfangsadresse
+     endmem:Endadresse (erster ungÅltiger Wert)
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+100  mix4               ; mixt 2 StereokanÑle (=4 Tracks)
+
+     ret=xbios(xbs,100,startadr,len,zieladr,mixwords,voltab)
+     LONG startadr;
+     LONG len;
+     LONG zieladr
+     LONG mixwords
+     LONG voltab
+     LONG ret;
+
+     startradr:Startadresse der zu mischenden Tracks
+           len:lÑnge eines Stereotracks
+       zieladr:Startadresse fÅr den gemischten Stereotrack
+      mixwords:Anzahl der Mixwords
+        voltab:Pointer auf Track-Volume-Wertetabelle
+               BYTE VOL-TRACK1  
+               BYTE VOL-TRACK2
+     ret:0 - kein Fehler
+
+     Die zu mischenden Tracks stehen im Speicher als Stereospuren hintereinander
+     Die Volwert-Tabelle beinhaltet die LautstÑrken fÅr die einzelnen KanÑle
+     im Bereich 0-200:
+       0=mute
+      50=halbe LautstÑrke
+     100=original LautstÑrke
+     200=doppelte LautstÑrke
+--------------------------------------------------------------------------------
+101  mix8               ; mixt 4 StereokanÑle (=8 Tracks)
+
+     ret=xbios(xbs,101,startadr,len,zieladr,mixwords,voltab)
+     LONG startadr;
+     LONG len;
+     LONG zieladr
+     LONG mixwords
+     LONG voltab
+     LONG ret;
+
+     startradr:Startadresse der zu mischenden Tracks
+           len:lÑnge eines Stereotracks
+       zieladr:Startadresse fÅr den gemischten Stereotrack
+      mixwords:Anzahl der Mixwords
+        voltab:Pointer auf Track-Volume-Wertetabelle
+               BYTE VOL-TRACK1  
+               BYTE VOL-TRACK2
+               BYTE VOL-TRACK3  
+               BYTE VOL-TRACK4
+     ret:0 - kein Fehler
+
+     Die zu mischenden Tracks stehen im Speicher als Stereospuren hintereinander
+     Die Volwert-Tabelle beinhaltet die LautstÑrken fÅr die einzelnen KanÑle
+     im Bereich 0-200:
+       0=mute
+      50=halbe LautstÑrke
+     100=original LautstÑrke
+     200=doppelte LautstÑrke
+--------------------------------------------------------------------------------
+102  mix12              ; mixt 6 StereokanÑle (=12 Tracks)
+
+     ret=xbios(xbs,102,startadr,len,zieladr,mixwords,voltab)
+     LONG startadr;
+     LONG len;
+     LONG zieladr
+     LONG mixwords
+     LONG voltab
+     LONG ret;
+
+     startradr:Startadresse der zu mischenden Tracks
+           len:lÑnge eines Stereotracks
+       zieladr:Startadresse fÅr den gemischten Stereotrack
+      mixwords:Anzahl der Mixwords
+        voltab:Pointer auf Track-Volume-Wertetabelle
+               BYTE VOL-TRACK1  
+               BYTE VOL-TRACK2
+               BYTE VOL-TRACK3  
+               BYTE VOL-TRACK4
+               BYTE VOL-TRACK5  
+               BYTE VOL-TRACK6
+     ret:0 - kein Fehler
+
+     Die zu mischenden Tracks stehen im Speicher als Stereospuren hintereinander
+     Die Volwert-Tabelle beinhaltet die LautstÑrken fÅr die einzelnen KanÑle
+     im Bereich 0-200:
+       0=mute
+      50=halbe LautstÑrke
+     100=original LautstÑrke
+     200=doppelte LautstÑrke
+--------------------------------------------------------------------------------
+103  mix16              ; mixt 8 StereokanÑle (=16 Tracks)
+
+     ret=xbios(xbs,103,startadr,len,zieladr,mixwords,voltab)
+     LONG startadr;
+     LONG len;
+     LONG zieladr
+     LONG mixwords
+     LONG voltab
+     LONG ret;
+
+     startradr:Startadresse der zu mischenden Tracks
+           len:lÑnge eines Stereotracks
+       zieladr:Startadresse fÅr den gemischten Stereotrack
+      mixwords:Anzahl der Mixwords
+        voltab:Pointer auf Track-Volume-Wertetabelle
+               BYTE VOL-TRACK1  
+               BYTE VOL-TRACK2
+               BYTE VOL-TRACK3  
+               BYTE VOL-TRACK4
+               BYTE VOL-TRACK5  
+               BYTE VOL-TRACK6
+               BYTE VOL-TRACK7  
+               BYTE VOL-TRACK8
+     ret:0 - kein Fehler
+
+     Die zu mischenden Tracks stehen im Speicher als Stereospuren hintereinander
+     Die Volwert-Tabelle beinhaltet die LautstÑrken fÅr die einzelnen KanÑle
+     im Bereich 0-200:
+       0=mute
+      50=halbe LautstÑrke
+     100=original LautstÑrke
+     200=doppelte LautstÑrke
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+110  monitor            ; record&play-bypass
+
+     ret=xbios(xbs,110)
+     LONG ret;
+
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+111  recwait            ; warten auf autorecord-schwellwert
+
+     ret=xbios(xbs,111,treshold)
+     LONG treshold;
+     LONG ret;
+
+     treshold:Schwellwert (0-32767)
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+112  memrec             ; memory-record ohne Interrupt
+
+     ret=xbios(xbs,112,startadr,endadr)
+     LONG startadr;
+     LONG endadr;
+     LONG ret;
+
+     startradr:Aufnahme-Startadresse
+        endadr:Aufnahme-Endadresse
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+113  memplay            ; memory-play ohne Interrupt
+
+     ret=xbios(xbs,113,startadr,endadr,step,mode,midi)
+     LONG startadr;
+     LONG endadr;
+     LONG step;
+     LONG mode:
+     LONG midi;
+     LONG ret;
+
+     startradr:Play-Startadresse
+        endadr:Play-Endadresse
+          step:Geschwindigkeit der Wiedergabe
+          mode:
+               bit0 -> loop
+               bit1 -> crossplay
+               bit2 -> midi
+          midi:Midinote, bei der die Wiedergabe starten soll
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+114  hardrec            ; HD-record ohne Interrupt
+
+     ret=xbios(xbs,114,startadr,len,handle,sectors)
+     LONG startadr;
+     LONG len;
+     LONG handle;
+     LONG sectors;
+     LONG ret;
+
+     startradr:Aufnahmebuffer-Startadresse
+           len:Aufnahmebuffer-LÑnge
+        handle:Handle der Aufnahmedatei
+       sectors:Anzahl der Aufnahmesektoren
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+115  hardplay           ; HD-play ohne Interrupt
+
+     ret=xbios(xbs,114,startadr,len,handle,seek,sectors,step,mode,midi)
+     LONG startadr;
+     LONG len;
+     LONG handle;
+     LONG seek;
+     LONG sectors;
+     LONG step;
+     LONG mode;
+     LONG midi;
+     LONG ret;
+
+     startradr:Playbuffer-Startadresse
+           len:Playbuffer-LÑnge
+        handle:Handle der Playdatei
+          seek:Datei-Startposition
+       sectors:Anzahl der sektoren
+          step:Geschwindigkeit der Wiedergabe
+          mode:
+               bit0 -> loop
+               bit1 -> crossplay
+               bit2 -> midi
+               bit3 -> break
+          midi:Midinote, bei der die Wiedergabe starten soll
+     ret:0 - kein Fehler
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+120  init_peak          ; peakwert-ausgabe im Interrupt
+
+     pointer=xbios(xbs,120)
+     LONG pointer;
+
+     pointer:Adresse RÅckgabewerte
+             LONG peakwert
+             LONG break
+--------------------------------------------------------------------------------
+121  init_imemrec       ; memory-record im Interrupt
+
+     pointer=xbios(xbs,121,startadr,endadr)
+     LONG startadr;
+     LONG endadr;
+     LONG pointer;
+
+     startradr:Aufnahme-Startadresse
+        endadr:Aufnahme-Endadresse
+     pointer:Adresse RÅckgabewerte
+            LONG  0 memposition
+            LONG  8 break
+            LONG 16 fehler
+            LONG 36 zÑhlerposition
+--------------------------------------------------------------------------------
+122  init_imemplay      ; memory-play im Interrupt
+
+     ret=xbios(xbs,122,startadr,endadr,step,mode,midi)
+     LONG startadr;
+     LONG endadr;
+     LONG step;
+     LONG mode:
+     LONG midi;
+     LONG pointer;
+
+     startradr:Play-Startadresse
+        endadr:Play-Endadresse
+          step:Geschwindigkeit der Wiedergabe
+          mode:
+               bit0 -> loop
+               bit1 -> crossplay
+               bit2 -> midi
+          midi:Midinote, bei der die Wiedergabe starten soll
+     pointer:Adresse RÅckgabewerte
+            LONG  0 memposition
+            LONG  8 break
+            LONG 16 fehler
+            LONG 36 zÑhlerposition
+--------------------------------------------------------------------------------
+123  init_implayrec     ; memory-record & play im Interrupt
+
+     ret=xbios(xbs,123,pstartadr,pendadr,rstartadr,rendadr,step)
+     LONG pstartadr;
+     LONG pendadr;
+     LONG rstartadr;
+     LONG rendadr;
+     LONG step;
+     LONG pointer;
+
+     startradr:Play-Startadresse
+        endadr:Play-Endadresse
+     startradr:Play-Startadresse
+        endadr:Play-Endadresse
+          step:Geschwindigkeit der Wiedergabe
+     pointer:Adresse RÅckgabewerte
+            LONG  0 memposition play
+            LONG  4 memposition rec
+            LONG  8 break play
+            LONG 12 break rec
+            LONG 16 fehler play
+            LONG 20 fehler rec
+--------------------------------------------------------------------------------
+124  init_hrec          ; HD-record im Interrupt
+
+     ret=xbios(xbs,124,startadr,len,handle,sectors,fileart)
+     LONG startadr;
+     LONG len;
+     LONG handle;
+     LONG sectors;
+     LONG fileart;
+     LONG pointer;
+
+     startradr:Aufnahmebuffer-Startadresse
+           len:Aufnahmebuffer-LÑnge
+        handle:Handle der Aufnahmedatei
+       sectors:Anzahl der Aufnahmesektoren
+       fileart:3=WAV-Datei anlegen
+     pointer:Adresse RÅckgabewerte
+            LONG  0 memposition 
+            LONG  4 Anzahl aufgenommene sektoren
+            LONG  8 break 
+            LONG 16 fehler
+--------------------------------------------------------------------------------
+125  init_hplay         ; HD-play im Interrupt
+
+     ret=xbios(xbs,125,startadr,len,handle,seek,sectors,step,mode,midi,fileart)
+     LONG startadr;
+     LONG len;
+     LONG handle;
+     LONG seek;
+     LONG sectors;
+     LONG step;
+     LONG mode;
+     LONG midi;
+     LONG fileart;
+     LONG pointer;
+
+     startradr:Playbuffer-Startadresse
+           len:Playbuffer-LÑnge
+        handle:Handle der Playdatei
+          seek:Datei-Startposition
+       sectors:Anzahl der sektoren
+          step:Geschwindigkeit der Wiedergabe
+          mode:
+               bit0 -> loop
+               bit1 -> crossplay
+               bit2 -> midi
+               bit3 -> break
+          midi:Midinote, bei der die Wiedergabe starten soll
+       fileart:3=WAV-Datei
+     pointer:Adresse RÅckgabewerte
+            LONG  0 memposition 
+            LONG  4 Anzahl abgespielte sektoren
+            LONG  8 Anzahl loops
+            LONG 12 break 
+            LONG 16 fehler
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+130  init_mrecpeak      ; memory-rec & peakausgabe im Interrupt
+
+     pointer=xbios(xbs,130,startadr,endadr)
+     LONG startadr;
+     LONG endadr;
+     LONG pointer;
+
+     startradr:Aufnahme-Startadresse
+        endadr:Aufnahme-Endadresse
+     pointer:Adresse RÅckgabewerte
+            LONG  0 memposition
+            LONG  8 break
+            LONG 12 peakwert
+            LONG 16 fehler
+            LONG 36 zÑhlerposition
+--------------------------------------------------------------------------------
+131  init_hrecpeak      ; HD-rec & peakausgabe im Interrupt
+
+     ret=xbios(xbs,131,startadr,len,handle,sectors,fileart)
+     LONG startadr;
+     LONG len;
+     LONG handle;
+     LONG sectors;
+     LONG fileart;
+     LONG pointer;
+
+     startradr:Aufnahmebuffer-Startadresse
+           len:Aufnahmebuffer-LÑnge
+        handle:Handle der Aufnahmedatei
+       sectors:Anzahl der Aufnahmesektoren
+       fileart:3=WAV-Datei anlegen
+     pointer:Adresse RÅckgabewerte
+            LONG  0 memposition 
+            LONG  4 Anzahl aufgenommene sektoren
+            LONG  8 break
+            LONG 12 peakwert 
+            LONG 16 fehler
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+140  init_xmemrec       ; memory-record im HalfBuffer-System
+
+     pointer=xbios(xbs,140,startadr1,endadr1,startadr2,endadr2,sectors,fileart)
+     LONG startadr1;
+     LONG endadr1;
+     LONG startadr2;
+     LONG endadr2;
+     LONG sectors;
+     LONG fileart;
+     LONG pointer;
+
+     startradr1:Aufnahme-Startadresse
+        endadr1:Aufnahme-Endadresse
+     startradr2:Aufnahme-Startadresse
+        endadr2:Aufnahme-Endadresse
+        sectors:Anzahl FIFO-Blîcke
+        fileart:3=WAV-Datei anlegen
+     pointer:Adresse RÅckgabewerte
+            LONG  0 memposition
+            LONG  8 break
+            LONG 12 memflag
+            LONG 16 fehler
+            LONG 28 peakwert
+            LONG 36 zÑhlerposition
+--------------------------------------------------------------------------------
+141  init_xmemplay      ; memory-play im HalfBuffer-System
+
+     pointer=xbios(xbs,141,startadr1,endadr1,startadr2,endadr2,sectors,fileart,
+                  step,mode,midi)
+     LONG startadr1;
+     LONG endadr1;
+     LONG startadr2;
+     LONG endadr2;
+     LONG sectors;
+     LONG fileart;
+     LONG step;
+     LONG mode;
+     LONG midi;
+     LONG pointer;
+
+     startradr1:Aufnahme-Startadresse
+        endadr1:Aufnahme-Endadresse
+     startradr2:Aufnahme-Startadresse
+        endadr2:Aufnahme-Endadresse
+        sectors:Anzahl FIFO-Blîcke
+        fileart:3=WAV-Datei anlegen
+          step:Geschwindigkeit der Wiedergabe
+          mode:
+               bit0 -> loop
+               bit1 -> crossplay
+               bit2 -> midi
+               bit3 -> break
+          midi:Midinote, bei der die Wiedergabe starten soll
+     pointer:Adresse RÅckgabewerte
+            LONG  0 memposition
+            LONG  8 break
+            LONG 12 memflag
+            LONG 16 fehler
+            LONG 24 lastblock
+            LONG 28 peakwert
+            LONG 36 zÑhlerposition
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------

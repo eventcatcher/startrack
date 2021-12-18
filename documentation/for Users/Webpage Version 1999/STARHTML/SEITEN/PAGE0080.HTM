@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.11.4"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0079.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0081.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.11.4 Resample</H3>
+<IMG SRC="../images/p183.gif" WIDTH="352" HEIGHT="480">
+
+ In diesem Dialog kann man die Einstellungen f&uuml;r die Resample-Funktion
+ t&auml;tigen. Die Resample-Funktion ist im <A HREF="page0077.htm">Blockfunktionen-Fenster</A> unter dem
+ Resample-Button erreichbar. Man kann hiermit die Samplerate nachtr&auml;glich
+ &auml;ndern. Daf&uuml;r wird die neue Samplerate in Kilohertz (1000 Schwingungen/
+ Sekunde = 1 kHz) angegeben und anschlie&szlig;end das Sample auf die ge&auml;nderte
+ Samplerate umgerechnet.
+
+
+ 1) Original Samplerate
+
+ Hier wird die momentan g&uuml;ltige Samplerate angegeben. Falls die angezeigte
+ Samplerate nicht mit der wirklichen &uuml;bereinstimmt, kann man dies hier
+ korrigieren. Das ist z.B. notwendig, wenn die Audiohardware die Original-
+ Samplerate nicht generieren kann.
+
+
+ 2) Samplerate-Selection
+
+ Hier kann man die neue Samplerate aus den von der Audiohardware
+ unterst&uuml;tzten M&ouml;glichkeiten ausw&auml;hlen.
+
+
+ 3) Time
+
+ Hier wird die nach der Umrechnung zu erwartende Sampledauer angezeigt.
+
+
+ 4) Samples
+
+ Hier wird die nach der Umrechnung zu erwartende Samplel&auml;nge angezeigt.
+
+
+ 5) Factor
+
+ Hier wird das Umrechnungs-L&auml;ngenverh&auml;ltnis angezeigt, also das Verh&auml;ltnis
+ neue L&auml;nge/alte L&auml;nge. Ist der Faktor &gt;1 wird das Sample l&auml;nger, ist der
+ Faktor &lt;1, dann wird das Sample k&uuml;rzer.
+
+
+ 6) New Samplerate
+
+ Hier wird die Samplerate in kHz angegeben, auf die das Sample umgerechnet
+ werden soll. Hier kann die Samplerate editiert werden, falls die vom System
+ unterst&uuml;tzten Sampleraten (2) nicht ausreichen sollten.
+ Die Samplerate kann man auch mit den Pfeiltasten (7) &auml;ndern oder aus der
+ Sampleraten-Liste (2) ausw&auml;hlen.
+
+
+ 7) Pfeiltasten
+
+ Mit den Pfeiltasten kann man die Samplerate einstellen, falls die &uuml;blichen
+ Sampleraten (siehe 2) nicht ausreichen und zwar mit 3 verschiedenen
+ Schrittweiten:
+</PRE>
+
+<TABLE>
+<TR>
+<TD VALIGN=TOP>einfach-Pfeiltaste</TD>
+<TD VALIGN=TOP>=</TD>
+<TD VALIGN=TOP WIDTH=100>0.1 kHz</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>zweifach-Pfeiltaste</TD>
+<TD VALIGN=TOP>=</TD>
+<TD VALIGN=TOP WIDTH=100>1 kHz</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>dreifach-Pfeiltaste</TD>
+<TD VALIGN=TOP>=</TD>
+<TD VALIGN=TOP WIDTH=100>5 kHz</TD>
+</TR>
+</TABLE>
+
+<PRE>
+
+ 8) Adjust Resampling-Rate
+
+ Soll nur das Sample auf die neue Samplerate umgerechnet werden, ohne die
+ Samplerate beim Abspielen anzupassen, dann sollte man den Button
+ deselektieren. Wird das Sample bei der Umrechnung k&uuml;rzer (Faktor&lt;1) entsteht
+ ein MickyMaus-Effekt, wird das Sample gr&ouml;&szlig;er entsteht ein Zeitlupen-Effekt
+ bei der Wiedergabe, da sich die Samplerate bei der Wiedergabe ja nicht ge&auml;ndert
+ hat. Man kann nat&uuml;rlich eine passende Samplerate im <A HREF="page0052.htm">Samplerate-Dropdown</A>
+ ausw&auml;hlen, damit die Geschwindigkeit wieder stimmt. Falls keine passende
+ Samplerate im Dropdown vorhanden ist, w&auml;hlt man die bestm&ouml;gliche. Ist der 
+ Button selektiert, dann wird automatisch nach dem Konvertieren auf die neue
+ Samplerate umgeschaltet. Bei der Wiedergabe wird dann das Abspielen mit der
+ neuen Samplerate erzwungen, sofern die Soundkarte hardwarem&auml;&szlig;ig in der Lage 
+ ist, diese Samplerate zu erzeugen. Alle Zeitangaben beziehen sich dann auf
+ die neue Samplerate. Die neue Samplerate wird auch im Editor im <A HREF="page0054.htm">Adjust-Feld</A>
+ angezeigt, um an die ge&auml;nderte Samplerate zu erinnern. Eine manuelle
+ Sampleraten&auml;nderung im <A HREF="page0052.htm">Sampleraten-Dropdown</A> ist dann gesperrt, solange der
+ Adjust-Button selektiert ist. Man mu&szlig; ihn deselektieren, wenn man die 
+ Samplerate im Dropdown &auml;ndern m&ouml;chte (anschlie&szlig;end Resample-Dialog mit
+ Exit verlassen). Diese Funktionsweise wird sich vielleicht noch &auml;ndern,
+ da sie etwas umst&auml;ndlich erscheint (nobody is perfect).
+
+
+ 9) Help
+
+ Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wenn sie nicht wissen wie
+ das funktioniert, schauen sie sich die Anleitung zu 1stGuide einmal genauer an.
+
+
+ 10) Exit
+
+ Hiermit wird der Resample-Dialog geschlossen. Die Resample-Funktion wird
+ nicht ausgef&uuml;hrt.
+
+
+ 11) OK
+
+ Hiermit wird der Resample-Dialog geschlossen und die Funktion ausgef&uuml;hrt.
+
+</PRE>
+
+<A HREF="#4.11.4">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

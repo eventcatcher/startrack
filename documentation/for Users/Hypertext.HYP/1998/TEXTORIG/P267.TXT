@@ -1,0 +1,120 @@
+5.2 Dateiformate
+
+
+
+Alle wichtigen SetupüDateien sind per ASCIIüEditor editierbar.
+
+Die meisten Parameter sind aber auch direkt im Programm einstellbar.
+
+Einige Parameter in den SetupüDateien werden im Hex($) und Bin„rformat
+
+(x) angegeben.Die meisten Optionen werden im BooleanüFormat (true,false)
+
+angegeben,einige jedoch auch direkt als Dezimalwert.
+
+Darauf sollte man unbedingt achten,da es sonst eventuell zu Fehlfunktionen im  Programm kommen k”nnte.
+
+
+
+5.2.1 SetupüDatei "STARTRK.SET"
+
+
+
+language
+
+external ; externes Sprachfile mit Namen LANGUAGE.TXT benutzen
+
+LANG D.TXT ; oder anderes Textfile,daá die Sprachanpassung realisiert.
+
+Fr Deutsch,Englisch und Franz”sisch sind entsprechende Anpassungen bereits vorhanden.
+
+
+
+memory size ; SampleramüGr”áe
+
+
+
+memory max ;	Begrenzung der SampleramüGr”áe auf memory size (false)  		oder Maximalgr”áe (true) anfordern.
+
+
+
+memory min size ; Minimalgr”áe des Sampleram
+
+
+
+memory min rest ;	Minimalgr”áe des Ram,das fr andere Programme
+
+			freibleiben soll (wichtig bei Multitasking).
+
+
+
+tracker cache ; Speichergr”áe fr MultitracküCache
+
+
+
+zoomdepth max entrys ; Anzahl der max. UndoüSchritte beim Zoomen
+
+
+
+arranger max entrys ; Maximalanzahl der ArrangerüEintr„ge
+
+
+
+tracker max entrys ; Maximalanzahl der TrackerüParts (Samplefiles)
+
+
+
+tracker max tracks ; Maximalanzahl der TrackerüSpuren
+
+
+
+filesel max entrys ; Maximalanzahl der Files im AudioüFileselector
+
+
+
+default path ; SamplepfadüVoreinstellung
+
+
+
+help path ; Pfad des 1stGuideüHelpfiles fr StarTrack AudioüSuite
+
+
+
+hardcursor ;	Das NovaüVDI untersttzt den HardwareüCursor der 		ATIüGrafikchips.Bei diesen braucht daher der Hintergrund
+		beim Zeichen der Maus nicht gerettet werden (true).Die 		HardcursorüOption vermindert dadurch		teilweise auch deutlich
+		das Flackern der Maus z.B. im		Peakmeter.		
+
+
+
+color curve out ; VDIüFarbe des SamplewindowüAuáenbereichs des Editors 
+
+
+
+color curve in ; VDIüFarbe des SamplewindowüInnenbereichs des Editors
+
+
+
+peak fall delay ; Zeitverz”gerung bei fallenden Peakwerten (PeakmeterüTiming)
+
+
+
+peak fall relation ; Abfallrelation der Peakwerte zum letzten Peakwert 
+
+
+
+peak fall limit ; PeakwertüHaltegrenze bis zur Erkennung fallender Werte
+
+
+
+midi control channel ; ControlüChannel des MidiüVolumecontrollers
+
+
+
+play lead in ; Anspieldauer in Sekunden im Audioselector
+
+
+
+
+
+Nicht aufgefhrte Optionen k”nnen direkt im Programm eingestellt,und im Setup gesichert werden.
+

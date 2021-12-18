@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.11"></A>
+<A NAME="4.11.1"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0076.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0078.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.11 Blockfunktionen</H3>
+
+<H3> 4.11.1 Blockfunktionen-Fenster</H3>
+<IMG SRC="../images/p066_2.gif" WIDTH="352" HEIGHT="400">
+
+ Dieses Fenster ist f&uuml;r die Blockfunktionen des Edit-Fensters zust&auml;ndig.
+ Aufgerufen wird das Blockfunktionen-Fenster durch den <A HREF="page0058.htm">Blockfunktionen-
+ Button</A> im Edit-Fenster, durch Eingabe von CTRL-B oder &uuml;ber das
+ optionale Programm-Men&uuml; im <A HREF="page0109.htm">Dropdown Fenster/Blockfunktionen</A>.
+ Der Wirkungsbereich der Funktionen l&auml;&szlig;t sich im Edit-Fenster, mit den
+ <A HREF="page0047.htm">Markern</A> beeinflussen. Daf&uuml;r mu&szlig; das <A HREF="page0057.htm">Block-Icon</A> (siehe Bild) selektiert sein,
+ die Funktion wirkt nur im Bereich zwischen Marker-S und Marker-E.
+ Ist kein Block definiert, wird die Funktion nicht ausgef&uuml;hrt (Cut) oder auf
+ das gesamte Sample angewendet!
+
+
+ 1) Cut In
+
+ L&ouml;scht den Bereich zwischen Marker-S und Marker-E.
+
+
+ 2) Cut Out
+
+ L&ouml;scht den Bereich au&szlig;erhalb des Bereichs zwischen Marker-S und Marker-E.
+ Es wird also alles gel&ouml;scht, au&szlig;er dem Bereich zwischen den beiden <A HREF="page0047.htm">Markern</A>.
+
+
+ 3) Cut Del
+
+ L&ouml;scht den Bereich zwischen Marker-S und Marker-E und schlie&szlig;t die L&uuml;cke,
+ indem der Bereich der rechts neben dem definierten Block liegt, soweit nach
+ links geschoben wird, bis die L&uuml;cke geschlossen wurde.
+
+
+ 4) Insert
+
+ Damit kann ein Soundfile an die durch Marker-S definierte Position geladen
+ und eingef&uuml;gt werden (bzw. ans Ende, falls kein Block definiert wurde).
+ Dabei wird der nachfolgende Samplebereich nicht &uuml;berschrieben.
+ Der nachfolgende Samplebereich wird lediglich an das Ende des dazugeladenen
+ Samples geschoben. Reicht dazu der Samplespeicher nicht aus, wird automatisch
+ in den <A HREF="page0066.htm">Virtual-Mode</A> (virtuelle Speicherverwaltung, HD-Projekt) gewechselt.
+
+
+ 5) Space
+
+ Damit wird an die durch Marker-S definierte Position (bzw. am Ende, falls kein
+ Block definiert wurde) eine Pause bzw. Leerraum eingef&uuml;gt. Dabei wird der
+ nachfolgende Samplebereich nicht &uuml;berschrieben.
+ Der nachfolgende Samplebereich wird lediglich an das Ende des Pausenbereichs
+ geschoben. Reicht dazu der Samplespeicher nicht aus, wird automatisch in den
+ <A HREF="page0066.htm">Virtual-Mode</A> (virtuelle Speicherverwaltung, HD-Projekt) gewechselt.
+ Die Pausenl&auml;nge kann man dabei im nun erscheinenden Space-Dialog bestimmen.
+
+
+ 6) Negate
+
+ Damit werden die Samplewerte zwischen Marker-S und Marker-E (bzw. der
+ ganze Bereich, falls kein Block definiert wurde) gedreht, d.h. positive
+ Amplitudenwerte werden negativ und negative Amplitudenwerte werden positiv.
+
+
+ 7) Optimize
+
+ Damit kann man die Lautst&auml;rke des Samples zwischen Marker-S und Marker-E
+ (bzw. das komplette Sample, falls kein Block definiert wurde) ver&auml;ndern.
+ Dabei erscheint die <A HREF="page0079.htm">Optimize-Dialogbox</A>, in der man bestimmen kann, auf
+ welchen dB-Wert der Bereich angehoben bzw. abgesenkt werden soll. W&auml;hlt man
+ Auto, dann wird der Bereich auf Maximalaussteuerung (0dB) angehoben.
+
+
+ 8) Resample
+
+ Damit kann man den Bereich zwischen Marker-S und Marker-E (bzw. das
+ komplette Sample, falls kein Block definiert wurde) resampeln, d.h. man kann
+ die Samplerate auf einen anderen Wert umrechnen. Dabei erscheint zun&auml;chst
+ der <A HREF="page0080.htm">Resample-Dialog</A>, in dem man die neue Samplerate bestimmen kann. Wird
+ das Sample dadurch gr&ouml;&szlig;er, wird der au&szlig;erhalb der Marker liegende Bereich
+ &uuml;berschrieben, bzw. bei kleiner werdenden Speicher entsteht ein Leerraum.
+
+
+ 9) Stereo-&gt;Mono
+
+ Damit kann man den Bereich zwischen Marker-S und Marker-E (bzw. das
+ komplette Sample, falls kein Block definiert wurde) von Stereo in Mono
+ umrechnen.
+
+
+ 10) Change
+
+ Damit werden die Kan&auml;le zwischen Marker-S und Marker-E (bzw. des
+ kompletten Bereichs, falls kein Block definiert wurde) getauscht,
+ d.h. links wird rechts und rechts wird links.
+
+
+ 11) 24-&gt;16
+
+ Mit dieser Funktion kann man ein 24Bit-Sample in ein Sample mit
+ 16Bit Aufl&ouml;sung konvertieren. Dabei kann nur das komplette Sample konvertiert
+ werden. Eine eventuell existierende Blockmarkierung wird ignoriert, da es
+ unsinnig w&auml;re, verschiedene Bittiefen in einem Sample zu mischen.
+
+
+ 12) 16-&gt;24
+
+ Mit dieser Funktion kann man ein 16Bit-Sample in ein Sample mit
+ 24Bit Aufl&ouml;sung konvertieren. Dabei kann nur das komplette Sample konvertiert
+ werden. Eine eventuell existierende Blockmarkierung wird ignoriert, da es
+ unsinnig w&auml;re, verschiedene Bittiefen in einem Sample zu mischen.
+
+
+ 13) Help
+
+ Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wenn sie nicht wissen wie
+ das funktioniert, schauen sie sich die Anleitung zu 1stGuide einmal genauer an.
+
+
+ 14) Exit
+
+ Hiermit wird das Blockfunktionen-Fenster geschlossen. Alle Einstellungen
+ bleiben bis zum n&auml;chsten Aufruf unver&auml;ndert.
+ Man kann jedoch mehrere Fenster gleichzeitig ge&ouml;ffnet lassen und hat so
+ immer den direkten Zugriff auf die Funktionen.
+
+</PRE>
+
+<A HREF="#4.11">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

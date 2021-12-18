@@ -1,0 +1,105 @@
+Marker-Dialog
+
+
+Dieser Dialog ist fr die Marker-Auswahl im İTrakker-FensterİTRAKKER.TXTİ und im
+İArranger-FensterİARRANGE.TXTİ zust„ndig. Man erreicht diesen Dialog ber das Block-Symbol
+im Trakker- oder Arranger-Fenster. Er wird benutzt um fr das Sample einen
+bestimmten Blockbereich zu w„hlen. Das ist ntzlich wenn man vorher mhsam
+im Sample-Editor erstellte Markerdefinitionen z.B. fr Loops bernehmen
+m”chte. Man kann dann im Trakker mehrere gleiche Bl”cke hintereinandersetzen
+um so Wiederholungen zu produzieren ohne das man den šbergang h”rt (z.B: fr
+einen wiederkehrenden Groove-Rhythmus). Im Arranger-Fenster ist es ntzlich
+um einen vorher im Editor definierten Bereich,der sich gut zum spielen ber
+ein MIDI-Keyboard eignet,nicht neu von Hand suchen zu mssen. Die hier
+dargestellten Markereintr„ge werden zuerst in der Sample-Info-Datei
+(Dateiendung *.INF) gesucht. Falls diese nicht vorhanden ist, bleiben die
+Eintr„ge leer. Fr die Zukunft ist geplant, dann in den Samplefiles die
+Marker zu suchen. Bei den meisten Sample-Dateiformaten ist aber h”chstens
+1 Markerp„rchen definiert. Zur besseren Verst„ndnis sollte man das
+İBILDİMARKER.IMGİ zu Rate ziehen.
+
+
+1) Marker-Nummer
+----------------
+Es gibt 100 Markereintr„ge, davon ist immer einer sichtbar. Mit dem
+Slider(8) kann man den Markereintrag ausw„hlen.
+Hier erscheint dann die Nummer des Markereintrags.
+
+2) Marker-S
+-----------
+Hier erscheint der Wert des Start-Markers im Format
+Stunden:Minuten:Sekunden Hundertstel-Sekunden.
+Der Start-Marker definiert den Anfang eines Trakker- oder
+Arranger-Sampleblocks.
+
+3) Marker-E
+-----------
+Hier erscheint der Wert des End-Markers im Format
+Stunden:Minuten:Sekunden Hundertstel-Sekunden.
+Der End-Marker definiert das Ende eines Trakker- oder Arranger-Sampleblocks.
+
+4) Marker-I
+-----------
+Hier erscheint der Wert des Init-Markers im Format
+Stunden:Minuten:Sekunden Hundertstel-Sekunden.
+Der Init-Marker definiert den Anfang des Samples fr die Wiedergabe.
+Die Marker I und R spielen vor allem beim spielen der Samples ber ein
+MIDI-Keyboard eine Rolle. Beim Druck auf die Keyboardtaste beginnt die
+Wiedergabe. H„lt man die Keyboardtaste gedrckt, wird das Sample im
+Loopbereich (definiert durch Marker-S und Marker-E) so lange wiederholt,
+bis die Keyboardtaste losgelassen wird. Nach dem Loslassen wird noch der
+Ausklingbereich  (Bereich zwischen Marker-E und Marker-R) abgespielt.
+Diese Funktion ist aber noch nicht implementiert, und der Wert ist im
+Trakker-Fenster wertlos, da hier ja nicht auf Keyboards gespielt wird.
+Dafr ist dann das Arranger-Fenster zust„ndig.
+
+5) Marker-R
+-----------
+Hier erscheint der Wert des Release-Markers im Format
+Stunden:Minuten:Sekunden Hundertstel-Sekunden.
+Der Release-Marker definiert den Ausklingbereich des Samples fr die
+Wiedergabe. Die Marker I und R spielen vor allem beim spielen der Samples
+ber ein MIDI-Keyboard eine Rolle. Beim Druck auf die Keyboardtaste beginnt
+die Wiedergabe. H„lt man die Keyboardtaste gedrckt, wird das Sample im
+Loopbereich (definiert durch Marker-S und Marker-E) so lange wiederholt,
+bis die Keyboardtaste losgelassen wird. Nach dem Loslassen wird noch der
+Ausklingbereich  (Bereich zwischen Marker-E und Marker-R) abgespielt.
+Diese Funktion ist aber noch nicht implementiert, und der Wert ist im
+Trakker-Fenster wertlos, da hier ja nicht auf Keyboards gespielt wird.
+Dafr ist dann das Arranger-Fenster zust„ndig.
+
+6) Markerwert
+-------------
+Dies ist der Bereich in dem die İMarkerwerteİSAMPLE.TXTİ stehen.
+Welche Art der Angabe man bevorzugt, kann man im
+İSetup-DialogİSETUP.TXTİ mit dem View-Button einstellen.
+Es wird dann entweder der Wert in Samples oder in Zeit angegeben.
+
+7) Marker-Kommentar
+-------------------
+Dies ist der Marker-Kommentar. Man kann jedem Markereintrag einen Kommentar
+mit auf den Weg geben. Das ist ntzlich, um die Funktion eines
+Markereintrages zu beschreiben und so bestimmte Eintr„ge schneller
+identifizieren zu k”nnen. Hier werden die im Editor eingegebenen Kommentare
+angezeigt, die auch im Info-File (Endung *INF) gespeichert wurden.
+
+8) Slider
+---------
+Hiermit kann der Markereintrag ausgew„hlt werden.
+
+9) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+                                                                             
+10) Exit
+--------
+Hiermit wird der Marker-Dialog geschlossen. Der ausgew„hlte Blockbereich
+wird nicht beachtet und ist ungltig.
+Der alte Blockbereich des Samples bleibt erhalten.
+
+11) OK
+------
+Hiermit wird der Marker-Dialog geschlossen. Der ausgew„hlte Blockbereich
+ist gltig und wird benutzt.

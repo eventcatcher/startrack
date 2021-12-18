@@ -1,0 +1,285 @@
+4.1.17 Button-Toolbar
+
+
+
+Hierber erreicht man die wichtigsten Hauptfunktionen und die anderen
+Fenster.Ist eines der anderen Fenster ge”ffnet,kann man es durch Anklicken des entsprechenden Buttons in der
+Button-Toolbar (oder indem man im optionalen Programm-Men im FensterüDropdown den entsprechenden Menpunkt anw„hlt) in
+den Vordergrund holen,falls es durch andere Fenster verdeckt war. 
+
+
+FunctionüBereich:
+
+In diesem Bereich der Toolbar haben sie Zugriff auf alle wichtigen
+
+Fenster und Dialoge. 
+
+
+
+1) Info-Fenster
+
+Dieses Fenster zeigt das Programmlogo,die Copyright-Vermerke und
+die Versionsnummer der Software.
+
+
+2) Connection-Fenster
+
+Dieses Fenster ist prim„r fr die Eingangsauswahl und die Kontrolle
+der digitalen Eing„nge und des DSP-Wirkungsbereichs zust„ndig.
+
+
+3) Blockfunktionen-Fenster
+
+Dieses Fenster ist fr die Blockfunktionen des Editors zust„ndig.
+
+
+4) Peakmeter-Fenster
+
+Dieses Fenster ist fr die Aussteuerung und Aufnahme eines Samples
+zust„ndig.Man kann aber auch Samples von Festplatte abspielen und dabei
+die Aussteuerung berprfen.
+
+
+5) Midi Sampleplayer-Fenster
+
+šber dieses Fenster wird die Ansteuerung eines (oder mehrerer)
+MIDI-Keyboards realisiert. Dazu erstellt man hier eine Liste der verwendeten
+Samples.Man kann hier wichtige Dinge wie die Loopart,Start- und Endpunkt Midikanal,Midinote usw. fr jedes einzelne
+Sample bestimmen. Dabei werden die Samples soweit m”glich automatisch in den Speicher geladen,um den Zugriff zu
+beschleunigen.Je mehr RAMüSpeicher man hat,desto besser.
+Die fertige Liste kann als Sampleplayer Arrangement-File (Endung *.ARR) abgespeichert werden.
+
+
+6) Tracker-Fenster
+
+šber dieses Fenster wird die Mehrspurwiedergabe realisiert.Momentan sind
+16 Spuren mit 32kHz Samplerate bzw. 12 Spuren mit 48 kHz machbar (auf einem Hades060).Die Verarbeitungsgeschwindigkeit
+ist aber noch nicht optimiert,so das man sicherlich noch mehr herausholen kann.
+Man l„dt die einzelnen Samples zun„chst in den Tracker,und verteilt diese
+auf die gewnschten Spuren.Man kann die Samples aber auch ganze Spuren,per Drag&Drop kopieren,oder verschieben,Start-
+und Endmarker definieren,oder aus der Information-Datei (*.INF) bernehmen,probeh”ren etc. Die Samples werden dabei
+nichtdestruktiv bearbeitet,d.h. die Sampledateien werden nicht ver„ndert.In diesem Fenster kann man also die Samples die
+auf der Festplatte liegen,zu einem "Song" arrangieren.
+
+
+7) Loop-Fenster
+
+Dieses Fenster ist fr die Loopfunktionen des Edit-Fensters zust„ndig.
+Man kann hier bestimmen,in welcher Richtung das Sample abgespielt werden
+soll. Das Abspielen startet aber erst durch Druck auf die Taste PLAY im
+Edit-Fenster.Ist der Blockbutton im Limit-Bereich aktiviert,und Marker-S
+und Marker-E definiert,so wird nur der markierte Bereich abgespielt.
+Ist der Loop-Button im Limit-Bereich aktiviert,wird das Sample solange
+wiederholt,bis die STOP-Taste gedrckt wird.Im HDüModus k”nnen die Samples
+
+nur vorw„rts abgespielt werden,lediglich im MemoryüModus kann rckw„rts abgespielt werden. 
+
+
+8) DSP PluginüFenster
+
+Dieses Fenster ist fr die DSP-Effektauswahl zust„ndig.
+Dabei sind einige Effekte schon im Programm enthalten,und k”nnen hierber
+in den DSP geladen werden,unter anderem stehen alle von Winrec bekannten Effekte zur Auswahl.Andere Effekte bzw.
+DSP-Programme k”nnen in den DSP via LoadüFunktion geladen werden,da das Programm die DSP-LOD-Files direkt verarbeiten
+kann.Durch die integrierte PluginüSchnittstelle ist es m”glich, Effekte anderer Hersteller anzupassen bzw. in das
+Programm zu integrieren.
+
+Diese Effektmodule werden automatisch nachgeladen und in das Programm
+
+eingebunden.Fr die Nutzung dieser Effekprogramme ist die DSP-Karte mit einem Motorola DSP-56K notwendig.Karten mit
+anderen,noch leistungsü f„higeren, aber zum Falcon inkompatiblen DSPs sind bereits in Planung.Diese M”glichkeit der
+Aufrstung macht die Soundkarte sehr flexibel,und garantiert auch in Zukunft fr ein h”chst leistungsf„higes System.
+
+9) Fade-Editor-Dialog
+
+In diesem Fenster kann der Faderverlauf editiert werden.Dabei stehen schon verschiedene fertige Faderkurven zur
+Auswahl,man kann diese aber auch per Hand zeichnen.Diese Kurven k”nnen auch abgespeichert und nachgeladen werden.Die
+Verl„ufe k”nnen dann beim Ein- und Ausblenden von Samples (Fade im FunctionüDropdown) benutzt werden.
+
+
+10) CuelistüFenster
+
+
+
+Die Cuelist stellt ein h”chst leistungsf„higes Tool zur Verfgung,um nondestruktive Schnittü und Abspiellisten zu
+erzeugen.Damit kann sehr
+
+schnell z.B. eine Maxiversion oder ein Remix erstellt werden.
+
+Die M”glichkeit,aus der Schnittliste ein neues File zu erzeugen,mit Links zu arbeiten,oder die Cuelist direkt in ein
+CDüWriterprogramm zu exportieren, runden den Funktionsumfang ab.
+
+
+
+11) Workmode-Fenster
+
+
+In diesem Fenster wird der Aufnahme- und Wiedergabemodus eingestellt; die
+Anzahl der Aufnahmekan„le,die Art der Zusammenmischung mehrerer Spuren im Tracker,die MidiüSynchronisation,das Aufnehmen
+und Wiedergeben im 16 oder 24Bit-Modus,den Modus des DSP-SRAM etc.
+
+
+12) Midi-Dialog
+
+Dieser Dialog ist fr die Auswahl von Midi-Note & Midi-Kanal zust„ndig,und
+wird benutzt,um dem Sample eine bestimmte Midinote und einen Midikanal, zum Abspielen ber ein Midi-Keyboard zuzuordnen.
+
+
+13) Setup-Dialog
+
+Dieser Dialog ist prim„r fr verschiedene Programmeinstellungen zust„ndig.
+Diese Einstellungen k”nnen in einer Setup-Datei (STARTRK.SET) abgespeichert werden.Ist eine solche Datei vorhanden,wird
+sie beim Start des Programms automatisch geladen,und die darin enthaltenen Einstellungen werden gesetzt.
+ModeüBereich:
+
+In diesem Bereich der Toolbar haben sie Zugriff auf alle wichtigen
+
+Markerü und Editfunktionen.
+
+
+
+14) Move Marker
+
+
+
+In diesem Modus kann man die Marker an eine andere Position mit der Maus oder den Pfeiltasten bewegen (draggen).
+
+
+
+15) Pull Marker
+
+
+
+In diesem Modus kann man mit der Maus einen Markerblock aufziehen.Dabei werden die Marker S und E dementsprechend auf
+die Blockgrenzen gesetzt.
+
+
+
+16) Scrub Marker
+
+
+
+In diesem Modus kann man die Marker mit der Maus bewegen und h”rt zus„tzlich das Sample an der momentanen
+Markerposition.Diese Funktion
+
+erleichtert enorm die Suche nach geeigneten Loops.
+
+
+
+17) Snap Marker
+
+
+
+In diesem Modus wird automatisch nach Nullstellen im Sample gesucht.
+
+Man greift die Markerline mit der Maus,und drckt zus„tzlich die linke oder  rechte Shifttaste,und l„át nun den Marker
+los. Der Marker springt dann zur n„chstgelegenen linken bzw. rechten Markerposition mit Nullstelle,falls eine
+
+entsprechende Stelle gefunden wurde. Umgekehrt springt der Marker zu einer
+
+Nichtnullstelle bei gedrckter CTRL (links) bzw. ALTüTaste (rechts).
+
+
+
+18) Zoom Volume
+
+
+
+In diesem Modus kann ein Rechteck mit der Maus aufgezogen werden,daá den
+
+gezeigten Bereich in der Lautst„rkedarstellung heranzoomt.Mit gedrckter
+
+ALTüTaste vergr”áert sich der Amplitudenbereich entsprechend wieder.
+
+
+
+19) Declick Sample
+
+
+
+In diesem Modus k”nnen Einzelwerte eines Samples grafisch editiert werden.
+
+Sogenannte Clicks oder St”rger„usche werden hiermit einfach weggezeichnet.
+
+Dazu packt man das Sample an der Amplitudenspitze,und bewegt es vertikal
+
+an die neue Lautst„rkeposition.
+
+Die Funktion wirkt erst ab einem Zoomverh„ltnis 4:1 und gr”áer.
+
+
+
+20) Draw Sample 
+
+
+
+In diesem Modus k”nnen mehrere Einzelwerte in einem Rutsch ver„ndert
+
+werden.Man kann direkt Samplekurven in das SampleüWindow einzeichnen,und dadurch z.B. kleine unsaubere  Samplebereiche
+grafisch korrigieren.
+
+Die Funktion wirkt erst ab einem Zoomverh„ltnis 4:1 und gr”áer.
+
+
+
+FileüBereich:
+
+In diesem Bereich der Toolbar haben sie Zugriff auf alle wichtigen
+
+Filefunktionen des Editors.
+
+
+
+21) PartitionüDialog
+
+
+
+In diesem Dialog kann man die fr die Aufnahme freizugebenden Laufwerke
+
+bestimmen,und den Partitionmode aktivieren.Im Partitionmode ist es m”glich, Aufnahmen ber mehrere Partitionen zu
+verteilen,um so das Problem der Aufnahmel„ngenbegrenzung durch zu kleine max.Partitonsgr”áen auszuhebeln.
+
+
+
+22) Audio-Fileselector-Dialog
+
+Dieser Dialog ist als Fileselector-Ersatz gedacht,hat aber noch sehr viel mehr M”glichkeiten,die die Arbeit mit Samples
+sehr komfortabel machen. Um mehr
+šbersichtlichkeit zu bekommen,funktioniert dieser Fileselektor etwas anders. Zuerst erstellt man eine Liste der
+Suchpfade.Diese Liste wird unter dem Namen STARTRK.SEL auf der Festplatte angelegt.Angezeigt werden auáerdem nur die
+Sampledateien und die entsprechenden Kommentare,die in den Info-Dateien enthalten sind (Dateiendung *.INF).Man w„hlt das
+entsprechende Sample im Bereich Sampledatei-Name aus,indem man das entsprechende Feld selektiert, und klickt
+anschlieáend auf Load - und das Sample wird in den Sample-Editor geladen.Man kann hier aber auch gleich die Samples
+anh”ren. Um ein bestimmtes Sample zu finden,wenn die Dateibeschreibung oder der Kommentar alleine nicht weiterhilft,ist
+das ganz ntzlich.Dafr stehen einem hier die Grundfunktionen eines CD-Players zur Verfgung, also Play,Stop,Forward,
+Rewind,Pause.Auáerdem gibt es eine Anspielautomatik bei der die ersten 10 Sekunden eines Titels angespielt
+werden.Auáerdem kann man Abspiellisten erzeugen,die aus dem Computer einen digitale Musicbox machen.
+
+
+23) Disk-Funktionen-Dialog
+
+Mit diesem Dialog sind verschiedene Dateioperationen m”glich,die man im t„glichen Computerleben oft braucht.Der Vorteil
+hierbei ist,daá man fr solche Sachen wie l”schen und umbenennen von Dateien,nicht erst das Programm
+verlassen muá.Bei Aufruf des Dialogs erscheint zuerst eine Fileselector-Box,
+mit der das Soundsample das umbenannt,gel”scht oder kopiert werden soll,
+ausgew„hlt wird.Dann erscheint die Dialogbox.Alle Funktionen beziehen sich nicht nur auf das Audiofile,sondern ebenfalls
+auf die dazugeh”renden Infoü und Cachefiles.
+
+
+24) Load-Dialog
+
+Im nun erscheinenden Dialog kann man w„hlen,ob man das Sample ganz oder als Block laden m”chte.Anschlieáend wird das
+Sample in den Editor geladen. Falls es dort nicht hineinpaát,erscheint der Virtual-Dialog.In diesem kann man w„hlen,ob
+man einen Block laden m”chte,der noch in das Sample-Memory paát,oder ob man in den VirtualüMode (HDüProjekt mit
+virtueller Speicherverwaltung) wechseln m”chte.
+
+
+25) Save-Dialog
+
+Im nun erscheinenden Dialog kann man w„hlen,ob man den kompletten Samplespeicher oder nur den markierten Block speichern
+m”chte.Hat man eine Wahl getroffen,erscheint zuerst ein Fileselector,in dem man den Namen der Sampledatei eingibt.Die
+Dateiendung entscheidet dabei ber das Dateiformat (siehe auch Setup-Dialog).Danach erscheint der Information-Dialog, in
+dem man dem Sample eine Beschreibung (Kommentar) zur besseren Identifikation geben kann.Dann wird das Sample
+abgespeichert.
+
+

@@ -1,0 +1,57 @@
+5.2.6 SampleinfoüDatei "*.INF"
+
+
+
+In dieser Datei werden s„mtliche MarkerüEinstellungen,Samplerate,verwendete Partitionen im Partitionmode und
+Kommentarfelder des Samples abgespeichert.
+
+
+
+source ; SourceüKommentarfeld.Alle Zeichen auáer "|" sind erlaubt.Dieses
+
+             Zeichen markiert das Ende des Kommentars. 
+
+
+
+comment ; Zweites Kommentarfeld.Alle Zeichen auáer "|" sind erlaubt.Dieses
+
+                  Zeichen markiert das Ende des Kommentars. 
+
+
+
+loopcount ; Maximalzahl der Markereintr„ge
+
+
+
+samplerate ; Samplerate in Hertz (Schwingungen pro Sekunde)
+
+
+
+partitions ; Hier sind alle verwendeten Partitionen bzw. die Dateipfade aufgelistet
+
+
+
+partitionmode ; Verteilung des Samples ber mehrere Partitionen (true)
+
+
+
+loopstartxyz=abc ; StartmarkerüEintrag Nr.xyz, abc=Startposition in Samples
+
+
+
+loopendxyz=abc ; EndmarkerüEintrag Nr.xyz, abc=Endposition in Samples
+
+
+
+loopintroxyz=abc ; IntromarkerüEintrag Nr.xyz, abc=Introposition in Samples
+
+
+
+loopreleasexyz=abc ; ReleasemarkerüEintrag Nr.xyz, abc=Releaseposition in                                          
+Samples
+
+
+
+loopcommentxyz ; MarkerüKommentarfeldüEintrag Nr.xyz.Alle Zeichen auáer                                  "|" sind
+erlaubt.Dieses Zeichen markiert das Ende des                                           Kommentars. 
+

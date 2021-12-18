@@ -1,0 +1,85 @@
+5.2.3 DateipfadüDatei "STARTRK.SEL"
+
+
+
+In dieser Datei sind alle Dateipfade untereinander aufgelistet, die vom
+
+AudioüFileselector nach Audiodateien durchsucht und aufgelistet werden.
+
+
+
+Beispiel:
+
+
+
+H:\*.*
+
+F:\AUDIOTST\SAMPLES.32\*.*
+
+
+
+
+
+5.2.4 PluginüConfigüDatei "STARTRK.PCG"
+
+
+
+In dieser Datei werden die PluginüEinstellungen abgespeichert.
+
+
+
+plugin quantity ; Anzahl der verwendeten Plugins
+
+
+
+plugin namexyz ; Kennung des verwendeten Plugins, xyz=PluginüNummer
+
+
+
+plugin inp quantity ; Anzahl der Plugins im Aufnahmezweig
+
+
+
+plugin outp quantity ; Anzahl der Plugins im Wiedergabezweig
+
+
+
+plugin inp numberabc=xyz ; Position (abc) und Nummer (xyz) des im
+
+                                            Aufnahmezweig verwendeten Plugins.
+
+
+
+plugin outp numberabc=xyz ; Position (abc) und Nummer (xyz) des im
+
+                                              Wiedergabezweig verwendeten Plugins.
+
+
+
+
+
+5.2.5 MusicboxüDatei "*.BOX"
+
+
+
+In diesen Dateien werden die MusicboxüEinstellungen des AudioüFileselectors abgespeichert.Da der Dateiname frei w„hlbar
+ist,k”nnen mehrere dieser
+
+MusicboxüDateien angelegt werden.So kann man individuelle Konfigurationen
+
+fr verschiedene Verwendungszwecke zusammenstellen.
+
+
+
+entrys ; Anzahl der MusicboxüEintr„ge
+
+
+
+namexyz ; Dateiname des Samples von EintragüNummer xyz
+
+
+
+pathxyz ; Kompletter Dateipfad mit Dateiname von EintragüNummer xyz
+
+
+

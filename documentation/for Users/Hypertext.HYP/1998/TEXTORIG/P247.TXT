@@ -1,0 +1,103 @@
+4.15.2 Funktionsfeld
+
+
+
+Das Funktionsfeld beinhaltet s„mtliche Abspielü und Filefunktionen der Cuelist.
+
+
+
+1) stop
+
+
+
+Hiermit kann man den CuelistüAbspielvorgang abbrechen.
+
+
+
+2) play
+
+
+
+Hiermit startet man den CuelistüAbspielvorgang.Die Wiedergabe startet beim ersten Part,mit zus„tzlich gedrckter
+ControlüTaste startet die Wiedergabe
+
+beim aktiven Part,und endet beim ersten leeren Eintrag bzw. letzten Eintrag. 
+
+
+
+3) pause
+
+
+
+Hiermit unterbricht man die Wiedergabe.Durch erneuten Druck auf Pause,
+
+wird die Wiedergabe an der letzten Position fortgefhrt.
+
+
+
+4) load
+
+
+
+Hiermit kann man eine Cuelist laden.Man sollte aber darauf achten,daá das
+
+passende Originalfile bereits in den Editor geladen wurde.
+
+
+
+5) save
+
+
+
+Hiermit kann man eine Cuelist abspeichern (Fileendung *.CUE).Gibt man
+
+der Cuelist den gleichen Namen wie das Originalfile,wird die Cuelist beim
+
+laden des Originalfiles in den Editor automatisch mitgeladen.
+
+Man kann aber auch andere Namen vergeben.Das ist recht ntzlich,wenn man z.B. mehrere Remixe einer Aufnahme anfertigen
+m”chte.
+
+6) trash
+
+
+
+Hiermit kann man die komplette Cuelist inkl. aller Parts l”schen.
+
+
+
+7) downmix
+
+
+
+Hiermit kann man aus der fertigen Cuelist ein neues Audiofile generieren
+
+lassen.Durch Angabe der passenden Extension (AIF,AVR,WAV usw.),werden
+
+die Audiodaten des Originals entsprechend in das neue Format konvertiert,
+
+ohne das ein Zwischenschritt zur Konvertierung notwendig w„re. 
+
+Das Audiofile kann anschlieáend z.B. direkt auf eine CD geschrieben werden. 
+
+
+
+8) export
+
+
+
+Die Cuelist kann zum Brennen auf CD mit einem CD WriterüProgramm
+
+ein entsprechendes ImportüFile mit allen notwendigen Parametern generieren.
+
+Seit V2.00 wird der Export der Cuelist nach ExtendosüGold untersttzt. 
+
+In der n„chsten Version wird dies voraussichtlich auch mit dem neuen CdüRecordingüProgramm der Firma CDüROMüSolutions
+m”glich sein.
+
+Durch die ExportüFunktion kann man mit der StarTrack AudioüSuite sehr einfach Megamixü oder SampleüCDs erzeugen.Das ist
+vor allem bei vielen
+
+Indexü oder Titelmarkierungen eine groáe Arbeitserleichterung,da man sich so das fehlertr„chtige und zeitaufwendige
+abtippen von Markerlisten erspart.
+

@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Referenz</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="4.3"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0059.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0061.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Referenz</H1></CENTER>
+
+<PRE>
+
+<H3> 4.3 Setup-Dialog</H3>
+<A HREF="p122.htm" TARGET="_new"><IMG SRC="../images/scaled/p122.gif" WIDTH="313" HEIGHT="172"></A>
+
+ Dieser Dialog ist f&uuml;r viele Programm-Einstellungen und Optionen zust&auml;ndig.
+ Hier kann man das Aussehen der Sampledaten bestimmen und verschiedene
+ Voreinstellungen vornehmen. Diese Einstellungen k&ouml;nnen in einer <A HREF="page0135.htm">Setup-Datei</A>
+ (STARTRK.SET) abgespeichert werden. Ist eine solche Datei vorhanden, wird sie beim
+ Start des Programms automatisch geladen und die darin enthaltenen Einstellungen
+ werden gesetzt. Aufgerufen wird das Setup durch den <A HREF="page0058.htm">Setup-Button</A> im Edit-Fenster,
+ durch Eingabe von CTRL-E oder &uuml;ber das optionale Programm-Men&uuml; im
+ <A HREF="page0110.htm">Dropdown Funktion/Setup</A>.
+
+
+ 1) vertikal lines
+
+ Darstellung der Samples als Peaks (Striche) bei Zoom gr&ouml;&szlig;er als 1:1.
+ 
+ 
+ 2) link dots
+
+ Verbindung der Samples durch eine Ann&auml;herungskurve bei Zoom gr&ouml;&szlig;er als 1:1.
+
+
+ 3) fill spaces
+
+ F&uuml;llung der Zwischenr&auml;ume bei Zoom gr&ouml;&szlig;er als 1:1.
+
+
+ 4) horizontal-lines
+
+ Horizontale Markierung bei 20/40/60/80 % Amplitude zur besseren Lesbarkeit.
+
+
+ 5) Y-autozoom
+
+ Zoomt die Amplitude automatisch bis zum h&ouml;chsten vorhandenen Samplewert.
+
+
+ 6) grid
+
+ Farbige Markierung der geladenen Samples und graues Hintergrundmuster.
+
+
+ 7) autorecord treshold
+
+ Ansprechschwelle (in dB) f&uuml;r die Aufnahmeamplitude bei Auto-Record.
+
+
+ 8) malloc
+
+ Anzahl Kilobytes (in Hex) des f&uuml;r Samples reservierten Speichers.
+
+
+ 9) digital-in clock : Synchronize
+
+ Wenn gesetzt,wird alles vom digitalen Eingangstakt synchronisiert bzw.
+ getaktet. Die Taktratenauswahl ist dann gesperrt,und richtet sich nach dem
+ Eingangstakt. Betrifft vor allem die Aufnahme und Wiedergabe &uuml;ber die
+ A/D und D/A-Wandler.
+
+
+ 10) record-time
+
+ Einstellbare Default-Aufnahmezeit. Sehr n&uuml;tzlich als Schutzmechanismus,
+ damit die Festplatte nicht unbeabsichtigt &uuml;ber ein gewisses Limit mit
+ Samples vollgeschrieben wird.
+ Eine Aufnahme ist aber trotzdem jederzeit durch STOP zu beenden.
+ Um die Aufnahmezeit auf den eingestellten Minutenwert zu begrenzen, mu&szlig;
+ au&szlig;erdem das max-Feld ausgew&auml;hlt sein. Sonst wird automatisch der komplette
+ freie Platz auf der Default-Partition (13) f&uuml;r die Aufnahme vorgesehen.
+
+
+ 11) HDD-sektorlen
+
+ Anzahl der Bl&ouml;cke, die bei Fileoperationen am St&uuml;ck gelesen/geschrieben werden.
+ Die Blockgr&ouml;&szlig;e ist abh&auml;ngig von der Partitionsgr&ouml;&szlig;e bzw. dessen Format und
+ wird automatisch ermittelt.
+ Hiermit kann man ma&szlig;geblich die Gesamtperformance beeinflussen. Bei
+ langsamen Systemen sollte man diesen Wert hochsetzen, wenn es zu Aussetzern
+ bei der Wiedergabe oder Aufnahme kommen sollte. Praktikabel ist ein Wert 
+ zwischen 1-20 Bl&ouml;cke. Je kleiner die Blockanzahl, desto fl&uuml;ssiger die
+ Bildschirmanzeige. Je h&ouml;her die Blockanzahl, desto schneller der Plattenzugriff.
+
+
+ 12) samplecache
+
+ Ist die Option &quot;calculation by record&quot; ausgew&auml;hlt, wird der Cache, der die
+ Darstellung der Samples im Editor beschleunigt, w&auml;hrend der Aufnahme
+ ermittelt und im Sample-Cachefile (Endung *.PBF) gesichert (default).
+ Da dies aber zus&auml;tzliche Rechenzeit kostet, kann man diese Option f&uuml;r langsame
+ Rechner wie den Atari TT abschalten. Dann wird das Cachefile erst nach der
+ Aufnahme erzeugt.
+
+
+ 13) Fileselect
+
+ Hiermit kann man einen Suchpfad f&uuml;r Samples angeben, in dem bei Datei-
+ operationen zuerst nach Sample-Dateien gesucht wird und neue angelegt werden.
+
+
+ 14) default format
+
+ Art des Fileextenders f&uuml;r Samplefiles, also das voreingestellte
+ Sampleformat. Es kann aber jederzeit ein anderes benutzt werden.
+ Es ist lediglich eine Arbeitserleichterung bei der Arbeit.
+ Es gibt folgende Sampleformate:
+</PRE>
+
+<TABLE>
+<TR>
+<TD VALIGN=TOP>*.S16, *.S24</TD>
+<TD VALIGN=TOP WIDTH=420>eigenes Sampleformat f&uuml;r 16Bit bzw. 24Bit</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>*.WAV</TD>
+<TD VALIGN=TOP WIDTH=420>Wave-Format, weitverbreitetes PC-Fileformat f&uuml;r Samples</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>*.AVR</TD>
+<TD VALIGN=TOP WIDTH=420>bekanntes Atari-Sampleformat</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>*.AIF</TD>
+<TD VALIGN=TOP WIDTH=420>AIFF-Format, Standard auf Apple-Computern und bei Cubase-Soft</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>*.SND</TD>
+<TD VALIGN=TOP WIDTH=420>bekanntes Atari-Sampleformat</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>*.SD</TD>
+<TD VALIGN=TOP WIDTH=420>wird von einigen Sample-Editoren benutzt</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>*.AU</TD>
+<TD VALIGN=TOP WIDTH=420>auf Unix-Maschinen und im Internet weitverbreitet</TD>
+</TR>
+<TR>
+<TD VALIGN=TOP>*.SMP</TD>
+<TD VALIGN=TOP WIDTH=420>Steinberg Avalon-Format</TD>
+</TR>
+</TABLE>
+
+<PRE>
+ 
+ 15) New fileselector
+
+ Wenn gesetzt, wird der integrierte <A HREF="page0069.htm">Audio-Fileselector</A> benutzt. Ansonsten wird
+ der TOS-Fileselector benutzt. Der neue Fileselector ist aber auch dann immer
+ unter dem Buchsymbol in der <A HREF="page0058.htm">Buttonleiste</A> des Edit-Fensters zu erreichen.
+
+
+ 16) defaultpath
+
+ Der Name sagt es schon: Pfad f&uuml;r die Sampleaufnahme- und
+ Wiedergabe und andere Files, die vom Programm angelegt/benutzt werden.
+
+
+ 17) buttons
+
+ 3D
+
+ Farbige Darstellung der Programmoberfl&auml;che im Graustufen-Look 
+ (soweit m&ouml;glich). Wird erst nach Neustart ber&uuml;cksichtigt!
+
+ Flip
+
+ Wenn gesetzt, springt die <A HREF="page0045.htm">Function-Auswahl</A> im Edit-Fenster nach der Benutzung
+ wieder auf MARK (weil meistbenutztes Feature).
+ Wenn gel&ouml;scht, bleibt die zuletzt benutzte Funktion eingestellt.
+
+ Beep
+
+ Um Aufnahmen auch ohne Sicht auf den Bildschirm automatisch starten zu
+ k&ouml;nnen, kann man ein pulsierendes Tonsignal (Viermal im Abstand von 1 Sek.)
+ vor Aufnahmebeginn &uuml;ber die Audiokarte ausgeben lassen. Nach dem vierten
+ Ton beginnt die Aufnahme. Der Musiker kann sich somit einfach zum Piepton
+ und somit zur Aufnahme &quot;synchronisieren&quot;. Ist der Button selektiert,
+ wirkt diese Option ab der n&auml;chsten Aufnahme.
+
+ Menue
+
+ Men&uuml;erzeugung an der oberen Bildschirmkante <A HREF="page0107.htm">(optionales Dropdown-Men&uuml;)</A>.
+ Kann bei Bedarf abgeschaltet werden, sollte normalerweise aber eingeschaltet
+ bleiben. Wird erst nach Neustart ber&uuml;cksichtigt!
+
+ View
+
+ Wenn gel&ouml;scht, werden Markerpositionen in Frames angegeben.
+ Wenn gesetzt, werden Markerpositionen in Samplewerten angegeben (genauer).
+
+ Time
+
+ Zeitanzeige im <A HREF="page0054.htm">Edit-Info</A> und <A HREF="page0055.htm">Auto-Backup M&ouml;glichkeit</A> erlauben.
+
+ Show
+
+ Anzeige der Zeitposition der Maus bzw. Marker im <A HREF="page0054.htm">Edit-Info</A>.
+
+ Jitter
+
+ Manche Grafikkarten erm&ouml;glichen es, die Grafikausgabe mit dem Vsync-Signal
+ des Monitors zu synchronisieren und dadurch eine flimmerfreie Ausgabe zu
+ erm&ouml;glichen. Dies bremst allerdings auch die Grafikausgabe, was bei langsamen
+ Rechnern zu Problemen f&uuml;hren kann. In diesem Fall und wenn die Grafikkarte
+ keinen Vsync-Support besitzt, sollte man die Option abschalten.
+ Der ATI Mach64-Grafikchip besitzt diese F&auml;higkeit, das NOVA-VDI
+ unterst&uuml;tzt dieses Feature.
+
+ Freeze
+
+ Wenn gesetzt, dann merkt sich das Programm die Fenster-Positionen bei
+ &quot;SAVE im Setup&quot; (und nur dann!) und setzt diese Fenster wieder auf
+ die gleichen Positionen beim n&auml;chsten Start des Programms.
+
+ Emulate
+
+ Einige Falconprogramme laufen nur, wenn der SND- und MCH-Cookie auf die
+ Falconwerte gesetzt wird. Diese Cookie-Emulation kann man hier ausw&auml;hlen.
+
+ Load
+
+ Laden der <A HREF="page0135.htm">Setup-Datei</A>. Das passiert auch automatisch beim Start
+ des Programms.
+
+ Save
+
+ Speichern der <A HREF="page0135.htm">Setup-Datei</A> &quot;STARTRK.SET&quot;.
+
+
+ 18) Help
+
+ Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wenn sie nicht wissen wie
+ das funktioniert, schauen sie sich die Anleitung zu 1stGuide einmal genauer an.
+
+
+ 19) Exit
+
+ Hiermit wird der Setup-Dialog geschlossen. Alle ge&auml;nderten Einstellungen
+ werden nicht beachtet und sind ung&uuml;ltig.
+ 
+ 
+ 20) OK
+
+ Hiermit wird der Setup-Dialog geschlossen. Alle ge&auml;nderten Einstellungen
+ sind g&uuml;ltig und werden gesetzt und soweit m&ouml;glich, sofort beachtet.
+ Es gibt allerdings Einstellungen, die erst bei einem erneuten Programmstart
+ beachtet werden, wo dies nicht anders m&ouml;glich ist.
+
+</PRE>
+
+<A HREF="#4.3">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

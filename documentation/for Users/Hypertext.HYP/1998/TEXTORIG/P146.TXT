@@ -1,0 +1,99 @@
+4.7.2 Virtual-Mode
+
+
+Dieser Dialog erscheint immer dann,wenn ein Sample in das Sample-Memory
+geladen werden soll,das dort nicht komplett hineinpaát,oder wenn ein Sample durch die Bearbeitung im Editor gr”áer
+wird,als das Sample-Memory Platz bietet. Man kann nun ausw„hlen,ob man nur einen Block laden m”chte,der dann der L„nge
+des Sample-Memory entspricht,oder ob in den Virtual-Mode (bzw. HDüProjekt) gewechselt werden soll.
+
+
+
+1) Workfile
+
+Diese Einstellung ist nur im Falle der virtuellen Bearbeitung (3) von Bedeutung. Dabei wird fr die Bearbeitung des
+Samples ein Workfile auf der Festplatte eingerichtet.Alle Bearbeitungsfunktionen wirken dann auf dieses Workfile,und die
+Original-Sampledatei bleibt unver„ndert bestehen.Das ist sicherlich die sicherere M”glichkeit der Bearbeitung,dafr
+ben”tigt sie aber auch dementsprechend mehr Platz auf der Festplatte.
+
+
+
+2) Direct
+
+Diese Einstellung ist nur im Falle der virtuellen Bearbeitung (3) von Bedeutung. Bei Auswahl dieser Option wirken dann
+alle Bearbeitungsfunktionen auf die Original-Sampledatei.Das ist sicherlich die schnellere M”glichkeit der
+Bearbeitung,sie ben”tigt auch weniger Platz auf der Festplatte.Diese Methode ist aber auch unsicherer,da bei
+fehlerhafter Bearbeitung dieser Fehler nicht mehr rckg„ngig zu machen ist.
+3) Virtual
+
+Hiermit wird der Dialog verlassen und in den Virtual-Mode (HDüProjekt) gewechselt.Der Virtual-Mode bezeichnet die dann
+benutzte virtuelle Speicherverwaltung.Dabei wirken alle Bearbeitungsfunktionen und die Darstellung der Samples wie
+gewohnt.Der einzige Unterschied ist,daá die Sampledaten nicht im Sample-Memory,sondern auf der Festplatte verarbeitet
+werden.
+
+
+4) Block
+
+Hiermit wird der Dialog verlassen und der ausgew„hlte Block in das
+Sample-Memory geladen.
+
+
+5) Mem
+
+Hier wird die Gr”áe des Sample-Memory in Anzahl der Samples(8) oder Timecode(9) angegeben.
+
+
+6) Len
+
+Hier wird die L„nge der Sampledatei in Anzahl der Samples (8) oder
+
+Timecode(9) angegeben.
+
+
+7) Slider
+
+Hiermit kann man den Block ausw„hlen,der in das Sample-Memory geladen
+werden soll.Der Startwert wird bei StartüPosition (10) angegeben.
+
+
+8) Samples
+
+Hiermit w„hlt man die Samplewert-Eingabeoption.Alle Angaben beziehen sich dann auf die entsprechenden Samplewerte.
+
+ 
+
+9) Time
+
+Hiermit w„hlt man die Samplezeit-Eingabeoption aus.Alle Angaben beziehen
+
+sich dann auf den Timecode im SMPTEüZeitformat.
+
+
+10) Start-Position
+
+Hier wird die Blockstart-Position angegeben,entweder als Samplewert oder
+als Zeitwert,je nachdem welche Option (siehe 8 + 9) gew„hlt wurde.
+
+Man kann den Wert hier auch direkt editieren.
+
+Die Zeiteingabe hat das Format HH:MM:SS FF, (FF=aktuelle Framerate)
+11) Stop
+
+Hiermit kann die Wiedergabe des Blocks gestoppt werden.
+
+
+12) Play
+
+Damit die Auswahl des Blocks nicht zum Blindflug wird,kann man sich hier
+den Block vor dem Laden anh”ren.
+
+
+13) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+14) Exit
+
+Hiermit wird der Virtual-Dialog geschlossen.Damit wird auch der Ladevorgang abgebrochen,und es wird kein Sample
+geladen.Der Inhalt des Sample-Memory bleibt dann unver„ndert.

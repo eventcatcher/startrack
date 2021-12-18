@@ -1,0 +1,29 @@
+
+Erweiterungs-Optionen:
+
+
+- DSP-Karte mit einem Motorola DSP56002-66MHz mit 96K-no-waitstate-SRAM
+  Der DSP kann wahlweise in den Aufnahme- oder Wiedergabezweig
+  integriert werden (softwarem„áig steuerbar)
+  Der DSP ist fr das Harddisk-Recording nicht notwendig, da die Karte
+  den Transfer selbst puffert.
+  Daher steht der DSP quasi komplett fr Effekt-Berechnungen zur Verfgung.
+  Die DSP-Erweiterung wird auf die STARTRACK-Karte aufgesteckt
+
+  * Falcon 8üKanalüModus
+
+  * DSPüPort (Falconükompatibel)
+
+    erm”glicht die Aufnahme und Wiedergabe ber 8 getrennte analoge Einü und
+
+    Ausg„nge mit FalconüZusatzhardware (Analog8 von Soundpool, JamüIn/JamüOut).
+
+
+
+- XLR-Karte
+  * h”here Line-Pegel und alle Anschlsse in XLR-Anschluánorm
+  * AES/EBU-Digitalschnittstellen (Input&Output)
+  * Optionaler Einbau in einen 5 1/4 Zoll-Einschub doppelter H”he fr PC-Geh„use
+
+    Damit sind alle XLR-Anschlsse leicht von vorne zu bedienen.
+

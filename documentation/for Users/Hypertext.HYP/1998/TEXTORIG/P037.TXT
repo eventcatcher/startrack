@@ -1,0 +1,164 @@
+2.2.1 Technische Daten
+
+
+
+2.2.1.1 Strombedarf:
+
+StartracküKarte    :   650mA/5V
+DSPüErweiterung : + 350mA/5V
+              Analog8 : + 50mA/5V
+
+
+Abgesichert mit 125V/2AüSicherung
+
+
+
+
+2.2.1.2 Anzahl der Kan„le
+
+
+
+im CPUümode
+(hierbei werden die Kan„le mit der CPU gemischt)
+
+14 Kan„le mit 32kHz     (Hades060)
+12 Kan„le mit 44.1 kHz  (Hades060)
+10 Kan„le mit 48kHz     (Hades060)
+
+
+im Matrixümode
+(hierbei werden die Kan„le auf die Matrix gelegt)
+
+16 Kan„le mit 32kHz (getestet mit Hades060)
+8  Kan„le mit 48kHz (getestet mit Hades060)
+
+
+im DSPümode
+(hierbei werden die Kan„le auf die Matrix gelegt und mit dem DSP gemischt)
+
+8 Kan„le mit 48kHz (getestet mit TT)
+
+
+
+
+
+
+2.2.1.3 Belegung des DSPüPorts:
+
+Pin  Bezeichnung      Aderfarbe des DSPüKabels
+ 1 ü   GP0                     rot
+ 2 ü  GP2                       blau
+ 3 ü  GP1                      schwarz
+ 4 ü  P_DATA1             violett
+ 5 ü  P_CLK                orange
+ 6 ü  P_SYNC1            grau
+ 7 ü  /                           /
+ 8 ü  GND                   Abschirmung
+ 9 ü +12V                     gelb
+10 ü GND                    grn
+11 ü SC0                      braunschwarz, not connected
+12 ü SC1                      braungelb, not connected
+13 ü P_SYNC2 / SC2 weiá
+14 ü GND                    weiábraun
+15 ü SRD                     braungrn, not connected
+16 ü GND                    braunorange
+17 ü +12V                    braun
+18 ü GND                    braunrot
+19 ü R_DATA              weiágelb
+20 ü R_CLK               weiáorange
+21 ü R_SYNC             weiárot
+22 ü EXT_INT           weiágrn
+23 ü P_DATA2 / STD  weiágrau
+24 ü SCK                     weiáschwarz, not connected
+25 ü GND                    weiáblau
+26 ü EXCLK                weiáviolett
+
+
+
+
+2.2.1.4 StartracküElektronik
+
+2 x Highend VolumeüController von Crystal
+1 x 16Bit Delta Sigma Linear A/DüWandler von Crystal mit 64fachem                        Oversampling
+1 x 18Bit Delta Sigma Linear D/AüWandler von Crystal mit
+      64fachem Oversampling/8fach digitales Interpolationsfilter
+1 x Highend Operationsverst„rker von Analog Devices
+2 x EingangsüUmschaltüRelais fr maximale St”rfreiheit
+2 x Digitalbertrager
+1 x SampleclocküAusgangsbertrager
+2 x separate SpannungsreglerüElektronik fr A/D und D/A
+      externe Cinchanschlsse fr Stereo Analog Einü und Ausgang
+externe Cinch und TOSLINKüAnschlsse fr Digital Audio
+externer Sampleclock Einü und Ausgang
+Zukunftskompatibel durch Anschlsse fr externe Erweiterungen (DSP etc.)
+
+
+
+
+2.2.1.5 DSPüElektronik
+
+Motorola DSP56002ü66
+Highspeed RAM 128KBx24Bit/12ns
+Highspeed MemoryüControllerüGAL,5ns
+Motorola EVMükompatibles ONCEüPortüInterface durch spezielle MCU (eigener Prozessor)
+Clockdivider fr Falconükompatible Sampleraten in Verbindung mit externem 25.175MHzüClockmodul
+Datenumsetzer fr Falconmode(128Bit) in Crystalmode(64Bit)
+
+
+
+
+2.2.1.6 Audiodaten:
+
+
+A/DüConverter:
+
+Frequenzgang : 10ü20000 Hz linear
+Samplerate : bis 48kHz
+dynamic range : typ 95.7 dB
+Signal to noise THD+N : typ 92.7 dB
+Harmonische Verzerrungen : typ 0.001%
+Kanalabweichung : typ 0.0001%
+Kanalüšbersprechisolation: typ 106 dB
+Offset Fehler : typ +_5 LSB
+EingangsüSpannungsbereich : +_3.68V
+
+
+
+
+D/AüConverter:
+
+Frequenzgang : 10ü20000 Hz linear
+Samplerate : bis 48kHz
+dynamic range :  max 108 dB
+Signal to noise THD+N : typ 120 dB
+Harmonische Verzerrungen : typ _93dB
+LinearüAbweichung : typ 0.5 grad
+Kanalüšbersprechisolation: typ 110 dB
+Offset Fehler : max +_1 mV
+AusgangsüSpannungsbereich : +_4.0V
+
+
+
+VolumeüController:
+
+Frequenzgang : 10ü20000 Hz linear
+D„mpfung : bis _95.5 dB
+Verst„rkung : bis +31.5 dB
+dynamic range : typ 116 dB
+Harmonische Verzerrungen : typ 0.001%
+Kanalüšbersprechisolation : typ 110 dB
+OffsetüFehler : typ 0.25 mV
+
+
+
+Highend JFETüOperationsverst„rker OP275 fr Analogausgang:
+
+Erster OPV mit Butler Amplifier frontüend
+kombinierte bipolar/JFETüTechnik
+
+
+Rauschen : typ 6 nV
+Signal to noise THD+N : typ 0.0006%
+slew rate : typ 22V/us
+Bandweite : typ 9 MHz
+OffsetüFehler : max 1 mV

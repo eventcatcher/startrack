@@ -1,0 +1,43 @@
+Trakker-Kommentar-Dialog
+
+
+Dieser Dialog ist fÅr die Eingabe eines Marker-Kommentars zustÑndig.
+Dieser Kommentar hilft Ñhnlich wie im ›Sample-Information-Dialog›SMPINF.TXT› die vielen
+Samples die sich bei einem solchen Trakker-Setup ansammeln, besser
+identifizieren zu kînnen. Die Kommentare werden im Tracker-File (*.TRK) mit
+den anderen benîtigten Daten abgespeichert und bleiben dadurch erhalten.
+Die Kommentarfelder werden beim Laden der Samples in den Trakker mit den
+zugehîrigen Kommentaren der Sample-Informations-Files (*.INF) geladen.
+Danach erscheint die Sampledatei mit dem Kommentartext auch im
+›Trakker-Fileselector›TRAKFSEL.TXT›. Dann kann man den Kommentartext im
+Trakker-Fileselector (Koffersymbol in der ›Trakker-Buttonleiste›TBUTTONS.TXT›) beliebig
+Ñndern. Das macht man indem man einfach auf den Kommentartext-Button im
+›Trakker-Fileselector›TRAKFSEL.TXT› klickt. Bei der Identifizierung der Samples im Trakker
+sind die Kommentare sehr nÅtzlich, um die verschiedenen Samples 
+unterscheiden und gezielt auswÑhlen zu kînnen. Man kann nÑmlich den
+›Kommentartext›BLOCKNAM.IMG› anstatt des ›Sample-Filenamens›BLKFSEL.IMG› in den Sample-Curveblocks
+anzeigen lassen. Man kann die Anzeige mit dem ›Comment-Button›BLOCKBUT.TXT› im ›Trakker›TRAKKER.TXT›
+umschalten. Zur besseren VerstÑndnis sollte man das ›BILD›TRAKCOMM.IMG› des
+Trakker-Kommentar-Dialogs zu Rate ziehen.
+
+
+1) Comment
+----------
+Hier kann man einen maximal 60 Zeichen langen Kommentar eingeben.
+
+2) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+3) Exit
+-------
+Hiermit wird der Trakker-Kommentar-Dialog geschlossen. Die Kommentareingabe
+wird nicht beachtet und ist ungÅltig. Der alte Kommentareintrag bleibt
+erhalten.
+
+4) OK
+-----
+Hiermit wird der Trakker-Kommentar-Dialog geschlossen.
+Die Kommentareingabe ist gÅltig und wird gesetzt.

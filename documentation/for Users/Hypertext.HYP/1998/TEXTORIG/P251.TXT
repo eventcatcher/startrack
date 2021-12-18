@@ -1,0 +1,40 @@
+4.15.4 Link
+
+
+
+Dieser Dialog ist fr die Eingabe eines Link auf den Masterpart zust„ndig. 
+
+Um einen Link zu erzeugen,w„hlt man den entsprechenden Eintrag aus (klick auf Partnummer),und drckt den
+LinküButton.Danach ”ffnet sich der LinküDialog.Hier gibt man dann die Partnummer des Masterparts an.
+
+Umgekehrt kann man auch den Masterpart aktivieren,und den LinküDialog
+
+aufrufen,und gibt dann die Nummer des gewnschten LinküEintrags an.
+
+Es ist jedoch nicht m”glich,einen Link auf einen Link zu definieren. 
+
+
+
+1) ZielüPart
+
+
+
+Hier gibt man die Partnummer des Masterparts bzw. Zielparts ein.
+
+
+
+2) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+3) Exit
+
+Hiermit wird der Link-Dialog geschlossen.Der Link wird nicht beachtet,und ist ungltig.
+
+
+4) OK
+
+Hiermit wird der Link-Dialog geschlossen.Die Linkeingabe ist gltig,der Link wird gesetzt und in die Cuelist
+eingetragen.

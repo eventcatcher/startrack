@@ -1,0 +1,362 @@
+Bugfixex und nderungen V 1.07
+------------------------------
+
+- Copy-Block & Move-Block: Clipping eingebaut
+- Fehler,das beim Fenster verschieben Buttons "angeklickt" werden ist behoben
+- Fehler,das beim Fensterswitch das darunterliegende Fenster nicht vollst„ndig
+  verschwindet und Reste zurckbleiben ist behoben
+- Hackelige Buttons unter MagiC sollten nun der Vergangenheit angeh”ren.
+- Die Fensterinhalte von Editor,Tracker und Fader werden bei gengend Speicher
+  gecached, dadurch wesentlich schnellerer Bildaufbau.
+- Clipping fr Editor,Tracker und Fader released.
+- Fensterswitch-Fehler bei DSP-Fenster behoben.
+- Farbanpassungsfehler bei Workmode-Fenster in Monochrome behoben.
+- Dropdown pat sich nun automatisch der Breite der Meneintr„ge an
+  und Anpassung der Sprachfiles (LANG_D.TXT,LANG_F.TXT,LANG_E.TXT,LANGUAGE.TXT)
+  Dadurch ist nun eine individuelle Sprachanpassung relativ einfach ohne 
+  Sourcecode-Anpassung m”glich.
+- Editable-Objekt im Workmode-Fenster wird nun korrekt behandelt.
+- Redraw bei fehlender Blockmarkierung bei Move und Copy
+- Fehler bei blockplay im virtual-mode behoben
+- mehrere Fehler in der virtual-load und cache-verwaltung behoben, die zum nichtfunktionieren
+  der blockfunktionen im virtualmode fhrten.
+- Fehler in header-write behoben. Dadurch gab es bei HDR keine korrekten Dateiheader  
+- Fehler beim abspeichern im WAV-format bei HDR behoben
+- Jetzt korrektes abspeichern eines passenden dateiheaders im virtualmode
+  Dadurch nun auch als Dateikonverter fr Soundformate nutzbar !
+- Fehler in der PBF Cache-Berechnung fr WAV-Files behoben
+- versehentliche Umschaltung der Time/Sample-Darstellung bei virtual-load behoben
+- redraw-fehler bei virtual und blockload behoben
+- Fensterverwaltung der Blockfunktionen korrigiert
+- alle Blockfunktionen im virtualmode berarbeitet und entwanzt
+- Zeitanzeige im Resample-Dialog korrigiert, Samplerate-Anpassung im virtualmode
+- Fehlerhafte Fensterumschaltung im Blockbearbeitungsfenster behoben
+- Fehler im Trackplay behoben, der zum šberschreiben von geschtzten Speicherbereichen
+  fhrte und das ganze System durcheinanderbrachte
+  (ist passiert wegen doppelt groem L”schbereich als vorgesehen)
+
+Bugfixex und nderungen V 1.08
+------------------------------
+- Knackser bei Wiedergabe in der Musicbox zwischen den Samples behoben
+- Pfadl”schung nach abgebrochenem Record im virtualmode behoben
+- jetzt richtige cache-darstellung bei bergang von virtual nach memorymode und umgekehrt
+- Blockfunktionen Insert,Space und Resample berarbeitet und entwanzt
+- Scrolling jetzt feiner abgestuft bei extremen zoom-einstellungen
+- load-repeat bei pause im harddisk-mode im editor behoben
+- pausenstart jetzt auch im Musicbox-Dialog
+- keine knackser mehr bei insert durch ignorierten header
+- jetzt bis zu 999 Marker
+- Marker k”nnen jetzt auch direkt per Werteingabe ausgew„hlt werden -
+  kurz auf Markernummern-Button draufklicken
+- AIFF-Format lesen & schreiben
+- buttons fr markermode-auswahl implementiert
+- scrubbing implementiert, momentan aber noch NICHT fr virtual-mode !
+- auswahl von Emulationsmode Falcon-TOS implementiert
+- MTC-Funktionen (midi-timecode) implementiert
+- Eingabe von MTC-Startzeit,Frames/s,REC/PLAY-Steuerung ber MTC oder Space-Taste
+- setup-abspeichern um neu hinzugekommene Funktionen erweitert
+- button arrange-nr entfernt, da obsolet
+- Eintr„ge DSP-Hosttransfer und DSP-Effektmix im Men-Dropdown gesperrt,
+  da nur fr eigene Testzwecke
+- marker on the fly - eingabe bei play/record per Space-Taste implementiert.
+  Bei HDR werden die Marker in das INF-File bernommen.
+- Source,Kommentarfeld und Marker k”nnen nun nachtr„glich im Sampleinfo-Dialog
+  ge„ndert werden. Die Werte werden im INF-File abgespeichert.
+- Speicher wird nun gel”scht, nachdem ein virtuelles File gel”scht wurde. Vorher
+  blieb immer der Speichermll sichtbar.
+- Vertauschte Start- und Endmarker bei HDR geh”ren nun der Vergangenheit an
+- Verbesserte Bedienung und ver„nderte Oberfl„che von einigen Fenstern und Dialogen
+- Play im Blockmode nun auch ohne Endmarker (nur mit Startmarker) m”glich. Dann wird bis zum Ende
+  des Speichers oder des Files abgespielt.
+- Markermode jetzt komfortabel ber Buttons ausw„hlbar, nun auch als Block aufziehbar
+- Y-Zoom funktioniert jetzt korrekt
+- Anpassungen an MagiCs Window-shading
+- Alle DSP XBIOS-Aufrufe des Falcon-TOS eingebaut.
+  Damit laufen nun auch Falcon-Programme, allerdings mssen noch ein paar Kleinigkeiten
+  ge„ndert werden. Unsaubere Programme haben natrlich ein Problem.
+
+Bugfixes und nderungen V1.09
+-----------------------------
+- Untersttzung fr ROBOCLOCK, das programmierbare Clockmodul, eingebaut 
+- nur noch ein Programm fr Demo und Vollversion
+
+Bugfixes und nderungen V1.09b
+------------------------------
+- Soundausgabe unter MagicMac (bisher nur bei in den Editor geladenen Soundfiles m”glich)  
+- Treiber SOUND.PRG nun aus Autoordner ladbar, mit Statusmeldung
+- Treiber SOUND.PRG nun mit automatischer Erkennung der Audiohardware
+  Falls keine Audiohardware erkannt wird, l„uft die Software automatisch im Demomodus !!!
+- Probleme mit 68000er Ataris und TT im Demo-Modus (fehlerhafte Hardware-Erkennung) behoben
+- Bug in der Resourceverwaltung behoben, fhrte wahrscheinlich zu gelegentlichen
+  Abstrzen beim Programmstart.
+- Die Software l„uft derzeit NICHT auf Apple PowerMacs im Demo-Modus,aber auf Apple-Rechnern
+  mit 68K-CPUs l„uft's prima (unter MagiCMac).
+- Unter MagiCMac ist nun im Demomodus sogar Soundwiedergabe m”glich, allerdings nur fr
+  Samples im RAM.
+- Die Software l„uft im Demomodus jetzt auch auf dem Falcon und bietet ebenfalls
+  Soundwiedergabe- und Aufnahme, allerdings ebenfalls nur fr Samples im RAM.
+- Der Treiber fr Falcon-Rechner ist erst im Anfangsstadium, die Einbindung von
+  HD-Recording,HD-Wiedergabe,DSP-Nutzung etc. fr den Falcon ist in Arbeit.
+- Auf Rechnern mit weniger als 6MB freiem RAM war es bisher nicht m”glich, die Software
+  zu nutzen. Das wurde durch einige Sparmanahmen dahingehend ge„ndert, das die Software
+  nun auch auf Rechnern mit 4 MB RAM nutzbar ist. Die Software bietet in diesem Sparmodus
+  (bei weniger als 6MB freiem RAM) allerdings nur die Monochromdarstellung
+  (Fenstergr”e max. 640x400) und nutzt einen kleineren Track-Cache.
+  Dafr l„uft die Software nun auch auf 4MB-Falcons und 68000ern.
+
+Bugfixes und nderungen V1.10
+-----------------------------
+- Bug im Buttonhandling bei HD-Play/Record behoben.
+- Audiotreiber komplett berarbeitet und Support fr ADC im 128Bit-Modus eingebaut
+  Voraussetzung hierfr ist ein PLD-Update der Audiohardware. Der ADC arbeitet dann
+  auch im Falcon 128Bit-Modus einwandfrei.
+- Probleme durch fehlerhafte Hardwareerkennung im Audiotreiber behoben.
+  Es konnte vorher passieren, das der TT beim laden des Treibers abstrzte.
+- Die folgenden Programme laufen nun einwandfrei (mit PLD-Update):
+  Soundpool Analyser und Equalizer,VoXX,Winrec,Trackcom,Zero-X
+  Frak,Frakt-me (Fraktale mit DSP-Support)
+  Gemjing (spielt alle m”glichen Sampleformate ab und rechnet in Echtzeit die Sampleraten um)
+  AIFF-Player (spielt AIFF-Samples direkt von Festplatte)
+  Gem-Mpeg (MPEG Video-Decoder)
+  Aniplayer (sehr guter AVI und Quicktime Movie-Player mit DSP-Soundsupport,ben”tigt Clockmodul)
+- TT-MMU Programm DSP_ROUT.PRG fr den TT spiegelt die DSP-Register in den Falcon Adressbereich
+- komplett berarbeitetes und erweitertes StarTrack Modewatch-Accessory
+- Ab sofort automatische šbernahme der Startmarken von DAT am Digitaleingang m”glich
+  ( nur mit PLD Hardware-Update !) 
+- Fehler in der Speicherverwaltung fhrte zu Problemen unter MagiCMac
+- Zu frhe Fileabfrage in den Accessorys fhrte zu Problemen auf dem Falcon
+
+Bugfixes und nderungen V2.00
+----------------------------- 
+- Alle Setup- und System-Dateien "SMP16.*" wurden in "STARTRK.*" umbenannt
+- Im Editor kann nun mit CTRL-V die Darstellung zwischen Zeit und Samples umgeschaltet werden.
+- Im Tracker kann nun mit Doppelklick auf den Horizontalslider-Button(Zeitachse) direkt
+  zu einer Zeitposition gesprungen werden. Dabei wird der Slider automatisch an die evtl.dadurch
+  erweiterte Zeitachse angepat.
+- Im Size-Feld des Trackers wird nun automatisch die Gesamtspielzeit eines Arrangements angezeigt.
+- Die Fenster Editor,Tracker und Peakmeter sind nun in ihrer Gr”e variabel. Die Einstellungen
+  werden im Setup gespeichert, und werden beim Laden bei Bedarf restauriert.
+  Dabei wird bei zu kleinen Aufl”sungen automatisch eine Gr”enanpassung vorgenommen. 
+  Dabei wurde auch gleich der Fehler behoben der dazu fhrte, da das DSP-Fenster beim Restaurieren
+  nicht angezeigt wurde und zum Absturz fhrte.
+- Die Fensterpositionen aller unge”ffneten Fenster werden nun ebenfalls im Setup gespeichert (Freeze-Option).
+  Fensterpositionen werden bei Benutzung kleinerer Aufl”sungen automatisch korrigiert, damit diese immer
+  vollst„ndig sichtbar sind.
+- Die Zeitachsenbeschriftung und die Markerbeschriftung wurden fr Aufl”sungen ab 1024x768 im Tracker
+  und Editor vergr”ert.
+- Alle Funktionen sind nun ebenfalls mit 24Bit Aufl”sung nutzbar und wurden auf die 24Bit-Aufl”sung angepat.
+  Der DSP funktioniert im 8Kanal- und 16Kanal-Mode aber weiterhin nur mit 16Bit, da dies technisch derzeit
+  nicht m”glich ist, und auch keinerlei externe Hardware diese M”glichkeit bisher untersttzt.
+  Im CPU-Mode sind die vollen 24Bit nutzbar, bei derzeit ca. 8-12 Spuren.
+  Im 24Bit-Mode k”nnen 16Bit-Samples ohne Qualit„tsverlust im Tracker (24Bit CPU-Mode) gemischt werden !
+  Auerdem k”nnen 24Bit-Samples mit 16Bit-Samples im Tracker zusammen verwendet und gemischt
+  werden (24Bit CPU-Mode)!
+- Plugin-Schnittstelle: Es gibt nun eine Plugin-Schnittstelle fr CPU-Effekte und Zusatzprogramme.
+  Hier k”nnen max. 10 Plugins verwendet werden, die vom Programm automatisch eingebunden werden.
+  Die Oberfl„che der Plugins kann hierbei wahlweise vom Plugin oder dem Hauptprogramm bereitgestellt werden.
+  Die Plugins k”nnen wahlweise in den Aufnahme- und Wiedergabe-Effektweg eingebunden werden.
+  Es k”nnen bis zu 5 Plugins pro Effektweg verwendet werden. Dabei kann ein Plugin auch mehrmals in den
+  Effektweg eingebunden werden. Das geschieht ber die Eingabe von Effektlisten im Plugin Config-Dialog.
+  Fr CPU-Plugins ist ein schneller Rechner (ab 040er, besser 060er) notwendig !
+- Das Peakmeter-Fenster wurde komplett berarbeitet. Dabei wurde Wert auf eine bessere Bedienbarkeit
+  durch eine leicht logarithmische dB-Einteilung des Volume-Reglers vorgenommen.
+  Auerdem wurde auch das Peakmeter selbst auf dB geeicht und hat nun besonders im oberen Aufl”sungsbereich
+  von 0-6dB eine sehr feine Aufl”sung bekommen. Zus„tzlich gibt es nun ein alternierendes Peakhold
+  zur besseren Ablesbarkeit. Bei gr”erem Peakmeter-Fenster wird die Darstellung der Zeitanzeige deutlich
+  vergr”ert dargestellt. Das Design der Regler wurde auch komplett berarbeitet.
+- Die Farben im Editor und Tracker wurden leicht berarbeitet um eine bessere Lesbarkeit der Marker
+  auf Nova Grafikkarten zu gew„hrleisten. Das Nova-VDI stellt Invertierungen leider nicht korrekt dar !
+  Dadurch gibt es leider einige Probleme bei der Darstellung, insbesondere bei invertierten Buttons,
+  die zu diesem Zeitpunkt leider nicht ohne weiteres beseitigt werden k”nnen.                       
+- Die Samplewert-Anzeige im Editor wurde fr einen ausreichenden Wertebereich auf 10 Stellen erweitert.
+  Auerdem ist der Wert nun durch eine 1000er Punktaufteilung besser lesbar.
+- Die Anzeigeskalen des Peakmeter und Volume-Reglers im Peakmeter-Fenster und der Prozentskala
+  (vertikal) im Editor wurden auf ein Augenfreundlicheres Ma vergr”ert.
+- Das Virtual-Fenster wurde komplett berarbeitet und die Blockload-Option funktioniert jetzt wieder korrekt.
+- Fehler behoben: Im Virtual-Mode im Editor war kein Abspielen mehr m”glich nach einer Save-Operation.  
+- Editor und Tracker haben nun eine Zeitachsenbeschriftung bekommen.
+- Manchmal auftretende Fehler in der Zeitanzeige des Editors bei sehr hohen Timingaufl”sungen korrigiert
+- Die Datei XRSRC.OVL wird nicht mehr nachgeladen, da sie nun in die Programme und Accessorys integriert ist.
+  Auerdem ist das Aussehen der Radiobuttons und Checkboxes durch eine neue Libraryversion nun deutlich besser.
+- Die Resource-Dateien sind neu aufgeteilt worden, um Speicherplatz zu sparen und um die 
+  Begrenzung der Resourcegr”e durch die max. RSC-Objektanzahl zu knacken.                                                                             
+- Speicherverwaltung komplett berarbeitet, nutzt den Speicher jetzt besser aus
+  (vor allem auf Systemen mit ST UND TT-Ram).
+- schnellerer Bildaufbau durch Hintergrund-Screenrefresh
+- Fehler im Search-Dialog des Trackers behoben, der zum Absturz fhren konnte.
+- schlecht lesbare Schriftgr”en bei groen Aufl”sungen wurden entsprechend vergr”ert.
+- Startup-Soundutility STARTUP.PRG fr den Autoordner bzw. MagiC-Startordner
+  oder als Accessory (hierfr STARTUP.PRG in STARTUP.ACC umbenennen).
+  Hiermit kann beim Start ein beliebiges Soundfile abgespielt werden. 
+- DSP-Plugins: DSP-Effektplugins von WINREC k”nnen nun durch StartTrack geladen und genutzt werden.
+  Die im Programmpfad stehenden LOD UND PAR-Files werden dann automatisch durch StarTrack geladen und
+  im DSP Plugin-Dialog dargestellt. Hier k”nnen dann die entsprechenden DSP-Plugins ausgew„hlt werden.
+  Durch Druck auf den entsprechenden Plugin-Eintrag wird der Effekt in den DSP geladen. Danach ”ffnet sich
+  ein weiteres Fenster zur Parametereinstellung des DSP-Effekts, „hnlich wie in WINREC.
+  Die angepaten LOD-Files sind gegen Nachweis einer WINREC-Lizenz kostenlos erh„ltlich.
+  Folgende Effekte (alle Bestandteil von WINREC) wurden erfolgreich getestet:
+  BORG.LOD (Roboter-Effekt)
+  ECHO.LOD (Echo)
+  HALL.LOD (Hall)
+  HARMONIZ.LOD (Harmonizer)
+  KARAOKE.LOD (Karaoke)
+  FLANGER.LOD (Flanger)
+  CHORUS.LOD (Chorus)
+  N_REDUK2.LOD (Noise Limiter)
+  KOMPRESS.LOD (Soft Limiter)
+  PITCH.LOD (Pichbend bzw. Pitch-Shifter)
+  GR_EQU.LOD (Grafischer Stereo 10Band-Equalizer)
+- Cuelist fr Memory und HD-Projekte, mit Link-Feature (nderungen am Hauptsample-Objekt fhren
+  automatisch zu entsprechenden nderungen an den Linkobjekten) und Downmix-M”glichkeit.
+- Shortcuts fr fast alle Programmfunktionen. Siehe auch SHORTCUT.TXT.
+- Sampleplayer (Arranger) komplett berarbeitet - jetzt mit Cache-Funktion.
+- Smpte-Frames nun mit 24,25,30,75(CD) und 100 frames im Workmode-Fenster ausw„hlbar.
+  Alle Zeitangaben arbeiten dann ebenfalls in der entsprechenden Frameeinteilung.
+- Die meisten Farbicons wurden nochmal berarbeitet und (hoffentlich) im Look and Feel verbessert
+- Alle Fenster haben nun Fenstertitel, die Titelbeschriftung aller Dialoge wurde vergr”ert und teilweise mit
+  Icons versch”nert.
+- Flicker-Fixing eingebaut (Vsync)
+- Alle Icons berarbeitet und redesigned
+- Abstrze bei Bedienung der Scrolltaster ohne geladenes Sample und durch Sample-Get beim Wechsel
+  Tracker->Editor behoben.
+- nderungen am Fader Screen-Cache (Cache war meistens inaktiv)
+- Resample-Dialog komplett berarbeitet
+- Problem mit bockiger Stoptaste behoben (wurde bei HD-Rec bzw. HD-Play oft nicht erkannt)
+- Peakhold-Zeit im Peaketer einstellbar (Horizontal-Slider 0-15)
+- L”schen eines virtuellen Files aus dem Speicher nun auch direkt im Load-Dialog m”glich 
+- Aufnahme im Tracker, parallel zum Abspielen von bis zu 8 Spuren im CPU-Mode ist jetzt m”glich.
+  Das Sample wird automatisch im Tracker in die aktive Spur eingefgt und angezeigt.
+- Vereinfachte Bedienung bei Aufnahme (weniger Parametereingaben).
+- Samples werden nun auch wenn sie gr”er als das Samplemem sind, automatisch nach der
+  Aufnahme in den Editor geladen.
+- Der Downmix im Tracker hatte einen Fehler der dazu fhrte, das nur das S16-Sampleformat verwendet
+  werden konnte. Das funktioniert jetzt (auch WAV).
+- PBF und INF-Files werden beim šberschreiben durch Downmix (Tracker und Cuelist) nun automatisch gel”scht.
+  Man sollte auerdem beachten,da PBF-Files die nicht zum Sample geh”ren,
+  falsche Ergebnisse und andere Probleme (bis zum Absturz) im Programm verursachen k”nnen.
+- Die Kommentar- und Markerfelder im SampleInfo-Dialog wurden teilweise falsch gesetzt oder gel”scht.
+  Der Fehler sollte nun nicht mehr auftreten.
+- Die Setup-Files(*.SET),die SampleInfos(*.INF),die Plugin-Setups(*.PCG),die Pfadlisten(*.SEL),
+  die Partitionlisten(*.LFW),die Musicbox-Setups(*.BOX),die Cuelists(*.CUE),die Arranger-Setups(*.ARR),
+  die Fader-Setups(*.FAD) und die Tracker-Setups(*.TRK) sind nun editierbar (ASCII-Textfile)
+  Dadurch sind nderungen einfacher m”glich und neue Parameter k”nnen hinzugefgt werden, wobei nun
+  die Kompatibilit„t zu alten Versionen immer gew„hrleistet ist. Alte INF-Files mssen also nun
+  bei neueren Versionen (hoffentlich) nicht mehr gel”scht werden.
+  Alte Versionen der SampleInfos(*.INF),Tracker(*.TRK) und Musicbox-Files(*.BOX) k”nnen auch gelesen
+  und konvertiert werden.
+- Man kann nun sehr schnell den Start- und Endbereich des Samplemem setzen indem man einfach auf den
+  MIN/MAX-Text (siehe Samplemem-Viewbereich) klickt.
+- Konvertierung von 16bit in 24bit und umgekehrt (siehe Blockfunktionen-Fenster)
+- Fr die Abspielfunktionen ist nun w„hlbar, ob nur der linke,der rechte,
+  oder beide Kan„le abgespielt werden sollen. Fr die 4Kanal- und Achtkanalmodi gilt dies nicht.
+- Im Peakmeter sind nun auch Memory-Projekte abspielbar.    
+- Die Ungenauigkeit beim Einzelsample-Zeichnen und Malen ist behoben.
+  Ebenfalls nun bei WAV korrekte Darstellung und Abspeicherung der ge„nderten Samples
+- WAV-Zoom im HD-Mode hatte falsche Darstellung. Die stimmt nun wieder.
+- Absturz bei Fade In/Out war uninitialisierte Variable. Fehler nun behoben.
+- Parametereingabe fr Samplefenster-Darstellungsgrenze (MIN/MAX) wird nun genauer berprft.
+  Dadurch sind Eingaben MIN>MAX nicht mehr m”glich (konnte zum Absturz fhren).
+- Im Tracker kann nun die Start- und Endposition eines Samples direkt eingegeben werden:
+  Einfach mit gedrckter CTRL,ALT oder SHIFT-Taste auf das Start- bzw. End-Feld klicken.
+- Im Tracker k”nnen nun Samples mit 16bit - und 24bit gemeinsam verwendet werden. Zu beachten ist,
+  da alle Samples der gleichen Spur die gleiche Bitaufl”sung haben.
+  Man kann z.B. eine Spur mit 16bit und eine Spur mit 24bit mischen - natrlich dann im 24bit-mode.
+  Ist man im 24bit-mode und alle verwendeten Samples haben eine Aufl”sung von 16bit, dann werden
+  diese automatisch in ein 24bit-Ausgabesignal gemischt. Dadurch geht kein Bit durch das Mischen
+  verloren - die volle 16bit-Aufl”sung bleibt also im Gegensatz zum Mischen im 16bit-mode erhalten !
+- Trackbouncing im Tracker geht nun ebenfalls. Dabei werden alle selektierten (roter Punkt-Button)
+  Spuren zu einer neuen konvertiert. Die neue Spur wird dann in der aktiven Spur automatisch eingefgt.
+  Wenn man im Fileselector einen anderen Fileextender bzw. ein anderes Sampleformat w„hlt, wird
+  die neue Spur automatisch in das neue Format konvertiert !
+- Aufnahmen im Tracker werden nun automatisch in die aktive Spur eingefgt.
+- Pre-Recording: Vor Aufnahme wird ein Piepston 4 x im abstand von ca. 1 Sekunde gespielt.
+  Das erleichtert Synchronaufnahmen und Aufnhame ohne Sicht auf den Computermonitor.
+  Das Pre-Recording kann im Setup ein/ausgeschaltet werden mit dem Beep-Button.
+- Im Setup kann man einstellen,wieviele Bl”cke (Blocks-Feld) bei der HD-Aufnahme an einem Stck
+  geschrieben werden. Die maximale Sektor-Bl”ckgr”e der angeschlossenen Festplatten wird
+  automatisch ermittelt und in Klammern angegeben. Es werden also bytes=maxblock*blocks pro
+  Zugriff geschrieben.
+- Im Setup kann man mit dem Jitter-Button bestimmen, ob beim Bildaufbau zu Vsync (vertical sync
+  vom Monitor) synchronisiert werden soll. Dadurch flimmert die Zeitanzeige und die Darstellung
+  der Amplituden im Peakmeter nicht mehr. Allerdings ist nicht jede Grafikkarte in der Lage, das
+  entsprechendes Signal auszuwerten.
+  Dann sollte man die Option abschalten, da sie unn”tig das Programm verlangsamt und Rechenzeit kostet.    
+- Durch einen Doppelklick auf den Scrollslider-Button im Editor kann die Scrollmarke nun direkt eingegeben werden.
+- Fr langsame Rechner wurde im Setup nun mit der Option Blocksize-Max die M”glichkeit vorgesehen, immer
+  m”glichst groe Bl”cke am Stck laden (play) bzw. speichern (rec) zu k”nnen. Dadurch wird allerdings die
+  Darstellung im Peakmeter etwas z„hflssiger, da durch den Block-DMA die CPU unterbrochen wird.
+- Man hat im Setup nun mit der Option Recordtime-Max die M”glichkeit, statt einer Zeitbegrenzung der
+  Aufnahme, immer die maximal m”gliche Aufnahmedauer (begrenzt durch die Partitionsgr”e) als
+  Voreinstellung zu nutzen.
+- Endlich wurde der Bug gefunden der dazu fhrte,da die nachtr„gliche (nicht bei Record) Berechnung
+  und Darstellung der Peakwerte blockweise unterbrochen wurde. Das fhrte auerdem auf dem TT
+  (und evtl. auch anderen Rechnern) zu Abstrzen bei der Berechnung.    
+- Die Cuelist und die Trackerlist k”nnen nun direkt nach Extendos-Gold exportiert und die
+  entsprechenden Audiofiles dann auf CD gebrannt werden. Den Extendos-Gold CD-Writer-Treiber gibt es
+  ebenfalls bei SWE Soft & Hard.
+- Entprellung der Pullup-Mens
+
+Bugfixes und nderungen V2.01
+-----------------------------
+- Volume-Steuerung ber Midi-Controller
+  Alle Lautst„rkeeinstellungen k”nnen nun auch ber externe Midi-Controller geregelt werden.
+  Die Lautst„rke im Peakmeter,Tracker und Mixer sind nun hierber steuerbar.
+  Getestet wurde der Peavey PC1600x,ein Controller mit 16 Volume-Fadern. Andere Controller
+  k”nnen in der Setup-Datei (STARTRK.SET) angepat werden. 
+
+Bugfixes und nderungen V2.10 - V2.12
+-------------------------------------
+- Das neue HTML-Handbuch fr Cab und andere WWW-Browser ist nun endlich fertig.
+- neuer Multichannel-Mixer mit Panpot,Channel- und Balance-Mixer. Hat noch Betastatus!
+
+Bugfixes und nderungen V2.20
+-----------------------------
+- neuer Multichannel-Mixer mit Panpot,Channel- und Balance-Mixer.
+- Neuer Directstream-Modus inkl. Partitionmode.
+- alle Dialogboxen sind nun nonmodale Fensterdialoge.
+- Fehler behoben:Beim draggen im Pullmarker-Modus war es nicht m”glich,
+  einen Block zu moven oder zu kopieren. Das geht nun wieder.
+- Konfigurierbarer Soundtreiber: Dieser ist nun ber ein Inf-File in unterschiedlichen
+  Einstellungen bootbar.
+- šberarbeitetes Starmode-Accessory.
+- Fehler behoben:Endlossschleife bei Auswahl von PCG und dannach ADAT.
+- Fehler behoben:Shortcut-Auswahl von versteckten (hidden-flag) Menpunkten.
+
+Bugfixes und nderungen V2.21
+-----------------------------
+- Vierkanal-Modus hat nun eigenen Mixer,ist komplett berarbeitet & funktioniert jetzt wieder.
+- Automatische Umschaltung auf Output-Volume bei Wiedergabe im Peakmeter.
+- Der DirectStream-Modus untersttzt nun im Achtkanal-Modus auch die internen Eing„nge
+  (ADC bzw. Digital-Eingang) der StarTrack-Audiokarte.
+  Dafr mu im Workmode-Fenster im Bereich recordmode "8 Tracks" und "int" ausgew„hlt sein.
+  Auerdem mu im Bereich mixmode "DSP" oder "matrix" ausgew„hlt sein,und im Partitionmode-Dialog
+  mu eine Partition eingerichtet werden und "partitionmode" ausgew„hlt sein.
+- Der Peakmeter liegt nun hinter (bisher war's umgekehrt) m”glichen CPU-Effekten.
+- Die DSP-Programme fr den Vierkanal-Modus wurden berarbeitet und mit Bypass-Funktion versehen.
+- Bei Aufnahmestart wird nun auch im Pausemodus der Peakmeter angezeigt.
+
+Bugfixes und nderungen V2.22
+-----------------------------
+- Probleme mit Highsampling-Anzeige im Connection-Fenster behoben
+- Besserer Schutz gegen Fehlbedienung im Partitionmode
+- Sperren der DSP- und Plugin-Funktionen im Falconmode (bisher nur fr Stereomode!)
+
+
+Achtung, bitte unbedingt lesen !!!
+----------------------------------
+Die V 2.20 enth„lt noch nicht die Funktionen fr die Aufnahme ber mehrere Partitionen
+und den Polyphonen Sampleplayer (derzeit monophon).
+Diese Funktionen werden hoffentlich bald fertiggestellt.
+Das Update auf diese Funktionen ist kostenfrei und wird unaufgefordert zugeschickt !
+
+
+Die Version enth„lt auch einige Effekt-Plugins von Winrec.
+Diese sind mit freundlicher Genehmigung von A.Binner nun Bestandteil der Software.
+
+Den zuknftigen Fensterdialog fr Crossfader (noch ohne Funktion)
+bekommt man folgendermaen zu Gesicht:
+
+Im Dropdown-Men bei Funktionen/Partition-Mode:
+
+CTRL-Taste gedrckt + Dropdown-Eintrag anklicken : XFADE-Dialog
+

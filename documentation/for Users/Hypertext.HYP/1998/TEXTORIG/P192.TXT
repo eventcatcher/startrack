@@ -1,0 +1,89 @@
+4.13.1 MidiüSampleplayer-Fenster
+
+
+šber dieses Fenster wird die Ansteuerung eines (oder mehrerer)
+MIDI-Keyboards realisiert.Dazu erstellt man hier eine Liste der verwendeten Samples.Man kann hier die Loopart,Start- und
+Endpunkt,Midikanal,Midinote usw. fr jedes einzelne Sample bestimmen.Dabei werden die Samples soweit m”glich automatisch
+in den Speicher geladen,um den Zugriff zu beschleunigen. Je mehr RAMüSpeicher man hat,desto besser.
+Die fertige Liste kann als Arrangement-File (Endung *.ARR) abgespeichert werden.Aufgerufen wird das
+MidiüSampleplayer-Fenster durch den Keyboard- Button im Edit-Fenster,durch Eingabe von CTRL-A,oder ber das optionale
+Dropdown-Men unter Fenster/MidiüPlayer.
+
+
+Das Sampleplayer-Fenster besteht aus folgenden Funktionsgruppen:
+
+
+
+1) Button-Toolbar
+
+Hierber erreicht man die wichtigsten Hauptfunktionen.
+
+
+2) Parameter-Feld
+
+Hier werden die einzelnen Samples mit den fr das Abspielen ber ein
+MIDI-Keyboard wichtigen Parametern eingestellt.
+
+
+3) Startpoint-Button
+
+Wenn man mit den Laufwerksfunktionen einen Sample-Startpunkt gefunden hat,kann man ihn hiermit als "Startpoint" in die
+Arrange-Parameterliste
+bernehmen.
+
+
+4) Endpoint-Button
+
+Wenn man mit den Laufwerksfunktionen einen Sample-Endpunkt gefunden hat,
+kann man ihn hiermit als "Endpoint" in die Arrange-Parameterliste bernehmen.
+
+
+
+5) Slider
+
+Hiermit kann man den sichtbaren Teil der Sampleplayer-Liste bestimmen.
+
+
+6) Steuerungsfeld
+
+Hierber k”nnen die Samples abgespielt bzw. nach Geh”r ein Start- und
+Endpunkt des Samples definiert werden.Es stehen s„mtliche bekannten Laufwerksfunktionen zur Verfgung.Auáerdem kann man
+die Blockmarken des Samples (aus dem Information-File *.INF) einfach ins MIDI-Arrangement bernehmen.
+
+
+7) Help
+
+
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+8) Clipboard
+
+
+šber das Clipboard kann man komplette Eintr„ge kopieren.Dabei fungiert das
+Clipboard als eine Art Zwischenspeicher.Man kann einen Eintrag auch kopieren, indem man den Edit-Button anklickt,und bei
+gedrckter linker Maustaste auf das Clipboard-Icon zieht (bzw. draggt).Dabei wird das Clipboard-Symbol selektiert.Nun
+l„át man die Maustaste los.Damit wurde der Eintrag zun„chst ins Clipboard kopiert (eine Art Zwischenspeicher).Nun sucht
+man mit dem Slider den gewnschten Eintrag,auf den das ganze kopiert werden soll.Hat man den leeren Eintrag im
+Sichtfeld,klickt man auf das Clipboard.Man h„lt dabei die linke Maustaste gedrckt.An der Maus h„ngt nun das
+Edit-Symbol.Dieses zieht man jetzt ber den Edit-Button des Eintrags,in den kopiert werden soll.Dabei wird der
+Edit-Button des Eintrags automatisch selektiert.Ist der Edit-Button selektiert,l„át man die Maus los - fertig. 
+
+Der Clipboard-Inhalt bleibt solange vorhanden,bis man einen anderen Eintrag hineinkopiert.
+
+
+9) Mlleimer
+
+Wenn man den Mlleimer anklickt,wird das gesamte MIDI-Arrangement gel”scht.
+
+
+10) Exit
+
+Hiermit wird das Sampleplayer-Fenster geschlossen.Alle Einstellungen bleiben
+bis zum n„chsten Aufruf unver„ndert.Man kann jedoch mehrere Fenster gleichzeitig ge”ffnet lassen,und hat so immer den
+direkten Zugriff auf die Funktionen.
+
+
+

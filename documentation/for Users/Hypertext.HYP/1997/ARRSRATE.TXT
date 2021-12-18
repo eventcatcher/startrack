@@ -1,0 +1,64 @@
+Arrange-Samplerate-Dialog
+
+
+Mit diesem Dialog kann man im Arranger eine neue Samplerate fr das
+ausgew„hlte Sample w„hlen.
+Um in diesen Dialog zu gelangen, klickt man im İArranger-FensterİARRANGE.TXTİ auf das
+Sampleraten-Textfeld (HZ) des zu „ndernden Sample-Eintrags.
+Das Sample wird dabei nicht auf die neue Samplerate umgerechnet.
+Der Wert bestimmt lediglich die Wiedergabe des Sample ber ein MIDI-Keyboard
+mit der angegebenen Samplerate. Zur besseren Verst„ndnis sollte man das
+İBILDİARRSRATE.IMGİ des Arrange-Samplerate-Dialogs zu Rate ziehen.
+
+
+1) Original
+-----------
+Hier wird die momentan gltige Samplerate angegeben. Falls die angezeigte
+Samplerate nicht mit der wirklichen bereinstimmt, kann man dies hier
+korrigieren.
+
+2) DSR 32.0 kHz
+---------------
+Die neue Samplerate soll 32 kHz betragen. Wird auch von Satelliten-Tunern
+(DSR) oder von DAT-Rekordern (Longplay) benutzt.
+
+3) CD 44.1 kHz
+--------------
+Die neue Samplerate soll 44.1 kHz betragen. Das ist die bliche
+CD-Player-Samplerate.
+
+4) DAT 48.0 kHz
+---------------
+Die neue Samplerate soll 48 kHz betragen. Das ist die g„ngigste
+DAT-Rekorder-Samplerate.
+
+5) new rate
+-----------
+Hier wird die Samplerate in kHz angegeben, mit der das Sample ber das
+MIDI-Keyboard abgespielt werden soll. Die Samplerate kann man mit den
+Pfeiltasten (6) und den Sampleraten-Buttons (2-4) einstellen.
+
+6) Pfeiltasten
+--------------
+Mit den Pfeiltasten kann man die Samplerate einstellen,falls die blichen
+Sampleraten (siehe 2-4) nicht ausreichen,
+und zwar mit 3 verschiedenen Schrittweiten:
+einfach-Pfeiltaste  = 0.1 kHz
+zweifach-Pfeiltaset = 1 kHz
+dreifach-Pfeiltaste = 5 kHz
+
+7) Help
+--------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+8) Exit
+--------
+Hiermit wird der Arrange-Samplerate-Dialog geschlossen.
+Der alte Sampleraten-Wert bleibt erhalten.
+
+9) OK
+------
+Hiermit wird der Arrange-Samplerate-Dialog geschlossen und die neue
+Samplerate des ausgew„hlten Sampleeintrags ist gltig.

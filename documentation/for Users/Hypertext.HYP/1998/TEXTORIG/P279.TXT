@@ -1,0 +1,411 @@
+6.1 Fragen & Antworten
+
+
+
+F: 									Ich habe St”rungen (Knistern) bzw. keine Wiedergabe bei
+									(	meiner DSPüPortüErweiterung Analog8 oder JamüOut
+
+
+A: Das Kabel des DSPüPorts ist nicht beliebig verl„ngerbar,die Maximall„nge ist
+	ungef„hr 20cm,da es ansonsten zu St”rungen (Knackser) bei den	DSPüPortüErweiterungen	kommt.Das ist verst„ndlich wenn
+man bedenkt,   	welch hohe Frequenzen das		Kabel			bew„ltigen muá (ber 6 MHz).Dabei	kommt es ab einer bestimmten	L„nge
+zwangsl„ufig zu nderungen in	Timing und Flanken der Signale,die	eine sichere und st”rfreie šbertragung	unm”glich
+machen.Daher sollte	dieses Kabel m”glichst kurz sein bzw.	n”tigenfalls gekrzt werden.
+
+
+
+
+
+F:	Ich habe die StartracküKarte eingebaut,und mit der HIFIüAnlage verbunden.
+  	Ich kann aber nichts h”ren.
+
+
+A:	Die StartracküKarte muá zuerst initialisiert werden.Starten sie hierfr
+  	zuerst das STARTRAK.PRG und kontrollieren sie,ob im ConnectionsüFenster
+  	der korrekte Eingang ausgew„hlt wurde.Kontrollieren sie im	PeakmeterüFenster,ob die Lautst„rke von Einü und
+AusgangsüLautst„rkeregler	der Karte auf ca. 0dB eingestellt ist.Ist die richtige Anschluáquelle am	Verst„rker
+eingestellt ?
+
+
+
+
+F: Wo kann ich Hilfe bekommen,wenn ich technische Probleme habe ?
+
+
+A:	Wenden sie sich zuerst an ihren H„ndler bzw. den zust„ndigen Vertrieb.
+  	Wenn diese nicht weiterhelfen k”nnen,wenden sie sich direkt an den	Entwickler: Firma Stephan Wilhelm,Entwicklungsbro
+fr Hardü und	Software,Niehler Str. 312, 50735 K”ln, Tel: 0221ü7127380, Fax: 0221ü685184
+
+
+
+
+F:	Wenn ich im TrackerüFenster die Wiedergabe starten m”chte,strzt das		  
+
+	Programm ab.
+
+
+A: Dies ist ein bekannter Fehler der bald behoben wird.Sie haben dem	Programm m”glicherweise zu wenig Speicher
+reserviert.Sie mssen hierfr	im SetupüDialog den mallocüwert auf mindestens 8192KB erh”hen.
+
+	Dann sollte	der Fehler nicht mehr auftauchen.
+
+
+
+
+F:	Ich habe ”fter St”rungen oder Aussetzer in der Wiedergabe,der Rechner
+	bleibt h„ngen,die Maus wird hakelig oder bleibt stehen.
+
+
+A:	Ihr Rechner geh”rt anscheinend nicht zu den schnellsten und ist berlastet.
+	Entfernen sie alle unn”tigen Accessories und AutoüOrdnerüProgramme.
+	Diese drcken oft das Tempo des Rechners zu weit herunter.HDüRecording		stellt hohe Anforderungen an den
+Rechner.HDüWiedergabe von mehreren	Spuren ist auf dem TT nur mit der DSPüErweiterung m”glich,da der	Rechner	dafr sonst
+zu langsam ist.M”glicherweise ist auch ihr TTüNetzteil	berlastet.	Versuchen sie es einmal mit einem st„rkeren
+PCüNetzteil(230W).
+
+
+
+
+F:	Der Rechner strzt bei Wiedergabe oder Aufnahme auf HD ”fters ab.
+
+
+A: M”glicherweise ist ihr Netzteil zu schwach,oder sie haben ein Netzteil	schlechter Qualit„t das St”rspitzen
+verursacht.Testen sie es mal mit einem	anderen,etwas st„rkeren Netzteil.Die Stromversorgung zur
+StartracküKarte	ist	vielleicht schlecht,das Stromkabel zu lang oder zu dnn.Es kann auch	daran	liegen,daá die Karte
+schlecht belftet wird,und dadurch zu heiá wird.
+	Versuchen sie einmal die Karte im Betrieb mit einem CPUüLfter zu	belften.Vielleicht ist auch ihr VMEüKabel oder das
+DSPüPortüKabel zu lang.
+
+
+
+
+F:	Das StartracküProgramm meldet "Keine StartracküKarte gefunden".
+
+
+A:	Die Karte ist nicht richtig eingesteckt,oder der VMEüStecker der Karte ist	besch„digt.šberprfen sie einmal die
+Kontakte,ob keiner der 96 Kontakte	abgebrochen oder abgeknickt ist.Das kann leicht bei unsachgem„áer	Montage	oder roher
+Gewalt beim Einbau passieren.Entfernen sie alle	anderen	eventuell	eingesteckten VMEüKarten vom VMEüBus.Vielleicht
+st”rt	eine dieser Karten	bzw. nutzt den gleichen VMEüAdreábereich.Sollte das der	Fall sein,melden			
+
+	s	ie das bitte an den Entwickler oder den deutschen Vertrieb.
+
+	Der	Adreábereich	der StartracküKarte kann ver„ndert und durch	Umprogrammierung der	Karte in einen anderen Bereich
+gelegt werden.
+
+	Wir	passen in diesem Fall die	StartracküKarte ihren Erfordernissen an.
+	šberprfen sie mal das VMEüKabel.Vielleicht ist es besch„digt.
+
+	Haben sie eine VMEüSloterweiterung ? Dann versuchen sie mal die Karte in	einen anderen Slot zu stecken.Schalten sie
+aber vorher den Rechner aus ! Die	StartracküKarte nutzt Interrupts.Daher sollten die DaisyChainüAnschlsse	INTIN und
+INTOUT des VMEüBus auf der VMEüBackplane bis zum	erforderlichen Slot gejumpert sein.Haben sie die VMEüSloterweiterung
+von	uns,so haben sie damit keine Probleme,da unsere Backplane dies automatisch	macht (Schalter in den Kontakten).
+
+
+
+
+F:	Meine FalconüProgramme (CubaseAudio,LogicüAudio,Audiotracker usw.) die	den DSP oder die Audiohardware des Falcon
+nutzen laufen nicht mit	Startrack zusammen.
+
+
+A:	Das ist ein Problem an dem wir arbeiten.Der XBIOSüTreiber (SOUND.PRG)	
+
+	beinhaltet u.a alle Soundü und DSPüBetriebsystemaufrufe.Diese machen die
+
+	Audiokarte weitgehend kompatibel zu FalconüProgrammen.
+
+	Kleinere Anpassungen der Programme an die etwas anders	funktionierende	Hardware der StartracküKarte werden aber
+unvermeidlich	sein,da die	Programme nicht in allen F„llen auf Betriebssystemfunktionen	zugreifen,
+
+	und	teilweise die FalconüSoundhardware direkt	ansprechen.
+
+	Das kann prinzipbedingt nicht funktionieren.Fragen
+	sie ihren SoftwareüHersteller nach einer angepaáten StartracküVersion.
+
+	Erfolgreich getestet wurde bisher die komplette DSPüSuite von Soundpool,
+
+	bestehend aus Analyser,EQ,DeüNoiser und Dynamite,die Programme
+
+		VoXX (SoftwareüVocoder),Winrec,Trackcom,ZeroüX,Frak,Fraktüme,
+
+	Gemjing,Aiffplayer,GemüMpeg,DSP JPEGüPlugin fr Cab und Aniplayer.
+
+
+
+
+
+F:	Der Rechner strzt ab,wenn man Fenster aus dem BildschirmüBereich
+
+	herausschiebt.
+
+
+
+A:	Das ist ein alter Fehler im TOS und „lteren NVDIüVersionen. Benutzen
+
+	sie eine m”glichst aktuelle NVDIüVersion ab V5.0.
+
+
+
+
+
+F:	Die Textdarstellung in der Timeline und in der PeakmeterüZeitdarstellung
+
+	ist falsch bzw. zu groá oder zu klein.
+
+
+
+A:	Benutzen sie eine neuere NVDIüVersion ab V5.0. Es kann auch an einer	falschen Einstellung der Parameter in der Datei
+Assign.sys (auf Lfw. C)	liegen.
+
+
+
+
+
+F: 	Es gibt gelegentliche Aussetzer bei Aufnahme oder Wiedergabe des Atari TT.
+
+
+
+A:	Der TT arbeitet an seiner Leistungsgrenze. Es gibt einige M”glichkeiten,das
+
+	Programm an die geringere Leistungsf„higkeit anzupassen.
+
+	1. Schalten sie im Setup die Option "calculation by record" aus. Die	 	                      Peakdarstellung wird durch
+diese Funktion w„hrend der Aufnahme
+
+        berechnet. Das kostet viel Rechenzeit.
+
+	2. Schalten sie im Setup die JitterüOption ab. Durch diese Funktion wird der
+
+	   Bildaufbau mit dem VsyncüSignal des Monitors synchronisiert.
+
+	3. Setzen sie die Option "HDDüsektorlen" nach oben. Hiermit wird die
+
+	   Anzahl der Bl”cke bestimmt,die je Zugriff auf die Festplatte an einem
+
+	   Stck geschrieben oder gelesen werden.
+
+	4. Sorgen sie fr gengend freien RAMüSpeicher und ausreichend	 	   	 
+
+	    SampleüRAM (Setup,Opt."malloc"). Auáerdem wird NVDI und/oder
+
+       	MagiC empfohlen
+
+
+
+
+
+F:	Die Software bleibt ”fters h„ngen, die Hardware reagiert nicht auf
+
+	Einstellungen in der Software, es gibt gelegentliche Fehlfunktionen
+
+	der Hardware in verschiedenen Bereichen.
+
+
+
+A:	Es gibt evtl. Probleme mit TTüRechnern der ersten Revisionen bis Rev. D.
+
+	Der VMEüBus dieser Rechner ist teilweise sehr problematisch. Hier hilft nur
+
+	der Austausch des TTüBoards gegen eine aktuellere Revision,evtl. hilft auch
+
+	der Austausch der VMEüGALüChips. Genauere Aussagen k”nnen nicht
+
+	gemacht werden,da dies bisher nur einmal der Fall war.
+
+
+
+F:	Ich besitze einen TT mit StarTrack Audiokarte,und m”chte diese nun im
+
+	Milan oder Hades betrieben.Was ist zu beachten ?
+
+
+
+A:	Es gibt fr TowerüRechner eine spezielle Einbauvariante.Hierbei wird die
+
+	Audiokarte in einen freien Laufwerkslot eingebaut.Senden sie die Karte gut
+
+	verpackt an den Hersteller SWE.Dieser wird ihnen die Karte entsprechend
+
+	zum Einbau in den HDDüSlot wandeln.
+
+
+
+
+
+F:	Ich habe einen AtariüTT mit VMEüGrafikkarte,und m”chte diese	weiterverwenden und zusammen mit der Audiokarte
+betreiben.Geht das ?
+
+ 
+
+A:	Im Prinzip ja.Es gibt 2 M”glichkeiten hierfr.Man kann eine sogenannte
+
+	Backplane mit 2 VMEüSlots einbauen.Diese wird einfach in den vorhandenen
+
+	VMEüSlot des TT eingesteckt.Das „uáere Abschirmblech des Slots muá
+
+	hierfr entfernt werden.Die beiden VMEüKarten stehen dann aber ein paar
+
+	Zentimeter ber den Geh„userand.Die VMEüBackplanes sind leider nicht	ganz billig,und k”nnen ber die Firma SWE bezogen
+werden. 
+
+	Der Betrieb ohne Backplane ist wegen der geringen Treiberleistung im TT
+
+	normalerweise nicht so ohne weiteres m”glich.Bei der zweiten M”glichkeit
+
+	verl„ngert man den VMEüBus mit einem speziellen Flachbandkabel nach
+
+	auáen.Dort schlieát man dann ebenfalls eine Backplane an,da durch die
+
+	zu geringe Treiberleistung und die fehlende Terminierung am Kabelende,
+
+	ein zuverl„ssiger Betrieb der beiden Karten sonst nicht m”glich ist.
+
+
+
+
+
+F:	Das Programm strzt beim Start ab,oder gibt eine Fehlermeldung aus.
+
+
+
+A:	Sie haben vermutlich zu wenig freies RAM. HDüRecording verlangt
+
+	prinzipbedingt nach viel RAM.Sie sollten mindestens 4,besser 8MB
+
+	freies RAM haben.Es k”nnte auch sein,das die Karte nicht richtig	eingesteckt	ist,oder das Kabel nicht korrekt auf dem
+Stecker sitzt.Speziell	beim Hades	muá man aufpassen,das man den VMEüStecker nicht verpolt.
+
+	
+
+
+
+F:	Beim Betrieb der Audiokarte mit FalconüSoftware h”rt man nur Rauschen
+
+	am Audioausgang bzw. vom Audioeingang. Was kann das sein ?
+
+
+
+A:	Sie ben”tigen wahrscheinlich ein HardwareüUpdate der Audiokarte.
+
+	Alle Audiokarten mit Kaufdatum vor Mai 1998 haben noch	die alte	ChipüProgrammierung.Schicken sie die Audiokarte gut
+verpackt
+
+	zum Hersteller SWE.Dieser Service ist kostenlos !	
+
+
+
+
+
+F:	Einige der aufgefhrten,lauff„higen FalconüProgramme laufen auf 
+
+	meinem Atari TT nicht.Was kann die Ursache sein.
+
+
+
+A:	Kopieren sie das Programm DSP ROUT.PRG in den Autoordner.
+
+	Dieses spiegelt die DSPüRegister in den FalconüAdreábereich.Einige
+
+	unsauber programmierte Software greift direkt auf die Hardware zu. 
+
+	Leider l„uft dieses Patchprogramm momentan noch nicht unter MagiC.
+
+	Leider gibt es auch Software,die direkt auf Soundregister des Falcon
+
+	zugreift.Diese Fehler k”nnen leider auf dem TT nicht verhindert werden,
+
+	da dieser Registerbereich beim TT teilweise bereits mit anderen Registern
+
+	(8BitüSound DMA) belegt ist.Der Hades ist diesbezglich sehr fehlertolerant,
+
+	da beim Zugriff auf diese Register keine andere Hardware im Weg ist,und
+
+	auch keine Busfehlermeldung ausgel”st wird.Fragen sie bei Bedarf nach
+
+	einer neuen Version ihrer FalconüSoftware,die keine direkten	HardwareüZugriffe enth„lt.
+
+
+
+
+
+F:	Ich habe Probleme beim Zugriff auf die Festplatte mit meinem Hades
+
+	unter Verwendung von Bigdos.Der Zugriff	ist sehr langsam,es gibt oft	Aussetzer.
+
+
+
+A:	Auf dem Hades gibt es erhebliche Probleme mit Bigdos.Entfernen sie dieses
+
+	Programm aus dem Autoordner.Der Fehler liegt am verkorksten HadesüAcc,
+
+	das den Speicherbereich fr die RomportüKarte zu sp„t (wenn GEM bereits
+
+	aktiv,und Bigdos bereits installiert wurde) in ST und TTüRam splittet.
+
+	Solange es kein neues HadesüAcc fr den Autoordner gibt,kann man dieses
+
+	Problem nur teilweise l”sen.Durch nderungen an den Fastload und	Speicherflags von Bigdos kann man den Fehler
+vorbergehend beheben.
+
+	Es kann aber sein,das nach einer gewissen Zeit der gleiche Fehler wieder
+
+	auftritt.Dann hilft nur,wieder mit den Flags zu experimientieren.
+
+	Tip: MagiC verwenden oder auf Bigdos verzichten. 
+
+
+
+
+
+F:	Ich habe Aussetzer bei Wiedergabe von CDüROM.
+
+
+
+A:	Haben sie ein CDüROM der ersten Generation (2xü4x),dann ist es	wahrscheinlich	zu langsam fr direkte
+Wiedergabe.Besorgen sie sich
+
+	ein CDüROM ab 8x aufw„rts,oder kopieren sie die Dateien auf die Festplatte,
+
+	um sie davon abzuspielen. 
+
+
+
+
+
+F:	Ich habe gelegentliche Aussetzer bei Wiedergabe oder Aufnahme.
+
+
+
+A:	Viele AutoordnerüProgramme und Accessorys zehren an der	Geschwindigkeit 	des Rechners. Versuchen sie,auf einige davon
+zu verzichten.
+
+	Evtl. ist ihre Festplatte auch zu langsam.Ersetzen sie diese gegen ein neues
+
+	Modell.Optimieren sie ihre Festplatte mit einem Defragmentierprogramm
+
+	wie z.B. Optimize oder Diskus.
+
+
+
+
+
+F:	Ich habe eine ATIüGrafikkarte mit NovaüVDI.Invertierungen im Programm	sind kaum lesbar,was mache ich falsch ? 
+
+
+
+A: Dies ist ein Fehler im NovaüVDI,der derzeit leider nicht zu beheben ist.
+
+	Daher versucht das Programm,diesen Fehler durch geeignete Farben
+
+	bestm”glich zu umgehen.	
+
+	VoXX,Winrec,	Trackcom,ZeroüX,Frak,Fraktüme,Gemjing,Aiffplayer,GemüMpeg,Aniplayer.
+
+
+
+
+!!! Wichtig !!!
+
+
+Fr alle Basteleien an der Hardware gilt: Wie bernehmen keine Garantie fr fehlgeschlagene Experimente,und sie
+verlieren durch unsachgem„áe Behandlung der Platinen ihre Garantie ! Also gehen sie vorsichtig mit den StartracküKarten
+um,und fragen sie bei Unsicherheiten zuerst ihren H„ndler oder Vertrieb.

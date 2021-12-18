@@ -1,0 +1,47 @@
+4.6.1 Loop-Fenster
+
+
+
+Dieses Fenster ist fr die Loopfunktionen des Edit-Fensters zust„ndig.
+Man kann hier bestimmen,in welcher Richtung das Sample abgespielt werden
+soll.Das Abspielen startet aber erst durch Druck auf die Taste PLAY im
+Edit-Fenster.Ist der Blockbutton im Limit-Bereich aktiviert und Marker-S
+und Marker-E definiert,so wird nur der markierte Bereich abgespielt.
+Ist der Loop-Button im Limit-Bereich aktiviert,wird das Sample solange
+wiederholt,bis man den STOP-Button drckt.
+
+Im HDüModus kann lediglich vorw„rts abgespielt werden,rckw„rts abspielen ist
+
+nur im MemoryüModus zul„ssig.
+
+Aufgerufen wird das Loop-Fenster durch den Loop-Button im Edit-Fenster, durch Eingabe von CTRL-O,oder ber das optionale
+Programm-Men im Dropdown Fenster/Loops.
+
+
+1) Forward
+
+Das Sample wird vorw„rts abgespielt (standardm„áig).
+
+
+2) Cross
+
+Das Sample wird vorw„rts,und dann rckw„rts abgespielt (nur Memorymode).
+
+
+3) Backward
+
+Das Sample wird rckw„rts abgespielt (nur Memorymode).
+
+
+4) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+5) Exit
+
+Hiermit wird das Loop-Fenster geschlossen.Alle Einstellungen bleiben bis
+zum n„chsten Aufruf unver„ndert.Man kann jedoch mehrere Fenster
+gleichzeitig ge”ffnet lassen,und hat so immer den direkten Zugriff auf die
+Funktionen.

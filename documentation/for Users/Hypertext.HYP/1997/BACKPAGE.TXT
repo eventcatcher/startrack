@@ -1,0 +1,60 @@
+Backup-Dialog
+
+
+In diesem Dialog sind verschiedene Einstellungen fr die M”glichkeit eines
+automatischen System-Backups zu t„tigen. Bei einem solchen Backup werden
+nach einer einstellbaren Zeit, s„mtliche in der Bearbeitung befindlichen
+Dateien nach einer einstellbaren Zeit abgespeichert. Dabei kann man w„hlen,
+ob die Originaldateien abgespeichert werden sollen, oder als
+Sicherheitskopie mit anderem Namen.
+Zur besseren Verst„ndnis sollte man das İBILDİBACKUP.IMGİ zu Rate ziehen.
+
+1) Backup-Time
+--------------
+Hier wird die Zeit in Minuten eingestellt, nach der das Backup durchgefhrt
+werden soll. Die Eingabe geschieht mittels der links und rechts von der
+Minutenanzeige angeordneten Pfeiltasten. Die inneren Tasten (1 Pfeil) haben
+eine Schrittweite von 1 Minute und die „ueren Tasten (2 Pfeile) haben eine
+Schrittweite von 5 Minuten. Der Einstellungsbereich darf zwischen
+1-60 Minuten liegen.
+
+2) Auto-Backup
+--------------
+Ist dieses Feld angekreuzt, ist das Backup aktiviert. Will man kein
+automatisches Backup, kann man es hier jederzeit wieder abschalten.
+Beim Backup wird der Inhalt des Samplespeichers (BACKUP.S16) und das
+Arranger-Arrangement (BACKUP.ARR) gespeichert. Dabei erscheint eine
+Info-Box, in der die Namen der Backup-Files zur Kontrolle des
+Backup-Ablaufs ausgegeben werden.
+Die Backup-Funktion ist noch nicht vollst„ndig, wird aber noch erweitert
+um eine Speicherung der Trakker-Datei (BACKUP.TRK) und die Speicherung des
+INF-Files (BACKUP.INF) mit den enthaltenen Markern. 
+
+3) Original-Filenames
+---------------------
+Ist dieses Feld angekreuzt, werden beim Backup die Dateien unter den
+Original-Dateinamen gesichert. Alte Dateien werden dabei also berschrieben.
+Aus Sicherheitsgrnden sollte man darauf jedoch besser verzichten.
+Ist das Feld leer (deselektiert) werden fr das Backup neue Dateinamen
+benutzt, also eine Sicherungskopie angefertigt. Der Nachteil dieser Methode
+ist, das es  bei groen Sounddateien viel Speicherplatz auf dem
+Sicherungsmedium (Festplatte o.„.) verbraucht. Falls dieser knapp ist,
+empfiehlt sich die Sicherung unter den Original-Dateinamen
+(Feld selektiert).
+
+4) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+5) Exit
+-------
+Hiermit wird der Backup-Dialog geschlossen. Die ge„nderten Einstellungen
+werden nicht beachtet und sind ungltig.
+Die alten Einstellungen bleiben erhalten.
+
+6) OK
+-----
+Hiermit wird der Backup-Dialog geschlossen. Die ge„nderten Einstellungen
+sind sofort gltig.

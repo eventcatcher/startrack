@@ -1,0 +1,48 @@
+Playstart-Time-Dialog
+
+
+Dieser Dialog ist fr die Eingabe der Playstart-Zeit zust„ndig.
+Man erreicht den Playstart-Time-Dialog indem man einfach auf das
+İPlaystart-ZeitanzeigefeldİTMARKS.TXTİ im İTrakkerİTRAKKER.TXTİ klickt. Die Angabe der Playstart- und
+Playend-Zeit grenzt den Wiedergabebereich im Trakker ein und funktioniert
+„hnlich wie die Marker im Editor-Fenster d.h. die Wiedergabe startet bei der
+Playstart-Zeitmarke und endet bei der Playend-Zeitmarke. Diese beiden
+Playmarker werden im Trakker durch İsenkrechte LinienİTRAKKER.TXTİ dargestellt. Man kann
+diese im Trakker auch direkt greifen und auf die gewnschte Position
+verschieben. Auerdem hat man neben dem Playstart-Zeitanzeigefeld noch zwei
+Pfeilbuttons, mit denen man den Playmarker verschieben kann. Zur besseren
+Verst„ndnis sollte man das İBILDİPLAYSTRT.IMGİ des Playstart-Time-Dialogs
+zu Rate ziehen.
+
+
+1) Max.Time
+------------
+Anzeige der maximal m”glichen Zeitposition. Diese wird durch die L„nge des
+Trakker-Arrangements bestimmt.
+
+2) Zeiteingabe
+--------------
+Hier stellt man die Playstart-Zeitmarke ein. Die Zeitangabe ist in
+Stunden,Minuten,Sekunden und Hundertstel-Sekunden unterteilt, wobei jede
+Position direkt mit einem Pfeilbutton ver„ndert werden kann. Dabei sind die
+Doppelpfeil-Buttons fr die Zehnerpositionen und die Einpfeil-Buttons fr
+die Einerpositionen zust„ndig. Man kann im Edit-Feld aber auch direkte
+Eingaben machen. Fr kleinere Korrekturen sind die Pfeilbuttons aber recht
+praktisch.
+
+3) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu İ1stGuideİGUIDE.TXTİ einmal genauer an.
+
+4) Exit
+-------
+Hiermit wird der Playstart-Time-Dialog geschlossen. Die
+Playstart-Zeiteingabe wird nicht beachtet und ist ungltig.
+Der alte Playstart-Zeiteintrag, sofern vorhanden, bleibt erhalten.
+
+5) OK
+-----
+Hiermit wird der Playstart-Time-Dialog geschlossen.
+Die Playstart-Zeiteingabe ist gltig und wird gesetzt.

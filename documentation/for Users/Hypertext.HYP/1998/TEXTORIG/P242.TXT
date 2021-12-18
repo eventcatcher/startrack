@@ -1,0 +1,254 @@
+4.15.1 Das Cuelist-Fenster
+
+
+Dieses Fenster stellt sehr komfortable CuelistüFunktionen bereit.Die Cuelist arbeitet dabei sehr eng mit dem Editor
+zusammen.Mit Hilfe der Cuelist erstellt man eine Abspielliste.Man definiert hierfr im Editor mit den Markerü funktionen
+geeignete Bl”cke (sogenannte Parts),die man dann in der Cuelist neu bzw. in anderer Reihenfolge anordnen kann.Dabei
+k”nnen Bl”cke mehrfach wiederholt bzw. kopiert werden,Parts k”nnen vorbergehend stummgeschaltet werden etc. Auáerdem
+hat man die M”glichkeit,ein fertig bearbeitetes Musikstck abmischen zu lassen,und als neues File abzuspeichern
+(Downmix). Zudem gibt es die M”glichkeit,die Cuelist direkt in CD Writerü Programme wie ExtendosüGold oder CdüRecorder
+(Update) zu exportieren,und direkt auf CD zu brennen.Alle Funktionen arbeiten nondestruktiv,also ohne das Original zu
+ver„ndern.Aufgerufen wird das Cuelist-Fenster durch den Cuelist-Button im Edit-Fenster,durch Eingabe von CTRL-C,oder
+ber das optionale Programm- Men im Dropdown Fenster/Cuelist.
+
+
+Wichtig: Das Originalsample muá in den Editor geladen werden,wenn die
+
+Cuelist erzeugt oder ver„ndert wird.Die CuelistüFiles haben die Extension *.CUE. Beim Laden des Originalsample,wird eine
+vorhandene Cuelist gleichen
+
+Namens automatisch geladen,und kann im CuelistüFenster editiert werden.
+
+Die Darstellung der Partmarker kann in Timecode oder Samplewert erfolgen
+
+Dies ist abh„ngig von der ViewüOption im Setup.
+
+
+
+
+
+In der SamplewertüDarstellung pr„sentiert sich das Fenster folgendermaáen:
+
+Die SamplewertüAnzeige wird fr eine bessere šbersichtlichkeit automatisch in 1000erüBereiche aufgeteilt.Bei der Arbeit
+mit Markern im Editor ist die
+
+SamplewertüEinstellung genauer (eben Samplegenau).Dies betrifft jedoch
+
+nicht die šbernahme der Marker in die Cuelist.Einmal definierte Marker
+
+behalten ihre Genauigkeit auch in der TimecodeüDarstellung.Es kann aber durchaus notwendig sein,in der
+SamplewertüDarstellung zu arbeiten,z.B. um
+
+sehr genaue Offsets einstellen zu k”nnen,oder wenn man samplegenau eine
+
+bestimmte Gesamtl„nge nicht berschreiten darf,oder falls man gezwungen ist,eine Gesamtl„nge genau einhalten zu mssen.
+
+1) Mute
+
+
+
+Wenn man dieses Feld selektiert (X) wird dieser Part nicht abgespielt,und beim Downmix nicht verwendet.Damit hat man
+eine M”glichkeit,vorbergehend
+
+Parts in einer Cuelist nicht verwenden zu mssen,ohne das man diese deshalb
+
+l”schen máte.
+
+
+
+2) PartüNummer
+
+
+
+Die CuelistüEintr„ge sind durchnummeriert.Die Maximalanzahl der Eintr„ge kann im SetupüFile (STARTRK.SET) editiert
+werden (siehe Anhang/Dateiü formate).Zwischen den CuelistüEintr„gen darf keine Lcke bestehen,da beim abspielen oder
+Downmix bei der ersten Lcke abgebrochen wird.
+
+Diesen Umstand kann man geschickt dazu nutzen,den Endpunkt vorbergehend vor das eigentlich Ende des Musikstcks bzw.
+der Cuelist zu setzen,falls man nur einen Teil der Cuelist abh”ren,oder abmischen m”chte.Um einen Part (Markerblock) aus
+dem Musikstck ausw„hlen (10) zu k”nnen,muá zuerst der entsprechende Eintrag selektiert werden.Man klickt hierfr
+einfach auf die entsprechende EintragüNummer (2).Alle weiteren Funktionen wirken immer
+
+auf den aktivieren Eintrag.Beim Abspielen der Cuelist wird automatisch der
+
+Eintrag selektiert,der gerade abgespielt wird.Der sichtbare Bereich der Liste wird
+
+dabei automatisch gescrollt,so das immer der momentan abgespielte Part sichtbar ist.Danach wird wieder der zuletzt
+aktivierte Eintrag angezeigt.   
+
+
+
+3) SmpteüTimecode
+
+
+
+Die Cuelist fhrt hier alle absoluten Startzeiten der Parts auf.Dadurch sieht man
+
+auf einen Blick,wann welcher Part abgespielt wird.Stummgeschaltete Parts (1)
+
+werden aus dieser Liste herausgenommen,der n„chste Part startet also an der
+
+gleichen Stelle,da ein stummgeschalteter Part die L„nge 0 besitzt.
+
+Wird ein stummgeschalteter Part wieder aktiviert (1),wird auch der Timecode
+
+automatisch entsprechend angepaát.Klickt man auf den SmpteüEintrag,kann
+
+man einen Offset eingeben.Dadurch wird vor dem eigentlichen Part eine Lcke bzw. eine Pause eingefgt.Das ist z.B.
+n”tig,falls ein Part sonst zu frh
+
+abgespielt wrde.Die OffsetüFunktion ist in der V2.00 noch nicht komplett implementiert (Abspielroutine kennt noch keine
+Offsets).In Zukunft wird man
+
+auch negative Offsets (fr šberblendeffekte bzw. Crossfades) verwenden k”nnen.
+
+N„heres zum OffsetüDialog finden sie im Kapitel "TimeüOffset".
+
+
+
+4) Startmarker
+
+
+
+Hier wird der PartüStartmarker angezeigt,also seine Startposition innerhalb des OriginalüSamples.Der Startmarker wird
+aus der Markerliste des Originalsample bernommen (10).
+
+5) Endmarker
+
+
+
+Hier wird der PartüEndmarker angezeigt,also seine Endposition innerhalb des OriginalüSamples.Der Endmarker wird aus der
+Markerliste des Originalü Sample bernommen (10).
+
+
+
+6) L„nge
+
+
+
+Hier wird die L„nge des Parts angezeigt.Diese ergibt sich aus der Definition
+
+von Startü und Endmarker des Parts.
+
+
+
+7) Slider
+
+
+
+Mit dem Slider kann man den Bereich der sichtbaren Parteintr„ge ausw„hlen.
+
+
+
+8) Size
+
+
+
+Hier wird die Gesamtl„nge der Cuelist bzw. die Gesamtspielzeit angezeigt.
+
+
+
+9) Pos
+
+
+
+Hier wird die momentane Abspielposition angezeigt.
+
+
+
+10) Add
+
+Hiermit ”ffnet sich die Markerliste des Originalfiles (vorher in Editor laden),in der man einen Part ausw„hlen,und in
+die Cuelist einfgen kann.
+
+
+11) Change
+
+
+
+Hiermit ”ffnet sich die Markerliste des Originalfiles (vorher in Editor laden),
+
+in der man nun einen Ersatzpart ausw„hlen kann.Der alte Part wird dann
+
+durch den neuen ersetzt.Alle Links auf den Masterpart (siehe 12),werden
+
+ebenfalls durch den neuen Part ersetzt. 
+
+
+
+12) Link
+
+
+
+Die Linkfunktion ist ein sehr m„chtiges Werkzeug,um die Verwendung und Verwaltung gleicher bzw. sich wiederholender
+Parts zu erleichtern.
+
+Ein Link ist im Prinzip ein Zeiger auf einen Originalpart.Jede nderung am
+
+Originalpart fhrt zur gleichen nderung am Link.Die Verwendung von Links
+
+kann „uáerst praktisch sein,wenn man einen Part mehrfach in einem Musikü stck verwenden m”chte.Angenommen,man hat einen
+Loop im Editor
+
+markiert,und als Part in die Cuelist bernommen.Nun stellt man fest,das der Loop knackt,also ungeeignet ist,und m”chte
+diesen nun ver„ndern.Hat man das getan,muá der Loop nun mit Change(11) durch den neuen Loop ersetzt werden. Hat man
+diesen Loop aber bereits vielfach in der Cuelist verwendet,máte man normalerweise jetzt alle diese Parts einzeln
+bearbeiten.Wurden diese Parts aber als Link auf den Masterpart definiert,„ndern sich diese Kopien automatisch,da sie
+automatisch alle Einstellungen des Masterparts bernehmen.
+
+Da solche Anwendungen sehr oft vorkommen,hat man hiermit eine echte
+
+Arbeitserleichterung.Um einen Link zu erzeugen,w„hlt man den entsprechenden
+
+Eintrag aus (klick auf Partnummer),und drckt den LinküButton.
+
+Danach ”ffnet sich der LinküDialog.Dort gibt man dann die Partnummer des Masterparts an.Umgekehrt kann man auch den
+Masterpart aktivieren und den LinküDialog aufrufen,und gibt dann die Nummer des gewnschten Linkü Eintrags an.Es ist
+jedoch nicht m”glich,einen Link auf einen Link zu definieren. N„heres hierzu finden sie im Kapitel "Link".
+
+
+
+13) Insert
+
+
+
+Hiermit schiebt man alle PartüEintr„ge vom aktiven Part an,einen Eintrag nach unten.So kann man Platz zwischen 2
+Eintr„gen schaffen,um einen neuen
+
+einfgen zu k”nnen.Wird diese Lcke nicht mit einem Parteintrag geschlossen,
+
+wird an dieser Stelle der Abspielü oder Downmixvorgang beendet.
+
+
+
+14) Delete
+
+
+
+Hiermit l”scht man den aktiven Parteintrag.Ist dieser bereits leer,werden alle Eintr„ge ab dem aktiven,einen Eintrag
+nach oben geschoben.Das ist notwendig, um Lcken schlieáen zu k”nnen,oder Eintr„ge zu l”schen. 
+
+
+
+15) Funktionsfeld
+
+
+
+Das Funktionsfeld beinhaltet s„mtliche Abspielü und Filefunktionen.
+
+N„heres hierzu finden sie im Kapitel "Funktionsfeld".
+
+
+
+16) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+17) Ok
+
+Hiermit wird das Cuelist-Fenster geschlossen.Alle Einstellungen bleiben bis
+
+zum n„chsten Aufruf unver„ndert.Man kann jedoch mehrere Fenster gleichzeitig ge”ffnet lassen,und hat so immer den
+direkten Zugriff auf die Funktionen.

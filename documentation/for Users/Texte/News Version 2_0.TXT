@@ -1,0 +1,89 @@
+Neuheiten in der Version 2.0  (Stand 5.11.98)
+---------------------------------------------
+
+- Audiotreiber komplett berarbeitet,Support fr ADC im 128Bit-Modus
+  Voraussetzung hierfr ist ein PLD-Update der Audiohardware (Wichtig fr Falcon-Software).
+
+- Die folgenden Programme laufen nun einwandfrei (PLD Hardware-Update):
+  Soundpools DSP-Suite (Analyser,Equalizer,De-Noiser,Dynamite),VoXX,Winrec,Trackcom,Zero-X
+  Frak,Frakt-me (Fraktale mit DSP-Support),Gemjing,AIFF-Player,Gem-Mpeg (MPEG Video-Decoder)
+  Aniplayer (sehr guter AVI und Quicktime Movie-Player mit DSP-Soundsupport,ben”tigt Clockmodul)
+
+- Automatische šbernahme der Startmarken von DAT am Digitaleingang m”glich (PLD Hardware-Update) 
+
+- Variable Fenstergr”e fr Editor,Tracker und Peakmeter.
+
+- Voller 24Bit-Support: Alle Funktionen sind nun ebenfalls mit 24Bit Aufl”sung nutzbar und wurden
+  fr die 24Bit-Aufl”sung angepat. Im CPU-Mode sind die vollen 24Bit nutzbar, bei derzeit ca. 8-12 Spuren.
+  Auerdem k”nnen 16Bit-Samples ohne Qualit„tsverlust im Tracker (24Bit CPU-Mode) gemischt werden !
+  Ebenfalls k”nnen im Tracker 24Bit-Samples und 16Bit-Samples auch zusammen verwendet und gemischt werden !
+
+- Plugin-Schnittstelle: Es gibt nun eine Plugin-Schnittstelle fr CPU-Effekte und Zusatzprogramme.
+  Es k”nnen bis zu 5 Plugins pro Effektweg verwendet werden. Dabei kann ein Plugin auch mehrmals in den
+  Effektweg eingebunden werden (Effektlisten im Plugin Config-Dialog).
+
+- DSP-Plugins: Die parametrischen DSP-Effektplugins von WINREC k”nnen in StarTrack eingebunden werden.
+               Damit stehen nun Effektprogramme wie Stereo 10Kanal-EQ,Hall,Echo,Flanger,Chorus,
+               Harmonizer,Borg etc. in StarTrack zur Verfgung.
+
+- TT-MMU Programm fr den TT spiegelt die DSP-Register in den Falcon Adressbereich (Fr max.Kompatibilit„t)
+
+- Komfortable Cuelist fr Memory und HD-Projekte (mit Link-Funktion und Downmix)
+
+- Die Cuelist und die Tracklist (Tracker) k”nnen direkt nach Extendos-Gold
+  (Treiber fr CD-Writer) exportiert werden.
+  
+- Trackbouncing
+
+- Achtfach polyphoner MIDI Sampleplayer
+
+- Das Peakmeter-Fenster wurde komplett berarbeitet (dB-Einteilung, alternierendes Peakhold)
+  Das Peakmeter hat nun besonders im oberen Aufl”sungsbereich von -6 bis 0 dB eine sehr feine Aufl”sung.
+  Bei gr”erem Peakmeter-Fenster wird die Darstellung der Zeitanzeige deutlich vergr”ert dargestellt.
+
+- Die Samplewert-Anzeige im Editor wurde fr einen ausreichenden Wertebereich auf 10 Stellen erweitert.
+  Auerdem ist der Wert nun durch eine 1000er Punktaufteilung besser lesbar.
+
+- Editor und Tracker haben nun eine Zeitachsenbeschriftung bekommen.
+
+- Speicherverwaltung komplett berarbeitet, nutzt den Speicher jetzt besser aus
+  (vor allem auf Systemen mit ST UND TT-Ram).
+
+- schnellerer Bildaufbau durch Hintergrund-Screenrefresh
+
+- schlecht lesbare Schriftgr”en bei groen Aufl”sungen wurden entsprechend vergr”ert.
+
+- Startup-Soundutility fr den Autoordner bzw. MagiC-Startordner.
+  Hiermit kann beim Start ein beliebiges Soundfile abgespielt werden. 
+
+- Smpte-Frames: nun Einteilung in 24,25,30,75(CD) und 100 frames ausw„hlbar.
+  Alle Zeitangaben arbeiten dann ebenfalls in der entsprechenden Frameeinteilung.
+
+- Tastatur-Shortcuts fr fast alle Funktionen sorgen fr schnellen Zugriff
+
+- HD-Aufnahme im Tracker, parallel zur Wiedergabe von z.B. 8 Spuren
+
+- Aufnahme ber mehrere Partitionen fr extrem langes Recording (fr Live-Mitschnitte etc.)
+
+- Vereinfachte und schnellere Bedienung durch h”here Automation und besseres Fensterdesign
+
+- Alle Setup-Dateien editierbar (ASCII-Text)
+
+- Wiedergabekan„le w„hlbar (L,R,Stereo)
+
+- Steuerung der Lautst„rke ber externe Midicontroller (z.B. Peavey PC1600x)
+
+
+zuknftige Weiterentwicklung
+----------------------------
+
+- Nondestruktive Fades und Crossfades im Tracker (grafische Eingabe der Parameter)
+
+- Mehrkanal-Mischkonsole mit DSP-Effekten
+
+- Mixer-Automation
+
+- sensationelles Timestretching (Fragen hierzu ? Abwarten !)
+
+- Falcon-Version (nur bei entsprechender Nachfrage bzw. User-Resonanz)
+

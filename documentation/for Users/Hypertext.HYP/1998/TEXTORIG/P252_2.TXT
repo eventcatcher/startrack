@@ -1,0 +1,50 @@
+4.16.2 Das DateiüMen
+
+
+Audioselector
+
+Hiermit wird der spezielle AudioüFileselector mit Musicbox aufgerufen.
+
+Das geht auch mit der Tastenkombination ALT S.
+
+
+
+DisküUtility
+
+Hiermit ”ffnet sich der DisküUtilityüDialog.
+
+Dort findet man die L”sch,Renameü und Kopierfunktionen fr Audiodateien.
+
+Das geht auch mit der Tastenkombination ALT D.
+
+
+
+PartitionüMode
+
+Hiermit ”ffnet man den PartitionmodeüDialog.Hier kann man die Laufwerke ausw„hlen,die im Partitionmode verwendet werden
+drfen.
+
+Das geht auch mit der Tastenkombination ALT P.
+
+
+
+Sample laden
+
+Hiermit kann man ein Sample in den SampleüSpeicher laden.
+
+Das geht auch mit der Tastenkombination CTRLüL.
+
+
+Sample speichern
+
+Hiermit kann man ein Sample speichern.
+
+Das geht auch mit der Tastenkombination CTRLüS.
+
+
+Ende
+
+Hiermit kann man das Programm beenden.
+
+Das geht auch mit der Tastenkombination CTRLüQ .
+ 

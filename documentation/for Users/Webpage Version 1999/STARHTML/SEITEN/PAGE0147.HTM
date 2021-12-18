@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 3.2 //EN">
+<HTML>
+
+<HEAD>
+  <TITLE>Anhang</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="../images/001.jpg">
+
+<BASE TARGET="Right">
+
+<LINK REV=made href="mailto:stepwil@aol.com">
+
+<A NAME="7."></A>
+<A NAME="7.1"></A>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD WIDTH="33%"><P ALIGN="LEFT"><A HREF="page0146.htm"><img src="../images/buttlft.gif" width="70" height="25"></A></TD>
+<TD WIDTH="33%"><P ALIGN="CENTER">&nbsp;</TD>
+<TD WIDTH="33%"><P ALIGN="RIGHT"><A HREF="page0148.htm"><img src="../images/buttrgt.gif" width="70" height="25"></A></TD>
+</TR>
+</TABLE>
+
+<HR NOSHADE COLOR=#000000>
+
+<CENTER><H1>Anhang</H1></CENTER>
+
+<PRE>
+
+<H3> 7. Geschichte</H3>
+<H3> 7.1 Wie alles begann</H3>
+
+ Nun, ich m&ouml;chte Ihnen hier etwas &uuml;ber die Entstehungsgeschichte der
+ Startrack-Soundkarte erz&auml;hlen. Das k&ouml;nnte ja f&uuml;r den einen oder anderen ganz
+ interessant sein (hoffe ich). Die Entwicklung begann vor &uuml;ber 4 Jahren im
+ Sommer 1994. Damals (und auch heute) war ich ein absoluter Atari-Freak und
+ hatte mir einen der ersten Medusa-Rechner bei Fredi (Aschwanden) in der
+ Schweiz besorgt. Das war noch die Medusa-Version, die als MegaST-Erweiterung
+ funktionierte. Da ich schon einige Jahre vorher mit dem VME-Bus
+ experimentiert und mir daf&uuml;r einige Karten entwickelt hatte (u.a Parallel I/O,
+ Serielle I/O, 16Kanal A/D), wollte ich sowas nun auch f&uuml;r die Medusa haben.
+ Also habe ich damals meine f&uuml;r den 520ST entwickelte VME-Erweiterung an
+ die Medusa angepa&szlig;t.
+
+ Dies hatte sogar geklappt und so konnte ich mich nun an einen lange gehegten
+ Wunsch machen: Eine Soundkarte f&uuml;r den VME-Bus. Zu dieser Zeit war es
+ weder geplant noch abzusehen, was aus diesem Vorhaben werden sollte. Ich
+ begann mit normalen A/D und D/A-Wandlern aus der Me&szlig;technik zu
+ experimentieren, mu&szlig;te aber schnell feststellen, da&szlig; diese ohne Oversampling
+ sehr stark rauschten und die Filter sehr aufwendig waren und vor allem sehr viel
+ Platz auf der Platine kosteten. Also habe ich nach einer Alternative gesucht.
+
+ Was macht ein Elektronikfreak in so einem Fall?
+ Er nimmt seinen DAT-Rekorder auseinander und schaut sich die dort
+ verwendeten Wandler etwas genauer an bzw. baut sie aus. :-)
+ Dort fand ich einen Crystal A/D-Wandler, der, da&szlig; wu&szlig;te ich aus den
+ HIFI-Fachzeitschriften, von sehr guter Qualit&auml;t war. Ich fand auch einen
+ Lieferanten daf&uuml;r und konnte &uuml;ber ihn an ein Datenbuch und an die ben&ouml;tigten
+ Bauteile kommen.
+
+ In etwa zur gleichen Zeit hatte ich einen guten Freund zu Besuch der Musik
+ studiert hatte und sich in der Studioszene gut auskannte. Vor allem wu&szlig;te er
+ (Hallo Kurt!), worauf Musiker achten und was f&uuml;r diese Zielgruppe interessant
+ ist. Er hatte mir geraten die Anschl&uuml;sse der Soundkarte m&ouml;glichst nach vorne
+ zu legen, da im Studio sehr oft Kabel umgesteckt werden und dies einfach
+ praktischer sei, als dauernd hinter den Rechner kriechen zu m&uuml;ssen.
+ Durch seine Initiative ist es zum 5 1/4-Zoll-Einschub gekommen.
+ Mittlerweile haben dies auch die Entwickler aus dem PC-Bereich erkannt...
+
+ Den zum A/D-Wandler passenden D/A-Wandler fand ich dann ebenfalls im
+ Crystal-Datenbuch. Der erste Prototyp der Soundkarte wurde etwa zur
+ ProTOS'95 fertig. Zu dieser Zeit war auch schon der Prototyp der
+ DSP-Erweiterung mit einem 56001 fertig und die digitalen SP/DIF-Schnittstellen
+ kamen dazu. Auf der ProTOS wurde dann eigentlich eher aus Zufall die Fa.
+ MW-Electronic auf mich aufmerksam, die mich fortan bei der Entwicklung
+ moralisch und technisch unterst&uuml;tzte. Also sollte ab sofort aus dem Hobby eine
+ professionelle HD-Recording-Soundkarte entstehen. Daf&uuml;r fehlten aber noch 
+ einige Sachen. Also kamen digital steuerbare Lautst&auml;rkecontroller dazu. Die 
+ Schwierigkeiten, die bei so einer Entwicklung auftauchen k&ouml;nnen, kann man sich
+ kaum vorstellen. Sie wurden jedoch alle gemeistert, f&uuml;hrten aber auch immer
+ wieder zu Zeitverz&ouml;gerungen. So war pl&ouml;tzlich der DSP56001 nicht mehr 
+ erh&auml;ltlich, so da&szlig; ich auf den neueren DSP56002 ausweichen mu&szlig;te, der
+ aber technisch etwas schwieriger zu beherrschen ist, vor allem durch das
+ PLCC-Geh&auml;use und die geringen PIN-Abst&auml;nde. Die Entwicklung von
+ 2 Multilayer-Platinen war auch nicht ohne, vor allem da dies f&uuml;r mich die erste
+ Layout-Entwicklung war. Der Entwickler des Hades hatte mich dabei durch viele
+ Tips auf den richtigen Weg gebracht. Danke daf&uuml;r, Fredi!
+ Die erste offizielle Vorstellung des Systems war auf der Atari-Messe '96 in
+ Neuss. Dort wurde dann offensichtlich, da&szlig; dem System ein DSP-Port fehlte, der
+ ja nun Bestandteil der DSP-Karte ist.
+
+ Seitdem sind einige wichtige Funktionen hinzugekommen: Der 4Kanal und
+ 8Kanal-Falcon-Modus, die 16Kanal-F&auml;higkeit, der DSP-Port, die M&ouml;glichkeit
+ 2 Kan&auml;le im 8Kanal-Mode &uuml;ber den D/A-Wandler und SP/DIF-Ausgang zu
+ schicken und die Anpassung der Software an die neuen M&ouml;glichkeiten sind nur
+ einige der Neuigkeiten die im Jahr 1997 hinzugekommen sind.
+ Letztendlich kostete die Produktion bzw. deren Vorbereitung weitere Zeit.
+ Ich denke, da&szlig; sich diese Zeit aber gelohnt hat. So kam nun ein ausgereiftes
+ System auf den Markt, da&szlig; bereits seit ca. einem Jahr im Dauertest war und auf
+ allen Rechnern (TT, Medusa, Hades) zuverl&auml;ssig funktioniert. Es bietet alles,
+ was derzeit Stand der Technik ist, zu einem akzeptablen Preis.
+
+ Nun ist November 1998 und die StarTrack-Software hat sich im letzten halben
+ Jahr enorm ver&auml;ndert. Sie ist nun recht stabil, wurde an den Milan angepa&szlig;t,
+ Synchronisation via MTC ist auch kein Problem mehr, auf Cuelist und
+ 24Bit-Support haben sicherlich auch einige Anwender gewartet, Plugins &ouml;ffnen
+ das Programm auch f&uuml;r andere Software-Hersteller, Shortcuts und und und... 
+
+</PRE>
+
+<A HREF="#7.">Zum Seitenanfang</A>
+
+<HR NOSHADE COLOR=#000000>
+
+<P align=center>&copy; 1999 by <A HREF="mailto:stepwil@aol.com">Stephan Wilhelm</A></P>
+<P align=center>HTML-Programmierung <A HREF="mailto:manfred.seidl@gmx.de">Manfred Seidl</A></P>
+
+
+
+</BODY>
+</HTML>

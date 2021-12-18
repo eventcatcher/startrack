@@ -1,0 +1,41 @@
+Disk-Funktionen-Dialog
+
+
+Mit diesem Dialog sind verschiedene Dateioperationen, die man im tÑglichen
+Computerleben oft braucht, mîglich. Der Vorteil hierbei ist, das man fÅr
+solche Sachen wie lîschen und umbenennen von Dateien nicht das Programm
+verlassen muû. Zur besseren VerstÑndnis sollte man das ›BILD›DISK.IMG› zu
+Rate ziehen. Bei Aufruf des Dialogs Åber den ›Kill/Edit-Button›EBUTTONS.TXT› im
+Edit-Fenster erscheint zuerst eine Fileselector-Box mit der das Soundsample
+das umbenannt oder gelîscht werden soll, ausgewÑhlt wird.
+Dann erscheint die Dialogbox. 
+
+1) Actual Name
+--------------
+Hier erscheint der aktuelle Dateiname.
+
+2) Kill
+-------
+Mit diesem Button lîscht man das Sample und die dazugehîrige Cache-Datei
+(Endung *.PBF) und die Info-Datei (Endung *.INF).
+
+3) New Name
+-----------
+Hier kann man den neuen Namen der Datei eingeben, und zwar ohne den
+File-Extender, dieser wird nÑmlich automatisch eingefÅgt um Fehler bei der
+Umbenennung zu vermeiden.
+
+4) X->U
+-------
+Hiermit wird das Soundfile umbenannt, incl. der dazugehîrigen Cache-Datei
+(Endung *.PBF) und der Info-Datei (Endung *.INF). 
+ 
+5) Help
+-------
+Das Hilfesystem bzw. der Hypertext wird aufgerufen. Wie es funktioniert
+haben sie also offensichtlich schon begriffen.
+Wenn nicht, schauen sie sich die Anleitung zu ›1stGuide›GUIDE.TXT› einmal genauer an.
+
+6) Exit
+-------
+Hiermit wird der Disk-Funktionen-Dialog geschlossen.

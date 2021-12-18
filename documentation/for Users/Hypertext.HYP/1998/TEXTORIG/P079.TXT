@@ -1,0 +1,38 @@
+4) horizontal-lines
+
+Die unterbrochenen Linien dienen dem besseren Absch„tzen bzw. Lesbarkeit
+der Pegelverh„ltnisse.Die Darstellung der horizontal-lines kann im Setup-Dialog ein- und ausgeschaltet werden.
+
+
+5) Scroll-Slider
+
+Hiermit kann man den Darstellungsausschnitt des Sample-Window w„hlen.
+Der Darstellungsbereich wird im Markerbereich des Editor-Fensters in den
+min/max-Feldern dargestellt.
+
+Durch Doppelklick auf den Scrollslider kann man direkt zu einer neuen Scrollposition springen
+
+.Es ”ffnet sich ein ScrolljumpüDialog.Dort kann man die neue Scrollü bzw. TimelineüPosition direkt eingeben.N„heres
+hierzu erfahren sie im Kapitel
+
+"Scrolljump".
+
+
+
+Weitere Editierm”glichkeiten im Sample-Window:
+
+Es gibt noch eine zus„tzliche M”glichkeit,in das Sample zu zoomem: Man wechselt in den ZoomüVolumeüMode. Dazu selektiert
+man in der ButtonüToolbar im Modebereich den ZoomüButton(Toobar,18),und kann nun imSample-Window ein Gummiband
+aufziehen,um den zu zoomenden Bereich auszuw„hlen.
+
+Dabei wird nicht nur der Darstellungsbereich ausgew„hlt,sondern auch der Amplituden-Darstellungsbereich.Wenn man z.B.auf
+der Y-Achse das Sample mit dem Gummiband bis zur 40-Prozent-Marke umfaát,wird die Amplitude bis zur 40-Prozent-Marke
+gezoomt.Man kann wieder aus der Amplitude herauszoomen indem man mit gedrckter ALT-Taste ein Gummiband aufzieht,und die
+Maus dann losl„át.Der Darstellungsbereich bleibt dabei unver„ndert.Man kann mit der Zoomfunktion bis auf ein 1:1
+Verh„ltnis und darber hinaus in das Sample zoomen.Ab einem Verh„ltnis von 2:1 kann man im Editor einzelne Samplewerte
+mit der Maus korrigieren,oder eigene Samplewerte einzeichnen.Auáerdem kann man Samplebl”cke per Drag&Drop im
+Sample-Window kopieren (COPY) und verschieben (MOVE).
+
+
+N„here Erl„uterungen hierzu finden sie im Text zum Thema
+Editor-Fenster/Function-Dropdown.

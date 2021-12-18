@@ -1,0 +1,130 @@
+4.7.5 Audio-Fileselector
+
+
+
+Dieser Dialog ist als Fileselector-Ersatz gedacht,hat aber noch sehr viel mehr M”glichkeiten,die die Arbeit hiermit sehr
+komfortabel machen.Um mehr
+šbersichtlichkeit zu bekommen,funktioniert dieser Fileselektor etwas anders. Zuerst erstellt man eine Liste der
+Suchpfade mittels der Buttons 1-3.Diese Liste wird unter dem Namen STARTRK.SEL auf dem Speichermedium (Festplatte o.„)
+angelegt.Angezeigt werden auáerdem nur die Sampledateien und die entsprechenden Kommentare,die in den Info-Dateien
+enthalten sind (Dateiendung *.INF).Man w„hlt das entsprechende Sample im Sampledatei- Name-Bereich aus (6),indem man das
+entsprechende Feld selektiert,und klickt anschlieáend auf Load - und das Sample wird in den Sample-Editor geladen. Man
+kann hier aber auch gleich die Samples anh”ren.Um ein bestimmtes Sample zu finden,wenn die Dateibeschreibung oder der
+Kommentar alleine nicht weiterhilft,ist das ganz ntzlich.Dafr stehen einem hier die Grundfunktionen eines CD-Players
+zur Verfgung,also Play,Stop,Forward,Rewind,und Pause (siehe 13-17).Auáerdem gibt es eine Anspielautomatik,bei der die
+ersten 10 Sekunden eines Titels angespielt werden.Den AudioüFileselector erreicht man ber das Fileselector-Symbol in
+der Buttonleiste des Edit-Fensters,durch Eingabe von ALTüS,oder ber das optionale Programm-Men im Dropdown
+Funktion/Audioselector. 
+
+
+1) Path
+
+Hier w„hlt man einen (zus„tzlichen) Suchpfad fr Sampledateien aus.
+
+
+2) Add
+
+Mit diesem Button fgt man den eben ausgew„hlten Suchpfad (siehe 1) der
+Suchpfadliste hinzu.Diese Suchpfadliste wird als Datei unter dem Namen
+"STARTRK.SEL" abgespeichert,und kann auch mit einem ASCII-Editor editiert werden.
+
+
+3) New
+
+Hiermit l”scht man die Suchpfadliste.
+
+
+4) Filename
+
+Hier wird der Name und Suchpfad der aktuellen Suchpfadliste angezeigt.
+
+
+5) Slider
+
+Hiermit w„hlt man den sichtbaren Listenbereich aus.
+
+
+
+6) Sampledatei-Name
+
+Hier werden die Original-Dateinamen der Samples aufgelistet.Diese Felder
+k”nnen angeklickt werden,um sie auszuw„hlen.Anw„hlbare Felder erscheinen mit einem blauen Rahmen,um sie als selektierbar
+zu kennzeichnen.Das gilt fr
+das ganze Programm.Wo immer ein solches blau umrandetes Textfeld auftaucht, ist dieses auch selektierbar. (l”st meistens
+eine bestimmte Funktion aus).
+
+
+7) Sampledatei-Kommentar
+
+Hier erscheint der Kommentar zum Sample,der in der Info-Datei des
+Samples (Endung *.INF) enthalten ist.Dieser kann nach der Aufnahme eines
+Samples im Editor eingegeben werden (auf SamplenameüFeld klicken).
+
+
+8) Help
+
+Das Hilfesystem bzw. der Hypertext wird aufgerufen.Wenn sie nicht wissen wie das funktioniert,schauen sie sich die
+Anleitung zu 1stGuide einmal genauer an.
+
+
+9) Time
+
+Hier wird die Abspielposition eines Samples angezeigt, und zwar im Format
+Stunden:Minuten:Sekunden Frames.
+
+
+10) Insert
+
+Hiermit wird das selektierte Sample in die Musicbox-Liste (siehe 11) aufgenommen.
+
+
+11) Musicbox
+
+Hiermit schaltet man zwischen Fileselektor und Musicbox um.Die Musicbox ist
+ein weiteres Feature dieses Fileselektors.Man w„hlt verschiedene Samples aus, die dann „hnlich einem
+Wurlitzer-Musikautomaten automatisch abgespielt
+werden.Diese Musicbox-Listen k”nnen auch gespeichert werden,so daá man
+sich nicht jedesmal wieder die gleiche Arbeit machen muá.Eine genauere
+Erkl„rung folgt unter dem Stichwort MUSICBOX.
+
+
+12) Trash
+
+Hiermit kann man einzelne Samples incl. der zugeh”rigen Cache-Datei (*.PBF)
+und Info-Datei (*.INF) l”schen.
+
+
+13) Break
+
+Beendet die Wiedergabe (gleiche Funktion wie StopüButton).
+
+
+14) Pause
+
+Die Wiedergabe des Samples (6) wird unterbrochen bis zur n„chsten Bet„tigung
+
+der Pausentaste.
+
+
+15) Stop
+
+Abbruch der Wiedergabe.Ein Fortsetzen an der gleichen Stelle ist mit Play m”glich.
+
+
+16) Play
+
+Wiedergabe des selektierten Samples (6) starten.
+
+
+17) Anspielen
+
+Anspielen der ersten 10 Sekunden des selektierten Samples (6).
+18) Exit
+
+Hiermit wird der Fileselector-Dialog geschlossen.
+
+
+19) Load
+
+Hiermit wird der Fileselector-Dialog geschlossen und das selektierte Sample
+in den Sample-Editor geladen.
