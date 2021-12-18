@@ -2110,9 +2110,6 @@ RETURN
   UNTIL y=TRUE OR raus=TRUE OR v3=2 OR INP?(2)=TRUE
 RETURN
 '
-'
-'
-'
 > PROCEDURE maschruf5d
   LOCAL p,b$,bw
   ' HARDDISK-MIDI second generation
@@ -2524,7 +2521,6 @@ RETURN
             ~XBIOS(xbs,24,1)
           ENDIF
           '
-          PAUSE 5
           IF pwait=FALSE THEN
             IF mtc=TRUE THEN
               @wait_mtc
@@ -2534,6 +2530,7 @@ RETURN
             intnr=1
             @pausewait
           ENDIF
+          '
         ELSE
           @write_int(0)
           ~XBIOS(xbs,55,0)
@@ -2721,52 +2718,6 @@ RETURN
       sdb%=&H1000               ! war vorher 1000-1
     ENDIF
     IF stc=&H71273800 OR falcon=TRUE THEN
-      IF falcon=FALSE THEN
-        IF dspuse=FALSE THEN
-          IF nr=peak& THEN
-            IF recpaus=TRUE THEN
-              @write_int(0)
-            ENDIF
-            backlist=XBIOS(xbs,130,0,L:sab%,L:sbb%)
-          ELSE
-            '
-            IF dig24=TRUE THEN
-              '              ~XBIOS(xbs,28,1)
-            ENDIF
-            IF mod96=TRUE THEN
-              ~XBIOS(xbs,24,1)
-            ENDIF
-            IF dig24=FALSE THEN
-              backlist=XBIOS(xbs,121,0,L:sab%,L:sbb%)
-            ELSE
-              backlist=XBIOS(xbs,121,2,L:sab%,L:sbb%)   ! fÅr 24Bit-Mode
-            ENDIF
-          ENDIF
-        ELSE
-          @write_int(0)
-          ~XBIOS(xbs,55,0)
-          backlist=XBIOS(xbs,130,1,L:sab%,L:sbb%)
-        ENDIF
-      ELSE
-        ~XBIOS(&H83,1,L:sab%,L:sbb%)
-        ~XBIOS(&H84,1)
-        ~XBIOS(&H85,0,0)
-        @channel(0)
-        ~XBIOS(&H87,0,0)
-        IF digana=TRUE THEN
-          ~XBIOS(&H8B,3,9,0,clk,1)
-        ELSE
-          ~XBIOS(&H8B,3,9,0,0,1)
-        ENDIF
-        a=4
-        IF sloop!=TRUE THEN
-          a=a+8
-        ENDIF
-        ~XBIOS(&H88,a)
-        back3%=0
-      ENDIF
-      pkreq=XBIOS(xbs,150)               ! peak-request Adresse holen
-      PAUSE 5
       IF autorec=FALSE THEN
         '        @fifodel
       ENDIF
@@ -2822,18 +2773,70 @@ RETURN
             IF nr=smpedit& THEN
               obj=smpwait&
             ENDIF
+            mpwz=TRUE
             @breakwait
             @beepmaster
           ENDIF
         ENDIF
+      ENDIF
+      IF falcon=FALSE THEN
+        IF dspuse=FALSE THEN
+          IF nr=peak& THEN
+            IF recpaus=TRUE THEN
+              @write_int(0)
+            ENDIF
+            backlist=XBIOS(xbs,130,0,L:sab%,L:sbb%)
+          ELSE
+            '
+            IF dig24=TRUE THEN
+              '              ~XBIOS(xbs,28,1)
+            ENDIF
+            IF mod96=TRUE THEN
+              ~XBIOS(xbs,24,1)
+            ENDIF
+            IF dig24=FALSE THEN
+              backlist=XBIOS(xbs,121,0,L:sab%,L:sbb%)
+            ELSE
+              backlist=XBIOS(xbs,121,2,L:sab%,L:sbb%)   ! fÅr 24Bit-Mode
+            ENDIF
+          ENDIF
+        ELSE
+          @write_int(0)
+          ~XBIOS(xbs,55,0)
+          backlist=XBIOS(xbs,130,1,L:sab%,L:sbb%)
+        ENDIF
+      ENDIF
+      pkreq=XBIOS(xbs,150)               ! peak-request Adresse holen
+      '
+      IF dspuse=FALSE THEN
+        IF falcon=FALSE THEN
+          @write_int(2)
+        ENDIF
       ELSE
-        '        ~XBIOS(xbs,73,0)
         ~XBIOS(112,&H12)
         ~XBIOS(xbs,55,1)
         PAUSE 5
-        '        ~XBIOS(xbs,73,1)
         ~XBIOS(112,&H13)
       ENDIF
+      IF falcon=TRUE THEN
+        ~XBIOS(&H83,1,L:sab%,L:sbb%)
+        ~XBIOS(&H84,1)
+        ~XBIOS(&H85,0,0)
+        @channel(0)
+        ~XBIOS(&H87,0,0)
+        IF digana=TRUE THEN
+          ~XBIOS(&H8B,3,9,0,clk,1)
+        ELSE
+          ~XBIOS(&H8B,3,9,0,0,1)
+        ENDIF
+        a=4
+        IF sloop!=TRUE THEN
+          a=a+8
+        ENDIF
+        ~XBIOS(&H88,a)
+        back3%=0
+      ENDIF
+      '
       intrec=TRUE
       t=TIMER
       peaktime=t
@@ -2984,6 +2987,7 @@ RETURN
     ENDIF
     cached=FALSE
   ENDIF
+  mpwz=FALSE
   fkms=FALSE
   pstop=FALSE
 RETURN
@@ -3334,10 +3338,22 @@ RETURN
     REPEAT
       em=EVNT_MULTI(&X100011,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,mx,my,mbi,shift&,key&,c)
       IF nr=mixer& THEN
+        mpwt=TRUE
         phdr=hdr
         hdr=FALSE
         @mixhandler
         hdr=phdr
+        mpwt=FALSE
+      ENDIF
+      IF nr=peak& AND mpwz=TRUE THEN
+        mpwt=TRUE
+        @peakread
+        IF peaks2<>peaks THEN
+          peaks=peaks2
+          b$=STR$(peaks)+CHR$(0)
+          @textfeld(recpeaks&,b$,1)
+        ENDIF
+        mpwt=FALSE
       ENDIF
     UNTIL BTST(em,1) OR BTST(em,0)
     '
@@ -3390,6 +3406,7 @@ RETURN
     @breakstop
     intnr=0
   ENDIF
+  mpwz=FALSE
   IF recp=TRUE AND nr=trakker& AND recpaus=TRUE THEN
     @write_int(0)
   ELSE
@@ -4490,7 +4507,7 @@ RETURN
 RETURN
 '
 > PROCEDURE zeigtime2
-  IF demo=FALSE THEN
+  IF preld=FALSE AND demo=FALSE THEN
     back%=LPEEK(recback+24) ! ZÑhlbyte
     IF back3%=0 THEN
       back3%=LPEEK(peakexit)  ! Breakflag
@@ -4919,11 +4936,13 @@ RETURN
         ENDIF
         '      EXIT IF ds_rdy=TRUE
       NEXT ii
-      IF ds_rdy=FALSE THEN
+      IF ds_rdy=FALSE AND matrix=TRUE THEN
         @alerts(77)
       ENDIF
     ELSE
-      @alerts(77)
+      IF matrix=TRUE THEN
+        @alerts(77)
+      ENDIF
     ENDIF
   ENDIF
 RETURN
@@ -5181,6 +5200,83 @@ RETURN
           IF recpaus=TRUE THEN
             @write_int(0)
           ENDIF
+          '
+          IF nr=smpedit& THEN
+            @textfeld(smprate&,"0"+CHR$(0),1)
+            hsec=INT(rmlen/hz/mbit*100)
+            @htimeset
+            IF bigfoot=TRUE THEN
+              @textfeld(editime&,a$,1)
+            ELSE
+              @textfeld(smpsec&,a$,1)
+            ENDIF
+          ENDIF
+          IF nr=peak& THEN
+            '            IF rmo8=FALSE THEN
+            hsec=INT(rmlen/hz/mbit*100)
+            '          ELSE
+            '            hsec=INT(rmlen/hz/16*100)
+            '          ENDIF
+            @htimeset
+            IF bigtxt=FALSE THEN
+              @textfeld(peakmax&,a$,1)
+              hsec=0
+              @htimeset
+              @textfeld(peakpos&,a$,1)
+            ELSE
+              @bigtext(nr,a$,0)
+              hsec=0
+              @htimeset
+              @bigtext(nr,a$,1)
+            ENDIF
+            @textfeld(recerror&,"0"+CHR$(0),1)
+            @textfeld(recpeaks&,"0"+CHR$(0),1)
+          ENDIF
+          IF nr=mixer& THEN
+            IF ds_rdy=TRUE THEN
+              hsec=INT(rmlen/hz/mbit*2*100/ds_chc)
+            ELSE
+              hsec=INT(rmlen/hz/mbit*100)
+            ENDIF
+            @htimeset
+            @textfeld(mixmax&,a$,1)
+            hsec=0
+            @htimeset
+            @textfeld(mixact&,a$,1)
+            @textfeld(mixerr&,"0"+CHR$(0),1)
+            @textfeld(mixpeak&,"0"+CHR$(0),1)
+          ENDIF
+          IF rch4=FALSE THEN
+            IF dspuse=FALSE THEN
+              IF mtc=TRUE THEN
+                @wait_mtc
+              ENDIF
+              IF ds_rdy=TRUE THEN
+                @preload
+              ENDIF
+              IF recpaus=TRUE THEN
+                IF nr=peak& THEN
+                  obj=peakwait&
+                ENDIF
+                IF nr=mixer& THEN
+                  obj=mixwait&
+                ENDIF
+                IF nr=smpedit& THEN
+                  obj=smpwait&
+                ENDIF
+                IF nr=arranger& THEN
+                  obj=pause&
+                ENDIF
+                IF nr=trakker& THEN
+                  obj=pause2&
+                ENDIF
+                mpwz=TRUE
+                @breakwait
+                @beepmaster
+              ENDIF
+            ENDIF
+          ENDIF
+          '
           IF nr=mixer& OR nr=peak& OR nr=smpedit& OR nr=arranger& OR nr=trakker& THEN
             IF dspuse=FALSE THEN
               IF rmo8=FALSE THEN
@@ -5250,51 +5346,6 @@ RETURN
           IF autorec=FALSE THEN
             '            @fifodel
           ENDIF
-          IF nr=smpedit& THEN
-            @textfeld(smprate&,"0"+CHR$(0),1)
-            hsec=INT(rmlen/hz/mbit*100)
-            @htimeset
-            IF bigfoot=TRUE THEN
-              @textfeld(editime&,a$,1)
-            ELSE
-              @textfeld(smpsec&,a$,1)
-            ENDIF
-          ENDIF
-          IF nr=peak& THEN
-            '            IF rmo8=FALSE THEN
-            hsec=INT(rmlen/hz/mbit*100)
-            '          ELSE
-            '            hsec=INT(rmlen/hz/16*100)
-            '          ENDIF
-            @htimeset
-            IF bigtxt=FALSE THEN
-              @textfeld(peakmax&,a$,1)
-              hsec=0
-              @htimeset
-              @textfeld(peakpos&,a$,1)
-            ELSE
-              @bigtext(nr,a$,0)
-              hsec=0
-              @htimeset
-              @bigtext(nr,a$,1)
-            ENDIF
-            @textfeld(recerror&,"0"+CHR$(0),1)
-            @textfeld(recpeaks&,"0"+CHR$(0),1)
-          ENDIF
-          IF nr=mixer& THEN
-            IF ds_rdy=TRUE THEN
-              hsec=INT(rmlen/hz/mbit*2*100/ds_chc)
-            ELSE
-              hsec=INT(rmlen/hz/mbit*100)
-            ENDIF
-            @htimeset
-            @textfeld(mixmax&,a$,1)
-            hsec=0
-            @htimeset
-            @textfeld(mixact&,a$,1)
-            @textfeld(mixerr&,"0"+CHR$(0),1)
-            @textfeld(mixpeak&,"0"+CHR$(0),1)
-          ENDIF
           IF rch4=FALSE THEN
             IF dspuse=FALSE THEN
               IF mtc=TRUE THEN
@@ -5311,27 +5362,6 @@ RETURN
                 ELSE
                   @write_int(2)
                 ENDIF
-              ELSE
-                IF ds_rdy=TRUE THEN
-                  @preload
-                ENDIF
-                IF nr=peak& THEN
-                  obj=peakwait&
-                ENDIF
-                IF nr=mixer& THEN
-                  obj=mixwait&
-                ENDIF
-                IF nr=smpedit& THEN
-                  obj=smpwait&
-                ENDIF
-                IF nr=arranger& THEN
-                  obj=pause&
-                ENDIF
-                IF nr=trakker& THEN
-                  obj=pause2&
-                ENDIF
-                @breakwait
-                @beepmaster
               ENDIF
             ELSE
               ~XBIOS(xbs,55,0)
@@ -5611,6 +5641,7 @@ RETURN
   ELSE
     @alerts(3)
   ENDIF
+  mpwz=FALSE
   IF recp=FALSE THEN
     hdr=FALSE
     IF ds_rdy=TRUE THEN
@@ -20242,6 +20273,8 @@ obj=mixstop&
 @setbutton(obj,1)
 @breakstop
 @setbutton(mixstop&,0)
+@setbutton(mixplay&,0)
+@setbutton(mixrec&,0)
 ENDIF
 IF scan|=97 THEN    ! PAUSE/UNDO
 obj=mixwait&
@@ -20347,6 +20380,8 @@ obj=mixstop&
 @setbutton(obj,1)
 @breakstop
 @setbutton(mixstop&,0)
+@setbutton(mixrec&,0)
+@setbutton(mixplay&,0)
 ENDIF
 ENDIF
 IF nr=cuelist& THEN
@@ -20456,6 +20491,7 @@ IF hzl>(96000-hzl2) AND hzl<(96000+hzl2) THEN
 hzlyse=96000
 hzlf=TRUE
 ENDIF
+IF hzlf=FALSE THEN
 IF hzl>(hze1-hzl2) AND hzl<(hze1+hzl2) THEN
 hzlyse=hze1
 hzlf=TRUE
@@ -20471,6 +20507,7 @@ ENDIF
 IF hzl>(hze4-hzl2) AND hzl<(hze4+hzl2) THEN
 hzlyse=hze4
 hzlf=TRUE
+ENDIF
 ENDIF
 ENDIF
 IF hzlf=FALSE THEN
@@ -37001,9 +37038,9 @@ IF INSTR(a$,"partitionmode")<>0 THEN
 INC z
 @delsourcekey
 IF a$="true" THEN
-partact=TRUE
+spartact=TRUE
 ELSE
-partact=FALSE
+spartact=FALSE
 ENDIF
 ENDIF
 UNTIL z=6 OR EOF(#2)
@@ -57272,28 +57309,6 @@ IF bigfoot=TRUE THEN
 ENDIF
 RETURN
 '
-> PROCEDURE mixmute(i)
-@hidetree3(mixer&,mixall1&,i)
-@hidetree3(mixer&,mixall2&,i)
-@hidetree3(mixer&,mixall3&,i)
-@hidetree3(mixer&,mixall4&,i)
-@hidetree3(mixer&,mixall5&,i)
-@hidetree3(mixer&,mixall6&,i)
-@hidetree3(mixer&,mixall7&,i)
-@hidetree3(mixer&,mixall8&,i)
-@hidetree3(mixer&,mixallm&,i)
-IF bigfoot=TRUE THEN
-@hidetree3(mixer&,mixall9&,i)
-@hidetree3(mixer&,mixall10&,i)
-@hidetree3(mixer&,mixall11&,i)
-@hidetree3(mixer&,mixall12&,i)
-@hidetree3(mixer&,mixall13&,i)
-@hidetree3(mixer&,mixall14&,i)
-@hidetree3(mixer&,mixall15&,i)
-@hidetree3(mixer&,mixall16&,i)
-ENDIF
-RETURN
-'
 > PROCEDURE mixrecsel(v1,v2)
 IF bigfoot=FALSE AND v1>8 AND v1<17 THEN
 v1=0
@@ -57338,7 +57353,6 @@ RETURN
 '
 > PROCEDURE mixerinit
 mixch=smixch
-@mixmute(TRUE)
 IF panmix=TRUE THEN
 pms=TRUE
 ELSE
@@ -57784,7 +57798,6 @@ ENDIF
 @hidetree3(mixer&,mixbx6&,FALSE)
 @hidetree3(mixer&,mixbx7&,FALSE)
 @hidetree3(mixer&,mixbx8&,FALSE)
-@mixmute(FALSE)
 ~@xrsrc_gaddr(0,popups&,zu%)
 @setbutton3(mixm3&,0,popups&)
 @setbutton3(mixm4&,0,popups&)
@@ -57903,13 +57916,19 @@ IF obj=mixstop& THEN
 @breakstop
 @setbutton(mixstop&,0)
 ENDIF
-IF obj=mixwait&
-IF mixplay=TRUE OR hdr=TRUE THEN
+IF obj=mixwait& AND (mtrkplay=TRUE OR hdr=TRUE)
 @breakwait
-ELSE
-@setbutton(obj,0)
 ENDIF
+'
+mixslo=FALSE
+IF obj=mixall1& OR obj=mixall2& OR obj=mixall3& OR obj=mixall4& OR obj=mixall5& OR obj=mixall6& OR obj=mixall7& OR obj=mixall8& OR obj=mixallm& THEN
+mixslo=TRUE
 ENDIF
+IF bigfoot=TRUE AND (obj=mixall9& OR obj=mixall10& OR obj=mixall11& OR obj=mixall12& OR obj=mixall13& OR obj=mixall14& OR obj=mixall15& OR obj=mixall16&) THEN
+mixslo=TRUE
+ENDIF
+@mixsolmake
+'
 mixbal=FALSE
 IF obj=mixbalm1& OR obj=mixbalm2& OR obj=mixbalm3& OR obj=mixbalm4& OR obj=mixbalm5& OR obj=mixbalm6& OR obj=mixbalm7& OR obj=mixbalm8& OR obj=mixbalmm& THEN
 mixbal=TRUE
@@ -58389,7 +58408,6 @@ rch16=pch16
 rmo8=pmo8
 rch4=pch4
 ENDIF
-'    @mixerset
 @mixer
 ELSE
 pwait=TRUE
@@ -58400,7 +58418,6 @@ rch16=pch16
 rmo8=pmo8
 rch4=pch4
 ENDIF
-'    @mixerset
 @setbutton(mixplay&,1)
 @setbutton(mixwait&,1)
 IF ds_rdy=FALSE THEN
@@ -58607,9 +58624,14 @@ IF obj=mixstop& THEN
 PAUSE 2
 @setbutton(obj,0)
 ENDIF
-IF obj=mixplay& THEN
+IF obj=mixplay& OR (obj=mixwait& AND pwait=FALSE AND lshft=FALSE AND rshft=FALSE) THEN
+IF obj=mixwait& THEN
+@setbutton(mixplay&,1)
+pwait=TRUE
+ENDIF
 @mixplay
 @setbutton(mixplay&,0)
+pwait=FALSE
 ENDIF
 IF obj=mixrec& OR (obj=mixwait& AND (lshft=TRUE OR rshft=TRUE)) THEN
 @mixrec
@@ -59381,7 +59403,7 @@ ENDIF
 FOR m=0 TO j
 @mixhandler2(m)
 NEXT m
-IF mtrkplay=TRUE THEN
+IF mtrkplay=TRUE AND mpwt=FALSE THEN
 IF @find_butt(mixer&)   ! Mausbutton-Event?  (Returnwert obj)
 @mixworking
 ENDIF
