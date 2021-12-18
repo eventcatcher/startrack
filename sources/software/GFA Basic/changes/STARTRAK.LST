@@ -23453,6 +23453,8 @@ DIM slowpeak(34)
 DIM slowpeak2(34)
 DIM mixbal(34)
 DIM mixmute(34)
+DIM vmixmute(34)
+DIM mixsolo(34)
 DIM mixbyp(34)
 DIM mixrec(34)
 DIM mixroute(34)
@@ -57351,6 +57353,10 @@ CASE 17
 ENDSELECT
 RETURN
 '
+PROCEDURE hidesolobut(mset)
+@hidetree3(mixer&,mixall1&,mset)
+RETURN
+'
 > PROCEDURE mixerinit
 mixch=smixch
 IF panmix=TRUE THEN
@@ -57379,6 +57385,7 @@ IF bigfoot=TRUE THEN
 @hidetree3(mixer&,mixfilet&,TRUE)
 @setbutton3(mixrecp&,8,mixer&)
 ENDIF
+@hidesolobut(TRUE)
 ELSE
 IF rch16=FALSE AND pch16=FALSE AND BTST(hchk,0)=FALSE THEN
 @setbutton3(mixm5&,8,popups&)
@@ -57811,6 +57818,7 @@ ENDIF
 @hidetree3(mixer&,mixvolrm&,FALSE)
 @hidetree3(mixer&,mixpklm&,FALSE)
 @hidetree3(mixer&,mixvollm&,FALSE)
+@hidesolobut(FALSE)
 IF panmix=TRUE THEN
 a$="BALANCE"+CHR$(0)
 @panbaltxt
@@ -57847,7 +57855,7 @@ ENDIF
 ENDIF
 RETURN
 '
-PROCEDURE mixworking
+> PROCEDURE mixworking
 ~@xrsrc_gaddr(0,mixer&,zu%)
 zuadr=zu%
 buttadr=zuadr+24*obj
@@ -57919,7 +57927,6 @@ ENDIF
 IF obj=mixwait& AND (mtrkplay=TRUE OR hdr=TRUE)
 @breakwait
 ENDIF
-'
 mixslo=FALSE
 IF obj=mixall1& OR obj=mixall2& OR obj=mixall3& OR obj=mixall4& OR obj=mixall5& OR obj=mixall6& OR obj=mixall7& OR obj=mixall8& OR obj=mixallm& THEN
 mixslo=TRUE
@@ -57927,8 +57934,7 @@ ENDIF
 IF bigfoot=TRUE AND (obj=mixall9& OR obj=mixall10& OR obj=mixall11& OR obj=mixall12& OR obj=mixall13& OR obj=mixall14& OR obj=mixall15& OR obj=mixall16&) THEN
 mixslo=TRUE
 ENDIF
-@mixsolmake
-'
+@mixsolomake
 mixbal=FALSE
 IF obj=mixbalm1& OR obj=mixbalm2& OR obj=mixbalm3& OR obj=mixbalm4& OR obj=mixbalm5& OR obj=mixbalm6& OR obj=mixbalm7& OR obj=mixbalm8& OR obj=mixbalmm& THEN
 mixbal=TRUE
@@ -59161,6 +59167,104 @@ ENDIF
 @mixvolset(pka,ipka)
 ENDIF
 nsetmix=FALSE
+RETURN
+'
+> PROCEDURE mixsolo_cnt
+SELECT solo_obj
+CASE mixall1&
+pka=1
+CASE mixall2&
+pka=2
+CASE mixall3&
+pka=3
+CASE mixall4&
+pka=4
+CASE mixall5&
+pka=5
+CASE mixall6&
+pka=6
+CASE mixall7&
+pka=7
+CASE mixall8&
+pka=8
+CASE mixall9&
+pka=9
+CASE mixall10&
+pka=10
+CASE mixall11&
+pka=11
+CASE mixall12&
+pka=12
+CASE mixall13&
+pka=13
+CASE mixall14&
+pka=14
+CASE mixall15&
+pka=15
+CASE mixall16&
+pka=16
+ENDSELECT
+RETURN
+'
+> PROCEDURE mixsolomake
+IF mixslo=TRUE THEN
+IF solo_obj>0 THEN
+@mixsolo_cnt
+IF mixsolo(pka)=TRUE THEN
+@setbutton(solo_obj,0)
+ENDIF
+ENDIF
+solo_obj=obj
+@mixsolo_cnt
+IF mixslo=TRUE THEN
+mixslo=FALSE
+nsetmix=TRUE
+IF rmo8=TRUE AND adc8=TRUE AND partact=TRUE AND mtrkplay=FALSE AND hdr=FALSE THEN
+IF pwz(1)=pka THEN
+ipka=1
+nsetmix=FALSE
+ENDIF
+IF pwz(2)=pka THEN
+ipka=2
+nsetmix=FALSE
+ENDIF
+ELSE
+ipka=pka
+nsetmix=FALSE
+ENDIF
+IF bigfoot=TRUE OR (bigfoot=FALSE AND (pka<9 OR pka=17)) THEN
+IF mixsolo(pka)=FALSE THEN
+FOR i=1 TO 16
+EXIT IF mixsolo(i)=TRUE
+NEXT i
+IF mixsolo(i)=TRUE THEN
+mixsolo(i)=FALSE
+FOR i=1 TO 16
+mixmute(i)=vmixmute(i)
+NEXT i
+ENDIF
+mixsolo(pka)=TRUE
+IF rmo8=TRUE AND panmix=TRUE AND extmix=FALSE THEN
+FOR i=1 TO 16
+vmixmute(i)=mixmute(i)
+mixmute(i)=TRUE
+@mixvolset(i,i)
+NEXT i
+mixmute(ipka)=FALSE
+@mixvolset(pka,ipka)
+ENDIF
+ELSE
+mixsolo(pka)=FALSE
+IF rmo8=TRUE AND panmix=TRUE AND extmix=FALSE THEN
+FOR i=1 TO 16
+mixmute(i)=vmixmute(i)
+@mixvolset(i,i)
+NEXT i
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+ENDIF
 RETURN
 '
 > PROCEDURE mixbypass
@@ -65409,6 +65513,4 @@ ELSE
 @goodbye
 ENDIF
 RETURN
-'
-'
 ' ENDE
