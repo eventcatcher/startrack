@@ -9015,157 +9015,30 @@ PROCEDURE message
   ENDIF
   '
   IF MENU(1)=34 THEN                            ! iconify
-    '    rsc_message(tree&,20,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
-    GCONTRL(0)=165
-    GCONTRL(1)=2
-    GCONTRL(2)=1
-    GCONTRL(3)=4
-    GCONTRL(4)=0
-    '
-    GINTIN(0)=3
-    GINTIN(1)=staricon&
-    '
-    ~@xrsrc_gaddr(0,a&,zus%)
-    ADDRIN(0)=zus%
-    DPOKE mdat%,-1
-    DPOKE mdat%+2,-1
-    DPOKE mdat%+4,-1
-    DPOKE mdat%+6,-1
-    '
-    DPOKE mdat%+8,-1
-    DPOKE mdat%+10,-1
-    DPOKE mdat%+12,-1
-    DPOKE mdat%+14,-1
-    POKE mdat%+16,ASC("E")
-    POKE mdat%+17,ASC("D")
-    POKE mdat%+18,ASC("I")
-    POKE mdat%+19,ASC("T")
-    POKE mdat%+20,ASC("O")
-    POKE mdat%+21,ASC("R")
-    POKE mdat%+22,0
-    ADDRIN(1)=mdat%
-    ADDRIN(2)=mdat%+16
-    ~@xrsrc_gaddr(0,icon&,zus2%)
-    ADDRIN(3)=zus2%
-    '
-    nr=1
-    '
-    GEMSYS                                               ! OBJC_SYSVAR()
-    ~WIND_SET(handle&,26,MENU(5),MENU(6),MENU(7),MENU(8))
-    STOP
-    '
-    winh=BCLR(winh,a&)
-    winh=BSET(winh,icon&)
-    bck=rsc_handle%(a&)
-    rsc_handle%(a&)=0
-    nr=icon&
-    tree&=nr
-    ~@xrsrc_gaddr(0,icon&,zus2%)
-    ~OBJC_DRAW(zus2%,0,99,MENU(5),MENU(6),MENU(7),MENU(8))      ! neu zeichnen
-    rsc_handle%(icon&)=MENU(4)
-    rscx&(icon&)=MENU(5)
-    rscy&(icon&)=MENU(6)
-    rscw&(icon&)=MENU(7)
-    rsch&(icon&)=MENU(8)
-    '
-    '
-    '    IF GINTOUT(0)>0                                      ! Hat geklappt...
-    '    color3d&=GINTOUT(1)                                ! ...3D-Farbe
-    '  ENDIF
-    obj=0
-    edit_obj&=0
-    obj&=0
     iconify=TRUE
     shading=TRUE
-    nr=1
-    '
-    '
-    PRINT bx,by,a,b
-    nr=12
-    STOP
+    vshading=TRUE
+    ~WIND_SET(handle&,26,MENU(5),MENU(6),MENU(7),MENU(8))
+    @wischwasch
+    @rsc_redraw_obj(tree&,0)
+    @wischwasch
   ENDIF
   IF MENU(1)=35 THEN                            ! uniconify
-    ~WIND_SET(handle&,27,buffer&(4),buffer&(5),buffer&(6),buffer&(7))
-    rsc_message(tree&,20,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
-    GCONTRL(0)=165
-    GCONTRL(1)=1
-    GCONTRL(2)=1
-    GCONTRL(3)=4
-    GCONTRL(4)=0
-    '
-    GINTIN(0)=4
-    GINTIN(1)=staricon&
-    '
-    rsc_handle%(smpedit&)=bck
-    rsc_handle%(icon&)=0
-    winh=BCLR(winh,icon&)
-    '
-    handle&=MENU(4)                                    ! ...Fenster-Handle
-    '
-    FOR a&=rsc_trees& DOWNTO 0                         ! Ist es ein RSC?...
-      EXIT IF handle&=rsc_handle%(a&)
-    NEXT a&
-    '
-    nr=a&
-    winh=BSET(winh,a&)
-    '
-    nr=1
-    '
-    @readpos(editbox7&)
-    @buttbh(editbox7&,a,b)
-    PRINT
-    PRINT bx,by,a,b
-    '
-    '
-    ~@xrsrc_gaddr(0,a&,zus3%)
-    ADDRIN(0)=zus3%
-    DPOKE mdat%,-1
-    DPOKE mdat%+2,-1
-    DPOKE mdat%+4,-1
-    DPOKE mdat%+6,-1
-    POKE mdat%+16,0
-    ADDRIN(1)=mdat%
-    ADDRIN(2)=mdat%+16
-    ~@xrsrc_gaddr(0,icon&,zus4%)
-    ADDRIN(3)=zus4%
-    GEMSYS                                               ! OBJC_SYSVAR()
-    shading=FALSE
+    ~WIND_SET(handle&,27,MENU(5),MENU(6),MENU(7),MENU(8))
     iconify=FALSE
-    '
-    nr=1
-    @readpos(editbox7&)
-    @buttbh(editbox7&,a,b)
-    PRINT
-    PRINT bx,by,a,b
-    STOP
-    '
-    tree&=nr
-    ~@xrsrc_gaddr(0,a&,zus2%)
-    '
-    @rsc_back(nr)
-    @rsc_draw(nr,7)
-    '
-    ~OBJC_DRAW(zus2%,0,99,MENU(5),MENU(6),MENU(7),MENU(8))      ! neu zeichnen
+    shading=FALSE
+    vshading=FALSE
     @wischwasch
-    STOP
-    rsc_message(nr,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
-    @wischwasch
-    STOP
-    rsc_message(nr,20,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
-    @wischwasch
-    STOP
-    '
-    '
-    '    IF GINTOUT(0)>0                                      ! Hat geklappt...
-    '    color3d&=GINTOUT(1)                                ! ...3D-Farbe
-    '  ENDIF
-    obj=0
-    edit_obj&=0
-    obj&=0
   ENDIF
   IF MENU(1)=36 THEN
+    STOP
+    iconify=TRUE
+    shading=TRUE
+    vshading=TRUE
     ~WIND_SET(handle&,26,buffer&(4),buffer&(5),buffer&(6),buffer&(7))
-    rsc_message(tree&,20,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
+    @wischwasch
+    @rsc_redraw_obj(tree&,0)
+    @wischwasch
   ENDIF
   '
 rsc_dox_ende:
