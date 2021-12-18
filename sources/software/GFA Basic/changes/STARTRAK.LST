@@ -27,7 +27,7 @@ ON ERROR GOSUB fehler
 ' ----------------------with VME StarTrack Audiocard 16/24Bit Harddisksampler---
 ' ------------------------First Release 22.8.1994-------------------------------
 ' ------------------------------------------------------------------------------
-' -------------------V 2.20 - Revision 16.02.2000 ------------------------------
+' -------------------V 2.21 - Revision 26.02.2000 ------------------------------
 ' ------------------------------------------------------------------------------
 '
 '
@@ -1225,6 +1225,7 @@ RETURN
     ENDIF
   ENDIF
   ad=1
+  dmxa=0
   IF nr=smp16& THEN
     a$=@rsc_text$(popups&,analog&)
     @textfeld(input&,a$,1)
@@ -1243,6 +1244,7 @@ RETURN
     ~XBIOS(xbs,23,0)   ! Taktrate vom digitaleingang
   ENDIF
   ad=0
+  dmxa=128
   IF nr=smp16& THEN
     a$=@rsc_text$(popups&,digital&)
     @textfeld(input&,a$,1)
@@ -3231,6 +3233,9 @@ RETURN
   ENDIF
   IF nr=mixer& AND obj=mixwait& THEN
     @write_int(0)
+    IF mtrkplay=TRUE AND pch4=TRUE THEN
+      ~XBIOS(xbs,73,0)    ! init dsp-program (clear pointers)
+    ENDIF
     @setbutton(obj,1)
     @pausewait
   ENDIF
@@ -3365,6 +3370,9 @@ RETURN
       PAUSE 5
       @write_int(3)
     ELSE
+      IF mtrkplay=TRUE AND pch4=TRUE AND intnr<2 THEN
+        ~XBIOS(xbs,55,intnr)
+      ENDIF
       @write_int(intnr)
     ENDIF
   ENDIF
@@ -4127,7 +4135,7 @@ RETURN
 RETURN
 '
 > PROCEDURE read_pmem
-  FOR i=1 TO pmembl
+  FOR p=1 TO pmembl
     @zeigtime2
     IF blkrmax=FALSE THEN
       pdsc=dscx
@@ -4158,12 +4166,12 @@ RETURN
       '      brkex2=TRUE
     ENDIF
     EXIT IF expfill=TRUE OR pmlen<=0
-  NEXT i
+  NEXT p
   vpmemf=pmemf
 RETURN
 '
 > PROCEDURE write_rmem
-  FOR i=1 TO membl
+  FOR r=1 TO membl
     @zeigtime2
     IF ds_rdy=TRUE THEN
       IF blkrmax=FALSE THEN
@@ -4210,7 +4218,7 @@ RETURN
       brkex2=TRUE
     ENDIF
     EXIT IF exfill=TRUE
-  NEXT i
+  NEXT r
   vmemf=memf
 RETURN
 '
@@ -4223,7 +4231,7 @@ RETURN
   @read_pmem
 RETURN
 '
-> PROCEDURE fillrmem
+PROCEDURE fillrmem
   LOCAL i,membl,bw,memz
   IF rmo8=TRUE AND ds_rdy=FALSE THEN
     @fillrmem8
@@ -4243,7 +4251,9 @@ RETURN
         membl=1
         memz=nsaa%
         memz2=dsaa%
-        dsc=INT(rmeml1/drvsec(dsdev))
+        IF ds_rdy=TRUE THEN
+          dsc=INT(rmeml1/drvsec(dsdev))
+        ENDIF
       ENDIF
       @write_rmem
     ENDIF
@@ -4267,11 +4277,13 @@ RETURN
         membl=1
         memz=nsaa2%
         memz2=dsaa2%
-        dsc=INT(rmeml2/drvsec(dsdev))
+        IF ds_rdy=TRUE THEN
+          dsc=INT(rmeml2/drvsec(dsdev))
+        ENDIF
       ENDIF
       @write_rmem
     ENDIF
-    IF pmemf=0 AND vpmemf=1 THEN
+    IF ds_rdy=TRUE AND pmemf=0 AND vpmemf=1 THEN
       IF blkrmax=TRUE THEN
         pmembl=1
         pdsc=INT(rmeml2/drvsec(dsdev))
@@ -4654,7 +4666,14 @@ RETURN
       ENDIF
     ENDIF
     ~XBIOS(&H8B,1,1+4+8,0,clk,1)
-    ~XBIOS(&H8B,2,2,0,clk,1)    ! Record vom external RDATA (Achtkanal)
+    IF adc8=TRUE THEN
+      IF ad=0 THEN
+        clk=0
+      ENDIF
+      ~XBIOS(&H8B,3,2,0,clk,1)    ! Record vom ADC (Achtkanal)
+    ELSE
+      ~XBIOS(&H8B,2,2,0,clk,1)    ! Record vom external RDATA (Achtkanal)
+    ENDIF
     a=XBIOS(&H86,0)
     IF mtrkplay=FALSE THEN
       @setadatr                      ! eingefÅgt am 6.6.99
@@ -4676,9 +4695,9 @@ RETURN
     @mixerset3
     IF panmix=TRUE THEN
       IF extmix=TRUE THEN
-        '        @dsp_lodput(s$+"EXTALL3.LOD")
         IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
           @dsp_boot
+          '          @dsp_lodput(s$+"EXTALL4.LOD")
           ~XBIOS(xbs,512)    ! external mixer
           PAUSE 2
         ENDIF
@@ -4689,7 +4708,7 @@ RETURN
             @mixmodeset(2)
             '            TEXT 32,32,"EXTMIX -> 24bit/8ch           "
           ELSE
-            @mixmodeset(0)
+            @mixmodeset(dmxa+0)
             '            TEXT 32,32,"EXTMIX -> 16bit/8ch           "
           ENDIF
         ELSE
@@ -4701,9 +4720,9 @@ RETURN
           ENDIF
         ENDIF
       ELSE
-        '        @dsp_lodput(s$+"PANALL3.LOD")
         IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
           @dsp_boot
+          '          @dsp_lodput(s$+"PANALL4.LOD")
           ~XBIOS(xbs,511)    ! panpot mixer
           PAUSE 2
         ENDIF
@@ -4715,10 +4734,10 @@ RETURN
             '            TEXT 32,32,"PANMIX -> 24bit/8ch           "
           ELSE
             IF sum24=TRUE THEN
-              @mixmodeset(1)
+              @mixmodeset(dmxa+1)
               '              TEXT 32,32,"PANMIX -> 16bit/8ch/sum24   "
             ELSE
-              @mixmodeset(0)
+              @mixmodeset(dmxa+0)
               '              TEXT 32,32,"PANMIX -> 16bit/8ch         "
             ENDIF
           ENDIF
@@ -4775,14 +4794,14 @@ RETURN
         IF dig24=TRUE THEN
           @mixmodeset(2)
         ELSE
-          @mixmodeset(0)
+          @mixmodeset(dmxa+0)
         ENDIF
       ELSE
         IF dig24=FALSE THEN
           IF BTST(hchk,0)=FALSE THEN
             @mixmodeset(4)
           ELSE
-            @mixmodeset(0)   ! wg. alter hardware nur 8ch-dsp
+            @mixmodeset(dmxa+0)   ! wg. alter hardware nur 8ch-dsp
           ENDIF
         ENDIF
       ENDIF
@@ -4792,9 +4811,9 @@ RETURN
           @mixmodeset(2)
         ELSE
           IF sum24=TRUE THEN
-            @mixmodeset(1)
+            @mixmodeset(dmxa+1)
           ELSE
-            @mixmodeset(0)
+            @mixmodeset(dmxa+0)
           ENDIF
         ENDIF
       ELSE
@@ -4808,7 +4827,7 @@ RETURN
               @mixmodeset(4)
             ENDIF
           ELSE
-            @mixmodeset(0)   ! wg. alter hardware nur 8ch-dsp
+            @mixmodeset(dmxa+0)   ! wg. alter hardware nur 8ch-dsp
           ENDIF
         ENDIF
       ENDIF
@@ -4819,43 +4838,47 @@ RETURN
 > PROCEDURE ds_init(dsall)   ! direct_stream_init
   LOCAL ii
   ds_rdy=FALSE
-  IF rmo8=TRUE AND dstrm=TRUE AND partact=TRUE THEN
-    FOR ii=25 TO 2 STEP -1
-      IF ds_chk(ii)=FALSE THEN
-        @ds_tstfile(ii)
-      ENDIF
-      ds_chk=FALSE
-      IF dsall=FALSE THEN
-        IF ds_art(ii)=8 AND rmo8=TRUE AND rch16=FALSE AND dig24=FALSE THEN
-          ds_chk=TRUE
+  IF dstrm=TRUE AND partact=TRUE THEN
+    IF rmo8=TRUE THEN
+      FOR ii=25 TO 2 STEP -1
+        IF ds_chk(ii)=FALSE THEN
+          @ds_tstfile(ii)
         ENDIF
-        IF ds_art(ii)=16 AND rmo8=TRUE AND rch16=TRUE AND dig24=FALSE THEN
-          ds_chk=TRUE
-        ENDIF
-        IF ds_art(ii)=24 AND rmo8=TRUE AND rch16=FALSE AND dig24=TRUE THEN
-          ds_chk=TRUE
-        ENDIF
-      ELSE
-        ds_chk=TRUE
-      ENDIF
-      IF BTST(drvsact,ii)=TRUE AND ds_chk=TRUE THEN
-        IF BTST(drvtst,ii)=FALSE THEN
-          @ds_test(ii)
-        ENDIF
-        IF BTST(drvdsrdy,ii)=TRUE THEN
-          ds_rdy=TRUE
-          dsdev=ii
+        ds_chk=FALSE
+        IF dsall=FALSE THEN
+          IF ds_art(ii)=8 AND rmo8=TRUE AND rch16=FALSE AND dig24=FALSE THEN
+            ds_chk=TRUE
+          ENDIF
+          IF ds_art(ii)=16 AND rmo8=TRUE AND rch16=TRUE AND dig24=FALSE THEN
+            ds_chk=TRUE
+          ENDIF
+          IF ds_art(ii)=24 AND rmo8=TRUE AND rch16=FALSE AND dig24=TRUE THEN
+            ds_chk=TRUE
+          ENDIF
         ELSE
-          @ds_make(ii)
+          ds_chk=TRUE
+        ENDIF
+        IF BTST(drvsact,ii)=TRUE AND ds_chk=TRUE THEN
+          IF BTST(drvtst,ii)=FALSE THEN
+            @ds_test(ii)
+          ENDIF
           IF BTST(drvdsrdy,ii)=TRUE THEN
             ds_rdy=TRUE
             dsdev=ii
+          ELSE
+            @ds_make(ii)
+            IF BTST(drvdsrdy,ii)=TRUE THEN
+              ds_rdy=TRUE
+              dsdev=ii
+            ENDIF
           ENDIF
         ENDIF
+        '      EXIT IF ds_rdy=TRUE
+      NEXT ii
+      IF ds_rdy=FALSE THEN
+        @alerts(77)
       ENDIF
-      '      EXIT IF ds_rdy=TRUE
-    NEXT ii
-    IF ds_rdy=FALSE THEN
+    ELSE
       @alerts(77)
     ENDIF
   ENDIF
@@ -5132,7 +5155,24 @@ RETURN
                   endc=rmlen
                 ENDIF
                 IF ds_rdy=TRUE THEN
-                  recback=XBIOS(xbs,140,10,rbit,L:saa%,L:saa2%,L:frdis,L:endc)     ! Achtkanal-Aufnahme
+                  IF adc8=TRUE THEN
+                    c=0
+                    rbit2=0
+                    FOR b=0 TO 7
+                      IF BTST(rbit,b)=TRUE AND c=1 THEN
+                        INC c
+                        rbit2=rbit2+b+1
+                      ENDIF
+                      IF BTST(rbit,b)=TRUE AND c=0 THEN
+                        INC c
+                        rbit2=16*(b+1)
+                      ENDIF
+                      EXIT IF c=2
+                    NEXT b
+                    recback=XBIOS(xbs,140,11,rbit2,L:saa%,L:saa2%,L:frdis,L:endc)    ! Achtkanal-Aufnahme Åber ADC
+                  ELSE
+                    recback=XBIOS(xbs,140,10,rbit,L:saa%,L:saa2%,L:frdis,L:endc)     ! Achtkanal-Aufnahme Åber EXTIN
+                  ENDIF
                   plback=XBIOS(xbs,141,10,L:saa%,L:saa2%,L:frdis,L:cntstrt,L:endc)
                 ELSE
                   recback=XBIOS(xbs,140,2,rbit,L:saa%,L:saa2%,L:frdis,L:endc,sfila%,L:peakmem2%)     ! Achtkanal-Aufnahme
@@ -5141,10 +5181,10 @@ RETURN
                 ~XBIOS(xbs,72,15)      ! Fehler bei Jam-In (war 14)
                 ~XBIOS(xbs,27,2)
                 ~XBIOS(xbs,26,2)
-                IF mixdsp=FALSE THEN
+                IF mixdsp=FALSE THEN                            ! matrixmode...
                   IF demo=FALSE OR falcon=TRUE THEN
-                    IF ds_rdy=TRUE THEN
-                      IF BTST(hchk,0)=TRUE THEN
+                    IF ds_rdy=TRUE THEN                         ! ...und DirectStream
+                      IF BTST(hchk,0)=TRUE AND adc8=FALSE THEN
                         ' macht nur sinn,wenn fÅr rec in den mixdsp-mode geschaltet wird (Abhîren Play & Rec Åber DAC,Abhîren Rec Åber EXTOUT)
                         re_mixdsp=TRUE
                         mixdsp=TRUE
@@ -5159,41 +5199,69 @@ RETURN
                         ~XBIOS(&H8B,2,1+4,0,clk,1)   ! EXTINP  -> EXTOUT,DMAREC
                         ~XBIOS(&H8B,1,8,0,clk,1)     ! DSPXMIT -> DAC
                       ELSE
-                        ~XBIOS(&H8B,2,1,0,clk,1)     ! EXTINP  -> DMAREC
+                        IF adc8=TRUE THEN
+                          ~XBIOS(&H8B,3,1,0,clk,1)   ! ADC     -> DMAREC
+                        ELSE
+                          ~XBIOS(&H8B,2,1,0,clk,1)   ! EXTINP  -> DMAREC
+                        ENDIF
                         ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
                         ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
-                        IF demo=FALSE THEN
+                        IF demo=FALSE AND BTST(hchk,0)=FALSE THEN
                           POKE &HFEFF0645,2          ! dmarec-path (only new hardware)
                         ENDIF
                       ENDIF
-                    ELSE
-                      ~XBIOS(&H8B,2,1+2+4,0,clk,1)   ! EXTINP -> DMAREC,DSPREC,EXTOUT
-                      ~XBIOS(&H8B,1,8,0,clk,1)       ! DSPXMIT -> DAC
+                    ELSE                  ! ...und kein DirectStream
+                      IF adc8=TRUE THEN
+                        IF mixbyp(1)=TRUE AND mixbyp(2)=TRUE THEN
+                          ~XBIOS(&H8B,3,1+2+4,0,clk,1)   ! ADC     -> DMAREC,DSPREC,EXTOUT
+                          ~XBIOS(&H8B,1,8,0,clk,1)       ! DSPXMIT -> DAC
+                        ELSE
+                          ~XBIOS(&H8B,3,2,0,clk,1)       ! ADC     -> DSPREC
+                          ~XBIOS(&H8B,1,1+4+8,0,clk,1)   ! DSPXMIT -> DMAREC,EXTOUT,DAC
+                        ENDIF
+                      ELSE
+                        ~XBIOS(&H8B,2,1+2+4,0,clk,1)     ! EXTINP  -> DMAREC,DSPREC,EXTOUT
+                        ~XBIOS(&H8B,1,8,0,clk,1)         ! DSPXMIT -> DAC
+                      ENDIF
                     ENDIF
                     pt=rchmo
                     a=XBIOS(&H86,pt)
                   ENDIF
-                ELSE
-                  IF ds_rdy=TRUE THEN
-                    IF BTST(hchk,0)=TRUE THEN
-                      ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
-                      ~XBIOS(&H8B,2,1+4,0,clk,1)   ! EXTINP  -> EXTOUT,DMAREC
-                      ~XBIOS(&H8B,1,8,0,clk,1)     ! DSPXMIT -> DAC
-                    ELSE
-                      ~XBIOS(&H8B,2,1,0,clk,1)     ! EXTINP  -> DMAREC
+                ELSE                               ! dspmix-mode...
+                  IF ds_rdy=TRUE THEN              ! ... und DirectStream
+                    IF adc8=TRUE THEN
+                      ~XBIOS(&H8B,3,1,0,clk,1)     ! ADC     -> DMAREC
                       ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
                       ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
-                      IF demo=FALSE THEN
-                        POKE &HFEFF0645,2         ! dmarec-path (only new hardware)
+                    ELSE
+                      IF BTST(hchk,0)=TRUE THEN
+                        ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
+                        ~XBIOS(&H8B,2,1+4,0,clk,1)   ! EXTINP  -> EXTOUT,DMAREC
+                        ~XBIOS(&H8B,1,8,0,clk,1)     ! DSPXMIT -> DAC
+                      ELSE
+                        ~XBIOS(&H8B,2,1,0,clk,1)     ! EXTINP  -> DMAREC
+                        ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
+                        ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
+                        IF demo=FALSE THEN
+                          POKE &HFEFF0645,2         ! dmarec-path (only new hardware)
+                        ENDIF
                       ENDIF
                     ENDIF
-                  ELSE
+                  ELSE                              ! ...und kein DirectStream
                     IF mixrec(17)=TRUE THEN
                       ~XBIOS(&H8B,1,1+4+8,0,clk,1)   ! DSPXMIT -> DMAREC,EXTOUT,DAC
-                      ~XBIOS(&H8B,2,2,0,clk,1)       ! EXTINP -> DSPREC
+                      IF adc8=TRUE THEN
+                        ~XBIOS(&H8B,3,2,0,clk,1)     ! ADC     -> DSPREC
+                      ELSE
+                        ~XBIOS(&H8B,2,2,0,clk,1)     ! EXTINP  -> DSPREC
+                      ENDIF
                     ELSE
-                      ~XBIOS(&H8B,2,1+2+4,0,clk,1) ! EXTINP  -> EXTOUT,DMAREC,DSPREC
-                      ~XBIOS(&H8B,1,8,0,clk,1)     ! DSPXMIT -> DAC
+                      IF adc8=TRUE THEN
+                        ~XBIOS(&H8B,3,1+2+4,0,clk,1) ! ADC     -> EXTOUT,DMAREC,DSPREC
+                      ELSE
+                        ~XBIOS(&H8B,2,1+2+4,0,clk,1) ! EXTINP  -> EXTOUT,DMAREC,DSPREC
+                      ENDIF
+                      ~XBIOS(&H8B,1,8,0,clk,1)       ! DSPXMIT -> DAC
                     ENDIF
                   ENDIF
                 ENDIF
@@ -24393,8 +24461,10 @@ ENDSELECT
 ENDIF
 IF pch4=TRUE THEN
 @dspplay2
+@mixvolinit
 '    PAUSE 20
 ~XBIOS(xbs,27,1)
+@write_int(0)
 ENDIF
 @soloplay1
 FOR i=1 TO spurz
@@ -25173,10 +25243,9 @@ sea2%=&H1000/2-1
 plgvol=XBIOS(xbs,260,1)   ! Insert Volume-Plugin
 trecback=XBIOS(xbs,144,L:nsaa%,L:nsaa2%,L:dsaa%,L:dsaa2%,L:ltrk*tmbit,L:strtcount,L:endcount2,tsfila%,tsca%,tsda%)
 ~XBIOS(xbs,27,1)
-~XBIOS(&H8B,0,10,0,tclk,1)
+'            ~XBIOS(&H8B,0,10,0,tclk,1)
 dpeakret=trecback+72+16
 trkini4=TRUE
-'
 ENDIF
 ELSE
 IF pch16=FALSE THEN
@@ -25274,11 +25343,12 @@ ELSE
 IF pch4=TRUE THEN
 ~XBIOS(xbs,74)            ! DSP-Clear, muû wieder raus
 ~XBIOS(xbs,55,0)
-~XBIOS(xbs,55,1)      ! Probeweise entfernt, muû wieder rein
 ~XBIOS(xbs,73,0)
+@swchannel
 IF pwait=FALSE THEN
 @wait_mtc
 @write_int(1)
+~XBIOS(xbs,55,1)      ! DSP interrupt freigeben
 ELSE
 IF recp=FALSE THEN
 intnr=1
@@ -25292,6 +25362,7 @@ ELSE
 recpaus=FALSE
 ENDIF
 ENDIF
+@mixvolinit
 ELSE
 IF dspuse=TRUE THEN
 ~XBIOS(xbs,73,0)
@@ -40376,10 +40447,10 @@ rch4=pch4
 '
 IF mixer=FALSE AND matrix=TRUE THEN
 smixch=spuren*2
-panmix=TRUE
-extmix=TRUE
-balmix=FALSE
+mixchng=smixch
+@mixerchange2
 @mixbalinit
+@mixvolinit
 ENDIF
 '
 IF matrix=TRUE THEN
@@ -56871,7 +56942,11 @@ NEXT i
 @mixerinit
 @mixchtxt
 @mixroutetxt
+IF rch4=TRUE THEN
+@swchannel
+ELSE
 a=XBIOS(&H86,(mixroute(17)-1)/2)
+ENDIF
 @mixvoldraw
 '      @chngtomixer
 IF mixdsp=FALSE OR (partact=TRUE AND dstrm=TRUE) THEN
@@ -56937,7 +57012,11 @@ ELSE
 @hidetree3(mixer&,dsicon&,TRUE)
 ENDIF
 @mixroutetxt
+IF rch4=TRUE THEN
+@swchannel
+ELSE
 a=XBIOS(&H86,(mixroute(17)-1)/2)
+ENDIF
 @chngtomixer
 nr=mixer&
 rsc_message(nr,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
@@ -56950,7 +57029,7 @@ LOCAL m
 IF mixmute(i)=TRUE THEN
 m=0
 ELSE
-IF panmix=TRUE AND extmix=FALSE AND mixbyp(i)=TRUE THEN
+IF ((panmix=TRUE AND extmix=FALSE) OR rch4=TRUE) AND mixbyp(i)=TRUE THEN
 m=&H400000
 ELSE
 m=pkp(i)
@@ -57133,13 +57212,21 @@ ELSE
 ems=FALSE
 ENDIF
 IF rch4=TRUE THEN
+~@xrsrc_gaddr(0,popups&,zu%)
+@setbutton3(mixm3&,8,popups&)
+@setbutton3(mixm4&,8,popups&)
+IF BTST(hchk,0)=FALSE THEN
+@setbutton3(mixm5&,8,popups&)
+@setbutton3(mixm6&,8,popups&)
+@setbutton3(mixm7&,8,popups&)
+@setbutton3(mixm8&,8,popups&)
+ENDIF
 @hidetree3(mixer&,mixfile&,TRUE)
 @setbutton3(mixarec&,8,mixer&)
 IF bigfoot=TRUE THEN
 @hidetree3(mixer&,mixfilet&,TRUE)
 @setbutton3(mixrecp&,8,mixer&)
 ENDIF
-@setbutton3(mixplay&,8,mixer&)
 ELSE
 @hidetree3(mixer&,mixfile&,FALSE)
 @setbutton3(mixarec&,0,mixer&)
@@ -57147,7 +57234,6 @@ IF bigfoot=TRUE THEN
 @hidetree3(mixer&,mixfilet&,FALSE)
 @setbutton3(mixrecp&,0,mixer&)
 ENDIF
-@setbutton3(mixplay&,0,mixer&)
 ENDIF
 @hidetree3(mixer&,mixtxt1&,NOT extmix)
 @hidetree3(mixer&,mixtxt2&,NOT extmix)
@@ -57168,10 +57254,14 @@ IF bigfoot=TRUE THEN
 @hidetree3(mixer&,mixtxt16&,NOT extmix)
 ENDIF
 '
-IF rch4=TRUE OR extmix=TRUE THEN
+IF extmix=TRUE THEN
 emx=TRUE
 ELSE
 emx=FALSE
+ENDIF
+IF rch4=TRUE THEN
+ems=FALSE
+emx=TRUE
 ENDIF
 @hidetree3(mixer&,mixpkrm&,emx)
 @hidetree3(mixer&,mixvolrm&,emx)
@@ -57551,6 +57641,19 @@ ENDIF
 @hidetree3(mixer&,mixbx7&,FALSE)
 @hidetree3(mixer&,mixbx8&,FALSE)
 @mixmute(FALSE)
+~@xrsrc_gaddr(0,popups&,zu%)
+@setbutton3(mixm3&,0,popups&)
+@setbutton3(mixm4&,0,popups&)
+IF BTST(hchk,0)=FALSE THEN
+@setbutton3(mixm5&,0,popups&)
+@setbutton3(mixm6&,0,popups&)
+@setbutton3(mixm7&,0,popups&)
+@setbutton3(mixm8&,0,popups&)
+ENDIF
+@hidetree3(mixer&,mixpkrm&,FALSE)
+@hidetree3(mixer&,mixvolrm&,FALSE)
+@hidetree3(mixer&,mixpklm&,FALSE)
+@hidetree3(mixer&,mixvollm&,FALSE)
 IF panmix=TRUE THEN
 a$="BALANCE"+CHR$(0)
 @panbaltxt
@@ -57559,26 +57662,10 @@ smixch=16
 nr=mixnr
 RETURN
 '
-> PROCEDURE mixworking
-~@xrsrc_gaddr(0,mixer&,zu%)
-zuadr=zu%
-buttadr=zuadr+24*obj
-but=DPEEK(buttadr+6) AND 255
-IF but=22 THEN
-IF obj=mixtxt1& OR obj=mixtxt2& OR obj=mixtxt3& OR obj=mixtxt4& OR obj=mixtxt5& OR obj=mixtxt6& OR obj=mixtxt7& OR obj=mixtxt8& THEN
-mixtex=TRUE
-ENDIF
-IF bigfoot=TRUE AND (obj=mixtxt9& OR obj=mixtxt10& OR obj=mixtxt11& OR obj=mixtxt12& OR obj=mixtxt13& OR obj=mixtxt14& OR obj=mixtxt15& OR obj=mixtxt16&) THEN
-mixtex=TRUE
-ENDIF
-IF obj=mixtxtm& THEN
-a$=@rsc_text$(popups&,mixmpop&+popup&)
-@textfeld(obj,a$,1)
-mixroute(17)=popup&*2-1
-mixroute(18)=popup&*2
+> PROCEDURE swchannel
 IF rch4=FALSE THEN
-@routeset(16,popup&*2-2)
-@routeset(17,popup&*2-1)
+@routeset(16,mixroute(17)-1)
+@routeset(17,mixroute(18)-1)
 a=(mixroute(17)-1)/2
 rchmo=a
 ~XBIOS(&H86,a)
@@ -57601,7 +57688,28 @@ IF mixroute(17)=3 THEN
 ENDIF
 ENDIF
 ENDIF
+RETURN
+'
+> PROCEDURE mixworking
+~@xrsrc_gaddr(0,mixer&,zu%)
+zuadr=zu%
+buttadr=zuadr+24*obj
+but=DPEEK(buttadr+6) AND 255
+IF but=22 THEN
+IF obj=mixtxt1& OR obj=mixtxt2& OR obj=mixtxt3& OR obj=mixtxt4& OR obj=mixtxt5& OR obj=mixtxt6& OR obj=mixtxt7& OR obj=mixtxt8& THEN
+mixtex=TRUE
+ENDIF
+IF bigfoot=TRUE AND (obj=mixtxt9& OR obj=mixtxt10& OR obj=mixtxt11& OR obj=mixtxt12& OR obj=mixtxt13& OR obj=mixtxt14& OR obj=mixtxt15& OR obj=mixtxt16&) THEN
+mixtex=TRUE
+ENDIF
+IF obj=mixtxtm& THEN
+a$=@rsc_text$(popups&,mixmpop&+popup&)
+@textfeld(obj,a$,1)
+mixroute(17)=popup&*2-1
+mixroute(18)=popup&*2
+@swchannel
 obj=0
+next_obj&=0
 ENDIF
 IF mixtex=TRUE THEN
 mixtex=FALSE
@@ -57644,6 +57752,7 @@ ENDSELECT
 mixroute(pka)=popup&
 @routeset(pka-1,popup&-1)
 obj=0
+next_obj&=0
 ENDIF
 ENDIF
 IF obj=mixstop& THEN
@@ -58116,10 +58225,6 @@ ENDIF
 '    @mixerset
 @setbutton(mixplay&,1)
 @setbutton(mixwait&,1)
-FOR i=1 TO 34
-peakw(i)=0.1
-vpeakw(i)=0
-NEXT i
 IF ds_rdy=FALSE THEN
 @trkplay
 ELSE
@@ -58746,7 +58851,7 @@ ENDSELECT
 IF bigfoot=TRUE OR (bigfoot=FALSE AND (pka<9 OR pka=17)) THEN
 IF mixmute(pka)=FALSE THEN
 mixmute(pka)=TRUE
-IF panmix=TRUE AND (extmix=TRUE OR (extmix=FALSE AND pka=17)) THEN
+IF rch4=TRUE OR (panmix=TRUE AND (extmix=TRUE OR (extmix=FALSE AND pka=17))) THEN
 @mixbypset(pka-1,0)
 IF extmix=TRUE AND pka=17 THEN
 FOR i=0 TO 15
@@ -58756,7 +58861,7 @@ ENDIF
 ENDIF
 ELSE
 mixmute(pka)=FALSE
-IF panmix=TRUE AND mixbyp(pka)=TRUE AND (extmix=TRUE OR (extmix=FALSE AND pka=17)) THEN
+IF mixbyp(pka)=TRUE AND (rch4=TRUE OR (panmix=TRUE AND (extmix=TRUE OR (extmix=FALSE AND pka=17)))) THEN
 @mixbypset(pka-1,1)
 IF extmix=TRUE AND pka=17 THEN
 FOR i=0 TO 15
@@ -58821,12 +58926,16 @@ ELSE
 mixbyp(pka)=FALSE
 @mixbypset(vx,0)
 ENDIF
+IF rch4=TRUE THEN
+@mixvolset(pka)
+ELSE
 IF panmix=TRUE THEN
 IF extmix=FALSE THEN
 @mixvolset(pka)
 ELSE
 IF pka=17 THEN
 @allbypass
+ENDIF
 ENDIF
 ENDIF
 ENDIF
@@ -58917,17 +59026,17 @@ NEXT i
 RETURN
 '
 > PROCEDURE mixhandler
-LOCAL a$
+LOCAL a$,m,j
 IF ((mtrkplay=TRUE AND pch4=TRUE) OR rmo8=TRUE OR rch16=TRUE) AND nr=mixer& THEN
 IF rmo8=TRUE OR rch16=TRUE THEN
 a$=""
-FOR i=1 TO 8
-@mixread(i)
-NEXT i
+FOR m=1 TO 8
+@mixread(m)
+NEXT m
 IF rch16=TRUE THEN
-FOR i=9 TO 16
-@mixread(i)
-NEXT i
+FOR m=9 TO 16
+@mixread(m)
+NEXT m
 ENDIF
 IF extmix=FALSE THEN
 @mixread(17)
@@ -58938,9 +59047,9 @@ j=3
 ELSE
 j=mixch/2-1
 ENDIF
-FOR i=0 TO j
-@mixhandler2(i)
-NEXT i
+FOR m=0 TO j
+@mixhandler2(m)
+NEXT m
 IF mtrkplay=TRUE THEN
 IF @find_butt(mixer&)   ! Mausbutton-Event?  (Returnwert obj)
 @mixworking
@@ -58978,6 +59087,31 @@ ELSE
 peak(i)=INT(RND(1)*5000000)
 ENDIF
 vpeakw(i)=ROUND(peak(i)/&H800000*mvolh)
+RETURN
+'
+> PROCEDURE dsprdpk4
+IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
+REPEAT
+UNTIL (PEEK(dspadr+2) AND 2)=2
+a=XBIOS(xbs,73,2)
+REPEAT
+UNTIL (PEEK(dspadr+2) AND 1)=1
+POKE mdat%,0
+POKE mdat%+1,PEEK(dspadr+5)
+POKE mdat%+2,PEEK(dspadr+6)
+POKE mdat%+3,PEEK(dspadr+7)
+peak(3)=LPEEK(mdat%)
+POKE mdat%,0
+POKE mdat%+1,PEEK(dspadr+5)
+POKE mdat%+2,PEEK(dspadr+6)
+POKE mdat%+3,PEEK(dspadr+7)
+peak(4)=LPEEK(mdat%)
+ELSE
+peak(3)=INT(RND(1)*5000000)
+peak(4)=INT(RND(1)*5000000)
+ENDIF
+vpeakw(3)=ROUND(peak(3)/&H800000*mvolh)
+vpeakw(4)=ROUND(peak(4)/&H800000*mvolh)
 RETURN
 '
 > PROCEDURE mixhandler2(i)
@@ -59088,7 +59222,6 @@ ENDIF
 RETURN
 '
 > PROCEDURE setvol8(v1,v2)
-'  TEXT 32,32,STR$(v1)+"   "+HEX$(v2)+"     "
 IF rch4=FALSE THEN
 IF v1>31 THEN
 IF panmix=FALSE THEN
@@ -59122,13 +59255,17 @@ ENDIF
 '    NEXT i
 ELSE
 IF mtrkplay=FALSE THEN
-IF v1=0 THEN
-v=ROUND(v2/&H800000*255)
-@balwrite(v,mixbal(1),20)
+IF v1=0 OR v1=32 THEN
+IF v2<=&H400000 THEN
+v=ROUND(v2/&H400000*&HC0)
+ELSE
+v=ROUND(&HC0+(v2-&H400000)/&H400000*&H3F)
 ENDIF
-IF v1=32 THEN
-v=ROUND(v2/&H800000*255)
+IF v1=0 THEN
+@balwrite(v,mixbal(1),20)
+ELSE
 @balwrite2(v,mixbal(17),20)
+ENDIF
 ENDIF
 IF v1=2 THEN
 IF hdr=FALSE THEN
@@ -59159,7 +59296,11 @@ ENDIF
 ENDIF
 ELSE
 IF v1=32 THEN
-v=ROUND(v2/&H800000*200)
+IF v2<=&H400000 THEN
+v=ROUND(v2/&H400000*&HC0)
+ELSE
+v=ROUND(&HC0+(v2-&H400000)/&H400000*&H3F)
+ENDIF
 @balwrite2(v,mixbal(17),20)
 ENDIF
 IF v1=0 THEN
@@ -59207,6 +59348,7 @@ IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
 LPOKE mdat%,v1
 LPOKE mdat%+4,v2
 '      a=XBIOS(98,L:mdat%,L:2,L:mdat%,L:0)
+IF rch4=FALSE THEN
 REPEAT
 UNTIL (PEEK(dspadr+2) AND 2)=2
 POKE dspadr+5,PEEK(mdat%+1)
@@ -59220,6 +59362,16 @@ POKE dspadr+7,PEEK(mdat%+7)
 REPEAT
 UNTIL (PEEK(dspadr+2) AND 2)=2
 a=XBIOS(xbs,73,15)
+ELSE
+IF v1=1 THEN
+REPEAT
+UNTIL (PEEK(dspadr+2) AND 2)=2
+a=XBIOS(xbs,73,15)
+POKE dspadr+5,PEEK(mdat%+5)
+POKE dspadr+6,PEEK(mdat%+6)
+POKE dspadr+7,PEEK(mdat%+7)
+ENDIF
+ENDIF
 PAUSE 2
 ENDIF
 RETURN
@@ -59227,7 +59379,7 @@ RETURN
 > PROCEDURE mixmodeset(v1)
 hchk=XBIOS(xbs,12)     ! bit0: 0=neue hardware, 1=alte hardware
 IF BTST(hchk,0)=TRUE OR demo=TRUE OR falcon=TRUE OR magicmac<>0 THEN
-v1=0
+v1=(v1 AND 7)
 ENDIF
 IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
 LPOKE mdat%,v1
@@ -60995,16 +61147,16 @@ RETURN
 > PROCEDURE dsprec4     ! stereo-hosttransfer mit 1K-Buffer (fÅr 4channel record)
 @dsp_boot
 IF demo=FALSE THEN
-@dsp_lodput("K:\DSPREC2.LOD")
-'    ~XBIOS(xbs,502)
+'   @dsp_lodput("K:\DSPREC2.LOD")
+~XBIOS(xbs,502)
 ENDIF
 RETURN
 '
 > PROCEDURE dspplay2    ! stereo-hosttransfer (fÅr 4channel play und dspuse)
 @dsp_boot
 IF demo=FALSE THEN
-@dsp_lodput("K:\DSPPLAY.LOD")
-'    ~XBIOS(xbs,503)
+'   @dsp_lodput("K:\DSPPLAY.LOD")
+~XBIOS(xbs,503)
 ENDIF
 RETURN
 '
@@ -62239,7 +62391,14 @@ recpaus=FALSE
 ENDIF
 IF obj=playpeak& OR (obj=peakwait& AND lshft=FALSE AND rshft=FALSE) THEN
 @setbutton(playpeak&,1)
+pvio=vio
+vio=TRUE
+@mutecontrol
+@volinit
 @playpeak
+vio=pvio
+@mutecontrol
+@volinit
 @setbutton(playpeak&,0)
 pwait=FALSE
 ENDIF
@@ -62639,9 +62798,7 @@ vpeakw(1)=ROUND(peak(1)/&H800000*mvolh)
 peak(2)=pr/32768*&H800000
 vpeakw(2)=ROUND(peak(2)/&H800000*mvolh)
 @mixhandler2(0)
-a=XBIOS(xbs,73,2)
-@mixread(3)
-@mixread(4)
+@dsprdpk4
 @mixhandler2(1)
 ENDIF
 ENDIF
