@@ -1,0 +1,31 @@
+CLS
+adr=&HA0080000    ! Config PLX
+adr1=&H80000000   ! Video Controller
+adr2=&H81000000   ! PLX Registers Memory Mapped
+adr3=&HB0001000   ! PLX Registers I/O Mapped
+adr4=&HB0001100   ! PLX Local Adress Space I/O Mapped
+'
+device=DPEEK(adr)
+vendor=DPEEK(adr+2)
+POKE adr+4,3
+status=DPEEK(adr+4)
+command=DPEEK(adr+6)
+base0=LPEEK(adr+&H10) ! Base Adress Memory Mapped Registers
+base1=LPEEK(adr+&H14) ! Base Adress I/O Mapped Registers
+base2=LPEEK(adr+&H18) ! Base Adress Local Adress Space
+base3=LPEEK(adr+&H1C)
+base4=LPEEK(adr+&H20)
+base5=LPEEK(adr+&H24)
+PRINT "device,vendor:",HEX$(device),HEX$(vendor)
+PRINT "status,command:",HEX$(status),HEX$(command)
+PRINT "base 0-5:",HEX$(base0),HEX$(base1),HEX$(base2),HEX$(base3),HEX$(base4),HEX$(base5)
+'
+PRINT
+LPOKE adr4,&H12345678
+LPOKE adr4+4,&H23456789
+LPOKE adr4+8,&H34567890
+FOR i=0 TO &H40 STEP 4
+  PRINT HEX$(LPEEK(adr2+i)),
+  PRINT HEX$(LPEEK(adr3+i)),
+  PRINT HEX$(LPEEK(adr4+i))
+NEXT i

@@ -1,0 +1,29 @@
+CLS
+adr=&HA0080000
+adr2=&H81000000
+adr3=&HB0001000
+adr4=&HB0001100
+'
+device=DPEEK(adr)
+vendor=DPEEK(adr+2)
+status=DPEEK(adr+4)
+command=DPEEK(adr+8)
+LPOKE adr+&H10,-1
+base0=PEEK(adr+&H12)*&H10000+PEEK(adr+&H11)*&H100+PEEK(adr+&H10)
+LPOKE adr+&H14,-1
+base1=PEEK(adr+&H16)*&H10000+PEEK(adr+&H15)*&H100+PEEK(adr+&H14)
+LPOKE adr+&H18,-1
+base2=PEEK(adr+&H1A)*&H10000+PEEK(adr+&H19)*&H100+PEEK(adr+&H18)
+base3=PEEK(adr+&H1E)*&H10000+PEEK(adr+&H1D)*&H100+PEEK(adr+&H1C)
+base4=LPEEK(adr+&H20)
+base5=LPEEK(adr+&H24)
+PRINT "device,vendor:",HEX$(device),HEX$(vendor)
+PRINT "status,command:",HEX$(status),HEX$(command)
+PRINT "base 0-6:",HEX$(base0),HEX$(base1),HEX$(base2),HEX$(base3),HEX$(base4),HEX$(base5)
+'
+LPOKE adr2,&H12345678
+LPOKE adr3,&H12345678
+LPOKE adr4,&H12345678
+PRINT LPEEK(adr2)
+PRINT LPEEK(adr3)
+PRINT LPEEK(adr4)

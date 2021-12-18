@@ -1,0 +1,85 @@
+CLS
+'
+foundpci=FALSE
+cfgtst=&HA0000000    ! Config PLX
+cfgadd=&H10000
+FOR i=1 TO 4
+  @wordintel(cfgtst+cfgadd,vendor)  ! Base Adress I/O Mapped Registers
+  @wordintel(cfgtst+cfgadd+2,device)  ! Base Adress I/O Mapped Registers
+  IF device=&H9060 AND vendor=&H10B5 THEN
+    config=cfgtst+cfgadd
+    foundpci=TRUE
+  ENDIF
+  cfgadd=cfgadd*2
+NEXT i
+'
+IF foundpci=TRUE THEN
+  mem=&H80000000
+  io=&HB0000000
+  '
+  @init
+  '
+  POKE config+4,3                ! enables CS for memory and io-space in the command-register
+  '
+  @longintel(config+&H10,base0)  ! Base Adress Memory Mapped Registers
+  adr2=mem+base0                 ! PLX Registers Memory Mapped         ,80H
+  '
+  @longintel(config+&H14,base1)  ! Base Adress I/O Mapped Registers
+  adr3=io+(base1 AND &HFFFFFFFE) ! PLX Registers Memory Mapped         ,80H
+  @longintel(config+&H18,base2)  ! Base Adress Local Adress Space
+  adr4=io+(base2 AND &HFFFFFFFE) ! PLX Registers Memory Mapped         ,80H
+  '
+  longwrite(adr2+4,&H2000001)    ! Remap to IC3 /SELM Adress Space
+  '
+  @longwrite(adr4,1)
+  @longwrite(adr4+4,8)
+  '
+  a=&X10000000
+  b=&X11110000
+  a=XBIOS(500,321,a,b)
+  '
+  @longintel(adr2+&H68,intc)
+  intc=intc OR 2048
+  @longwrite(adr2+&H68,intc)
+  '
+ENDIF
+END
+'
+> PROCEDURE init
+  pmem=MALLOC(4)
+RETURN
+'
+> PROCEDURE longintel(memadr,VAR a)
+  LPOKE pmem,LPEEK(memadr)
+  a1=PEEK(pmem)
+  a2=PEEK(pmem+1)
+  a3=PEEK(pmem+2)
+  a4=PEEK(pmem+3)
+  POKE pmem,a4
+  POKE pmem+1,a3
+  POKE pmem+2,a2
+  POKE pmem+3,a1
+  a=LPEEK(pmem)
+RETURN
+'
+> PROCEDURE wordintel(memadr,VAR a)
+  DPOKE pmem,DPEEK(memadr)
+  a1=PEEK(pmem)
+  a2=PEEK(pmem+1)
+  POKE pmem,a2
+  POKE pmem+1,a1
+  a=DPEEK(pmem)
+RETURN
+'
+> PROCEDURE longwrite(memadr,a)
+  LPOKE pmem,a
+  a1=PEEK(pmem)
+  a2=PEEK(pmem+1)
+  a3=PEEK(pmem+2)
+  a4=PEEK(pmem+3)
+  POKE pmem,a4
+  POKE pmem+1,a3
+  POKE pmem+2,a2
+  POKE pmem+3,a1
+  LPOKE memadr,LPEEK(pmem)
+RETURN
