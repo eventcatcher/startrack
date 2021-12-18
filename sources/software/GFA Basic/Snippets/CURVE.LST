@@ -1,0 +1,71 @@
+PROCEDURE curve(cs,ce)
+  @maschinit5
+  bs=1
+  xd=xwidth/2-309
+  yd=ywidth/2-124
+  LOCAL c$,s,e,l,y,len,stp,adr,i,a,z,m,k,d,xm,ym
+  xm=617
+  ym=80
+  d=40
+  COLOR 0
+  l=xd
+  y=(ym-d)/2+yd
+  len=ce-cs
+  stp=(INT(len/xm))
+  stp=(INT((stp+1)/4)*4)
+  IF stp=0 THEN
+    stp=4
+    IF len>xm*4 THEN
+      bs=len/xm/4
+    ELSE
+      bs=xm*4/len
+    ENDIF
+  ENDIF
+  adr=meml
+  COLOR 1
+  LINE xd,yd+((ym-d)/2),xd+xm,yd+((ym-d)/2)
+  FOR i=adr+cs TO adr+ce STEP stp
+    a=0
+    z=0
+    FOR m=i TO i+stp-1 STEP 4
+      k=DPEEK(i)
+      IF k>32767 THEN
+        k=k-65536
+      ENDIF
+      a=a+k
+      z=z+1
+    NEXT m
+    a=a/z
+    a=INT(a/65536*ym*1.2)
+    a=((ym-d)/2)+a+yd
+    IF l<=(xm+xd) THEN
+      LINE l,y,l+bs,a
+    ENDIF
+    y=a
+    l=l+bs
+  NEXT i
+  yd=yd+97
+  l=xd
+  y=(ym-d)/2+yd
+  LINE xd,yd+((ym-d)/2),xd+xm,yd+((ym-d)/2)
+  FOR i=adr+cs+2 TO adr+ce STEP stp
+    a=0
+    z=0
+    FOR m=i TO i+stp-1 STEP 4
+      k=DPEEK(i)
+      IF k>32767 THEN
+        k=k-65536
+      ENDIF
+      a=a+k
+      z=z+1
+    NEXT m
+    a=a/z
+    a=INT(a/65536*ym*1.2)
+    a=((ym-d)/2)+a+yd
+    IF l<=(xm+xd) THEN
+      LINE l,y,l+bs,a
+    ENDIF
+    y=a
+    l=l+bs
+  NEXT i
+RETURN

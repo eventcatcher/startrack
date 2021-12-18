@@ -1,0 +1,72 @@
+'
+' Testet die dsp_blkunpacked-Funktion des Falcon-XBIOS
+'
+'
+CLS
+a$="K:\LODS\BLOCKS.LOD"+CHR$(0)
+@fdsptest(a$)
+END
+PROCEDURE fdsptest(a$)
+  mydat%=MALLOC(10000)
+  mydat2%=mydat%+5000
+  wsize=XBIOS(103)
+  '
+  ability=XBIOS(113)
+  PRINT "Nummer ability(113):";ability
+  '
+  size=XBIOS(111,L:VARPTR(a$),L:mydat%)
+  PRINT "Load to binary:(111,size)";size
+  '
+  a=XBIOS(109,L:mydat%,L:size,ability)
+  PRINT "send and start program:(109)";a
+  '
+  i=0
+  j=0
+  REPEAT
+    INC j
+    POKE mydat2%+i,0
+    i=i+1
+  UNTIL j=1000
+  '
+  j=&H340000
+  i=0
+  z=0
+  REPEAT
+    INC j
+    INC z
+    LPOKE mydat%+i,j
+    i=i+4
+  UNTIL z=1000
+  '
+  PAUSE 50
+  '
+  blkunp=XBIOS(98,L:mydat%,L:1000,L:mydat2%,L:1000)
+  PRINT "dsp_blkunpacked(98):";blkunp
+  '
+  '
+  '
+  j=&H340000
+  i=0
+  z=0
+  e=0
+  e2=0
+  REPEAT
+    INC j
+    INC z
+    k=LPEEK(mydat2%+i)
+    i=i+4
+    IF j<>k THEN
+      INC e
+    ENDIF
+    IF k<>j THEN
+      INC e2
+    ENDIF
+  UNTIL z=1000
+  '
+  PRINT "Fehler:";e,e2
+  PAUSE 50
+  '
+  unlock=XBIOS(105)
+  PRINT "UnLock(105):";unlock
+  ~MFREE(mydat%)
+RETURN

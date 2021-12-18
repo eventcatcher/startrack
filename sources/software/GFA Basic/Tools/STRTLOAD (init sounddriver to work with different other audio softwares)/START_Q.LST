@@ -1,0 +1,40 @@
+'
+'  Initialisierung und Autostart von Quincy
+'
+'
+xbs=500
+'
+INLINE rsc_flyd%,2834
+rsc_cookie%=ADD(rsc_flyd%,INT{ADD(rsc_flyd%,20)})      ! COOKIE-Routine...
+lfw$=CHR$(GEMDOS(25)+65)+":"+DIR$(0)+"\"       ! funktioniert als COMPILAT !
+magix=INT(C:rsc_cookie%(L:CVL("MagX")))          ! COOKIE-ABFRAGE MagiC
+'
+IF magix=0 THEN
+  ALERT 3,"Sorry,Quincy runs only|with MagiC",1,"EXIT",a
+  END
+ENDIF
+'
+IF XBIOS(xbs,1)=&H71273800 THEN
+  '
+  ~XBIOS(xbs,160,1)       ! Emulate TOS 4.0
+  ~XBIOS(xbs,27,2)        ! Playmode = Achtkanal
+  ~XBIOS(xbs,26,2)        ! Recmode = Achtkanal
+  ~XBIOS(139,3,2,1,1,1)   ! ADC mit DSPREC verbinden
+  ~XBIOS(139,1,13,1,1,1)  ! DSPXMIT mit DMAREC,EXTOUT und DAC verbinden
+  ~XBIOS(&H8A,0,7)        ! GPIO als Ausgabebits
+  ~XBIOS(&H8A,2,3)        ! GPIO=3 ->48kHz
+  '
+  IF EXIST("QUINCY.PRG")=TRUE THEN
+    ~SHEL_WRITE(1,1,1,"",lfw$+"QUINCY.PRG")
+  ELSE
+    IF EXIST("QUINCY.APP")=TRUE THEN
+      ~SHEL_WRITE(1,1,1,"",lfw$+"QUINCY.APP")
+    ELSE
+      ALERT 3,"Quincy not found",1,"EXIT",a
+      END
+    ENDIF
+  ENDIF
+ELSE
+  ALERT 3,"no Audiodriver found",1,"EXIT",a
+ENDIF
+END

@@ -1,0 +1,8 @@
+foundpci=XBIOS(500,320)
+'
+IF foundpci<>0 THEN
+  a=&X10000000
+  b=&X11110000
+  a=XBIOS(500,321,a,b)
+ENDIF
+END

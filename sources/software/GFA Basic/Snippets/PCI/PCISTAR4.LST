@@ -1,0 +1,60 @@
+CLS
+'
+foundpci=XBIOS(500,320)
+'
+IF foundpci<>0 THEN
+  @init
+  '
+  adr2=LPEEK(foundpci)                   ! PLX Local Memory Space
+  adr3=LPEEK(foundpci+4)                 ! PLX Local IO-Space 1
+  adr4=LPEEK(foundpci+8)                 ! PLX Local IO-Space 2
+  '
+  a=&X10000000
+  b=&X11110000
+  a=XBIOS(500,321,a,b)
+  '
+  @longintel(adr2+&H68,intc)
+  intc=intc OR 2048
+  @longwrite(adr2+&H68,intc)
+  '
+ENDIF
+END
+'
+> PROCEDURE init
+  pmem=MALLOC(4)
+RETURN
+'
+> PROCEDURE longintel(memadr,VAR a)
+  LPOKE pmem,LPEEK(memadr)
+  a1=PEEK(pmem)
+  a2=PEEK(pmem+1)
+  a3=PEEK(pmem+2)
+  a4=PEEK(pmem+3)
+  POKE pmem,a4
+  POKE pmem+1,a3
+  POKE pmem+2,a2
+  POKE pmem+3,a1
+  a=LPEEK(pmem)
+RETURN
+'
+> PROCEDURE wordintel(memadr,VAR a)
+  DPOKE pmem,DPEEK(memadr)
+  a1=PEEK(pmem)
+  a2=PEEK(pmem+1)
+  POKE pmem,a2
+  POKE pmem+1,a1
+  a=DPEEK(pmem)
+RETURN
+'
+> PROCEDURE longwrite(memadr,a)
+  LPOKE pmem,a
+  a1=PEEK(pmem)
+  a2=PEEK(pmem+1)
+  a3=PEEK(pmem+2)
+  a4=PEEK(pmem+3)
+  POKE pmem,a4
+  POKE pmem+1,a3
+  POKE pmem+2,a2
+  POKE pmem+3,a1
+  LPOKE memadr,LPEEK(pmem)
+RETURN

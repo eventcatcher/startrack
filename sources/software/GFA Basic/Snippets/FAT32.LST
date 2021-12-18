@@ -1,0 +1,87 @@
+CLS
+dsdev=15  ! O:
+buf=MALLOC(32768)
+~BIOS(7,dsdev)
+FOR i=0 TO 32764 STEP 4
+  LPOKE buf+i,0
+NEXT i
+~BIOS(4,0,L:buf,1,-1,dsdev,L:0)   ! sectorl„nge ist gleich sec
+ds_sec=PEEK(buf+&HB)+256*PEEK(buf+&HC)
+PRINT "bytes/sektor",ds_sec
+ds_clst=PEEK(buf+&HD)
+PRINT "sectors/cluster",ds_clst
+ds_rsrvd=PEEK(buf+&HE)+256*PEEK(buf+&HF)
+PRINT "reservd-sectors",ds_rsrvd
+ds_fats=PEEK(buf+&H10)
+PRINT "fats",ds_fats
+ds_secs=PEEK(buf+&H13)+256*PEEK(buf+&H14)
+ds_fatsecs=PEEK(buf+&H16)+256*PEEK(buf+&H17)
+IF ds_secs=0 AND ds_fatsecs=0 THEN
+  ds_secs=PEEK(buf+&H20)+256*PEEK(buf+&H21)+&H10000*PEEK(buf+&H22)+&H1000000*PEEK(buf+&H23)
+  ds_fatsecs=PEEK(buf+&H24)+256*PEEK(buf+&H25)+&H10000*PEEK(buf+&H26)+&H1000000*PEEK(buf+&H27)
+ENDIF
+PRINT "sectors",ds_secs
+PRINT "sectors/fat",ds_fatsecs
+'
+fstclstnr=PEEK(buf+&H2C)+256*PEEK(buf+&H2D)+&H10000*PEEK(buf+&H2E)+&H1000000*PEEK(buf+&H2F)
+' PRINT "rootdirstrtclst",fstclstnr
+fsinfo=PEEK(buf+&H30)+256*PEEK(buf+&H31)
+' PRINT "fsinfosec",fsinfo
+'
+IF LPEEK(buf+82)=&H46415433 AND PEEK(buf+86)=&H32 AND ds_secs<>0 AND ds_fatsecs<>0 THEN
+  fat32=TRUE
+ENDIF
+IF LPEEK(buf+54)=&H46415431 AND PEEK(buf+58)=&H36 AND ds_secs<>0 AND ds_fatsecs<>0 THEN
+  fat16=TRUE
+ENDIF
+'
+PRINT
+PRINT "FAT1"
+~BIOS(4,0,L:buf,1,-1,dsdev,L:ds_rsrvd)   ! sectorl„nge ist gleich sec
+IF LPEEK(buf)=0 THEN
+  fat16=FALSE
+ENDIF
+FOR i=0 TO 19+10
+  PRINT HEX$(PEEK(buf+i)),
+NEXT i
+PRINT
+'
+PRINT
+PRINT "FAT2"
+~BIOS(4,0,L:buf,1,-1,dsdev,L:ds_rsrvd+ds_fatsecs)   ! sectorl„nge ist gleich sec
+IF LPEEK(buf)=0 THEN
+  fat16=FALSE
+ENDIF
+FOR i=0 TO 19+10
+  PRINT HEX$(PEEK(buf+i)),
+NEXT i
+PRINT
+'
+PRINT
+PRINT "DIR"
+~BIOS(4,0,L:buf,1,-1,dsdev,L:ds_fatsecs*ds_fats+ds_rsrvd)   ! sectorl„nge ist gleich sec
+'
+x=9*32
+'
+sum=0
+FOR i=x TO x+10
+  sum=255 AND ((SHL((sum AND 1),7) OR SHR((sum AND 254),1))+PEEK(buf+i))
+NEXT i
+'
+FOR i=x+0 TO x+31
+  PRINT CHR$(PEEK(buf+i));
+NEXT i
+PRINT
+PRINT
+PRINT "checksum:",sum AND 255
+PRINT
+PRINT
+FOR i=x+0 TO x+31
+  PRINT i,PEEK(buf+i)
+NEXT i
+PRINT
+'
+PRINT "FAT16:",fat16
+PRINT "FAT32:",fat32
+PRINT
+~MFREE(buf)

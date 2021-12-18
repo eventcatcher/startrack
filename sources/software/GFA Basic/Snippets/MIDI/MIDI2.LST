@@ -1,0 +1,49 @@
+CLS
+f=0
+f2=FALSE
+REPEAT
+  x=INP?(3)
+  y=INP?(2)
+  ~GRAF_MKSTATE(v,v2,v3,v4)
+  IF x=TRUE AND v3<>2 THEN
+    '
+    xx=INP(3)
+    IF xx>=&H80 THEN
+      IF (xx>=&HB0 AND xx<=&HBF) OR f=TRUE THEN
+        f=xx
+        REPEAT
+          x=INP?(3)
+          y=INP?(2)
+          ~GRAF_MKSTATE(v,v2,v3,v4)
+        UNTIL x=TRUE OR y=TRUE OR v3=2
+      ELSE
+        f=FALSE
+      ENDIF
+    ELSE
+      xx2=xx
+      f2=TRUE
+    ENDIF
+    '
+    IF f<>0 AND y=FALSE AND x=TRUE AND v3<>2 THEN
+      IF f2=FALSE THEN
+        xx2=INP(3)
+      ENDIF
+      f2=FALSE
+      IF xx2=7 AND v3<>2 THEN
+        REPEAT
+          x=INP?(3)
+          y=INP?(2)
+          ~GRAF_MKSTATE(v,v2,v3,v4)
+        UNTIL x=TRUE OR y=TRUE OR v3=2
+        IF y=FALSE AND x=TRUE AND v3<>2 THEN
+          xx3=INP(3)
+          PRINT "Kanal:";(f-&HB0),xx3
+        ENDIF
+      ENDIF
+    ENDIF
+    IF y=TRUE AND v3<>2 THEN
+      yy=INP(2)
+    ENDIF
+  ENDIF
+  ~GRAF_MKSTATE(v,v2,v3,v4)
+UNTIL y=TRUE OR raus=TRUE OR v3=2

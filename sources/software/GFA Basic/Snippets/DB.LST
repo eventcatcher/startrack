@@ -1,0 +1,22 @@
+CLS
+aufloes=96
+t=96/LOG10(65535)
+'
+pk1=ROUND(10^((aufloes-20)/t)/2)
+pl=ROUND(10^((aufloes-15)/t)/2)
+pk2=ROUND(10^((aufloes-10)/t)/2)
+pk3=ROUND(10^((aufloes-8)/t)/2)
+pk4=ROUND(10^((aufloes-6)/t)/2)
+pk5=ROUND(10^((aufloes-4)/t)/2)
+pk6=ROUND(10^((aufloes-3)/t)/2)
+pk7=ROUND(10^((aufloes-2)/t)/2)
+pk8=ROUND(10^((aufloes-1)/t)/2)
+pk9=ROUND(10^((aufloes-0)/t)/2)
+PRINT pk1,pk2,pk3,pk4,pk5,pk6,pk7,pk8,pk9
+'
+a1=ROUND(t*LOG10(pk1*2))
+a2=ROUND(t*LOG10(pk2*2))
+a3=ROUND(t*LOG10(pl*2))
+g=21
+PRINT a1,a2,a3
+pl=g/(a2-a1)*(a3-a1)

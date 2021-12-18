@@ -1,0 +1,31 @@
+$m20000
+$e$
+compile=BYTE{ADD(BASEPAGE,256)}<>96
+DEFMOUSE 0
+KEYPAD 0                    ! wg Kompatibilit„t (normale Tastatureinstellung)
+'
+IF compile=TRUE THEN
+  lfw$=CHR$(GEMDOS(25)+65)+":"+DIR$(0)+"\"       ! funktioniert als COMPILAT !
+ELSE
+  lfw$="D:\"
+ENDIF
+s$=lfw$
+IF EXIST(s$+setup$)=FALSE THEN
+  IF EXIST("C:\"+setup$)=TRUE THEN
+    s$="C:\"
+  ENDIF
+ENDIF
+setup$=s$+"SMP16.SET"       ! Name des Setup-Files
+'
+ALERT 2,"STARTRACK-SETUP|   |Use your Language:",3,"Deutsch|English|EXIT",language
+IF language=1 OR language=2 THEN
+  IF EXIST(setup$) THEN
+    OPEN "U",#1,setup$
+    INPUT #1,setv$              !  "STARTRACK-SETUP V1.0"  Versionskontrolle
+    PRINT #1,language
+    SEEK #1,LOF(#1)
+    CLOSE #1
+  ELSE
+    ALERT 3,"SETUP-File not found",1,"Shit",g
+  ENDIF
+ENDIF

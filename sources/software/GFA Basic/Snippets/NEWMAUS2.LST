@@ -1,0 +1,18 @@
+> PROCEDURE maus_note
+  LOCAL a,i,m$
+mausdata:
+  DATA &H07FE,&H07FE,&H0402,&H07FE
+  DATA &H07FE,&H0402,&H0402,&H0402
+  DATA &H0402,&H043E,&H047E,&H047E
+  DATA &H7C3C,&HFC00,&HFC00,&H7800
+  RESTORE mausdata
+  m$=MKI$(0)+MKI$(0)+MKI$(1)+MKI$(0)+MKI$(1)
+  FOR i=1 TO 16
+    m$=m$+MKI$(65535)
+  NEXT i
+  FOR i=1 TO 16
+    READ a
+    m$=m$+MKI$(a)
+  NEXT i
+  DEFMOUSE m$
+RETURN

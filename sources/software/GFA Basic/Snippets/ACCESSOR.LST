@@ -1,0 +1,14 @@
+' ---------------------------.ACC-Abfrage---------------------------------------
+ap_id&=APPL_INIT()
+IF ap_id&
+  me_id&=MENU_REGISTER(ap_id&,"  DUO_PRN")
+  DO
+    ~EVNT_MESAG(0)
+    IF MENU(1)=40
+      acc=TRUE
+      GOTO start
+    ende:
+    ENDIF
+  LOOP
+ENDIF
+'

@@ -1,0 +1,241 @@
+$m5000
+$e$
+'
+change=FALSE
+'
+CLS
+'
+OPTION BASE 0
+IF compile=FALSE THEN
+  RESERVE &H100000
+ENDIF
+'
+'
+DEFMOUSE 0
+KEYPAD 0                    ! wg Kompatibilit„t (normale Tastatureinstellung)
+'
+IF compile=TRUE THEN
+  lfw$=CHR$(GEMDOS(25)+65)+":"+DIR$(0)+"\"       ! funktioniert als COMPILAT !
+ELSE
+  lfw$="D:\"
+ENDIF
+'
+@main
+END
+'
+' ------------------------------------------------------------------------------
+' ------------------------FLYDIALS--------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------HAUPTPROGRAMM-----------------------------------------
+' ------------------------------------------------------------------------------
+'
+'
+> PROCEDURE fileselect(a$,b$,c$)
+  .| Glob. Var.: fs_iinpath%,fs_iinsel%,fs_iinlabel%,a#,ordner$,nam$,fil$
+  .| Ruft auf  : fsel_exinput
+  .| Aufruf in : fadesave-1,fadeload-1,smpsave-1,newfsel-3,ldhlp-1,trakload-1
+  .|     hardfs-1,arrload-1,arrsave-1,make-1,fseldef-1,coninsert-1,smpplay-1
+  .|     record3-1,
+  ~GRAF_MOUSE(256,0)                              ! Hidem
+  '  ab=@rsc_get(rscx&(nr),rscy&(nr),rscw&(nr),rsch&(nr))
+  ~GRAF_MOUSE(257,0)                              ! Showm
+  a$=a$+CHR$(0)+SPACE$(100)
+  fs_iinpath%=VARPTR(a$)
+  b$=b$+CHR$(0)+SPACE$(100)
+  fs_iinsel%=VARPTR(b$)
+  c$=c$+CHR$(0)+SPACE$(100)
+  fs_iinlabel%=VARPTR(c$)
+  @fsel_exinput(fs_iinpath%,fs_iinsel%,fs_iinlabel%)
+  a=INSTR(a$,CHR$(0))
+  a$=LEFT$(a$,a-1)
+  a=INSTR(b$,CHR$(0))
+  b$=LEFT$(b$,a-1)
+  a=RINSTR(a$,"\")
+  IF LEN(a$)=0 THEN
+    ordner$=""
+  ELSE
+    ordner$=LEFT$(a$,a)
+  ENDIF
+  IF LEN(b$)=0 THEN
+    nam$=""
+    fil$=""
+  ELSE
+    nam$=b$
+    fil$=ordner$+b$
+  ENDIF
+RETURN
+'
+> PROCEDURE fsel_exinput(fs_iinpath%,fs_iinsel%,fs_iinlabel%)
+  .| Glob. Var.: pret#,pbutt#
+  .| Ruft auf  : ain
+  .| Aufruf in : fileselect-1,
+  LPOKE ADDRIN,fs_iinpath%
+  LPOKE ADDRIN+4,fs_iinsel%
+  LPOKE ADDRIN+8,fs_iinlabel%
+  @ain(91,0,2,3,0)
+  pret=GINTOUT(0)
+  pbutt=GINTOUT(1)
+RETURN
+'
+> PROCEDURE ain(g0%,g2%,g4%,g6%,g8%)
+  .| Aufruf in : fsel_exinput-1,
+  DPOKE GCONTRL,g0%
+  DPOKE GCONTRL+2,g2%
+  DPOKE GCONTRL+4,g4%
+  DPOKE GCONTRL+6,g6%
+  DPOKE GCONTRL+8,g8%
+  GEMSYS
+RETURN
+'
+> FUNCTION mxalloc(giveme,art)
+a=GEMDOS(68,L:giveme,art)
+RETURN a
+ENDFUNC
+'
+PROCEDURE bintohex(f1)
+f2=(f1 AND 15)
+IF f2<10 THEN
+  f2=f2+48
+ELSE
+  f2=f2+55
+ENDIF
+f1=(SHR(f1,4) AND 15)
+IF f1<10 THEN
+  f1=f1+48
+ELSE
+  f1=f1+55
+ENDIF
+a$=CHR$(f1)+CHR$(f2)
+RETURN
+'
+PROCEDURE main
+@fileselect(lfw$+"*.*","","Search Program to patch:")
+IF fil$<>"" AND pret<>0 AND pbutt=1 THEN
+  IF EXIST(fil$)=TRUE THEN
+    '
+    m=MALLOC(-1)
+    m=m-50000
+    IF m>10000 THEN
+      fil$=fil$+CHR$(0)
+      f=VARPTR(fil$)
+      '
+      OPEN "I",#1,fil$
+      lf=LOF(#1)
+      CLOSE #1
+      IF lf<m THEN
+        m=lf
+      ENDIF
+      madr=MALLOC(m)
+      '        PRINT madr
+      '
+      xx=lf
+      pos=0
+      REPEAT
+        x=xx
+        IF x>m THEN
+          x=m
+        ENDIF
+        h=GEMDOS(61,L:f,2)
+        ok=GEMDOS(63,h,L:x,L:madr)
+        xx=xx-x
+        write=FALSE
+        FOR i=madr TO madr+x-1
+          '
+          y1=PEEK(i)
+          IF y1=&H8 THEN
+            y2=PEEK(i+1)
+            IF y2=&HF4 THEN
+              y3=PEEK(i+2)
+              IF y3=&HAC THEN
+                y4=PEEK(i+3)
+                @bintohex(y4)
+                b$=a$
+                y5=PEEK(i+4)
+                @bintohex(y5)
+                b$=b$+a$
+                y6=PEEK(i+5)
+                @bintohex(y6)
+                b$=b$+a$
+                y5=(y5 AND 240)
+                IF y4=0 AND y5=&H40 AND y6=0 THEN
+                  PRINT "binary patched at adr ";HEX$(i),"08F4AC ";b$,"to","08F4AC 004000"
+                  POKE i+3,0
+                  POKE i+4,&H40
+                  POKE i+5,0
+                  write=TRUE
+                ENDIF
+              ENDIF
+              IF y3=&HAD THEN
+                y4=PEEK(i+3)
+                @bintohex(y4)
+                b$=a$
+                y5=PEEK(i+4)
+                @bintohex(y5)
+                b$=b$+a$
+                y6=PEEK(i+5)
+                @bintohex(y6)
+                b$=b$+a$
+                pa=(y5 AND 240)+2
+                @bintohex(pa)
+                IF y4=0 AND y5<>0 AND y6=0 THEN
+                  PRINT "binary patched at adr ";HEX$(i),"08F4AD ";b$,"to","08F4AD 00"+a$+"00"
+                  POKE i+3,0
+                  POKE i+4,pa
+                  POKE i+5,0
+                  write=TRUE
+                ENDIF
+              ENDIF
+            ENDIF
+          ENDIF
+          IF y1=ASC("0") THEN
+            y2=PEEK(i+1)
+            IF y2=ASC("8") THEN
+              y3=PEEK(i+2)
+              IF y3=ASC("F") OR y3=ASC("f") THEN
+                y4=PEEK(i+3)
+                IF y4=ASC("4") THEN
+                  y5=PEEK(i+4)
+                  IF y5=ASC("A") OR y5=ASC("a") THEN
+                    y6=PEEK(i+5)
+                    IF y6=ASC("C") OR y6=ASC("c") THEN
+                      POKE i+6,ASC("0")
+                      POKE i+7,ASC("0")
+                      POKE i+8,ASC("4")
+                      POKE i+9,ASC("0")
+                      POKE i+10,ASC("0")
+                      POKE i+11,ASC("0")
+                      PRINT "lod patched at adr ";HEX$(i)
+                      write=TRUE
+                    ENDIF
+                    IF y6=ASC("D") OR y6=ASC("d") THEN
+                      POKE i+6,ASC("0")
+                      POKE i+7,ASC("0")
+                      POKE i+8,ASC("F")
+                      POKE i+9,ASC("2")
+                      POKE i+10,ASC("0")
+                      POKE i+11,ASC("0")
+                      PRINT "lod patched at adr ";HEX$(i)
+                      write=TRUE
+                    ENDIF
+                  ENDIF
+                ENDIF
+              ENDIF
+            ENDIF
+          ENDIF
+          '
+        NEXT i
+        IF change=TRUE AND write=TRUE THEN
+          ok=GEMDOS(66,L:pos,h,0)
+          ok=GEMDOS(64,h,L:x,L:madr)
+        ENDIF
+        pos=pos+x
+      UNTIL xx=0 OR ok=-1
+      ok=GEMDOS(62,h)
+    ENDIF
+  ENDIF
+ENDIF
+RETURN
+'
+'
+' ENDE
