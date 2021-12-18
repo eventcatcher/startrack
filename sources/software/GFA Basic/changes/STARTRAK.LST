@@ -4656,7 +4656,9 @@ RETURN
     @mixerset3
     IF panmix=TRUE THEN
       IF extmix=TRUE THEN
-        @dsp_lodput(s$+"EXTALL3.LOD")
+        '        @dsp_lodput(s$+"EXTALL3.LOD")
+        @dsp_boot
+        ~XBIOS(xbs,512)    ! external mixer
         PAUSE 2
         @mixvolinit
         PAUSE 4
@@ -4677,7 +4679,9 @@ RETURN
           ENDIF
         ENDIF
       ELSE
-        @dsp_lodput(s$+"PANALL3.LOD")
+        '        @dsp_lodput(s$+"PANALL3.LOD")
+        @dsp_boot
+        ~XBIOS(xbs,511)    ! panpot mixer
         PAUSE 2
         @mixvolinit
         PAUSE 4
@@ -4709,7 +4713,9 @@ RETURN
         ENDIF
       ENDIF
     ELSE
-      @dsp_lodput(s$+"BALMIXER.LOD")       ! 4ch
+      '      @dsp_lodput(s$+"BALMIXER.LOD")       ! 4ch
+      @dsp_boot
+      ~XBIOS(xbs,510)    ! balance mixer
       @mixvolinit
     ENDIF
     @write_int(0)
@@ -6084,7 +6090,7 @@ RETURN
   ELSE IF a&>-1 AND NOT (MENU(1)=21 AND a&<>tree&)   ! Ein RSC-Fenster....
     rsc_message(a&,MENU(1),MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
     '
-  ELSE IF MENU(1)=40 OR MENU(1)=21                   ! AC_OPEN/Anderes Fenster toppen...
+  ELSE IF wflg(nr)>1 AND (MENU(1)=40 OR MENU(1)=21)                   ! AC_OPEN/Anderes Fenster toppen...
     '
     IF a&<>-1 THEN
       IF handle&=rsc_handle%(a&) THEN
@@ -7537,6 +7543,7 @@ LOCAL fly&,title&,obj&,x&,y&,w&,h&,rx&,ry&,rb&,rh&,handle&,a%,rsc_adr%
 '  mywindow=TRUE
 '  wind_active=tree&
 '
+wflg(tree&)=flag%
 IF cached=FALSE AND vornr=smpedit& THEN             ! testweise eingefgt am 5.9.99 (redrawfehler bei fenster-close im editor)
 ttt=nr
 nr=vornr
@@ -7701,7 +7708,7 @@ LOCAL ascii|,scan|,evnt&,mc&,key&
 '
 obj=0
 donr=nr
-IF rsc_handle%(tree&)>1000                             ! Normaler Dialog...
+IF rsc_handle%(tree&)>1000          ! Normaler Dialog...
 ~WIND_UPDATE(1)                                      ! ...BEG_UPDATE
 ~WIND_UPDATE(3)                                      ! ...BEG_MCTRL
 flags&=&X11                                          ! ...BUTTON/KEYBD-Events
@@ -8256,7 +8263,7 @@ ENDIF
 rsc_handle%(tree&)=0
 ~WIND_UPDATE(0)                                      ! END_UPDATE
 IF rsc_window&>0 THEN
-IF nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info& OR nr=trakker& THEN
+IF nr=partsel& OR nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info& OR nr=trakker& THEN
   nr=smpedit&
   tree&=smpedit&
   rsc_message(tree&,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
@@ -14293,72 +14300,72 @@ LET makeok&=12 ! BUTTON in Baum ARRMAKE
 '
 LET partsel&=19 ! Formular/Dialog
 LET partbox&=0 ! BOX in Baum PARTSEL
-LET partc&=3 ! BUTTON in Baum PARTSEL
-LET partd&=4 ! BUTTON in Baum PARTSEL
-LET parte&=5 ! BUTTON in Baum PARTSEL
-LET partf&=6 ! BUTTON in Baum PARTSEL
-LET partg&=7 ! BUTTON in Baum PARTSEL
-LET parth&=8 ! BUTTON in Baum PARTSEL
-LET parti&=9 ! BUTTON in Baum PARTSEL
-LET partj&=10 ! BUTTON in Baum PARTSEL
-LET partk&=11 ! BUTTON in Baum PARTSEL
-LET partl&=12 ! BUTTON in Baum PARTSEL
-LET partm&=13 ! BUTTON in Baum PARTSEL
-LET partn&=14 ! BUTTON in Baum PARTSEL
-LET parto&=15 ! BUTTON in Baum PARTSEL
-LET partp&=16 ! BUTTON in Baum PARTSEL
-LET partq&=17 ! BUTTON in Baum PARTSEL
-LET partr&=18 ! BUTTON in Baum PARTSEL
-LET parts&=19 ! BUTTON in Baum PARTSEL
-LET partt&=20 ! BUTTON in Baum PARTSEL
-LET partu&=21 ! BUTTON in Baum PARTSEL
-LET partv&=22 ! BUTTON in Baum PARTSEL
-LET partw&=23 ! BUTTON in Baum PARTSEL
-LET partx&=24 ! BUTTON in Baum PARTSEL
-LET party&=25 ! BUTTON in Baum PARTSEL
-LET partz&=26 ! BUTTON in Baum PARTSEL
-LET part1&=27 ! BUTTON in Baum PARTSEL
-LET part2&=28 ! BUTTON in Baum PARTSEL
-LET part3&=29 ! BUTTON in Baum PARTSEL
-LET part4&=30 ! BUTTON in Baum PARTSEL
-LET part5&=31 ! BUTTON in Baum PARTSEL
-LET part6&=32 ! BUTTON in Baum PARTSEL
-LET partfsc&=33 ! BOXTEXT in Baum PARTSEL
-LET partfsd&=34 ! BOXTEXT in Baum PARTSEL
-LET partfse&=35 ! BOXTEXT in Baum PARTSEL
-LET partfsf&=36 ! BOXTEXT in Baum PARTSEL
-LET partfsg&=37 ! BOXTEXT in Baum PARTSEL
-LET partfsh&=38 ! BOXTEXT in Baum PARTSEL
-LET partfsi&=39 ! BOXTEXT in Baum PARTSEL
-LET partfsj&=40 ! BOXTEXT in Baum PARTSEL
-LET partfsk&=41 ! BOXTEXT in Baum PARTSEL
-LET partfsl&=42 ! BOXTEXT in Baum PARTSEL
-LET partfsm&=43 ! BOXTEXT in Baum PARTSEL
-LET partfsn&=44 ! BOXTEXT in Baum PARTSEL
-LET partfso&=45 ! BOXTEXT in Baum PARTSEL
-LET partfsp&=46 ! BOXTEXT in Baum PARTSEL
-LET partfsq&=47 ! BOXTEXT in Baum PARTSEL
-LET partfsr&=48 ! BOXTEXT in Baum PARTSEL
-LET partfss&=49 ! BOXTEXT in Baum PARTSEL
-LET partfst&=50 ! BOXTEXT in Baum PARTSEL
-LET partfsu&=51 ! BOXTEXT in Baum PARTSEL
-LET partfsv&=52 ! BOXTEXT in Baum PARTSEL
-LET partfsw&=53 ! BOXTEXT in Baum PARTSEL
-LET partfsx&=54 ! BOXTEXT in Baum PARTSEL
-LET partfsy&=55 ! BOXTEXT in Baum PARTSEL
-LET partfsz&=56 ! BOXTEXT in Baum PARTSEL
-LET partfs1&=57 ! BOXTEXT in Baum PARTSEL
-LET partfs2&=58 ! BOXTEXT in Baum PARTSEL
-LET partfs3&=59 ! BOXTEXT in Baum PARTSEL
-LET partfs4&=60 ! BOXTEXT in Baum PARTSEL
-LET partfs5&=61 ! BOXTEXT in Baum PARTSEL
-LET partfs6&=62 ! BOXTEXT in Baum PARTSEL
-LET partact&=63 ! BUTTON in Baum PARTSEL
-LET parthelp&=64 ! BOXTEXT in Baum PARTSEL
-LET partld&=65 ! BUTTON in Baum PARTSEL
-LET partsav&=66 ! BUTTON in Baum PARTSEL
-LET partexit&=67 ! BUTTON in Baum PARTSEL
-LET partok&=68 ! BUTTON in Baum PARTSEL
+LET partc&=2 ! BUTTON in Baum PARTSEL
+LET partd&=3 ! BUTTON in Baum PARTSEL
+LET parte&=4 ! BUTTON in Baum PARTSEL
+LET partf&=5 ! BUTTON in Baum PARTSEL
+LET partg&=6 ! BUTTON in Baum PARTSEL
+LET parth&=7 ! BUTTON in Baum PARTSEL
+LET parti&=8 ! BUTTON in Baum PARTSEL
+LET partj&=9 ! BUTTON in Baum PARTSEL
+LET partk&=10 ! BUTTON in Baum PARTSEL
+LET partl&=11 ! BUTTON in Baum PARTSEL
+LET partm&=12 ! BUTTON in Baum PARTSEL
+LET partn&=13 ! BUTTON in Baum PARTSEL
+LET parto&=14 ! BUTTON in Baum PARTSEL
+LET partp&=15 ! BUTTON in Baum PARTSEL
+LET partq&=16 ! BUTTON in Baum PARTSEL
+LET partr&=17 ! BUTTON in Baum PARTSEL
+LET parts&=18 ! BUTTON in Baum PARTSEL
+LET partt&=19 ! BUTTON in Baum PARTSEL
+LET partu&=20 ! BUTTON in Baum PARTSEL
+LET partv&=21 ! BUTTON in Baum PARTSEL
+LET partw&=22 ! BUTTON in Baum PARTSEL
+LET partx&=23 ! BUTTON in Baum PARTSEL
+LET party&=24 ! BUTTON in Baum PARTSEL
+LET partz&=25 ! BUTTON in Baum PARTSEL
+LET part1&=26 ! BUTTON in Baum PARTSEL
+LET part2&=27 ! BUTTON in Baum PARTSEL
+LET part3&=28 ! BUTTON in Baum PARTSEL
+LET part4&=29 ! BUTTON in Baum PARTSEL
+LET part5&=30 ! BUTTON in Baum PARTSEL
+LET part6&=31 ! BUTTON in Baum PARTSEL
+LET partfsc&=32 ! BOXTEXT in Baum PARTSEL
+LET partfsd&=33 ! BOXTEXT in Baum PARTSEL
+LET partfse&=34 ! BOXTEXT in Baum PARTSEL
+LET partfsf&=35 ! BOXTEXT in Baum PARTSEL
+LET partfsg&=36 ! BOXTEXT in Baum PARTSEL
+LET partfsh&=37 ! BOXTEXT in Baum PARTSEL
+LET partfsi&=38 ! BOXTEXT in Baum PARTSEL
+LET partfsj&=39 ! BOXTEXT in Baum PARTSEL
+LET partfsk&=40 ! BOXTEXT in Baum PARTSEL
+LET partfsl&=41 ! BOXTEXT in Baum PARTSEL
+LET partfsm&=42 ! BOXTEXT in Baum PARTSEL
+LET partfsn&=43 ! BOXTEXT in Baum PARTSEL
+LET partfso&=44 ! BOXTEXT in Baum PARTSEL
+LET partfsp&=45 ! BOXTEXT in Baum PARTSEL
+LET partfsq&=46 ! BOXTEXT in Baum PARTSEL
+LET partfsr&=47 ! BOXTEXT in Baum PARTSEL
+LET partfss&=48 ! BOXTEXT in Baum PARTSEL
+LET partfst&=49 ! BOXTEXT in Baum PARTSEL
+LET partfsu&=50 ! BOXTEXT in Baum PARTSEL
+LET partfsv&=51 ! BOXTEXT in Baum PARTSEL
+LET partfsw&=52 ! BOXTEXT in Baum PARTSEL
+LET partfsx&=53 ! BOXTEXT in Baum PARTSEL
+LET partfsy&=54 ! BOXTEXT in Baum PARTSEL
+LET partfsz&=55 ! BOXTEXT in Baum PARTSEL
+LET partfs1&=56 ! BOXTEXT in Baum PARTSEL
+LET partfs2&=57 ! BOXTEXT in Baum PARTSEL
+LET partfs3&=58 ! BOXTEXT in Baum PARTSEL
+LET partfs4&=59 ! BOXTEXT in Baum PARTSEL
+LET partfs5&=60 ! BOXTEXT in Baum PARTSEL
+LET partfs6&=61 ! BOXTEXT in Baum PARTSEL
+LET partact&=62 ! BUTTON in Baum PARTSEL
+LET parthelp&=63 ! BOXTEXT in Baum PARTSEL
+LET partld&=64 ! BUTTON in Baum PARTSEL
+LET partsav&=65 ! BUTTON in Baum PARTSEL
+LET partexit&=66 ! BUTTON in Baum PARTSEL
+LET partok&=67 ! BUTTON in Baum PARTSEL
 '
 LET dsmove&=20 ! Formular/Dialog
 LET dsmovbox&=0 ! BOX in Baum DSMOVE
@@ -22447,6 +22454,7 @@ LOCAL vnr,lrd,mg,mr
 '
 dstrm=TRUE    ! directstream ?
 '
+DIM wflg(btree)
 high96!=NOT (BTST(XBIOS(xbs,12),3))
 OPEN "I",#1,s$+rsc$
 lrd=LOF(#1)
@@ -46899,7 +46907,7 @@ RETURN
 @fliphz2
 RETURN
 '
-PROCEDURE smpedit
+> PROCEDURE smpedit
 nr=smpedit&
 obj=0
 IF away=FALSE THEN
@@ -54980,7 +54988,7 @@ ENDIF
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 dopix=FALSE
 shading=vshading
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 vpartact=partact
 vdrvsact=drvsact
@@ -55153,6 +55161,7 @@ RETURN
 '
 > PROCEDURE ds_test(dsi)    ! Directstream-Filetest
 '  v$="STARTR~1."                  ! Suchstring Filename (Kopie)
+@meldung_on("filecheck for partitionmode...")
 v$="STREAM.DAT"                    ! Suchstring Filename
 @ds_getinfo(dsi)
 IF mcl>0 AND mfat>0 AND (fat16=TRUE OR fat32=TRUE) THEN
@@ -55241,6 +55250,7 @@ drvtst=BSET(drvtst,dsi)
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 ~MFREE(mfat)
 ENDIF
+@meldung_off
 RETURN
 '
 > PROCEDURE ds_make(dsi)      ! Directstream-Filemaker
@@ -57809,7 +57819,7 @@ peak(i)=LPEEK(mdat%)
 vpeakw(i)=ROUND(peak(i)/&H800000*mvolh)
 RETURN
 '
-PROCEDURE mixhandler2(i)
+> PROCEDURE mixhandler2(i)
 LOCAL prest8,extpky
 mixd1=11
 prest8=0.95
