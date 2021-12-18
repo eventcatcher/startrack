@@ -8546,8 +8546,6 @@ PROCEDURE message
     @markhlp
   ENDIF
   handle&=MENU(4)                                    ! ...Fenster-Handle
-  PRINT MENU(1)
-  STOP
   '
   FOR a&=rsc_trees& DOWNTO 0                         ! Ist es ein RSC?...
     EXIT IF handle&=rsc_handle%(a&)
@@ -8818,7 +8816,7 @@ PROCEDURE message
     NEXT a
     ha1=h
     IF a<>-1 THEN
-      IF a=peak& THEN
+      IF a=peak& AND BTST(winh,a)=TRUE THEN
         peakint=FALSE
         wpl=0   ! peakhold left
         wpr=0   ! peakhold right
@@ -8835,7 +8833,7 @@ PROCEDURE message
         ENDIF
         @nach_update
       ENDIF
-      IF a=smpedit& AND iconify=FALSE THEN
+      IF a=smpedit& AND BTST(winh,a)=TRUE THEN
         @vor_update
         IF b1<>0 AND h1<>0 THEN
           @putcsize
@@ -8871,7 +8869,7 @@ PROCEDURE message
         @nach_update
       ENDIF
       '
-      IF a=editfade& THEN
+      IF a=editfade& AND BTST(winh,a)=TRUE THEN
         @vor_update
         IF b1<>0 AND h1<>0 THEN
           @putfsize
@@ -8913,7 +8911,7 @@ PROCEDURE message
         @nach_update
       ENDIF
       '
-      IF a=trakker& THEN
+      IF a=trakker& AND BTST(winh,a)=TRUE THEN
         wpl=0   ! peakhold left
         wpr=0   ! peakhold right
         '        tcached=TRUE             ! entfernt seit 13.6.98
@@ -8957,6 +8955,8 @@ PROCEDURE message
   ENDIF
   '
   IF MENU(1)=34 THEN                            ! iconify
+    PRINT rsc_handle%(a&)
+    STOP
     GCONTRL(0)=165
     GCONTRL(1)=2
     GCONTRL(2)=1
@@ -8968,10 +8968,10 @@ PROCEDURE message
     '
     ~@xrsrc_gaddr(0,a&,zus%)
     ADDRIN(0)=zus%
-    DPOKE mdat%,MENU(5)
-    DPOKE mdat%+2,MENU(6)
-    DPOKE mdat%+4,MENU(7)
-    DPOKE mdat%+6,MENU(8)
+    DPOKE mdat%,-1
+    DPOKE mdat%+2,-1
+    DPOKE mdat%+4,-1
+    DPOKE mdat%+6,-1
     POKE mdat%+16,ASC("A")
     POKE mdat%+17,ASC("B")
     POKE mdat%+18,ASC("C")
@@ -8982,12 +8982,11 @@ PROCEDURE message
     ~@xrsrc_gaddr(0,icon&,zus2%)
     ADDRIN(3)=zus2%
     GEMSYS                                               ! OBJC_SYSVAR()
+    winh=BCLR(winh,a&)
     nr=icon&
     tree&=nr
-    PRINT a&,rsc_handle%(a&),handle&
     ~@xrsrc_gaddr(0,icon&,zus2%)
     ~OBJC_DRAW(zus2%,0,99,MENU(5),MENU(6),MENU(7),MENU(8))      ! neu zeichnen
-    PRINT "DRAWED"
     '
     '
     '    IF GINTOUT(0)>0                                      ! Hat geklappt...
@@ -9000,8 +8999,8 @@ PROCEDURE message
     shading=TRUE
   ENDIF
   IF MENU(1)=35 THEN                            ! uniconify
-    iconify=FALSE
-    PRINT a&
+    PRINT rsc_handle%(a&)
+    STOP
     GCONTRL(0)=165
     GCONTRL(1)=1
     GCONTRL(2)=1
@@ -9009,37 +9008,42 @@ PROCEDURE message
     GCONTRL(4)=0
     '
     GINTIN(0)=4
+    GINTIN(1)=staricon&
     '
     PRINT a&,MENU(5),MENU(6),MENU(7),MENU(8)
     ~@xrsrc_gaddr(0,a&,zus3%)
     ADDRIN(0)=zus3%
-    DPOKE mdat%,MENU(5)
-    DPOKE mdat%+2,MENU(6)
-    DPOKE mdat%+4,MENU(7)
-    DPOKE mdat%+6,MENU(8)
-    POKE mdat%+16,0
+    DPOKE mdat%,-1
+    DPOKE mdat%+2,-1
+    DPOKE mdat%+4,-1
+    DPOKE mdat%+6,-1
+    POKE mdat%+16,ASC("A")
+    POKE mdat%+17,ASC("B")
+    POKE mdat%+18,ASC("C")
+    POKE mdat%+19,0
     LPOKE mdat%+32,0
     ADDRIN(1)=mdat%
     ADDRIN(2)=mdat%+16
-    ~@xrsrc_gaddr(0,a&,zus4%)
+    ~@xrsrc_gaddr(0,icon&,zus4%)
     ADDRIN(3)=zus4%
-    STOP
     GEMSYS                                               ! OBJC_SYSVAR()
-    STOP
-    '    shading=FALSE
+    shading=FALSE
+    iconify=FALSE
     nr=a&
+    winh=BSET(winh,a&)
     tree&=nr
-    PRINT "B"
-    PRINT handle&
-    ~WIND_SET(handle&,26,MENU(5),MENU(6),MENU(7),MENU(8))
-    ~WIND_OPEN(handle&,MENU(5),MENU(6),MENU(7),MENU(8))
-    ~@xrsrc_gaddr(0,handle&,zus2%)
+    PRINT nr,handle&,MENU(4)
+    ~@xrsrc_gaddr(0,a&,zus2%)
     ~OBJC_DRAW(zus2%,0,99,MENU(5),MENU(6),MENU(7),MENU(8))      ! neu zeichnen
+    STOP
     '
     '
     '    IF GINTOUT(0)>0                                      ! Hat geklappt...
     '    color3d&=GINTOUT(1)                                ! ...3D-Farbe
     '  ENDIF
+    obj=0
+    edit_obj&=0
+    obj&=0
   ENDIF
   '
 rsc_dox_ende:
@@ -9978,7 +9982,7 @@ OB_TYPE(rsc_adr%(tree&),obj&)=OR(SHL&(BYTE(OB_TYPE(rsc_adr%(tree&),obj&)),8),24)
 ADD rsc_userblk%,8
 '
 RETURN
-> PROCEDURE rsc_draw(tree&,flag%)
+PROCEDURE rsc_draw(tree&,flag%)
 .| Glob. Var.: hchar&,deskx&,desky&,deskw&,deskh&,rsc_window&,rsc_obspec%
 .|     rsc_userblk%,mrkhandle#,rsc_list$
 .| Felder    : rsc_adr%(),rscx&(),rscy&(),rscw&(),rsch&(),rsc_handle%()
@@ -10031,7 +10035,7 @@ OB_SPEC(rsc_adr%,0)=AND(OB_SPEC(rsc_adr%,0),&X11111111000000001111111111111111)
 '
 rx&=OR(&X1001,SHL(-BTST(flag%,1),1))              ! Ggf. Schliežfeld
 '
-IF bigfoot=TRUE AND (tree&=smpedit& OR tree&=peak& OR tree&=trakker&) THEN
+IF bigfoot=TRUE THEN
   rx&=(rx& OR &H46E4)              !  Fuller,Mover und Rollpfeile (Rollpfeile wegen MagiC)
 ENDIF
 '
@@ -11860,7 +11864,7 @@ buttadr=zu%+24*buttnr
 DPOKE buttadr+10,buttflag
 RETURN
 '
-PROCEDURE hidetree(buttnr,buttflag,box)
+> PROCEDURE hidetree(buttnr,buttflag,box)
 LOCAL bf
 @windowtest
 IF mywindow=TRUE THEN
@@ -40081,22 +40085,86 @@ INPUT #1,sendsmpte
 INPUT #1,framez
 INPUT #1,smptestrt
 ENDIF
-'
+IF prgversion<1.2 THEN          ! Versionskontrolle
 INPUT #1,ctree
-FOR i=0 TO 31
+FOR i=0 TO ctree
 INPUT #1,rx(i)
 INPUT #1,ry(i)
 NEXT i
-IF prgversion>=1.2 THEN          ! Versionskontrolle
+ELSE
 FOR i=0 TO 31
-INPUT #1,rb(i)
-INPUT #1,rh(i)
+rx(i)=0
+ry(i)=0
+rb(i)=0
+rh(i)=0
+NEXT i
+INPUT #1,rx(smpedit&)
+INPUT #1,ry(smpedit&)
+INPUT #1,rx(info&)
+INPUT #1,ry(info&)
+INPUT #1,rx(smp16&)
+INPUT #1,ry(smp16&)
+INPUT #1,rx(blkfunc&)
+INPUT #1,ry(blkfunc&)
+INPUT #1,rx(peak&)
+INPUT #1,ry(peak&)
+INPUT #1,rx(arranger&)
+INPUT #1,ry(arranger&)
+INPUT #1,rx(trakker&)
+INPUT #1,ry(trakker&)
+INPUT #1,rx(loop&)
+INPUT #1,ry(loop&)
+INPUT #1,rx(dspedit&)
+INPUT #1,ry(dspedit&)
+INPUT #1,rx(editfade&)
+INPUT #1,ry(editfade&)
+INPUT #1,rx(wmode&)
+INPUT #1,ry(wmode&)
+INPUT #1,rx(plugin&)
+INPUT #1,ry(plugin&)
+FOR i=12 TO 31
+INPUT #1,v
+INPUT #1,v
+NEXT i
+INPUT #1,rb(smpedit&)
+INPUT #1,rh(smpedit&)
+INPUT #1,rb(info&)
+INPUT #1,rh(info&)
+INPUT #1,rb(smp16&)
+INPUT #1,rh(smp16&)
+INPUT #1,rb(blkfunc&)
+INPUT #1,rh(blkfunc&)
+INPUT #1,rb(peak&)
+INPUT #1,rh(peak&)
+INPUT #1,rb(arranger&)
+INPUT #1,rh(arranger&)
+INPUT #1,rb(trakker&)
+INPUT #1,rh(trakker&)
+INPUT #1,rb(loop&)
+INPUT #1,rh(loop&)
+INPUT #1,rb(dspedit&)
+INPUT #1,rh(dspedit&)
+INPUT #1,rb(editfade&)
+INPUT #1,rh(editfade&)
+INPUT #1,rb(wmode&)
+INPUT #1,rh(wmode&)
+INPUT #1,rb(plugin&)
+INPUT #1,rh(plugin&)
+FOR i=12 TO 31
+INPUT #1,v
+INPUT #1,v
 NEXT i
 ENDIF
 INPUT #1,hpath$
 CLOSE #1
 nosetload=FALSE
 ELSE
+FOR i=0 TO 31
+rx(i)=rscx&(i)
+ry(i)=rscy&(i)
+rb(i)=rscw&(i)
+rh(i)=rsch&(i)
+NEXT i
 prgversion=0
 nosetload=TRUE
 language=1             ! Sprache: 1=deutsch, 2=englisch
