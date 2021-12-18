@@ -23134,6 +23134,8 @@ RETURN
 > PROCEDURE alerts(alert)
 LOCAL aobj,afly,a$,abc,ja$,no$,naja$,ok$,exit$,anr
 anr=nr
+vnr=vornr
+vornr=nr
 aobj=obj
 afly=fly
 fly=TRUE
@@ -23291,6 +23293,7 @@ CASE 99
 g=@rsc_alert(2,a$,1,ja$+"|"+no$)
 ENDSELECT
 nr=anr
+vornr=vnr
 obj=aobj
 fly=afly
 edit_obj&=0
@@ -25571,7 +25574,7 @@ normd=FALSE
 IF rsc_handle%(nr)>1000                             ! Normaler Dialog...
 normd=TRUE
 ndnr=nr
-@rsc_back(nr)
+@restaura2b
 ENDIF
 '
 hpath$=hpath$+CHR$(0)
@@ -25604,6 +25607,7 @@ nr=vornr
 ENDIF
 nr=ndnr
 @rsc_draw(nr,1)
+@wischwasch
 ENDIF
 ELSE
 '
@@ -25893,7 +25897,7 @@ ENDIF
 UNTIL obj=normok& OR obj=normexit&
 nr=normaliz&
 @setbutton(obj,0)
-@rsc_back(nr)
+@restaura2b
 IF obj=normok& THEN
 nr=smpedit&
 @editselect
@@ -30041,10 +30045,11 @@ ENDIF
 RETURN
 '
 > PROCEDURE edhandler2
-LOCAL xw,ym,a1,a2,a,b,c,d,i,w,w2,m,tux
+LOCAL xw,ym,a1,a2,a,b,c,d,i,w,w2,m,tux,o
 edff=FALSE
 xmp=-1
 c=0
+o=0
 k=@mousek
 IF k<>0 THEN
 ~GRAF_MKSTATE(v,v2,v3,v4)
@@ -30211,7 +30216,7 @@ ENDIF
 ENDIF
 ENDIF
 IF ((markmode=1 OR markmode=2) AND k=1) AND y>=stay1 AND y<=stay2 THEN
-IF markmode=2 THEN
+IF markmode=2 AND smark=3 THEN
 IF sms=0 THEN
 sms=1
 ENDIF
@@ -30306,6 +30311,7 @@ IF smark=4 THEN
 xmo=(ce-cs)/xm*(tx-tm)
 @smpihlp
 ENDIF
+o=smark
 @flipptest
 ENDIF
 ENDIF
@@ -30326,7 +30332,9 @@ IF markmode=2 THEN
 sms2=2
 @selblkshak(sms2,1)     ! Marker ausw„hlen
 ENDIF
+IF (o<>5 AND o<>6 AND markmode=2) OR markmode<>2 THEN   ! nicht bei move und copy
 @markprod2
+ENDIF
 IF markmode=2 THEN
 @selblkshak(sms2,0)     ! Marker abw„hlen
 sms2=1
@@ -31563,7 +31571,7 @@ ENDIF
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 RETURN
 '
-> PROCEDURE blklfrag
+PROCEDURE blklfrag
 @testcopyright
 @markhlp
 vornr=nr
@@ -31572,10 +31580,14 @@ nr=savebloc&
 versatz=1
 a$="Load"
 string=LPEEK(LPEEK(zu%+24*savetxt&+12))
+FOR it=1 TO 10
+PRINT CHR$(PEEK(string+it-1));
+NEXT it
+STOP
 FOR it=1 TO LEN(a$)
 POKE string+it-1+(versatz-1),ASC(MID$(a$,it,1))
 NEXT it
-@rsc_draw(nr,1)
+@rsc_draw(nr,0)
 @markhlp
 REPEAT
 REPEAT
@@ -31611,9 +31623,7 @@ IF obj=savblock& THEN
 blks=1
 ENDIF
 @setbutton(obj,0)
-@rsc_back(nr)
-nr=vornr
-'  @restaura2
+@restaura2
 RETURN
 '
 > PROCEDURE clearfsel
@@ -32369,7 +32379,7 @@ fsz=0
 fsz2=0
 RETURN
 '
-> PROCEDURE fselswitch
+PROCEDURE fselswitch
 @fselinit
 IF fsmplay=FALSE THEN
 fsmplay=TRUE
@@ -32806,7 +32816,7 @@ ENDIF
 @setbutton(fsplay&,0)
 RETURN
 '
-> PROCEDURE newfsel
+PROCEDURE newfsel
 LOCAL j,g,x,y,k,v1,v2,v3,v4,nobj,ofil$,nx,ny
 vornr=nr
 nr=fsel&
@@ -33701,9 +33711,7 @@ IF bigfoot=FALSE THEN
 ELSE
 @setpos(fsexit&,810,by)
 ENDIF
-@rsc_back(nr)
-nr=vornr
-@wischwasch
+@restaura2
 IF obj=tfsearch& THEN
 @makesearch2
 ENDIF
@@ -33723,8 +33731,7 @@ to=tfso2+tfsz
 mrkobj=obj
 vorvornr=vornr
 vornr=nr
-@rsc_back(nr)
-@wischwasch
+@restaura2b
 nr=trkcomin&
 i3=trktnr(to)
 a$=trkcom$(i3)
@@ -33975,6 +33982,7 @@ bstart=INT(bstart/mbit)*mbit
 RETURN
 '
 > PROCEDURE fsel_exinput(fs_iinpath%,fs_iinsel%,fs_iinlabel%)
+@rsc_menu_ienable(TRUE)
 LPOKE ADDRIN,fs_iinpath%
 LPOKE ADDRIN+4,fs_iinsel%
 LPOKE ADDRIN+8,fs_iinlabel%
@@ -35766,8 +35774,7 @@ IF infbutt=TRUE THEN
 @restaura2
 ELSE
 IF virtld=FALSE THEN
-@rsc_back(nr)
-nr=vornr
+@restaura2
 IF edclr=TRUE THEN
 '        @restaura3
 ENDIF
@@ -37712,14 +37719,14 @@ ELSE
 @setbutton(obj,0)
 ENDIF
 UNTIL (obj=resok& AND noresok=FALSE AND resorig>0) OR obj=resexit&
-@rsc_back(nr)
+@restaura2b
 IF obj=resok& AND noresok=FALSE THEN
 nr=smpedit&
 @editselect
 @makeresmp
 ENDIF
 ELSE
-@rsc_back(nr)
+@restaura2b
 @alerts(25)
 ENDIF
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
@@ -47111,7 +47118,7 @@ mrce=ce
 mrzoom=zoomp
 mrscroll=scrollp
 edhz=hz
-IF (mint<&H10F AND rsvf<>0) OR mint>=&H10F THEN
+IF (mint<&H10F AND rsvf<>0) THEN
 @alerts(78)
 ENDIF
 IF away=FALSE THEN
@@ -52486,7 +52493,7 @@ IF obj=rechelp& THEN
 ENDIF
 UNTIL obj<>rechelp&
 IF obj=recok& THEN
-@rsc_back(nr)
+@restaura2b
 IF sblock=1 THEN
 @blkltest
 ELSE
@@ -52560,7 +52567,7 @@ ENDIF
 ENDIF
 ELSE
 spc=oldspc
-@rsc_back(nr)
+@restaura2b
 ENDIF
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 nr=blkfunc&
@@ -55351,6 +55358,7 @@ timekey=4
 @timekey
 IF xx=partsel& THEN
 @rsc_back(xx)
+@wischwasch
 ENDIF
 nr=record&
 @rsc_draw(nr,1)
@@ -55365,7 +55373,7 @@ ENDIF
 UNTIL obj<>rechelp&
 xobj=obj
 IF xx=partsel& THEN
-@rsc_back(nr)
+@restaura2b
 nr=partsel&
 @rsc_draw(nr,1)
 ELSE
