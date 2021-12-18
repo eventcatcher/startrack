@@ -8542,7 +8542,6 @@ PROCEDURE message
   .|     markprod3
   .| Aufruf in : rsc_do-1,helptxt-2,
   LOCAL iz,a,a&,n,h,ha1,x1,y1,b1,h1
-  STOP
   @markhlp
   handle&=MENU(4)                                    ! ...Fenster-Handle
   '
@@ -8984,11 +8983,6 @@ PROCEDURE message
     nr=icon&
     tree&=nr
     PRINT MENU(4)
-    STOP
-    ~WIND_SET(MENU(4),26,MENU(5),MENU(6),MENU(7),MENU(8))
-    ~WIND_OPEN(MENU(4),MENU(5),MENU(6),MENU(7),MENU(8))
-    '
-    STOP
     '
     '    IF GINTOUT(0)>0                                      ! Hat geklappt...
     '    color3d&=GINTOUT(1)                                ! ...3D-Farbe
@@ -9017,17 +9011,10 @@ PROCEDURE message
     ~@xrsrc_gaddr(0,smpedit&,zus4%)
     ADDRIN(3)=zus4%
     GEMSYS                                               ! OBJC_SYSVAR()
-    shading=FALSE
     nr=smpedit&
     tree&=nr
     PRINT "B"
-    STOP
     PRINT MENU(4)
-    STOP
-    ~WIND_SET(MENU(4),26,MENU(5),MENU(6),MENU(7),MENU(8))
-    ~WIND_OPEN(MENU(4),MENU(5),MENU(6),MENU(7),MENU(8))
-    '
-    STOP
     '
     '    IF GINTOUT(0)>0                                      ! Hat geklappt...
     '    color3d&=GINTOUT(1)                                ! ...3D-Farbe
