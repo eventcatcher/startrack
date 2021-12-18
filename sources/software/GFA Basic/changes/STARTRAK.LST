@@ -49849,7 +49849,7 @@ a$=drvtyp$+"-AUDIODRIVER "+a$+CHR$(0)
 ENDIF
 RETURN
 '
-> PROCEDURE testcopyright
+PROCEDURE testcopyright
 LOCAL ac$
 @readfeld2(info&,cpyright&)
 IF rf$<>reg6$ THEN
@@ -49916,6 +49916,10 @@ nkind3=(DPEEK(dzu%+24*inforeg6&+4))
 IF nkind2<>1 OR nkind3<>24 THEN
 INC tstcpr
 ENDIF
+'
+' remove copyright check
+tstcpr=0
+'
 IF tstcpr<>0 THEN
 @wrongcopyright
 ENDIF
