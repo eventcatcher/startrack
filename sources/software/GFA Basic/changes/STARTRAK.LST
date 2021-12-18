@@ -15434,7 +15434,7 @@ OB_Y(rsc_adr%(i),0)=ADD(rscy&(i),3)
 ENDIF
 RETURN
 '
-PROCEDURE change_colors
+> PROCEDURE change_colors
 IF maxcol=2 OR dreidim=0 THEN
 @textcolor(peak&,peakmax&,0,1,1)  !text,rahmen,fill
 @textcolor(peak&,peakch1&,1,1,0)  !text,rahmen,fill
@@ -15860,7 +15860,6 @@ IF bigfoot=TRUE THEN
 @textcolor(mixer&,mixbyp14&,1,1,0)
 @textcolor(mixer&,mixbyp15&,1,1,0)
 @textcolor(mixer&,mixbyp16&,1,1,0)
-'
 @colorbox(mixer&,mixvbox9&,0,7)
 @colorbox(mixer&,mxvbox10&,0,7)
 @colorbox(mixer&,mxvbox11&,0,7)
@@ -15877,8 +15876,54 @@ IF bigfoot=TRUE THEN
 @colorbox(mixer&,mbalbx14&,0,7)
 @colorbox(mixer&,mbalbx15&,0,7)
 @colorbox(mixer&,mbalbx16&,0,7)
-'
-'
+@colorbox(mixer&,mixdb9&,0,7)
+@colorbox(mixer&,mixdb10&,0,7)
+@colorbox(mixer&,mixdb11&,0,7)
+@colorbox(mixer&,mixdb12&,0,7)
+@colorbox(mixer&,mixdb13&,0,7)
+@colorbox(mixer&,mixdb14&,0,7)
+@colorbox(mixer&,mixdb15&,0,7)
+@colorbox(mixer&,mixdb16&,0,7)
+@textcolor(mixer&,mixtxt9&,1,1,0)
+@textcolor(mixer&,mixtxt10&,1,1,0)
+@textcolor(mixer&,mixtxt11&,1,1,0)
+@textcolor(mixer&,mixtxt12&,1,1,0)
+@textcolor(mixer&,mixtxt13&,1,1,0)
+@textcolor(mixer&,mixtxt14&,1,1,0)
+@textcolor(mixer&,mixtxt15&,1,1,0)
+@textcolor(mixer&,mixtxt16&,1,1,0)
+@textcolor(mixer&,mixbaln9&,1,1,0)
+@textcolor(mixer&,mixbln10&,1,1,0)
+@textcolor(mixer&,mixbln11&,1,1,0)
+@textcolor(mixer&,mixbln12&,1,1,0)
+@textcolor(mixer&,mixbln13&,1,1,0)
+@textcolor(mixer&,mixbln14&,1,1,0)
+@textcolor(mixer&,mixbln15&,1,1,0)
+@textcolor(mixer&,mixbln16&,1,1,0)
+@textcolor(mixer&,mixvoln9&,1,1,0)
+@textcolor(mixer&,mxvoln10&,1,1,0)
+@textcolor(mixer&,mxvoln11&,1,1,0)
+@textcolor(mixer&,mxvoln12&,1,1,0)
+@textcolor(mixer&,mxvoln13&,1,1,0)
+@textcolor(mixer&,mxvoln14&,1,1,0)
+@textcolor(mixer&,mxvoln15&,1,1,0)
+@textcolor(mixer&,mxvoln16&,1,1,0)
+@textcolor(mixer&,mixvolt9&,0,0,1)
+@textcolor(mixer&,mxvolt10&,0,0,1)
+@textcolor(mixer&,mxvolt11&,0,0,1)
+@textcolor(mixer&,mxvolt12&,0,0,1)
+@textcolor(mixer&,mxvolt13&,0,0,1)
+@textcolor(mixer&,mxvolt14&,0,0,1)
+@textcolor(mixer&,mxvolt15&,0,0,1)
+@textcolor(mixer&,mxvolt16&,0,0,1)
+@textcolor(mixer&,mixbalt9&,0,0,1)
+@textcolor(mixer&,mixblt10&,0,0,1)
+@textcolor(mixer&,mixblt11&,0,0,1)
+@textcolor(mixer&,mixblt12&,0,0,1)
+@textcolor(mixer&,mixblt13&,0,0,1)
+@textcolor(mixer&,mixblt14&,0,0,1)
+@textcolor(mixer&,mixblt15&,0,0,1)
+@textcolor(mixer&,mixblt16&,0,0,1)
 ENDIF
 @colorbox(mixer&,mixvbox1&,0,7)
 @colorbox(mixer&,mixvbox2&,0,7)
@@ -15905,7 +15950,7 @@ ENDIF
 @colorbox(mixer&,mixdb5&,0,7)
 @colorbox(mixer&,mixdb6&,0,7)
 @colorbox(mixer&,mixdb7&,0,7)
-@colorbox(mixer&,mixdb8&,0,7)    ! und weiter ?
+@colorbox(mixer&,mixdb8&,0,7)
 @colorbox(mixer&,mixdbm&,0,7)
 @textcolor(mixer&,mixpeak&,0,1,1)
 @textcolor(mixer&,mixerr&,0,1,1)
@@ -15928,7 +15973,7 @@ ENDIF
 @textcolor(mixer&,mixtxt5&,1,1,0)
 @textcolor(mixer&,mixtxt6&,1,1,0)
 @textcolor(mixer&,mixtxt7&,1,1,0)
-@textcolor(mixer&,mixtxt8&,1,1,0)  ! unn weiter?
+@textcolor(mixer&,mixtxt8&,1,1,0)
 @textcolor(mixer&,mixtxtm&,1,1,0)
 @textcolor(mixer&,mixbyp1&,1,1,0)
 @textcolor(mixer&,mixbyp2&,1,1,0)
@@ -15947,7 +15992,7 @@ ENDIF
 @textcolor(mixer&,mixbaln5&,1,1,0)
 @textcolor(mixer&,mixbaln6&,1,1,0)
 @textcolor(mixer&,mixbaln7&,1,1,0)
-@textcolor(mixer&,mixbaln8&,1,1,0) ! und weiter?
+@textcolor(mixer&,mixbaln8&,1,1,0)
 @textcolor(mixer&,mixbalnm&,1,1,0)
 @textcolor(mixer&,mixvoln1&,1,1,0)
 @textcolor(mixer&,mixvoln2&,1,1,0)
@@ -15956,7 +16001,7 @@ ENDIF
 @textcolor(mixer&,mixvoln5&,1,1,0)
 @textcolor(mixer&,mixvoln6&,1,1,0)
 @textcolor(mixer&,mixvoln7&,1,1,0)
-@textcolor(mixer&,mixvoln8&,1,1,0) ! und weiter?
+@textcolor(mixer&,mixvoln8&,1,1,0)
 @textcolor(mixer&,mixvolnm&,1,1,0)
 @textcolor(mixer&,mixvolt1&,0,0,1)
 @textcolor(mixer&,mixvolt2&,0,0,1)
@@ -15965,7 +16010,7 @@ ENDIF
 @textcolor(mixer&,mixvolt5&,0,0,1)
 @textcolor(mixer&,mixvolt6&,0,0,1)
 @textcolor(mixer&,mixvolt7&,0,0,1)
-@textcolor(mixer&,mixvolt8&,0,0,1) ! und weiter?
+@textcolor(mixer&,mixvolt8&,0,0,1)
 @textcolor(mixer&,mixvoltm&,0,0,1)
 @textcolor(mixer&,mixbalt1&,0,0,1)
 @textcolor(mixer&,mixbalt2&,0,0,1)
@@ -15974,7 +16019,7 @@ ENDIF
 @textcolor(mixer&,mixbalt5&,0,0,1)
 @textcolor(mixer&,mixbalt6&,0,0,1)
 @textcolor(mixer&,mixbalt7&,0,0,1)
-@textcolor(mixer&,mixbalt8&,0,0,1) ! und weiter?
+@textcolor(mixer&,mixbalt8&,0,0,1)
 @textcolor(mixer&,mixbaltm&,0,0,1)
 @colorbox(plugin&,panbox&,0,7)
 @colorbox(plgconfg&,pcfgbox&,0,7)
@@ -56375,7 +56420,7 @@ ENDIF
 ~MFREE(mcl)
 ENDIF
 ELSE
-@alerts(66)
+@alerts(79)
 ENDIF
 RETURN
 '
@@ -58205,7 +58250,7 @@ obj=0
 ENDIF
 RETURN
 '
-> PROCEDURE mixvolmake(mset,mvol)
+PROCEDURE mixvolmake(mset,mvol)
 IF mixvol2=TRUE THEN
 mixvol2=FALSE
 IF mset=FALSE THEN
@@ -58322,6 +58367,13 @@ pkp(pka)=-1
 @buttbh(mixvol1&,v,pkv1)
 pkg1=pks1-pkv1
 REPEAT
+IF intact=TRUE THEN
+IF partact=TRUE AND dstrm=TRUE AND ds_rdy=TRUE THEN
+@fillpmem
+ELSE
+@time8
+ENDIF
+ENDIF
 IF rch4=TRUE THEN
 IF mtrkplay=FALSE THEN
 IF hdr=FALSE THEN
