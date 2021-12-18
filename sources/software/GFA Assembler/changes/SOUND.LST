@@ -7,8 +7,6 @@
 ; +Special 16Channel Multiplex-Mode & 24Bit-EightChannel-Support
 ; for old and new hardware-release
 
-; short adc8-record
-
                bra        startprog
 
                .EVEN 
@@ -15439,14 +15437,12 @@ dspcopydo:     lea.l      von(pc),a6
                move.b     (a2)+,2(a1)   ; Kanal 1,HighByte holen
                move.b     (a2)+,(a1)    ; Kanal 1,LowByte holen
                move.l     a2,(a6)+
-               movea.l    (a6),a2
+               move.w     #6,d5
+dspcopyd2:     movea.l    (a6),a2
                move.b     (a2)+,(a1)    ; Kanal 2..8,HighByte holen
                move.b     (a2)+,(a1)    ; Kanal 2..8,LowByte holen
                move.l     a2,(a6)+
-               adda.l     #20,a6
-               movea.l    (a6),a2
-               adda.l     #2,a2
-               move.l     a2,(a6)+
+               dbra       d5,dspcopyd2
                bra.s      dspcopye
 dspcopy24:     movea.l    (a6),a2
                move.b     (a2)+,2(a1)   ; Kanal 1,HighByte holen
@@ -15467,7 +15463,7 @@ dspcopye:      addq.l     #1,24(a5)     ; Playposition
                cmp.l      24(a5),d7
                ble        dsendplay
                cmpa.l     (a3),a2       ; halfbuffer voll ?
-               beq        dsplend
+               beq.s      dsplend
                cmpa.l     (a6),a2       ; Speicher voll ?
                beq.s      dspfrset8
 dspcpyx8:      dbra       d0,dspcopydo
@@ -15476,15 +15472,12 @@ dspcopy16:     movea.l    (a6),a2       ; 16ch/16bit
                move.b     (a2)+,2(a1)   ; Kanal 1,HighByte holen
                move.b     (a2)+,(a1)    ; Kanal 1,LowByte holen
                move.l     a2,(a6)+
-               addq.l     #4,a6         ; Kanal 9 Åberspringen
-               movea.l    (a6),a2
-               move.b     (a2)+,(a1)    ; Kanal 2,HighByte holen
-               move.b     (a2)+,(a1)    ; Kanal 2,LowByte holen
+               move.w     #14,d5
+dspcopy16b:    movea.l    (a6),a2
+               move.b     (a2)+,(a1)    ; Kanal 9,HighByte holen
+               move.b     (a2)+,(a1)    ; Kanal 9,LowByte holen
                move.l     a2,(a6)+
-               adda.l     #48,a6
-               movea.l    (a6),a2
-               adda.l     #2,a2
-               move.l     a2,(a6)+
+               dbra       d5,dspcopy16b
                addq.l     #1,24(a5)     ; Playposition
                move.l     endcount(pc),d7
                cmp.l      24(a5),d7
@@ -16011,8 +16004,14 @@ dsricpy8b:     lea.l      rvon(pc),a6
 dsrilk1:       move.l     a2,(a6)       ; BufferStart1
 dsricpya1:     lea.l      rvon(pc),a6
                move.w     (a1),d7       ; High-Byte, Kanal2 (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      dsricpya3     ; fehlerhafte Daten ?
                move.w     (a1),d6
-               move.b     xrch,d5
+               tst.w      asrc          ; digitalquelle?
+               bne.s      dsndgin       ; ist analog...
+               move.w     (a1),d7       ; High-Byte, Kanal2 (Bit 8 geloescht ?)...
+               move.w     (a1),d6
+dsndgin:       move.b     xrch,d5
                lsl.w      #2,d5
                andi.l     #60,d5
                cmpi.w     #0,d5
@@ -16029,6 +16028,13 @@ dsrilk2:       move.l     a2,(a6)       ; BufferStart
 dsricpya2:     lea.l      rvon(pc),a6
                addi.l     #2,28(a6)
                movea.l    28(a6),a2
+               move.w     #5,d1
+               tst.w      asrc          ; digitalquelle?
+               bne.s      dsricrd       ; ist analog...
+               move.w     #4,d1
+dsricrd:       move.w     (a1),d7
+               move.w     (a1),d6
+               dbra       d1,dsricrd
                addq.l     #1,24(a5)     ; Recposition
                move.l     rendcount(pc),d7
                cmp.l      24(a5),d7
