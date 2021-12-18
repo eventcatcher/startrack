@@ -27,7 +27,7 @@ ON ERROR GOSUB fehler
 ' ----------------------with VME StarTrack Audiocard 16/24Bit Harddisksampler---
 ' ------------------------First Release 22.8.1994-------------------------------
 ' ------------------------------------------------------------------------------
-' -------------------V 2.10 - Revision 07.12.1999 ------------------------------
+' -------------------V 2.20 - Revision 13.02.2000 ------------------------------
 ' ------------------------------------------------------------------------------
 '
 '
@@ -7651,7 +7651,11 @@ ENDIF
 ~OBJC_DRAW(rsc_adr%,0,9,rscx&(tree&),rscy&(tree&),w&,h&)
 ENDIF
 '  mrkhandle=WIND_FIND(x&,y&)
-rsc_menu_ienable(TRUE)                         ! Mentitel disablen
+IF menuda=TRUE THEN
+IF flag%>1 THEN
+  @rsc_menu_ienable(TRUE)
+ENDIF
+ENDIF
 RETURN
 > PROCEDURE rsc_menu_ienable(stat!)
 LOCAL obj&,title&,rsc_adr%
@@ -8235,7 +8239,7 @@ ENDSELECT
 ~WIND_UPDATE(0)                                    ! END_UPDATE
 '
 RETURN
-> PROCEDURE rsc_back(tree&)                                                ! Alle Fensternamen hier eintragen (zur Unterscheidung Flydial oder nicht) !!!
+PROCEDURE rsc_back(tree&)                                                ! Alle Fensternamen hier eintragen (zur Unterscheidung Flydial oder nicht) !!!
 '
 ' Entfernt den Dialog vom Bildschirm...
 '
@@ -8297,6 +8301,9 @@ ENDIF
 ENDIF
 ELSE
 fly=FALSE
+ENDIF
+IF menuda=TRUE AND wflg(nr)>1 THEN
+@rsc_menu_ienable(TRUE)
 ENDIF
 RETURN
 > PROCEDURE rsc_text(tree&,robj&,a$)
@@ -9074,7 +9081,7 @@ OB_W(rsc_adr%,0)=w&                                  ! Neue Breite
 OB_X(rsc_adr%,1)=w&-PRED(OB_W(rsc_adr%,1))           ! Flydial verschieben
 rscw&(rsc_alert&)=ADD(w&,6)
 ' ---------------------------------------------------- Dialog-H”he „ndern
-h&=OB_H(rsc_adr%,10)+MUL(hchar&,ADD(z&,2))
+h&=OB_H(rsc_adr%,10)+MUL(hchar&,ADD(z&,2))+40        ! +40 wegen alertwindow
 OB_H(rsc_adr%,0)=h&                                  ! Neue H”he
 rsch&(rsc_alert&)=ADD(h&,6)
 ' ---------------------------------------------------- Buttons plazieren
@@ -9120,9 +9127,9 @@ rdraw=FALSE
 knr=nr
 kobj=obj
 nr=alertbox&
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 rsc&=@rsc_do(nr,0,popup&)
-rsc_back(nr)
+@restaura2b
 nr=knr
 obj=kobj
 '    IF rdraw=TRUE THEN
@@ -12879,15 +12886,16 @@ LET maxdb&=4 ! BOXTEXT in Baum NORMALIZ
 LET normbox2&=6 ! BOX in Baum NORMALIZ
 LET normauto&=7 ! BUTTON in Baum NORMALIZ
 LET normadj&=8 ! BUTTON in Baum NORMALIZ
-LET normbox3&=9 ! BOX in Baum NORMALIZ
-LET norml1&=10 ! USERDEF in Baum NORMALIZ
-LET norml2&=11 ! USERDEF in Baum NORMALIZ
-LET norml3&=12 ! USERDEF in Baum NORMALIZ
-LET normr1&=13 ! USERDEF in Baum NORMALIZ
-LET normr2&=14 ! USERDEF in Baum NORMALIZ
-LET normr3&=15 ! USERDEF in Baum NORMALIZ
-LET helpnorm&=16 ! BOXTEXT in Baum NORMALIZ
-LET normdb&=18 ! BOXTEXT in Baum NORMALIZ
+LET helpnorm&=9 ! BOXTEXT in Baum NORMALIZ
+LET normdb&=11 ! BOXTEXT in Baum NORMALIZ
+LET normshad&=13 ! BOX in Baum NORMALIZ
+LET normbox3&=14 ! BOX in Baum NORMALIZ
+LET norml1&=15 ! USERDEF in Baum NORMALIZ
+LET norml2&=16 ! USERDEF in Baum NORMALIZ
+LET norml3&=17 ! USERDEF in Baum NORMALIZ
+LET normr1&=18 ! USERDEF in Baum NORMALIZ
+LET normr2&=19 ! USERDEF in Baum NORMALIZ
+LET normr3&=20 ! USERDEF in Baum NORMALIZ
 '
 LET resample&=11 ! Formular/Dialog
 LET resmpbox&=0 ! BOX in Baum RESAMPLE
@@ -13760,15 +13768,16 @@ LET maxdb&=4 ! BOXTEXT in Baum NORMALIZ
 LET normbox2&=6 ! BOX in Baum NORMALIZ
 LET normauto&=7 ! BUTTON in Baum NORMALIZ
 LET normadj&=8 ! BUTTON in Baum NORMALIZ
-LET normbox3&=9 ! BOX in Baum NORMALIZ
-LET norml1&=10 ! USERDEF in Baum NORMALIZ
-LET norml2&=11 ! USERDEF in Baum NORMALIZ
-LET norml3&=12 ! USERDEF in Baum NORMALIZ
-LET normr1&=13 ! USERDEF in Baum NORMALIZ
-LET normr2&=14 ! USERDEF in Baum NORMALIZ
-LET normr3&=15 ! USERDEF in Baum NORMALIZ
-LET helpnorm&=16 ! BOXTEXT in Baum NORMALIZ
-LET normdb&=18 ! BOXTEXT in Baum NORMALIZ
+LET helpnorm&=9 ! BOXTEXT in Baum NORMALIZ
+LET normdb&=11 ! BOXTEXT in Baum NORMALIZ
+LET normshad&=13 ! BOX in Baum NORMALIZ
+LET normbox3&=14 ! BOX in Baum NORMALIZ
+LET norml1&=15 ! USERDEF in Baum NORMALIZ
+LET norml2&=16 ! USERDEF in Baum NORMALIZ
+LET norml3&=17 ! USERDEF in Baum NORMALIZ
+LET normr1&=18 ! USERDEF in Baum NORMALIZ
+LET normr2&=19 ! USERDEF in Baum NORMALIZ
+LET normr3&=20 ! USERDEF in Baum NORMALIZ
 '
 LET resample&=11 ! Formular/Dialog
 LET resmpbox&=0 ! BOX in Baum RESAMPLE
@@ -25866,13 +25875,13 @@ IF obj=normauto& THEN
 norma=1
 db$=STR$(0)+CHR$(0)
 @textfeld(normdb&,db$,1)
-@hidetree(normbox3&,TRUE,normbox&)
+@hidetree(normbox3&,TRUE,normshad&)
 ENDIF
 IF obj=normadj& THEN
 norma=0
 db$=STR$(db)+CHR$(0)
 @textfeld(normdb&,db$,1)
-@hidetree(normbox3&,FALSE,normbox&)
+@hidetree(normbox3&,FALSE,normshad&)
 ENDIF
 IF obj=helpnorm& THEN
 @helptxt("OPTIMIZE")
@@ -33040,7 +33049,7 @@ ELSE
 pret=0
 pbutt=0
 ENDIF
-@rsc_back(nr)
+@restaura2b
 @digout(FALSE)
 nr=vornr
 obj=0
@@ -46812,9 +46821,8 @@ vvorvornr=vorvornr
 vorvornr=vornr
 vornr=nr
 nr=inftxt&
-'
-'
 @rsc_draw(nr,1)
+@wischwasch
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 btim$=TIME$
 IF mbs>0 THEN
