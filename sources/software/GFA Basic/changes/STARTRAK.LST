@@ -3835,27 +3835,31 @@ RETURN
             @mixerset
             ~XBIOS(&H8B,0,2,0,clk,1)
             ~XBIOS(&H8B,1,1+4+8,0,clk,1)
-            POKE &HFEFF0645,1
+            IF demo=FALSE THEN
+              POKE &HFEFF0645,1
+            ENDIF
             '
             IF dig24=TRUE THEN
               ~XBIOS(xbs,28,3)    ! mode:dig24+sum24
-              IF pch16=FALSE THEN
-                POKE &HFEFF0617,3+4   ! specialmode 24bit
-                POKE &HFEFF0617,3+4
-                POKE &HFEFF0617,3
-                POKE &HFEFF0617,3
-                POKE &HFEFF04C1,0   ! specialmode 24bit
-                POKE &HFEFF04C1,4
-                POKE &HFEFF04C1,4
-                POKE &HFEFF04C1,12
-                POKE &HFEFF0401,1
-                POKE &HFEFF0401,1+16+32+64
-                POKE &HFEFF0401,1+16+32+64
-              ELSE
-                POKE &HFEFF04C1,0   ! specialmode 24bit
-                POKE &HFEFF04C1,6
-                POKE &HFEFF04C1,6
-                POKE &HFEFF04C1,14
+              IF demo=FALSE THEN
+                IF pch16=FALSE THEN
+                  POKE &HFEFF0617,3+4   ! specialmode 24bit
+                  POKE &HFEFF0617,3+4
+                  POKE &HFEFF0617,3
+                  POKE &HFEFF0617,3
+                  POKE &HFEFF04C1,0   ! specialmode 24bit
+                  POKE &HFEFF04C1,4
+                  POKE &HFEFF04C1,4
+                  POKE &HFEFF04C1,12
+                  POKE &HFEFF0401,1
+                  POKE &HFEFF0401,1+16+32+64
+                  POKE &HFEFF0401,1+16+32+64
+                ELSE
+                  POKE &HFEFF04C1,0   ! specialmode 24bit
+                  POKE &HFEFF04C1,6
+                  POKE &HFEFF04C1,6
+                  POKE &HFEFF04C1,14
+                ENDIF
               ENDIF
             ELSE
               IF sum24=TRUE THEN
@@ -4657,9 +4661,11 @@ RETURN
     IF panmix=TRUE THEN
       IF extmix=TRUE THEN
         '        @dsp_lodput(s$+"EXTALL3.LOD")
-        @dsp_boot
-        ~XBIOS(xbs,512)    ! external mixer
-        PAUSE 2
+        IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
+          @dsp_boot
+          ~XBIOS(xbs,512)    ! external mixer
+          PAUSE 2
+        ENDIF
         @mixvolinit
         PAUSE 4
         IF rch16=FALSE AND pch16=FALSE THEN    ! pch16-variable sollte nicht dahin
@@ -4680,9 +4686,11 @@ RETURN
         ENDIF
       ELSE
         '        @dsp_lodput(s$+"PANALL3.LOD")
-        @dsp_boot
-        ~XBIOS(xbs,511)    ! panpot mixer
-        PAUSE 2
+        IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
+          @dsp_boot
+          ~XBIOS(xbs,511)    ! panpot mixer
+          PAUSE 2
+        ENDIF
         @mixvolinit
         PAUSE 4
         IF rch16=FALSE AND pch16=FALSE THEN    ! pch16-variable sollte nicht dahin
@@ -4714,9 +4722,13 @@ RETURN
       ENDIF
     ELSE
       '      @dsp_lodput(s$+"BALMIXER.LOD")       ! 4ch
-      @dsp_boot
-      ~XBIOS(xbs,510)    ! balance mixer
+      IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
+        @dsp_boot
+        ~XBIOS(xbs,510)    ! balance mixer
+        PAUSE 2
+      ENDIF
       @mixvolinit
+      PAUSE 4
     ENDIF
     @write_int(0)
   ELSE
@@ -5100,7 +5112,9 @@ RETURN
                         ~XBIOS(&H8B,2,1,0,clk,1)     ! EXTINP -> DMAREC
                         ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
                         ~XBIOS(&H8B,0,2,0,clk,1)     ! EXTINP -> DMAREC
-                        POKE &HFEFF0645,2         ! dmarec-path
+                        IF demo=FALSE THEN
+                          POKE &HFEFF0645,2         ! dmarec-path
+                        ENDIF
                       ELSE
                         ~XBIOS(&H8B,2,1+2+4,0,clk,1)   ! EXTINP -> DMAREC,DSPREC,EXTOUT
                         ~XBIOS(&H8B,1,8,0,clk,1)       ! DSPXMIT -> DAC
@@ -5114,7 +5128,9 @@ RETURN
                     ~XBIOS(&H8B,2,1,0,clk,1)     ! EXTINP -> DMAREC
                     ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
                     ~XBIOS(&H8B,0,2,0,clk,1)     ! EXTINP -> DMAREC
-                    POKE &HFEFF0645,2         ! dmarec-path
+                    IF demo=FALSE THEN
+                      POKE &HFEFF0645,2         ! dmarec-path
+                    ENDIF
                   ELSE
                     IF dspmodemix=FALSE THEN
                       @dspmix8
@@ -9388,6 +9404,20 @@ ENDIF
 ENDIF
 RETURN
 '
+PROCEDURE icontxt3(drawnr,txtname,txt$,versatz)            ! Icon-Text setzen (ohne redraw)
+LOCAL a
+~@xrsrc_gaddr(0,drawnr,zu%)
+v=DPEEK(zu%+24*txtname+6)
+s=LPEEK(zu%+24*txtname+12)
+string=LPEEK(s+8)
+STOP
+FOR it=1 TO LEN(txt$)
+a=ASC(MID$(txt$,it,1))
+POKE string+it-1+(versatz-1),a
+EXIT IF a=0
+NEXT it
+RETURN
+'
 > PROCEDURE textfeld(txtname,txt$,versatz)            ! Textausgabe mit Redraw ins aktive Fenster
 LOCAL a
 @windowtest
@@ -12812,6 +12842,7 @@ LET mixpeak&=721 ! BOXTEXT in Baum MIXER
 LET mixpeakt&=722 ! TEXT in Baum MIXER
 LET mixerr&=723 ! BOXTEXT in Baum MIXER
 LET mixerrt&=724 ! TEXT in Baum MIXER
+LET dsicon&=725 ! USERDEF in Baum MIXER
 '
 LET virtual&=5 ! Formular/Dialog
 LET virtbox&=0 ! BOX in Baum VIRTUAL
@@ -13694,6 +13725,7 @@ LET mixpeak&=721 ! BOXTEXT in Baum MIXER
 LET mixpeakt&=722 ! TEXT in Baum MIXER
 LET mixerr&=723 ! BOXTEXT in Baum MIXER
 LET mixerrt&=724 ! TEXT in Baum MIXER
+LET dsicon&=725 ! USERDEF in Baum MIXER
 '
 LET virtual&=5 ! Formular/Dialog
 LET virtbox&=0 ! BOX in Baum VIRTUAL
@@ -14396,6 +14428,36 @@ LET partld&=64 ! BUTTON in Baum PARTSEL
 LET partsav&=65 ! BUTTON in Baum PARTSEL
 LET partexit&=66 ! BUTTON in Baum PARTSEL
 LET partok&=67 ! BUTTON in Baum PARTSEL
+LET partic&=68 ! USERDEF in Baum PARTSEL
+LET partid&=69 ! USERDEF in Baum PARTSEL
+LET partie&=70 ! USERDEF in Baum PARTSEL
+LET partif&=71 ! USERDEF in Baum PARTSEL
+LET partig&=72 ! USERDEF in Baum PARTSEL
+LET partih&=73 ! USERDEF in Baum PARTSEL
+LET partii&=74 ! USERDEF in Baum PARTSEL
+LET partij&=75 ! USERDEF in Baum PARTSEL
+LET partik&=76 ! USERDEF in Baum PARTSEL
+LET partil&=77 ! USERDEF in Baum PARTSEL
+LET partim&=78 ! USERDEF in Baum PARTSEL
+LET partin&=79 ! USERDEF in Baum PARTSEL
+LET partio&=80 ! USERDEF in Baum PARTSEL
+LET partip&=81 ! USERDEF in Baum PARTSEL
+LET partiq&=82 ! USERDEF in Baum PARTSEL
+LET partir&=83 ! USERDEF in Baum PARTSEL
+LET partis&=84 ! USERDEF in Baum PARTSEL
+LET partit&=85 ! USERDEF in Baum PARTSEL
+LET partiu&=86 ! USERDEF in Baum PARTSEL
+LET partiv&=87 ! USERDEF in Baum PARTSEL
+LET partiw&=88 ! USERDEF in Baum PARTSEL
+LET partix&=89 ! USERDEF in Baum PARTSEL
+LET partiy&=90 ! USERDEF in Baum PARTSEL
+LET partiz&=91 ! USERDEF in Baum PARTSEL
+LET parti1&=92 ! USERDEF in Baum PARTSEL
+LET parti2&=93 ! USERDEF in Baum PARTSEL
+LET parti3&=94 ! USERDEF in Baum PARTSEL
+LET parti4&=95 ! USERDEF in Baum PARTSEL
+LET parti5&=96 ! USERDEF in Baum PARTSEL
+LET parti6&=97 ! USERDEF in Baum PARTSEL
 '
 LET dsmove&=20 ! Formular/Dialog
 LET dsmovbox&=0 ! BOX in Baum DSMOVE
@@ -22530,6 +22592,8 @@ newcue$=""
 panmix=TRUE
 extmix=FALSE
 maxch=16
+DIM ds_size(32)
+DIM ds_art(32)
 DIM drvsiz(32)
 DIM drvcl1(32)
 DIM drvcl2(32)
@@ -24545,7 +24609,7 @@ ENDIF
 ~XBIOS(&H8B,1,8+4,0,tclk,1)
 '
 '
-IF dig24=TRUE THEN
+IF demo=FALSE AND dig24=TRUE THEN
 IF pch16=FALSE THEN
 '
 POKE &HFEFF0617,3+4   ! specialmode 24bit
@@ -32858,7 +32922,6 @@ RETURN
 LOCAL j,g,x,y,k,v1,v2,v3,v4,nobj,ofil$,nx,ny
 vornr=nr
 nr=fsel&
-~@xrsrc_gaddr(0,nr,zu%)
 nfk=0
 nfil$=""
 vop$=op$
@@ -32866,6 +32929,9 @@ vnam$=nam$
 vfil$=fil$
 fsmplay=FALSE
 fsbreak=FALSE
+vshading=shading
+shading=TRUE
+dopix=TRUE
 @hidetree2(fsload&,TRUE)
 @hidetree2(fssave&,TRUE)
 @hidetree2(fsdel&,TRUE)
@@ -32906,12 +32972,9 @@ ENDIF
 @flagbutton(fstxt15&,0)
 @flagbutton(fsexit&,1029)
 @flagbutton(fsok&,1031)
-@flagbutton(tfsearch&,0)
 @hidetree2(tfsearch&,TRUE)
+'  @flagbutton(tfsearch&,0)   ! compiler-problem
 @textfeld4(fsel&,fstxoffs,"Audioselector"+CHR$(0),1)
-vshading=shading
-shading=TRUE
-dopix=TRUE
 @busy_mouse
 @analog
 @digout(TRUE)
@@ -32942,22 +33005,17 @@ ENDIF
 dopix=FALSE
 shading=vshading
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
+obj=0
 @rsc_draw(nr,1)
+@wischwasch
 @markhlp
 REPEAT
 REPEAT
 REPEAT
 obj=@rsc_do(nr,0,popup&)
-~@xrsrc_gaddr(0,nr,zu%)
-zuadr=zu%
 UNTIL obj<>0 AND obj<>-1
-buttadr=zuadr+24*obj
-but=DPEEK(buttadr+6)
 REPEAT
 UNTIL @mousek=0
-~@xrsrc_gaddr(1,obj,zu%)
-objadr=zu%
-objflag=DPEEK(objadr+8)
 @readbutton(obj)
 IF obj=fshelp& THEN
 IF fsmplay=FALSE THEN
@@ -33501,7 +33559,7 @@ tfsz2=0
 @flagbutton(fstxt15&,1089)
 @flagbutton(fsexit&,1029)
 @flagbutton(fsok&,0)
-@flagbutton(tfsearch&,1031)
+'  @flagbutton(tfsearch&,1031)   ! compiler-problem
 @textfeld4(fsel&,fstxoffs,"Trackfinder"+CHR$(0),1)
 IF maxcol<>2 THEN
 @textcolor(fsel&,fstxt1&,1,4,3)  !text,rahmen,fill
@@ -54982,7 +55040,7 @@ ENDIF
 ENDIF
 RETURN
 '
-> PROCEDURE partfsel
+PROCEDURE partfsel
 LOCAL a,i
 @testcopyright
 @ds_init
@@ -55007,11 +55065,16 @@ IF BTST(drvbits,i)=TRUE THEN
 ENDIF
 ENDIF
 NEXT i
+@meldung_on("check partitionsize...")
 FOR i=2 TO 31
 IF BTST(drvbits,i)=TRUE THEN
 IF BTST(drvdsrdy,i)=TRUE THEN
 a$=RIGHT$("       "+STR$(INT(drvsiz(i)/&H100000*100)/100),7)
+@hidetree3(partsel&,partic&+i-2,FALSE)  !neu
+@icontxt3(partsel&,partic&+i-2,"AA"+CHR$(0),1)  !neu
 ELSE
+@ds_tstfile(i)        ! check exist STREAMxx.DAT ?
+IF ds_art(i)=0 THEN
 a=@partlen(i)
 IF a=0 THEN
 a$="-"
@@ -55023,9 +55086,13 @@ IF fat32=TRUE THEN
 a$=RIGHT$("       "+STR$(INT(a/&H100000*100)/100),7)
 ENDIF
 ENDIF
+ELSE
+@hidetree3(partsel&,partic&+i-2,FALSE)  !neu
+@icontxt3(partsel&,partic&+i-2,"AA"+CHR$(0),1)  !neu
+ENDIF
 ENDIF
 IF a$="-" THEN
-@rsc_state(nr,partc&+i-2,3,TRUE)
+@rsc_state(partsel&,partc&+i-2,3,TRUE)
 ELSE
 IF MID$(a$,LEN(a$)-1,1)="." THEN
 a$=RIGHT$(a$+"0",7)
@@ -55033,16 +55100,17 @@ ENDIF
 IF INSTR(a$,".")=0 THEN
 a$=RIGHT$(a$+".00",7)
 ENDIF
-@rsc_state(nr,partc&+i-2,3,FALSE)
+@rsc_state(partsel&,partc&+i-2,3,FALSE)
 ENDIF
 a$=a$+CHR$(0)
 ELSE
 a$="-"+CHR$(0)
-@rsc_state(nr,partc&+i-2,3,TRUE)
+@rsc_state(partsel&,partc&+i-2,3,TRUE)
 ENDIF
-@textfeld2(nr,partfsc&+i-2,a$,1)
+@textfeld2(partsel&,partfsc&+i-2,a$,1)
 @busy_mouse
 NEXT i
+@meldung_off
 IF partact=TRUE THEN
 @setbutton3(partact&,1,nr)
 ELSE
@@ -55222,6 +55290,23 @@ mfat=MALLOC(ds_clst)               ! clustertabelle
 ENDIF
 RETURN
 '
+PROCEDURE ds_tstfile(dsi)
+LOCAL dta,a$,a
+ds_art(dsi)=0
+ds_size(dsi)=0
+dta=GEMDOS(47)
+a$=CHR$(65+dsi)+":\STREAM??.DAT"+CHR$(0)
+a=GEMDOS(78,L:VARPTR(a$),1)
+IF a=0 THEN
+ds_size(dsi)=LPEEK(dta+26)
+IF PEEK(dta+37)=ASC(".") THEN
+ds_art(dsi)=VAL(CHR$(PEEK(dta+36)))
+ELSE
+ds_art(dsi)=VAL(CHR$(PEEK(dta+36))+CHR$(PEEK(dta+37)))
+ENDIF
+ENDIF
+RETURN
+'
 > PROCEDURE ds_test(dsi)    ! Directstream-Filetest
 '  v$="STARTR~1."                  ! Suchstring Filename (Kopie)
 @meldung_on("filecheck for partitionmode...")
@@ -55336,6 +55421,7 @@ s=4
 ELSE
 s=2
 ENDIF
+@meldung_on("check fat for partitionmode...")
 REPEAT                            ! fat durchforsten,belegte cluster in clustertabelle eintragen
 @busy_mouse
 ~BIOS(4,0,L:mcl,1,-1,dsi,L:i)   ! sectorl„nge ist gleich sec
@@ -55379,6 +55465,7 @@ s1=0
 ENDIF
 ENDIF
 NEXT i
+@meldung_off
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 a$="Filestream "+CHR$(65+dsi)+":"+CHR$(0)
 @textfeld4(record&,rectxoffs,a$,1)
@@ -55414,6 +55501,7 @@ IF xx=partsel& THEN
 @restaura2b
 nr=partsel&
 @rsc_draw(nr,1)
+@wischwasch
 ELSE
 @restaura2
 ENDIF
@@ -55577,6 +55665,7 @@ ft=INT(dsc1/f)
 i=fat1+ft
 d=dsc1-(ft*f)
 dc=dsc1
+@meldung_on("write fat for partitionmode...")
 REPEAT                            ! fat schreiben
 @busy_mouse
 ~BIOS(4,0,L:mcl,1,-1,dsi,L:i)
@@ -55604,6 +55693,7 @@ FOR j=0 TO ds_fats-1
 NEXT j
 INC i
 UNTIL dc>dsc2
+@meldung_off
 drvdsrdy=BSET(drvdsrdy,dsi)
 drvsiz(dsi)=mg
 drvcl1(dsi)=ds_fstd+((dsc1-2)*ds_clcnt)
@@ -57864,6 +57954,7 @@ ENDIF
 RETURN
 '
 > PROCEDURE mixread(i)
+IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
 LPOKE mdat%,i-1
 REPEAT
 UNTIL (PEEK(dspadr+2) AND 2)=2
@@ -57880,6 +57971,9 @@ POKE mdat%+1,PEEK(dspadr+5)
 POKE mdat%+2,PEEK(dspadr+6)
 POKE mdat%+3,PEEK(dspadr+7)
 peak(i)=LPEEK(mdat%)
+ELSE
+peak(i)=INT(RND(1)*5000000)
+ENDIF
 vpeakw(i)=ROUND(peak(i)/&H800000*mvolh)
 RETURN
 '
@@ -57983,6 +58077,7 @@ LPOKE mdat%+4,v2
 '      a=XBIOS(98,L:mdat%,L:2,L:mdat%,L:0)
 REPEAT
 UNTIL (PEEK(dspadr+2) AND 2)=2
+IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
 POKE dspadr+5,PEEK(mdat%+1)
 POKE dspadr+6,PEEK(mdat%+2)
 POKE dspadr+7,PEEK(mdat%+3)
@@ -57994,6 +58089,7 @@ POKE dspadr+7,PEEK(mdat%+7)
 REPEAT
 UNTIL (PEEK(dspadr+2) AND 2)=2
 a=XBIOS(xbs,73,1)
+ENDIF
 '      FOR i=0 TO 20
 '    NEXT i
 ELSE
@@ -58015,6 +58111,7 @@ ENDIF
 ENDIF
 IF v1=3 THEN
 IF hdr=FALSE THEN
+IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
 LPOKE mdat%+12,v2
 ~XBIOS(xbs,73,14)
 REPEAT
@@ -58027,6 +58124,7 @@ UNTIL (PEEK(dspadr+2) AND 2)=2
 POKE dspadr+5,PEEK(mdat%+13)
 POKE dspadr+6,PEEK(mdat%+14)
 POKE dspadr+7,PEEK(mdat%+15)
+ENDIF
 ELSE
 LPOKE dpeakret+16,v2
 ENDIF
@@ -58055,6 +58153,7 @@ ENDIF
 RETURN
 '
 > PROCEDURE routeset(v1,v2)
+IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
 LPOKE mdat%,v1
 LPOKE mdat%+4,v2
 '      a=XBIOS(98,L:mdat%,L:2,L:mdat%,L:0)
@@ -58072,9 +58171,11 @@ REPEAT
 UNTIL (PEEK(dspadr+2) AND 2)=2
 a=XBIOS(xbs,73,14)
 PAUSE 2
+ENDIF
 RETURN
 '
 > PROCEDURE mixbypset(v1,v2)
+IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
 LPOKE mdat%,v1
 LPOKE mdat%+4,v2
 '      a=XBIOS(98,L:mdat%,L:2,L:mdat%,L:0)
@@ -58092,9 +58193,11 @@ REPEAT
 UNTIL (PEEK(dspadr+2) AND 2)=2
 a=XBIOS(xbs,73,15)
 PAUSE 2
+ENDIF
 RETURN
 '
 > PROCEDURE mixmodeset(v1)
+IF demo=FALSE OR (falcon=TRUE AND magicmac=0) THEN
 LPOKE mdat%,v1
 REPEAT
 UNTIL (PEEK(dspadr+2) AND 2)=2
@@ -58106,6 +58209,7 @@ REPEAT
 UNTIL (PEEK(dspadr+2) AND 2)=2
 a=XBIOS(xbs,73,16)
 PAUSE 2
+ENDIF
 RETURN
 '
 > PROCEDURE xfade
@@ -58560,16 +58664,18 @@ ENDIF
 ds_cnt=drvcl1(dsd)
 rmlen=drvsiz(dsd)
 IF fh>0 OR dsm<3 THEN
-IF dsm=1 THEN
+SELECT dsm
+CASE 1
 @maschruf9(wrkmem2%,wrkmem2%+wrkl2)
-ENDIF
-IF dsm=2 THEN
+@meldung_on("clear all directstream-tracks...")
+CASE 2
 @maschruf9(wrkmem%,wrkmem%+wrkl1)
-ENDIF
-IF dsm=3 THEN
+@meldung_on("clear directstream-track...")
+CASE 3
 ~GEMDOS(66,L:head,fh,0)
 ln=ln-head
-ENDIF
+@meldung_on("load track to directstream...")
+ENDSELECT
 REPEAT
 @busy_mouse
 IF dsm=3 THEN
@@ -58596,11 +58702,11 @@ e=wrkl2/ds_chc/drvsec(dsd)
 REPEAT
 IF ds_l<>0 THEN
 ~XBIOS(xbs,326,ch_cnt,L:wrkmem%+cdsc*mbc/byt*drvsec(dsd),L:wrkmem2%+cdsc*ds_chc*drvsec(dsd)+(ds_l-1)*drvsec(dsd),L:anz)
-PRINT cdsc*mbc/byt*drvsec(dsd),cdsc*ds_chc*drvsec(dsd)+(ds_l-1)*drvsec(dsd),anz
+'                PRINT cdsc*mbc/byt*drvsec(dsd),cdsc*ds_chc*drvsec(dsd)+(ds_l-1)*drvsec(dsd),anz
 ENDIF
 IF ds_r<>0 THEN
 ~XBIOS(xbs,326,ch_cnt,L:wrkmem%+cdsc*mbc/byt*drvsec(dsd)+(mbc/2),L:wrkmem2%+cdsc*ds_chc*drvsec(dsd)+(ds_r-1)*drvsec(dsd),L:anz)
-PRINT cdsc*mbc/byt*drvsec(dsd)+(mbc/2),cdsc*ds_chc*drvsec(dsd)+(ds_r-1)*drvsec(dsd),anz
+'                PRINT cdsc*mbc/byt*drvsec(dsd)+(mbc/2),cdsc*ds_chc*drvsec(dsd)+(ds_r-1)*drvsec(dsd),anz
 ENDIF
 INC cdsc
 UNTIL cdsc=e
@@ -58612,6 +58718,7 @@ IF dsm=3 THEN
 ~GEMDOS(62,fh)
 ENDIF
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
+@meldung_off
 ENDIF
 ~MFREE(wrkmem%)
 ELSE
@@ -58684,6 +58791,7 @@ fh=GEMDOS(60,L:VARPTR(f$),0)
 ds_cnt=drvcl1(dsd)
 rmlen=drvsiz(dsd)
 IF fh>0 THEN
+@meldung_on("save track from directstream...")
 ~GEMDOS(64,fh,L:head,L:danf)
 REPEAT
 @busy_mouse
@@ -58716,6 +58824,7 @@ ds_cnt=ds_cnt+dsc
 UNTIL ln=0 OR rmlen=0
 ~GEMDOS(62,fh)
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
+@meldung_off
 ENDIF
 ~MFREE(wrkmem%)
 ELSE
