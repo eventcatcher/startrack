@@ -164,13 +164,7 @@ END
   '
   ascii|=BYTE(key&)                                  ! ASCII-Code
   scan|=BYTE(SHR(key&,8))                            ! SCAN-Code
-  a=@rsc_shortcut(dropdown&,scan|,shift&,title&)
   shcut=FALSE
-  IF a<>0 THEN
-    nob=a
-    obj&=a
-    shcut=TRUE
-  ENDIF
   '
   rsc_adr%=rsc_adr%(nr)
   IF ascii|=0                                        ! Kein ASCII-Code...
@@ -2941,11 +2935,10 @@ a$=a$+CHR$(0)
 RETURN
 '
 > PROCEDURE setpcg(chz)  ! chz=764-96000 Hz (mehr m”glich, aber nicht empfohlen)
-~XBIOS(&H8A,0,7)
-~XBIOS(&H8A,2,0) ! fr ADAT-Play den GPIO auf 111 setzen
+oldgpio=(XBIOS(&H8A,1) OR 4)  ! fr ADAT den gpio-Status retten
 '
 pcgout=FALSE
-ref=12.5*1000^2
+ref=10*1000^2
 '
 @clockcalc(ref,chz)
 '
@@ -2965,6 +2958,8 @@ ENDIF
 @sendprotocol(pw)
 @sendcontrol(&X1111000000000)
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
+'
+~XBIOS(&H8A,2,oldgpio) ! fr ADAT den GPIO-status zurckschreiben
 RETURN
 '
 > PROCEDURE clockcalc(freqref,chz)
@@ -3041,6 +3036,16 @@ ENDIF
 NEXT i
 RETURN
 '
+> PROCEDURE setgpiobit(gdir,gdata)
+IF falcon=TRUE THEN
+~XBIOS(&H8A,gdir,gdata)
+ELSE
+~XBIOS(xbs,76,1)
+~XBIOS(&H8A,gdir,gdata)
+~XBIOS(xbs,76,0)
+ENDIF
+RETURN
+'
 > PROCEDURE sendbit(sbit)
 LOCAL v,i
 @busy_mouse
@@ -3048,16 +3053,15 @@ v=8
 v=BSET(v,2) ! set ADAT-bit
 IF sbit=0 THEN
 v=BCLR(v,1)
-~XBIOS(&H8A,2,v)
+@setgpiobit(2,v)
 ELSE
 v=BSET(v,1)
-~XBIOS(&H8A,2,v)
+@setgpiobit(2,v)
 ENDIF
 v=BSET(v,0)
-~XBIOS(&H8A,2,v)
+@setgpiobit(2,v)
 v=BCLR(v,0)
-~XBIOS(&H8A,2,v)
+@setgpiobit(2,v)
 RETURN
-'
 '
 ' ENDE
