@@ -620,26 +620,12 @@ my_Dfound:     lsl.w      #1,d2
                movem.l    (sp)+,d3-d7/a3-a7
                rte        
 
-spcinp:        .DC.b "insrc="
-               .DC.b "analog"
-               .DC.b "opto"
-               .DC.b "cinch"
-
-spcout:        .DC.b "outsrc="
-               .DC.b "input"
-               .DC.b "dma"
-               .DC.b "ext"
-
-spcmode:       .DC.b "mode="
-               .DC.b "stereo"
-               .DC.b "falcon"
-
-spcvoli:       .DC.b "invol="
-spcvolo:       .DC.b "outvol="
-
-spcbit:        .DC.b "bits="
-               .DC.b "normal"
-               .DC.b "extended"
+spcinp:        .DC.b "insrc="           ; analog,opto,cinch
+spcout:        .DC.b "outsrc="          ; input,dma,ext
+spcmode:       .DC.b "mode="            ; stereo,falcon
+spcvoli:       .DC.b "invol="           ; $00-$ff
+spcvolo:       .DC.b "outvol="          ; $00-$ff
+spcbt:         .DC.b "bitres="          ; normal,extended
 
 getspecs:      lea.l      asrc(pc),a6   ; asrc=analog
                move.w     #1,(a6)
@@ -673,35 +659,34 @@ getspecs:      lea.l      asrc(pc),a6   ; asrc=analog
                lea.l      $c(sp),sp
                lea.l      filebuf,a0
 spcnxt1:       moveq.l    #0,d2
-               lea.l      spcinp(pc),a1
-               lea.l      spcout(pc),a2
-               lea.l      spcmode(pc),a3
-               lea.l      spcvoli(pc),a4
-               lea.l      spcvolo(pc),a5
-               lea.l      spcbit(pc),a6
 spcnxt2:       move.b     (a0),d0
                cmpi.b     #"=",d0
-               beq.s      spcfrdy
+               beq        spcfrdy
                bset       #5,d0
                move.w     #0,d7
                move.w     #1,d6
-
-               cmp.b      (a1),d0
+               lea.l      spcinp(pc),a1
+               cmp.b      0(a1,d2.w),d0
                beq.s      spcfnd
                move.w     #2,d6
-               cmp.b      (a2),d0
+               lea.l      spcout(pc),a1
+               cmp.b      0(a1,d2.w),d0
                beq.s      spcfnd
                move.w     #3,d6
-               cmp.b      (a3),d0
+               lea.l      spcmode(pc),a1
+               cmp.b      0(a1,d2.w),d0
                beq.s      spcfnd
                move.w     #4,d6
-               cmp.b      (a4),d0
+               lea.l      spcvoli(pc),a1
+               cmp.b      0(a1,d2.w),d0
                beq.s      spcfnd
                move.w     #5,d6
-               cmp.b      (a5),d0
+               lea.l      spcvolo(pc),a1
+               cmp.b      0(a1,d2.w),d0
                beq.s      spcfnd
-               move.w     #$6,d6
-               cmp.b      (a6),d0
+               move.w     #6,d6
+               lea.l      spcbt(pc),a1
+               cmp.b      0(a1,d2.w),d0
                beq.s      spcfnd
                addq.l     #1,a0
                cmpa.l     #filebuf+512,a0
@@ -712,15 +697,10 @@ spcnxt2:       move.b     (a0),d0
                addq.l     #4,sp
 nospecs:       clr.l      d0
                rts        
-spcfnd:        addq.l     #1,a0
-               addq.l     #1,a1
-               addq.l     #1,a2
-               addq.l     #1,a3
-               addq.l     #1,a4
-               addq.l     #1,a5
-               adda.l     #1,a6
+spcfnd:        addi.w     #1,d2
+               addq.l     #1,a0
                move.w     d6,d7
-               bra.s      spcnxt2
+               bra        spcnxt2
 spcfrdy:       addq.l     #1,a0
                cmpi.w     #1,d7
                beq.s      spcfnd1
@@ -748,8 +728,6 @@ spcfnd1:       move.b     (a0),d1
 spc11:         lea.l      asrc(pc),a6   ; asrc=analog
                move.w     #1,(a6)
                bra        spcnxt1
-
-anatext:       .DC.b "input=analog",0,0
 
 spc12:         lea.l      asrc(pc),a6   ; asrc=digi
                move.w     #0,(a6)
@@ -803,8 +781,9 @@ spcfnd4a:      move.b     (a0)+,d1
                cmpi.b     #15,d1
                ble.s      nohex1
                subi.b     #32,d1
-nohex1:        move.w     d1,d2
-               lsl.w      #4,d2
+
+nohex1:        move.w     d1,d3
+               lsl.w      #4,d3
                move.b     (a0)+,d1
                cmpi.w     #48,d1
                blt.s      spcfnd4b
@@ -816,9 +795,9 @@ nohex1:        move.w     d1,d2
                ble.s      nohex2
                subi.b     #32,d1
 nohex2:        andi.w     #$f,d1
-               or.b       d1,d2
-spcfnd4b:      move.w     d2,(a6)+
-               move.w     d2,(a6)
+               or.b       d1,d3
+spcfnd4b:      move.w     d3,(a6)+
+               move.w     d3,(a6)
                bra        spcnxt1
 
 spcfnd5:       lea.l      dawert(pc),a6
@@ -826,7 +805,6 @@ spcfnd5:       lea.l      dawert(pc),a6
                bra.s      spcfnd4a
 
 spcfnd6:       move.b     (a0),d1
-xx:            bra        xx
                lea.l      modr24(pc),a3
                bclr       #5,d1
                cmpi.b     #"N",d1
@@ -837,7 +815,6 @@ xx:            bra        xx
 spc61:         move.b     #0,(a3)
                bra        spcnxt1
 spc62:         move.b     #1,(a3)
-
                bra        spcnxt1
 
 speedtst:      movea.l    (a0)+,a1      ; buffer
