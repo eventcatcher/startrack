@@ -231,13 +231,7 @@ END
   '
   ascii|=BYTE(key&)                                  ! ASCII-Code
   scan|=BYTE(SHR(key&,8))                            ! SCAN-Code
-  a=@rsc_shortcut(dropdown&,scan|,shift&,title&)
   shcut=FALSE
-  IF a<>0 THEN
-    nob=a
-    obj&=a
-    shcut=TRUE
-  ENDIF
   '
   rsc_adr%=rsc_adr%(nr)
   IF ascii|=0                                        ! Kein ASCII-Code...
