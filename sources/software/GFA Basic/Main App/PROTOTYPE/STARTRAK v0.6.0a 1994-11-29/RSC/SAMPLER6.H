@@ -1,0 +1,520 @@
+/* Resource Datei Indizes fÅr SAMPLER6 */
+
+#define SMP16            0   /* Formular/Dialog */
+#define MAINBOX          0   /* BOX in Baum SMP16 */
+#define EXIT             2   /* BUTTON in Baum SMP16 */
+#define DATEI            4   /* TEXT in Baum SMP16 */
+#define MAINBOX2         5   /* BOX in Baum SMP16 */
+#define EMPH             7   /* BUTTON in Baum SMP16 */
+#define AUDIO            8   /* BUTTON in Baum SMP16 */
+#define USE              9   /* BUTTON in Baum SMP16 */
+#define SMP32            11  /* BUTTON in Baum SMP16 */
+#define SMP44            12  /* BUTTON in Baum SMP16 */
+#define SMP48            13  /* BUTTON in Baum SMP16 */
+#define NOVAL            15  /* BUTTON in Baum SMP16 */
+#define CONFID           16  /* BUTTON in Baum SMP16 */
+#define SLIPPED          17  /* BUTTON in Baum SMP16 */
+#define CRC              18  /* BUTTON in Baum SMP16 */
+#define PARITY           19  /* BUTTON in Baum SMP16 */
+#define BIPHASE          20  /* BUTTON in Baum SMP16 */
+#define NOLOCK           21  /* BUTTON in Baum SMP16 */
+#define PROT             23  /* BUTTON in Baum SMP16 */
+#define MAINBOX5         24  /* BOX in Baum SMP16 */
+#define EDIT             25  /* BUTTON in Baum SMP16 */
+#define SWDSP            26  /* BUTTON in Baum SMP16 */
+#define PEAKSW           27  /* BUTTON in Baum SMP16 */
+#define MAINBOX6         31  /* BOX in Baum SMP16 */
+#define PROTECT          35  /* BUTTON in Baum SMP16 */
+#define INPUT            37  /* BOXTEXT in Baum SMP16 */
+#define INCIRC           38  /* BOXCHAR in Baum SMP16 */
+#define SOURCE           39  /* BOXTEXT in Baum SMP16 */
+#define SRCCIRC          40  /* BOXCHAR in Baum SMP16 */
+#define SMPAUTO          42  /* BUTTON in Baum SMP16 */
+#define SMPSTART         43  /* BUTTON in Baum SMP16 */
+#define MAINBOX4         45  /* BOX in Baum SMP16 */
+#define RATE2            48  /* BOXTEXT in Baum SMP16 */
+#define RATECIR2         49  /* BOXCHAR in Baum SMP16 */
+#define MAINBOX3         50  /* BOX in Baum SMP16 */
+#define DSP              53  /* BOXTEXT in Baum SMP16 */
+#define DSPCIRC          54  /* BOXCHAR in Baum SMP16 */
+#define FILESEL          56  /* BUTTON in Baum SMP16 */
+#define MEMUSED          58  /* TEXT in Baum SMP16 */
+#define HELPORIG         63  /* BOXTEXT in Baum SMP16 */
+#define PLAY             64  /* BUTTON in Baum SMP16 */
+
+#define SMPEDIT          1   /* Formular/Dialog */
+#define EDITBOX7         0   /* BOX in Baum SMPEDIT */
+#define EDITBOX          2   /* BOX in Baum SMPEDIT */
+#define SMPLEN           3   /* BOXTEXT in Baum SMPEDIT */
+#define SMPSEC           4   /* BOXTEXT in Baum SMPEDIT */
+#define SMPEXIT          7   /* BUTTON in Baum SMPEDIT */
+#define SMPL1            9   /* BUTTON in Baum SMPEDIT */
+#define SMPR1            10  /* BUTTON in Baum SMPEDIT */
+#define SMPL2            11  /* BUTTON in Baum SMPEDIT */
+#define SMPR2            12  /* BUTTON in Baum SMPEDIT */
+#define SMPL3            13  /* BUTTON in Baum SMPEDIT */
+#define SMPR3            14  /* BUTTON in Baum SMPEDIT */
+#define SMPANF           15  /* BUTTON in Baum SMPEDIT */
+#define SMPEND           16  /* BUTTON in Baum SMPEDIT */
+#define SMPMID           17  /* BUTTON in Baum SMPEDIT */
+#define RATE             18  /* BOXTEXT in Baum SMPEDIT */
+#define RATECIRC         19  /* BOXCHAR in Baum SMPEDIT */
+#define EDITBOX6         20  /* BOX in Baum SMPEDIT */
+#define SMPPMARK         21  /* USERDEF in Baum SMPEDIT */
+#define MIDI             22  /* USERDEF in Baum SMPEDIT */
+#define SMPLOOP          23  /* USERDEF in Baum SMPEDIT */
+#define MINTEXT          24  /* BOXTEXT in Baum SMPEDIT */
+#define SMPFILE          26  /* BOXTEXT in Baum SMPEDIT */
+#define SMPRATE          27  /* BOXTEXT in Baum SMPEDIT */
+#define EDITBOX5         28  /* BOX in Baum SMPEDIT */
+#define MOVER            29  /* BOXTEXT in Baum SMPEDIT */
+#define MOVECIRC         30  /* BOXCHAR in Baum SMPEDIT */
+#define UHR              31  /* USERDEF in Baum SMPEDIT */
+#define TRASH            32  /* USERDEF in Baum SMPEDIT */
+#define EDITBOX3         34  /* BOX in Baum SMPEDIT */
+#define EDITBOX8         35  /* BOX in Baum SMPEDIT */
+#define SMPSTA           36  /* BUTTON in Baum SMPEDIT */
+#define SMPSTB           37  /* BUTTON in Baum SMPEDIT */
+#define SMPSTC           38  /* BUTTON in Baum SMPEDIT */
+#define SMPSTD           39  /* BUTTON in Baum SMPEDIT */
+#define SMPSTE           40  /* BUTTON in Baum SMPEDIT */
+#define EDITBOX9         41  /* BOX in Baum SMPEDIT */
+#define HACKSA           42  /* BOXTEXT in Baum SMPEDIT */
+#define HACKSB           43  /* BOXTEXT in Baum SMPEDIT */
+#define HACKSC           44  /* BOXTEXT in Baum SMPEDIT */
+#define HACKSD           45  /* BOXTEXT in Baum SMPEDIT */
+#define HACKSE           46  /* BOXTEXT in Baum SMPEDIT */
+#define HACKSS           47  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTSA           48  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTSB           49  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTSC           50  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTSD           51  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTSE           52  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTSAVA         53  /* BOXTEXT in Baum SMPEDIT */
+#define SMPSAVL          55  /* BUTTON in Baum SMPEDIT */
+#define EDITBOX4         56  /* BOX in Baum SMPEDIT */
+#define EDITBX10         57  /* BOX in Baum SMPEDIT */
+#define SMPEA            58  /* BUTTON in Baum SMPEDIT */
+#define SMPEB            59  /* BUTTON in Baum SMPEDIT */
+#define SMPEC            60  /* BUTTON in Baum SMPEDIT */
+#define SMPED            61  /* BUTTON in Baum SMPEDIT */
+#define SMPEE            62  /* BUTTON in Baum SMPEDIT */
+#define EDITBX11         63  /* BOX in Baum SMPEDIT */
+#define HACKEA           64  /* BOXTEXT in Baum SMPEDIT */
+#define HACKEB           65  /* BOXTEXT in Baum SMPEDIT */
+#define HACKEC           66  /* BOXTEXT in Baum SMPEDIT */
+#define HACKED           67  /* BOXTEXT in Baum SMPEDIT */
+#define HACKEE           68  /* BOXTEXT in Baum SMPEDIT */
+#define HACKES           69  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTEA           70  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTEB           71  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTEC           72  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTED           73  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTEE           74  /* BOXTEXT in Baum SMPEDIT */
+#define SMPTSAVB         75  /* BOXTEXT in Baum SMPEDIT */
+#define SMPSAVR          77  /* BUTTON in Baum SMPEDIT */
+#define COPTOARR         79  /* USERDEF in Baum SMPEDIT */
+#define COPTOTXT         80  /* BOXTEXT in Baum SMPEDIT */
+#define SMPEDHLP         81  /* BOXTEXT in Baum SMPEDIT */
+#define EDITBOX2         82  /* BOX in Baum SMPEDIT */
+#define SETUPER          83  /* USERDEF in Baum SMPEDIT */
+#define NORM             84  /* USERDEF in Baum SMPEDIT */
+#define RESMP            85  /* USERDEF in Baum SMPEDIT */
+#define MONO             86  /* USERDEF in Baum SMPEDIT */
+#define MIX              87  /* USERDEF in Baum SMPEDIT */
+#define EDFADE           88  /* USERDEF in Baum SMPEDIT */
+#define PEAKSW2          89  /* USERDEF in Baum SMPEDIT */
+#define MONITOR          90  /* USERDEF in Baum SMPEDIT */
+#define SMPAUTO2         91  /* USERDEF in Baum SMPEDIT */
+#define SMPSTRT2         92  /* USERDEF in Baum SMPEDIT */
+#define SMPPLAY          93  /* USERDEF in Baum SMPEDIT */
+#define LOOPART          94  /* USERDEF in Baum SMPEDIT */
+#define CUT              95  /* USERDEF in Baum SMPEDIT */
+#define HARD             96  /* USERDEF in Baum SMPEDIT */
+#define ARRANGE          97  /* USERDEF in Baum SMPEDIT */
+#define SMPLOAD          98  /* USERDEF in Baum SMPEDIT */
+#define SMPSAVE          99  /* USERDEF in Baum SMPEDIT */
+#define INFOICON         100 /* USERDEF in Baum SMPEDIT */
+#define EDMIDI           101 /* USERDEF in Baum SMPEDIT */
+
+#define DSPEDIT          2   /* Formular/Dialog */
+#define DSPBOX           0   /* BOX in Baum DSPEDIT */
+#define DSPHALL          2   /* BUTTON in Baum DSPEDIT */
+#define DSPECHO          3   /* BUTTON in Baum DSPEDIT */
+#define DSPRET           4   /* BUTTON in Baum DSPEDIT */
+#define DSPEQ            5   /* BUTTON in Baum DSPEDIT */
+#define DSPLOAD          6   /* BUTTON in Baum DSPEDIT */
+#define HELPDSP          7   /* BOXTEXT in Baum DSPEDIT */
+#define DSPEXIT          8   /* BUTTON in Baum DSPEDIT */
+#define DSPSAVE          9   /* BUTTON in Baum DSPEDIT */
+
+#define PEAK             3   /* Formular/Dialog */
+#define PEAKBOX          0   /* BOX in Baum PEAK */
+#define PLMIN            14  /* BUTTON in Baum PEAK */
+#define PL2              15  /* BUTTON in Baum PEAK */
+#define PL3              16  /* BUTTON in Baum PEAK */
+#define PL4              17  /* BUTTON in Baum PEAK */
+#define PL5              18  /* BUTTON in Baum PEAK */
+#define PL6              19  /* BUTTON in Baum PEAK */
+#define PL7              20  /* BUTTON in Baum PEAK */
+#define PL8              21  /* BUTTON in Baum PEAK */
+#define PL9              22  /* BUTTON in Baum PEAK */
+#define PLMAX            23  /* BUTTON in Baum PEAK */
+#define PRMIN            24  /* BUTTON in Baum PEAK */
+#define PR2              25  /* BUTTON in Baum PEAK */
+#define PR3              26  /* BUTTON in Baum PEAK */
+#define PR4              27  /* BUTTON in Baum PEAK */
+#define PR5              28  /* BUTTON in Baum PEAK */
+#define PR6              29  /* BUTTON in Baum PEAK */
+#define PR7              30  /* BUTTON in Baum PEAK */
+#define PR8              31  /* BUTTON in Baum PEAK */
+#define PR9              32  /* BUTTON in Baum PEAK */
+#define PRMAX            33  /* BUTTON in Baum PEAK */
+
+#define LOOP             4   /* Formular/Dialog */
+#define LOOPBOX          0   /* BOX in Baum LOOP */
+#define LOOPEXIT         1   /* BUTTON in Baum LOOP */
+#define FORW             3   /* BUTTON in Baum LOOP */
+#define CROSS            4   /* BUTTON in Baum LOOP */
+#define BACKW            5   /* BUTTON in Baum LOOP */
+#define HELPLOOP         7   /* BOXTEXT in Baum LOOP */
+#define AUTOLOOP         8   /* BUTTON in Baum LOOP */
+
+#define NORMALIZ         5   /* Formular/Dialog */
+#define NORMBOX          0   /* BOX in Baum NORMALIZ */
+#define NORMOK           2   /* BUTTON in Baum NORMALIZ */
+#define NORMEXIT         3   /* BUTTON in Baum NORMALIZ */
+#define NORMDB           4   /* BOXTEXT in Baum NORMALIZ */
+#define NORMAUTO         7   /* BUTTON in Baum NORMALIZ */
+#define NORMADJ          8   /* BUTTON in Baum NORMALIZ */
+#define NORML1           10  /* BUTTON in Baum NORMALIZ */
+#define NORMR1           11  /* BUTTON in Baum NORMALIZ */
+#define NORML2           12  /* BUTTON in Baum NORMALIZ */
+#define NORMR2           13  /* BUTTON in Baum NORMALIZ */
+#define NORML3           14  /* BUTTON in Baum NORMALIZ */
+#define NORMR3           15  /* BUTTON in Baum NORMALIZ */
+#define HELPNORM         16  /* BOXTEXT in Baum NORMALIZ */
+
+#define RESAMPLE         6   /* Formular/Dialog */
+#define RESMPBOX         0   /* BOX in Baum RESAMPLE */
+#define RESOTHER         1   /* BOXTEXT in Baum RESAMPLE */
+#define RESL1            3   /* BUTTON in Baum RESAMPLE */
+#define RESL2            4   /* BUTTON in Baum RESAMPLE */
+#define RESL3            5   /* BUTTON in Baum RESAMPLE */
+#define RESR1            6   /* BUTTON in Baum RESAMPLE */
+#define RESR2            7   /* BUTTON in Baum RESAMPLE */
+#define RESR3            8   /* BUTTON in Baum RESAMPLE */
+#define RSMPTXT2         10  /* TEXT in Baum RESAMPLE */
+#define RSMPTXT1         11  /* TEXT in Baum RESAMPLE */
+#define RES32            13  /* BUTTON in Baum RESAMPLE */
+#define RES44            15  /* BUTTON in Baum RESAMPLE */
+#define RES48            17  /* BUTTON in Baum RESAMPLE */
+#define HELPRSMP         18  /* BOXTEXT in Baum RESAMPLE */
+#define RESOK            19  /* BUTTON in Baum RESAMPLE */
+#define RESEXIT          20  /* BUTTON in Baum RESAMPLE */
+#define RESTXT           22  /* FTEXT in Baum RESAMPLE */
+
+#define MIDIEDIT         7   /* Formular/Dialog */
+#define MIDIBOX          0   /* BOX in Baum MIDIEDIT */
+#define NOTETXT          1   /* BOXTEXT in Baum MIDIEDIT */
+#define MIDINUP          2   /* BUTTON in Baum MIDIEDIT */
+#define MIDINDWN         3   /* BUTTON in Baum MIDIEDIT */
+#define MIDIOUP          4   /* BUTTON in Baum MIDIEDIT */
+#define MIDIODWN         5   /* BUTTON in Baum MIDIEDIT */
+#define CHTXT            7   /* BOXTEXT in Baum MIDIEDIT */
+#define MIDICUP          9   /* BUTTON in Baum MIDIEDIT */
+#define MIDICDWN         10  /* BUTTON in Baum MIDIEDIT */
+#define MIDIOK           11  /* BUTTON in Baum MIDIEDIT */
+#define HELPMIDI         13  /* BOXTEXT in Baum MIDIEDIT */
+
+#define EDITFADE         8   /* Formular/Dialog */
+#define FADEBOX          0   /* BOX in Baum EDITFADE */
+#define FADEOK           2   /* BUTTON in Baum EDITFADE */
+#define FADEUP           3   /* BUTTON in Baum EDITFADE */
+#define FADEDOWN         4   /* BUTTON in Baum EDITFADE */
+#define FADELI           5   /* BUTTON in Baum EDITFADE */
+#define FADERE           6   /* BUTTON in Baum EDITFADE */
+#define FADELIN          8   /* BUTTON in Baum EDITFADE */
+#define INFADE           10  /* BUTTON in Baum EDITFADE */
+#define AUSFADE          11  /* BUTTON in Baum EDITFADE */
+#define HELPFADE         12  /* BOXTEXT in Baum EDITFADE */
+
+#define POPUPS           9   /* Formular/Dialog */
+#define SMPPOPUP         1   /* BOX in Baum POPUPS */
+#define RATE32           2   /* STRING in Baum POPUPS */
+#define RATE44           3   /* STRING in Baum POPUPS */
+#define RATE48           4   /* STRING in Baum POPUPS */
+#define DSPPOPUP         5   /* BOX in Baum POPUPS */
+#define DSPOFF           6   /* STRING in Baum POPUPS */
+#define DSPIN            7   /* STRING in Baum POPUPS */
+#define DSPOUT           8   /* STRING in Baum POPUPS */
+#define SMPPOP2          9   /* BOX in Baum POPUPS */
+#define AD32             10  /* STRING in Baum POPUPS */
+#define AD44             11  /* STRING in Baum POPUPS */
+#define AD48             12  /* STRING in Baum POPUPS */
+#define INPOP            13  /* BOX in Baum POPUPS */
+#define ANALOG           14  /* STRING in Baum POPUPS */
+#define DIGITAL          15  /* STRING in Baum POPUPS */
+#define SRCPOP           16  /* BOX in Baum POPUPS */
+#define OPTO             17  /* STRING in Baum POPUPS */
+#define COAX             18  /* STRING in Baum POPUPS */
+#define POPMARK          19  /* BOX in Baum POPUPS */
+#define SMPMARK          20  /* STRING in Baum POPUPS */
+#define SMPZOOM          21  /* STRING in Baum POPUPS */
+#define SMPSCROL         22  /* STRING in Baum POPUPS */
+#define KOPY             23  /* STRING in Baum POPUPS */
+#define MOVE             24  /* STRING in Baum POPUPS */
+#define MERGE            25  /* STRING in Baum POPUPS */
+#define FADE             26  /* STRING in Baum POPUPS */
+#define INSERT           27  /* STRING in Baum POPUPS */
+
+#define RECORD           10  /* Formular/Dialog */
+#define RECBOX           0   /* BOX in Baum RECORD */
+#define RECL1            1   /* BUTTON in Baum RECORD */
+#define RECR1            2   /* BUTTON in Baum RECORD */
+#define RECL2            3   /* BUTTON in Baum RECORD */
+#define RECR2            4   /* BUTTON in Baum RECORD */
+#define TIMETXT          5   /* BOXTEXT in Baum RECORD */
+#define RECOK            6   /* BUTTON in Baum RECORD */
+#define RECEXIT          7   /* BUTTON in Baum RECORD */
+#define RECHELP          9   /* BOXTEXT in Baum RECORD */
+
+#define CUTEDIT          11  /* Formular/Dialog */
+#define CUTBOX           0   /* BOX in Baum CUTEDIT */
+#define CUTIN            1   /* USERDEF in Baum CUTEDIT */
+#define CUTOUT           2   /* USERDEF in Baum CUTEDIT */
+#define CUTEXIT          3   /* BUTTON in Baum CUTEDIT */
+#define CUTHELP          5   /* BOXTEXT in Baum CUTEDIT */
+#define CUTDEL           6   /* USERDEF in Baum CUTEDIT */
+
+#define SAVEBLOC         12  /* Formular/Dialog */
+#define SAVEBOX          0   /* BOX in Baum SAVEBLOC */
+#define SAVALL           1   /* USERDEF in Baum SAVEBLOC */
+#define SAVBLOCK         2   /* USERDEF in Baum SAVEBLOC */
+#define SAVEXIT          3   /* BUTTON in Baum SAVEBLOC */
+#define SAVEHELP         5   /* BOXTEXT in Baum SAVEBLOC */
+
+#define ARRANGER         13  /* Formular/Dialog */
+#define ARRBOX           0   /* BOX in Baum ARRANGER */
+#define ARRBOX2          1   /* BOX in Baum ARRANGER */
+#define HLPEDIT2         2   /* USERDEF in Baum ARRANGER */
+#define HARDMERG         3   /* USERDEF in Baum ARRANGER */
+#define ARRLOAD          4   /* USERDEF in Baum ARRANGER */
+#define ARRSAVE          5   /* USERDEF in Baum ARRANGER */
+#define ARRPLAY          6   /* USERDEF in Baum ARRANGER */
+#define ARRMIDI          7   /* USERDEF in Baum ARRANGER */
+#define ARRINS           8   /* USERDEF in Baum ARRANGER */
+#define ARRDEL           9   /* USERDEF in Baum ARRANGER */
+#define ARRDELAY         10  /* USERDEF in Baum ARRANGER */
+#define SMPAUTO3         12  /* USERDEF in Baum ARRANGER */
+#define SMPSTRT3         13  /* USERDEF in Baum ARRANGER */
+#define PAUSE            14  /* USERDEF in Baum ARRANGER */
+#define REWIND           15  /* USERDEF in Baum ARRANGER */
+#define STOP             16  /* USERDEF in Baum ARRANGER */
+#define RECPLAY          17  /* USERDEF in Baum ARRANGER */
+#define SMPPLAY2         18  /* USERDEF in Baum ARRANGER */
+#define SMPRPLAY         19  /* USERDEF in Baum ARRANGER */
+#define FORWARD          20  /* USERDEF in Baum ARRANGER */
+#define ARRSTRT          21  /* USERDEF in Baum ARRANGER */
+#define ARREND           22  /* USERDEF in Baum ARRANGER */
+#define ARRBOX4          23  /* BOX in Baum ARRANGER */
+#define PLAYLEN          24  /* TEXT in Baum ARRANGER */
+#define PLAYNAME         25  /* TEXT in Baum ARRANGER */
+#define ARREAL           26  /* BUTTON in Baum ARRANGER */
+#define ARRBOX3          33  /* BOX in Baum ARRANGER */
+#define ARRBOX5          34  /* BOX in Baum ARRANGER */
+#define HARDFS1          35  /* BUTTON in Baum ARRANGER */
+#define SPUR1            36  /* TEXT in Baum ARRANGER */
+#define ARRBOX6          37  /* BOX in Baum ARRANGER */
+#define HARDFS2          38  /* BUTTON in Baum ARRANGER */
+#define SPUR2            39  /* TEXT in Baum ARRANGER */
+#define ARRBOX7          40  /* BOX in Baum ARRANGER */
+#define HARDFS3          41  /* BUTTON in Baum ARRANGER */
+#define SPUR3            42  /* TEXT in Baum ARRANGER */
+#define ARRBOX8          43  /* BOX in Baum ARRANGER */
+#define HARDFS4          44  /* BUTTON in Baum ARRANGER */
+#define SPUR4            45  /* TEXT in Baum ARRANGER */
+#define HARDST2          47  /* TEXT in Baum ARRANGER */
+#define HARDST3          49  /* TEXT in Baum ARRANGER */
+#define HARDST4          51  /* TEXT in Baum ARRANGER */
+#define HARDE2           53  /* TEXT in Baum ARRANGER */
+#define HARDE3           55  /* TEXT in Baum ARRANGER */
+#define HARDE4           57  /* TEXT in Baum ARRANGER */
+#define HARDE1           59  /* TEXT in Baum ARRANGER */
+#define HARDLEN1         61  /* TEXT in Baum ARRANGER */
+#define HARDLEN2         63  /* TEXT in Baum ARRANGER */
+#define HARDLEN3         65  /* TEXT in Baum ARRANGER */
+#define HARDLEN4         67  /* TEXT in Baum ARRANGER */
+#define HARDSTRT         69  /* BUTTON in Baum ARRANGER */
+#define HARDEND          70  /* BUTTON in Baum ARRANGER */
+#define ARRNR1           72  /* TEXT in Baum ARRANGER */
+#define ARRNR2           74  /* TEXT in Baum ARRANGER */
+#define ARRNR3           76  /* TEXT in Baum ARRANGER */
+#define ARRMIDI1         77  /* USERDEF in Baum ARRANGER */
+#define ARRMIDI2         78  /* USERDEF in Baum ARRANGER */
+#define ARRMIDI3         79  /* USERDEF in Baum ARRANGER */
+#define ARRMIDI4         80  /* USERDEF in Baum ARRANGER */
+#define ARRM1            81  /* USERDEF in Baum ARRANGER */
+#define ARRM2            82  /* USERDEF in Baum ARRANGER */
+#define ARRM3            83  /* USERDEF in Baum ARRANGER */
+#define ARRM4            84  /* USERDEF in Baum ARRANGER */
+#define HARDST1          86  /* TEXT in Baum ARRANGER */
+#define ARRNOTE2         88  /* TEXT in Baum ARRANGER */
+#define ARRNOTE3         90  /* TEXT in Baum ARRANGER */
+#define ARRNOTE4         92  /* TEXT in Baum ARRANGER */
+#define ARRNR4           96  /* TEXT in Baum ARRANGER */
+#define ARRMEM1          98  /* TEXT in Baum ARRANGER */
+#define ARRMEM2          100 /* TEXT in Baum ARRANGER */
+#define ARRMEM3          102 /* TEXT in Baum ARRANGER */
+#define ARRMEM4          104 /* TEXT in Baum ARRANGER */
+#define ARRNOTE1         106 /* TEXT in Baum ARRANGER */
+#define ARRCH1           108 /* TEXT in Baum ARRANGER */
+#define ARRCH2           110 /* TEXT in Baum ARRANGER */
+#define ARRCH3           112 /* TEXT in Baum ARRANGER */
+#define ARRCH4           114 /* TEXT in Baum ARRANGER */
+#define ARRTRI1          117 /* BUTTON in Baum ARRANGER */
+#define ARRTRI2          118 /* BUTTON in Baum ARRANGER */
+#define ARRTRI3          119 /* BUTTON in Baum ARRANGER */
+#define ARRTRI4          120 /* BUTTON in Baum ARRANGER */
+#define ARRLOOP1         123 /* USERDEF in Baum ARRANGER */
+#define ARRLOOP2         124 /* USERDEF in Baum ARRANGER */
+#define ARRLOOP3         125 /* USERDEF in Baum ARRANGER */
+#define ARRLOOP4         126 /* USERDEF in Baum ARRANGER */
+#define ARRDEL1          129 /* BUTTON in Baum ARRANGER */
+#define ARRDEL2          130 /* BUTTON in Baum ARRANGER */
+#define ARRDEL3          131 /* BUTTON in Baum ARRANGER */
+#define ARRDEL4          132 /* BUTTON in Baum ARRANGER */
+#define ARRSMPR1         134 /* BOXTEXT in Baum ARRANGER */
+#define ARRSMPR2         136 /* BOXTEXT in Baum ARRANGER */
+#define ARRSMPR3         138 /* BOXTEXT in Baum ARRANGER */
+#define ARRSMPR4         140 /* BOXTEXT in Baum ARRANGER */
+#define SLIDEUP          145 /* BUTTON in Baum ARRANGER */
+#define ARRSLIDE         146 /* BOX in Baum ARRANGER */
+#define SLIDEDWN         147 /* BUTTON in Baum ARRANGER */
+#define ARREXIT          148 /* BUTTON in Baum ARRANGER */
+#define ARRHELP          149 /* BOXTEXT in Baum ARRANGER */
+#define ARRCLIP          150 /* USERDEF in Baum ARRANGER */
+
+#define LOADBLOC         14  /* Formular/Dialog */
+#define LOADBOX          0   /* BOX in Baum LOADBLOC */
+#define LADALL           1   /* USERDEF in Baum LOADBLOC */
+#define LADBLOCK         2   /* USERDEF in Baum LOADBLOC */
+#define LADHELP          4   /* BOXTEXT in Baum LOADBLOC */
+#define LADEXIT          5   /* BUTTON in Baum LOADBLOC */
+
+#define SETUP            15  /* Formular/Dialog */
+#define SETUPBOX         0   /* BOX in Baum SETUP */
+#define SYNC             2   /* BUTTON in Baum SETUP */
+#define FSELDEF          4   /* BUTTON in Baum SETUP */
+#define FSELTXT          6   /* BOXTEXT in Baum SETUP */
+#define WAVSET           7   /* BUTTON in Baum SETUP */
+#define AVRSET           8   /* BUTTON in Baum SETUP */
+#define SNDSET           9   /* BUTTON in Baum SETUP */
+#define AUSET            10  /* BUTTON in Baum SETUP */
+#define SMPSET           11  /* BUTTON in Baum SETUP */
+#define ALLSET           12  /* BUTTON in Baum SETUP */
+#define SECL             16  /* BUTTON in Baum SETUP */
+#define SECR             17  /* BUTTON in Baum SETUP */
+#define SECLEN           18  /* BOXTEXT in Baum SETUP */
+#define SRAM             21  /* BUTTON in Baum SETUP */
+#define MALLMAX          24  /* BUTTON in Baum SETUP */
+#define LENMALL          26  /* FTEXT in Baum SETUP */
+#define SETHELP          27  /* BOXTEXT in Baum SETUP */
+#define RECL             30  /* BUTTON in Baum SETUP */
+#define RECR             31  /* BUTTON in Baum SETUP */
+#define RECM             32  /* BOXTEXT in Baum SETUP */
+#define TRESL            36  /* BUTTON in Baum SETUP */
+#define TRESR            37  /* BUTTON in Baum SETUP */
+#define TRESDB           38  /* BOXTEXT in Baum SETUP */
+#define SETEXIT          40  /* BUTTON in Baum SETUP */
+#define SETSAVE          41  /* BUTTON in Baum SETUP */
+#define SETLOAD          42  /* BUTTON in Baum SETUP */
+#define SETOK            43  /* BUTTON in Baum SETUP */
+#define DREIDE           44  /* BUTTON in Baum SETUP */
+#define GRID             45  /* BUTTON in Baum SETUP */
+
+#define INFO             16  /* Formular/Dialog */
+#define INFOBOX          0   /* BOX in Baum INFO */
+#define INFOEXIT         12  /* BUTTON in Baum INFO */
+#define HELPINFO         13  /* BOXTEXT in Baum INFO */
+
+#define ARRMNAME         17  /* Formular/Dialog */
+#define ARRMNBOX         0   /* BOX in Baum ARRMNAME */
+#define MEMNAME          2   /* FTEXT in Baum ARRMNAME */
+#define AMEXIT           4   /* BUTTON in Baum ARRMNAME */
+#define AMHELP           5   /* BOXTEXT in Baum ARRMNAME */
+#define AMOK             6   /* BUTTON in Baum ARRMNAME */
+
+#define DELAY            18  /* Formular/Dialog */
+#define DELAYBOX         0   /* BOX in Baum DELAY */
+#define DELAYR           2   /* BUTTON in Baum DELAY */
+#define DELAYL           3   /* BUTTON in Baum DELAY */
+#define DELAYTIM         5   /* FTEXT in Baum DELAY */
+#define DELAYEX          7   /* BUTTON in Baum DELAY */
+#define DELAYOK          8   /* BUTTON in Baum DELAY */
+#define DELAYHLP         9   /* BOXTEXT in Baum DELAY */
+
+#define VIRTUAL          19  /* Formular/Dialog */
+#define VIRTBOX          0   /* BOX in Baum VIRTUAL */
+#define VIRTHELP         2   /* BOXTEXT in Baum VIRTUAL */
+#define VIRTBLOC         4   /* BUTTON in Baum VIRTUAL */
+#define VIRTOK           5   /* BUTTON in Baum VIRTUAL */
+#define VIRTWORK         6   /* BUTTON in Baum VIRTUAL */
+#define VIRTDIR          7   /* BUTTON in Baum VIRTUAL */
+#define VSLIDER          9   /* BOX in Baum VIRTUAL */
+#define VLSLIDE          10  /* BUTTON in Baum VIRTUAL */
+#define VRSLIDE          11  /* BUTTON in Baum VIRTUAL */
+#define VBLKSTRT         13  /* FTEXT in Baum VIRTUAL */
+#define VBLKMLEN         14  /* BOXTEXT in Baum VIRTUAL */
+#define VBLKVLEN         17  /* BOXTEXT in Baum VIRTUAL */
+#define VIRTBOX2         18  /* BOX in Baum VIRTUAL */
+#define VSAMPLES         19  /* BUTTON in Baum VIRTUAL */
+#define VSECONDS         20  /* BUTTON in Baum VIRTUAL */
+#define VIRTNO           21  /* BUTTON in Baum VIRTUAL */
+#define VIRTPLAY         22  /* USERDEF in Baum VIRTUAL */
+
+#define CONCAT           20  /* Formular/Dialog */
+#define COCATBOX         0   /* BOX in Baum CONCAT */
+#define CONINS           1   /* USERDEF in Baum CONCAT */
+#define HELPCON          3   /* BOXTEXT in Baum CONCAT */
+#define CONEXIT          4   /* BUTTON in Baum CONCAT */
+#define CONMIX           5   /* USERDEF in Baum CONCAT */
+#define CONSPACE         8   /* USERDEF in Baum CONCAT */
+
+#define SPACE            21  /* Formular/Dialog */
+#define SPACEBOX         0   /* BOX in Baum SPACE */
+#define SPACEL1          1   /* BUTTON in Baum SPACE */
+#define SPACER1          2   /* BUTTON in Baum SPACE */
+#define SPACEL2          3   /* BUTTON in Baum SPACE */
+#define SPACER2          4   /* BUTTON in Baum SPACE */
+#define SPACETXT         5   /* BOXTEXT in Baum SPACE */
+#define OKSPACE          6   /* BUTTON in Baum SPACE */
+#define EXSPACE          7   /* BUTTON in Baum SPACE */
+#define HLPSPACE         9   /* BOXTEXT in Baum SPACE */
+
+#define MOVING           22  /* Formular/Dialog */
+#define MOVNGBOX         0   /* BOX in Baum MOVING */
+#define MOVHLP           1   /* BOXTEXT in Baum MOVING */
+#define MVCUTCPY         3   /* BUTTON in Baum MOVING */
+#define MVCUTINS         4   /* BUTTON in Baum MOVING */
+#define MVCLRINS         5   /* BUTTON in Baum MOVING */
+#define MVCLRCPY         6   /* BUTTON in Baum MOVING */
+#define MOVEXIT          7   /* BUTTON in Baum MOVING */
+
+#define ARRMAKE          23  /* Formular/Dialog */
+#define MAKEBOX          0   /* BOX in Baum ARRMAKE */
+#define MAKEXIT          2   /* BUTTON in Baum ARRMAKE */
+#define MAKEHELP         3   /* BOXTEXT in Baum ARRMAKE */
+#define MAKEOK           4   /* BUTTON in Baum ARRMAKE */
+#define MAKEFSEL         5   /* BUTTON in Baum ARRMAKE */
+#define MAKETXT          7   /* TEXT in Baum ARRMAKE */
+#define MAKERATE         8   /* BOXTEXT in Baum ARRMAKE */
+
+#define TIMEED           24  /* Formular/Dialog */
+#define TIMEBOX          0   /* BOX in Baum TIMEED */
+#define TEDTXT           2   /* FTEXT in Baum TIMEED */
+#define TEDEXIT          4   /* BUTTON in Baum TIMEED */
+#define TEDHELP          5   /* BOXTEXT in Baum TIMEED */
+#define TEDOK            6   /* BUTTON in Baum TIMEED */
+#define TEDSMP           7   /* BUTTON in Baum TIMEED */
+#define TEDSEC           8   /* BUTTON in Baum TIMEED */
