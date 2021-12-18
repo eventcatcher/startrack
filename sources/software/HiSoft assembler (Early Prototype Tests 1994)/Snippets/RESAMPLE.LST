@@ -1,0 +1,94 @@
+HiSoft GenST 680x0 Macro Assembler v2.08D  21/08/94  17:09:40  Sage 1
+
+
+
+    1 T  00000000 48E7FFFE                       movem.l   d0-d7/a0-a6,-(sp)
+    2 T  00000004 206F0040                       movea.l   64(sp),a0 ; sourceanf
+    3 T  00000008 226F0044                       movea.l   68(sp),a1 ; sourceende
+    4 T  0000000C 246F0048                       movea.l   72(sp),a2 ; destanf
+    5 T  00000010 266F004C                       movea.l   76(sp),a3 ; destende
+    6 T  00000014 262F0050                       move.l    80(sp),d3 ; source-sample-rate (320,441,480)
+    7 T  00000018 282F0054                       move.l    84(sp),d4 ; dest-sample-rate (320,441,480)
+    8 T  0000001C 286F0058                       move.l    88(sp),a4 ; destende-RETURN-Wert
+    9 T  00000020 2A03                           move.l    d3,d5
+   10 T  00000022 9A84                           sub.l     d4,d5
+   11 T  00000024 7200                           moveq.l   #0,d1
+   12 T  00000026 2403                           move.l    d3,d2
+   13 T  00000028 84C4                           divu      d4,d2
+   14 T  0000002A 0C8200000001                   cmpi.l    #1,d2
+   15 T  00000030 6712                           beq.s     abzanf
+   16 T  00000032 02820000FFFF                   andi.l    #$ffff,d2
+   17 T  00000038 0C420000                       cmpi.w    #0,d2
+   18 T  0000003C 6740                           beq.s     dazuanf
+   19 T  0000003E 0C420002                       cmpi.w    #2,d2
+   20 T  00000042 6D20                           blt.s     abzanf2
+   21 T  00000044 24D0                 abzanf:   move.l    (a0),(a2)+
+   22 T  00000046 D283                           add.l     d3,d1
+   23 T  00000048 2401                           move.l    d1,d2
+   24 T  0000004A 84C4                           divu      d4,d2
+   25 T  0000004C 02820000FFFF                   andi.l    #$ffff,d2
+   26 T  00000052 2E02                           move.l    d2,d7
+   27 T  00000054 CEFC0004                       mulu      #4,d7
+   28 T  00000058 C4C4                           mulu      d4,d2
+   29 T  0000005A 9282                           sub.l     d2,d1
+   30 T  0000005C D1C7                           adda.l    d7,a0
+   31 T  0000005E B1C9                           cmpa.l    a1,a0
+   32 T  00000060 6DE2                           blt.s     abzanf
+   33 T  00000062 6066                           bra.s     ende
+   34 T  00000064 2A03                 abzanf2:  move.l    d3,d5
+   35 T  00000066 9A84                           sub.l     d4,d5
+   36 T  00000068 2018                 abzanf3:  move.l    (a0)+,d0
+   37 T  0000006A D285                           add.l     d5,d1
+   38 T  0000006C 2401                           move.l    d1,d2
+   39 T  0000006E 9483                           sub.l     d3,d2
+   40 T  00000070 6B04                           bmi.s     noabz2
+   41 T  00000072 2202                           move.l    d2,d1
+   42 T  00000074 6002                           bra.s     abztest2
+   43 T  00000076 24C0                 noabz2:   move.l    d0,(a2)+
+   44 T  00000078 B1C9                 abztest2: cmpa.l    a1,a0
+   45 T  0000007A 6DEC                           blt.s     abzanf3
+   46 T  0000007C 604C                           bra.s     ende
+   47 T  0000007E 2404                 dazuanf:  move.l    d4,d2
+   48 T  00000080 84C3                           divu      d3,d2
+   49 T  00000082 0C420002                       cmpi.w    #2,d2
+   50 T  00000086 6C1E                           bge.s     dazuanf4
+   51 T  00000088 2A04                           move.l    d4,d5
+   52 T  0000008A 9A83                           sub.l     d3,d5
+   53 T  0000008C 2018                 dazuanf2: move.l    (a0)+,d0
+   54 T  0000008E D285                           add.l     d5,d1
+   55 T  00000090 2401                           move.l    d1,d2
+   56 T  00000092 9483                           sub.l     d3,d2
+   57 T  00000094 6B04                           bmi.s     dazuanf3
+HiSoft GenST 680x0 Macro Assembler v2.08D  21/08/94  17:09:40  Sage 2
+
+
+
+   58 T  00000096 2202                           move.l    d2,d1
+   59 T  00000098 24C0                           move.l    d0,(a2)+
+   60 T  0000009A 24C0                 dazuanf3: move.l    d0,(a2)+
+   61 T  0000009C B5CB                           cmpa.l    a3,a2
+   62 T  0000009E 6C2A                           bge.s     ende
+   63 T  000000A0 B1C9                           cmpa.l    a1,a0
+   64 T  000000A2 6DE8                           blt.s     dazuanf2
+   65 T  000000A4 6024                           bra.s     ende
+   66 T  000000A6 2018                 dazuanf4: move.l    (a0)+,d0
+   67 T  000000A8 D284                           add.l     d4,d1
+   68 T  000000AA 2401                           move.l    d1,d2
+   69 T  000000AC 84C3                           divu      d3,d2
+   70 T  000000AE 02820000FFFF                   andi.l    #$ffff,d2
+   71 T  000000B4 2E02                           move.l    d2,d7
+   72 T  000000B6 C4C3                           mulu      d3,d2
+   73 T  000000B8 9282                           sub.l     d2,d1
+   74 T  000000BA 5387                           subq.l    #1,d7
+   75 T  000000BC 24C0                 dazuanf5: move.l    d0,(a2)+
+   76 T  000000BE B5CB                           cmp.l     a3,a2
+   77 T  000000C0 6C08                           bge.s     ende
+   78 T  000000C2 51CFFFF8                       dbra      d7,dazuanf5
+   79 T  000000C6 B1C9                           cmpa.l    a1,a0
+   80 T  000000C8 6DDC                           blt.s     dazuanf4
+   81 T  000000CA 288A                 ende:     move.l    a2,(a4)
+   82 T  000000CC 4CDF7FFF                       movem.l   (sp)+,d0-d7/a0-a6
+   83 T  000000D0 4E75                           rts       
+   84 T  000000D2                      
+
+

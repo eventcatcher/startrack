@@ -1,0 +1,174 @@
+HiSoft GenST 680x0 Macro Assembler v2.08D  08/08/94  19:48:24  Sage 1
+
+
+
+    1 T  00000000 48E7FFFE                       movem.l   d0-d7/a0-a6,-(sp)
+    2 T  00000004 41FA01F6                       lea.l     wert(pc),a0
+    3 T  00000008 20EF0040                       move.l    64(sp),(a0)+ 
+    4 T  0000000C 20EF0044                       move.l    68(sp),(a0)+ 
+    5 T  00000010 20EF0048                       move.l    72(sp),(a0)+ 
+    6 T  00000014 20EF004C                       move.l    76(sp),(a0)+ 
+    7 T  00000018 20EF0050                       move.l    80(sp),(a0)+ 
+    8 T  0000001C 20EF0054                       move.l    84(sp),(a0)+ 
+    9 T  00000020 20EF0058                       move.l    88(sp),(a0)+ 
+   10 T  00000024 20EF005C                       move.l    92(sp),(a0)+ 
+   11 T  00000028 20EF0060                       move.l    96(sp),(a0)+ 
+   12 T  0000002C 20EF0064                       move.l    100(sp),(a0)+ 
+   13 T  00000030 20EF0068                       move.l    104(sp),(a0)+ 
+   14 T  00000034 20EF006C                       move.l    108(sp),(a0)+ 
+   15 T  00000038 20EF0070                       move.l    112(sp),(a0)+ 
+   16 T  0000003C 20EF0074                       move.l    116(sp),(a0)+ 
+   17 T  00000040 20EF0078                       move.l    120(sp),(a0)+ 
+   18 T  00000044 20EF007C                       move.l    124(sp),(a0)+ 
+   19 T  00000048 20EF0080                       move.l    128(sp),(a0)+ 
+   20 T  0000004C 20EF0084                       move.l    132(sp),(a0)+ 
+   21 T  00000050 20EF0088                       move.l    136(sp),(a0)+ 
+   22 T  00000054 20AF008C                       move.l    140(sp),(a0)
+   23 T  00000058 48E7FFFE                       movem.l   d0-d7/a0-a6,-(sp)
+   24 T  0000005C 4BFA019C                       lea.l     ptr(pc),a5
+   25 T  00000060 2F0D                           move.l    a5,-(sp)
+   26 T  00000062 3F3C0000                       move.w    #0,-(sp)
+   27 T  00000066 3F3C0019                       move.w    #25,-(sp)
+   28 T  0000006A 4E4E                           trap      #14
+   29 T  0000006C 508F                           addq.l    #8,sp
+   30 T  0000006E 3F3C000B             clear:    move.w    #11,-(sp)
+   31 T  00000072 4E41                           trap      #1
+   32 T  00000074 548F                           addq.l    #2,sp
+   33 T  00000076 0C8000000000                   cmpi.l    #0,d0
+   34 T  0000007C 670A                           beq.s     weiter
+   35 T  0000007E 3F3C0001                       move.w    #1,-(sp)
+   36 T  00000082 4E41                           trap      #1
+   37 T  00000084 548F                           addq.l    #2,sp
+   38 T  00000086 60E6                           bra.s     clear
+   39 T  00000088 3F3C0022             weiter:   move.w    #34,-(sp)
+   40 T  0000008C 4E4E                           trap      #14
+   41 T  0000008E 548F                           addq.l    #2,sp
+   42 T  00000090 2040                           movea.l   d0,a0
+   43 T  00000092 43FA0160                       lea.l     rett(pc),a1
+   44 T  00000096 236800200002                   move.l    32(a0),2(a1)
+   45 T  0000009C 43FA014E                       lea.l     neuikbd(pc),a1
+   46 T  000000A0 21490020                       move.l    a1,32(a0)
+   47 T  000000A4 4CDF7FFF                       movem.l   (sp)+,d0-d7/a0-a6
+   48 T  000000A8 41FA0152                       lea.l     wert(pc),a0
+   49 T  000000AC 49FA019E                       lea.l     merk(pc),a4
+   50 T  000000B0 4DF900DF0441                   lea.l     $df0441,a6
+   51 T  000000B6 7A01                           moveq.l   #1,d5
+   52 T  000000B8 303900DF04C0         anf:      move.w    $df04c0,d0
+   53 T  000000BE 08000008                       btst      #8,d0
+   54 T  000000C2 6700FFF4                       beq       anf
+   55 T  000000C6 1016                 anf2:     move.b    (a6),d0   ; Daten gÅltig ?
+   56 T  000000C8 C005                           and.b     d5,d0
+   57 T  000000CA 670000DA                       beq       test
+HiSoft GenST 680x0 Macro Assembler v2.08D  08/08/94  19:48:24  Sage 2
+
+
+
+   58 T  000000CE 323900DF04C0                   move.w    $df04c0,d1
+   59 T  000000D4 08010008                       btst      #8,d1
+   60 T  000000D8 6600FFEC                       bne       anf2
+   61 T  000000DC 1016                 ctrl1:    move.b    (a6),d0   ; Daten gÅltig ?
+   62 T  000000DE C005                           and.b     d5,d0
+   63 T  000000E0 670000C4                       beq       test
+   64 T  000000E4 343900DF04C0                   move.w    $df04c0,d2
+   65 T  000000EA 08020008                       btst      #8,d2
+   66 T  000000EE 6600FFD6                       bne       anf2
+   67 T  000000F2 1016                 anf3:     move.b    (a6),d0   ; Daten gÅltig ?
+   68 T  000000F4 C005                           and.b     d5,d0
+   69 T  000000F6 670000AE                       beq       test
+   70 T  000000FA 363900DF04C0                   move.w    $df04c0,d3
+   71 T  00000100 08030008                       btst      #8,d3
+   72 T  00000104 6700FFEC                       beq       anf3
+   73 T  00000108 1016                 ctrl2:    move.b    (a6),d0   ; Daten gÅltig ?
+   74 T  0000010A C005                           and.b     d5,d0
+   75 T  0000010C 67000098                       beq       test
+   76 T  00000110 383900DF04C0                   move.w    $df04c0,d4
+   77 T  00000116 08040008                       btst      #8,d4
+   78 T  0000011A 6700FFD6                       beq       anf3
+   79 T  0000011E 024100FF                       and.w     #$ff,d1
+   80 T  00000122 E141                           asl.w     #8,d1
+   81 T  00000124 024200FF                       and.w     #$ff,d2
+   82 T  00000128 D242                           add.w     d2,d1
+   83 T  0000012A 024300FF                       and.w     #$ff,d3
+   84 T  0000012E E143                           asl.w     #8,d3
+   85 T  00000130 024400FF                       and.w     #$ff,d4
+   86 T  00000134 D644                           add.w     d4,d3
+   87 T  00000136 0801000F                       btst      #15,d1
+   88 T  0000013A 6702                           beq.s     anf4
+   89 T  0000013C 4641                           not.w     d1
+   90 T  0000013E 0803000F             anf4:     btst      #15,d3
+   91 T  00000142 6702                           beq.s     anf5
+   92 T  00000144 4643                           not.w     d3
+   93 T  00000146 C2FC000A             anf5:     mulu.w    #10,d1
+   94 T  0000014A C6FC000A                       mulu.w    #10,d3
+   95 T  0000014E 82FC7FFF                       divu.w    #32767,d1
+   96 T  00000152 86FC7FFF                       divu.w    #32767,d3
+   97 T  00000156 7C00                           moveq.l   #0,d6
+   98 T  00000158 7E00                           moveq.l   #0,d7
+   99 T  0000015A 22706000             anfrs:    movea.l   0(a0,d6.w),a1
+  100 T  0000015E B207                           cmp.b     d7,d1
+  101 T  00000160 6E06                           bgt.s     anfrs2
+  102 T  00000162 32BC0000                       move.w    #0,(a1)
+  103 T  00000166 6004                           bra.s     anfrs3
+  104 T  00000168 32BC0001             anfrs2:   move.w    #1,(a1)
+  105 T  0000016C 5886                 anfrs3:   addq.l    #4,d6
+  106 T  0000016E 5287                           addq.l    #1,d7
+  107 T  00000170 BE3C000A                       cmp.b     #10,d7
+  108 T  00000174 66E4                           bne.s     anfrs
+  109 T  00000176 7E00                           moveq.l   #0,d7
+  110 T  00000178 22706000             anfls:    movea.l   0(a0,d6.w),a1
+  111 T  0000017C B607                           cmp.b     d7,d3
+  112 T  0000017E 6E06                           bgt.s     anfls2
+  113 T  00000180 32BC0000                       move.w    #0,(a1)
+  114 T  00000184 6004                           bra.s     anfls3
+HiSoft GenST 680x0 Macro Assembler v2.08D  08/08/94  19:48:24  Sage 3
+
+
+
+  115 T  00000186 32BC0001             anfls2:   move.w    #1,(a1)
+  116 T  0000018A 5886                 anfls3:   addq.l    #4,d6
+  117 T  0000018C 5287                           addq.l    #1,d7
+  118 T  0000018E BE3C000A                       cmp.b     #10,d7
+  119 T  00000192 66E4                           bne.s     anfls
+  120 T  00000194 B23C000A                       cmp.b     #10,d1
+  121 T  00000198 6708                           beq.s     nixw1
+  122 T  0000019A B63C000A                       cmp.b     #10,d3
+  123 T  0000019E 6702                           beq.s     nixw1
+  124 T  000001A0 6004                           bra.s     test
+  125 T  000001A2 61000036             nixw1:    bsr       pause
+  126 T  000001A6 3014                 test:     move.w    (a4),d0
+  127 T  000001A8 6604                           bne.s     weg
+  128 T  000001AA 6000FF1A                       bra       anf2
+  129 T  000001AE 4BFA004B             weg:      lea.l     ptr2(pc),a5
+  130 T  000001B2 2F0D                           move.l    a5,-(sp)
+  131 T  000001B4 3F3C0000                       move.w    #0,-(sp)
+  132 T  000001B8 3F3C0019                       move.w    #25,-(sp)
+  133 T  000001BC 4E4E                           trap      #14
+  134 T  000001BE 508F                           addq.l    #8,sp
+  135 T  000001C0 3F3C0022                       move.w    #34,-(sp)
+  136 T  000001C4 4E4E                           trap      #14
+  137 T  000001C6 548F                           addq.l    #2,sp
+  138 T  000001C8 2040                           movea.l   d0,a0
+  139 T  000001CA 43FA0028                       lea.l     rett(pc),a1
+  140 T  000001CE 216900020020                   move.l    2(a1),32(a0)
+  141 T  000001D4 4CDF7FFF                       movem.l   (sp)+,d0-d7/a0-a6
+  142 T  000001D8 4E75                           rts       
+  143 T  000001DA                      
+  144 T  000001DA 3C3CFFFF             pause:    move.w    #-1,d6
+  145 T  000001DE 3E3CFFFF             pause2:   move.w    #-1,d7
+  146 T  000001E2 51CFFFFE             pause3:   dbra      d7,pause3
+  147 T  000001E6 51CEFFF6                       dbra      d6,pause2
+  148 T  000001EA 4E75                           rts
+  149 T  000001EC                      
+  150 T  000001EC                      neuikbd:  
+  151 T  000001EC 33FC00010000024C               move.w    #1,merk
+  152 T  000001F4 4EF9000001F4         rett:     jmp       rett
+  153 T  000001FA                      
+  154 T  000001FA 12                   ptr:      DC.b $12
+  155 T  000001FB 08                   ptr2:     DC.b $8
+  156 T  0000024C                      wert:     ds.l 20
+  157 T  0000024C 0000                 merk:     DC.w 0
+  158 T  0000024E                      
+  159 T  0000024E                      end
+  160 T  0000024E                      
+
+

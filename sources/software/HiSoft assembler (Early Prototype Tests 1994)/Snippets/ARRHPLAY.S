@@ -1,0 +1,124 @@
+          movem.l   d0-d7/a0-a6,-(sp)
+	  movea.l   64(sp),a3  ; adr
+          movea.l   68(sp),a6  ; fname
+          move.l    72(sp),d2 ; sectors
+          move.l    76(sp),d5 ; len
+          move.l    80(sp),d7 ; handle
+          move.l    84(sp),a5 ; adder
+          move.l    88(sp),a4 ; Returnwert
+          move.l    a4,-(sp)
+          movem.l   d0-d7/a0-a6,-(sp)
+          lea.l     ptr(pc),a5
+          move.l    a5,-(sp)
+          move.w    #0,-(sp)
+          move.w    #25,-(sp)
+          trap      #14
+          addq.l    #8,sp
+clear:    move.w    #11,-(sp)
+          trap      #1
+          addq.l    #2,sp
+          cmpi.l    #0,d0
+          beq.s     weiter
+          move.w    #1,-(sp)
+          trap      #1
+          addq.l    #2,sp
+          bra.s     clear
+weiter:   move.w    #34,-(sp)
+          trap      #14
+          addq.l    #2,sp
+          movea.l   d0,a0
+          lea.l     rett(pc),a1
+          move.l    32(a0),2(a1)
+          lea.l     neuikbd(pc),a1
+          move.l    a1,32(a0)
+          movem.l   (sp)+,d0-d7/a0-a6
+          lea.l     $df0441,a0          ; Flagstatus
+          lea.l     $df04c0,a1          ; SDATA Word-Read (wegen PARITY)
+          move.l    a3,d1     ; MEMende
+          add.l     d5,d1
+          moveq.l   #0,d6
+          moveq.l   #4,d4
+          moveq.l   #8,d3
+          lea.l     merk(pc),a4
+anf:      addq.l    #1,d6
+          movea.l   a3,a2
+          movem.l   d0-d7/a0-a5,-(sp)
+          move.l    a3,-(sp)  ; Fread
+          move.l    d5,-(sp)
+          move.w    d7,-(sp)
+          move.w    #63,-(sp)
+          trap      #1
+          lea.l     $c(sp),sp
+          movem.l   (sp)+,d0-d7/a0-a5
+          move.b    (a0),d0   ; FIFO halbleer ?
+          andi.b    #8,d0
+          beq.s     anf2
+          move.l    d1,-(sp)
+          move.w    #$3ff,d0     ; ...dann FIFO halb-fuellen (FIFO-LEN/2/4-1)!
+copy:     move.b    (a2)+,d1
+          bclr      d3,d1     ; Rechter Kanal (Bit 8 geloescht)
+          move.w    d1,(a1)   ; High-Byte senden
+          move.b    (a2)+,d1
+          bclr      d3,d1     ; Rechter Kanal (Bit 8 geloescht)
+          move.w    d1,(a1)   ; Low-Byte senden
+          move.b    (a2)+,d1
+          bset      d3,d1     ; Linker Kanal (Bit 8 gesetzt)
+          move.w    d1,(a1)   ; High-Byte senden
+          move.b    (a2)+,d1
+          bset      d3,d1     ; Linker Kanal (Bit 8 gesetzt)
+          move.w    d1,(a1)   ; Low-Byte senden
+          dbra      d0,copy
+          move.l    (sp)+,d1
+anf2:     move.b    (a0),d0
+          and.b     d4,d0
+          beq.s     anf2
+          move.b    (a2)+,d0
+          bclr      d3,d0     ; Rechter Kanal (Bit 8 geloescht)
+          move.w    d0,(a1)   ; High-Byte senden
+anf3:     move.b    (a0),d0
+          and.b     d4,d0
+          beq.s     anf3
+          move.b    (a2)+,d0
+          bclr      d3,d0     ; Rechter Kanal (Bit 8 geloescht)
+          move.w    d0,(a1)   ; Low-Byte senden
+anf4:     move.b    (a0),d0
+          and.b     d4,d0
+          beq.s     anf4
+          move.b    (a2)+,d0
+          bset      d3,d0     ; Linker Kanal (Bit 8 gesetzt)
+          move.w    d0,(a1)   ; High-Byte senden
+anf5:     move.b    (a0),d0
+          and.b     d4,d0
+          beq.s     anf5
+          move.b    (a2)+,d0
+          bset      d3,d0     ; Linker Kanal (Bit 8 gesetzt)
+          move.w    d0,(a1)   ; Low-Byte senden
+          move.w    (a4),d0
+          bne.s     weg
+          add.l     a5,a2
+          cmpa.l    d1,a2
+          bne.s     anf2
+          cmp.l     d2,d6
+          bne       anf
+weg:      move.l    (sp)+,a4
+          move.l    d6,(a4)
+          lea.l     ptr2(pc),a5
+          move.l    a5,-(sp)
+          move.w    #0,-(sp)
+          move.w    #25,-(sp)
+          trap      #14
+          addq.l    #8,sp
+          move.w    #34,-(sp)
+          trap      #14
+          addq.l    #2,sp
+          movea.l   d0,a0
+          lea.l     rett(pc),a1
+          move.l    2(a1),32(a0)
+          movem.l   (sp)+,d0-d7/a0-a6
+          rts
+ptr:      dc.b $12
+ptr2:     Dc.b $8
+merk:     Dc.w 0
+neuikbd:  move.w    #1,merk
+rett:     jmp       rett
+          END 

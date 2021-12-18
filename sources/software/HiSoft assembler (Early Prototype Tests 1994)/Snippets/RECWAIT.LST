@@ -1,0 +1,98 @@
+HiSoft GenST 680x0 Macro Assembler v2.08D  07/08/94  19:47:18  Sage 1
+
+
+
+    1 T  00000000 48E7FFFE             anf:      movem.l   d0-d7/a0-a6,-(sp)
+    2 T  00000004 2E2F0040                       move.l    64(sp),d7 ; treshold
+    3 T  00000008 13FC000200DF0441               move.b    #2,$df0441      ; REC-FIFO loeschen
+    4 T  00000010 13FC000000DF0441               move.b    #0,$df0441
+    5 T  00000018 48E7FFFE                       movem.l   d0-d7/a0-a6,-(sp)
+    6 T  0000001C 3F3C000B             clear:    move.w    #11,-(sp)
+    7 T  00000020 4E41                           trap      #1
+    8 T  00000022 548F                           addq.l    #2,sp
+    9 T  00000024 0C8000000000                   cmpi.l    #0,d0
+   10 T  0000002A 670A                           beq.s     weiter
+   11 T  0000002C 3F3C0001                       move.w    #1,-(sp)
+   12 T  00000030 4E41                           trap      #1
+   13 T  00000032 548F                           addq.l    #2,sp
+   14 T  00000034 60E6                           bra.s     clear
+   15 T  00000036 4CDF7FFF             weiter:   movem.l   (sp)+,d0-d7/a0-a6
+   16 T  0000003A 48E77FFE             anf2:     movem.l   d1-d7/a0-a6,-(sp)
+   17 T  0000003E 3F3C000B                       move.w    #11,-(sp)
+   18 T  00000042 4E41                           trap      #1
+   19 T  00000044 548F                           addq.l    #2,sp
+   20 T  00000046 4CDF7FFE                       movem.l   (sp)+,d1-d7/a0-a6
+   21 T  0000004A 0C8000000000                   cmpi.l    #0,d0
+   22 T  00000050 660000DC                       bne       weg
+   23 T  00000054 323900DF04C0                   move.w    $df04c0,d1      ; auf 1 warten
+   24 T  0000005A 08010008                       btst      #8,d1
+   25 T  0000005E 67DA                           beq.s     anf2
+   26 T  00000060 323900DF04C0                   move.w    $df04c0,d1      ; wenn 0, weiter
+   27 T  00000066 08010008                       btst      #8,d1
+   28 T  0000006A 66CE                           bne.s     anf2
+   29 T  0000006C 024100FF                       andi.w    #$ff,d1
+   30 T  00000070 E141                           asl.w     #8,d1
+   31 T  00000072 343900DF04C0                   move.w    $df04c0,d2      ; wenn 0, weiter
+   32 T  00000078 08020008                       btst      #8,d2
+   33 T  0000007C 66BC                           bne.s     anf2
+   34 T  0000007E 024200FF                       andi.w    #$ff,d2
+   35 T  00000082 D242                           add.w     d2,d1
+   36 T  00000084 343900DF04C0                   move.w    $df04c0,d2      ; wenn 1, weiter
+   37 T  0000008A 08020008                       btst      #8,d2
+   38 T  0000008E 67AA                           beq.s     anf2
+   39 T  00000090 024200FF                       andi.w    #$ff,d2
+   40 T  00000094 E142                           asl.w     #8,d2
+   41 T  00000096 363900DF04C0                   move.w    $df04c0,d3      ; wenn 1, weiter
+   42 T  0000009C 08030008                       btst      #8,d3
+   43 T  000000A0 6798                           beq.s     anf2
+   44 T  000000A2 024300FF                       andi.w    #$ff,d3
+   45 T  000000A6 D443                           add.w     d3,d2
+   46 T  000000A8 363900DF04C0                   move.w    $df04c0,d3      ; wenn 0, weiter
+   47 T  000000AE 08030008                       btst      #8,d3
+   48 T  000000B2 6686                           bne.s     anf2
+   49 T  000000B4 024300FF                       andi.w    #$ff,d3
+   50 T  000000B8 E143                           asl.w     #8,d3
+   51 T  000000BA 383900DF04C0                   move.w    $df04c0,d4      ; wenn 0, weiter
+   52 T  000000C0 08040008                       btst      #8,d4
+   53 T  000000C4 6600FF74                       bne       anf2
+   54 T  000000C8 024400FF                       andi.w    #$ff,d4
+   55 T  000000CC D644                           add.w     d4,d3
+   56 T  000000CE 383900DF04C0                   move.w    $df04c0,d4      ; wenn 1, weiter
+   57 T  000000D4 08040008                       btst      #8,d4
+HiSoft GenST 680x0 Macro Assembler v2.08D  07/08/94  19:47:18  Sage 2
+
+
+
+   58 T  000000D8 6700FF60                       beq       anf2
+   59 T  000000DC 024400FF                       andi.w    #$ff,d4
+   60 T  000000E0 E144                           asl.w     #8,d4
+   61 T  000000E2 3A3900DF04C0                   move.w    $df04c0,d5      ; wenn 1, weiter
+   62 T  000000E8 08050008                       btst      #8,d5
+   63 T  000000EC 6700FF4C                       beq       anf2
+   64 T  000000F0 024500FF                       andi.w    #$ff,d5
+   65 T  000000F4 D845                           add.w     d5,d4
+   66 T  000000F6 0801000F                       btst      #15,d1          ; Oberstes Bit da ?
+   67 T  000000FA 6702                           beq.s     weiter1         ; dann negieren
+   68 T  000000FC 4641                           not.w     d1
+   69 T  000000FE 0802000F             weiter1:  btst      #15,d2
+   70 T  00000102 6702                           beq.s     weiter2
+   71 T  00000104 4642                           not.w     d2
+   72 T  00000106 0803000F             weiter2:  btst      #15,d3
+   73 T  0000010A 6702                           beq.s     weiter3
+   74 T  0000010C 4643                           not.w     d3
+   75 T  0000010E 0804000F             weiter3:  btst      #15,d4
+   76 T  00000112 6702                           beq.s     weiter4
+   77 T  00000114 4644                           not.w     d4
+   78 T  00000116 B247                 weiter4:  cmp.w     d7,d1           ; treshold vergleichen
+   79 T  00000118 6F00FF20                       ble       anf2
+   80 T  0000011C B447                           cmp.w     d7,d2
+   81 T  0000011E 6F00FF1A                       ble       anf2
+   82 T  00000122 B647                           cmp.w     d7,d3
+   83 T  00000124 6F00FF14                       ble       anf2
+   84 T  00000128 B847                           cmp.w     d7,d4
+   85 T  0000012A 6F00FF0E                       ble       anf2
+   86 T  0000012E 4CDF7FFF             weg:      movem.l   (sp)+,d0-d7/a0-a6
+   87 T  00000132 4E75                           rts       
+   88 T  00000134                      
+
+

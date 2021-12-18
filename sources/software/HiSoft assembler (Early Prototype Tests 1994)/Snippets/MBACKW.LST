@@ -1,0 +1,108 @@
+HiSoft GenST 680x0 Macro Assembler v2.08D  28/09/94  17:25:14  Sage 1
+
+
+
+    1 T  00000000 48E7FFFE                       movem.l   d0-d7/a0-a6,-(sp)
+    2 T  00000004 266F0040                       movea.l   64(sp),a3  ; adr
+    3 T  00000008 2C6F0044                       movea.l   68(sp),a6  ; fname
+    4 T  0000000C 242F0048                       move.l    72(sp),d2 ; sectors
+    5 T  00000010 2A2F004C                       move.l    76(sp),d5 ; len
+    6 T  00000014 2E2F0050                       move.l    80(sp),d7 ; handle
+    7 T  00000018 2A6F0054                       move.l    84(sp),a5 ; subber
+    8 T  0000001C 286F0058                       move.l    88(sp),a4 ; Returnwert
+    9 T  00000020 41F900DF0441                   lea.l     $df0441,a0          ; Flagstatus
+   10 T  00000026 43F900DF04C0                   lea.l     $df04c0,a1          ; SDATA Word-Read (wegen PARITY)
+   11 T  0000002C 220B                           move.l    a3,d1     ; MEManf
+   12 T  0000002E 7C00                           moveq.l   #0,d6
+   13 T  00000030 7804                           moveq.l   #4,d4
+   14 T  00000032 7608                           moveq.l   #8,d3
+   15 T  00000034 5286                 anf:      addq.l    #1,d6
+   16 T  00000036 244B                           movea.l   a3,a2
+   17 T  00000038 D5C5                           add.l     d5,a2     ; auf MEMende setzen
+   18 T  0000003A 48E7FFFC                       movem.l   d0-d7/a0-a5,-(sp)
+   19 T  0000003E 3F3C0001                       move.w    #1,-(sp)  ; Fseek
+   20 T  00000042 3F07                           move.w    d7,-(sp)
+   21 T  00000044 2005                           move.l    d5,d0
+   22 T  00000046 D080                           add.l     d0,d0
+   23 T  00000048 4480                           neg.l     d0
+   24 T  0000004A 2F00                           move.l    d0,-(sp)
+   25 T  0000004C 3F3C0042                       move.w    #66,-(sp)
+   26 T  00000050 4E41                           trap      #1
+   27 T  00000052 4FEF000A                       lea.l     $a(sp),sp
+   28 T  00000056 2F0B                           move.l    a3,-(sp)  ; Fread
+   29 T  00000058 2F05                           move.l    d5,-(sp)
+   30 T  0000005A 3F07                           move.w    d7,-(sp)
+   31 T  0000005C 3F3C003F                       move.w    #63,-(sp)
+   32 T  00000060 4E41                           trap      #1
+   33 T  00000062 4FEF000C                       lea.l     $c(sp),sp
+   34 T  00000066 4CDF3FFF                       movem.l   (sp)+,d0-d7/a0-a5
+   35 T  0000006A 1010                           move.b    (a0),d0   ; FIFO halbleer ?
+   36 T  0000006C 02000008                       andi.b    #8,d0
+   37 T  00000070 6730                           beq.s     anf2
+   38 T  00000072 2F01                           move.l    d1,-(sp)
+   39 T  00000074 303C03FF                       move.w    #$3ff,d0     ; ...dann FIFO halb-fuellen (FIFO-LEN/2/4-1)!
+   40 T  00000078 95FC00000004         copy:     suba.l    #4,a2
+   41 T  0000007E 121A                           move.b    (a2)+,d1
+   42 T  00000080 0781                           bclr      d3,d1     ; Rechter Kanal (Bit 8 geloescht)
+   43 T  00000082 3281                           move.w    d1,(a1)   ; High-Byte senden
+   44 T  00000084 121A                           move.b    (a2)+,d1
+   45 T  00000086 0781                           bclr      d3,d1     ; Rechter Kanal (Bit 8 geloescht)
+   46 T  00000088 3281                           move.w    d1,(a1)   ; Low-Byte senden
+   47 T  0000008A 121A                           move.b    (a2)+,d1
+   48 T  0000008C 07C1                           bset      d3,d1     ; Linker Kanal (Bit 8 gesetzt)
+   49 T  0000008E 3281                           move.w    d1,(a1)   ; High-Byte senden
+   50 T  00000090 121A                           move.b    (a2)+,d1
+   51 T  00000092 07C1                           bset      d3,d1     ; Linker Kanal (Bit 8 gesetzt)
+   52 T  00000094 3281                           move.w    d1,(a1)   ; Low-Byte senden
+   53 T  00000096 95FC00000004                   suba.l    #4,a2
+   54 T  0000009C 51C8FFDA                       dbra      d0,copy
+   55 T  000000A0 221F                           move.l    (sp)+,d1
+   56 T  000000A2 95FC00000004         anf2:     suba.l    #4,a2
+   57 T  000000A8 1010                 anf2b:    move.b    (a0),d0
+HiSoft GenST 680x0 Macro Assembler v2.08D  28/09/94  17:25:14  Sage 2
+
+
+
+   58 T  000000AA C004                           and.b     d4,d0
+   59 T  000000AC 67FA                           beq.s     anf2b
+   60 T  000000AE 101A                           move.b    (a2)+,d0
+   61 T  000000B0 0780                           bclr      d3,d0     ; Rechter Kanal (Bit 8 geloescht)
+   62 T  000000B2 3280                           move.w    d0,(a1)   ; High-Byte senden
+   63 T  000000B4 1010                 anf3:     move.b    (a0),d0
+   64 T  000000B6 C004                           and.b     d4,d0
+   65 T  000000B8 67FA                           beq.s     anf3
+   66 T  000000BA 101A                           move.b    (a2)+,d0
+   67 T  000000BC 0780                           bclr      d3,d0     ; Rechter Kanal (Bit 8 geloescht)
+   68 T  000000BE 3280                           move.w    d0,(a1)   ; Low-Byte senden
+   69 T  000000C0 1010                 anf4:     move.b    (a0),d0
+   70 T  000000C2 C004                           and.b     d4,d0
+   71 T  000000C4 67FA                           beq.s     anf4
+   72 T  000000C6 101A                           move.b    (a2)+,d0
+   73 T  000000C8 07C0                           bset      d3,d0     ; Linker Kanal (Bit 8 gesetzt)
+   74 T  000000CA 3280                           move.w    d0,(a1)   ; High-Byte senden
+   75 T  000000CC 1010                 anf5:     move.b    (a0),d0
+   76 T  000000CE C004                           and.b     d4,d0
+   77 T  000000D0 67FA                           beq.s     anf5
+   78 T  000000D2 101A                           move.b    (a2)+,d0
+   79 T  000000D4 07C0                           bset      d3,d0     ; Linker Kanal (Bit 8 gesetzt)
+   80 T  000000D6 3280                           move.w    d0,(a1)   ; Low-Byte senden
+   81 T  000000D8 95FC00000004                   suba.l    #4,a2
+   82 T  000000DE 48E77FFE                       movem.l   d1-d7/a0-a6,-(sp)
+   83 T  000000E2 3F3C0002                       move.w    #2,-(sp)
+   84 T  000000E6 3F3C0001                       move.w    #1,-(sp)
+   85 T  000000EA 4E4D                           trap      #13
+   86 T  000000EC 588F                           addq.l    #4,sp
+   87 T  000000EE 4CDF7FFE                       movem.l   (sp)+,d1-d7/a0-a6
+   88 T  000000F2 B07C0000                       cmp.w     #0,d0
+   89 T  000000F6 660C                           bne.s     weg
+   90 T  000000F8 95CD                           sub.l     a5,a2
+   91 T  000000FA B5C1                           cmpa.l    d1,a2
+   92 T  000000FC 66A4                           bne.s     anf2
+   93 T  000000FE BC82                           cmp.l     d2,d6
+   94 T  00000100 6600FF32                       bne       anf
+   95 T  00000104 2886                 weg:      move.l    d6,(a4)
+   96 T  00000106 4CDF7FFF                       movem.l   (sp)+,d0-d7/a0-a6
+   97 T  0000010A 4E75                           rts
+   98 T  0000010C                                END 
+
+

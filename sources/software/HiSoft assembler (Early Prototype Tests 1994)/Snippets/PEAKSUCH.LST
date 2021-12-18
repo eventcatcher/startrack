@@ -1,0 +1,24 @@
+HiSoft GenST 680x0 Macro Assembler v2.08D  15/08/94  17:20:30  Sage 1
+
+
+
+    1 T  00000000 48E7FFFE             anf:      movem.l   d0-d7/a0-a6,-(sp)
+    2 T  00000004 206F0040                       movea.l   64(sp),a0 ; anf
+    3 T  00000008 226F0044                       movea.l   68(sp),a1 ; ende
+    4 T  0000000C 246F0048                       movea.l   72(sp),a2 ; Returnwert
+    5 T  00000010 7000                           moveq.l   #0,d0
+    6 T  00000012 3218                 anf2:     move.w    (a0)+,d1
+    7 T  00000014 0801000F                       btst      #15,d1
+    8 T  00000018 6702                           beq.s     noneg
+    9 T  0000001A 4641                           not.w     d1
+   10 T  0000001C B240                 noneg:    cmp.w     d0,d1
+   11 T  0000001E 6D02                           blt.s     noadd
+   12 T  00000020 3001                           move.w    d1,d0
+   13 T  00000022 B1C9                 noadd:    cmp.l     a1,a0
+   14 T  00000024 6DEC                           blt.s     anf2
+   15 T  00000026 2480                           move.l    d0,(a2)
+   16 T  00000028 4CDF7FFF             weg:      movem.l   (sp)+,d0-d7/a0-a6
+   17 T  0000002C 4E75                           rts       
+   18 T  0000002E                      
+
+

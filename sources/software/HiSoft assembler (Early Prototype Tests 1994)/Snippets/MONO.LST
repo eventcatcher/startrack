@@ -1,0 +1,37 @@
+HiSoft GenST 680x0 Macro Assembler v2.08D  21/08/94  19:16:54  Sage 1
+
+
+
+    1 T  00000000 48E7FFFE             anf:      movem.l   d0-d7/a0-a6,-(sp)
+    2 T  00000004 206F0040                       movea.l   64(sp),a0 ; anf
+    3 T  00000008 226F0044                       movea.l   68(sp),a1 ; ende
+    4 T  0000000C 7200                 anf2:     moveq.l   #0,d1
+    5 T  0000000E 2401                           move.l    d1,d2
+    6 T  00000010 3210                           move.w    (a0),d1
+    7 T  00000012 34280002                       move.w    2(a0),d2
+    8 T  00000016 0801000F                       btst      #15,d1
+    9 T  0000001A 660A                           bne.s     anf5
+   10 T  0000001C 0802000F             anf3:     btst      #15,d2
+   11 T  00000020 6612                           bne.s     anf6
+   12 T  00000022 D282                 anf4:     add.l     d2,d1    ; plus und plus = plus
+   13 T  00000024 6016                           bra.s     ende
+   14 T  00000026 0802000F             anf5:     btst      #15,d2
+   15 T  0000002A 660E                           bne.s     anf7     ; minus und minus = minus
+   16 T  0000002C 4641                           not.w     d1
+   17 T  0000002E 9481                           sub.l     d1,d2    ; minus und plus = ?
+   18 T  00000030 2202                           move.l    d2,d1
+   19 T  00000032 6008                           bra.s     ende
+   20 T  00000034 4642                 anf6:     not.w     d2       ; plus und minus = ?
+   21 T  00000036 9282                           sub.l     d2,d1
+   22 T  00000038 6002                           bra.s     ende
+   23 T  0000003A D282                 anf7:     add.l     d2,d1    ; add + wech
+   24 T  0000003C E281                 ende:     asr.l     #1,d1
+   25 T  0000003E 30C1                           move.w    d1,(a0)+
+   26 T  00000040 30C1                           move.w    d1,(a0)+
+   27 T  00000042 B1C9                           cmp.l     a1,a0
+   28 T  00000044 6DC6                           blt.s     anf2
+   29 T  00000046 4CDF7FFF             weg:      movem.l   (sp)+,d0-d7/a0-a6
+   30 T  0000004A 4E75                           rts       
+   31 T  0000004C                      
+
+

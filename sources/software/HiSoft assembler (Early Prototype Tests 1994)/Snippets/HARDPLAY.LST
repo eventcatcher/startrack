@@ -1,0 +1,144 @@
+HiSoft GenST 680x0 Macro Assembler v2.08D  04/09/94  13:57:40  Sage 1
+
+
+
+    1 T  00000000 48E7FFFE                       movem.l   d0-d7/a0-a6,-(sp)
+    2 T  00000004 266F0040                       movea.l   64(sp),a3  ; adr
+    3 T  00000008 2C6F0044                       movea.l   68(sp),a6  ; fname
+    4 T  0000000C 242F0048                       move.l    72(sp),d2 ; sectors
+    5 T  00000010 2A2F004C                       move.l    76(sp),d5 ; len
+    6 T  00000014 48E7FFFE                       movem.l   d0-d7/a0-a6,-(sp)
+    7 T  00000018 4BFA014A                       lea.l     ptr(pc),a5
+    8 T  0000001C 2F0D                           move.l    a5,-(sp)
+    9 T  0000001E 3F3C0000                       move.w    #0,-(sp)
+   10 T  00000022 3F3C0019                       move.w    #25,-(sp)
+   11 T  00000026 4E4E                           trap      #14
+   12 T  00000028 508F                           addq.l    #8,sp
+   13 T  0000002A 3F3C000B             clear:    move.w    #11,-(sp)
+   14 T  0000002E 4E41                           trap      #1
+   15 T  00000030 548F                           addq.l    #2,sp
+   16 T  00000032 0C8000000000                   cmpi.l    #0,d0
+   17 T  00000038 670A                           beq.s     weiter
+   18 T  0000003A 3F3C0001                       move.w    #1,-(sp)
+   19 T  0000003E 4E41                           trap      #1
+   20 T  00000040 548F                           addq.l    #2,sp
+   21 T  00000042 60E6                           bra.s     clear
+   22 T  00000044 3F3C0022             weiter:   move.w    #34,-(sp)
+   23 T  00000048 4E4E                           trap      #14
+   24 T  0000004A 548F                           addq.l    #2,sp
+   25 T  0000004C 2040                           movea.l   d0,a0
+   26 T  0000004E 4BFA010E                       lea.l     rett(pc),a5
+   27 T  00000052 2B6800200002                   move.l    32(a0),2(a5)
+   28 T  00000058 4BFA00FC                       lea.l     neuikbd(pc),a5
+   29 T  0000005C 214D0020                       move.l    a5,32(a0)
+   30 T  00000060 4CDF7FFF                       movem.l   (sp)+,d0-d7/a0-a6
+   31 T  00000064 48E7FEFE                       movem.l   d0-d6/a0-a6,-(sp)
+   32 T  00000068 3F3C0000                       move.w    #0,-(sp)  ; Fopen
+   33 T  0000006C 2F0E                           move.l    a6,-(sp)
+   34 T  0000006E 3F3C003D                       move.w    #61,-(sp)
+   35 T  00000072 4E41                           trap      #1
+   36 T  00000074 508F                           addq.l    #8,sp
+   37 T  00000076 3E00                           move.w    d0,d7
+   38 T  00000078 4CDF7F7F                       movem.l   (sp)+,d0-d6/a0-a6
+   39 T  0000007C 41F900DF0441                   lea.l     $df0441,a0          ; Flagstatus
+   40 T  00000082 43F900DF04C0                   lea.l     $df04c0,a1          ; SDATA Word-Read (wegen PARITY)
+   41 T  00000088 49FA00DC                       lea.l     merk(pc),a4
+   42 T  0000008C 220B                           move.l    a3,d1     ; MEMende
+   43 T  0000008E D285                           add.l     d5,d1
+   44 T  00000090 7C00                           moveq.l   #0,d6
+   45 T  00000092 10BC0004                       move.b    #4,(a0)   ; DIGOUT setzen
+   46 T  00000096 7804                           moveq.l   #4,d4
+   47 T  00000098 7608                           moveq.l   #8,d3
+   48 T  0000009A 5286                 anf:      addq.l    #1,d6
+   49 T  0000009C 244B                           movea.l   a3,a2
+   50 T  0000009E 48E7FFF8                       movem.l   d0-d7/a0-a4,-(sp)
+   51 T  000000A2 2F0B                           move.l    a3,-(sp)  ; Fread
+   52 T  000000A4 2F05                           move.l    d5,-(sp)
+   53 T  000000A6 3F07                           move.w    d7,-(sp)
+   54 T  000000A8 3F3C003F                       move.w    #63,-(sp)
+   55 T  000000AC 4E41                           trap      #1
+   56 T  000000AE 4FEF000C                       lea.l     $c(sp),sp
+   57 T  000000B2 4CDF1FFF                       movem.l   (sp)+,d0-d7/a0-a4
+HiSoft GenST 680x0 Macro Assembler v2.08D  04/09/94  13:57:40  Sage 2
+
+
+
+   58 T  000000B6 1010                           move.b    (a0),d0   ; FIFO halbleer ?
+   59 T  000000B8 02000008                       andi.b    #8,d0
+   60 T  000000BC 6724                           beq.s     anf2
+   61 T  000000BE 2F01                           move.l    d1,-(sp)
+   62 T  000000C0 303C03FF                       move.w    #$3ff,d0     ; ...dann FIFO halb-fuellen (FIFO-LEN/2/4-1)!
+   63 T  000000C4 121A                 copy:     move.b    (a2)+,d1
+   64 T  000000C6 0781                           bclr      d3,d1     ; Rechter Kanal (Bit 8 geloescht)
+   65 T  000000C8 3281                           move.w    d1,(a1)   ; High-Byte senden
+   66 T  000000CA 121A                           move.b    (a2)+,d1
+   67 T  000000CC 0781                           bclr      d3,d1     ; Rechter Kanal (Bit 8 geloescht)
+   68 T  000000CE 3281                           move.w    d1,(a1)   ; Low-Byte senden
+   69 T  000000D0 121A                           move.b    (a2)+,d1
+   70 T  000000D2 07C1                           bset      d3,d1     ; Linker Kanal (Bit 8 gesetzt)
+   71 T  000000D4 3281                           move.w    d1,(a1)   ; High-Byte senden
+   72 T  000000D6 121A                           move.b    (a2)+,d1
+   73 T  000000D8 07C1                           bset      d3,d1     ; Linker Kanal (Bit 8 gesetzt)
+   74 T  000000DA 3281                           move.w    d1,(a1)   ; Low-Byte senden
+   75 T  000000DC 51C8FFE6                       dbra      d0,copy
+   76 T  000000E0 221F                           move.l    (sp)+,d1
+   77 T  000000E2 1010                 anf2:     move.b    (a0),d0
+   78 T  000000E4 C004                           and.b     d4,d0
+   79 T  000000E6 67FA                           beq.s     anf2
+   80 T  000000E8 101A                           move.b    (a2)+,d0
+   81 T  000000EA 0780                           bclr      d3,d0     ; Rechter Kanal (Bit 8 geloescht)
+   82 T  000000EC 3280                           move.w    d0,(a1)   ; High-Byte senden
+   83 T  000000EE 1010                 anf3:     move.b    (a0),d0
+   84 T  000000F0 C004                           and.b     d4,d0
+   85 T  000000F2 67FA                           beq.s     anf3
+   86 T  000000F4 101A                           move.b    (a2)+,d0
+   87 T  000000F6 0780                           bclr      d3,d0     ; Rechter Kanal (Bit 8 geloescht)
+   88 T  000000F8 3280                           move.w    d0,(a1)   ; Low-Byte senden
+   89 T  000000FA 1010                 anf4:     move.b    (a0),d0
+   90 T  000000FC C004                           and.b     d4,d0
+   91 T  000000FE 67FA                           beq.s     anf4
+   92 T  00000100 101A                           move.b    (a2)+,d0
+   93 T  00000102 07C0                           bset      d3,d0     ; Linker Kanal (Bit 8 gesetzt)
+   94 T  00000104 3280                           move.w    d0,(a1)   ; High-Byte senden
+   95 T  00000106 1010                 anf5:     move.b    (a0),d0
+   96 T  00000108 C004                           and.b     d4,d0
+   97 T  0000010A 67FA                           beq.s     anf5
+   98 T  0000010C 101A                           move.b    (a2)+,d0
+   99 T  0000010E 07C0                           bset      d3,d0     ; Linker Kanal (Bit 8 gesetzt)
+  100 T  00000110 3280                           move.w    d0,(a1)   ; Low-Byte senden
+  101 T  00000112 3014                           move.w    (a4),d0
+  102 T  00000114 660A                           bne.s     weg
+  103 T  00000116 B5C1                           cmpa.l    d1,a2
+  104 T  00000118 66C8                           bne.s     anf2
+  105 T  0000011A BC82                           cmp.l     d2,d6
+  106 T  0000011C 6600FF7C                       bne       anf
+  107 T  00000120 3F07                 weg:      move.w    d7,-(sp)  ; Fclose
+  108 T  00000122 3F3C003E                       move.w    #62,-(sp)
+  109 T  00000126 4E41                           trap      #1
+  110 T  00000128 588F                           addq.l    #4,sp
+  111 T  0000012A 4BFA0039                       lea.l     ptr2(pc),a5
+  112 T  0000012E 2F0D                           move.l    a5,-(sp)
+  113 T  00000130 3F3C0000                       move.w    #0,-(sp)
+  114 T  00000134 3F3C0019                       move.w    #25,-(sp)
+HiSoft GenST 680x0 Macro Assembler v2.08D  04/09/94  13:57:40  Sage 3
+
+
+
+  115 T  00000138 4E4E                           trap      #14
+  116 T  0000013A 508F                           addq.l    #8,sp
+  117 T  0000013C 3F3C0022                       move.w    #34,-(sp)
+  118 T  00000140 4E4E                           trap      #14
+  119 T  00000142 548F                           addq.l    #2,sp
+  120 T  00000144 2040                           movea.l   d0,a0
+  121 T  00000146 43FA0016                       lea.l     rett(pc),a1
+  122 T  0000014A 216900020020                   move.l    2(a1),32(a0)
+  123 T  00000150 4CDF7FFF                       movem.l   (sp)+,d0-d7/a0-a6
+  124 T  00000154 4E75                           rts
+  125 T  00000156 33FC000100000166     neuikbd:  move.w    #1,merk
+  126 T  0000015E 4EF90000015E         rett:     jmp       rett
+  127 T  00000164 12                   ptr:      DC.b $12
+  128 T  00000165 08                   ptr2:     DC.b $8
+  129 T  00000166 0000                 merk:     DC.w 0
+  130 T  00000168                                END 
+
+
