@@ -181,15 +181,33 @@ workfile$="WORK."+ext2$      ! Name des Files, zur Auslagerung beim öbergang mem
 aback$="BACKUP."+ext2$       ! Name des Backup-Samplefiles
 @rsc_init
 '
-DIM f.base%(3)
-DIM f.scalc%(3)
-DIM f.init%(3)
+DIM f.base%(4)
+DIM f.scalc%(4)
+DIM f.init%(4)
 xrok1=@xrsrc_init(1)
 IF xrok1=TRUE THEN
   xrok2=@xrsrc_init(2)
   IF xrok2=TRUE THEN
     xrok3=@xrsrc_init(3)
-    IF xrok3=FALSE THEN
+    IF xrok3=TRUE THEN
+      xrok4=@xrsrc_init(4)
+      IF xrok4=FALSE THEN
+        @rsc_exit
+        @alerts(3)
+        IF xinit=TRUE THEN
+          @xrsrc_exit(3)      ! beendet xrsrc-Routinen
+          @xrsrc_exit(2)      ! beendet xrsrc-Routinen
+          @xrsrc_exit(1)      ! beendet xrsrc-Routinen
+        ENDIF
+        IF accx=FALSE THEN
+          END
+        ELSE
+          GOTO ende
+        ENDIF
+      ELSE
+        xinit=TRUE
+      ENDIF
+    ELSE
       @rsc_exit
       @alerts(3)
       IF xinit=TRUE THEN
@@ -201,8 +219,6 @@ IF xrok1=TRUE THEN
       ELSE
         GOTO ende
       ENDIF
-    ELSE
-      xinit=TRUE
     ENDIF
   ELSE
     @rsc_exit
@@ -256,8 +272,8 @@ ENDIF
 adr=vme+&H401
 starint=adr+&H280
 s$=lfw$
-IF EXIST(s$+rsc$)=FALSE THEN
-  IF EXIST("C:\"+rsc$)=TRUE THEN
+IF EXIST(s$+rsc1$)=FALSE THEN
+  IF EXIST("C:\"+rsc1$)=TRUE THEN
     s$="C:\"
   ENDIF
 ENDIF
@@ -296,7 +312,7 @@ IF demo=FALSE THEN
   ENDIF
   hchk=XBIOS(xbs,12)     ! bit0: 0=neue hardware, 1=alte hardware
 ENDIF
-IF EXIST(s$+rsc$)=TRUE AND EXIST(s$+rsc2$)=TRUE AND EXIST(s$+rsc3$)=TRUE THEN
+IF EXIST(s$+rsc1$)=TRUE AND EXIST(s$+rsc2$)=TRUE AND EXIST(s$+rsc3$)=TRUE AND EXIST(s$+rsc4$)=TRUE THEN
   @setup
   IF away=FALSE THEN
     IF menuda=FALSE THEN
@@ -304,7 +320,7 @@ IF EXIST(s$+rsc$)=TRUE AND EXIST(s$+rsc2$)=TRUE AND EXIST(s$+rsc3$)=TRUE THEN
     ELSE
       mensa=dropdown&
     ENDIF
-    m1=@xrsrc_load(1,s$+rsc$)
+    m1=@xrsrc_load(1,s$+rsc1$)
     IF m1<>0 THEN
       m2=@xrsrc_load(2,s$+rsc2$)
       IF m2=0 THEN
@@ -314,6 +330,13 @@ IF EXIST(s$+rsc$)=TRUE AND EXIST(s$+rsc2$)=TRUE AND EXIST(s$+rsc3$)=TRUE THEN
         IF m3=0 THEN
           ~@xrsrc_free(2)      ! beendet xrsrc-Routinen
           ~@xrsrc_free(1)      ! beendet xrsrc-Routinen
+        ELSE
+          m4=@xrsrc_load(4,s$+rsc4$)
+          IF m3=0 THEN
+            ~@xrsrc_free(3)      ! beendet xrsrc-Routinen
+            ~@xrsrc_free(2)      ! beendet xrsrc-Routinen
+            ~@xrsrc_free(1)      ! beendet xrsrc-Routinen
+          ENDIF
         ENDIF
       ENDIF
     ENDIF
@@ -8771,16 +8794,21 @@ ENDFUNC
 $F%
 LOCAL r%,regi&
 '
-IF re_gindex&>(lastrsc2+lastrsc1+1) THEN
-rsn=3
-regi&=re_gindex&-lastrsc1-lastrsc2-2
+IF re_gindex&>=nxtrsc3 THEN
+rsn=4
+regi&=re_gindex&-nxtrsc3
 ELSE
-IF re_gindex&>lastrsc1 THEN
+IF re_gindex&>=nxtrsc2 THEN
+rsn=3
+regi&=re_gindex&-nxtrsc2
+ELSE
+IF re_gindex&>=nxtrsc1 THEN
 rsn=2
-regi&=re_gindex&-lastrsc1-1
+regi&=re_gindex&-nxtrsc1
 ELSE
 rsn=1
 regi&=re_gindex&
+ENDIF
 ENDIF
 ENDIF
 '
@@ -10363,50 +10391,53 @@ RETURN
 '
 > PROCEDURE changetreenumbs
 '
-lastrsc1=fsel&
-lastrsc2=clocks&
-lastrsc3=alertbox&
+nxtrsc1=fsel&+1
+nxtrsc2=nxtrsc1+mixer&+1
+nxtrsc3=nxtrsc2+clocks&+1
+nxtrsc4=alertbox&
 '
-info&=info&+lastrsc1+1
-peak&=peak&+lastrsc1+1
-blkfunc&=blkfunc&+lastrsc1+1
-cuelist&=cuelist&+lastrsc1+1
-virtual&=virtual&+lastrsc1+1
-record&=record&+lastrsc1+1
-LET savebloc&=savebloc&+lastrsc1+1
-abackup&=abackup&+lastrsc1+1
-midiedit&=midiedit&+lastrsc1+1
-normaliz&=normaliz&+lastrsc1+1
-resample&=resample&+lastrsc1+1
-mrkfind&=mrkfind&+lastrsc1+1
-disked&=disked&+lastrsc1+1
-xfade&=xfade&+lastrsc1+1
-partsel&=partsel&+lastrsc1+1
-clocks&=clocks&+lastrsc1+1
+mixer&=mixer&+nxtrsc1
 '
-smp16&=smp16&+lastrsc1+lastrsc2+2
-dspedit&=dspedit&+lastrsc1+lastrsc2+2
-loop&=loop&+lastrsc1+lastrsc2+2
-editfade&=editfade&+lastrsc1+lastrsc2+2
-wmode&=wmode&+lastrsc1+lastrsc2+2
-plugin&=plugin&+lastrsc1+lastrsc2+2
-setup&=setup&+lastrsc1+lastrsc2+2
-arrmname&=arrmname&+lastrsc1+lastrsc2+2
-moving&=moving&+lastrsc1+lastrsc2+2
-timeed&=timeed&+lastrsc1+lastrsc2+2
-inftxt&=inftxt&+lastrsc1+lastrsc2+2
-smpinf&=smpinf&+lastrsc1+lastrsc2+2
-meldung&=meldung&+lastrsc1+lastrsc2+2
-trknamin&=trknamin&+lastrsc1+lastrsc2+2
-trkcomin&=trkcomin&+lastrsc1+lastrsc2+2
-mrktxtin&=mrktxtin&+lastrsc1+lastrsc2+2
-marknumb&=marknumb&+lastrsc1+lastrsc2+2
-plgconfg&=plgconfg&+lastrsc1+lastrsc2+2
-arrmake&=arrmake&+lastrsc1+lastrsc2+2
-alertbox&=alertbox&+lastrsc1+lastrsc2+2
-dsmove&=dsmove&+lastrsc1+lastrsc2+2
-popups&=popups&+lastrsc1+lastrsc2+2
-dropdown&=dropdown&+lastrsc1+lastrsc2+2
+info&=info&+nxtrsc2
+peak&=peak&+nxtrsc2
+blkfunc&=blkfunc&+nxtrsc2
+cuelist&=cuelist&+nxtrsc2
+virtual&=virtual&+nxtrsc2
+record&=record&+nxtrsc2
+LET savebloc&=savebloc&+nxtrsc2
+abackup&=abackup&+nxtrsc2
+midiedit&=midiedit&+nxtrsc2
+normaliz&=normaliz&+nxtrsc2
+resample&=resample&+nxtrsc2
+mrkfind&=mrkfind&+nxtrsc2
+disked&=disked&+nxtrsc2
+xfade&=xfade&+nxtrsc2
+partsel&=partsel&+nxtrsc2
+clocks&=clocks&+nxtrsc2
+'
+smp16&=smp16&+nxtrsc3
+dspedit&=dspedit&+nxtrsc3
+loop&=loop&+nxtrsc3
+editfade&=editfade&+nxtrsc3
+wmode&=wmode&+nxtrsc3
+plugin&=plugin&+nxtrsc3
+setup&=setup&+nxtrsc3
+arrmname&=arrmname&+nxtrsc3
+moving&=moving&+nxtrsc3
+timeed&=timeed&+nxtrsc3
+inftxt&=inftxt&+nxtrsc3
+smpinf&=smpinf&+nxtrsc3
+meldung&=meldung&+nxtrsc3
+trknamin&=trknamin&+nxtrsc3
+trkcomin&=trkcomin&+nxtrsc3
+mrktxtin&=mrktxtin&+nxtrsc3
+marknumb&=marknumb&+nxtrsc3
+plgconfg&=plgconfg&+nxtrsc3
+arrmake&=arrmake&+nxtrsc3
+alertbox&=alertbox&+nxtrsc3
+dsmove&=dsmove&+nxtrsc3
+popups&=popups&+nxtrsc3
+dropdown&=dropdown&+nxtrsc3
 '
 btree=alertbox&
 '
@@ -10415,16 +10446,20 @@ RETURN
 > PROCEDURE calc_resource
 IF maxcol=2 THEN
 IF bigfoot=FALSE THEN
-@rsc_for_lo_mono
+@rsc_for_lo_mono1
+@rsc_for_lo_mono2
 ELSE
-@rsc_for_hi_mono
+@rsc_for_hi_mono1
+@rsc_for_hi_mono2
 ENDIF
 @rsc_for_mono
 ELSE
 IF bigfoot=FALSE THEN
-@rsc_for_lo_color
+@rsc_for_lo_color1
+@rsc_for_lo_color2
 ELSE
-@rsc_for_hi_color
+@rsc_for_hi_color1
+@rsc_for_hi_color2
 ENDIF
 @rsc_for_color
 ENDIF
@@ -10544,8 +10579,8 @@ reg6$=LEFT$(reg6$,47)+CHR$(0)
 ENDIF
 RETURN
 '
-> PROCEDURE rsc_for_lo_mono  ! Resource fÅr monochrome Auflîsungen kleiner als 1024x768
-REM Resource Datei Indizes fÅr STARLOM
+> PROCEDURE rsc_for_lo_mono1  ! Resource fÅr monochrome Auflîsungen kleiner als 1024x768
+REM Resource Datei Indizes fÅr STARLOM1
 '
 LET smpedit&=0 ! Formular/Dialog
 LET editbox7&=0 ! BOX in Baum SMPEDIT
@@ -10910,7 +10945,76 @@ LET trk16&=155 ! USERDEF in Baum TRAKKER
 LET trakhelp&=156 ! BOXTEXT in Baum TRAKKER
 LET trakexit&=157 ! BUTTON in Baum TRAKKER
 '
-LET mixer&=3 ! Formular/Dialog
+LET fsel&=3 ! Formular/Dialog
+LET fselbox&=0 ! BOX in Baum FSEL
+LET fselbox2&=1 ! BOX in Baum FSEL
+LET fsbut1&=2 ! BOXTEXT in Baum FSEL
+LET fsbut2&=3 ! BOXTEXT in Baum FSEL
+LET fsbut3&=4 ! BOXTEXT in Baum FSEL
+LET fsbut4&=5 ! BOXTEXT in Baum FSEL
+LET fsbut5&=6 ! BOXTEXT in Baum FSEL
+LET fsbut6&=7 ! BOXTEXT in Baum FSEL
+LET fsbut7&=8 ! BOXTEXT in Baum FSEL
+LET fsbut8&=9 ! BOXTEXT in Baum FSEL
+LET fsbut9&=10 ! BOXTEXT in Baum FSEL
+LET fsbut10&=11 ! BOXTEXT in Baum FSEL
+LET fsbut11&=12 ! BOXTEXT in Baum FSEL
+LET fsbut12&=13 ! BOXTEXT in Baum FSEL
+LET fsbut13&=14 ! BOXTEXT in Baum FSEL
+LET fsbut14&=15 ! BOXTEXT in Baum FSEL
+LET fsbut15&=16 ! BOXTEXT in Baum FSEL
+LET fstxt1&=17 ! BOXTEXT in Baum FSEL
+LET fstxt2&=18 ! BOXTEXT in Baum FSEL
+LET fstxt3&=19 ! BOXTEXT in Baum FSEL
+LET fstxt4&=20 ! BOXTEXT in Baum FSEL
+LET fstxt5&=21 ! BOXTEXT in Baum FSEL
+LET fstxt6&=22 ! BOXTEXT in Baum FSEL
+LET fstxt7&=23 ! BOXTEXT in Baum FSEL
+LET fstxt8&=24 ! BOXTEXT in Baum FSEL
+LET fstxt9&=25 ! BOXTEXT in Baum FSEL
+LET fstxt10&=26 ! BOXTEXT in Baum FSEL
+LET fstxt11&=27 ! BOXTEXT in Baum FSEL
+LET fstxt12&=28 ! BOXTEXT in Baum FSEL
+LET fstxt13&=29 ! BOXTEXT in Baum FSEL
+LET fstxt14&=30 ! BOXTEXT in Baum FSEL
+LET fstxt15&=31 ! BOXTEXT in Baum FSEL
+LET fsslide&=32 ! BOX in Baum FSEL
+LET fssldbut&=33 ! BUTTON in Baum FSEL
+LET fshelp&=34 ! BOXTEXT in Baum FSEL
+LET fssldup&=36 ! USERDEF in Baum FSEL
+LET fsslddwn&=37 ! USERDEF in Baum FSEL
+LET nfseltxt&=38 ! TEXT in Baum FSEL
+LET fselbox3&=39 ! BOX in Baum FSEL
+LET fsordner&=40 ! BUTTON in Baum FSEL
+LET fsotxt&=41 ! BOXTEXT in Baum FSEL
+LET fsadd&=42 ! BUTTON in Baum FSEL
+LET fsnew&=43 ! BUTTON in Baum FSEL
+LET fselbox4&=44 ! BOX in Baum FSEL
+LET fsok&=45 ! BUTTON in Baum FSEL
+LET fsplay&=46 ! USERDEF in Baum FSEL
+LET fsexit&=47 ! BUTTON in Baum FSEL
+LET fsmatic&=48 ! USERDEF in Baum FSEL
+LET fsins&=49 ! USERDEF in Baum FSEL
+LET fsdel&=50 ! USERDEF in Baum FSEL
+LET fsload&=51 ! USERDEF in Baum FSEL
+LET fssave&=52 ! USERDEF in Baum FSEL
+LET fsclf&=53 ! USERDEF in Baum FSEL
+LET fsstop&=54 ! USERDEF in Baum FSEL
+LET fswait&=55 ! USERDEF in Baum FSEL
+LET fsend&=56 ! USERDEF in Baum FSEL
+LET fstime&=57 ! BOXTEXT in Baum FSEL
+LET fslplay&=58 ! USERDEF in Baum FSEL
+LET tfsabc&=59 ! USERDEF in Baum FSEL
+LET tfsearch&=60 ! BUTTON in Baum FSEL
+'
+rsc1$="STARLOM1.RSC"
+'
+RETURN
+'
+> PROCEDURE rsc_for_lo_mono2  ! Resource fÅr monochrome Auflîsungen kleiner als 1024x768
+REM Resource Datei Indizes fÅr STARLOM2
+'
+LET mixer&=0 ! Formular/Dialog
 LET mixbox1&=0 ! BOX in Baum MIXER
 LET mixbox2&=1 ! BOX in Baum MIXER
 LET mixfile&=2 ! BOXTEXT in Baum MIXER
@@ -11188,74 +11292,12 @@ LET mixmutem&=391 ! USERDEF in Baum MIXER
 LET mixtxtm&=392 ! BOXTEXT in Baum MIXER
 LET mixbypm&=393 ! USERDEF in Baum MIXER
 '
-LET fsel&=4 ! Formular/Dialog
-LET fselbox&=0 ! BOX in Baum FSEL
-LET fselbox2&=1 ! BOX in Baum FSEL
-LET fsbut1&=2 ! BOXTEXT in Baum FSEL
-LET fsbut2&=3 ! BOXTEXT in Baum FSEL
-LET fsbut3&=4 ! BOXTEXT in Baum FSEL
-LET fsbut4&=5 ! BOXTEXT in Baum FSEL
-LET fsbut5&=6 ! BOXTEXT in Baum FSEL
-LET fsbut6&=7 ! BOXTEXT in Baum FSEL
-LET fsbut7&=8 ! BOXTEXT in Baum FSEL
-LET fsbut8&=9 ! BOXTEXT in Baum FSEL
-LET fsbut9&=10 ! BOXTEXT in Baum FSEL
-LET fsbut10&=11 ! BOXTEXT in Baum FSEL
-LET fsbut11&=12 ! BOXTEXT in Baum FSEL
-LET fsbut12&=13 ! BOXTEXT in Baum FSEL
-LET fsbut13&=14 ! BOXTEXT in Baum FSEL
-LET fsbut14&=15 ! BOXTEXT in Baum FSEL
-LET fsbut15&=16 ! BOXTEXT in Baum FSEL
-LET fstxt1&=17 ! BOXTEXT in Baum FSEL
-LET fstxt2&=18 ! BOXTEXT in Baum FSEL
-LET fstxt3&=19 ! BOXTEXT in Baum FSEL
-LET fstxt4&=20 ! BOXTEXT in Baum FSEL
-LET fstxt5&=21 ! BOXTEXT in Baum FSEL
-LET fstxt6&=22 ! BOXTEXT in Baum FSEL
-LET fstxt7&=23 ! BOXTEXT in Baum FSEL
-LET fstxt8&=24 ! BOXTEXT in Baum FSEL
-LET fstxt9&=25 ! BOXTEXT in Baum FSEL
-LET fstxt10&=26 ! BOXTEXT in Baum FSEL
-LET fstxt11&=27 ! BOXTEXT in Baum FSEL
-LET fstxt12&=28 ! BOXTEXT in Baum FSEL
-LET fstxt13&=29 ! BOXTEXT in Baum FSEL
-LET fstxt14&=30 ! BOXTEXT in Baum FSEL
-LET fstxt15&=31 ! BOXTEXT in Baum FSEL
-LET fsslide&=32 ! BOX in Baum FSEL
-LET fssldbut&=33 ! BUTTON in Baum FSEL
-LET fshelp&=34 ! BOXTEXT in Baum FSEL
-LET fssldup&=36 ! USERDEF in Baum FSEL
-LET fsslddwn&=37 ! USERDEF in Baum FSEL
-LET nfseltxt&=38 ! TEXT in Baum FSEL
-LET fselbox3&=39 ! BOX in Baum FSEL
-LET fsordner&=40 ! BUTTON in Baum FSEL
-LET fsotxt&=41 ! BOXTEXT in Baum FSEL
-LET fsadd&=42 ! BUTTON in Baum FSEL
-LET fsnew&=43 ! BUTTON in Baum FSEL
-LET fselbox4&=44 ! BOX in Baum FSEL
-LET fsok&=45 ! BUTTON in Baum FSEL
-LET fsplay&=46 ! USERDEF in Baum FSEL
-LET fsexit&=47 ! BUTTON in Baum FSEL
-LET fsmatic&=48 ! USERDEF in Baum FSEL
-LET fsins&=49 ! USERDEF in Baum FSEL
-LET fsdel&=50 ! USERDEF in Baum FSEL
-LET fsload&=51 ! USERDEF in Baum FSEL
-LET fssave&=52 ! USERDEF in Baum FSEL
-LET fsclf&=53 ! USERDEF in Baum FSEL
-LET fsstop&=54 ! USERDEF in Baum FSEL
-LET fswait&=55 ! USERDEF in Baum FSEL
-LET fsend&=56 ! USERDEF in Baum FSEL
-LET fstime&=57 ! BOXTEXT in Baum FSEL
-LET fslplay&=58 ! USERDEF in Baum FSEL
-LET tfsabc&=59 ! USERDEF in Baum FSEL
-LET tfsearch&=60 ! BUTTON in Baum FSEL
-'
-rsc$="STARLOM.RSC"
+rsc2$="STARLOM2.RSC"
 '
 RETURN
 '
-> PROCEDURE rsc_for_lo_color ! Resource fÅr Farbauflîsungen kleiner als 1024x768
-REM Resource Datei Indizes fÅr STARLOC
+> PROCEDURE rsc_for_lo_color1 ! Resource fÅr Farbauflîsungen kleiner als 1024x768
+REM Resource Datei Indizes fÅr STARLOC1
 '
 LET smpedit&=0 ! Formular/Dialog
 LET editbox7&=0 ! BOX in Baum SMPEDIT
@@ -11620,7 +11662,76 @@ LET trk16&=155 ! USERDEF in Baum TRAKKER
 LET trakhelp&=156 ! BOXTEXT in Baum TRAKKER
 LET trakexit&=157 ! BUTTON in Baum TRAKKER
 '
-LET mixer&=3 ! Formular/Dialog
+LET fsel&=3 ! Formular/Dialog
+LET fselbox&=0 ! BOX in Baum FSEL
+LET fselbox2&=1 ! BOX in Baum FSEL
+LET fsbut1&=2 ! BOXTEXT in Baum FSEL
+LET fsbut2&=3 ! BOXTEXT in Baum FSEL
+LET fsbut3&=4 ! BOXTEXT in Baum FSEL
+LET fsbut4&=5 ! BOXTEXT in Baum FSEL
+LET fsbut5&=6 ! BOXTEXT in Baum FSEL
+LET fsbut6&=7 ! BOXTEXT in Baum FSEL
+LET fsbut7&=8 ! BOXTEXT in Baum FSEL
+LET fsbut8&=9 ! BOXTEXT in Baum FSEL
+LET fsbut9&=10 ! BOXTEXT in Baum FSEL
+LET fsbut10&=11 ! BOXTEXT in Baum FSEL
+LET fsbut11&=12 ! BOXTEXT in Baum FSEL
+LET fsbut12&=13 ! BOXTEXT in Baum FSEL
+LET fsbut13&=14 ! BOXTEXT in Baum FSEL
+LET fsbut14&=15 ! BOXTEXT in Baum FSEL
+LET fsbut15&=16 ! BOXTEXT in Baum FSEL
+LET fstxt1&=17 ! BOXTEXT in Baum FSEL
+LET fstxt2&=18 ! BOXTEXT in Baum FSEL
+LET fstxt3&=19 ! BOXTEXT in Baum FSEL
+LET fstxt4&=20 ! BOXTEXT in Baum FSEL
+LET fstxt5&=21 ! BOXTEXT in Baum FSEL
+LET fstxt6&=22 ! BOXTEXT in Baum FSEL
+LET fstxt7&=23 ! BOXTEXT in Baum FSEL
+LET fstxt8&=24 ! BOXTEXT in Baum FSEL
+LET fstxt9&=25 ! BOXTEXT in Baum FSEL
+LET fstxt10&=26 ! BOXTEXT in Baum FSEL
+LET fstxt11&=27 ! BOXTEXT in Baum FSEL
+LET fstxt12&=28 ! BOXTEXT in Baum FSEL
+LET fstxt13&=29 ! BOXTEXT in Baum FSEL
+LET fstxt14&=30 ! BOXTEXT in Baum FSEL
+LET fstxt15&=31 ! BOXTEXT in Baum FSEL
+LET fsslide&=32 ! BOX in Baum FSEL
+LET fssldbut&=33 ! BUTTON in Baum FSEL
+LET fshelp&=34 ! BOXTEXT in Baum FSEL
+LET fssldup&=36 ! USERDEF in Baum FSEL
+LET fsslddwn&=37 ! USERDEF in Baum FSEL
+LET nfseltxt&=38 ! TEXT in Baum FSEL
+LET fselbox4&=39 ! BOX in Baum FSEL
+LET fsok&=40 ! BUTTON in Baum FSEL
+LET fsexit&=41 ! BUTTON in Baum FSEL
+LET fstime&=42 ! BOXTEXT in Baum FSEL
+LET tfsearch&=43 ! BUTTON in Baum FSEL
+LET fsplay&=44 ! USERDEF in Baum FSEL
+LET fsmatic&=45 ! USERDEF in Baum FSEL
+LET fsins&=46 ! USERDEF in Baum FSEL
+LET fsdel&=47 ! USERDEF in Baum FSEL
+LET fsload&=48 ! USERDEF in Baum FSEL
+LET fssave&=49 ! USERDEF in Baum FSEL
+LET fsclf&=50 ! USERDEF in Baum FSEL
+LET fsstop&=51 ! USERDEF in Baum FSEL
+LET fswait&=52 ! USERDEF in Baum FSEL
+LET fsend&=53 ! USERDEF in Baum FSEL
+LET fslplay&=54 ! USERDEF in Baum FSEL
+LET tfsabc&=55 ! USERDEF in Baum FSEL
+LET fselbox3&=56 ! BOX in Baum FSEL
+LET fsordner&=57 ! BUTTON in Baum FSEL
+LET fsotxt&=58 ! BOXTEXT in Baum FSEL
+LET fsadd&=59 ! BUTTON in Baum FSEL
+LET fsnew&=60 ! BUTTON in Baum FSEL
+'
+rsc1$="STARLOC1.RSC"
+'
+RETURN
+'
+> PROCEDURE rsc_for_lo_color2 ! Resource fÅr Farbauflîsungen kleiner als 1024x768
+REM Resource Datei Indizes fÅr STARLOC2
+'
+LET mixer&=0 ! Formular/Dialog
 LET mixbox1&=0 ! BOX in Baum MIXER
 LET mixbox2&=1 ! BOX in Baum MIXER
 LET mixfile&=2 ! BOXTEXT in Baum MIXER
@@ -11898,74 +12009,12 @@ LET mixmutem&=391 ! USERDEF in Baum MIXER
 LET mixtxtm&=392 ! BOXTEXT in Baum MIXER
 LET mixbypm&=393 ! USERDEF in Baum MIXER
 '
-LET fsel&=4 ! Formular/Dialog
-LET fselbox&=0 ! BOX in Baum FSEL
-LET fselbox2&=1 ! BOX in Baum FSEL
-LET fsbut1&=2 ! BOXTEXT in Baum FSEL
-LET fsbut2&=3 ! BOXTEXT in Baum FSEL
-LET fsbut3&=4 ! BOXTEXT in Baum FSEL
-LET fsbut4&=5 ! BOXTEXT in Baum FSEL
-LET fsbut5&=6 ! BOXTEXT in Baum FSEL
-LET fsbut6&=7 ! BOXTEXT in Baum FSEL
-LET fsbut7&=8 ! BOXTEXT in Baum FSEL
-LET fsbut8&=9 ! BOXTEXT in Baum FSEL
-LET fsbut9&=10 ! BOXTEXT in Baum FSEL
-LET fsbut10&=11 ! BOXTEXT in Baum FSEL
-LET fsbut11&=12 ! BOXTEXT in Baum FSEL
-LET fsbut12&=13 ! BOXTEXT in Baum FSEL
-LET fsbut13&=14 ! BOXTEXT in Baum FSEL
-LET fsbut14&=15 ! BOXTEXT in Baum FSEL
-LET fsbut15&=16 ! BOXTEXT in Baum FSEL
-LET fstxt1&=17 ! BOXTEXT in Baum FSEL
-LET fstxt2&=18 ! BOXTEXT in Baum FSEL
-LET fstxt3&=19 ! BOXTEXT in Baum FSEL
-LET fstxt4&=20 ! BOXTEXT in Baum FSEL
-LET fstxt5&=21 ! BOXTEXT in Baum FSEL
-LET fstxt6&=22 ! BOXTEXT in Baum FSEL
-LET fstxt7&=23 ! BOXTEXT in Baum FSEL
-LET fstxt8&=24 ! BOXTEXT in Baum FSEL
-LET fstxt9&=25 ! BOXTEXT in Baum FSEL
-LET fstxt10&=26 ! BOXTEXT in Baum FSEL
-LET fstxt11&=27 ! BOXTEXT in Baum FSEL
-LET fstxt12&=28 ! BOXTEXT in Baum FSEL
-LET fstxt13&=29 ! BOXTEXT in Baum FSEL
-LET fstxt14&=30 ! BOXTEXT in Baum FSEL
-LET fstxt15&=31 ! BOXTEXT in Baum FSEL
-LET fsslide&=32 ! BOX in Baum FSEL
-LET fssldbut&=33 ! BUTTON in Baum FSEL
-LET fshelp&=34 ! BOXTEXT in Baum FSEL
-LET fssldup&=36 ! USERDEF in Baum FSEL
-LET fsslddwn&=37 ! USERDEF in Baum FSEL
-LET nfseltxt&=38 ! TEXT in Baum FSEL
-LET fselbox4&=39 ! BOX in Baum FSEL
-LET fsok&=40 ! BUTTON in Baum FSEL
-LET fsexit&=41 ! BUTTON in Baum FSEL
-LET fstime&=42 ! BOXTEXT in Baum FSEL
-LET tfsearch&=43 ! BUTTON in Baum FSEL
-LET fsplay&=44 ! USERDEF in Baum FSEL
-LET fsmatic&=45 ! USERDEF in Baum FSEL
-LET fsins&=46 ! USERDEF in Baum FSEL
-LET fsdel&=47 ! USERDEF in Baum FSEL
-LET fsload&=48 ! USERDEF in Baum FSEL
-LET fssave&=49 ! USERDEF in Baum FSEL
-LET fsclf&=50 ! USERDEF in Baum FSEL
-LET fsstop&=51 ! USERDEF in Baum FSEL
-LET fswait&=52 ! USERDEF in Baum FSEL
-LET fsend&=53 ! USERDEF in Baum FSEL
-LET fslplay&=54 ! USERDEF in Baum FSEL
-LET tfsabc&=55 ! USERDEF in Baum FSEL
-LET fselbox3&=56 ! BOX in Baum FSEL
-LET fsordner&=57 ! BUTTON in Baum FSEL
-LET fsotxt&=58 ! BOXTEXT in Baum FSEL
-LET fsadd&=59 ! BUTTON in Baum FSEL
-LET fsnew&=60 ! BUTTON in Baum FSEL
-'
-rsc$="STARLOC.RSC"
+rsc2$="STARLOC2.RSC"
 '
 RETURN
 '
-> PROCEDURE rsc_for_hi_mono  ! Resource fÅr monochrome Auflîsungen ab 1024x768
-REM Resource Datei Indizes fÅr STARHIM
+> PROCEDURE rsc_for_hi_mono1  ! Resource fÅr monochrome Auflîsungen ab 1024x768
+REM Resource Datei Indizes fÅr STARHIM1
 '
 LET smpedit&=0 ! Formular/Dialog
 LET editbox7&=0 ! BOX in Baum SMPEDIT
@@ -12340,7 +12389,76 @@ LET trkmon&=169 ! BOXTEXT in Baum TRAKKER
 LET trakhelp&=171 ! BOXTEXT in Baum TRAKKER
 LET trakexit&=172 ! BUTTON in Baum TRAKKER
 '
-LET mixer&=3 ! Formular/Dialog
+LET fsel&=3 ! Formular/Dialog
+LET fselbox&=0 ! BOX in Baum FSEL
+LET fselbox2&=1 ! BOX in Baum FSEL
+LET fsbut1&=2 ! BOXTEXT in Baum FSEL
+LET fsbut2&=3 ! BOXTEXT in Baum FSEL
+LET fsbut3&=4 ! BOXTEXT in Baum FSEL
+LET fsbut4&=5 ! BOXTEXT in Baum FSEL
+LET fsbut5&=6 ! BOXTEXT in Baum FSEL
+LET fsbut6&=7 ! BOXTEXT in Baum FSEL
+LET fsbut7&=8 ! BOXTEXT in Baum FSEL
+LET fsbut8&=9 ! BOXTEXT in Baum FSEL
+LET fsbut9&=10 ! BOXTEXT in Baum FSEL
+LET fsbut10&=11 ! BOXTEXT in Baum FSEL
+LET fsbut11&=12 ! BOXTEXT in Baum FSEL
+LET fsbut12&=13 ! BOXTEXT in Baum FSEL
+LET fsbut13&=14 ! BOXTEXT in Baum FSEL
+LET fsbut14&=15 ! BOXTEXT in Baum FSEL
+LET fsbut15&=16 ! BOXTEXT in Baum FSEL
+LET fstxt1&=17 ! BOXTEXT in Baum FSEL
+LET fstxt2&=18 ! BOXTEXT in Baum FSEL
+LET fstxt3&=19 ! BOXTEXT in Baum FSEL
+LET fstxt4&=20 ! BOXTEXT in Baum FSEL
+LET fstxt5&=21 ! BOXTEXT in Baum FSEL
+LET fstxt6&=22 ! BOXTEXT in Baum FSEL
+LET fstxt7&=23 ! BOXTEXT in Baum FSEL
+LET fstxt8&=24 ! BOXTEXT in Baum FSEL
+LET fstxt9&=25 ! BOXTEXT in Baum FSEL
+LET fstxt10&=26 ! BOXTEXT in Baum FSEL
+LET fstxt11&=27 ! BOXTEXT in Baum FSEL
+LET fstxt12&=28 ! BOXTEXT in Baum FSEL
+LET fstxt13&=29 ! BOXTEXT in Baum FSEL
+LET fstxt14&=30 ! BOXTEXT in Baum FSEL
+LET fstxt15&=31 ! BOXTEXT in Baum FSEL
+LET fsslide&=32 ! BOX in Baum FSEL
+LET fssldbut&=33 ! BUTTON in Baum FSEL
+LET fshelp&=34 ! BOXTEXT in Baum FSEL
+LET fssldup&=36 ! USERDEF in Baum FSEL
+LET fsslddwn&=37 ! USERDEF in Baum FSEL
+LET nfseltxt&=38 ! TEXT in Baum FSEL
+LET fselbox4&=39 ! BOX in Baum FSEL
+LET fsok&=40 ! BUTTON in Baum FSEL
+LET fsplay&=41 ! USERDEF in Baum FSEL
+LET fsexit&=42 ! BUTTON in Baum FSEL
+LET fsmatic&=43 ! USERDEF in Baum FSEL
+LET fsins&=44 ! USERDEF in Baum FSEL
+LET fsdel&=45 ! USERDEF in Baum FSEL
+LET fsload&=46 ! USERDEF in Baum FSEL
+LET fssave&=47 ! USERDEF in Baum FSEL
+LET fsclf&=48 ! USERDEF in Baum FSEL
+LET fsstop&=49 ! USERDEF in Baum FSEL
+LET fswait&=50 ! USERDEF in Baum FSEL
+LET fsend&=51 ! USERDEF in Baum FSEL
+LET fstime&=52 ! BOXTEXT in Baum FSEL
+LET fslplay&=53 ! USERDEF in Baum FSEL
+LET tfsabc&=54 ! USERDEF in Baum FSEL
+LET tfsearch&=55 ! BUTTON in Baum FSEL
+LET fselbox3&=56 ! BOX in Baum FSEL
+LET fsordner&=57 ! BUTTON in Baum FSEL
+LET fsotxt&=58 ! BOXTEXT in Baum FSEL
+LET fsadd&=59 ! BUTTON in Baum FSEL
+LET fsnew&=60 ! BUTTON in Baum FSEL
+'
+rsc1$="STARHIM1.RSC"
+'
+RETURN
+'
+> PROCEDURE rsc_for_hi_mono2  ! Resource fÅr monochrome Auflîsungen ab 1024x768
+REM Resource Datei Indizes fÅr STARHIM2
+'
+LET mixer&=0 ! Formular/Dialog
 LET mixbox1&=0 ! BOX in Baum MIXER
 LET mixbox2&=1 ! BOX in Baum MIXER
 LET mixload&=2 ! USERDEF in Baum MIXER
@@ -12846,74 +12964,12 @@ LET mixerr&=723 ! BOXTEXT in Baum MIXER
 LET mixerrt&=724 ! TEXT in Baum MIXER
 LET dsicon&=725 ! USERDEF in Baum MIXER
 '
-LET fsel&=4 ! Formular/Dialog
-LET fselbox&=0 ! BOX in Baum FSEL
-LET fselbox2&=1 ! BOX in Baum FSEL
-LET fsbut1&=2 ! BOXTEXT in Baum FSEL
-LET fsbut2&=3 ! BOXTEXT in Baum FSEL
-LET fsbut3&=4 ! BOXTEXT in Baum FSEL
-LET fsbut4&=5 ! BOXTEXT in Baum FSEL
-LET fsbut5&=6 ! BOXTEXT in Baum FSEL
-LET fsbut6&=7 ! BOXTEXT in Baum FSEL
-LET fsbut7&=8 ! BOXTEXT in Baum FSEL
-LET fsbut8&=9 ! BOXTEXT in Baum FSEL
-LET fsbut9&=10 ! BOXTEXT in Baum FSEL
-LET fsbut10&=11 ! BOXTEXT in Baum FSEL
-LET fsbut11&=12 ! BOXTEXT in Baum FSEL
-LET fsbut12&=13 ! BOXTEXT in Baum FSEL
-LET fsbut13&=14 ! BOXTEXT in Baum FSEL
-LET fsbut14&=15 ! BOXTEXT in Baum FSEL
-LET fsbut15&=16 ! BOXTEXT in Baum FSEL
-LET fstxt1&=17 ! BOXTEXT in Baum FSEL
-LET fstxt2&=18 ! BOXTEXT in Baum FSEL
-LET fstxt3&=19 ! BOXTEXT in Baum FSEL
-LET fstxt4&=20 ! BOXTEXT in Baum FSEL
-LET fstxt5&=21 ! BOXTEXT in Baum FSEL
-LET fstxt6&=22 ! BOXTEXT in Baum FSEL
-LET fstxt7&=23 ! BOXTEXT in Baum FSEL
-LET fstxt8&=24 ! BOXTEXT in Baum FSEL
-LET fstxt9&=25 ! BOXTEXT in Baum FSEL
-LET fstxt10&=26 ! BOXTEXT in Baum FSEL
-LET fstxt11&=27 ! BOXTEXT in Baum FSEL
-LET fstxt12&=28 ! BOXTEXT in Baum FSEL
-LET fstxt13&=29 ! BOXTEXT in Baum FSEL
-LET fstxt14&=30 ! BOXTEXT in Baum FSEL
-LET fstxt15&=31 ! BOXTEXT in Baum FSEL
-LET fsslide&=32 ! BOX in Baum FSEL
-LET fssldbut&=33 ! BUTTON in Baum FSEL
-LET fshelp&=34 ! BOXTEXT in Baum FSEL
-LET fssldup&=36 ! USERDEF in Baum FSEL
-LET fsslddwn&=37 ! USERDEF in Baum FSEL
-LET nfseltxt&=38 ! TEXT in Baum FSEL
-LET fselbox4&=39 ! BOX in Baum FSEL
-LET fsok&=40 ! BUTTON in Baum FSEL
-LET fsplay&=41 ! USERDEF in Baum FSEL
-LET fsexit&=42 ! BUTTON in Baum FSEL
-LET fsmatic&=43 ! USERDEF in Baum FSEL
-LET fsins&=44 ! USERDEF in Baum FSEL
-LET fsdel&=45 ! USERDEF in Baum FSEL
-LET fsload&=46 ! USERDEF in Baum FSEL
-LET fssave&=47 ! USERDEF in Baum FSEL
-LET fsclf&=48 ! USERDEF in Baum FSEL
-LET fsstop&=49 ! USERDEF in Baum FSEL
-LET fswait&=50 ! USERDEF in Baum FSEL
-LET fsend&=51 ! USERDEF in Baum FSEL
-LET fstime&=52 ! BOXTEXT in Baum FSEL
-LET fslplay&=53 ! USERDEF in Baum FSEL
-LET tfsabc&=54 ! USERDEF in Baum FSEL
-LET tfsearch&=55 ! BUTTON in Baum FSEL
-LET fselbox3&=56 ! BOX in Baum FSEL
-LET fsordner&=57 ! BUTTON in Baum FSEL
-LET fsotxt&=58 ! BOXTEXT in Baum FSEL
-LET fsadd&=59 ! BUTTON in Baum FSEL
-LET fsnew&=60 ! BUTTON in Baum FSEL
-'
-rsc$="STARHIM.RSC"
+rsc2$="STARHIM2.RSC"
 '
 RETURN
 '
-> PROCEDURE rsc_for_hi_color ! Resource fÅr Farbauflîsungen ab 1024x768
-REM Resource Datei Indizes fÅr STARHIC
+> PROCEDURE rsc_for_hi_color1 ! Resource fÅr Farbauflîsungen ab 1024x768
+REM Resource Datei Indizes fÅr STARHIC1
 '
 LET smpedit&=0 ! Formular/Dialog
 LET editbox7&=0 ! BOX in Baum SMPEDIT
@@ -13288,7 +13344,76 @@ LET trkmon&=168 ! BOXTEXT in Baum TRAKKER
 LET trakhelp&=170 ! BOXTEXT in Baum TRAKKER
 LET trakexit&=171 ! BUTTON in Baum TRAKKER
 '
-LET mixer&=3 ! Formular/Dialog
+LET fsel&=3 ! Formular/Dialog
+LET fselbox&=0 ! BOX in Baum FSEL
+LET fselbox2&=1 ! BOX in Baum FSEL
+LET fsbut1&=2 ! BOXTEXT in Baum FSEL
+LET fsbut2&=3 ! BOXTEXT in Baum FSEL
+LET fsbut3&=4 ! BOXTEXT in Baum FSEL
+LET fsbut4&=5 ! BOXTEXT in Baum FSEL
+LET fsbut5&=6 ! BOXTEXT in Baum FSEL
+LET fsbut6&=7 ! BOXTEXT in Baum FSEL
+LET fsbut7&=8 ! BOXTEXT in Baum FSEL
+LET fsbut8&=9 ! BOXTEXT in Baum FSEL
+LET fsbut9&=10 ! BOXTEXT in Baum FSEL
+LET fsbut10&=11 ! BOXTEXT in Baum FSEL
+LET fsbut11&=12 ! BOXTEXT in Baum FSEL
+LET fsbut12&=13 ! BOXTEXT in Baum FSEL
+LET fsbut13&=14 ! BOXTEXT in Baum FSEL
+LET fsbut14&=15 ! BOXTEXT in Baum FSEL
+LET fsbut15&=16 ! BOXTEXT in Baum FSEL
+LET fstxt1&=17 ! BOXTEXT in Baum FSEL
+LET fstxt2&=18 ! BOXTEXT in Baum FSEL
+LET fstxt3&=19 ! BOXTEXT in Baum FSEL
+LET fstxt4&=20 ! BOXTEXT in Baum FSEL
+LET fstxt5&=21 ! BOXTEXT in Baum FSEL
+LET fstxt6&=22 ! BOXTEXT in Baum FSEL
+LET fstxt7&=23 ! BOXTEXT in Baum FSEL
+LET fstxt8&=24 ! BOXTEXT in Baum FSEL
+LET fstxt9&=25 ! BOXTEXT in Baum FSEL
+LET fstxt10&=26 ! BOXTEXT in Baum FSEL
+LET fstxt11&=27 ! BOXTEXT in Baum FSEL
+LET fstxt12&=28 ! BOXTEXT in Baum FSEL
+LET fstxt13&=29 ! BOXTEXT in Baum FSEL
+LET fstxt14&=30 ! BOXTEXT in Baum FSEL
+LET fstxt15&=31 ! BOXTEXT in Baum FSEL
+LET fsslide&=32 ! BOX in Baum FSEL
+LET fssldbut&=33 ! BUTTON in Baum FSEL
+LET fshelp&=34 ! BOXTEXT in Baum FSEL
+LET fssldup&=36 ! USERDEF in Baum FSEL
+LET fsslddwn&=37 ! USERDEF in Baum FSEL
+LET nfseltxt&=38 ! TEXT in Baum FSEL
+LET fselbox3&=39 ! BOX in Baum FSEL
+LET fsordner&=40 ! BUTTON in Baum FSEL
+LET fsotxt&=41 ! BOXTEXT in Baum FSEL
+LET fsadd&=42 ! BUTTON in Baum FSEL
+LET fsnew&=43 ! BUTTON in Baum FSEL
+LET fselbox4&=44 ! BOX in Baum FSEL
+LET fsplay&=45 ! USERDEF in Baum FSEL
+LET fsmatic&=46 ! USERDEF in Baum FSEL
+LET fsins&=47 ! USERDEF in Baum FSEL
+LET fsdel&=48 ! USERDEF in Baum FSEL
+LET fsload&=49 ! USERDEF in Baum FSEL
+LET fssave&=50 ! USERDEF in Baum FSEL
+LET fsclf&=51 ! USERDEF in Baum FSEL
+LET fsstop&=52 ! USERDEF in Baum FSEL
+LET fswait&=53 ! USERDEF in Baum FSEL
+LET fsend&=54 ! USERDEF in Baum FSEL
+LET fstime&=55 ! BOXTEXT in Baum FSEL
+LET fslplay&=56 ! USERDEF in Baum FSEL
+LET fsok&=57 ! BUTTON in Baum FSEL
+LET fsexit&=58 ! BUTTON in Baum FSEL
+LET tfsabc&=59 ! USERDEF in Baum FSEL
+LET tfsearch&=60 ! BUTTON in Baum FSEL
+'
+rsc1$="STARHIC1.RSC"
+'
+RETURN
+'
+> PROCEDURE rsc_for_hi_color2 ! Resource fÅr Farbauflîsungen ab 1024x768
+REM Resource Datei Indizes fÅr STARHIC2
+'
+LET mixer&=0 ! Formular/Dialog
 LET mixbox1&=0 ! BOX in Baum MIXER
 LET mixbox2&=1 ! BOX in Baum MIXER
 LET mixload&=2 ! USERDEF in Baum MIXER
@@ -13794,73 +13919,11 @@ LET mixerr&=723 ! BOXTEXT in Baum MIXER
 LET mixerrt&=724 ! TEXT in Baum MIXER
 LET dsicon&=725 ! USERDEF in Baum MIXER
 '
-LET fsel&=4 ! Formular/Dialog
-LET fselbox&=0 ! BOX in Baum FSEL
-LET fselbox2&=1 ! BOX in Baum FSEL
-LET fsbut1&=2 ! BOXTEXT in Baum FSEL
-LET fsbut2&=3 ! BOXTEXT in Baum FSEL
-LET fsbut3&=4 ! BOXTEXT in Baum FSEL
-LET fsbut4&=5 ! BOXTEXT in Baum FSEL
-LET fsbut5&=6 ! BOXTEXT in Baum FSEL
-LET fsbut6&=7 ! BOXTEXT in Baum FSEL
-LET fsbut7&=8 ! BOXTEXT in Baum FSEL
-LET fsbut8&=9 ! BOXTEXT in Baum FSEL
-LET fsbut9&=10 ! BOXTEXT in Baum FSEL
-LET fsbut10&=11 ! BOXTEXT in Baum FSEL
-LET fsbut11&=12 ! BOXTEXT in Baum FSEL
-LET fsbut12&=13 ! BOXTEXT in Baum FSEL
-LET fsbut13&=14 ! BOXTEXT in Baum FSEL
-LET fsbut14&=15 ! BOXTEXT in Baum FSEL
-LET fsbut15&=16 ! BOXTEXT in Baum FSEL
-LET fstxt1&=17 ! BOXTEXT in Baum FSEL
-LET fstxt2&=18 ! BOXTEXT in Baum FSEL
-LET fstxt3&=19 ! BOXTEXT in Baum FSEL
-LET fstxt4&=20 ! BOXTEXT in Baum FSEL
-LET fstxt5&=21 ! BOXTEXT in Baum FSEL
-LET fstxt6&=22 ! BOXTEXT in Baum FSEL
-LET fstxt7&=23 ! BOXTEXT in Baum FSEL
-LET fstxt8&=24 ! BOXTEXT in Baum FSEL
-LET fstxt9&=25 ! BOXTEXT in Baum FSEL
-LET fstxt10&=26 ! BOXTEXT in Baum FSEL
-LET fstxt11&=27 ! BOXTEXT in Baum FSEL
-LET fstxt12&=28 ! BOXTEXT in Baum FSEL
-LET fstxt13&=29 ! BOXTEXT in Baum FSEL
-LET fstxt14&=30 ! BOXTEXT in Baum FSEL
-LET fstxt15&=31 ! BOXTEXT in Baum FSEL
-LET fsslide&=32 ! BOX in Baum FSEL
-LET fssldbut&=33 ! BUTTON in Baum FSEL
-LET fshelp&=34 ! BOXTEXT in Baum FSEL
-LET fssldup&=36 ! USERDEF in Baum FSEL
-LET fsslddwn&=37 ! USERDEF in Baum FSEL
-LET nfseltxt&=38 ! TEXT in Baum FSEL
-LET fselbox3&=39 ! BOX in Baum FSEL
-LET fsordner&=40 ! BUTTON in Baum FSEL
-LET fsotxt&=41 ! BOXTEXT in Baum FSEL
-LET fsadd&=42 ! BUTTON in Baum FSEL
-LET fsnew&=43 ! BUTTON in Baum FSEL
-LET fselbox4&=44 ! BOX in Baum FSEL
-LET fsplay&=45 ! USERDEF in Baum FSEL
-LET fsmatic&=46 ! USERDEF in Baum FSEL
-LET fsins&=47 ! USERDEF in Baum FSEL
-LET fsdel&=48 ! USERDEF in Baum FSEL
-LET fsload&=49 ! USERDEF in Baum FSEL
-LET fssave&=50 ! USERDEF in Baum FSEL
-LET fsclf&=51 ! USERDEF in Baum FSEL
-LET fsstop&=52 ! USERDEF in Baum FSEL
-LET fswait&=53 ! USERDEF in Baum FSEL
-LET fsend&=54 ! USERDEF in Baum FSEL
-LET fstime&=55 ! BOXTEXT in Baum FSEL
-LET fslplay&=56 ! USERDEF in Baum FSEL
-LET fsok&=57 ! BUTTON in Baum FSEL
-LET fsexit&=58 ! BUTTON in Baum FSEL
-LET tfsabc&=59 ! USERDEF in Baum FSEL
-LET tfsearch&=60 ! BUTTON in Baum FSEL
-'
-rsc$="STARHIC.RSC"
+rsc2$="STARHIC2.RSC"
 '
 RETURN
 '
-> PROCEDURE rsc_for_mono     ! Resource fÅr monochrome Auflîsungen
+> PROCEDURE rsc_for_mono      ! Resource fÅr monochrome Auflîsungen
 REM Resource Datei Indizes fÅr STARMONO
 '
 LET info&=0 ! Formular/Dialog
@@ -14252,11 +14315,11 @@ LET clock4&=14 ! BOXTEXT in Baum CLOCKS
 LET clock5&=15 ! BOXTEXT in Baum CLOCKS
 LET clockm&=16 ! BOXTEXT in Baum CLOCKS
 '
-rsc2$="STARMONO.RSC"
+rsc3$="STARMONO.RSC"
 '
 RETURN
 '
-> PROCEDURE rsc_for_color    ! Resource fÅr Farbauflîsungen
+> PROCEDURE rsc_for_color     ! Resource fÅr Farbauflîsungen
 REM Resource Datei Indizes fÅr STARCOLR
 '
 LET info&=0 ! Formular/Dialog
@@ -14648,11 +14711,11 @@ LET clock4&=14 ! BOXTEXT in Baum CLOCKS
 LET clock5&=15 ! BOXTEXT in Baum CLOCKS
 LET clockm&=16 ! BOXTEXT in Baum CLOCKS
 '
-rsc2$="STARCOLR.RSC"
+rsc3$="STARCOLR.RSC"
 '
 RETURN
 '
-> PROCEDURE rsc_for_all      ! Resource fÅr alle
+> PROCEDURE rsc_for_all       ! Resource fÅr alle
 REM Resource Datei Indizes fÅr STARALL
 '
 LET smp16&=0 ! Formular/Dialog
@@ -15316,7 +15379,7 @@ LET ddplgcfg&=68 ! STRING in Baum DROPDOWN
 LET alertbox&=22 ! Formular/Dialog
 LET alertcol&=0 ! BOX in Baum ALERTBOX
 '
-rsc3$="STARALL.RSC"
+rsc4$="STARALL.RSC"
 '
 RETURN
 '
@@ -23265,20 +23328,23 @@ resmptxoffs=resmptxoffs-24
 rectxoffs=rectxoffs-24
 ENDIF
 IF bigfoot=FALSE THEN
-fstxoffs=13056    ! adress-offset fÅr fsel& Windowtext (new fileselector)
+fstxoffs=6756     ! adress-offset fÅr fsel-Windowtext (new fileselector) in niedriger Auflîsung
 ELSE
-fstxoffs=19440    ! adress-offset fÅr fsel& Windowtext (new fileselector)
+fstxoffs=7204     ! adress-offset fÅr fsel-Windowtext (new fileselector) in hoher Auflîsung
 ENDIF
 '
 DIM wflg(btree)
 high96!=NOT (BTST(XBIOS(xbs,12),3))
-OPEN "I",#1,s$+rsc$
+OPEN "I",#1,s$+rsc1$
 lrd=LOF(#1)
 CLOSE #1
 OPEN "I",#1,s$+rsc2$
 lrd=lrd+LOF(#1)
 CLOSE #1
 OPEN "I",#1,s$+rsc3$
+lrd=lrd+LOF(#1)
+CLOSE #1
+OPEN "I",#1,s$+rsc4$
 lrd=lrd+LOF(#1)
 CLOSE #1
 planes&=@planes
@@ -23622,13 +23688,16 @@ maxcol=2
 tmlen=&H80000        ! 512 KB-Tracker-Cache
 mrest=&H10000        ! Mindestrest-Speicher fÅr andere Applikationen
 @calc_resource
-OPEN "I",#1,s$+rsc$
+OPEN "I",#1,s$+rsc1$
 lrd=LOF(#1)
 CLOSE #1
 OPEN "I",#1,s$+rsc2$
 lrd=lrd+LOF(#1)
 CLOSE #1
 OPEN "I",#1,s$+rsc3$
+lrd=lrd+LOF(#1)
+CLOSE #1
+OPEN "I",#1,s$+rsc4$
 lrd=lrd+LOF(#1)
 CLOSE #1
 lrd=INT(lrd*1.4)
@@ -26164,13 +26233,15 @@ ENDIF
 IF xload=TRUE THEN
 ~@xrsrc_free(1)    ! gibt RSC frei
 ~@xrsrc_free(2)    ! gibt RSC frei
-~@xrsrc_free(3)    ! gibt RSC frei (nicht unter MagiC - Absturz !!!)
+~@xrsrc_free(3)    ! gibt RSC frei
+~@xrsrc_free(4)    ! gibt RSC frei (nicht unter MagiC - Absturz !!!)
 xload=FALSE
 ENDIF
 IF xinit=TRUE THEN
 @xrsrc_exit(1)      ! beendet xrsrc-Routinen
 @xrsrc_exit(2)      ! beendet xrsrc-Routinen
 @xrsrc_exit(3)      ! beendet xrsrc-Routinen
+@xrsrc_exit(4)      ! beendet xrsrc-Routinen
 xinit=FALSE
 ENDIF
 ' hier eventuell noch AufrÑumaktionen von Libs/Routinen
