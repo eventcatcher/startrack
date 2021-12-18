@@ -1,0 +1,42 @@
+/* Resource Datei Indizes fÅr MIXER */
+
+#define MIXER            0   /* Formular/Dialog */
+#define MIXBOX1          0   /* BOX in Baum MIXER */
+#define MIXBOX2          1   /* BOX in Baum MIXER */
+#define MIXBOX3          4   /* BOX in Baum MIXER */
+#define MIXBOX18         5   /* BOX in Baum MIXER */
+#define MIXBOX23         8   /* BOX in Baum MIXER */
+#define MIXBOX8          26  /* BOX in Baum MIXER */
+#define BALBOX1          27  /* BOXTEXT in Baum MIXER */
+#define MIXBOX13         34  /* BOX in Baum MIXER */
+#define MIXTXT1          38  /* BOXTEXT in Baum MIXER */
+#define MIXHELP          50  /* BOXTEXT in Baum MIXER */
+#define MIXEXIT          51  /* BUTTON in Baum MIXER */
+#define MIXBOX4          52  /* BOX in Baum MIXER */
+#define MIXBOX19         53  /* BOX in Baum MIXER */
+#define MIXBOX24         56  /* BOX in Baum MIXER */
+#define MIXBOX9          74  /* BOX in Baum MIXER */
+#define BALBOX2          75  /* BOXTEXT in Baum MIXER */
+#define MIXBOX14         82  /* BOX in Baum MIXER */
+#define MIXTXT2          86  /* BOXTEXT in Baum MIXER */
+#define MIXBOX5          95  /* BOX in Baum MIXER */
+#define MIXBOX20         96  /* BOX in Baum MIXER */
+#define MIXBOX25         99  /* BOX in Baum MIXER */
+#define MIXBOX10         117 /* BOX in Baum MIXER */
+#define BALBOX3          118 /* BOXTEXT in Baum MIXER */
+#define MIXBOX15         125 /* BOX in Baum MIXER */
+#define MIXTXT3          129 /* BOXTEXT in Baum MIXER */
+#define MIXBOX6          138 /* BOX in Baum MIXER */
+#define MIXBOX21         139 /* BOX in Baum MIXER */
+#define MIXBOX26         142 /* BOX in Baum MIXER */
+#define MIXBOX11         160 /* BOX in Baum MIXER */
+#define BALBOX4          161 /* BOXTEXT in Baum MIXER */
+#define MIXBOX16         168 /* BOX in Baum MIXER */
+#define MIXTXT4          172 /* BOXTEXT in Baum MIXER */
+#define MIXBOX7          181 /* BOX in Baum MIXER */
+#define MIXBOX22         182 /* BOX in Baum MIXER */
+#define MIXBOX27         185 /* BOX in Baum MIXER */
+#define MIXBOX12         203 /* BOX in Baum MIXER */
+#define BALBOX5          204 /* BOXTEXT in Baum MIXER */
+#define MIXBOX17         211 /* BOX in Baum MIXER */
+#define MIXTXT5          215 /* BOXTEXT in Baum MIXER */
