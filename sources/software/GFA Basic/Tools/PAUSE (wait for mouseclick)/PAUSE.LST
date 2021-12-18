@@ -1,3 +1,0 @@
-REPEAT
-  a=INP(2)
-UNTIL a<>0
