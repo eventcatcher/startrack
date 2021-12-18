@@ -3,7 +3,7 @@
 ;Release 4.7.1999 by SWE (Stephan Wilhelm Entwicklungsbro)
 ;for Milan,Hades,Medusa,TT and Mega STE
 
-;with Special 16Channel Multiplex-Mode & 24Bit-EigthChannel-Support(Testversion)
+;with Special 16Channel Multiplex-Mode & 24Bit-EightChannel-Support(Testversion)
 
                bra        startprog
 
@@ -3119,7 +3119,7 @@ pluginit:      bsr        initplugp
 
 monitor:       move.l     #lfifo,d0
                lsr.w      #3,d0
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      monito2
                lsr.w      #1,d0
 monito2:       subq.l     #1,d0
@@ -3143,7 +3143,7 @@ fifowait:      move.b     (a0),d0       ; PLAY-FIFO halbleer ?
                bne        mweg
                bra.s      fifowait
 mcopy:         move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
-               tst.w      modr24
+               btst       #0,modr24
                bne        mcopy24
 mcopy2:        move.w     (a1),d7       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
                btst       d2,d7
@@ -3286,8 +3286,8 @@ rwanf5:        move.b     (a0),d0       ; Flag lesen,FIFO leer ?
                btst       d6,d2
                bne.s      rwanf4
                move.b     d2,d1
-               tst.w      modr24
-               beq.s      rwanf6
+               btst       #0,modr24
+               bne.s      rwanf6
                lsl.l      d6,d1
 rwanf5b:       move.b     (a0),d0       ; Flag lesen,FIFO leer ?
                btst       d4,d0
@@ -3311,7 +3311,7 @@ rwanf7:        move.b     (a0),d0       ; Flag lesen,FIFO leer ?
                btst       d6,d3
                beq.s      rwanf4
                move.b     d3,d2
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      rwanf8
                lsl.l      d6,d2
 rwanf7b:       move.b     (a0),d0       ; Flag lesen,FIFO leer ?
@@ -4113,7 +4113,7 @@ aimemrec:      lea.l      rvon,a2
                lea.l      rfifo,a2
                move.l     #lfifo,d0
                asr.w      #3,d0
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      aimemr24
                asr.w      #1,d0
 aimemr24:      subq.l     #1,d0
@@ -4163,7 +4163,7 @@ nordfull:      andi.b     #2,d0         ; FIFO mehr als halbvoll ?
                beq.s      ircopy        ; wenn ja, daten einlesen
                bra.s      iranf
 ircopy:        move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
-ircopy2:       tst.w      modr24
+ircopy2:       btst       #0,modr24
                bne.s      irecopy24
                move.w     (a1),d7       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
                btst       #8,d7
@@ -4823,8 +4823,8 @@ delplugs:      move.w     #0,0(a1,d2.w)
                move.b     #0,(a1)
                move.b     #0,$c0(a6)
                lea.l      dsppath1(pc),a1
-               move.b     #5,(a1)
-               move.b     #1,$210(a6)
+               move.b     #7,(a1)
+               move.b     #7,$210(a6)
                lea.l      dspport(pc),a1
                move.b     #8,(a1)
                move.b     #8,$212(a6)
@@ -5072,7 +5072,7 @@ init_peak:     move.w     (a0)+,d0      ; Auswahl
 peaksolo:      lea.l      rfifo(pc),a2
                move.l     #lfifo,d0
                asr.w      #3,d0
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      peaksolo2
                asr.w      #1,d0
 peaksolo2:     subq.l     #1,d0
@@ -5111,7 +5111,7 @@ ipkcopy2:      move.w     (a1),d7       ; High-Byte,Linker Kanal (Bit 8 gesetzt 
                move.w     (a1),d6       ; Low-Byte,Linker Kanal (Bit 8 gesetzt ?)...
                btst       d2,d6
                beq.s      ipkcopy3      ; fehlerhafte Daten ?
-               tst.w      modr24        ; 24Bit ?
+               btst       #0,modr24     ; 24Bit ?
                beq.s      ipk24b1       ; nein
                move.w     (a1),d5       ; Lowest-Byte bei 24Bit wegwerfen
                btst       d2,d5
@@ -5123,7 +5123,7 @@ ipk24b1:       move.w     (a1),d5       ; High-Byte,Rechter Kanal (Bit 8 geloesc
                move.w     (a1),d4       ; Low-Byte,Rechter Kanal (Bit 8 geloescht ?)...
                btst       d2,d4
                bne.s      ipkcopy3      ; fehlerhafte Daten ?
-               tst.w      modr24        ; 24Bit ?
+               btst       #0,modr24     ; 24Bit ?
                beq.s      ipk24b2       ; nein
                move.w     (a1),dummy+2  ; Lowest-Byte bei 24Bit wegwerfen
 ipk24b2:       asl.w      #8,d7
@@ -5292,7 +5292,7 @@ imrecpeak:     lea.l      rvon(pc),a2
                lea.l      rfifo(pc),a2
                move.l     #lfifo,d0
                lsr.w      #3,d0
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      nimrec24
                lsr.w      #1,d0
 nimrec24:      subq.l     #1,d0
@@ -5338,7 +5338,7 @@ miranf:        move.b     (a0),d0       ; Flag lesen
 nordful3:      andi.b     #2,d0         ; FIFO mehr als halbvoll ?
                bne.s      miranf        ; wenn ja, daten einlesen
 mircopy:       move.w     a4,d0         ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
-               tst.w      modr24        ; 24Bit ?
+               btst       #0,modr24     ; 24Bit ?
                bne        mircopy24     ; ja->dorthin
                moveq.l    #8,d2
 mircopy2:      move.w     (a1),d7       ; High-Byte,Linker Kanal (Bit 8 gesetzt ?)...
@@ -5557,7 +5557,7 @@ imixnmidi:     lea.l      step(pc),a2
                add.l      d5,d4
                add.l      d5,d4
                add.l      d5,d4
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      imixnmi16
                add.l      d5,d4
                add.l      d5,d4
@@ -5569,7 +5569,7 @@ imixpneg8:     move.l     d4,d5
                add.l      d5,d4
                add.l      d5,d4
                add.l      d5,d4
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      imixpplus
                add.l      d5,d4
                add.l      d5,d4
@@ -5577,7 +5577,7 @@ imixpplus:     move.l     d4,(a2)       ; Anzahl der For/Backstep d4
                lea.l      fifo(pc),a2
                move.l     #lfifo,d0
                asr.w      #3,d0
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      imixshft24
                asr.w      #1,d0
 imixshft24:    subq.l     #1,d0
@@ -5648,7 +5648,7 @@ xipcopyanf:    tst.l      d4
                bge        xiplayend
                move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
 xipcopy:       movea.l    (a4),a3
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      xipcopy24
                move.w     (a2)+,d7      ; linken Kanal holen
                move.w     (a3)+,d6
@@ -5762,7 +5762,7 @@ xipcopyx:      cmpa.l     d1,a2
 xipcopyneg:    cmpa.l     d1,a2
                ble.s      xiplayend
                move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
-xipcopy2:      tst.w      modr24
+xipcopy2:      btst       #0,modr24
                bne.s      xipcopy24n
                move.b     (a2)+,(a5)    ; Linker Kanal,HighByte senden,A1=1
                move.b     (a2)+,(a5)    ; Linker Kanal,LowByte senden,A1=1
@@ -5939,6 +5939,8 @@ init_xmemplay: move.w     (a0)+,d0      ; Code der record-art
                beq        xplayinit8
                cmpi.w     #3,d0
                beq        xplayinit16
+               cmpi.w     #4,d0
+               beq        dsplay
 xplayinit:     lea.l      von(pc),a2
                move.l     (a0)+,d1      ; von a3
                move.l     d1,(a2)       ; von a3
@@ -5979,7 +5981,7 @@ xplayinit:     lea.l      von(pc),a2
 xmem2b:        lea.l      fifo(pc),a2
                move.l     #lfifo,d0
                asr.w      #3,d0
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      xmem2c
                asr.w      #1,d0
 xmem2c:        subq.l     #1,d0
@@ -6132,7 +6134,7 @@ nowrlx:        move.b     (a0),d0       ; FIFO halbleer ?
                andi.b     #2,d0
                beq.s      xpfill
 xpcopyanf:     move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
-               tst.w      modr24
+               btst       #0,modr24
                bne        xpcopy24
 
                tst.w      pluglistp
@@ -6805,7 +6807,7 @@ xrecinit:      lea.l      rvon(pc),a2
                lea.l      rfifo(pc),a2
                move.l     #lfifo,d0
                asr.l      #3,d0
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      xrecini24
                asr.l      #1,d0
 xrecini24:     subq.l     #1,d0
@@ -6824,7 +6826,7 @@ xrecini24:     subq.l     #1,d0
                move.l     #0,ustartp
                move.l     #0,ustartm
                move.w     #0,usyncz
-               cmpi.w     #0,modr24
+               btst       #0,modr24
                beq.s      xrecini16
                bsr        pushaesr
 xrecini16:     lea.l      rimode(pc),a2
@@ -6950,7 +6952,7 @@ xrstrt:        movea.l    pnleft,a0     ; Peak pos/neg left l”schen
                movea.l    pnright,a3    ; Peak pos/neg right l”schen
                movea.w    pncount,a4
 xrcopy:        move.l     rfifo(pc),d0  ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
-               tst.w      modr24
+               btst       #0,modr24
                bne        xrcopy24
                tst.w      pluglistr
                beq        xmemrnoplg16
@@ -7640,8 +7642,7 @@ crveclc:       movea.l    (a0)+,a1      ; von
                clr.l      d1            ; zaehler pos
                clr.l      d4            ; zaehler neg
                clr.l      d3
-               move.w     modr24(pc),d2
-               tst.w      d2
+               btst       #0,modr24
                bne.s      crveclc24
                move.w     #15,d5
                move.w     #8,d6
@@ -7698,7 +7699,7 @@ fncopy:        movea.l    (a0)+,a1      ; anf
                movea.l    (a0)+,a2      ; ende
                movea.l    (a0)+,a3      ; dest
                movea.l    (a0)+,a4      ; grenzwert
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      fncopy24
 fncopy2:       move.l     (a1)+,(a3)+
                cmpa.l     a2,a1
@@ -7727,7 +7728,7 @@ fnbackcopy:    movea.l    (a0)+,a1      ; ende
                movea.l    (a0)+,a2      ; anf
                movea.l    (a0)+,a3      ; destende
                add.l      a1,d0
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      fnback24
 fnbck2:        move.l     -(a1),-(a3)
                cmpa.l     a2,a1
@@ -7742,7 +7743,7 @@ fnback24:      move.l     -(a1),-(a3)
 fnpeaksuch:    movea.l    (a0)+,a1      ; anf
                movea.l    (a0)+,a2      ; ende
                clr.l      d0
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      fnpeaks24
 fnpksu2:       move.w     (a1)+,d1
                btst       #15,d1
@@ -7775,7 +7776,7 @@ normalize:     movea.l    (a0)+,a1      ; anf
                movea.l    (a0)+,a2      ; ende
                move.l     (a0)+,d0      ; wunschh”chstwert (max. 7FFF)
                move.l     (a0)+,d1      ; ermittelter h”chstwert
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      norma24
 norliz2:       clr.l      d2
                move.w     (a1),d2
@@ -7887,7 +7888,7 @@ resample:      movea.l    a0,a6
                cmpi.l     #1,d2
                beq.s      abzanf
                andi.l     #$ffff,d2
-               tst.w      modr24
+               btst       #0,modr24
                bne        resample24
                tst.w      d2
                beq.s      dazuanf       ; dest ist gr”žer (smple wird schneller)
@@ -8032,7 +8033,7 @@ resame24:      move.l     a2,d0
 
 fnmono:        movea.l    (a0)+,a1      ; anf
                movea.l    (a0)+,a2      ; ende
-monoanf2:      tst.w      modr24
+monoanf2:      btst       #0,modr24
                bne.s      fnmono24
                moveq.l    #0,d1
                move.l     d1,d2
@@ -8107,7 +8108,7 @@ bmonoweg:      rts
 
 fnintel:       movea.l    (a0)+,a1      ; anf
                movea.l    (a0)+,a2      ; ende
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      fnintel24
                clr.l      d0
 fnintel2:      move.w     (a1),d0
@@ -8129,7 +8130,7 @@ fnintel24b:    move.b     (a1),d0
 fncopyback:    movea.l    (a0)+,a1      ; anf
                movea.l    (a0)+,a2      ; ende
                movea.l    a2,a3
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      fncback24
 fncb2:         subq.l     #4,a3
                move.l     (a3),(a2)+
@@ -8146,7 +8147,7 @@ fncback24:     subq.l     #6,a3
 fnzero:        movea.l    (a0)+,a3      ; anf
                movea.l    (a0)+,a1      ; ende
                move.w     (a0)+,d0      ; Richtung
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      fnzero24
                tst.w      d0
                bne.s      zback
@@ -8203,7 +8204,7 @@ zback24:       subq.l     #3,a1
 
 negate:        movea.l    (a0)+,a1      ; anf
                movea.l    (a0)+,a2      ; ende
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      negate24
 negat2:        neg.w      (a1)+
                cmpa.l     a2,a1
@@ -8232,7 +8233,7 @@ negat24b:      neg.l      d1
 
 lrchange:      movea.l    (a0)+,a1      ; anf
                movea.l    (a0)+,a2      ; ende
-               tst.l      modr24
+               btst       #0,modr24
                bne.s      lrchng24
 lrchng2:       move.l     (a1),d0
                swap.w     d0
@@ -8261,7 +8262,7 @@ fnsdmono:      movea.l    a0,a6
                movea.l    (a6)+,a3      ; mdat%+len
                move.w     (a6)+,d7      ; handle
                movea.l    a2,a5
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      sdmono24
 sdanf:         move.w     (a0),(a5)+
                addq.l     #4,a0
@@ -8319,7 +8320,7 @@ fnsdstereo:    movea.l    a0,a6
                bsr        sdsread
                tst.l      d0
                bmi.s      sdsfehler
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      sdstereo24
 sdsanf:        move.w     (a5)+,(a0)
                addq.l     #4,a0
@@ -8371,7 +8372,7 @@ sdsweiter24:   cmpa.l     a1,a0
 
 fnwavalon:     movea.l    (a0)+,a1      ; anf
                movea.l    (a0)+,a2      ; ende
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      avalon24
 wavalo2:       move.w     (a1),d0
                subi.w     #$8000,d0
@@ -8431,7 +8432,7 @@ peak5:         cmpa.l     a2,a1
 
 mixit:         move.w     (a0)+,d0      ; Anzahl der Mixkan„le
                move.w     (a0)+,trkall16          ; alle samples 16bit?
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      mixit24
                cmpi.w     #16,d0
                beq        mix16
@@ -9706,7 +9707,7 @@ program_end:
 muster:        movea.l    (a0)+,a1      ; anfadresse
                move.l     (a0)+,d0
                move.l     (a0)+,d1
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      muster24
 muster2:       move.l     d1,(a1)+
                cmpa.l     d0,a1
@@ -9729,7 +9730,7 @@ testbits:      movea.l    (a0)+,a1      ; anfadresse
                move.l     (a0)+,d0
                move.l     d0,d2
                sub.l      a1,d2
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      testbit24
                asr.l      #8,d2
                move.l     #0,d1
@@ -9883,7 +9884,7 @@ fading:        movea.l    (a0)+,a3      ; wertetabelle
                movea.l    (a0)+,a2      ; ende
                move.l     (a0)+,d3      ; ist sampleanzahl/4/werte
                movea.l    a3,a0         ; a0 zeiger auf wertetabelle
-               tst.w      modr24        ; 24 bit ?
+               btst       #0,modr24     ; 24 bit ?
                bne        fading24      ; dann dorthin
                tst.l      d3            ; samplezahl<werte ?
                bne.s      fadanf2a
@@ -10021,7 +10022,7 @@ zerono:        movea.l    (a0)+,a3      ; anf
                movea.l    (a0)+,a1      ; ende
                move.w     (a0)+,d0      ; Richtung
                movea.l    a3,a0
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      zerono24
                tst.w      d0
                bne.s      znback
@@ -10420,15 +10421,16 @@ pmonleave:     lea.l      montrack(pc),a1
                lea.l      highsr(pc),a2
                move.w     (a2),d2
                lea.l      modr24(pc),a3
-               move.w     (a3),d0
+               move.b     (a3),d0
                bclr       #2,d1         ; normal digmode
                bclr       #3,d1         ; play normalmode
                bclr       #4,d1         ; rec normalmode
                move.b     d1,(a1)
                move.b     d1,$c0(a6)
-               tst.w      d0
+               move.b     d1,$c0(a6)    ; doppelt wegen sum24
+               btst       #0,d0
                bne.s      pmonmdh24
-               move.w     #0,(a3)
+               move.b     #0,(a3)
                tst.w      d2
                beq.s      pmonweg
                bset       #2,d1
@@ -10436,7 +10438,7 @@ pmonleave:     lea.l      montrack(pc),a1
                move.b     d1,$c0(a6)
                move.b     d1,$c0(a6)
                bra.s      pmonweg
-pmonmdh24:     move.w     #1,(a3)
+pmonmdh24:     move.b     #1,(a3)
                bset       #2,d1
                move.b     d1,(a1)
                move.b     d1,$c0(a6)
@@ -11442,7 +11444,7 @@ rdsmperr:      move.l     #-1,d0
                rts        
 readsmp3:      lea.l      smpwert(pc),a1
                movea.l    a1,a2
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      readsmp24
                clr.l      (a1)
                clr.l      4(a1)
@@ -11509,12 +11511,12 @@ gethighs:      clr.l      d0
 mode24:        move.w     (a0)+,d0
                cmpi.w     #-1,d0
                beq.s      getmod24
-               cmpi.w     #1,d0
+               cmpi.w     #2,d0
                bgt.s      errmd24
                tst.w      d0
                blt.s      errmd24
                lea.l      modr24(pc),a3
-               move.w     d0,(a3)
+               move.b     d0,(a3)
                bsr        pushaesr
                clr.l      d0
                rts        
@@ -11522,7 +11524,7 @@ errmd24:       move.l     #-1,d0
                rts        
 getmod24:      clr.l      d0
                lea.l      modr24(pc),a3
-               move.w     (a3),d0
+               move.b     (a3),d0
                rts        
 
 setplaych:     move.w     (a0)+,d0
@@ -11535,7 +11537,7 @@ writesmp:      lea.l      vmestart(pc),a6
                movea.l    (a6),a6
                adda.l     #$100,a6      ; Playread im Bytemode
                move.w     #8,d2
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      writesmp24
                move.w     (a0)+,d0
                move.w     d0,d1
@@ -11852,8 +11854,7 @@ showcon8:      lea.l      recmod(pc),a3
                move.w     #2,-(sp)
                trap       #1
                addq.l     #4,sp
-               move.w     modr24,d0
-               tst.w      d0
+               btst       #0,modr24
                beq.s      showcon9
                pea        showm24(pc)
                bra.s      showcon10
@@ -12553,22 +12554,30 @@ setmontr2:                ; setmontrack - neuen wert in d0 bergeben
                move.b     (a1),d1
                lea.l      playmod(pc),a3
                move.w     (a3),d3
-isma128:       bclr       #4,d1         ; recmode resetten
+isma128:       bclr       #4,d1         ; dsb/sum24 resetten
                move.w     highsr(pc),d4 ; highsamplerate ?
                tst.w      d4
                bne        chsrhigh
                bclr       #2,d1         ; digmode resetten
+               btst       #1,modr24     ; sum24 ?
+               bne.s      ismba128
                btst       #3,d1         ; playmoderegister schon gesetzt ?
                bne.s      ism128        ; dann dorthin
-               bclr       #3,d1
-               move.b     d1,$c0(a6)    ; playmoderegister resetten
+ismba128:      bclr       #3,d1
+               btst       #1,modr24     ; sum24 ?
+               beq.s      ismb128
+               bset       #4,d1         ; bit sum24 setzen
+ismb128:       move.b     d1,$c0(a6)    ; playmoderegister resetten
                move.b     d1,(a1)
                bset       #3,d1
+               bclr       #4,d1         ; bit dsb l”schen
                move.b     d1,$c0(a6)    ; playmode=128,auf channel 0 setzen
                move.b     d1,(a1)
                clr.w      d7
                cmp.w      d7,d0
                beq.s      montgo
+               btst       #1,modr24     ; sum24 ?
+               bne.s      montgo
 ism128:        cmp.w      d7,d0
                bgt.s      ism128b
                addi.w     #8,d0
@@ -12580,6 +12589,14 @@ ism128c:       move.b     d1,$c0(a6)    ; playset numero 1
                dbra       d0,ism128c
 montgo:        lea.l      dspconv(pc),a2          ; channel in dspconv setzen
                move.b     (a2),d2
+               move.w     #4,d0
+               cmpi.b     #0,modr24
+               bne.s      chk24b
+               clr.w      d0
+chk24b:        andi.w     #$f3,d2
+               add.b      d0,d2
+               move.b     d2,(a2)
+               move.b     d2,$216(a6)
                move.w     d6,d0
                andi.w     #4,d0
                andi.w     #$f3,d2
@@ -12783,8 +12800,7 @@ dsptristate:
                tst.w      d0
                beq.s      triplay
                addi.b     #6,d2
-triplay:       andi.w     #$f9,d2       ; kein FSYNC
-               move.b     d2,(a2)
+triplay:       move.b     d2,(a2)
                move.b     d2,$210(a6)
                andi.b     #$fe,d2
                andi.b     #$fe,d3
@@ -12792,8 +12808,7 @@ triplay:       andi.w     #$f9,d2       ; kein FSYNC
                beq.s      trirec
                addi.b     #1,d2
                addi.b     #1,d3
-trirec:        andi.w     #$f9,d2       ; kein FSYNC
-               move.b     d2,(a2)
+trirec:        move.b     d2,(a2)
                move.b     d2,$210(a6)
                move.b     d3,(a3)
                move.b     d3,$214(a6)
@@ -14340,7 +14355,7 @@ iscpldif:      move.l     4(a6),d7      ; samplerate
                divu.w     d6,d0         ; /timer
                cmpi.w     #4,d0
                blt        scrubpslow
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      iscpldi2
                cmpi.w     #6,d0
                blt        scrubpslow
@@ -14365,7 +14380,7 @@ iscnegdif:     move.l     d2,d0
                divu.w     d6,d0         ; /timer
                cmpi.w     #4,d0
                blt        scrubnslow
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      iscnegdi2
                cmpi.w     #6,d0
                blt        scrubnslow
@@ -14394,7 +14409,7 @@ iscfill:       move.b     (a0),d0       ; FIFO halbleer ?
                bne.s      iscopy1
                bra.s      iscfill
 iscopy1:       move.w     d5,d0         ; ...dann FIFO halb-fuellen (fifolen)!
-iscopy2:       tst.w      modr24
+iscopy2:       btst       #0,modr24
                bne.s      iscopy24
                move.b     (a2),(a5)     ; Linker Kanal,HighByte senden,A1=1
                move.b     1(a2),(a5)    ; Linker Kanal,LowByte senden,A1=1
@@ -14440,7 +14455,7 @@ scrubnslow:    move.l     4(a6),d7      ; samplerate
                bne.s      scrubns2
 scrubns1:      moveq.l    #1,d7
 scrubns2:      move.l     d7,d6
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      scrubns24
                move.l     #4,d4
                bra.s      scrubns3
@@ -14461,7 +14476,7 @@ scrubpslow:    move.l     4(a6),d7      ; samplerate
                bne.s      scrubps2
 scrubps1:      moveq.l    #1,d7
 scrubps2:      move.l     d7,d6
-               tst.w      modr24
+               btst       #0,modr24
                bne.s      scrubps24
                move.l     #4,d4
                bra.s      scrubslgo
@@ -14483,7 +14498,7 @@ islfill:       move.b     (a0),d0       ; FIFO halbleer ?
 islcopy1:      lea.l      slowmode(pc),a4
                move.w     #1,(a4)
                move.w     d5,d0         ; ...dann FIFO halb-fuellen (fifolen)!
-islcopy2:      tst.w      modr24
+islcopy2:      btst       #0,modr24
                bne.s      islcopy24
                move.b     (a2),(a5)     ; Linker Kanal,HighByte senden,A1=1
                move.b     1(a2),(a5)    ; Linker Kanal,LowByte senden,A1=1
@@ -14674,6 +14689,7 @@ dspendp4:      lea.l      dplaybyte(pc),a4
                movem.l    (sp)+,d0-d7/a0-a6
                rte        
 
+dsplay:        
 xplayinit8:    lea.l      von(pc),a2
                move.l     (a0)+,d1      ; von a3
                move.l     d1,(a2)       ; von a3
@@ -14741,8 +14757,8 @@ xmemplay8:     lea.l      von(pc),a2
                move.w     (a2),d3       ; mode (Bit0=Loop ein/aus,Bit1=crossplay,Bit2=midi) d3
                lea.l      fifo(pc),a2
                move.l     (a2),d2       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF d2
-               cmpi.w     #1,modr24     ; 24Bit ?
-               bne.s      epmidi
+               btst       #0,modr24     ; 24Bit ?
+               beq.s      epmidi
                asr.w      #1,d2
 epmidi:        lea.l      midisuch(pc),a2
                move.w     (a2),d0       ; midi d0
@@ -14768,8 +14784,8 @@ enowrlx:       move.b     (a0),d0       ; FIFO halbleer ?
                bne.s      epcopyanf
                bra.s      epfill
 epcopyanf:     move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
-epcopy:        cmpi.w     #1,modr24     ; 24Bit ?
-               beq.s      epcopy24
+epcopy:        btst       #0,modr24     ; 24Bit ?
+               bne.s      epcopy24
                move.b     (a2)+,2(a1)   ; Linker Kanal,HighByte holen
                move.b     (a2)+,(a1)    ; Linker Kanal,LowByte holen
                move.b     (a2)+,(a1)    ; Rechter Kanal,HighByte holen
@@ -14884,7 +14900,9 @@ eendplay2:     move.l     #1,8(a4)      ; Breakflag setzen
                movem.l    (sp)+,d0-d7/a0-a6
                rte        
 
-xrecinit8:     lea.l      xrch(pc),a2
+xrecinit8:     lea.l      dstrm(pc),a2
+               move.w     (a0)+,(a2)    ; directstream ?
+               lea.l      xrch(pc),a2
                move.w     (a0)+,d1      ; Bitliste Kanalnummer(n)
                move.b     d1,(a2)
                lea.l      rvon(pc),a6
@@ -14936,7 +14954,11 @@ xrecinit8:     lea.l      xrch(pc),a2
                lea.l      rimode(pc),a2
                move.l     #20,(a2)
                move.l     a4,d0
-               rts        
+               lea.l      dstrm(pc),a5
+               cmpi.w     #0,(a5)       ; directstream ?
+               beq.s      xrecnds
+
+xrecnds:       rts        
 
 xrecinit16:    lea.l      xrch(pc),a2
                move.w     (a0)+,d1      ; Bitliste Kanalnummer(n)
@@ -16476,7 +16498,7 @@ init_scrub:    lea.l      von(pc),a2
                lea.l      fifo(pc),a2
                move.l     #lfifo,d0
                asr.w      #3,d0
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      iniscrub2
                asr.w      #1,d0
 iniscrub2:     subq.l     #1,d0
@@ -16679,7 +16701,6 @@ pathset:       lea.l      dpathw(pc),a2
                move.b     (a1),d0
                andi.b     #$f8,d0
                add.b      d2,d0
-               andi.w     #$f9,d0       ; kein FSYNC
                move.b     d0,(a1)
                move.b     d0,$210(a6)
                asr.w      #3,d3
@@ -17189,7 +17210,7 @@ setpassthru:   jsr        dspreset
                jsr        dsp_stdinit   ; DSP-Initialize
                lea.l      passthru24(pc),a6
                move.b     #$34,2(a6)    ; 16bit
-               cmpi.w     #0,modr24
+               btst       #0,modr24
                beq.s      setpasst2
                move.b     #$36,2(a6)    ; 24bit
 setpasst2:     bsr        dspcall1
@@ -17202,7 +17223,7 @@ setdsprec2:    jsr        dspreset
                jsr        dsp_stdinit   ; DSP-Initialize
                lea.l      dsprec24(pc),a6
                move.b     #$34,2(a6)    ; 16bit
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      setdspr2
                move.b     #$36,2(a6)    ; 24bit
 setdspr2:      bsr        dspcall1
@@ -17215,7 +17236,7 @@ setdsprec4:    jsr        dspreset
                jsr        dsp_stdinit   ; DSP-Initialize
                lea.l      recfour24(pc),a6
                move.b     #$34,2(a6)    ; 16bit
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      rsetfour2
                move.b     #$36,2(a6)    ; 24bit
 rsetfour2:     bsr        dspcall1
@@ -17228,7 +17249,7 @@ setdspplay2:   jsr        dspreset
                jsr        dsp_stdinit   ; DSP-Initialize
                lea.l      dspplay24(pc),a6
                move.b     #$34,2(a6)    ; 16bit
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      psetplay2
                move.b     #$36,2(a6)    ; 24bit
 psetplay2:     bsr        dspcall1
@@ -17241,7 +17262,7 @@ setdspplay4:   jsr        dspreset
                jsr        dsp_stdinit   ; DSP-Initialize
                lea.l      playfour24(pc),a6
                move.b     #$34,2(a6)    ; 16bit
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      psetfour2
                move.b     #$36,2(a6)    ; 24bit
 psetfour2:     bsr        dspcall1
@@ -17254,7 +17275,7 @@ setdspplay8:   jsr        dspreset
                jsr        dsp_stdinit   ; DSP-Initialize
                lea.l      playeight24(pc),a6
                move.b     #$34,2(a6)    ; 16bit
-               tst.w      modr24
+               btst       #0,modr24
                beq.s      pseteight2
                move.b     #$36,2(a6)    ; 24bit
 pseteight2:    bsr        dspcall1
