@@ -9487,6 +9487,17 @@ ENDIF
 ENDIF
 RETURN
 '
+> PROCEDURE textfeld4(drawnr,txtname,txt$,versatz)
+LOCAL a
+~@xrsrc_gaddr(0,drawnr,dzu%)
+string=LPEEK(dzu%+txtname)
+FOR it=1 TO LEN(txt$)
+a=ASC(MID$(txt$,it,1))
+POKE string+it-1+(versatz-1),a
+EXIT IF a=0
+NEXT it
+RETURN
+'
 > PROCEDURE stringfeld(numb,txtname,txt$,versatz)
 LOCAL a
 ~@xrsrc_gaddr(0,numb,zu%)
@@ -10771,30 +10782,32 @@ LET fstxt14&=30 ! BOXTEXT in Baum FSEL
 LET fstxt15&=31 ! BOXTEXT in Baum FSEL
 LET fsslide&=32 ! BOX in Baum FSEL
 LET fssldbut&=33 ! BUTTON in Baum FSEL
-LET fsok&=34 ! BUTTON in Baum FSEL
-LET fshelp&=35 ! BOXTEXT in Baum FSEL
-LET fsplay&=36 ! USERDEF in Baum FSEL
-LET fsexit&=37 ! BUTTON in Baum FSEL
-LET fsordner&=39 ! BUTTON in Baum FSEL
-LET fsotxt&=40 ! BOXTEXT in Baum FSEL
-LET fsmatic&=41 ! USERDEF in Baum FSEL
-LET fsins&=42 ! USERDEF in Baum FSEL
-LET fsdel&=43 ! USERDEF in Baum FSEL
-LET fsadd&=44 ! BUTTON in Baum FSEL
-LET fsnew&=45 ! BUTTON in Baum FSEL
-LET fsload&=46 ! USERDEF in Baum FSEL
-LET fssave&=47 ! USERDEF in Baum FSEL
-LET fsclf&=48 ! USERDEF in Baum FSEL
-LET fssldup&=49 ! USERDEF in Baum FSEL
-LET fsslddwn&=50 ! USERDEF in Baum FSEL
-LET fsstop&=51 ! USERDEF in Baum FSEL
-LET fswait&=52 ! USERDEF in Baum FSEL
-LET fsend&=53 ! USERDEF in Baum FSEL
-LET fstime&=54 ! BOXTEXT in Baum FSEL
-LET fslplay&=55 ! USERDEF in Baum FSEL
-LET tfsabc&=56 ! USERDEF in Baum FSEL
-LET tfsearch&=57 ! BUTTON in Baum FSEL
-LET nfseltxt&=58 ! TEXT in Baum FSEL
+LET fshelp&=34 ! BOXTEXT in Baum FSEL
+LET fssldup&=36 ! USERDEF in Baum FSEL
+LET fsslddwn&=37 ! USERDEF in Baum FSEL
+LET nfseltxt&=38 ! TEXT in Baum FSEL
+LET fselbox3&=39 ! BOX in Baum FSEL
+LET fsordner&=40 ! BUTTON in Baum FSEL
+LET fsotxt&=41 ! BOXTEXT in Baum FSEL
+LET fsadd&=42 ! BUTTON in Baum FSEL
+LET fsnew&=43 ! BUTTON in Baum FSEL
+LET fselbox4&=44 ! BOX in Baum FSEL
+LET fsok&=45 ! BUTTON in Baum FSEL
+LET fsplay&=46 ! USERDEF in Baum FSEL
+LET fsexit&=47 ! BUTTON in Baum FSEL
+LET fsmatic&=48 ! USERDEF in Baum FSEL
+LET fsins&=49 ! USERDEF in Baum FSEL
+LET fsdel&=50 ! USERDEF in Baum FSEL
+LET fsload&=51 ! USERDEF in Baum FSEL
+LET fssave&=52 ! USERDEF in Baum FSEL
+LET fsclf&=53 ! USERDEF in Baum FSEL
+LET fsstop&=54 ! USERDEF in Baum FSEL
+LET fswait&=55 ! USERDEF in Baum FSEL
+LET fsend&=56 ! USERDEF in Baum FSEL
+LET fstime&=57 ! BOXTEXT in Baum FSEL
+LET fslplay&=58 ! USERDEF in Baum FSEL
+LET tfsabc&=59 ! USERDEF in Baum FSEL
+LET tfsearch&=60 ! BUTTON in Baum FSEL
 '
 rsc$="STARLOM.RSC"
 '
@@ -11201,30 +11214,32 @@ LET fstxt14&=30 ! BOXTEXT in Baum FSEL
 LET fstxt15&=31 ! BOXTEXT in Baum FSEL
 LET fsslide&=32 ! BOX in Baum FSEL
 LET fssldbut&=33 ! BUTTON in Baum FSEL
-LET fsok&=34 ! BUTTON in Baum FSEL
-LET fshelp&=35 ! BOXTEXT in Baum FSEL
-LET fsplay&=36 ! USERDEF in Baum FSEL
-LET fsexit&=37 ! BUTTON in Baum FSEL
-LET fsordner&=39 ! BUTTON in Baum FSEL
-LET fsotxt&=40 ! BOXTEXT in Baum FSEL
-LET fsmatic&=41 ! USERDEF in Baum FSEL
-LET fsins&=42 ! USERDEF in Baum FSEL
-LET fsdel&=43 ! USERDEF in Baum FSEL
-LET fsadd&=44 ! BUTTON in Baum FSEL
-LET fsnew&=45 ! BUTTON in Baum FSEL
-LET fsload&=46 ! USERDEF in Baum FSEL
-LET fssave&=47 ! USERDEF in Baum FSEL
-LET fsclf&=48 ! USERDEF in Baum FSEL
-LET fssldup&=49 ! USERDEF in Baum FSEL
-LET fsslddwn&=50 ! USERDEF in Baum FSEL
+LET fshelp&=34 ! BOXTEXT in Baum FSEL
+LET fssldup&=36 ! USERDEF in Baum FSEL
+LET fsslddwn&=37 ! USERDEF in Baum FSEL
+LET nfseltxt&=38 ! TEXT in Baum FSEL
+LET fselbox4&=39 ! BOX in Baum FSEL
+LET fsok&=40 ! BUTTON in Baum FSEL
+LET fsexit&=41 ! BUTTON in Baum FSEL
+LET fstime&=42 ! BOXTEXT in Baum FSEL
+LET tfsearch&=43 ! BUTTON in Baum FSEL
+LET fsplay&=44 ! USERDEF in Baum FSEL
+LET fsmatic&=45 ! USERDEF in Baum FSEL
+LET fsins&=46 ! USERDEF in Baum FSEL
+LET fsdel&=47 ! USERDEF in Baum FSEL
+LET fsload&=48 ! USERDEF in Baum FSEL
+LET fssave&=49 ! USERDEF in Baum FSEL
+LET fsclf&=50 ! USERDEF in Baum FSEL
 LET fsstop&=51 ! USERDEF in Baum FSEL
 LET fswait&=52 ! USERDEF in Baum FSEL
 LET fsend&=53 ! USERDEF in Baum FSEL
-LET fstime&=54 ! BOXTEXT in Baum FSEL
-LET fslplay&=55 ! USERDEF in Baum FSEL
-LET tfsabc&=56 ! USERDEF in Baum FSEL
-LET tfsearch&=57 ! BUTTON in Baum FSEL
-LET nfseltxt&=58 ! TEXT in Baum FSEL
+LET fslplay&=54 ! USERDEF in Baum FSEL
+LET tfsabc&=55 ! USERDEF in Baum FSEL
+LET fselbox3&=56 ! BOX in Baum FSEL
+LET fsordner&=57 ! BUTTON in Baum FSEL
+LET fsotxt&=58 ! BOXTEXT in Baum FSEL
+LET fsadd&=59 ! BUTTON in Baum FSEL
+LET fsnew&=60 ! BUTTON in Baum FSEL
 '
 rsc$="STARLOC.RSC"
 '
@@ -11641,30 +11656,32 @@ LET fstxt14&=30 ! BOXTEXT in Baum FSEL
 LET fstxt15&=31 ! BOXTEXT in Baum FSEL
 LET fsslide&=32 ! BOX in Baum FSEL
 LET fssldbut&=33 ! BUTTON in Baum FSEL
-LET fsok&=34 ! BUTTON in Baum FSEL
-LET fshelp&=35 ! BOXTEXT in Baum FSEL
-LET fsplay&=36 ! USERDEF in Baum FSEL
-LET fsexit&=37 ! BUTTON in Baum FSEL
-LET fsordner&=39 ! BUTTON in Baum FSEL
-LET fsotxt&=40 ! BOXTEXT in Baum FSEL
-LET fsmatic&=41 ! USERDEF in Baum FSEL
-LET fsins&=42 ! USERDEF in Baum FSEL
-LET fsdel&=43 ! USERDEF in Baum FSEL
-LET fsadd&=44 ! BUTTON in Baum FSEL
-LET fsnew&=45 ! BUTTON in Baum FSEL
+LET fshelp&=34 ! BOXTEXT in Baum FSEL
+LET fssldup&=36 ! USERDEF in Baum FSEL
+LET fsslddwn&=37 ! USERDEF in Baum FSEL
+LET nfseltxt&=38 ! TEXT in Baum FSEL
+LET fselbox4&=39 ! BOX in Baum FSEL
+LET fsok&=40 ! BUTTON in Baum FSEL
+LET fsplay&=41 ! USERDEF in Baum FSEL
+LET fsexit&=42 ! BUTTON in Baum FSEL
+LET fsmatic&=43 ! USERDEF in Baum FSEL
+LET fsins&=44 ! USERDEF in Baum FSEL
+LET fsdel&=45 ! USERDEF in Baum FSEL
 LET fsload&=46 ! USERDEF in Baum FSEL
 LET fssave&=47 ! USERDEF in Baum FSEL
 LET fsclf&=48 ! USERDEF in Baum FSEL
-LET fssldup&=49 ! USERDEF in Baum FSEL
-LET fsslddwn&=50 ! USERDEF in Baum FSEL
-LET fsstop&=51 ! USERDEF in Baum FSEL
-LET fswait&=52 ! USERDEF in Baum FSEL
-LET fsend&=53 ! USERDEF in Baum FSEL
-LET fstime&=54 ! BOXTEXT in Baum FSEL
-LET fslplay&=55 ! USERDEF in Baum FSEL
-LET tfsabc&=56 ! USERDEF in Baum FSEL
-LET tfsearch&=57 ! BUTTON in Baum FSEL
-LET nfseltxt&=58 ! TEXT in Baum FSEL
+LET fsstop&=49 ! USERDEF in Baum FSEL
+LET fswait&=50 ! USERDEF in Baum FSEL
+LET fsend&=51 ! USERDEF in Baum FSEL
+LET fstime&=52 ! BOXTEXT in Baum FSEL
+LET fslplay&=53 ! USERDEF in Baum FSEL
+LET tfsabc&=54 ! USERDEF in Baum FSEL
+LET tfsearch&=55 ! BUTTON in Baum FSEL
+LET fselbox3&=56 ! BOX in Baum FSEL
+LET fsordner&=57 ! BUTTON in Baum FSEL
+LET fsotxt&=58 ! BOXTEXT in Baum FSEL
+LET fsadd&=59 ! BUTTON in Baum FSEL
+LET fsnew&=60 ! BUTTON in Baum FSEL
 '
 rsc$="STARHIM.RSC"
 '
@@ -12081,30 +12098,32 @@ LET fstxt14&=30 ! BOXTEXT in Baum FSEL
 LET fstxt15&=31 ! BOXTEXT in Baum FSEL
 LET fsslide&=32 ! BOX in Baum FSEL
 LET fssldbut&=33 ! BUTTON in Baum FSEL
-LET fsok&=34 ! BUTTON in Baum FSEL
-LET fshelp&=35 ! BOXTEXT in Baum FSEL
-LET fsplay&=36 ! USERDEF in Baum FSEL
-LET fsexit&=37 ! BUTTON in Baum FSEL
-LET fsordner&=39 ! BUTTON in Baum FSEL
-LET fsotxt&=40 ! BOXTEXT in Baum FSEL
-LET fsmatic&=41 ! USERDEF in Baum FSEL
-LET fsins&=42 ! USERDEF in Baum FSEL
-LET fsdel&=43 ! USERDEF in Baum FSEL
-LET fsadd&=44 ! BUTTON in Baum FSEL
-LET fsnew&=45 ! BUTTON in Baum FSEL
-LET fsload&=46 ! USERDEF in Baum FSEL
-LET fssave&=47 ! USERDEF in Baum FSEL
-LET fsclf&=48 ! USERDEF in Baum FSEL
-LET fssldup&=49 ! USERDEF in Baum FSEL
-LET fsslddwn&=50 ! USERDEF in Baum FSEL
-LET fsstop&=51 ! USERDEF in Baum FSEL
-LET fswait&=52 ! USERDEF in Baum FSEL
-LET fsend&=53 ! USERDEF in Baum FSEL
-LET fstime&=54 ! BOXTEXT in Baum FSEL
-LET fslplay&=55 ! USERDEF in Baum FSEL
-LET tfsabc&=56 ! USERDEF in Baum FSEL
-LET tfsearch&=57 ! BUTTON in Baum FSEL
-LET nfseltxt&=58 ! TEXT in Baum FSEL
+LET fshelp&=34 ! BOXTEXT in Baum FSEL
+LET fssldup&=36 ! USERDEF in Baum FSEL
+LET fsslddwn&=37 ! USERDEF in Baum FSEL
+LET nfseltxt&=38 ! TEXT in Baum FSEL
+LET fselbox3&=39 ! BOX in Baum FSEL
+LET fsordner&=40 ! BUTTON in Baum FSEL
+LET fsotxt&=41 ! BOXTEXT in Baum FSEL
+LET fsadd&=42 ! BUTTON in Baum FSEL
+LET fsnew&=43 ! BUTTON in Baum FSEL
+LET fselbox4&=44 ! BOX in Baum FSEL
+LET fsplay&=45 ! USERDEF in Baum FSEL
+LET fsmatic&=46 ! USERDEF in Baum FSEL
+LET fsins&=47 ! USERDEF in Baum FSEL
+LET fsdel&=48 ! USERDEF in Baum FSEL
+LET fsload&=49 ! USERDEF in Baum FSEL
+LET fssave&=50 ! USERDEF in Baum FSEL
+LET fsclf&=51 ! USERDEF in Baum FSEL
+LET fsstop&=52 ! USERDEF in Baum FSEL
+LET fswait&=53 ! USERDEF in Baum FSEL
+LET fsend&=54 ! USERDEF in Baum FSEL
+LET fstime&=55 ! BOXTEXT in Baum FSEL
+LET fslplay&=56 ! USERDEF in Baum FSEL
+LET fsok&=57 ! BUTTON in Baum FSEL
+LET fsexit&=58 ! BUTTON in Baum FSEL
+LET tfsabc&=59 ! USERDEF in Baum FSEL
+LET tfsearch&=60 ! BUTTON in Baum FSEL
 '
 rsc$="STARHIC.RSC"
 '
@@ -15190,6 +15209,7 @@ NEXT i
 @textcolor(xfade&,xfadehlp&,1,1,0)
 '
 @colorbox(dsmove&,dsmovbox&,0,7)
+@textcolor(dsmove&,dsmovhlp&,1,1,0)
 @colorbox(mixer&,mixbox1&,0,7)
 @colorbox(mixer&,mixbox2&,0,7)
 @colorbox(mixer&,mixbox3&,0,7)
@@ -15395,6 +15415,8 @@ NEXT i
 @colorbox(setup&,setupbx3&,0,7)
 @colorbox(fsel&,fselbox&,0,7)
 @colorbox(fsel&,fselbox2&,0,7)
+@colorbox(fsel&,fselbox3&,0,7)
+@colorbox(fsel&,fselbox4&,0,7)
 @colorbox(fsel&,fsslide&,1,1)
 @colorbox(smpinf&,sinfbox&,0,7)
 @colorbox(smpinf&,sinfbox2&,0,7)
@@ -22465,6 +22487,20 @@ LOCAL vnr,lrd,mg,mr
 '
 dstrm=TRUE    ! directstream ?
 '
+savldtxoffs=20812   ! adress-offset fr save/load Windowtext
+resmptxoffs=19876   ! adress-offset fr resample& Windowtext
+rectxoffs=21476     ! adress-offset fr record& Windowtext (record time)
+IF maxcol=2 THEN
+savldtxoffs=savldtxoffs-24
+resmptxoffs=resmptxoffs-24
+rectxoffs=rectxoffs-24
+ENDIF
+IF bigfoot=FALSE THEN
+fstxoffs=6756     ! adress-offset fr fsel& Windowtext (new fileselector)
+ELSE
+fstxoffs=7204     ! adress-offset fr fsel& Windowtext (new fileselector)
+ENDIF
+'
 DIM wflg(btree)
 high96!=NOT (BTST(XBIOS(xbs,12),3))
 OPEN "I",#1,s$+rsc$
@@ -27008,7 +27044,7 @@ ELSE
 vornr=nr
 nr=record&
 a$="Record-Time"+CHR$(0)
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 hsec=INT(a2/hz/mbit*100)
 mmax=hsec
 @htimeset
@@ -31279,7 +31315,7 @@ nr=savebloc&
 ~@xrsrc_gaddr(0,nr,zu%)
 versatz=1
 a$="Save"
-string=LPEEK(LPEEK(zu%+24*savetxt&+12))
+string=LPEEK(zu%+savldtxoffs)
 FOR it=1 TO LEN(a$)
 POKE string+it-1+(versatz-1),ASC(MID$(a$,it,1))
 NEXT it
@@ -31571,7 +31607,7 @@ ENDIF
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 RETURN
 '
-PROCEDURE blklfrag
+> PROCEDURE blklfrag
 @testcopyright
 @markhlp
 vornr=nr
@@ -31579,15 +31615,11 @@ nr=savebloc&
 ~@xrsrc_gaddr(0,nr,zu%)
 versatz=1
 a$="Load"
-string=LPEEK(LPEEK(zu%+24*savetxt&+12))
-FOR it=1 TO 10
-PRINT CHR$(PEEK(string+it-1));
-NEXT it
-STOP
+string=LPEEK(zu%+savldtxoffs)
 FOR it=1 TO LEN(a$)
-POKE string+it-1+(versatz-1),ASC(MID$(a$,it,1))
+POKE string+it-1,ASC(MID$(a$,it,1))
 NEXT it
-@rsc_draw(nr,0)
+@rsc_draw(nr,1)
 @markhlp
 REPEAT
 REPEAT
@@ -32379,7 +32411,7 @@ fsz=0
 fsz2=0
 RETURN
 '
-PROCEDURE fselswitch
+> PROCEDURE fselswitch
 @fselinit
 IF fsmplay=FALSE THEN
 fsmplay=TRUE
@@ -32387,19 +32419,19 @@ fsmplay=TRUE
 @readpos(fsotxt&)
 @buttbh(fsotxt&,nx,ny)
 IF bigfoot=FALSE THEN
-@setpos(fsotxt&,5,by)
+@setpos(fsotxt&,0,by)
 @setbuttbh(fsotxt&,618,ny)
 ELSE
-@setpos(fsotxt&,10,by)
+@setpos(fsotxt&,2,by)
 @setbuttbh(fsotxt&,917,ny)
 ENDIF
 @readpos(fsexit&)
 IF bigfoot=FALSE THEN
-@setpos(fsexit&,570,by)
+@setpos(fsexit&,509,by)
 ELSE
-@setpos(fsexit&,874,by)
+@setpos(fsexit&,808,by)
 ENDIF
-@textfeld(nfseltxt&,"Musicbox"+CHR$(0),1)
+@textfeld4(fsel&,fstxoffs,"Musicbox"+CHR$(0),1)
 IF EXIST(wfil$) AND wfil$<>"" THEN
 a$="MUSICBOX-DATEI -->"+wfil$
 IF LEN(a$)>50 THEN
@@ -32415,14 +32447,17 @@ ENDIF
 @hidetree2(fsordner&,TRUE)
 @hidetree2(fsadd&,TRUE)
 @hidetree2(fsload&,FALSE)
-@hidetree2(fssave&,FALSE)
 @flagbutton(fsexit&,1031)
 @flagbutton(fsok&,0)
 @hidetree2(fsok&,TRUE)
-@hidetree(fsnew&,TRUE,fselbox&)
 @rsc_state(nr,fsordner&,3,TRUE)
 @rsc_state(nr,fsadd&,3,TRUE)
 @rsc_state(nr,fsnew&,3,TRUE)
+@hidetree2(fsnew&,TRUE)
+@hidetree2(fssave&,FALSE)
+@rsc_redraw_obj(nr,fselbox3&)
+@rsc_redraw_obj(nr,fselbox4&)
+@wischwasch
 ELSE
 fsmplay=FALSE
 IF wurload=TRUE THEN
@@ -32432,35 +32467,38 @@ ENDIF
 @readpos(fsotxt&)
 @buttbh(fsotxt&,nx,ny)
 IF bigfoot=FALSE THEN
-@setpos(fsotxt&,179,by)
+@setpos(fsotxt&,174,by)
 @setbuttbh(fsotxt&,444,ny)
 ELSE
-@setpos(fsotxt&,222,by)
+@setpos(fsotxt&,214,by)
 @setbuttbh(fsotxt&,705,ny)
 ENDIF
 @readpos(fsexit&)
 IF bigfoot=FALSE THEN
-@setpos(fsexit&,512,by)
+@setpos(fsexit&,451,by)
 ELSE
-@setpos(fsexit&,810,by)
+@setpos(fsexit&,744,by)
 ENDIF
 IF nfil$<>"" THEN
 @textfeld(fsotxt&,nfil$,1)
 ENDIF
-@textfeld(nfseltxt&,"Audioselector"+CHR$(0),1)
+@textfeld4(fsel&,fstxoffs,"Audioselector"+CHR$(0),1)
 @hidetree2(fsins&,FALSE)
 @hidetree2(fsdel&,TRUE)
 @hidetree2(fsordner&,FALSE)
 @hidetree2(fsadd&,FALSE)
 @hidetree2(fsload&,TRUE)
-@hidetree2(fsnew&,FALSE)
 @flagbutton(fsexit&,1029)
 @flagbutton(fsok&,1031)
 @hidetree2(fsok&,FALSE)
-@hidetree(fssave&,TRUE,fselbox&)
 @rsc_state(nr,fsordner&,3,FALSE)
 @rsc_state(nr,fsadd&,3,FALSE)
 @rsc_state(nr,fsnew&,3,FALSE)
+@hidetree2(fssave&,TRUE)
+@hidetree2(fsnew&,FALSE)
+@rsc_redraw_obj(nr,fselbox3&)
+@rsc_redraw_obj(nr,fselbox4&)
+@wischwasch
 ENDIF
 @clearfsel
 @getsel2
@@ -32816,7 +32854,7 @@ ENDIF
 @setbutton(fsplay&,0)
 RETURN
 '
-PROCEDURE newfsel
+> PROCEDURE newfsel
 LOCAL j,g,x,y,k,v1,v2,v3,v4,nobj,ofil$,nx,ny
 vornr=nr
 nr=fsel&
@@ -32839,17 +32877,17 @@ fsbreak=FALSE
 @readpos(fsotxt&)
 @buttbh(fsotxt&,nx,ny)
 IF bigfoot=FALSE THEN
-@setpos(fsotxt&,179,by)
+@setpos(fsotxt&,174,by)
 @setbuttbh(fsotxt&,444,ny)
 ELSE
-@setpos(fsotxt&,222,by)
+@setpos(fsotxt&,214,by)
 @setbuttbh(fsotxt&,705,ny)
 ENDIF
 @readpos(fsexit&)
 IF bigfoot=FALSE THEN
-@setpos(fsexit&,512,by)
+@setpos(fsexit&,451,by)
 ELSE
-@setpos(fsexit&,810,by)
+@setpos(fsexit&,744,by)
 ENDIF
 @flagbutton(fstxt1&,0)
 @flagbutton(fstxt2&,0)
@@ -32870,7 +32908,7 @@ ENDIF
 @flagbutton(fsok&,1031)
 @flagbutton(tfsearch&,0)
 @hidetree2(tfsearch&,TRUE)
-@textfeld2(nr,nfseltxt&,"Audioselector"+CHR$(0),1)
+@textfeld4(fsel&,fstxoffs,"Audioselector"+CHR$(0),1)
 vshading=shading
 shading=TRUE
 dopix=TRUE
@@ -33464,7 +33502,7 @@ tfsz2=0
 @flagbutton(fsexit&,1029)
 @flagbutton(fsok&,0)
 @flagbutton(tfsearch&,1031)
-@textfeld2(nr,nfseltxt&,"Trackfinder"+CHR$(0),1)
+@textfeld4(fsel&,fstxoffs,"Trackfinder"+CHR$(0),1)
 IF maxcol<>2 THEN
 @textcolor(fsel&,fstxt1&,1,4,3)  !text,rahmen,fill
 @textcolor(fsel&,fstxt2&,1,4,3)  !text,rahmen,fill
@@ -33484,9 +33522,9 @@ IF maxcol<>2 THEN
 ENDIF
 @readpos(fsexit&)
 IF bigfoot=FALSE THEN
-@setpos(fsexit&,496,by)
+@setpos(fsexit&,442,by)
 ELSE
-@setpos(fsexit&,786,by)
+@setpos(fsexit&,736,by)
 ENDIF
 vshading=shading
 shading=TRUE
@@ -33707,9 +33745,9 @@ ENDIF
 @rsc_state(nr,fsnew&,3,FALSE)
 @readpos(fsexit&)
 IF bigfoot=FALSE THEN
-@setpos(fsexit&,520,by)
+@setpos(fsexit&,451,by)
 ELSE
-@setpos(fsexit&,810,by)
+@setpos(fsexit&,744,by)
 ENDIF
 @restaura2
 IF obj=tfsearch& THEN
@@ -39797,7 +39835,7 @@ IF trkp>0 AND trkch(trkp)<>0 THEN
 vornr=nr
 nr=record&
 a$="Time-Jump"+CHR$(0)
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 mmax=24*60*60*100
 hsec=mmax
 @htimeset
@@ -40502,7 +40540,7 @@ ELSE
 vornr=nr
 nr=record&
 a$="Play-Start"+CHR$(0)
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 mmax=24*60*60*100
 hsec=mmax
 @htimeset
@@ -40560,7 +40598,7 @@ ELSE
 vornr=nr
 nr=record&
 a$="Play-End"+CHR$(0)
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 mmax=24*60*60*100
 hsec=mmax
 @htimeset
@@ -41524,7 +41562,7 @@ IF trkp>0 AND trkch(trkp)<>0 THEN
 vornr=nr
 nr=record&
 a$="Smpte-Time"+CHR$(0)
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 mmax=24*60*60*100
 hsec=mmax
 @htimeset
@@ -42455,7 +42493,7 @@ ELSE
 vornr=nr
 nr=record&
 a$="Track-Start"+CHR$(0)
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 mmax=trklen(trkp)/thz*100
 hsec=mmax
 @htimeset
@@ -44089,7 +44127,7 @@ ELSE
 vornr=nr
 nr=record&
 a$="Track-End"+CHR$(0)
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 mmax=trklen(trkp)/thz*100
 hsec=mmax
 @htimeset
@@ -44289,7 +44327,7 @@ nr=resample&
 zuadr=zu%
 versatz=1
 a$=" Samplerate "
-string=LPEEK(LPEEK(zu%+24*rsmptxt1&+12))
+string=LPEEK(zu%+resmptxoffs)
 FOR it=1 TO LEN(a$)
 POKE string+it-1+(versatz-1),ASC(MID$(a$,it,1))
 NEXT it
@@ -44428,7 +44466,7 @@ ENDIF
 @restaura2
 ~@xrsrc_gaddr(0,resample&,zu%)
 a$="  Resample  "
-string=LPEEK(LPEEK(zu%+24*rsmptxt1&+12))
+string=LPEEK(zu%+resmptxoffs)
 FOR it=1 TO LEN(a$)
 POKE string+it-1+(versatz-1),ASC(MID$(a$,it,1))
 NEXT it
@@ -48787,7 +48825,7 @@ nr=timeed&
 ELSE
 a$="Scroll-Jump"+CHR$(0)
 nr=record&
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 ENDIF
 vshading=shading
 shading=TRUE
@@ -49139,7 +49177,7 @@ nr=timeed&
 ELSE
 a$="Marker-Time"+CHR$(0)
 nr=record&
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 ENDIF
 @makehz
 t=0
@@ -52475,7 +52513,7 @@ oldspc=spc
 vornr=nr
 nr=record&
 a$="Space-Time"+CHR$(0)
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 mmax=24*60*60*100
 hsec=mmax
 @htimeset
@@ -54426,7 +54464,7 @@ ocuediv=cuediv
 cuediv=INT(cuediv/mbit/hz*100)
 vornr=nr
 nr=record&
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 mmax=24*60*60*100
 hsec=mmax
 @htimeset
@@ -55343,7 +55381,7 @@ ENDIF
 NEXT i
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 a$="Filestream "+CHR$(65+dsi)+":"+CHR$(0)
-@textfeld2(record&,timemeld&,a$,1)
+@textfeld4(record&,rectxoffs,a$,1)
 m=(dsc2-dsc1)*ds_clcnt*ds_sec
 dsc2=dsc2-4                                ! Platz fr Inf-File
 IF dsc2>dsc1 THEN
