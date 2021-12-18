@@ -1,0 +1,243 @@
+; Beispiel (Echo-Effekt) fÅr CPU-Plugins
+
+
+sliders        equ 1      ; anzahl der plugin-slider (Bedienelemente bzw. Parameter)
+
+               bra.s      startprog
+               .DC.b "PLUGIN",0         ; Plugin-Kennung (bzw. Cookie)
+name:          .DC.b "ECHO",0           ; Name des Plugins
+               .EVEN 
+
+
+; Anfang der Laderoutine
+; Wird beim Laden des Plugins vom Hauptprogramm einmal
+; aufgerufen um Plugin resident zu laden und dem Treiber zu melden
+
+startprog:     move.w     #1,-(sp)
+               move.w     #500,-(sp)
+               trap       #14           ; StarTrack-cookie abfragen
+               addq.l     #4,sp
+               cmpi.l     #$71273800,d0 ; Cookie vorhanden ?
+               beq.s      do_inst       ; dann installieren
+
+letitbe:       move.l     #-1,d0
+               clr.w      -(sp)         ;* Ab ins Jenseits
+               trap       #1            ;GEMDOS
+
+do_inst:       movea.l    4(sp),a0
+               lea.l      stack_end,sp
+               move.l     #$100,d0
+               add.l      $c(a0),d0     ; programmlÑnge
+               add.l      $14(a0),d0    ; data
+               add.l      $1c(a0),d0    ; bss
+               move.l     d0,merklen    ; ProgrammlÑnge merken
+               move.w     #250,-(sp)
+               move.w     #500,-(sp)
+               trap       #14           ; Anzahl der bereits installierten Plugins
+               addq.l     #4,sp
+               cmpi.w     #10,d0        ; schon 10 Plugins ?
+               bge.s      letitbe       ; dann sind's zu viele...
+plug2:         lea.l      params(pc),a1
+               move.l     a1,-(sp)      ; parameterliste
+               move.l     #5000,-(sp)   ; taktanzahl die das Plugin verbraucht (momentan nicht benutzt)
+               lea.l      name(pc),a1   ; Name des Plugins
+               move.l     a1,-(sp)
+               lea.l      plugin(pc),a1
+               move.l     a1,-(sp)      ; einsprungadresse Plugin
+               lea.l      pluginit(pc),a1
+               move.l     a1,-(sp)      ; einsprungadresse init-routine
+               move.w     #sliders,-(sp)          ; parameteranzahl
+               move.w     #251,-(sp)
+               move.w     #500,-(sp)
+               trap       #14           ; Daten zum Treiber Åbermitteln
+               adda.l     #26,sp
+               cmpi.l     #-1,d0        ; nicht geklappt ?
+               beq.s      letitbe       ; dann tschÅss...
+               clr.w      -(sp)
+               move.l     merklen,d0    ; ProgrammlÑnge
+               move.l     d0,-(sp)
+               move.w     #$31,-(sp)    ;resident halten
+               trap       #1
+               rts                      ; Plugin ist nun resident im Speicher
+
+; Anfang der Initialisierungsroutine
+; Wird VOR der Benutzung des Plugins einmal (vor Interrupt-Freigabe)
+; aufgerufen um lokale Variablen und Buffer zu initialisieren.
+
+pluginit:      movem.l    d0-d7/a0-a6,-(sp)       ; Plugin Init-Routine
+               lea.l      buffer(pc),a1
+               lea.l      bufpnt(pc),a2
+               move.l     a1,(a2)       ; bufferpointer initialisieren
+               move.w     #-1,-(sp)
+               move.w     #28,-(sp)
+               move.w     #500,-(sp)
+               trap       #14           ; Abfragen, ob Audiokarte im 16bit oder 24bit-mode
+               addq.l     #6,sp
+               move.w     d0,mode24     ; bitmode merken
+               lea.l      buffer(pc),a1
+               lea.l      bufferend,a2
+plugini2:      clr.l      (a1)+         ; Buffer lîschen
+               cmpa.l     a2,a1
+               blt.s      plugini2
+               movem.l    (sp)+,d0-d7/a0-a6
+               rts        
+
+; Hier beginnt die eigentliche Plugin-Routine
+; Die Samples fÅr linken und rechten Kanal werden als Langwort in
+; d1 (links) und d2 (rechts) Åbergeben.
+; Benutzte  Register mÅssen gerettet werden !
+
+plugin:        movem.l    d5-d7/a1/a2,-(sp)       ; Plugin-Routine 16bit
+               lea.l      buffer(pc),a1
+               lea.l      params(pc),a2
+               move.l     4(a2),d5      ; aktuellen Paramterwert holen
+               lsl.l      #3,d5
+               add.l      a1,d5         ; ende des buffers
+               lea.l      bufpnt(pc),a1 ;Bufferpointer holen
+               movea.l    (a1),a2
+               cmpi.w     #0,mode24     ; 24bit-Werte ?
+               bne.s      plugin24      ; dann zur 24bit-Version
+plugin16:      asr.w      #1,d1         ; vorzeichenrichtiges teilen
+               asr.w      #1,d2         ; von linkem und rechtem sample
+               move.w     d1,d7         ; Sample linker Kanal
+               move.w     (a2),d6       ; mit Bufferentry mischen
+               bsr        mixer         ; Mischroutine (mix d6+d7 -> d7)
+               move.w     d7,d1
+               move.w     d2,d7         ; Sample rechter Kanal
+               move.w     2(a2),d6      ; mit Bufferentry mischen
+               bsr        mixer         ; Mischroutine
+               move.w     d7,d2
+               move.w     d1,d6
+               asr.w      #2,d6         ; Volume absenken
+               asr.w      #2,d7
+               move.w     d6,(a2)+      ; und im Buffer speichern
+               move.w     d7,(a2)+
+               cmpa.l     d5,a2         ; Bufferende erreicht ?
+               blt.s      plugin16b
+               lea.l      buffer(pc),a2 ; Bufferpointer init
+plugin16b:     move.l     a2,(a1)       ; Bufferpointer retten
+plugin16c:     movem.l    (sp)+,d5-d7/a1/a2
+               rts        
+
+plugin24:      btst       #23,d1        ; Pluginroutine 24bit
+               beq.s      plug24a
+               ori.l      #$ff000000,d1 ; auf 32bit erweitern
+plug24a:       btst       #23,d2
+               beq.s      plug24b
+               ori.l      #$ff000000,d2 ; auf 32bit erweitern
+plug24b:       asr.l      #1,d1         ; vorzeichenrichtiges teilen
+               asr.l      #1,d2         ; von linkem und rechtem sample
+               move.l     d1,d7
+               move.l     (a2),d6       ; linken Kanal mit Bufferentry mischen
+               bsr        mixer24       ; 24bit-Mischer
+               move.l     d7,d1
+               move.l     d2,d7
+               move.l     4(a2),d6      ; rechten Kanal mit Bufferentry mischen
+               bsr        mixer24       ; 24bit-Mischer
+               move.l     d7,d2
+               btst       #23,d1
+               beq.s      plug24c
+               ori.l      #$ff000000,d1
+plug24c:       btst       #23,d2
+               beq.s      plug24d
+               ori.l      #$ff000000,d2
+plug24d:       move.l     d1,d6
+               move.l     d2,d7
+               asr.l      #2,d6         ; Volume absenken
+               asr.l      #2,d7
+               move.l     d6,(a2)+      ; und im buffer speichern
+               move.l     d7,(a2)+
+               cmpa.l     d5,a2         ; Bufferende erreicht ?
+               blt.s      plugin24b
+               lea.l      buffer(pc),a2 ; Buffer-init
+plugin24b:     move.l     a2,(a1)       ; Bufferpointer retten
+plugin24x:     movem.l    (sp)+,d5-d7/a1/a2
+               rts        
+
+mixer:         btst       #15,d6        ; mixt (d6 und d7) nach d7 (16bit)
+               beq.s      noneg
+               neg.w      d6
+               btst       #15,d7
+               bne.s      negneg
+negplus:       neg.w      d6
+               add.w      d6,d7
+               bra.s      accuweg
+negneg:        neg.w      d7
+               add.w      d6,d7
+               neg.w      d7
+               bra.s      accuweg
+noneg:         btst       #15,d7
+               beq.s      plusplus
+plusneg:       add.w      d6,d7
+               bra.s      accuweg
+plusplus:      add.w      d6,d7
+accuweg:       rts        
+
+mixer24:       btst       #23,d6        ; mixt (d6 und d7) nach d7 (24bit)
+               beq.s      noneg24
+               ori.l      #$ff000000,d6
+               neg.l      d6
+               btst       #23,d7
+               bne.s      negneg24
+negplus24:     neg.l      d6
+               ori.l      #$ff000000,d6
+               add.l      d6,d7
+               bra.s      accuweg24
+negneg24:      ori.l      #$ff000000,d7
+               neg.l      d7
+               add.l      d6,d7
+               andi.l     #$ffffff,d7
+               neg.l      d7
+               bra.s      accuweg24
+noneg24:       btst       #23,d7
+               beq.s      plusplus24
+plusneg24:     add.l      d6,d7
+               bra.s      accuweg24
+plusplus24:    add.l      d6,d7
+accuweg24:     rts        
+
+               .DATA 
+               .EVEN 
+
+
+; Es folgen die Parameter des Plugins
+; 1. Liste der Slider Maximal- und Aktuell-Werte
+;    in der Reihenfolge max1,act1,max2,act2,max3... usw. je nach Anzahl der
+;    Parameter. Bei Parameteranzahl 0 gibt es keine Liste max/act !
+;    Maximal 5 Parameter sind derzeit erlaubt.
+; 2. Liste der Slidertexte und Slidereinheiten
+;    in der Reihenfolge text1,einheit1,text2,einheit2,text3... usw. je
+;    nach Anzahl der Parameter
+;    Anhand der Einheit werden die Parameterwerte im Plugin-Dialog des
+;    Hauptprogramms umgerechnet.
+;    Da das Hauptprogramm den passenden Sliderdialog mit Bedienelementen
+;    erzeugt, sollten hier sinnvolle Werte benutzt werden.
+;    Bisher werden folgende Einheiten vom Hauptprogramm erkannt:
+;    MS = Millisekunden : Ergebnis=INT(act/hz*1000)
+;    DB = Dezibel : Ergebnis=INT(dbmax-(20*LOG10(act*2)*100))/100
+;                   dbmax=96.32 (16bit) oder dbmax=144.49 (24bit)
+; 3. Copyright-Vermerk, der im Dialog angezeigt werden soll.
+
+params:                   ; Parameterliste
+par1:          .DC.l $2000,$1000        ; Parameter Maximalwert,Aktueller Wert
+
+               .DC.b "DELAY",0,"MS",0   ; Slidertext,Slidereinheit
+
+               .DC.b "SWE STEPHAN WILHELM ELECTRONIC",0     ;Copyright
+               .EVEN 
+
+; Ab hier kommen die lokalen Variablen und Buffer
+; Diese mÅssen im Datensegment liegen, da von der Laderoutine
+; sonst die LÑnge bzw. der Speicherbedarf falsch berechnet wird (malloc).
+
+merklen:       .DS.l 1    ; ProgrammlÑnge
+mode24:        .DC.w 0    ; 16bit oder 24bit ?
+bufpnt:        .DS.l 1    ; Buffer-Pointer
+
+buffer:        .DS.l $4000              ; Echo-Buffer
+bufferend:     
+stack:         .DS.l 100
+stack_end:     
+               .BSS 
+               .END 
+

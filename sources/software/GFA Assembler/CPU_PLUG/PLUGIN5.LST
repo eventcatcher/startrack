@@ -1,0 +1,90 @@
+sliders        equ 5      ; anzahl der plugin-slider
+
+               bra.s      startprog
+               .DC.b "PLUGIN",0
+name:          .DC.b "DUMMY5",0
+               .EVEN 
+
+startprog:     move.w     #1,-(sp)
+               move.w     #500,-(sp)
+               trap       #14
+               addq.l     #4,sp
+               cmpi.l     #$71273800,d0
+               beq.s      do_inst
+
+letitbe:       move.l     #-1,d0
+               clr.w      -(sp)         ;* Ab ins Jenseits
+               trap       #1            ;GEMDOS
+
+do_inst:       movea.l    4(sp),a0
+               lea.l      stack_end,sp
+               move.l     #$100,d0
+               add.l      $c(a0),d0     ; programml„nge
+               add.l      $14(a0),d0    ; data
+               add.l      $1c(a0),d0    ; bss
+               move.l     d0,merklen
+
+               move.w     #250,-(sp)
+               move.w     #500,-(sp)
+               trap       #14
+               addq.l     #4,sp
+               cmpi.w     #10,d0
+               bge.s      letitbe
+plug2:         lea.l      params(pc),a1
+               move.l     a1,-(sp)      ; parameterliste
+               move.l     #5000,-(sp)   ; takte
+               lea.l      name(pc),a1
+               move.l     a1,-(sp)      ; name
+               lea.l      plugin(pc),a1
+               move.l     a1,-(sp)      ; einsprung work
+               lea.l      pluginit(pc),a1
+               move.l     a1,-(sp)      ; einsprung init
+               move.w     #sliders,-(sp)          ; parameteranzahl
+               move.w     #251,-(sp)
+               move.w     #500,-(sp)
+               trap       #14
+               adda.l     #26,sp
+               cmpi.l     #-1,d0
+               beq.s      letitbe
+               lea.l      buffer(pc),a1
+               lea.l      bufpnt(pc),a2
+               move.l     a1,(a2)
+               clr.w      -(sp)
+               move.l     merklen,d0
+               move.l     d0,-(sp)
+               move.w     #$31,-(sp)    ;resident halten
+               trap       #1
+               rts        
+
+pluginit:      rts        
+
+plugin:        rts        
+
+               .DATA 
+
+               .EVEN 
+params:        
+               .DC.l $2000,$1000
+               .DC.l $1000,$500
+               .DC.l $1200,$230
+               .DC.l $1900,$840
+               .DC.l $55,$0
+
+               .DC.b "DELAY",0,"MS",0
+               .DC.b "PAN",0,"DB",0
+               .DC.b "BASS",0,"DB",0
+               .DC.b "TREBLE",0,"DB",0
+               .DC.b "DIF",0,"DB",0
+
+               .DC.b "SWE Stephan Wilhelm Electronic",0
+               .EVEN 
+
+merklen:       .DS.l 1
+mode24:        .DS.w 1
+bufpnt:        .DS.l 1
+               .BSS 
+buffer:        .DS.l $4000
+stack:         .DS.l 100
+stack_end:     
+               .END 
+

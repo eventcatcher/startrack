@@ -1,0 +1,186 @@
+sliders        equ 0      ; anzahl der plugin-slider
+
+               bra.s      startprog
+               .DC.b "PLUGIN",0
+name:          .DC.b "ECHO0",0
+               .EVEN 
+
+startprog:     move.w     #1,-(sp)
+               move.w     #500,-(sp)
+               trap       #14
+               addq.l     #4,sp
+               cmpi.l     #$71273800,d0
+               beq.s      do_inst
+
+letitbe:       move.l     #-1,d0
+               clr.w      -(sp)         ;* Ab ins Jenseits
+               trap       #1            ;GEMDOS
+
+do_inst:       movea.l    4(sp),a0
+               lea.l      stack_end,sp
+               move.l     #$100,d0
+               add.l      $c(a0),d0     ; programml„nge
+               add.l      $14(a0),d0    ; data
+               add.l      $1c(a0),d0    ; bss
+               move.l     d0,merklen
+
+               move.w     #250,-(sp)
+               move.w     #500,-(sp)
+               trap       #14
+               addq.l     #4,sp
+               cmpi.w     #10,d0
+               bge.s      letitbe
+plug2:         lea.l      params(pc),a1
+               move.l     a1,-(sp)      ; parameterliste
+               move.l     #5000,-(sp)   ; takte
+               lea.l      name(pc),a1
+               move.l     a1,-(sp)      ; name
+               lea.l      plugin(pc),a1
+               move.l     a1,-(sp)      ; einsprung work
+               lea.l      pluginit(pc),a1
+               move.l     a1,-(sp)      ; einsprung init
+               move.w     #sliders,-(sp)          ; parameteranzahl
+               move.w     #251,-(sp)
+               move.w     #500,-(sp)
+               trap       #14
+               adda.l     #26,sp
+               cmpi.l     #-1,d0
+               beq.s      letitbe
+               lea.l      buffer(pc),a1
+               lea.l      bufpnt(pc),a2
+               move.l     a1,(a2)
+               clr.w      -(sp)
+               move.l     merklen,d0
+               move.l     d0,-(sp)
+               move.w     #$31,-(sp)    ;resident halten
+               trap       #1
+               rts        
+
+pluginit:      movem.l    d0-d7/a0-a6,-(sp)
+               move.w     #-1,-(sp)
+               move.w     #28,-(sp)
+               move.w     #500,-(sp)
+;               trap       #14
+               addq.l     #6,sp
+;               move.w     d0,mode24
+plugini1:      lea.l      buffer(pc),a1
+               move.l     #$10000,d5
+               add.l      a1,d5
+plugini2:      clr.l      (a1)+
+               cmpa.l     d5,a1
+               blt.s      plugini2
+               movem.l    (sp)+,d0-d7/a0-a6
+               rts        
+
+plugin:        movem.l    d5-d7/a1/a2,-(sp)
+               lea.l      buffer(pc),a1
+               move.l     #$10000,d5
+               add.l      a1,d5         ; ende des buffers
+               lea.l      bufpnt(pc),a1
+               movea.l    (a1),a2
+               cmpi.w     #0,mode24
+               bne.s      plugin24
+plugin16:      asr.w      #1,d1         ; vorzeichenrichtiges teilen
+               asr.w      #1,d2         ; von linkem und rechtem sample
+               move.w     d1,d7
+               move.w     (a2),d6
+               bsr        mixer
+               move.w     d7,d1
+               move.w     d2,d7
+               move.w     2(a2),d6
+               bsr        mixer
+               move.w     d7,d2
+               move.w     d1,-(sp)
+               move.w     d2,-(sp)
+               asr.w      #2,d1
+               asr.w      #2,d2
+               move.w     d1,(a2)+
+               move.w     d2,(a2)+
+               move.w     (sp)+,d2
+               move.w     (sp)+,d1
+               cmpa.l     d5,a2
+               blt.s      plugin16b
+               lea.l      buffer(pc),a2
+plugin16b:     move.l     a2,(a1)
+plugin16c:     movem.l    (sp)+,d5-d7/a1/a2
+               rts        
+
+plugin24:      asr.l      #1,d1         ; vorzeichenrichtiges teilen
+               asr.l      #1,d2         ; von linkem und rechtem sample
+               move.l     d1,d7
+               move.l     (a2),d6
+               bsr        mixer24
+               move.l     d7,d1
+               move.l     d2,d7
+               move.l     4(a2),d6
+               bsr        mixer24
+               move.l     d7,d2
+               asr.l      #2,d1
+               asr.l      #2,d2
+               move.l     d1,(a2)+
+               move.l     d2,(a2)+
+               cmpa.l     d5,a2
+               blt.s      plugin24b
+               lea.l      buffer(pc),a2
+plugin24b:     move.l     a2,(a1)
+               movem.l    (sp)+,d5-d7/a1/a2
+               rts        
+
+mixer:         btst       #15,d6        ; mixt (d6 und d7) nach d7
+               beq.s      noneg
+               neg.w      d6
+               btst       #15,d7
+               bne.s      negneg
+negplus:       neg.w      d6
+               add.w      d6,d7
+               bra.s      accuweg
+negneg:        neg.w      d7
+               add.w      d6,d7
+               neg.w      d7
+               bra.s      accuweg
+noneg:         btst       #15,d7
+               beq.s      plusplus
+plusneg:       add.w      d6,d7
+               bra.s      accuweg
+plusplus:      add.w      d6,d7
+accuweg:       rts        
+
+mixer24:       btst       #23,d6        ; mixt (d6 und d7) nach d7
+               beq.s      noneg24
+               ori.l      #$ff000000,d6
+               neg.l      d6
+               btst       #23,d7
+               bne.s      negneg24
+negplus24:     neg.l      d6
+               ori.l      #$ff000000,d6
+               add.l      d6,d7
+               bra.s      accuweg24
+negneg24:      ori.l      #$ff000000,d7
+               neg.l      d7
+               add.l      d6,d7
+               andi.l     #$ffffff,d7
+               neg.l      d7
+               bra.s      accuweg24
+noneg24:       btst       #23,d7
+               beq.s      plusplus24
+plusneg24:     add.l      d6,d7
+               bra.s      accuweg24
+plusplus24:    add.l      d6,d7
+accuweg24:     rts        
+
+               .DATA 
+
+               .EVEN 
+params:        
+               .DC.b "SWE Stephan Wilhelm Electronic",0
+               .EVEN 
+
+merklen:       .DS.l 1
+mode24:        .DC.w 0
+bufpnt:        .DS.l 1
+               .BSS 
+buffer:        .DS.l $4100
+stack:         .DS.l 100
+stack_end:     
+               .END 
+
