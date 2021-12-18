@@ -1,2 +1,0 @@
-vq_extend() (oder so aehnlich) nehmen und dann work_out[4], da steht die 
-Anzahl der Bitplanes drin. Mehr Info bei Bedarf.

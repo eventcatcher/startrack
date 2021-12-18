@@ -1,3 +1,0 @@
-CLS
-a=&HFFFFFA8D
-PRINT BIN$(PEEK(a))
