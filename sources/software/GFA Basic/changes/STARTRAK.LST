@@ -25,7 +25,7 @@ ON ERROR GOSUB fehler
 ' ----------------------with VME StarTrack Audiocard 16/24Bit Harddisksampler---
 ' ------------------------First Release 22.8.1994-------------------------------
 ' ------------------------------------------------------------------------------
-' -------------------V 2.00 - Revision 23.09.1998 ------------------------------
+' -------------------V 2.01 - Revision 26.10.1998 ------------------------------
 ' ------------------------------------------------------------------------------
 '
 '
@@ -6546,11 +6546,20 @@ RETURN
         mrcs=cs
         mrce=ce
         mrz=scrollp
-        @slideupdate2(scrlslde&,scrolbut&,ax&+12,scmax,mx&,my&,scstep,scrollp,slflg)
+        sdif=scmax/vmem*(ce-cs)
+        @slideupdate3(scrlslde&,scrolbut&,ax&+12,scmax,mx&,my&,scstep,sdif,scrollp,slflg)
         IF slflg=TRUE THEN
           dif=ce-cs
-          cs=scrollp*scteil
-          ce=dif+scrollp*scteil
+          IF scrollp>mrz THEN
+            cs=cs+dif
+            ce=ce+dif
+          ELSE
+            cs=cs-dif
+            IF cs<0 THEN
+              cs=0
+            ENDIF
+            ce=cs+dif
+          ENDIF
           IF ce>vmem THEN
             cs=vmem-dif
             ce=vmem
@@ -6558,6 +6567,7 @@ RETURN
           cs=INT(cs/mbit)*mbit
           ce=INT(ce/mbit)*mbit
           cached=FALSE
+          '          scrollp=ROUND(scmax/vmem*cs)
           @setslide2(scrlslde&,scrolbut&,scmax,scrollp,scstep)
           mrscroll=scrollp
           @restaura
@@ -7339,6 +7349,14 @@ IF donr=nr THEN
   '
   '
   IF (BTST(evnt&,1) OR BTST(evnt&,5)) AND nr=trakker& AND MENU(1)<>27 THEN
+    '
+    IF mislide=TRUE THEN
+      REPEAT
+        @midislide   ! Midi Slidersteuerung
+        @midislide3
+      UNTIL INP?(3)=FALSE
+    ENDIF
+    '
     ' Drag & Drop
     IF k=1 THEN
       IF (v4=0 AND trmode=1) AND dclick=FALSE THEN
@@ -7482,8 +7500,22 @@ IF donr=nr THEN
   IF BTST(winh,arranger&)=TRUE AND nr=arranger& AND intplay=TRUE THEN
     @edhandler4
   ENDIF
+  IF BTST(evnt&,5) AND nr=mixer& THEN
+    IF mislide=TRUE THEN
+      REPEAT
+        @midislide   ! Midi Slidersteuerung
+        @midislide4
+      UNTIL INP?(3)=FALSE
+    ENDIF
+  ENDIF
   IF BTST(evnt&,5) AND nr=peak& THEN
     @peakread
+    IF mislide=TRUE THEN
+      REPEAT
+        @midislide   ! Midi Slidersteuerung
+        @midislide2
+      UNTIL INP?(3)=FALSE
+    ENDIF
     IF peaks2<>peaks THEN
       peaks=peaks2
       b$=STR$(peaks)+CHR$(0)
@@ -7988,40 +8020,59 @@ ENDFUNC
 > PROCEDURE rsc_put(a%,x&,y&,m&)
 .| Glob. Var.: rsc_bitblt%,planes&
 .| Aufruf in : markhandl4-3,dragging1-4,dragging2-4,fseldef-1,
-LOCAL w&,h&
-'
+LOCAL w&,h&,noblt!,w2&,h2&
+noblt!=FALSE
 IF a%>0 THEN                       ! Gibt's den Block Åberhaupt...
 w&=INT{a%}                       ! Breite holen
 h&=INT{ADD(a%,2)}                ! Hîhe
-'
 ~GRAF_MOUSE(256,0)               ! Hidem
 IF flicker=TRUE THEN
 VSYNC
 ENDIF
-~C:rsc_bitblt%(L:ADD(a%,4),w&,h&,0,planes&,L:0,0,0,0,planes&,0,0,w&,h&,x&,y&,m&)
-~GRAF_MOUSE(257,0)               ! Showm
-'
+w2&=w&
+h2&=h&
+IF x&+w&>=xwidth THEN
+w2&=xwidth-x&-1
+IF w2&<=0 THEN
+noblt!=TRUE
 ENDIF
-'
+ENDIF
+IF y&+h&>=ywidth THEN
+h2&=ywidth-y&-1
+IF h2&<=0 THEN
+noblt!=TRUE
+ENDIF
+ENDIF
+IF noblt!=FALSE AND y&>19 AND x&>0 THEN
+~C:rsc_bitblt%(L:ADD(a%,4),w&,h&,0,planes&,L:0,0,0,0,planes&,0,0,w2&,h2&,x&,y&,m&)
+ENDIF
+~GRAF_MOUSE(257,0)               ! Showm
+ENDIF
 RETURN
 > PROCEDURE rsc_put2(a%,x&,y&,m&,sx,bx)
 .| Glob. Var.: rsc_bitblt%,planes&
 .| Aufruf in : markhandl4-3,dragging1-4,dragging2-4,fseldef-1,
-LOCAL w&,h&
-'
+LOCAL w&,h&,noblt!,h2&
+noblt!=FALSE
 IF a%>0 THEN                       ! Gibt's den Block Åberhaupt...
 w&=INT{a%}                       ! Breite holen
 h&=INT{ADD(a%,2)}                ! Hîhe
-'
 ~GRAF_MOUSE(256,0)               ! Hidem
 IF flicker=TRUE THEN
 VSYNC
 ENDIF
-~C:rsc_bitblt%(L:ADD(a%,4),w&,h&,0,planes&,L:0,0,0,0,planes&,sx,0,bx,h&,x&,y&,m&)
-~GRAF_MOUSE(257,0)               ! Showm
-'
+h2&=h&
+IF y&+h&>=ywidth THEN
+h2&=ywidth-y&-1
+IF h2&<=0 THEN
+noblt!=TRUE
 ENDIF
-'
+ENDIF
+IF noblt!=FALSE AND y&>19 AND x&>0 THEN
+~C:rsc_bitblt%(L:ADD(a%,4),w&,h&,0,planes&,L:0,0,0,0,planes&,sx,0,bx,h2&,x&,y&,m&)
+ENDIF
+~GRAF_MOUSE(257,0)               ! Showm
+ENDIF
 RETURN
 > PROCEDURE rsc_putblock(a%,x&,y&,x2&,y2&,b2&,h2&)
 .| Glob. Var.: rsc_bitblt%,planes&
@@ -9507,6 +9558,178 @@ RETURN
 ' ------------------------------------------------------------------------------
 ' ------------------------HAUPTPROGRAMM-----------------------------------------
 ' ------------------------------------------------------------------------------
+'
+> PROCEDURE midislide
+LOCAL f2,x,xx
+x=INP?(3)
+IF x=TRUE THEN
+xx=INP(3)                    ! Befehl
+IF BTST(xx,7)=TRUE THEN
+misli2=FALSE
+IF (xx>=&HB0 AND xx<=&HBF) THEN
+misli=xx
+ELSE
+misli=0
+ENDIF
+ELSE
+IF misli2=FALSE THEN
+misli2=TRUE
+misli2b=xx   ! zweites Byte (Code 7)
+ELSE
+IF misli<>0 AND misli2b=mcc THEN
+misli2=FALSE
+mnowslid=misli-&HB0
+mputslid=TRUE
+IF nr=peak& THEN
+mnowslid=mnowslid+16
+ENDIF
+midislide(mnowslid)=xx
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+RETURN
+'
+> PROCEDURE midislide2
+IF mputslid=TRUE AND mnowslid>=16 AND mnowslid<=17 THEN
+IF midislide(mnowslid)<>vmidislide(mnowslid) THEN
+obj=volume&
+IF bigtxt=FALSE THEN
+pydist=190
+ELSE
+pydist=290
+ENDIF
+scpy=INT(pymax/127*(127-midislide(mnowslid)))
+IF mnowslid=16 THEN
+vio=FALSE
+@setbutton(volinout&,0)
+ELSE
+vio=TRUE
+@setbutton(volinout&,1)
+ENDIF
+~@xrsrc_gaddr(0,nr,zu%)
+~OBJC_DRAW(zu%,volbox&,3,0,0,xwidth,ywidth)      ! neu zeichnen
+@peakvolume(scpy)
+vmidislide(mnowslid)=midislide(mnowslid)
+ENDIF
+ENDIF
+RETURN
+'
+> PROCEDURE midislide3
+LOCAL v,w,b
+IF mputslid=TRUE THEN
+IF mnowslid<16 AND midislide(mnowslid)<>vmidislide(mnowslid) THEN
+IF trkwahl(mnowslid+1)>0 THEN
+w=trkwahl(mnowslid+1)
+IF trkwahl(mnowslid+1)>0 AND trkmute(w)=FALSE THEN
+v=INT(200/127*midislide(mnowslid))
+trklev(w)=v
+IF tdig24=TRUE THEN
+v=128*v/100
+ENDIF
+DPOKE mdat%+(mnowslid*2),v
+IF w>=trkvz+1 AND w<=trkvz+4 THEN
+~@xrsrc_gaddr(0,nr,zu%)
+IF w=trkvz+1 THEN
+b=trklevt1&
+ENDIF
+IF w=trkvz+2 THEN
+b=trklevt2&
+ENDIF
+IF w=trkvz+3 THEN
+b=trklevt3&
+ENDIF
+IF w=trkvz+4 THEN
+b=trklevt4&
+ENDIF
+a$=STR$(trklev(w))+CHR$(0)
+@textfeld(b,a$,1)
+ENDIF
+ENDIF
+ENDIF
+vmidislide(mnowslid)=midislide(mnowslid)
+ENDIF
+ENDIF
+RETURN
+'
+> PROCEDURE midislide4
+LOCAL v,w,b,b2,b3,p
+IF mputslid=TRUE THEN
+IF mnowslid<16 AND midislide(mnowslid)<>vmidislide(mnowslid) THEN
+IF trkwahl(mnowslid+1)>0 OR mnowslid=15 THEN
+w=trkwahl(mnowslid+1)
+IF (trkwahl(mnowslid+1)>0 AND trkmute(w)=FALSE) OR mnowslid=15 THEN
+v=INT(200/127*midislide(mnowslid))
+trklev(w)=v
+IF tdig24=TRUE THEN
+v=128*v/100
+ENDIF
+DPOKE mdat%+(mnowslid*2),v
+IF (mnowslid>=0 AND mnowslid<=7) OR mnowslid=15 THEN
+~@xrsrc_gaddr(0,nr,zu%)
+IF mnowslid=0 THEN
+b=mixvolt1&
+b2=mixvol1&
+b3=mixvbox1&
+ENDIF
+IF mnowslid=1 THEN
+b=mixvolt2&
+b2=mixvol2&
+b3=mixvbox2&
+ENDIF
+IF mnowslid=2 THEN
+b=mixvolt3&
+b2=mixvol3&
+b3=mixvbox3&
+ENDIF
+IF mnowslid=3 THEN
+b=mixvolt4&
+b2=mixvol4&
+b3=mixvbox4&
+ENDIF
+IF mnowslid=4 THEN
+b=mixvolt5&
+b2=mixvol5&
+b3=mixvbox5&
+ENDIF
+IF mnowslid=5 THEN
+b=mixvolt6&
+b2=mixvol6&
+b3=mixvbox6&
+ENDIF
+IF mnowslid=6 THEN
+b=mixvolt7&
+b2=mixvol7&
+b3=mixvbox7&
+ENDIF
+IF mnowslid=7 THEN
+b=mixvolt8&
+b2=mixvol8&
+b3=mixvbox8&
+ENDIF
+IF mnowslid=15 THEN
+b=mixvoltm&
+b2=mixvolm&
+b3=mixvboxm&
+ENDIF
+a$=STR$(trklev(w))+CHR$(0)
+@textfeld(b,a$,1)
+@buttbh(mixfade1&,v,h)
+@buttbh(mixvol1&,v,h2)
+p=INT((h-h2)-((h-h2)/200*trklev(w))+(0))
+DPOKE (zu%+24*b2+18),p                       ! Volume-Slider positionieren
+IF shading=FALSE AND dopix=FALSE THEN
+~WIND_UPDATE(1)                                   ! BEG_UPDATE
+~OBJC_DRAW(zu%,b3,9,0,0,xwidth,ywidth)       ! neu zeichnen
+~WIND_UPDATE(0)                                   ! BEG_UPDATE
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+vmidislide(mnowslid)=midislide(mnowslid)
+ENDIF
+ENDIF
+RETURN
 '
 > PROCEDURE changetreenumbs
 '
@@ -12798,6 +13021,7 @@ LET wmodebx2&=35 ! BOX in Baum WMODE
 LET synchz&=36 ! FBOXTEXT in Baum WMODE
 LET wmodebx3&=38 ! BOX in Baum WMODE
 LET smpteset&=39 ! FBOXTEXT in Baum WMODE
+LET midictrl&=42 ! BUTTON in Baum WMODE
 '
 LET plugin&=5 ! Formular/Dialog
 LET panbox&=0 ! BOX in Baum PLUGIN
@@ -21059,27 +21283,6 @@ ENDIF
 RETURN
 '
 > PROCEDURE setup
-.| Glob. Var.: noppause#,peakint#,extclock#,ext#,trkz#,mamidi#,trakact#
-.|     butdirect#,isave#,vtst#,infbutt#,rett#,cached#,away#,virtual#
-.|     virtwfile#,virtld#,makevirt3#,makevirt2#,makevirt#,blockld#,deltime#
-.|     spc#,vcs#,vce#,scmax#,zmax#,buttg#,aufloes#,lmax#,lmax2#,lmax3#
-.|     lmax4#,anspiel#,sector#,recfifolen#,playfifolen#,sram#,hbuf#,mdat%
-.|     mdat2%,tedart#,tim$,btim$,mdatf#,mdatf2#,mdat3%,mdat4%,wback%,gohome#
-.|     adr#,mtst#,mallmax#,memmx#,manf#,merkfrei#,meml#,memh#,mlen#,big#
-.|     sramda#,g#,dat#,anfload#,cs#,ce#,vmem#,xm#,loopz#,bloopz#,i#,cwerte1#
-.|     mbs#,vmbs#,n#,lz#,smplen#,ext2$,ext$,smpnam$,path$,lfw$,retime#,ad#
-.|     xmp#,okmark#,merkerr#,merkfreq#,protnr#,lded#,hrd#,merk1#,merk2#
-.|     merk3#,merk4#,merkc#,stl#,clk#,sth#,std#,vol#
-.| Felder    : ls#(),le#(),lcs#(),lce#(),arrfn$(),arrpath$(),arrstrt#()
-.|     arrend#(),arrlen#(),arrmidi#(),midi#(),arrloop#(),arrtri#()
-.|     arrsrate#(),trkfn$(),trkpath$(),trktime#(),trkvor#(),trknext#()
-.|     trkstrt#(),trkend#(),trklen#(),trkloop#(),trktri#(),trksrate#()
-.|     trkch#(),trkpnt#(),dbank$(),dbank2$(),wurlnr#(),cachep1#(),cachep2#()
-.|     cachem1#(),cachem2#(),mblocks#(),mblocke#(),mblockp$(),loops#()
-.|     loope#(),vloops#(),vloope#(),bloops#(),bloope#(),vbloops#()
-.|     vbloope#()
-.| Ruft auf  : markhlp,maschinit9,maschruf9,volwrite
-.| Aufruf in : smpedit-1,
 LOCAL vnr,lrd,mg,mr
 '
 OPEN "I",#1,s$+rsc$
@@ -21189,6 +21392,7 @@ tfselm=FALSE
 idrag=FALSE
 tdrag=FALSE
 trdrag=FALSE
+misli=0
 memc=0
 memtrak=0
 memfade=0
@@ -21395,6 +21599,7 @@ dat=((INT(anfload/2))*2)+2
 cs=0
 ce=mlen-1
 vmem=INT(mlen/mbit)*mbit
+mlen=vmem
 DIM clkdiv(60,3)
 clkdata:
 DATA 1,2,3,4,7,10,17,21,25,18,15,12,19,26,41,16,49,34,27,20,31,42,35,50,39,28,43,58,32,51,36,55,40,44,48,52,56,60
@@ -21412,6 +21617,8 @@ NEXT i
 DIM lcs(lmax)         ! Zoomstufe startpointer mem
 DIM lce(lmax)         ! zoomstufe endpointer mem
 '
+DIM midislide(127)    ! Midi-Slider
+DIM vmidislide(127)   ! Midi-Slider Backup
 DIM arrfn$(lmax2)     ! Samplename
 DIM arrlen%(lmax2)    ! SamplelÑnge
 DIM arrmidi&(lmax2)   ! Midi-Channel(highbyte)+Note(lowbyte)
@@ -22000,6 +22207,12 @@ RETURN
 '
 > PROCEDURE time8
 LOCAL v,v2,k,v4
+IF mislide=TRUE THEN
+REPEAT
+@midislide   ! Midi Slidersteuerung
+@midislide3
+UNTIL INP?(3)=FALSE
+ENDIF
 IF tdown=FALSE THEN
 hsec2=INT((TIMER-t)/2)
 tback%=LPEEK(trecback+24)          !36 Playbyte
@@ -23035,7 +23248,7 @@ pch16=FALSE
 matrixplay=FALSE
 matrix=FALSE
 @trkplay
-IF compile=TRUE AND (VAL(LEFT$(reg4$,4))<2000 OR VAL(LEFT$(reg4$,4))>9999) THEN
+IF compile=TRUE AND (VAL(MID$(reg4$,8,4))<2000 OR VAL(MID$(reg4$,8,4))>9999) THEN
 BMOVE BASEPAGE+2000,BASEPAGE+9999,100000
 CLS
 i=0
@@ -27205,6 +27418,9 @@ ENDIF
 ce=INT(ce/mbit)*mbit
 IF xm>0 AND ce>cs THEN
 @zslidecalc
+@scrollinit
+@setslide2(scrlslde&,scrolbut&,scmax,scrollp,scstep)
+mrscroll=scrollp
 cached=FALSE
 @restaura
 ENDIF
@@ -27350,6 +27566,9 @@ lcs(lz)=cs
 lce(lz)=ce
 IF xm>0 AND ce>cs THEN
 @zslidecalc
+@scrollinit
+@setslide2(scrlslde&,scrolbut&,scmax,scrollp,scstep)
+mrscroll=scrollp
 cached=FALSE
 @restaura
 ENDIF
@@ -36711,34 +36930,24 @@ RETURN
 '
 > PROCEDURE scrollinit
 LOCAL a,steps,len
-scstep=1
 steps=4
 scslc=1   ! Schrittweite
 IF ((INT(vmem/mbit)*mbit)-INT((ce-cs)/mbit)*mbit)>0 THEN
-scmax=(vmem-(ce-cs))/((ce-cs)/steps)
-IF scmax>INT(scmax) THEN
+@slidelen2(scrlslde&,scrolbut&,scmax)
 scmax=scmax+1
-scmax=INT(scmax)
-IF scmax=1 THEN
-scmax=2
-ENDIF
-scteil=(vmem-(ce-cs))/(scmax-1)
-ENDIF
-@slidelen2(scrlslde&,scrolbut&,tolen)
-scstep=(tolen/scmax)
+scstep=ROUND(scmax/vmem*(ce-cs))
 IF scstep<10 THEN
 scstep=10
 ENDIF
-scmax=tolen+1
-scteil=(vmem-(ce-cs))/(scmax-1-scstep)
-ELSE
-scmax=1
-scteil=0
-@slidelen2(scrlslde&,scrolbut&,scstep)
+scteil=vmem-(ce-cs)
+IF (scmax-scstep)>0 THEN
+scteil=scteil/(scmax-scstep)
 ENDIF
-IF scmax=2 AND cs>0 AND (INT(ce/mbit)*mbit)<(INT(vmem/mbit)*mbit) THEN
-scmax=3
-scteil=(vmem-(ce-cs))/(scmax-1-scstep)
+ELSE
+@slidelen2(scrlslde&,scrolbut&,scmax)
+scmax=scmax+1
+scstep=scmax
+scteil=0
 ENDIF
 @slideinit2(scrlslde&,scrolbut&,scstep)
 IF scteil>0 THEN
@@ -36770,23 +36979,23 @@ LOCAL b,h,poswert
 h=DPEEK(zu%+24*slidename&+22)         ! Hîhe des Sliders in Pixeln
 b=DPEEK(zu%+24*slidename&+20)         ! Breite des Sliders in Pixeln
 IF max>1 THEN
-poswert=1000/(max-1)*pos
+poswert=pos
 ELSE
 poswert=0
 ENDIF
 IF b>h OR b=tbkurz THEN
-sx=(poswert*b/1000)
+sx=(b/max*poswert)
 IF sx+step>max THEN
-sx=max-step
+sx=ROUND(max-step)
 ENDIF
 IF sx<0 THEN
 sx=0
 ENDIF
 DPOKE zu%+24*slbutname&+16,sx              ! X-Position einstellen
 ELSE
-sy=(poswert*h/1000)
+sy=(h/max*poswert)
 IF sy+step>max THEN
-sy=max-step
+sy=ROUND(max-step)
 ENDIF
 DPOKE zu%+24*slbutname&+18,sy              ! Y-Position einstellen
 IF sy<0 THEN
@@ -36832,6 +37041,37 @@ ENDIF
 flg=a
 RETURN
 '
+> PROCEDURE slideupdate3(slidename&,slbutname&,saxy,max,mx,my,step,slc,VAR pos,flg)
+LOCAL b,h,pbb,pbla,pbl,a
+@markhlp
+~@xrsrc_gaddr(0,nr,zu%)
+h=DPEEK(zu%+24*slidename&+22)         ! Hîhe des Sliders in Pixeln
+b=DPEEK(zu%+24*slidename&+20)         ! Breite des Sliders in Pixeln
+a=FALSE
+IF b>h OR b=tbkurz THEN
+pbb=DPEEK(zu%+24*slidename&+16)+saxy       ! X-Koordinate Anfangspunkt
+pbla=INT(b/max*pos)
+pbl=INT(b/max)
+IF mx>(pbb+pbla+pbl/2) THEN
+@slidedwn2(slidename&,slbutname&,max,step,slc,pos,a)
+ENDIF
+IF mx<(pbb+pbla-pbl/2) THEN
+@slideup2(slidename&,slbutname&,max,slc,pos,a)
+ENDIF
+ELSE
+pbb=DPEEK(zu%+24*slidename&+18)+saxy    ! Y-Koordinate Anfangspunkt
+pbla=INT(h/max*pos)
+pbl=INT(h/max)
+IF my>(pbb+pbla+pbl/2) THEN
+@slidedwn2(slidename&,slbutname&,max,step,slc,pos,a)
+ENDIF
+IF my<(pbb+pbla-pbl/2) THEN
+@slideup2(slidename&,slbutname&,max,slc,pos,a)
+ENDIF
+ENDIF
+flg=a
+RETURN
+'
 > PROCEDURE slideup2(slidename&,slbutname&,max,slc,VAR pos,flg)
 LOCAL p,a,sl
 p=pos
@@ -36839,9 +37079,12 @@ sl=slc
 IF p-sl<0 AND sl>1 THEN
 sl=p
 ENDIF
-IF p-sl>=0 THEN
+IF p-sl<0 AND sl>0 AND p>0 THEN
+sl=p   ! neu !!!
+ENDIF
+IF p-sl>=0 AND p>0 THEN
 p=p-sl
-@setslide2(slidename&,slbutname&,max,p,slc)
+@setslide2(slidename&,slbutname&,max,p,step)
 a=TRUE
 ELSE
 a=FALSE
@@ -36852,14 +37095,20 @@ RETURN
 '
 > PROCEDURE slidedwn2(slidename&,slbutname&,max,step,slc,VAR pos,flg)
 LOCAL p,a,sl,st2
+'
+' pos = position   ! Returns new position
+' slc = adder
+' max = maximum
+' step = button-breite
+'
 p=pos
 sl=slc
-IF p>=max-sl AND sl>1 THEN
-sl=max-p-1
+IF p>=max-sl AND sl>0 THEN
+sl=max-p
 ENDIF
 IF p<(max-step) THEN
 p=p+sl
-@setslide2(slidename&,slbutname&,max,p,slc)
+@setslide2(slidename&,slbutname&,max,p,step)
 a=TRUE
 ELSE
 a=FALSE
@@ -36878,7 +37127,7 @@ slwert=GRAF_SLIDEBOX(zu%,slidename&,slbutname&,0)
 ELSE
 slwert=GRAF_SLIDEBOX(zu%,slidename&,slbutname&,1)
 ENDIF
-p=INT((max-step-1)/1000*slwert)
+p=ROUND((max-step)/1000*slwert)
 IF p<>pos THEN
 @setslide2(slidename&,slbutname&,max,p,step)
 a=TRUE
@@ -38170,6 +38419,7 @@ RETURN
 > PROCEDURE rtrakscroll
 @killpmark2
 @slidedwn2(trakslid&,trakxbut&,tscmax,tscstep,tscplus,trakkz2,slflg)
+PRINT tscmax,tscstep,tscplus,trakkz2
 @timeinit2
 @timeinit3
 IF slflg=TRUE THEN
@@ -41090,7 +41340,6 @@ RETURN
 > PROCEDURE normplay1
 xdig24=dig24
 vfileart=fileart
-vpmo8=pmo8
 vpch16=pch16
 vpch4=pch4
 pmo8=FALSE
@@ -41109,7 +41358,6 @@ ENDIF
 RETURN
 '
 > PROCEDURE normplay2
-pmo8=vpmo8
 pch16=vpch16
 pch4=vpch4
 dig24=xdig24
@@ -41119,6 +41367,7 @@ IF dig24=TRUE THEN
 ELSE
 @setbitrate16
 ENDIF
+pmo8=FALSE
 RETURN
 '
 > PROCEDURE trakforw
@@ -43396,33 +43645,6 @@ ENDIF
 @setbutton(arrend&,0)
 RETURN
 '
-> PROCEDURE dragxygrenz(xd1,xd2,yd1,yd2,bd,hd)
-IF v<xd+xd1 THEN
-v=xd+xd1
-ENDIF
-IF v>xd+xd2 THEN
-v=xd+xd2
-ENDIF
-IF v2<yd+yd1 THEN
-v2=yd+yd1
-ENDIF
-IF v2>yd+yd2 THEN
-v2=yd+yd2
-ENDIF
-IF v>xwidth-bd THEN
-v=xwidth-bd
-ENDIF
-IF v2>ywidth-hd THEN
-v2=ywidth-hd
-ENDIF
-IF v<bd THEN
-v=bd
-ENDIF
-IF v2<hd THEN
-v2=hd
-ENDIF
-RETURN
-'
 > PROCEDURE arrblkset
 IF hardopen=TRUE THEN
 IF arrpath$(pbz+hardtype)<>"" THEN
@@ -45697,6 +45919,10 @@ LOCAL grenz,stufen,dazu
 grenz=xm/2
 stufen=LOG(vmem-grenz)/zmax
 dazu=INT((EXP(stufen*(zmax-zoomp))+grenz)/mbit)*mbit
+IF zoomp=0 THEN
+cs=0
+ce=vmem
+ELSE
 ce=INT((cs+dazu)/mbit)*mbit
 IF ce>vmem THEN
 cs=INT((vmem-dazu)/mbit)*mbit
@@ -45704,6 +45930,7 @@ ce=vmem
 ENDIF
 IF cs<0 THEN
 cs=0
+ENDIF
 ENDIF
 IF nr=smpedit& THEN
 @makepnt
@@ -46608,7 +46835,6 @@ ag2=@rsc_get(xd+bx+xtd,yd+by+ytd,txb,tyb)
 @rsc_put(ag2,xd+bx+xtd,yd+by+ytd,1)
 REPEAT
 @mouse(v,v2,k)
-@dragxygrenz(0,mxb-txb,0,myb-tyb,txb,tyb)
 IF k=1 AND (v<>vm OR v2<>vm2) THEN
 @rsc_put(ag2,xd+bx+xtd+(vm-vmp),yd+by+ytd+(vm2-vmp2),1)
 ag2=@rsc_get2(xd+bx+xtd+(v-vmp),yd+by+ytd+(v2-vmp2),txb,tyb,ag2)
@@ -46724,7 +46950,6 @@ ag2=@rsc_get(xd+bx+xtd,yd+by+ytd,txb,tyb)
 @rsc_put(ag2,xd+bx+xtd,yd+by+ytd,1)
 REPEAT
 @mouse(v,v2,k)
-@dragxygrenz(0,mxb-txb,0,myb-tyb,txb,tyb)
 IF k=1 AND (v<>vm OR v2<>vm2) THEN
 @rsc_put(ag2,xd+bx+xtd+(vm-vmp),yd+by+ytd+(vm2-vmp2),1)
 ag2=@rsc_get2(xd+bx+xtd+(v-vmp),yd+by+ytd+(v2-vmp2),txb,tyb,ag2)
@@ -47385,20 +47610,20 @@ UNTIL @mousek=0
 RETURN
 '
 > PROCEDURE edleftscroll
-sdif=(ce-cs)/scmax
 IF scteil=0 THEN
 sdif=0
 ELSE
-sdif=sdif/(scteil/(ce-cs))
-ENDIF
-IF sdif>1 THEN
-sdif=1
+sdif=scmax/vmem*((ce-cs)/4)
 ENDIF
 @slideup2(scrlslde&,scrolbut&,scmax,sdif,scrollp,slflg)
 IF slflg=TRUE THEN
 scrolm=ce-cs
-cs=scrollp*scteil
-ce=scrolm+scrollp*scteil
+cs=ROUND(scrollp*scteil)
+ce=ROUND(scrolm+scrollp*scteil)
+IF ce>vmem THEN
+ce=vmem
+cs=vmem-scrolm
+ENDIF
 cs=INT(cs/mbit)*mbit
 ce=INT(ce/mbit)*mbit
 cached=FALSE
@@ -47407,25 +47632,20 @@ ENDIF
 RETURN
 '
 > PROCEDURE edrightscroll
-sdif=(ce-cs)/scmax
 IF scteil=0 THEN
 sdif=0
 ELSE
-sdif=sdif/(scteil/(ce-cs))
+sdif=scmax/vmem*((ce-cs)/4)
 ENDIF
-IF sdif>1 THEN
-sdif=1
-ENDIF
-'    PRINT scrollp
 @slidedwn2(scrlslde&,scrolbut&,scmax,scstep,sdif,scrollp,slflg)
 IF slflg=TRUE THEN
-scrolm=ce-cs
-a=scrolm+scrollp*scteil
+scrolm=ce-cs                ! Bereichgrîûe
+a=ROUND(scrolm+scrollp*scteil)
 IF a<=vmem THEN
 ce=a
-cs=scrollp*scteil
+cs=ROUND(scrollp*scteil)
 ELSE
-cs=vmem-scrolm
+cs=ROUND(vmem-scrolm)
 ce=vmem
 ENDIF
 cs=INT(cs/mbit)*mbit
@@ -47945,7 +48165,7 @@ IF nr=smpedit& AND (ce-cs)<>(mrce-mrcs) AND obj<>smpexit& AND mrzoom=zoomp THEN
 @setslide(zomslide&,zoombutt&,zmax,16,zoomp)
 @makepnt
 ENDIF
-IF nr=smpedit& AND ce<>mrce OR cs<>mrcs AND mrscroll=scrollp THEN
+IF nr=smpedit& AND (ce<>mrce OR cs<>mrcs) AND mrscroll=scrollp THEN
 @scrollinit
 @setslide2(scrlslde&,scrolbut&,scmax,scrollp,scstep)
 mrscroll=scrollp
@@ -49631,6 +49851,9 @@ RETURN
 .| Ruft auf  : busy_mouse,fadeset,setbutton
 .| Aufruf in : HAUPTPROGRAMM-1,setupdat-1,
 newmem=FALSE
+'
+mislide=TRUE      ! Midi-Controller
+mcc=7             ! Midi-Control-Channel (Preset of Peavey PC1600x)
 recpkc=TRUE       ! Peakberechnung wÑhrend der Aufnahme
 psec=6            ! AbschwÑchwert-Verzîgerung Peakmeter in 100tel Sekunden
 prest=0.96        ! AbschwÑchwert Peakmeter relativ zum bisherigen Wert
@@ -49647,6 +49870,7 @@ lmax2=100         ! Feldgrîûe fÅr ARRANGER
 lmax3=500         ! Feldgrîûe fÅr TRAKKER-Files und loaded-Samples im Editor
 lmax4=100         ! Feldgrîûe fÅr File-Datenbank
 trkvmax=100       ! Feldgrîûe fÅr Anzahl virtuelle Spuren
+hzkey=FALSE            ! blockiere Samplerate bei Virtual-Load
 '
 @maxhdsec
 IF EXIST(setup$) THEN
@@ -49839,6 +50063,7 @@ rh(i)=0
 NEXT i
 prgversion=0
 nosetload=TRUE
+'
 recpkc=TRUE            ! Samplecache wÑhrend Aufnahme berechnen
 recmax=TRUE            ! maximale AufnahmelÑnge
 blkrmax=FALSE          ! maximale Blockgrîûe bei Aufnahme und Wiedergabe
@@ -50415,6 +50640,10 @@ IF INSTR(a$,"samplerate")<>0 THEN
 @delsourcekey
 hz=VAL(a$)
 ENDIF
+IF INSTR(a$,"lock_loadrate")<>0 THEN
+@delsourcekey
+hzkey=VAL(a$)
+ENDIF
 IF INSTR(a$,"input_source")<>0 THEN
 @delsourcekey
 ad=VAL(a$)
@@ -50509,6 +50738,13 @@ ENDIF
 IF INSTR(a$,"midistart_channel")<>0 THEN
 @delsourcekey
 ch=VAL(a$)
+ENDIF
+IF INSTR(a$,"midi_controller")<>0 THEN
+mislide=@getbinaer(a$)
+ENDIF
+IF INSTR(a$,"midi_control_channel")<>0 THEN
+@delsourcekey
+mcc=VAL(a$)
 ENDIF
 IF INSTR(a$,"sync_adat")<>0 THEN
 adat=@getbinaer(a$)
@@ -50844,6 +51080,8 @@ PRINT #1,"volume_da="+STR$(vvol2)
 PRINT #1,"balance_da="+STR$(vvolinbal2)
 PRINT #1,"play_channel_select="+STR$(playch)
 PRINT #1,"samplerate="+STR$(vhz)
+@makebinaer(hzkey)
+PRINT #1,"lock_loadrate="+a$
 PRINT #1,"input_source="+STR$(vad)
 PRINT #1,"digital_source="+STR$(vdigsource)
 @makebinaer(vproffm)
@@ -50905,6 +51143,10 @@ db$=LEFT$(db$,1)+RIGHT$(db$,1)
 ENDIF
 PRINT #1,"midistart_channel="+STR$(vch)
 PRINT #1,"midistart_note="+db$
+@makebinaer(mislide)
+PRINT #1,"midi_controller="+a$
+PRINT #1,"midi_control_channel="+STR$(mcc)
+PRINT #1
 @makebinaer(adat)
 PRINT #1,"sync_adat="+a$
 @makebinaer(mtc)
@@ -51264,6 +51506,14 @@ IF vuhr=FALSE THEN
 vuhr=TRUE
 ELSE
 vuhr=FALSE
+ENDIF
+RETURN
+'
+> PROCEDURE midislider
+IF mislide=FALSE THEN
+mislide=TRUE
+ELSE
+mislide=FALSE
 ENDIF
 RETURN
 '
@@ -52348,7 +52598,11 @@ a4$="0"+a4$
 ENDIF
 a$=a1$+a2$+a3$+a4$+CHR$(0)
 @editfeld(smpteset&,a$)
-'
+IF mislide=TRUE THEN
+@setbutton(midictrl&,1)
+ELSE
+@setbutton(midictrl&,0)
+ENDIF
 IF pcg=TRUE THEN
 @setbutton(syncpcg&,1)
 ELSE
@@ -52508,6 +52762,9 @@ vornr=nr
 nr=cuelist&
 rsc_message(nr,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
 @cueload_direct
+IF tedart<>cted OR cuehz<>hz OR cdig24<>dig24 THEN
+@cueshow
+ENDIF
 ENDIF
 RETURN
 '
@@ -52742,7 +52999,10 @@ ENDIF
 RETURN
 '
 > PROCEDURE cuemixdown
-LOCAL domx,s1,s2,cuecount,dmh,rest,gh,mixsize,mixmem%,a,a2,pfile,rhead
+LOCAL domx,s1,s2,cuecount,dmh,rest,gh,mixsize,mixmem%,a,a2,pfile,rhead,domx2
+IF efil$<>"" AND enam$<>"" AND EXIST(efil$)=TRUE AND virtual=TRUE THEN
+vfileart=fileart
+vsfileart=sfileart
 @fileselect(op$+"*."+ext$,"","FILENAME FOR DOWNMIX:")
 ~@xrsrc_gaddr(0,info&,dzu%)
 nkind=(DPEEK(dzu%+24*inforeg1&))
@@ -52760,11 +53020,12 @@ IF a2>cuemaxlen THEN
 @headart2(fil$)
 IF sfileart<>0 THEN
 IF pret<>0 AND pbutt=1 THEN
-@headart2(path$)
+@headart2(efil$)
 rhead=head
 pfile=sfileart
 @killpbfinf(fil$)
-dmh=GEMDOS(60,L:VARPTR(fil$),0)    ! open sample
+f1$=fil$+CHR$(0)
+dmh=GEMDOS(60,L:VARPTR(f1$),0)    ! open sample
 danf=mdat%
 @headart
 fileart=sfileart
@@ -52775,10 +53036,11 @@ IF head>0 THEN
 ~GEMDOS(64,dmh,L:head,L:danf)    ! save header
 ENDIF
 cuecount=0
-mixsize=32767
-mixmem%=@malloc(mixsize,1)     ! Mix-Buffer
+mixsize=32768
+mixmem%=@malloc(mixsize+mbit*4,1)     ! Mix-Buffer
 IF mixmem%>0 THEN
-gh=GEMDOS(61,L:VARPTR(path$),0)    ! open sample
+f2$=efil$+CHR$(0)
+gh=GEMDOS(61,L:VARPTR(f2$),0)    ! open sample
 REPEAT
 INC cuecount
 IF cuelst(cuecount,1)<>0 AND (cuelst(cuecount,1) AND 3)<>2 THEN
@@ -52797,19 +53059,20 @@ rest=s2-s1
 domx=0
 ~GEMDOS(66,L:s1+rhead,gh,0)     ! SEEK
 REPEAT
+@busy_mouse
 IF rest<=mixsize THEN
 domx=rest
 ELSE
 domx=mixsize
 ENDIF
 ~GEMDOS(63,gh,L:domx,L:mixmem%)     ! read
-IF sfileart=3 AND pfile<>3 THEN
-@maschruf28(mixmem%,domx)   ! swap to wave
+IF sfileart=3 AND pfile<>3 AND domx>0 THEN
+domx2=INT((domx+mbit)/mbit)*mbit
+@maschruf28(mixmem%,domx2)   ! swap to wave
 ENDIF
 v=GEMDOS(64,dmh,L:domx,L:mixmem%)    ! write
-@busy_mouse
 rest=rest-domx
-UNTIL rest=0 OR v<0
+UNTIL rest<=0 OR v<0
 ENDIF
 UNTIL cuelst(cuecount,1)=0 OR cuecount=cuemax OR v<0
 ~MFREE(mixmem%)
@@ -52821,11 +53084,17 @@ ENDIF
 ~GEMDOS(62,gh)                  ! close sample
 ~GEMDOS(62,dmh)                 ! close sample
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
+'
 ENDIF
 ENDIF
 ELSE
 @nomem
 ENDIF
+ENDIF
+fileart=vfileart
+sfileart=vsfileart
+ELSE
+@alerts(73)
 ENDIF
 @setbutton(cuemix&,0)
 RETURN
@@ -54671,6 +54940,9 @@ ms=VAL(MID$(a$,7,2))
 smptestrt=h*fz*60*60+m*fz*60+s*fz+ms
 ENDIF
 '
+IF obj=midictrl& THEN
+@midislider
+ENDIF
 IF obj=wmhelp& THEN
 @helptxt("WORKMODE")
 ENDIF
@@ -57352,6 +57624,7 @@ RETURN
 > PROCEDURE peakwork
 LOCAL mf,pydist
 mf=4
+'
 IF obj=volinout& AND viomake=FALSE AND volmake=FALSE AND balmake=FALSE THEN
 @volswitch
 ENDIF
@@ -58766,7 +59039,7 @@ per=44100
 ENDIF
 head=54+458   ! HeaderlÑnge fÅr AIFF-Files
 ENDIF
-IF fileart<>0 THEN
+IF fileart<>0 AND NOT (hzkey=FALSE AND virtual=TRUE) THEN
 @ldhztest
 ENDIF
 sectors=f
@@ -58815,6 +59088,7 @@ RETURN
 .|     maschinit5d,fnamwrite
 .| Aufruf in : drop2-1,do_smpedit-1,smpcblkplay-1,
 @markhlp
+phz=hz
 adm=ad
 IF nr=peak& THEN
 @write_int(0)
@@ -58913,6 +59187,12 @@ IF EXIST(fil$) THEN
 @infload
 '
 @tstfile
+IF hzkey=FALSE AND virtual=TRUE THEN
+hz=phz
+per=phz
+@makehz
+ENDIF
+'
 @sethdoffset
 IF nr=smpedit& THEN
 @textfeld(smpfile&,enam$+CHR$(0),1)
