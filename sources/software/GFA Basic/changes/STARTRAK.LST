@@ -294,6 +294,7 @@ IF demo=FALSE THEN
       dspda=FALSE
     ENDIF
   ENDIF
+  hchk=XBIOS(xbs,12)     ! bit0: 0=neue hardware, 1=alte hardware
 ENDIF
 IF EXIST(s$+rsc$)=TRUE AND EXIST(s$+rsc2$)=TRUE AND EXIST(s$+rsc3$)=TRUE THEN
   @setup
@@ -349,7 +350,6 @@ IF away=FALSE THEN
     @change_colors
     @initplugins
     @dsp_pluginit
-    hchk=XBIOS(xbs,12)     ! bit0: 0=neue hardware, 1=alte hardware
     @smpedit
     IF accx=FALSE THEN
       END
@@ -3326,7 +3326,7 @@ RETURN
     IF (nr=mixer& AND n=mixwait&) OR (nr=cuelist& AND n=cuewait&) OR (nr=smpedit& AND n=smpwait&) OR (nr=fsel& AND n=fswait&) OR (nr=peak& AND n=peakwait& AND volmake=FALSE AND balmake=FALSE) OR (nr=arranger& AND n=pause&) OR (nr=trakker& AND n=pause2&)
       expause=TRUE
     ENDIF
-    IF (nr=peak& AND n=playstop& AND volmake=FALSE AND balmake=FALSE) OR (nr=smpedit& AND n=smpstop&) OR (nr=arranger& AND n=stop&) OR (nr=trakker& AND n=stop2&) OR (nr=fsel& AND n=fsstop&) OR (nr=cuelist& AND n=cuestop&)
+    IF (nr=mixer& AND n=mixstop&) OR (nr=peak& AND n=playstop& AND volmake=FALSE AND balmake=FALSE) OR (nr=smpedit& AND n=smpstop&) OR (nr=arranger& AND n=stop&) OR (nr=trakker& AND n=stop2&) OR (nr=fsel& AND n=fsstop&) OR (nr=cuelist& AND n=cuestop&)
       expause=TRUE
     ENDIF
   UNTIL expause=TRUE
@@ -3449,7 +3449,7 @@ RETURN
         one%=1
       ENDIF
     ENDIF
-    @zeigtime
+    '    @zeigtime
     @peakbreak
     IF BTST(em,0) AND ascii|=32 THEN
       @keymarkers
@@ -3463,6 +3463,11 @@ RETURN
         ENDIF
         allcount=allcountm
         sectors=allcount
+      ENDIF
+    ENDIF
+    IF nr=mixer& THEN
+      IF @find_butt(mixer&)   ! Mausbutton-Event?  (Returnwert obj)
+        @mixworking
       ENDIF
     ENDIF
   UNTIL halfbuf=0 OR exfill=TRUE OR (allcount<=0 AND (((sloop!=FALSE OR virtual=FALSE) AND (nr=smpedit& OR nr=peak&)) OR (nr<>smpedit& AND nr<>peak&)))
@@ -3779,7 +3784,11 @@ RETURN
     posloop=0
     '
     @fillpmem
-    @maus_player
+    IF nr=mixer& THEN
+      DEFMOUSE 3
+    ELSE
+      @maus_player
+    ENDIF
     back%=cntstrt
     @show_timepos_hd
     IF nr=smpedit& THEN
@@ -5890,7 +5899,7 @@ RETURN
 ' ------------------------FLYDIALS--------------------------------------------
 ' ------------------------------------------------------------------------------
 > PROCEDURE key
-  LOCAL bs
+  LOCAL bs,a
   ' Mîchten Sie erweiterte Tastaturkommandos? Dann entREMen Sie
   ' diese Zeile und ersetzen die Prozedur durch:
   '  IF key& AND edit_obj&<>0     ! vorher so....
@@ -5905,7 +5914,9 @@ RETURN
   '
   ascii|=BYTE(key&)                                  ! ASCII-Code
   scan|=BYTE(SHR(key&,8))                            ! SCAN-Code
-  a=@rsc_shortcut(dropdown&,scan|,shift&,title&)
+  IF menuon!=TRUE THEN
+    a=@rsc_shortcut(dropdown&,scan|,shift&,title&)
+  ENDIF
   shcut=FALSE
   IF a<>0 THEN
     nob=a
@@ -5971,7 +5982,7 @@ RETURN
           '
         LOOP UNTIL a&                                ! ...gefunden
         '
-        IF a&                                        ! Objekt gefunden...
+        IF a& AND @chk_hide(tree&,obj&)=FALSE         ! Objekt gefunden...und nicht hidden?
           key&=0                                     ! ...keine Eingabe mehr
           mb&=0
           '                                          ! +SHIFT Circle-Butt?
@@ -6557,13 +6568,11 @@ RETURN
   ENDIF
 rsc_dox_ende:
 RETURN
-> PROCEDURE button
+PROCEDURE button
   LOCAL popok,dif
   rsc_adr%=rsc_adr%(nr)
   IF next_obj&<>-1 OR rsc_handle%(tree&)>1000 THEN
     IF BTST(evnt&,4) THEN    ! redraw bevor buttondruck in fremdes Fenster gezeichnet wird
-      @message
-      @wischwasch
     ENDIF
     next_obj&=OBJC_FIND(rsc_adr%,0,100,mx&,my&)
   ENDIF
@@ -8341,7 +8350,7 @@ ENDIF
 rsc_handle%(tree&)=0
 ~WIND_UPDATE(0)                                      ! END_UPDATE
 IF rsc_window&>0 THEN
-IF nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info& OR nr=trakk
+IF nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info&
   nr=smpedit&
   tree&=smpedit&
   rsc_message(tree&,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
@@ -9074,7 +9083,7 @@ REPEAT                                         ! alle Objekte d. MenÅbaums
 INC obj&
 '
 IF BYTE(OB_TYPE(rsc_adr%,obj&))=28           ! G_STRING...
-IF NOT BTST(OB_STATE(rsc_adr%,obj&),3)     ! disabled ?
+IF BTST(OB_STATE(rsc_adr%,obj&),3)=FALSE    ! disabled?
 '
 t$=TRIM$(CHAR{OB_SPEC(rsc_adr%,obj&)})   ! MenÅpunkt-Text
 '
@@ -9659,6 +9668,18 @@ RETURN
 buttadr=zu%+24*buttnr
 DPOKE buttadr+10,buttflag
 RETURN
+'
+> FUNCTION chk_hide(wnr,buttnr)
+$F%
+LOCAL wzu%,bf
+~@xrsrc_gaddr(0,wnr,wzu%)
+buttadr=wzu%+24*buttnr+8
+IF BTST(DPEEK(buttadr),7)=TRUE THEN
+RETURN TRUE
+ELSE
+RETURN FALSE
+ENDIF
+ENDFUNC
 '
 > PROCEDURE hidetree(buttnr,buttflag,box)
 LOCAL bf
@@ -10280,7 +10301,6 @@ info&=info&+lastrsc1+1
 peak&=peak&+lastrsc1+1
 blkfunc&=blkfunc&+lastrsc1+1
 cuelist&=cuelist&+lastrsc1+1
-mixer&=mixer&+lastrsc1+1
 virtual&=virtual&+lastrsc1+1
 record&=record&+lastrsc1+1
 LET savebloc&=savebloc&+lastrsc1+1
@@ -10820,7 +10840,285 @@ LET trk16&=155 ! USERDEF in Baum TRAKKER
 LET trakhelp&=156 ! BOXTEXT in Baum TRAKKER
 LET trakexit&=157 ! BUTTON in Baum TRAKKER
 '
-LET fsel&=3 ! Formular/Dialog
+LET mixer&=3 ! Formular/Dialog
+LET mixbox1&=0 ! BOX in Baum MIXER
+LET mixbox2&=1 ! BOX in Baum MIXER
+LET mixfile&=2 ! BOXTEXT in Baum MIXER
+LET mixpeak&=3 ! BOXTEXT in Baum MIXER
+LET mixerr&=4 ! BOXTEXT in Baum MIXER
+LET mixbx1&=5 ! BOX in Baum MIXER
+LET mixvbox1&=6 ! BOX in Baum MIXER
+LET mixfade1&=7 ! USERDEF in Baum MIXER
+LET mixvol1&=8 ! USERDEF in Baum MIXER
+LET mixdb1&=9 ! BOX in Baum MIXER
+LET mixvold1&=13 ! TEXT in Baum MIXER
+LET mixvolm1&=17 ! TEXT in Baum MIXER
+LET mixvolz1&=25 ! IMAGE in Baum MIXER
+LET mixvoll1&=26 ! BOX in Baum MIXER
+LET mixvolr1&=27 ! BOX in Baum MIXER
+LET mixpkl1&=28 ! BOX in Baum MIXER
+LET mixpkr1&=29 ! BOX in Baum MIXER
+LET mixvolt1&=30 ! BOXTEXT in Baum MIXER
+LET mixvoln1&=31 ! BOXTEXT in Baum MIXER
+LET mxbalbx1&=32 ! BOX in Baum MIXER
+LET mixball1&=33 ! TEXT in Baum MIXER
+LET mixbalr1&=34 ! TEXT in Baum MIXER
+LET mixbalm1&=35 ! TEXT in Baum MIXER
+LET mixbal1&=36 ! USERDEF in Baum MIXER
+LET mixbalp1&=37 ! IMAGE in Baum MIXER
+LET mixtit1&=38 ! BOXTEXT in Baum MIXER
+LET mixbalt1&=39 ! BOXTEXT in Baum MIXER
+LET mixbaln1&=40 ! BOXTEXT in Baum MIXER
+LET mixon1&=41 ! USERDEF in Baum MIXER
+LET mixall1&=42 ! USERDEF in Baum MIXER
+LET mixmute1&=43 ! USERDEF in Baum MIXER
+LET mixtxt1&=44 ! BOXTEXT in Baum MIXER
+LET mixbyp1&=45 ! USERDEF in Baum MIXER
+LET mixbx2&=47 ! BOX in Baum MIXER
+LET mixvbox2&=48 ! BOX in Baum MIXER
+LET mixfade2&=49 ! USERDEF in Baum MIXER
+LET mixvol2&=50 ! USERDEF in Baum MIXER
+LET mixdb2&=51 ! BOX in Baum MIXER
+LET mixvold2&=55 ! TEXT in Baum MIXER
+LET mixvolm2&=59 ! TEXT in Baum MIXER
+LET mixvolz2&=67 ! IMAGE in Baum MIXER
+LET mixvoll2&=68 ! BOX in Baum MIXER
+LET mixvolr2&=69 ! BOX in Baum MIXER
+LET mixpkl2&=70 ! BOX in Baum MIXER
+LET mixpkr2&=71 ! BOX in Baum MIXER
+LET mixvolt2&=72 ! BOXTEXT in Baum MIXER
+LET mixvoln2&=73 ! BOXTEXT in Baum MIXER
+LET mxbalbx2&=74 ! BOX in Baum MIXER
+LET mixball2&=75 ! TEXT in Baum MIXER
+LET mixbalr2&=76 ! TEXT in Baum MIXER
+LET mixbalm2&=77 ! TEXT in Baum MIXER
+LET mixbal2&=78 ! USERDEF in Baum MIXER
+LET mixbalp2&=79 ! IMAGE in Baum MIXER
+LET mixtit2&=80 ! BOXTEXT in Baum MIXER
+LET mixbalt2&=81 ! BOXTEXT in Baum MIXER
+LET mixbaln2&=82 ! BOXTEXT in Baum MIXER
+LET mixon2&=83 ! USERDEF in Baum MIXER
+LET mixall2&=84 ! USERDEF in Baum MIXER
+LET mixmute2&=85 ! USERDEF in Baum MIXER
+LET mixtxt2&=86 ! BOXTEXT in Baum MIXER
+LET mixbyp2&=87 ! USERDEF in Baum MIXER
+LET mixbx3&=88 ! BOX in Baum MIXER
+LET mixvbox3&=89 ! BOX in Baum MIXER
+LET mixfade3&=90 ! USERDEF in Baum MIXER
+LET mixvol3&=91 ! USERDEF in Baum MIXER
+LET mixdb3&=92 ! BOX in Baum MIXER
+LET mixvold3&=96 ! TEXT in Baum MIXER
+LET mixvolm3&=100 ! TEXT in Baum MIXER
+LET mixvolz3&=108 ! IMAGE in Baum MIXER
+LET mixvoll3&=109 ! BOX in Baum MIXER
+LET mixvolr3&=110 ! BOX in Baum MIXER
+LET mixpkl3&=111 ! BOX in Baum MIXER
+LET mixpkr3&=112 ! BOX in Baum MIXER
+LET mixvolt3&=113 ! BOXTEXT in Baum MIXER
+LET mixvoln3&=114 ! BOXTEXT in Baum MIXER
+LET mxbalbx3&=115 ! BOX in Baum MIXER
+LET mixball3&=116 ! TEXT in Baum MIXER
+LET mixbalr3&=117 ! TEXT in Baum MIXER
+LET mixbalm3&=118 ! TEXT in Baum MIXER
+LET mixbal3&=119 ! USERDEF in Baum MIXER
+LET mixbalp3&=120 ! IMAGE in Baum MIXER
+LET mixtit3&=121 ! BOXTEXT in Baum MIXER
+LET mixbalt3&=122 ! BOXTEXT in Baum MIXER
+LET mixbaln3&=123 ! BOXTEXT in Baum MIXER
+LET mixon3&=124 ! USERDEF in Baum MIXER
+LET mixall3&=125 ! USERDEF in Baum MIXER
+LET mixmute3&=126 ! USERDEF in Baum MIXER
+LET mixtxt3&=127 ! BOXTEXT in Baum MIXER
+LET mixbyp3&=128 ! USERDEF in Baum MIXER
+LET mixbx4&=129 ! BOX in Baum MIXER
+LET mixvbox4&=130 ! BOX in Baum MIXER
+LET mixfade4&=131 ! USERDEF in Baum MIXER
+LET mixvol4&=132 ! USERDEF in Baum MIXER
+LET mixdb4&=133 ! BOX in Baum MIXER
+LET mixvold4&=137 ! TEXT in Baum MIXER
+LET mixvolm4&=141 ! TEXT in Baum MIXER
+LET mixvolz4&=149 ! IMAGE in Baum MIXER
+LET mixvoll4&=150 ! BOX in Baum MIXER
+LET mixvolr4&=151 ! BOX in Baum MIXER
+LET mixpkl4&=152 ! BOX in Baum MIXER
+LET mixpkr4&=153 ! BOX in Baum MIXER
+LET mixvolt4&=154 ! BOXTEXT in Baum MIXER
+LET mixvoln4&=155 ! BOXTEXT in Baum MIXER
+LET mxbalbx4&=156 ! BOX in Baum MIXER
+LET mixball4&=157 ! TEXT in Baum MIXER
+LET mixbalr4&=158 ! TEXT in Baum MIXER
+LET mixbalm4&=159 ! TEXT in Baum MIXER
+LET mixbal4&=160 ! USERDEF in Baum MIXER
+LET mixbalp4&=161 ! IMAGE in Baum MIXER
+LET mixtit4&=162 ! BOXTEXT in Baum MIXER
+LET mixbalt4&=163 ! BOXTEXT in Baum MIXER
+LET mixbaln4&=164 ! BOXTEXT in Baum MIXER
+LET mixon4&=165 ! USERDEF in Baum MIXER
+LET mixall4&=166 ! USERDEF in Baum MIXER
+LET mixmute4&=167 ! USERDEF in Baum MIXER
+LET mixtxt4&=168 ! BOXTEXT in Baum MIXER
+LET mixbyp4&=169 ! USERDEF in Baum MIXER
+LET mixbx5&=170 ! BOX in Baum MIXER
+LET mixvbox5&=171 ! BOX in Baum MIXER
+LET mixfade5&=172 ! USERDEF in Baum MIXER
+LET mixvol5&=173 ! USERDEF in Baum MIXER
+LET mixdb5&=174 ! BOX in Baum MIXER
+LET mixvold5&=178 ! TEXT in Baum MIXER
+LET mixvolm5&=182 ! TEXT in Baum MIXER
+LET mixvolz5&=190 ! IMAGE in Baum MIXER
+LET mixvoll5&=191 ! BOX in Baum MIXER
+LET mixvolr5&=192 ! BOX in Baum MIXER
+LET mixpkl5&=193 ! BOX in Baum MIXER
+LET mixpkr5&=194 ! BOX in Baum MIXER
+LET mixvolt5&=195 ! BOXTEXT in Baum MIXER
+LET mixvoln5&=196 ! BOXTEXT in Baum MIXER
+LET mxbalbx5&=197 ! BOX in Baum MIXER
+LET mixball5&=198 ! TEXT in Baum MIXER
+LET mixbalr5&=199 ! TEXT in Baum MIXER
+LET mixbalm5&=200 ! TEXT in Baum MIXER
+LET mixbal5&=201 ! USERDEF in Baum MIXER
+LET mixbalp5&=202 ! IMAGE in Baum MIXER
+LET mixtit5&=203 ! BOXTEXT in Baum MIXER
+LET mixbalt5&=204 ! BOXTEXT in Baum MIXER
+LET mixbaln5&=205 ! BOXTEXT in Baum MIXER
+LET mixon5&=206 ! USERDEF in Baum MIXER
+LET mixall5&=207 ! USERDEF in Baum MIXER
+LET mixmute5&=208 ! USERDEF in Baum MIXER
+LET mixtxt5&=209 ! BOXTEXT in Baum MIXER
+LET myxbyp5&=210 ! USERDEF in Baum MIXER
+LET mixbx6&=211 ! BOX in Baum MIXER
+LET mixvbox6&=212 ! BOX in Baum MIXER
+LET mixfade6&=213 ! USERDEF in Baum MIXER
+LET mixvol6&=214 ! USERDEF in Baum MIXER
+LET mixdb6&=215 ! BOX in Baum MIXER
+LET mixvold6&=219 ! TEXT in Baum MIXER
+LET mixvolm6&=223 ! TEXT in Baum MIXER
+LET mixvolz6&=231 ! IMAGE in Baum MIXER
+LET mixvoll6&=232 ! BOX in Baum MIXER
+LET mixvolr6&=233 ! BOX in Baum MIXER
+LET mixpkl6&=234 ! BOX in Baum MIXER
+LET mixpkr6&=235 ! BOX in Baum MIXER
+LET mixvolt6&=236 ! BOXTEXT in Baum MIXER
+LET mixvoln6&=237 ! BOXTEXT in Baum MIXER
+LET mxbalbx6&=238 ! BOX in Baum MIXER
+LET mixball6&=239 ! TEXT in Baum MIXER
+LET mixbalr6&=240 ! TEXT in Baum MIXER
+LET mixbalm6&=241 ! TEXT in Baum MIXER
+LET mixbal6&=242 ! USERDEF in Baum MIXER
+LET mixbalp6&=243 ! IMAGE in Baum MIXER
+LET mixtit6&=244 ! BOXTEXT in Baum MIXER
+LET mixbalt6&=245 ! BOXTEXT in Baum MIXER
+LET mixbaln6&=246 ! BOXTEXT in Baum MIXER
+LET mixon6&=247 ! USERDEF in Baum MIXER
+LET mixall6&=248 ! USERDEF in Baum MIXER
+LET mixmute6&=249 ! USERDEF in Baum MIXER
+LET mixtxt6&=250 ! BOXTEXT in Baum MIXER
+LET myxbyp6&=251 ! USERDEF in Baum MIXER
+LET mixbx7&=252 ! BOX in Baum MIXER
+LET mixvbox7&=253 ! BOX in Baum MIXER
+LET mixfade7&=254 ! USERDEF in Baum MIXER
+LET mixvol7&=255 ! USERDEF in Baum MIXER
+LET mixdb7&=256 ! BOX in Baum MIXER
+LET mixvold7&=260 ! TEXT in Baum MIXER
+LET mixvolm7&=264 ! TEXT in Baum MIXER
+LET mixvolz7&=272 ! IMAGE in Baum MIXER
+LET mixvoll7&=273 ! BOX in Baum MIXER
+LET mixvolr7&=274 ! BOX in Baum MIXER
+LET mixpkl7&=275 ! BOX in Baum MIXER
+LET mixpkr7&=276 ! BOX in Baum MIXER
+LET mixvolt7&=277 ! BOXTEXT in Baum MIXER
+LET mixvoln7&=278 ! BOXTEXT in Baum MIXER
+LET mxbalbx7&=279 ! BOX in Baum MIXER
+LET mixball7&=280 ! TEXT in Baum MIXER
+LET mixbalr7&=281 ! TEXT in Baum MIXER
+LET mixbalm7&=282 ! TEXT in Baum MIXER
+LET mixbal7&=283 ! USERDEF in Baum MIXER
+LET mixbalp7&=284 ! IMAGE in Baum MIXER
+LET mixtit7&=285 ! BOXTEXT in Baum MIXER
+LET mixbalt7&=286 ! BOXTEXT in Baum MIXER
+LET mixbaln7&=287 ! BOXTEXT in Baum MIXER
+LET mixon7&=288 ! USERDEF in Baum MIXER
+LET mixall7&=289 ! USERDEF in Baum MIXER
+LET mixmute7&=290 ! USERDEF in Baum MIXER
+LET mixtxt7&=291 ! BOXTEXT in Baum MIXER
+LET mixbyp7&=292 ! USERDEF in Baum MIXER
+LET mixbx8&=293 ! BOX in Baum MIXER
+LET mixvbox8&=294 ! BOX in Baum MIXER
+LET mixfade8&=295 ! USERDEF in Baum MIXER
+LET mixvol8&=296 ! USERDEF in Baum MIXER
+LET mixdb8&=297 ! BOX in Baum MIXER
+LET mixvold8&=301 ! TEXT in Baum MIXER
+LET mixvolm8&=305 ! TEXT in Baum MIXER
+LET mixvolz8&=313 ! IMAGE in Baum MIXER
+LET mixvoll8&=314 ! BOX in Baum MIXER
+LET mixvolr8&=315 ! BOX in Baum MIXER
+LET mixpkl8&=316 ! BOX in Baum MIXER
+LET mixpkr8&=317 ! BOX in Baum MIXER
+LET mixvolt8&=318 ! BOXTEXT in Baum MIXER
+LET mixvoln8&=319 ! BOXTEXT in Baum MIXER
+LET mxbalbx8&=320 ! BOX in Baum MIXER
+LET mixball8&=321 ! TEXT in Baum MIXER
+LET mixbalr8&=322 ! TEXT in Baum MIXER
+LET mixbalm8&=323 ! TEXT in Baum MIXER
+LET mixbal8&=324 ! USERDEF in Baum MIXER
+LET mixbalp8&=325 ! IMAGE in Baum MIXER
+LET mixtit8&=326 ! BOXTEXT in Baum MIXER
+LET mixbalt8&=327 ! BOXTEXT in Baum MIXER
+LET mixbaln8&=328 ! BOXTEXT in Baum MIXER
+LET mixon8&=329 ! USERDEF in Baum MIXER
+LET mixall8&=330 ! USERDEF in Baum MIXER
+LET mixmute8&=331 ! USERDEF in Baum MIXER
+LET mixtxt8&=332 ! BOXTEXT in Baum MIXER
+LET mixbyp8&=333 ! USERDEF in Baum MIXER
+LET mixbox3&=334 ! BOX in Baum MIXER
+LET mixload&=335 ! USERDEF in Baum MIXER
+LET mixsave&=336 ! USERDEF in Baum MIXER
+LET mixhelp&=337 ! BOXTEXT in Baum MIXER
+LET dsicon&=338 ! USERDEF in Baum MIXER
+LET mixarec&=339 ! USERDEF in Baum MIXER
+LET mixrec&=340 ! USERDEF in Baum MIXER
+LET mixstop&=341 ! USERDEF in Baum MIXER
+LET mixplay&=342 ! USERDEF in Baum MIXER
+LET mixwait&=343 ! USERDEF in Baum MIXER
+LET mixexit&=344 ! BUTTON in Baum MIXER
+LET mixmax&=345 ! BOXTEXT in Baum MIXER
+LET mixmaxt&=346 ! TEXT in Baum MIXER
+LET mixact&=347 ! BOXTEXT in Baum MIXER
+LET mixactt&=348 ! TEXT in Baum MIXER
+LET mpkhslid&=349 ! BOX in Baum MIXER
+LET mpkhbut&=350 ! BUTTON in Baum MIXER
+LET mpkhl&=351 ! USERDEF in Baum MIXER
+LET mpkhr&=352 ! USERDEF in Baum MIXER
+LET mixbxm&=353 ! BOX in Baum MIXER
+LET mixvboxm&=354 ! BOX in Baum MIXER
+LET mixfadem&=355 ! USERDEF in Baum MIXER
+LET mixvolm&=356 ! USERDEF in Baum MIXER
+LET mixdbm&=357 ! BOX in Baum MIXER
+LET mixvoldm&=361 ! TEXT in Baum MIXER
+LET mixvolmm&=365 ! TEXT in Baum MIXER
+LET mixvolzm&=373 ! IMAGE in Baum MIXER
+LET mixvollm&=374 ! BOX in Baum MIXER
+LET mixvolrm&=375 ! BOX in Baum MIXER
+LET mixpklm&=376 ! BOX in Baum MIXER
+LET mixpkrm&=377 ! BOX in Baum MIXER
+LET mixvoltm&=378 ! BOXTEXT in Baum MIXER
+LET mixvolnm&=379 ! BOXTEXT in Baum MIXER
+LET mxbalbxm&=380 ! BOX in Baum MIXER
+LET mixballm&=381 ! TEXT in Baum MIXER
+LET mixbalrm&=382 ! TEXT in Baum MIXER
+LET mixbalmm&=383 ! TEXT in Baum MIXER
+LET mixbalm&=384 ! USERDEF in Baum MIXER
+LET mixbalpm&=385 ! IMAGE in Baum MIXER
+LET mixtitm&=386 ! BOXTEXT in Baum MIXER
+LET mixbaltm&=387 ! BOXTEXT in Baum MIXER
+LET mixbalnm&=388 ! BOXTEXT in Baum MIXER
+LET mixonm&=389 ! USERDEF in Baum MIXER
+LET mixallm&=390 ! USERDEF in Baum MIXER
+LET mixmutem&=391 ! USERDEF in Baum MIXER
+LET mixtxtm&=392 ! BOXTEXT in Baum MIXER
+LET mixbypm&=393 ! USERDEF in Baum MIXER
+'
+LET fsel&=4 ! Formular/Dialog
 LET fselbox&=0 ! BOX in Baum FSEL
 LET fselbox2&=1 ! BOX in Baum FSEL
 LET fsbut1&=2 ! BOXTEXT in Baum FSEL
@@ -11252,7 +11550,285 @@ LET trk16&=155 ! USERDEF in Baum TRAKKER
 LET trakhelp&=156 ! BOXTEXT in Baum TRAKKER
 LET trakexit&=157 ! BUTTON in Baum TRAKKER
 '
-LET fsel&=3 ! Formular/Dialog
+LET mixer&=3 ! Formular/Dialog
+LET mixbox1&=0 ! BOX in Baum MIXER
+LET mixbox2&=1 ! BOX in Baum MIXER
+LET mixfile&=2 ! BOXTEXT in Baum MIXER
+LET mixpeak&=3 ! BOXTEXT in Baum MIXER
+LET mixerr&=4 ! BOXTEXT in Baum MIXER
+LET mixbx1&=5 ! BOX in Baum MIXER
+LET mixvbox1&=6 ! BOX in Baum MIXER
+LET mixfade1&=7 ! USERDEF in Baum MIXER
+LET mixvol1&=8 ! USERDEF in Baum MIXER
+LET mixdb1&=9 ! BOX in Baum MIXER
+LET mixvold1&=13 ! TEXT in Baum MIXER
+LET mixvolm1&=17 ! TEXT in Baum MIXER
+LET mixvolz1&=25 ! IMAGE in Baum MIXER
+LET mixvoll1&=26 ! BOX in Baum MIXER
+LET mixvolr1&=27 ! BOX in Baum MIXER
+LET mixpkl1&=28 ! BOX in Baum MIXER
+LET mixpkr1&=29 ! BOX in Baum MIXER
+LET mixvolt1&=30 ! BOXTEXT in Baum MIXER
+LET mixvoln1&=31 ! BOXTEXT in Baum MIXER
+LET mxbalbx1&=32 ! BOX in Baum MIXER
+LET mixball1&=33 ! TEXT in Baum MIXER
+LET mixbalr1&=34 ! TEXT in Baum MIXER
+LET mixbalm1&=35 ! TEXT in Baum MIXER
+LET mixbal1&=36 ! USERDEF in Baum MIXER
+LET mixbalp1&=37 ! IMAGE in Baum MIXER
+LET mixtit1&=38 ! BOXTEXT in Baum MIXER
+LET mixbalt1&=39 ! BOXTEXT in Baum MIXER
+LET mixbaln1&=40 ! BOXTEXT in Baum MIXER
+LET mixon1&=41 ! USERDEF in Baum MIXER
+LET mixall1&=42 ! USERDEF in Baum MIXER
+LET mixmute1&=43 ! USERDEF in Baum MIXER
+LET mixtxt1&=44 ! BOXTEXT in Baum MIXER
+LET mixbyp1&=45 ! USERDEF in Baum MIXER
+LET mixbx2&=47 ! BOX in Baum MIXER
+LET mixvbox2&=48 ! BOX in Baum MIXER
+LET mixfade2&=49 ! USERDEF in Baum MIXER
+LET mixvol2&=50 ! USERDEF in Baum MIXER
+LET mixdb2&=51 ! BOX in Baum MIXER
+LET mixvold2&=55 ! TEXT in Baum MIXER
+LET mixvolm2&=59 ! TEXT in Baum MIXER
+LET mixvolz2&=67 ! IMAGE in Baum MIXER
+LET mixvoll2&=68 ! BOX in Baum MIXER
+LET mixvolr2&=69 ! BOX in Baum MIXER
+LET mixpkl2&=70 ! BOX in Baum MIXER
+LET mixpkr2&=71 ! BOX in Baum MIXER
+LET mixvolt2&=72 ! BOXTEXT in Baum MIXER
+LET mixvoln2&=73 ! BOXTEXT in Baum MIXER
+LET mxbalbx2&=74 ! BOX in Baum MIXER
+LET mixball2&=75 ! TEXT in Baum MIXER
+LET mixbalr2&=76 ! TEXT in Baum MIXER
+LET mixbalm2&=77 ! TEXT in Baum MIXER
+LET mixbal2&=78 ! USERDEF in Baum MIXER
+LET mixbalp2&=79 ! IMAGE in Baum MIXER
+LET mixtit2&=80 ! BOXTEXT in Baum MIXER
+LET mixbalt2&=81 ! BOXTEXT in Baum MIXER
+LET mixbaln2&=82 ! BOXTEXT in Baum MIXER
+LET mixon2&=83 ! USERDEF in Baum MIXER
+LET mixall2&=84 ! USERDEF in Baum MIXER
+LET mixmute2&=85 ! USERDEF in Baum MIXER
+LET mixtxt2&=86 ! BOXTEXT in Baum MIXER
+LET mixbyp2&=87 ! USERDEF in Baum MIXER
+LET mixbx3&=88 ! BOX in Baum MIXER
+LET mixvbox3&=89 ! BOX in Baum MIXER
+LET mixfade3&=90 ! USERDEF in Baum MIXER
+LET mixvol3&=91 ! USERDEF in Baum MIXER
+LET mixdb3&=92 ! BOX in Baum MIXER
+LET mixvold3&=96 ! TEXT in Baum MIXER
+LET mixvolm3&=100 ! TEXT in Baum MIXER
+LET mixvolz3&=108 ! IMAGE in Baum MIXER
+LET mixvoll3&=109 ! BOX in Baum MIXER
+LET mixvolr3&=110 ! BOX in Baum MIXER
+LET mixpkl3&=111 ! BOX in Baum MIXER
+LET mixpkr3&=112 ! BOX in Baum MIXER
+LET mixvolt3&=113 ! BOXTEXT in Baum MIXER
+LET mixvoln3&=114 ! BOXTEXT in Baum MIXER
+LET mxbalbx3&=115 ! BOX in Baum MIXER
+LET mixball3&=116 ! TEXT in Baum MIXER
+LET mixbalr3&=117 ! TEXT in Baum MIXER
+LET mixbalm3&=118 ! TEXT in Baum MIXER
+LET mixbal3&=119 ! USERDEF in Baum MIXER
+LET mixbalp3&=120 ! IMAGE in Baum MIXER
+LET mixtit3&=121 ! BOXTEXT in Baum MIXER
+LET mixbalt3&=122 ! BOXTEXT in Baum MIXER
+LET mixbaln3&=123 ! BOXTEXT in Baum MIXER
+LET mixon3&=124 ! USERDEF in Baum MIXER
+LET mixall3&=125 ! USERDEF in Baum MIXER
+LET mixmute3&=126 ! USERDEF in Baum MIXER
+LET mixtxt3&=127 ! BOXTEXT in Baum MIXER
+LET mixbyp3&=128 ! USERDEF in Baum MIXER
+LET mixbx4&=129 ! BOX in Baum MIXER
+LET mixvbox4&=130 ! BOX in Baum MIXER
+LET mixfade4&=131 ! USERDEF in Baum MIXER
+LET mixvol4&=132 ! USERDEF in Baum MIXER
+LET mixdb4&=133 ! BOX in Baum MIXER
+LET mixvold4&=137 ! TEXT in Baum MIXER
+LET mixvolm4&=141 ! TEXT in Baum MIXER
+LET mixvolz4&=149 ! IMAGE in Baum MIXER
+LET mixvoll4&=150 ! BOX in Baum MIXER
+LET mixvolr4&=151 ! BOX in Baum MIXER
+LET mixpkl4&=152 ! BOX in Baum MIXER
+LET mixpkr4&=153 ! BOX in Baum MIXER
+LET mixvolt4&=154 ! BOXTEXT in Baum MIXER
+LET mixvoln4&=155 ! BOXTEXT in Baum MIXER
+LET mxbalbx4&=156 ! BOX in Baum MIXER
+LET mixball4&=157 ! TEXT in Baum MIXER
+LET mixbalr4&=158 ! TEXT in Baum MIXER
+LET mixbalm4&=159 ! TEXT in Baum MIXER
+LET mixbal4&=160 ! USERDEF in Baum MIXER
+LET mixbalp4&=161 ! IMAGE in Baum MIXER
+LET mixtit4&=162 ! BOXTEXT in Baum MIXER
+LET mixbalt4&=163 ! BOXTEXT in Baum MIXER
+LET mixbaln4&=164 ! BOXTEXT in Baum MIXER
+LET mixon4&=165 ! USERDEF in Baum MIXER
+LET mixall4&=166 ! USERDEF in Baum MIXER
+LET mixmute4&=167 ! USERDEF in Baum MIXER
+LET mixtxt4&=168 ! BOXTEXT in Baum MIXER
+LET mixbyp4&=169 ! USERDEF in Baum MIXER
+LET mixbx5&=170 ! BOX in Baum MIXER
+LET mixvbox5&=171 ! BOX in Baum MIXER
+LET mixfade5&=172 ! USERDEF in Baum MIXER
+LET mixvol5&=173 ! USERDEF in Baum MIXER
+LET mixdb5&=174 ! BOX in Baum MIXER
+LET mixvold5&=178 ! TEXT in Baum MIXER
+LET mixvolm5&=182 ! TEXT in Baum MIXER
+LET mixvolz5&=190 ! IMAGE in Baum MIXER
+LET mixvoll5&=191 ! BOX in Baum MIXER
+LET mixvolr5&=192 ! BOX in Baum MIXER
+LET mixpkl5&=193 ! BOX in Baum MIXER
+LET mixpkr5&=194 ! BOX in Baum MIXER
+LET mixvolt5&=195 ! BOXTEXT in Baum MIXER
+LET mixvoln5&=196 ! BOXTEXT in Baum MIXER
+LET mxbalbx5&=197 ! BOX in Baum MIXER
+LET mixball5&=198 ! TEXT in Baum MIXER
+LET mixbalr5&=199 ! TEXT in Baum MIXER
+LET mixbalm5&=200 ! TEXT in Baum MIXER
+LET mixbal5&=201 ! USERDEF in Baum MIXER
+LET mixbalp5&=202 ! IMAGE in Baum MIXER
+LET mixtit5&=203 ! BOXTEXT in Baum MIXER
+LET mixbalt5&=204 ! BOXTEXT in Baum MIXER
+LET mixbaln5&=205 ! BOXTEXT in Baum MIXER
+LET mixon5&=206 ! USERDEF in Baum MIXER
+LET mixall5&=207 ! USERDEF in Baum MIXER
+LET mixmute5&=208 ! USERDEF in Baum MIXER
+LET mixtxt5&=209 ! BOXTEXT in Baum MIXER
+LET myxbyp5&=210 ! USERDEF in Baum MIXER
+LET mixbx6&=211 ! BOX in Baum MIXER
+LET mixvbox6&=212 ! BOX in Baum MIXER
+LET mixfade6&=213 ! USERDEF in Baum MIXER
+LET mixvol6&=214 ! USERDEF in Baum MIXER
+LET mixdb6&=215 ! BOX in Baum MIXER
+LET mixvold6&=219 ! TEXT in Baum MIXER
+LET mixvolm6&=223 ! TEXT in Baum MIXER
+LET mixvolz6&=231 ! IMAGE in Baum MIXER
+LET mixvoll6&=232 ! BOX in Baum MIXER
+LET mixvolr6&=233 ! BOX in Baum MIXER
+LET mixpkl6&=234 ! BOX in Baum MIXER
+LET mixpkr6&=235 ! BOX in Baum MIXER
+LET mixvolt6&=236 ! BOXTEXT in Baum MIXER
+LET mixvoln6&=237 ! BOXTEXT in Baum MIXER
+LET mxbalbx6&=238 ! BOX in Baum MIXER
+LET mixball6&=239 ! TEXT in Baum MIXER
+LET mixbalr6&=240 ! TEXT in Baum MIXER
+LET mixbalm6&=241 ! TEXT in Baum MIXER
+LET mixbal6&=242 ! USERDEF in Baum MIXER
+LET mixbalp6&=243 ! IMAGE in Baum MIXER
+LET mixtit6&=244 ! BOXTEXT in Baum MIXER
+LET mixbalt6&=245 ! BOXTEXT in Baum MIXER
+LET mixbaln6&=246 ! BOXTEXT in Baum MIXER
+LET mixon6&=247 ! USERDEF in Baum MIXER
+LET mixall6&=248 ! USERDEF in Baum MIXER
+LET mixmute6&=249 ! USERDEF in Baum MIXER
+LET mixtxt6&=250 ! BOXTEXT in Baum MIXER
+LET myxbyp6&=251 ! USERDEF in Baum MIXER
+LET mixbx7&=252 ! BOX in Baum MIXER
+LET mixvbox7&=253 ! BOX in Baum MIXER
+LET mixfade7&=254 ! USERDEF in Baum MIXER
+LET mixvol7&=255 ! USERDEF in Baum MIXER
+LET mixdb7&=256 ! BOX in Baum MIXER
+LET mixvold7&=260 ! TEXT in Baum MIXER
+LET mixvolm7&=264 ! TEXT in Baum MIXER
+LET mixvolz7&=272 ! IMAGE in Baum MIXER
+LET mixvoll7&=273 ! BOX in Baum MIXER
+LET mixvolr7&=274 ! BOX in Baum MIXER
+LET mixpkl7&=275 ! BOX in Baum MIXER
+LET mixpkr7&=276 ! BOX in Baum MIXER
+LET mixvolt7&=277 ! BOXTEXT in Baum MIXER
+LET mixvoln7&=278 ! BOXTEXT in Baum MIXER
+LET mxbalbx7&=279 ! BOX in Baum MIXER
+LET mixball7&=280 ! TEXT in Baum MIXER
+LET mixbalr7&=281 ! TEXT in Baum MIXER
+LET mixbalm7&=282 ! TEXT in Baum MIXER
+LET mixbal7&=283 ! USERDEF in Baum MIXER
+LET mixbalp7&=284 ! IMAGE in Baum MIXER
+LET mixtit7&=285 ! BOXTEXT in Baum MIXER
+LET mixbalt7&=286 ! BOXTEXT in Baum MIXER
+LET mixbaln7&=287 ! BOXTEXT in Baum MIXER
+LET mixon7&=288 ! USERDEF in Baum MIXER
+LET mixall7&=289 ! USERDEF in Baum MIXER
+LET mixmute7&=290 ! USERDEF in Baum MIXER
+LET mixtxt7&=291 ! BOXTEXT in Baum MIXER
+LET mixbyp7&=292 ! USERDEF in Baum MIXER
+LET mixbx8&=293 ! BOX in Baum MIXER
+LET mixvbox8&=294 ! BOX in Baum MIXER
+LET mixfade8&=295 ! USERDEF in Baum MIXER
+LET mixvol8&=296 ! USERDEF in Baum MIXER
+LET mixdb8&=297 ! BOX in Baum MIXER
+LET mixvold8&=301 ! TEXT in Baum MIXER
+LET mixvolm8&=305 ! TEXT in Baum MIXER
+LET mixvolz8&=313 ! IMAGE in Baum MIXER
+LET mixvoll8&=314 ! BOX in Baum MIXER
+LET mixvolr8&=315 ! BOX in Baum MIXER
+LET mixpkl8&=316 ! BOX in Baum MIXER
+LET mixpkr8&=317 ! BOX in Baum MIXER
+LET mixvolt8&=318 ! BOXTEXT in Baum MIXER
+LET mixvoln8&=319 ! BOXTEXT in Baum MIXER
+LET mxbalbx8&=320 ! BOX in Baum MIXER
+LET mixball8&=321 ! TEXT in Baum MIXER
+LET mixbalr8&=322 ! TEXT in Baum MIXER
+LET mixbalm8&=323 ! TEXT in Baum MIXER
+LET mixbal8&=324 ! USERDEF in Baum MIXER
+LET mixbalp8&=325 ! IMAGE in Baum MIXER
+LET mixtit8&=326 ! BOXTEXT in Baum MIXER
+LET mixbalt8&=327 ! BOXTEXT in Baum MIXER
+LET mixbaln8&=328 ! BOXTEXT in Baum MIXER
+LET mixon8&=329 ! USERDEF in Baum MIXER
+LET mixall8&=330 ! USERDEF in Baum MIXER
+LET mixmute8&=331 ! USERDEF in Baum MIXER
+LET mixtxt8&=332 ! BOXTEXT in Baum MIXER
+LET mixbyp8&=333 ! USERDEF in Baum MIXER
+LET mixbox3&=334 ! BOX in Baum MIXER
+LET mixload&=335 ! USERDEF in Baum MIXER
+LET mixsave&=336 ! USERDEF in Baum MIXER
+LET mixhelp&=337 ! BOXTEXT in Baum MIXER
+LET dsicon&=338 ! USERDEF in Baum MIXER
+LET mixarec&=339 ! USERDEF in Baum MIXER
+LET mixrec&=340 ! USERDEF in Baum MIXER
+LET mixstop&=341 ! USERDEF in Baum MIXER
+LET mixplay&=342 ! USERDEF in Baum MIXER
+LET mixwait&=343 ! USERDEF in Baum MIXER
+LET mixexit&=344 ! BUTTON in Baum MIXER
+LET mixmax&=345 ! BOXTEXT in Baum MIXER
+LET mixmaxt&=346 ! TEXT in Baum MIXER
+LET mixact&=347 ! BOXTEXT in Baum MIXER
+LET mixactt&=348 ! TEXT in Baum MIXER
+LET mpkhslid&=349 ! BOX in Baum MIXER
+LET mpkhbut&=350 ! BUTTON in Baum MIXER
+LET mpkhl&=351 ! USERDEF in Baum MIXER
+LET mpkhr&=352 ! USERDEF in Baum MIXER
+LET mixbxm&=353 ! BOX in Baum MIXER
+LET mixvboxm&=354 ! BOX in Baum MIXER
+LET mixfadem&=355 ! USERDEF in Baum MIXER
+LET mixvolm&=356 ! USERDEF in Baum MIXER
+LET mixdbm&=357 ! BOX in Baum MIXER
+LET mixvoldm&=361 ! TEXT in Baum MIXER
+LET mixvolmm&=365 ! TEXT in Baum MIXER
+LET mixvolzm&=373 ! IMAGE in Baum MIXER
+LET mixvollm&=374 ! BOX in Baum MIXER
+LET mixvolrm&=375 ! BOX in Baum MIXER
+LET mixpklm&=376 ! BOX in Baum MIXER
+LET mixpkrm&=377 ! BOX in Baum MIXER
+LET mixvoltm&=378 ! BOXTEXT in Baum MIXER
+LET mixvolnm&=379 ! BOXTEXT in Baum MIXER
+LET mxbalbxm&=380 ! BOX in Baum MIXER
+LET mixballm&=381 ! TEXT in Baum MIXER
+LET mixbalrm&=382 ! TEXT in Baum MIXER
+LET mixbalmm&=383 ! TEXT in Baum MIXER
+LET mixbalm&=384 ! USERDEF in Baum MIXER
+LET mixbalpm&=385 ! IMAGE in Baum MIXER
+LET mixtitm&=386 ! BOXTEXT in Baum MIXER
+LET mixbaltm&=387 ! BOXTEXT in Baum MIXER
+LET mixbalnm&=388 ! BOXTEXT in Baum MIXER
+LET mixonm&=389 ! USERDEF in Baum MIXER
+LET mixallm&=390 ! USERDEF in Baum MIXER
+LET mixmutem&=391 ! USERDEF in Baum MIXER
+LET mixtxtm&=392 ! BOXTEXT in Baum MIXER
+LET mixbypm&=393 ! USERDEF in Baum MIXER
+'
+LET fsel&=4 ! Formular/Dialog
 LET fselbox&=0 ! BOX in Baum FSEL
 LET fselbox2&=1 ! BOX in Baum FSEL
 LET fsbut1&=2 ! BOXTEXT in Baum FSEL
@@ -11694,7 +12270,513 @@ LET trkmon&=169 ! BOXTEXT in Baum TRAKKER
 LET trakhelp&=171 ! BOXTEXT in Baum TRAKKER
 LET trakexit&=172 ! BUTTON in Baum TRAKKER
 '
-LET fsel&=3 ! Formular/Dialog
+LET mixer&=3 ! Formular/Dialog
+LET mixbox1&=0 ! BOX in Baum MIXER
+LET mixbox2&=1 ! BOX in Baum MIXER
+LET mixload&=2 ! USERDEF in Baum MIXER
+LET mixsave&=3 ! USERDEF in Baum MIXER
+LET mixmax&=4 ! BOXTEXT in Baum MIXER
+LET mixact&=5 ! BOXTEXT in Baum MIXER
+LET mixmaxt&=6 ! TEXT in Baum MIXER
+LET mixactt&=7 ! TEXT in Baum MIXER
+LET mixfile&=8 ! BOXTEXT in Baum MIXER
+LET mixfilet&=9 ! TEXT in Baum MIXER
+LET mixbx1&=10 ! BOX in Baum MIXER
+LET mixvbox1&=11 ! BOX in Baum MIXER
+LET mixfade1&=12 ! USERDEF in Baum MIXER
+LET mixvol1&=13 ! USERDEF in Baum MIXER
+LET mixdb1&=14 ! BOX in Baum MIXER
+LET mixvold1&=18 ! TEXT in Baum MIXER
+LET mixvolm1&=22 ! TEXT in Baum MIXER
+LET mixvolz1&=30 ! IMAGE in Baum MIXER
+LET mixvoll1&=31 ! BOX in Baum MIXER
+LET mixvolr1&=32 ! BOX in Baum MIXER
+LET mixpkl1&=33 ! BOX in Baum MIXER
+LET mixpkr1&=34 ! BOX in Baum MIXER
+LET mixvolt1&=35 ! BOXTEXT in Baum MIXER
+LET mixvoln1&=36 ! BOXTEXT in Baum MIXER
+LET mxbalbx1&=37 ! BOX in Baum MIXER
+LET mixball1&=38 ! TEXT in Baum MIXER
+LET mixbalr1&=39 ! TEXT in Baum MIXER
+LET mixbalm1&=40 ! TEXT in Baum MIXER
+LET mixbal1&=41 ! USERDEF in Baum MIXER
+LET mixbalp1&=42 ! IMAGE in Baum MIXER
+LET mixtit1&=43 ! BOXTEXT in Baum MIXER
+LET mixbalt1&=44 ! BOXTEXT in Baum MIXER
+LET mixbaln1&=45 ! BOXTEXT in Baum MIXER
+LET mixon1&=46 ! USERDEF in Baum MIXER
+LET mixall1&=47 ! USERDEF in Baum MIXER
+LET mixmute1&=48 ! USERDEF in Baum MIXER
+LET mixtxt1&=49 ! BOXTEXT in Baum MIXER
+LET mixbyp1&=50 ! BOXTEXT in Baum MIXER
+LET mixbx2&=52 ! BOX in Baum MIXER
+LET mixvbox2&=53 ! BOX in Baum MIXER
+LET mixfade2&=54 ! USERDEF in Baum MIXER
+LET mixvol2&=55 ! USERDEF in Baum MIXER
+LET mixdb2&=56 ! BOX in Baum MIXER
+LET mixvold2&=60 ! TEXT in Baum MIXER
+LET mixvolm2&=64 ! TEXT in Baum MIXER
+LET mixvolz2&=72 ! IMAGE in Baum MIXER
+LET mixvoll2&=73 ! BOX in Baum MIXER
+LET mixvolr2&=74 ! BOX in Baum MIXER
+LET mixpkl2&=75 ! BOX in Baum MIXER
+LET mixpkr2&=76 ! BOX in Baum MIXER
+LET mixvolt2&=77 ! BOXTEXT in Baum MIXER
+LET mixvoln2&=78 ! BOXTEXT in Baum MIXER
+LET mxbalbx2&=79 ! BOX in Baum MIXER
+LET mixball2&=80 ! TEXT in Baum MIXER
+LET mixbalr2&=81 ! TEXT in Baum MIXER
+LET mixbalm2&=82 ! TEXT in Baum MIXER
+LET mixbal2&=83 ! USERDEF in Baum MIXER
+LET mixbalp2&=84 ! IMAGE in Baum MIXER
+LET mixtit2&=85 ! BOXTEXT in Baum MIXER
+LET mixbalt2&=86 ! BOXTEXT in Baum MIXER
+LET mixbaln2&=87 ! BOXTEXT in Baum MIXER
+LET mixon2&=88 ! USERDEF in Baum MIXER
+LET mixall2&=89 ! USERDEF in Baum MIXER
+LET mixmute2&=90 ! USERDEF in Baum MIXER
+LET mixtxt2&=91 ! BOXTEXT in Baum MIXER
+LET mixbyp2&=92 ! BOXTEXT in Baum MIXER
+LET mixbx3&=93 ! BOX in Baum MIXER
+LET mixvbox3&=94 ! BOX in Baum MIXER
+LET mixfade3&=95 ! USERDEF in Baum MIXER
+LET mixvol3&=96 ! USERDEF in Baum MIXER
+LET mixdb3&=97 ! BOX in Baum MIXER
+LET mixvold3&=101 ! TEXT in Baum MIXER
+LET mixvolm3&=105 ! TEXT in Baum MIXER
+LET mixvolz3&=113 ! IMAGE in Baum MIXER
+LET mixvoll3&=114 ! BOX in Baum MIXER
+LET mixvolr3&=115 ! BOX in Baum MIXER
+LET mixpkl3&=116 ! BOX in Baum MIXER
+LET mixpkr3&=117 ! BOX in Baum MIXER
+LET mixvolt3&=118 ! BOXTEXT in Baum MIXER
+LET mixvoln3&=119 ! BOXTEXT in Baum MIXER
+LET mxbalbx3&=120 ! BOX in Baum MIXER
+LET mixball3&=121 ! TEXT in Baum MIXER
+LET mixbalr3&=122 ! TEXT in Baum MIXER
+LET mixbalm3&=123 ! TEXT in Baum MIXER
+LET mixbal3&=124 ! USERDEF in Baum MIXER
+LET mixbalp3&=125 ! IMAGE in Baum MIXER
+LET mixtit3&=126 ! BOXTEXT in Baum MIXER
+LET mixbalt3&=127 ! BOXTEXT in Baum MIXER
+LET mixbaln3&=128 ! BOXTEXT in Baum MIXER
+LET mixon3&=129 ! USERDEF in Baum MIXER
+LET mixall3&=130 ! USERDEF in Baum MIXER
+LET mixmute3&=131 ! USERDEF in Baum MIXER
+LET mixtxt3&=132 ! BOXTEXT in Baum MIXER
+LET mixbyp3&=133 ! BOXTEXT in Baum MIXER
+LET mixbx4&=134 ! BOX in Baum MIXER
+LET mixvbox4&=135 ! BOX in Baum MIXER
+LET mixfade4&=136 ! USERDEF in Baum MIXER
+LET mixvol4&=137 ! USERDEF in Baum MIXER
+LET mixdb4&=138 ! BOX in Baum MIXER
+LET mixvold4&=142 ! TEXT in Baum MIXER
+LET mixvolm4&=146 ! TEXT in Baum MIXER
+LET mixvolz4&=154 ! IMAGE in Baum MIXER
+LET mixvoll4&=155 ! BOX in Baum MIXER
+LET mixvolr4&=156 ! BOX in Baum MIXER
+LET mixpkl4&=157 ! BOX in Baum MIXER
+LET mixpkr4&=158 ! BOX in Baum MIXER
+LET mixvolt4&=159 ! BOXTEXT in Baum MIXER
+LET mixvoln4&=160 ! BOXTEXT in Baum MIXER
+LET mxbalbx4&=161 ! BOX in Baum MIXER
+LET mixball4&=162 ! TEXT in Baum MIXER
+LET mixbalr4&=163 ! TEXT in Baum MIXER
+LET mixbalm4&=164 ! TEXT in Baum MIXER
+LET mixbal4&=165 ! USERDEF in Baum MIXER
+LET mixbalp4&=166 ! IMAGE in Baum MIXER
+LET mixtit4&=167 ! BOXTEXT in Baum MIXER
+LET mixbalt4&=168 ! BOXTEXT in Baum MIXER
+LET mixbaln4&=169 ! BOXTEXT in Baum MIXER
+LET mixon4&=170 ! USERDEF in Baum MIXER
+LET mixall4&=171 ! USERDEF in Baum MIXER
+LET mixmute4&=172 ! USERDEF in Baum MIXER
+LET mixtxt4&=173 ! BOXTEXT in Baum MIXER
+LET mixbyp4&=174 ! BOXTEXT in Baum MIXER
+LET mixbx5&=175 ! BOX in Baum MIXER
+LET mixvbox5&=176 ! BOX in Baum MIXER
+LET mixfade5&=177 ! USERDEF in Baum MIXER
+LET mixvol5&=178 ! USERDEF in Baum MIXER
+LET mixdb5&=179 ! BOX in Baum MIXER
+LET mixvold5&=183 ! TEXT in Baum MIXER
+LET mixvolm5&=187 ! TEXT in Baum MIXER
+LET mixvolz5&=195 ! IMAGE in Baum MIXER
+LET mixvoll5&=196 ! BOX in Baum MIXER
+LET mixvolr5&=197 ! BOX in Baum MIXER
+LET mixpkl5&=198 ! BOX in Baum MIXER
+LET mixpkr5&=199 ! BOX in Baum MIXER
+LET mixvolt5&=200 ! BOXTEXT in Baum MIXER
+LET mixvoln5&=201 ! BOXTEXT in Baum MIXER
+LET mxbalbx5&=202 ! BOX in Baum MIXER
+LET mixball5&=203 ! TEXT in Baum MIXER
+LET mixbalr5&=204 ! TEXT in Baum MIXER
+LET mixbalm5&=205 ! TEXT in Baum MIXER
+LET mixbal5&=206 ! USERDEF in Baum MIXER
+LET mixbalp5&=207 ! IMAGE in Baum MIXER
+LET mixtit5&=208 ! BOXTEXT in Baum MIXER
+LET mixbalt5&=209 ! BOXTEXT in Baum MIXER
+LET mixbaln5&=210 ! BOXTEXT in Baum MIXER
+LET mixon5&=211 ! USERDEF in Baum MIXER
+LET mixall5&=212 ! USERDEF in Baum MIXER
+LET mixmute5&=213 ! USERDEF in Baum MIXER
+LET mixtxt5&=214 ! BOXTEXT in Baum MIXER
+LET mixbyp5&=215 ! BOXTEXT in Baum MIXER
+LET mixbx6&=216 ! BOX in Baum MIXER
+LET mixvbox6&=217 ! BOX in Baum MIXER
+LET mixfade6&=218 ! USERDEF in Baum MIXER
+LET mixvol6&=219 ! USERDEF in Baum MIXER
+LET mixdb6&=220 ! BOX in Baum MIXER
+LET mixvold6&=224 ! TEXT in Baum MIXER
+LET mixvolm6&=228 ! TEXT in Baum MIXER
+LET mixvolz6&=236 ! IMAGE in Baum MIXER
+LET mixvoll6&=237 ! BOX in Baum MIXER
+LET mixvolr6&=238 ! BOX in Baum MIXER
+LET mixpkl6&=239 ! BOX in Baum MIXER
+LET mixpkr6&=240 ! BOX in Baum MIXER
+LET mixvolt6&=241 ! BOXTEXT in Baum MIXER
+LET mixvoln6&=242 ! BOXTEXT in Baum MIXER
+LET mxbalbx6&=243 ! BOX in Baum MIXER
+LET mixball6&=244 ! TEXT in Baum MIXER
+LET mixbalr6&=245 ! TEXT in Baum MIXER
+LET mixbalm6&=246 ! TEXT in Baum MIXER
+LET mixbal6&=247 ! USERDEF in Baum MIXER
+LET mixbalp6&=248 ! IMAGE in Baum MIXER
+LET mixtit6&=249 ! BOXTEXT in Baum MIXER
+LET mixbalt6&=250 ! BOXTEXT in Baum MIXER
+LET mixbaln6&=251 ! BOXTEXT in Baum MIXER
+LET mixon6&=252 ! USERDEF in Baum MIXER
+LET mixall6&=253 ! USERDEF in Baum MIXER
+LET mixmute6&=254 ! USERDEF in Baum MIXER
+LET mixtxt6&=255 ! BOXTEXT in Baum MIXER
+LET mixbyp6&=256 ! BOXTEXT in Baum MIXER
+LET mixbx7&=257 ! BOX in Baum MIXER
+LET mixvbox7&=258 ! BOX in Baum MIXER
+LET mixfade7&=259 ! USERDEF in Baum MIXER
+LET mixvol7&=260 ! USERDEF in Baum MIXER
+LET mixdb7&=261 ! BOX in Baum MIXER
+LET mixvold7&=265 ! TEXT in Baum MIXER
+LET mixvolm7&=269 ! TEXT in Baum MIXER
+LET mixvolz7&=277 ! IMAGE in Baum MIXER
+LET mixvoll7&=278 ! BOX in Baum MIXER
+LET mixvolr7&=279 ! BOX in Baum MIXER
+LET mixpkl7&=280 ! BOX in Baum MIXER
+LET mixpkr7&=281 ! BOX in Baum MIXER
+LET mixvolt7&=282 ! BOXTEXT in Baum MIXER
+LET mixvoln7&=283 ! BOXTEXT in Baum MIXER
+LET mxbalbx7&=284 ! BOX in Baum MIXER
+LET mixball7&=285 ! TEXT in Baum MIXER
+LET mixbalr7&=286 ! TEXT in Baum MIXER
+LET mixbalm7&=287 ! TEXT in Baum MIXER
+LET mixbal7&=288 ! USERDEF in Baum MIXER
+LET mixbalp7&=289 ! IMAGE in Baum MIXER
+LET mixtit7&=290 ! BOXTEXT in Baum MIXER
+LET mixbalt7&=291 ! BOXTEXT in Baum MIXER
+LET mixbaln7&=292 ! BOXTEXT in Baum MIXER
+LET mixon7&=293 ! USERDEF in Baum MIXER
+LET mixall7&=294 ! USERDEF in Baum MIXER
+LET mixmute7&=295 ! USERDEF in Baum MIXER
+LET mixtxt7&=296 ! BOXTEXT in Baum MIXER
+LET mixbyp7&=297 ! BOXTEXT in Baum MIXER
+LET mixbx8&=298 ! BOX in Baum MIXER
+LET mixvbox8&=299 ! BOX in Baum MIXER
+LET mixfade8&=300 ! USERDEF in Baum MIXER
+LET mixvol8&=301 ! USERDEF in Baum MIXER
+LET mixdb8&=302 ! BOX in Baum MIXER
+LET mixvold8&=306 ! TEXT in Baum MIXER
+LET mixvolm8&=310 ! TEXT in Baum MIXER
+LET mixvolz8&=318 ! IMAGE in Baum MIXER
+LET mixvoll8&=319 ! BOX in Baum MIXER
+LET mixvolr8&=320 ! BOX in Baum MIXER
+LET mixpkl8&=321 ! BOX in Baum MIXER
+LET mixpkr8&=322 ! BOX in Baum MIXER
+LET mixvolt8&=323 ! BOXTEXT in Baum MIXER
+LET mixvoln8&=324 ! BOXTEXT in Baum MIXER
+LET mxbalbx8&=325 ! BOX in Baum MIXER
+LET mixball8&=326 ! TEXT in Baum MIXER
+LET mixbalr8&=327 ! TEXT in Baum MIXER
+LET mixbalm8&=328 ! TEXT in Baum MIXER
+LET mixbal8&=329 ! USERDEF in Baum MIXER
+LET mixbalp8&=330 ! IMAGE in Baum MIXER
+LET mixtit8&=331 ! BOXTEXT in Baum MIXER
+LET mixbalt8&=332 ! BOXTEXT in Baum MIXER
+LET mixbaln8&=333 ! BOXTEXT in Baum MIXER
+LET mixon8&=334 ! USERDEF in Baum MIXER
+LET mixall8&=335 ! USERDEF in Baum MIXER
+LET mixmute8&=336 ! USERDEF in Baum MIXER
+LET mixtxt8&=337 ! BOXTEXT in Baum MIXER
+LET mixbyp8&=338 ! BOXTEXT in Baum MIXER
+LET mixbxm&=339 ! BOX in Baum MIXER
+LET mixvboxm&=340 ! BOX in Baum MIXER
+LET mixfadem&=341 ! USERDEF in Baum MIXER
+LET mixvolm&=342 ! USERDEF in Baum MIXER
+LET mixdbm&=343 ! BOX in Baum MIXER
+LET mixvoldm&=347 ! TEXT in Baum MIXER
+LET mixvolmm&=351 ! TEXT in Baum MIXER
+LET mixvolzm&=359 ! IMAGE in Baum MIXER
+LET mixvollm&=360 ! BOX in Baum MIXER
+LET mixvolrm&=361 ! BOX in Baum MIXER
+LET mixpklm&=362 ! BOX in Baum MIXER
+LET mixpkrm&=363 ! BOX in Baum MIXER
+LET mixvoltm&=364 ! BOXTEXT in Baum MIXER
+LET mixvolnm&=365 ! BOXTEXT in Baum MIXER
+LET mxbalbxm&=366 ! BOX in Baum MIXER
+LET mixballm&=367 ! TEXT in Baum MIXER
+LET mixbalrm&=368 ! TEXT in Baum MIXER
+LET mixbalmm&=369 ! TEXT in Baum MIXER
+LET mixbalm&=370 ! USERDEF in Baum MIXER
+LET mixbalpm&=371 ! IMAGE in Baum MIXER
+LET mixtitm&=372 ! BOXTEXT in Baum MIXER
+LET mixbaltm&=373 ! BOXTEXT in Baum MIXER
+LET mixbalnm&=374 ! BOXTEXT in Baum MIXER
+LET mixonm&=375 ! USERDEF in Baum MIXER
+LET mixallm&=376 ! USERDEF in Baum MIXER
+LET mixmutem&=377 ! USERDEF in Baum MIXER
+LET mixtxtm&=378 ! BOXTEXT in Baum MIXER
+LET mixbypm&=379 ! BOXTEXT in Baum MIXER
+LET mixbx9&=380 ! BOX in Baum MIXER
+LET mixvbox9&=381 ! BOX in Baum MIXER
+LET mixfade9&=382 ! USERDEF in Baum MIXER
+LET mixvol9&=383 ! USERDEF in Baum MIXER
+LET mixdb9&=384 ! BOX in Baum MIXER
+LET mixvold9&=388 ! TEXT in Baum MIXER
+LET mixvolm9&=392 ! TEXT in Baum MIXER
+LET mixvolz9&=400 ! IMAGE in Baum MIXER
+LET mixvoll9&=401 ! BOX in Baum MIXER
+LET mixvolr9&=402 ! BOX in Baum MIXER
+LET mixpkl9&=403 ! BOX in Baum MIXER
+LET mixpkr9&=404 ! BOX in Baum MIXER
+LET mixvolt9&=405 ! BOXTEXT in Baum MIXER
+LET mixvoln9&=406 ! BOXTEXT in Baum MIXER
+LET mxbalbx9&=407 ! BOX in Baum MIXER
+LET mixball9&=408 ! TEXT in Baum MIXER
+LET mixbalr9&=409 ! TEXT in Baum MIXER
+LET mixbalm9&=410 ! TEXT in Baum MIXER
+LET mixbal9&=411 ! USERDEF in Baum MIXER
+LET mixbalp9&=412 ! IMAGE in Baum MIXER
+LET mixtit9&=413 ! BOXTEXT in Baum MIXER
+LET mixbalt9&=414 ! BOXTEXT in Baum MIXER
+LET mixbaln9&=415 ! BOXTEXT in Baum MIXER
+LET mixon9&=416 ! USERDEF in Baum MIXER
+LET mixall9&=417 ! USERDEF in Baum MIXER
+LET mixmute9&=418 ! USERDEF in Baum MIXER
+LET mixtxt9&=419 ! BOXTEXT in Baum MIXER
+LET mixbyp9&=420 ! BOXTEXT in Baum MIXER
+LET mixbx10&=421 ! BOX in Baum MIXER
+LET mxvbox10&=422 ! BOX in Baum MIXER
+LET mixfad10&=423 ! USERDEF in Baum MIXER
+LET mixvol10&=424 ! USERDEF in Baum MIXER
+LET mixdb10&=425 ! BOX in Baum MIXER
+LET mxvold10&=429 ! TEXT in Baum MIXER
+LET mxvolm10&=433 ! TEXT in Baum MIXER
+LET mxvolz10&=441 ! IMAGE in Baum MIXER
+LET mxvoll10&=442 ! BOX in Baum MIXER
+LET mxvolr10&=443 ! BOX in Baum MIXER
+LET mixpkl10&=444 ! BOX in Baum MIXER
+LET mixpkr10&=445 ! BOX in Baum MIXER
+LET mxvolt10&=446 ! BOXTEXT in Baum MIXER
+LET mxvoln10&=447 ! BOXTEXT in Baum MIXER
+LET mbalbx10&=448 ! BOX in Baum MIXER
+LET mixbll10&=449 ! TEXT in Baum MIXER
+LET mixblr10&=450 ! TEXT in Baum MIXER
+LET mixblm10&=451 ! TEXT in Baum MIXER
+LET mixbal10&=452 ! USERDEF in Baum MIXER
+LET mixblp10&=453 ! IMAGE in Baum MIXER
+LET mixtit10&=454 ! BOXTEXT in Baum MIXER
+LET mixblt10&=455 ! BOXTEXT in Baum MIXER
+LET mixbln10&=456 ! BOXTEXT in Baum MIXER
+LET mixon10&=457 ! USERDEF in Baum MIXER
+LET mixall10&=458 ! USERDEF in Baum MIXER
+LET mixmut10&=459 ! USERDEF in Baum MIXER
+LET mixtxt10&=460 ! BOXTEXT in Baum MIXER
+LET mixbyp10&=461 ! BOXTEXT in Baum MIXER
+LET mixbx11&=462 ! BOX in Baum MIXER
+LET mxvbox11&=463 ! BOX in Baum MIXER
+LET mixfad11&=464 ! USERDEF in Baum MIXER
+LET mixvol11&=465 ! USERDEF in Baum MIXER
+LET mixdb11&=466 ! BOX in Baum MIXER
+LET mxvold11&=470 ! TEXT in Baum MIXER
+LET mxvolm11&=474 ! TEXT in Baum MIXER
+LET mxvolz11&=482 ! IMAGE in Baum MIXER
+LET mxvoll11&=483 ! BOX in Baum MIXER
+LET mxvolr11&=484 ! BOX in Baum MIXER
+LET mixpkl11&=485 ! BOX in Baum MIXER
+LET mixpkr11&=486 ! BOX in Baum MIXER
+LET mxvolt11&=487 ! BOXTEXT in Baum MIXER
+LET mxvoln11&=488 ! BOXTEXT in Baum MIXER
+LET mbalbx11&=489 ! BOX in Baum MIXER
+LET mixbll11&=490 ! TEXT in Baum MIXER
+LET mixblr11&=491 ! TEXT in Baum MIXER
+LET mixblm11&=492 ! TEXT in Baum MIXER
+LET mixbal11&=493 ! USERDEF in Baum MIXER
+LET mixblp11&=494 ! IMAGE in Baum MIXER
+LET mixtit11&=495 ! BOXTEXT in Baum MIXER
+LET mixblt11&=496 ! BOXTEXT in Baum MIXER
+LET mixbln11&=497 ! BOXTEXT in Baum MIXER
+LET mixon11&=498 ! USERDEF in Baum MIXER
+LET mixall11&=499 ! USERDEF in Baum MIXER
+LET mixmut11&=500 ! USERDEF in Baum MIXER
+LET mixtxt11&=501 ! BOXTEXT in Baum MIXER
+LET mixbyp11&=502 ! BOXTEXT in Baum MIXER
+LET mixbx12&=503 ! BOX in Baum MIXER
+LET mxvbox12&=504 ! BOX in Baum MIXER
+LET mixfad12&=505 ! USERDEF in Baum MIXER
+LET mixvol12&=506 ! USERDEF in Baum MIXER
+LET mixdb12&=507 ! BOX in Baum MIXER
+LET mxvold12&=511 ! TEXT in Baum MIXER
+LET mxvolm12&=515 ! TEXT in Baum MIXER
+LET mxvolz12&=523 ! IMAGE in Baum MIXER
+LET mxvoll12&=524 ! BOX in Baum MIXER
+LET mxvolr12&=525 ! BOX in Baum MIXER
+LET mixpkl12&=526 ! BOX in Baum MIXER
+LET mixpkr12&=527 ! BOX in Baum MIXER
+LET mxvolt12&=528 ! BOXTEXT in Baum MIXER
+LET mxvoln12&=529 ! BOXTEXT in Baum MIXER
+LET mbalbx12&=530 ! BOX in Baum MIXER
+LET mixbll12&=531 ! TEXT in Baum MIXER
+LET mixblr12&=532 ! TEXT in Baum MIXER
+LET mixblm12&=533 ! TEXT in Baum MIXER
+LET mixbal12&=534 ! USERDEF in Baum MIXER
+LET mixblp12&=535 ! IMAGE in Baum MIXER
+LET mixtit12&=536 ! BOXTEXT in Baum MIXER
+LET mixblt12&=537 ! BOXTEXT in Baum MIXER
+LET mixbln12&=538 ! BOXTEXT in Baum MIXER
+LET mixon12&=539 ! USERDEF in Baum MIXER
+LET mixall12&=540 ! USERDEF in Baum MIXER
+LET mixmut12&=541 ! USERDEF in Baum MIXER
+LET mixtxt12&=542 ! BOXTEXT in Baum MIXER
+LET mixbyp12&=543 ! BOXTEXT in Baum MIXER
+LET mixbx13&=544 ! BOX in Baum MIXER
+LET mxvbox13&=545 ! BOX in Baum MIXER
+LET mixfad13&=546 ! USERDEF in Baum MIXER
+LET mixvol13&=547 ! USERDEF in Baum MIXER
+LET mixdb13&=548 ! BOX in Baum MIXER
+LET mxvold13&=552 ! TEXT in Baum MIXER
+LET mxvolm13&=556 ! TEXT in Baum MIXER
+LET mxvolz13&=564 ! IMAGE in Baum MIXER
+LET mxvoll13&=565 ! BOX in Baum MIXER
+LET mxvolr13&=566 ! BOX in Baum MIXER
+LET mixpkl13&=567 ! BOX in Baum MIXER
+LET mixpkr13&=568 ! BOX in Baum MIXER
+LET mxvolt13&=569 ! BOXTEXT in Baum MIXER
+LET mxvoln13&=570 ! BOXTEXT in Baum MIXER
+LET mbalbx13&=571 ! BOX in Baum MIXER
+LET mixbll13&=572 ! TEXT in Baum MIXER
+LET mixblr13&=573 ! TEXT in Baum MIXER
+LET mixblm13&=574 ! TEXT in Baum MIXER
+LET mixbal13&=575 ! USERDEF in Baum MIXER
+LET mixblp13&=576 ! IMAGE in Baum MIXER
+LET mixtit13&=577 ! BOXTEXT in Baum MIXER
+LET mixblt13&=578 ! BOXTEXT in Baum MIXER
+LET mixbln13&=579 ! BOXTEXT in Baum MIXER
+LET mixon13&=580 ! USERDEF in Baum MIXER
+LET mixall13&=581 ! USERDEF in Baum MIXER
+LET mixmut13&=582 ! USERDEF in Baum MIXER
+LET mixtxt13&=583 ! BOXTEXT in Baum MIXER
+LET mixbyp13&=584 ! BOXTEXT in Baum MIXER
+LET mixbx14&=585 ! BOX in Baum MIXER
+LET mxvbox14&=586 ! BOX in Baum MIXER
+LET mixfad14&=587 ! USERDEF in Baum MIXER
+LET mixvol14&=588 ! USERDEF in Baum MIXER
+LET mixdb14&=589 ! BOX in Baum MIXER
+LET mxvold14&=593 ! TEXT in Baum MIXER
+LET mxvolm14&=597 ! TEXT in Baum MIXER
+LET mxvolz14&=605 ! IMAGE in Baum MIXER
+LET mxvoll14&=606 ! BOX in Baum MIXER
+LET mxvolr14&=607 ! BOX in Baum MIXER
+LET mixpkl14&=608 ! BOX in Baum MIXER
+LET mixpkr14&=609 ! BOX in Baum MIXER
+LET mxvolt14&=610 ! BOXTEXT in Baum MIXER
+LET mxvoln14&=611 ! BOXTEXT in Baum MIXER
+LET mbalbx14&=612 ! BOX in Baum MIXER
+LET mixbll14&=613 ! TEXT in Baum MIXER
+LET mixblr14&=614 ! TEXT in Baum MIXER
+LET mixblm14&=615 ! TEXT in Baum MIXER
+LET mixbal14&=616 ! USERDEF in Baum MIXER
+LET mixblp14&=617 ! IMAGE in Baum MIXER
+LET mixtit14&=618 ! BOXTEXT in Baum MIXER
+LET mixblt14&=619 ! BOXTEXT in Baum MIXER
+LET mixbln14&=620 ! BOXTEXT in Baum MIXER
+LET mixon14&=621 ! USERDEF in Baum MIXER
+LET mixall14&=622 ! USERDEF in Baum MIXER
+LET mixmut14&=623 ! USERDEF in Baum MIXER
+LET mixtxt14&=624 ! BOXTEXT in Baum MIXER
+LET mixbyp14&=625 ! BOXTEXT in Baum MIXER
+LET mixbx15&=626 ! BOX in Baum MIXER
+LET mxvbox15&=627 ! BOX in Baum MIXER
+LET mixfad15&=628 ! USERDEF in Baum MIXER
+LET mixvol15&=629 ! USERDEF in Baum MIXER
+LET mixdb15&=630 ! BOX in Baum MIXER
+LET mxvold15&=634 ! TEXT in Baum MIXER
+LET mxvolm15&=638 ! TEXT in Baum MIXER
+LET mxvolz15&=646 ! IMAGE in Baum MIXER
+LET mxvoll15&=647 ! BOX in Baum MIXER
+LET mxvolr15&=648 ! BOX in Baum MIXER
+LET mixpkl15&=649 ! BOX in Baum MIXER
+LET mixpkr15&=650 ! BOX in Baum MIXER
+LET mxvolt15&=651 ! BOXTEXT in Baum MIXER
+LET mxvoln15&=652 ! BOXTEXT in Baum MIXER
+LET mbalbx15&=653 ! BOX in Baum MIXER
+LET mixbll15&=654 ! TEXT in Baum MIXER
+LET mixblr15&=655 ! TEXT in Baum MIXER
+LET mixblm15&=656 ! TEXT in Baum MIXER
+LET mixbal15&=657 ! USERDEF in Baum MIXER
+LET mixblp15&=658 ! IMAGE in Baum MIXER
+LET mixtit15&=659 ! BOXTEXT in Baum MIXER
+LET mixblt15&=660 ! BOXTEXT in Baum MIXER
+LET mixbln15&=661 ! BOXTEXT in Baum MIXER
+LET mixon15&=662 ! USERDEF in Baum MIXER
+LET mixall15&=663 ! USERDEF in Baum MIXER
+LET mixmut15&=664 ! USERDEF in Baum MIXER
+LET mixtxt15&=665 ! BOXTEXT in Baum MIXER
+LET mixbyp15&=666 ! BOXTEXT in Baum MIXER
+LET mixbx16&=667 ! BOX in Baum MIXER
+LET mxvbox16&=668 ! BOX in Baum MIXER
+LET mixfad16&=669 ! USERDEF in Baum MIXER
+LET mixvol16&=670 ! USERDEF in Baum MIXER
+LET mixdb16&=671 ! BOX in Baum MIXER
+LET mxvold16&=675 ! TEXT in Baum MIXER
+LET mxvolm16&=679 ! TEXT in Baum MIXER
+LET mxvolz16&=687 ! IMAGE in Baum MIXER
+LET mxvoll16&=688 ! BOX in Baum MIXER
+LET mxvolr16&=689 ! BOX in Baum MIXER
+LET mixpkl16&=690 ! BOX in Baum MIXER
+LET mixpkr16&=691 ! BOX in Baum MIXER
+LET mxvolt16&=692 ! BOXTEXT in Baum MIXER
+LET mxvoln16&=693 ! BOXTEXT in Baum MIXER
+LET mbalbx16&=694 ! BOX in Baum MIXER
+LET mixbll16&=695 ! TEXT in Baum MIXER
+LET mixblr16&=696 ! TEXT in Baum MIXER
+LET mixblm16&=697 ! TEXT in Baum MIXER
+LET mixbal16&=698 ! USERDEF in Baum MIXER
+LET mixblp16&=699 ! IMAGE in Baum MIXER
+LET mixtit16&=700 ! BOXTEXT in Baum MIXER
+LET mixblt16&=701 ! BOXTEXT in Baum MIXER
+LET mixbln16&=702 ! BOXTEXT in Baum MIXER
+LET mixon16&=703 ! USERDEF in Baum MIXER
+LET mixall16&=704 ! USERDEF in Baum MIXER
+LET mixmut16&=705 ! USERDEF in Baum MIXER
+LET mixtxt16&=706 ! BOXTEXT in Baum MIXER
+LET mixbyp16&=707 ! BOXTEXT in Baum MIXER
+LET mixbox3&=708 ! BOX in Baum MIXER
+LET mixstop&=709 ! USERDEF in Baum MIXER
+LET mixwait&=710 ! USERDEF in Baum MIXER
+LET mixhelp&=711 ! BOXTEXT in Baum MIXER
+LET mixexit&=712 ! BUTTON in Baum MIXER
+LET mixrec&=713 ! USERDEF in Baum MIXER
+LET mixplay&=714 ! USERDEF in Baum MIXER
+LET mixarec&=715 ! USERDEF in Baum MIXER
+LET mixrecp&=716 ! USERDEF in Baum MIXER
+LET mpkhl&=717 ! USERDEF in Baum MIXER
+LET mpkhslid&=718 ! BOX in Baum MIXER
+LET mpkhbut&=719 ! BUTTON in Baum MIXER
+LET mpkhr&=720 ! USERDEF in Baum MIXER
+LET mixpeak&=721 ! BOXTEXT in Baum MIXER
+LET mixpeakt&=722 ! TEXT in Baum MIXER
+LET mixerr&=723 ! BOXTEXT in Baum MIXER
+LET mixerrt&=724 ! TEXT in Baum MIXER
+LET dsicon&=725 ! USERDEF in Baum MIXER
+'
+LET fsel&=4 ! Formular/Dialog
 LET fselbox&=0 ! BOX in Baum FSEL
 LET fselbox2&=1 ! BOX in Baum FSEL
 LET fsbut1&=2 ! BOXTEXT in Baum FSEL
@@ -12136,7 +13218,513 @@ LET trkmon&=168 ! BOXTEXT in Baum TRAKKER
 LET trakhelp&=170 ! BOXTEXT in Baum TRAKKER
 LET trakexit&=171 ! BUTTON in Baum TRAKKER
 '
-LET fsel&=3 ! Formular/Dialog
+LET mixer&=3 ! Formular/Dialog
+LET mixbox1&=0 ! BOX in Baum MIXER
+LET mixbox2&=1 ! BOX in Baum MIXER
+LET mixload&=2 ! USERDEF in Baum MIXER
+LET mixsave&=3 ! USERDEF in Baum MIXER
+LET mixmax&=4 ! BOXTEXT in Baum MIXER
+LET mixact&=5 ! BOXTEXT in Baum MIXER
+LET mixmaxt&=6 ! TEXT in Baum MIXER
+LET mixactt&=7 ! TEXT in Baum MIXER
+LET mixfile&=8 ! BOXTEXT in Baum MIXER
+LET mixfilet&=9 ! TEXT in Baum MIXER
+LET mixbx1&=10 ! BOX in Baum MIXER
+LET mixvbox1&=11 ! BOX in Baum MIXER
+LET mixfade1&=12 ! USERDEF in Baum MIXER
+LET mixvol1&=13 ! USERDEF in Baum MIXER
+LET mixdb1&=14 ! BOX in Baum MIXER
+LET mixvold1&=18 ! TEXT in Baum MIXER
+LET mixvolm1&=22 ! TEXT in Baum MIXER
+LET mixvolz1&=30 ! IMAGE in Baum MIXER
+LET mixvoll1&=31 ! BOX in Baum MIXER
+LET mixvolr1&=32 ! BOX in Baum MIXER
+LET mixpkl1&=33 ! BOX in Baum MIXER
+LET mixpkr1&=34 ! BOX in Baum MIXER
+LET mixvolt1&=35 ! BOXTEXT in Baum MIXER
+LET mixvoln1&=36 ! BOXTEXT in Baum MIXER
+LET mxbalbx1&=37 ! BOX in Baum MIXER
+LET mixball1&=38 ! TEXT in Baum MIXER
+LET mixbalr1&=39 ! TEXT in Baum MIXER
+LET mixbalm1&=40 ! TEXT in Baum MIXER
+LET mixbal1&=41 ! USERDEF in Baum MIXER
+LET mixbalp1&=42 ! IMAGE in Baum MIXER
+LET mixtit1&=43 ! BOXTEXT in Baum MIXER
+LET mixbalt1&=44 ! BOXTEXT in Baum MIXER
+LET mixbaln1&=45 ! BOXTEXT in Baum MIXER
+LET mixon1&=46 ! USERDEF in Baum MIXER
+LET mixall1&=47 ! USERDEF in Baum MIXER
+LET mixmute1&=48 ! USERDEF in Baum MIXER
+LET mixtxt1&=49 ! BOXTEXT in Baum MIXER
+LET mixbyp1&=50 ! BOXTEXT in Baum MIXER
+LET mixbx2&=52 ! BOX in Baum MIXER
+LET mixvbox2&=53 ! BOX in Baum MIXER
+LET mixfade2&=54 ! USERDEF in Baum MIXER
+LET mixvol2&=55 ! USERDEF in Baum MIXER
+LET mixdb2&=56 ! BOX in Baum MIXER
+LET mixvold2&=60 ! TEXT in Baum MIXER
+LET mixvolm2&=64 ! TEXT in Baum MIXER
+LET mixvolz2&=72 ! IMAGE in Baum MIXER
+LET mixvoll2&=73 ! BOX in Baum MIXER
+LET mixvolr2&=74 ! BOX in Baum MIXER
+LET mixpkl2&=75 ! BOX in Baum MIXER
+LET mixpkr2&=76 ! BOX in Baum MIXER
+LET mixvolt2&=77 ! BOXTEXT in Baum MIXER
+LET mixvoln2&=78 ! BOXTEXT in Baum MIXER
+LET mxbalbx2&=79 ! BOX in Baum MIXER
+LET mixball2&=80 ! TEXT in Baum MIXER
+LET mixbalr2&=81 ! TEXT in Baum MIXER
+LET mixbalm2&=82 ! TEXT in Baum MIXER
+LET mixbal2&=83 ! USERDEF in Baum MIXER
+LET mixbalp2&=84 ! IMAGE in Baum MIXER
+LET mixtit2&=85 ! BOXTEXT in Baum MIXER
+LET mixbalt2&=86 ! BOXTEXT in Baum MIXER
+LET mixbaln2&=87 ! BOXTEXT in Baum MIXER
+LET mixon2&=88 ! USERDEF in Baum MIXER
+LET mixall2&=89 ! USERDEF in Baum MIXER
+LET mixmute2&=90 ! USERDEF in Baum MIXER
+LET mixtxt2&=91 ! BOXTEXT in Baum MIXER
+LET mixbyp2&=92 ! BOXTEXT in Baum MIXER
+LET mixbx3&=93 ! BOX in Baum MIXER
+LET mixvbox3&=94 ! BOX in Baum MIXER
+LET mixfade3&=95 ! USERDEF in Baum MIXER
+LET mixvol3&=96 ! USERDEF in Baum MIXER
+LET mixdb3&=97 ! BOX in Baum MIXER
+LET mixvold3&=101 ! TEXT in Baum MIXER
+LET mixvolm3&=105 ! TEXT in Baum MIXER
+LET mixvolz3&=113 ! IMAGE in Baum MIXER
+LET mixvoll3&=114 ! BOX in Baum MIXER
+LET mixvolr3&=115 ! BOX in Baum MIXER
+LET mixpkl3&=116 ! BOX in Baum MIXER
+LET mixpkr3&=117 ! BOX in Baum MIXER
+LET mixvolt3&=118 ! BOXTEXT in Baum MIXER
+LET mixvoln3&=119 ! BOXTEXT in Baum MIXER
+LET mxbalbx3&=120 ! BOX in Baum MIXER
+LET mixball3&=121 ! TEXT in Baum MIXER
+LET mixbalr3&=122 ! TEXT in Baum MIXER
+LET mixbalm3&=123 ! TEXT in Baum MIXER
+LET mixbal3&=124 ! USERDEF in Baum MIXER
+LET mixbalp3&=125 ! IMAGE in Baum MIXER
+LET mixtit3&=126 ! BOXTEXT in Baum MIXER
+LET mixbalt3&=127 ! BOXTEXT in Baum MIXER
+LET mixbaln3&=128 ! BOXTEXT in Baum MIXER
+LET mixon3&=129 ! USERDEF in Baum MIXER
+LET mixall3&=130 ! USERDEF in Baum MIXER
+LET mixmute3&=131 ! USERDEF in Baum MIXER
+LET mixtxt3&=132 ! BOXTEXT in Baum MIXER
+LET mixbyp3&=133 ! BOXTEXT in Baum MIXER
+LET mixbx4&=134 ! BOX in Baum MIXER
+LET mixvbox4&=135 ! BOX in Baum MIXER
+LET mixfade4&=136 ! USERDEF in Baum MIXER
+LET mixvol4&=137 ! USERDEF in Baum MIXER
+LET mixdb4&=138 ! BOX in Baum MIXER
+LET mixvold4&=142 ! TEXT in Baum MIXER
+LET mixvolm4&=146 ! TEXT in Baum MIXER
+LET mixvolz4&=154 ! IMAGE in Baum MIXER
+LET mixvoll4&=155 ! BOX in Baum MIXER
+LET mixvolr4&=156 ! BOX in Baum MIXER
+LET mixpkl4&=157 ! BOX in Baum MIXER
+LET mixpkr4&=158 ! BOX in Baum MIXER
+LET mixvolt4&=159 ! BOXTEXT in Baum MIXER
+LET mixvoln4&=160 ! BOXTEXT in Baum MIXER
+LET mxbalbx4&=161 ! BOX in Baum MIXER
+LET mixball4&=162 ! TEXT in Baum MIXER
+LET mixbalr4&=163 ! TEXT in Baum MIXER
+LET mixbalm4&=164 ! TEXT in Baum MIXER
+LET mixbal4&=165 ! USERDEF in Baum MIXER
+LET mixbalp4&=166 ! IMAGE in Baum MIXER
+LET mixtit4&=167 ! BOXTEXT in Baum MIXER
+LET mixbalt4&=168 ! BOXTEXT in Baum MIXER
+LET mixbaln4&=169 ! BOXTEXT in Baum MIXER
+LET mixon4&=170 ! USERDEF in Baum MIXER
+LET mixall4&=171 ! USERDEF in Baum MIXER
+LET mixmute4&=172 ! USERDEF in Baum MIXER
+LET mixtxt4&=173 ! BOXTEXT in Baum MIXER
+LET mixbyp4&=174 ! BOXTEXT in Baum MIXER
+LET mixbx5&=175 ! BOX in Baum MIXER
+LET mixvbox5&=176 ! BOX in Baum MIXER
+LET mixfade5&=177 ! USERDEF in Baum MIXER
+LET mixvol5&=178 ! USERDEF in Baum MIXER
+LET mixdb5&=179 ! BOX in Baum MIXER
+LET mixvold5&=183 ! TEXT in Baum MIXER
+LET mixvolm5&=187 ! TEXT in Baum MIXER
+LET mixvolz5&=195 ! IMAGE in Baum MIXER
+LET mixvoll5&=196 ! BOX in Baum MIXER
+LET mixvolr5&=197 ! BOX in Baum MIXER
+LET mixpkl5&=198 ! BOX in Baum MIXER
+LET mixpkr5&=199 ! BOX in Baum MIXER
+LET mixvolt5&=200 ! BOXTEXT in Baum MIXER
+LET mixvoln5&=201 ! BOXTEXT in Baum MIXER
+LET mxbalbx5&=202 ! BOX in Baum MIXER
+LET mixball5&=203 ! TEXT in Baum MIXER
+LET mixbalr5&=204 ! TEXT in Baum MIXER
+LET mixbalm5&=205 ! TEXT in Baum MIXER
+LET mixbal5&=206 ! USERDEF in Baum MIXER
+LET mixbalp5&=207 ! IMAGE in Baum MIXER
+LET mixtit5&=208 ! BOXTEXT in Baum MIXER
+LET mixbalt5&=209 ! BOXTEXT in Baum MIXER
+LET mixbaln5&=210 ! BOXTEXT in Baum MIXER
+LET mixon5&=211 ! USERDEF in Baum MIXER
+LET mixall5&=212 ! USERDEF in Baum MIXER
+LET mixmute5&=213 ! USERDEF in Baum MIXER
+LET mixtxt5&=214 ! BOXTEXT in Baum MIXER
+LET mixbyp5&=215 ! BOXTEXT in Baum MIXER
+LET mixbx6&=216 ! BOX in Baum MIXER
+LET mixvbox6&=217 ! BOX in Baum MIXER
+LET mixfade6&=218 ! USERDEF in Baum MIXER
+LET mixvol6&=219 ! USERDEF in Baum MIXER
+LET mixdb6&=220 ! BOX in Baum MIXER
+LET mixvold6&=224 ! TEXT in Baum MIXER
+LET mixvolm6&=228 ! TEXT in Baum MIXER
+LET mixvolz6&=236 ! IMAGE in Baum MIXER
+LET mixvoll6&=237 ! BOX in Baum MIXER
+LET mixvolr6&=238 ! BOX in Baum MIXER
+LET mixpkl6&=239 ! BOX in Baum MIXER
+LET mixpkr6&=240 ! BOX in Baum MIXER
+LET mixvolt6&=241 ! BOXTEXT in Baum MIXER
+LET mixvoln6&=242 ! BOXTEXT in Baum MIXER
+LET mxbalbx6&=243 ! BOX in Baum MIXER
+LET mixball6&=244 ! TEXT in Baum MIXER
+LET mixbalr6&=245 ! TEXT in Baum MIXER
+LET mixbalm6&=246 ! TEXT in Baum MIXER
+LET mixbal6&=247 ! USERDEF in Baum MIXER
+LET mixbalp6&=248 ! IMAGE in Baum MIXER
+LET mixtit6&=249 ! BOXTEXT in Baum MIXER
+LET mixbalt6&=250 ! BOXTEXT in Baum MIXER
+LET mixbaln6&=251 ! BOXTEXT in Baum MIXER
+LET mixon6&=252 ! USERDEF in Baum MIXER
+LET mixall6&=253 ! USERDEF in Baum MIXER
+LET mixmute6&=254 ! USERDEF in Baum MIXER
+LET mixtxt6&=255 ! BOXTEXT in Baum MIXER
+LET mixbyp6&=256 ! BOXTEXT in Baum MIXER
+LET mixbx7&=257 ! BOX in Baum MIXER
+LET mixvbox7&=258 ! BOX in Baum MIXER
+LET mixfade7&=259 ! USERDEF in Baum MIXER
+LET mixvol7&=260 ! USERDEF in Baum MIXER
+LET mixdb7&=261 ! BOX in Baum MIXER
+LET mixvold7&=265 ! TEXT in Baum MIXER
+LET mixvolm7&=269 ! TEXT in Baum MIXER
+LET mixvolz7&=277 ! IMAGE in Baum MIXER
+LET mixvoll7&=278 ! BOX in Baum MIXER
+LET mixvolr7&=279 ! BOX in Baum MIXER
+LET mixpkl7&=280 ! BOX in Baum MIXER
+LET mixpkr7&=281 ! BOX in Baum MIXER
+LET mixvolt7&=282 ! BOXTEXT in Baum MIXER
+LET mixvoln7&=283 ! BOXTEXT in Baum MIXER
+LET mxbalbx7&=284 ! BOX in Baum MIXER
+LET mixball7&=285 ! TEXT in Baum MIXER
+LET mixbalr7&=286 ! TEXT in Baum MIXER
+LET mixbalm7&=287 ! TEXT in Baum MIXER
+LET mixbal7&=288 ! USERDEF in Baum MIXER
+LET mixbalp7&=289 ! IMAGE in Baum MIXER
+LET mixtit7&=290 ! BOXTEXT in Baum MIXER
+LET mixbalt7&=291 ! BOXTEXT in Baum MIXER
+LET mixbaln7&=292 ! BOXTEXT in Baum MIXER
+LET mixon7&=293 ! USERDEF in Baum MIXER
+LET mixall7&=294 ! USERDEF in Baum MIXER
+LET mixmute7&=295 ! USERDEF in Baum MIXER
+LET mixtxt7&=296 ! BOXTEXT in Baum MIXER
+LET mixbyp7&=297 ! BOXTEXT in Baum MIXER
+LET mixbx8&=298 ! BOX in Baum MIXER
+LET mixvbox8&=299 ! BOX in Baum MIXER
+LET mixfade8&=300 ! USERDEF in Baum MIXER
+LET mixvol8&=301 ! USERDEF in Baum MIXER
+LET mixdb8&=302 ! BOX in Baum MIXER
+LET mixvold8&=306 ! TEXT in Baum MIXER
+LET mixvolm8&=310 ! TEXT in Baum MIXER
+LET mixvolz8&=318 ! IMAGE in Baum MIXER
+LET mixvoll8&=319 ! BOX in Baum MIXER
+LET mixvolr8&=320 ! BOX in Baum MIXER
+LET mixpkl8&=321 ! BOX in Baum MIXER
+LET mixpkr8&=322 ! BOX in Baum MIXER
+LET mixvolt8&=323 ! BOXTEXT in Baum MIXER
+LET mixvoln8&=324 ! BOXTEXT in Baum MIXER
+LET mxbalbx8&=325 ! BOX in Baum MIXER
+LET mixball8&=326 ! TEXT in Baum MIXER
+LET mixbalr8&=327 ! TEXT in Baum MIXER
+LET mixbalm8&=328 ! TEXT in Baum MIXER
+LET mixbal8&=329 ! USERDEF in Baum MIXER
+LET mixbalp8&=330 ! IMAGE in Baum MIXER
+LET mixtit8&=331 ! BOXTEXT in Baum MIXER
+LET mixbalt8&=332 ! BOXTEXT in Baum MIXER
+LET mixbaln8&=333 ! BOXTEXT in Baum MIXER
+LET mixon8&=334 ! USERDEF in Baum MIXER
+LET mixall8&=335 ! USERDEF in Baum MIXER
+LET mixmute8&=336 ! USERDEF in Baum MIXER
+LET mixtxt8&=337 ! BOXTEXT in Baum MIXER
+LET mixbyp8&=338 ! BOXTEXT in Baum MIXER
+LET mixbxm&=339 ! BOX in Baum MIXER
+LET mixvboxm&=340 ! BOX in Baum MIXER
+LET mixfadem&=341 ! USERDEF in Baum MIXER
+LET mixvolm&=342 ! USERDEF in Baum MIXER
+LET mixdbm&=343 ! BOX in Baum MIXER
+LET mixvoldm&=347 ! TEXT in Baum MIXER
+LET mixvolmm&=351 ! TEXT in Baum MIXER
+LET mixvolzm&=359 ! IMAGE in Baum MIXER
+LET mixvollm&=360 ! BOX in Baum MIXER
+LET mixvolrm&=361 ! BOX in Baum MIXER
+LET mixpklm&=362 ! BOX in Baum MIXER
+LET mixpkrm&=363 ! BOX in Baum MIXER
+LET mixvoltm&=364 ! BOXTEXT in Baum MIXER
+LET mixvolnm&=365 ! BOXTEXT in Baum MIXER
+LET mxbalbxm&=366 ! BOX in Baum MIXER
+LET mixballm&=367 ! TEXT in Baum MIXER
+LET mixbalrm&=368 ! TEXT in Baum MIXER
+LET mixbalmm&=369 ! TEXT in Baum MIXER
+LET mixbalm&=370 ! USERDEF in Baum MIXER
+LET mixbalpm&=371 ! IMAGE in Baum MIXER
+LET mixtitm&=372 ! BOXTEXT in Baum MIXER
+LET mixbaltm&=373 ! BOXTEXT in Baum MIXER
+LET mixbalnm&=374 ! BOXTEXT in Baum MIXER
+LET mixonm&=375 ! USERDEF in Baum MIXER
+LET mixallm&=376 ! USERDEF in Baum MIXER
+LET mixmutem&=377 ! USERDEF in Baum MIXER
+LET mixtxtm&=378 ! BOXTEXT in Baum MIXER
+LET mixbypm&=379 ! BOXTEXT in Baum MIXER
+LET mixbx9&=380 ! BOX in Baum MIXER
+LET mixvbox9&=381 ! BOX in Baum MIXER
+LET mixfade9&=382 ! USERDEF in Baum MIXER
+LET mixvol9&=383 ! USERDEF in Baum MIXER
+LET mixdb9&=384 ! BOX in Baum MIXER
+LET mixvold9&=388 ! TEXT in Baum MIXER
+LET mixvolm9&=392 ! TEXT in Baum MIXER
+LET mixvolz9&=400 ! IMAGE in Baum MIXER
+LET mixvoll9&=401 ! BOX in Baum MIXER
+LET mixvolr9&=402 ! BOX in Baum MIXER
+LET mixpkl9&=403 ! BOX in Baum MIXER
+LET mixpkr9&=404 ! BOX in Baum MIXER
+LET mixvolt9&=405 ! BOXTEXT in Baum MIXER
+LET mixvoln9&=406 ! BOXTEXT in Baum MIXER
+LET mxbalbx9&=407 ! BOX in Baum MIXER
+LET mixball9&=408 ! TEXT in Baum MIXER
+LET mixbalr9&=409 ! TEXT in Baum MIXER
+LET mixbalm9&=410 ! TEXT in Baum MIXER
+LET mixbal9&=411 ! USERDEF in Baum MIXER
+LET mixbalp9&=412 ! IMAGE in Baum MIXER
+LET mixtit9&=413 ! BOXTEXT in Baum MIXER
+LET mixbalt9&=414 ! BOXTEXT in Baum MIXER
+LET mixbaln9&=415 ! BOXTEXT in Baum MIXER
+LET mixon9&=416 ! USERDEF in Baum MIXER
+LET mixall9&=417 ! USERDEF in Baum MIXER
+LET mixmute9&=418 ! USERDEF in Baum MIXER
+LET mixtxt9&=419 ! BOXTEXT in Baum MIXER
+LET mixbyp9&=420 ! BOXTEXT in Baum MIXER
+LET mixbx10&=421 ! BOX in Baum MIXER
+LET mxvbox10&=422 ! BOX in Baum MIXER
+LET mixfad10&=423 ! USERDEF in Baum MIXER
+LET mixvol10&=424 ! USERDEF in Baum MIXER
+LET mixdb10&=425 ! BOX in Baum MIXER
+LET mxvold10&=429 ! TEXT in Baum MIXER
+LET mxvolm10&=433 ! TEXT in Baum MIXER
+LET mxvolz10&=441 ! IMAGE in Baum MIXER
+LET mxvoll10&=442 ! BOX in Baum MIXER
+LET mxvolr10&=443 ! BOX in Baum MIXER
+LET mixpkl10&=444 ! BOX in Baum MIXER
+LET mixpkr10&=445 ! BOX in Baum MIXER
+LET mxvolt10&=446 ! BOXTEXT in Baum MIXER
+LET mxvoln10&=447 ! BOXTEXT in Baum MIXER
+LET mbalbx10&=448 ! BOX in Baum MIXER
+LET mixbll10&=449 ! TEXT in Baum MIXER
+LET mixblr10&=450 ! TEXT in Baum MIXER
+LET mixblm10&=451 ! TEXT in Baum MIXER
+LET mixbal10&=452 ! USERDEF in Baum MIXER
+LET mixblp10&=453 ! IMAGE in Baum MIXER
+LET mixtit10&=454 ! BOXTEXT in Baum MIXER
+LET mixblt10&=455 ! BOXTEXT in Baum MIXER
+LET mixbln10&=456 ! BOXTEXT in Baum MIXER
+LET mixon10&=457 ! USERDEF in Baum MIXER
+LET mixall10&=458 ! USERDEF in Baum MIXER
+LET mixmut10&=459 ! USERDEF in Baum MIXER
+LET mixtxt10&=460 ! BOXTEXT in Baum MIXER
+LET mixbyp10&=461 ! BOXTEXT in Baum MIXER
+LET mixbx11&=462 ! BOX in Baum MIXER
+LET mxvbox11&=463 ! BOX in Baum MIXER
+LET mixfad11&=464 ! USERDEF in Baum MIXER
+LET mixvol11&=465 ! USERDEF in Baum MIXER
+LET mixdb11&=466 ! BOX in Baum MIXER
+LET mxvold11&=470 ! TEXT in Baum MIXER
+LET mxvolm11&=474 ! TEXT in Baum MIXER
+LET mxvolz11&=482 ! IMAGE in Baum MIXER
+LET mxvoll11&=483 ! BOX in Baum MIXER
+LET mxvolr11&=484 ! BOX in Baum MIXER
+LET mixpkl11&=485 ! BOX in Baum MIXER
+LET mixpkr11&=486 ! BOX in Baum MIXER
+LET mxvolt11&=487 ! BOXTEXT in Baum MIXER
+LET mxvoln11&=488 ! BOXTEXT in Baum MIXER
+LET mbalbx11&=489 ! BOX in Baum MIXER
+LET mixbll11&=490 ! TEXT in Baum MIXER
+LET mixblr11&=491 ! TEXT in Baum MIXER
+LET mixblm11&=492 ! TEXT in Baum MIXER
+LET mixbal11&=493 ! USERDEF in Baum MIXER
+LET mixblp11&=494 ! IMAGE in Baum MIXER
+LET mixtit11&=495 ! BOXTEXT in Baum MIXER
+LET mixblt11&=496 ! BOXTEXT in Baum MIXER
+LET mixbln11&=497 ! BOXTEXT in Baum MIXER
+LET mixon11&=498 ! USERDEF in Baum MIXER
+LET mixall11&=499 ! USERDEF in Baum MIXER
+LET mixmut11&=500 ! USERDEF in Baum MIXER
+LET mixtxt11&=501 ! BOXTEXT in Baum MIXER
+LET mixbyp11&=502 ! BOXTEXT in Baum MIXER
+LET mixbx12&=503 ! BOX in Baum MIXER
+LET mxvbox12&=504 ! BOX in Baum MIXER
+LET mixfad12&=505 ! USERDEF in Baum MIXER
+LET mixvol12&=506 ! USERDEF in Baum MIXER
+LET mixdb12&=507 ! BOX in Baum MIXER
+LET mxvold12&=511 ! TEXT in Baum MIXER
+LET mxvolm12&=515 ! TEXT in Baum MIXER
+LET mxvolz12&=523 ! IMAGE in Baum MIXER
+LET mxvoll12&=524 ! BOX in Baum MIXER
+LET mxvolr12&=525 ! BOX in Baum MIXER
+LET mixpkl12&=526 ! BOX in Baum MIXER
+LET mixpkr12&=527 ! BOX in Baum MIXER
+LET mxvolt12&=528 ! BOXTEXT in Baum MIXER
+LET mxvoln12&=529 ! BOXTEXT in Baum MIXER
+LET mbalbx12&=530 ! BOX in Baum MIXER
+LET mixbll12&=531 ! TEXT in Baum MIXER
+LET mixblr12&=532 ! TEXT in Baum MIXER
+LET mixblm12&=533 ! TEXT in Baum MIXER
+LET mixbal12&=534 ! USERDEF in Baum MIXER
+LET mixblp12&=535 ! IMAGE in Baum MIXER
+LET mixtit12&=536 ! BOXTEXT in Baum MIXER
+LET mixblt12&=537 ! BOXTEXT in Baum MIXER
+LET mixbln12&=538 ! BOXTEXT in Baum MIXER
+LET mixon12&=539 ! USERDEF in Baum MIXER
+LET mixall12&=540 ! USERDEF in Baum MIXER
+LET mixmut12&=541 ! USERDEF in Baum MIXER
+LET mixtxt12&=542 ! BOXTEXT in Baum MIXER
+LET mixbyp12&=543 ! BOXTEXT in Baum MIXER
+LET mixbx13&=544 ! BOX in Baum MIXER
+LET mxvbox13&=545 ! BOX in Baum MIXER
+LET mixfad13&=546 ! USERDEF in Baum MIXER
+LET mixvol13&=547 ! USERDEF in Baum MIXER
+LET mixdb13&=548 ! BOX in Baum MIXER
+LET mxvold13&=552 ! TEXT in Baum MIXER
+LET mxvolm13&=556 ! TEXT in Baum MIXER
+LET mxvolz13&=564 ! IMAGE in Baum MIXER
+LET mxvoll13&=565 ! BOX in Baum MIXER
+LET mxvolr13&=566 ! BOX in Baum MIXER
+LET mixpkl13&=567 ! BOX in Baum MIXER
+LET mixpkr13&=568 ! BOX in Baum MIXER
+LET mxvolt13&=569 ! BOXTEXT in Baum MIXER
+LET mxvoln13&=570 ! BOXTEXT in Baum MIXER
+LET mbalbx13&=571 ! BOX in Baum MIXER
+LET mixbll13&=572 ! TEXT in Baum MIXER
+LET mixblr13&=573 ! TEXT in Baum MIXER
+LET mixblm13&=574 ! TEXT in Baum MIXER
+LET mixbal13&=575 ! USERDEF in Baum MIXER
+LET mixblp13&=576 ! IMAGE in Baum MIXER
+LET mixtit13&=577 ! BOXTEXT in Baum MIXER
+LET mixblt13&=578 ! BOXTEXT in Baum MIXER
+LET mixbln13&=579 ! BOXTEXT in Baum MIXER
+LET mixon13&=580 ! USERDEF in Baum MIXER
+LET mixall13&=581 ! USERDEF in Baum MIXER
+LET mixmut13&=582 ! USERDEF in Baum MIXER
+LET mixtxt13&=583 ! BOXTEXT in Baum MIXER
+LET mixbyp13&=584 ! BOXTEXT in Baum MIXER
+LET mixbx14&=585 ! BOX in Baum MIXER
+LET mxvbox14&=586 ! BOX in Baum MIXER
+LET mixfad14&=587 ! USERDEF in Baum MIXER
+LET mixvol14&=588 ! USERDEF in Baum MIXER
+LET mixdb14&=589 ! BOX in Baum MIXER
+LET mxvold14&=593 ! TEXT in Baum MIXER
+LET mxvolm14&=597 ! TEXT in Baum MIXER
+LET mxvolz14&=605 ! IMAGE in Baum MIXER
+LET mxvoll14&=606 ! BOX in Baum MIXER
+LET mxvolr14&=607 ! BOX in Baum MIXER
+LET mixpkl14&=608 ! BOX in Baum MIXER
+LET mixpkr14&=609 ! BOX in Baum MIXER
+LET mxvolt14&=610 ! BOXTEXT in Baum MIXER
+LET mxvoln14&=611 ! BOXTEXT in Baum MIXER
+LET mbalbx14&=612 ! BOX in Baum MIXER
+LET mixbll14&=613 ! TEXT in Baum MIXER
+LET mixblr14&=614 ! TEXT in Baum MIXER
+LET mixblm14&=615 ! TEXT in Baum MIXER
+LET mixbal14&=616 ! USERDEF in Baum MIXER
+LET mixblp14&=617 ! IMAGE in Baum MIXER
+LET mixtit14&=618 ! BOXTEXT in Baum MIXER
+LET mixblt14&=619 ! BOXTEXT in Baum MIXER
+LET mixbln14&=620 ! BOXTEXT in Baum MIXER
+LET mixon14&=621 ! USERDEF in Baum MIXER
+LET mixall14&=622 ! USERDEF in Baum MIXER
+LET mixmut14&=623 ! USERDEF in Baum MIXER
+LET mixtxt14&=624 ! BOXTEXT in Baum MIXER
+LET mixbyp14&=625 ! BOXTEXT in Baum MIXER
+LET mixbx15&=626 ! BOX in Baum MIXER
+LET mxvbox15&=627 ! BOX in Baum MIXER
+LET mixfad15&=628 ! USERDEF in Baum MIXER
+LET mixvol15&=629 ! USERDEF in Baum MIXER
+LET mixdb15&=630 ! BOX in Baum MIXER
+LET mxvold15&=634 ! TEXT in Baum MIXER
+LET mxvolm15&=638 ! TEXT in Baum MIXER
+LET mxvolz15&=646 ! IMAGE in Baum MIXER
+LET mxvoll15&=647 ! BOX in Baum MIXER
+LET mxvolr15&=648 ! BOX in Baum MIXER
+LET mixpkl15&=649 ! BOX in Baum MIXER
+LET mixpkr15&=650 ! BOX in Baum MIXER
+LET mxvolt15&=651 ! BOXTEXT in Baum MIXER
+LET mxvoln15&=652 ! BOXTEXT in Baum MIXER
+LET mbalbx15&=653 ! BOX in Baum MIXER
+LET mixbll15&=654 ! TEXT in Baum MIXER
+LET mixblr15&=655 ! TEXT in Baum MIXER
+LET mixblm15&=656 ! TEXT in Baum MIXER
+LET mixbal15&=657 ! USERDEF in Baum MIXER
+LET mixblp15&=658 ! IMAGE in Baum MIXER
+LET mixtit15&=659 ! BOXTEXT in Baum MIXER
+LET mixblt15&=660 ! BOXTEXT in Baum MIXER
+LET mixbln15&=661 ! BOXTEXT in Baum MIXER
+LET mixon15&=662 ! USERDEF in Baum MIXER
+LET mixall15&=663 ! USERDEF in Baum MIXER
+LET mixmut15&=664 ! USERDEF in Baum MIXER
+LET mixtxt15&=665 ! BOXTEXT in Baum MIXER
+LET mixbyp15&=666 ! BOXTEXT in Baum MIXER
+LET mixbx16&=667 ! BOX in Baum MIXER
+LET mxvbox16&=668 ! BOX in Baum MIXER
+LET mixfad16&=669 ! USERDEF in Baum MIXER
+LET mixvol16&=670 ! USERDEF in Baum MIXER
+LET mixdb16&=671 ! BOX in Baum MIXER
+LET mxvold16&=675 ! TEXT in Baum MIXER
+LET mxvolm16&=679 ! TEXT in Baum MIXER
+LET mxvolz16&=687 ! IMAGE in Baum MIXER
+LET mxvoll16&=688 ! BOX in Baum MIXER
+LET mxvolr16&=689 ! BOX in Baum MIXER
+LET mixpkl16&=690 ! BOX in Baum MIXER
+LET mixpkr16&=691 ! BOX in Baum MIXER
+LET mxvolt16&=692 ! BOXTEXT in Baum MIXER
+LET mxvoln16&=693 ! BOXTEXT in Baum MIXER
+LET mbalbx16&=694 ! BOX in Baum MIXER
+LET mixbll16&=695 ! TEXT in Baum MIXER
+LET mixblr16&=696 ! TEXT in Baum MIXER
+LET mixblm16&=697 ! TEXT in Baum MIXER
+LET mixbal16&=698 ! USERDEF in Baum MIXER
+LET mixblp16&=699 ! IMAGE in Baum MIXER
+LET mixtit16&=700 ! BOXTEXT in Baum MIXER
+LET mixblt16&=701 ! BOXTEXT in Baum MIXER
+LET mixbln16&=702 ! BOXTEXT in Baum MIXER
+LET mixon16&=703 ! USERDEF in Baum MIXER
+LET mixall16&=704 ! USERDEF in Baum MIXER
+LET mixmut16&=705 ! USERDEF in Baum MIXER
+LET mixtxt16&=706 ! BOXTEXT in Baum MIXER
+LET mixbyp16&=707 ! BOXTEXT in Baum MIXER
+LET mixbox3&=708 ! BOX in Baum MIXER
+LET mixstop&=709 ! USERDEF in Baum MIXER
+LET mixwait&=710 ! USERDEF in Baum MIXER
+LET mixhelp&=711 ! BOXTEXT in Baum MIXER
+LET mixexit&=712 ! BUTTON in Baum MIXER
+LET mixrec&=713 ! USERDEF in Baum MIXER
+LET mixplay&=714 ! USERDEF in Baum MIXER
+LET mixarec&=715 ! USERDEF in Baum MIXER
+LET mixrecp&=716 ! USERDEF in Baum MIXER
+LET mpkhl&=717 ! USERDEF in Baum MIXER
+LET mpkhslid&=718 ! BOX in Baum MIXER
+LET mpkhbut&=719 ! BUTTON in Baum MIXER
+LET mpkhr&=720 ! USERDEF in Baum MIXER
+LET mixpeak&=721 ! BOXTEXT in Baum MIXER
+LET mixpeakt&=722 ! TEXT in Baum MIXER
+LET mixerr&=723 ! BOXTEXT in Baum MIXER
+LET mixerrt&=724 ! TEXT in Baum MIXER
+LET dsicon&=725 ! USERDEF in Baum MIXER
+'
+LET fsel&=4 ! Formular/Dialog
 LET fselbox&=0 ! BOX in Baum FSEL
 LET fselbox2&=1 ! BOX in Baum FSEL
 LET fsbut1&=2 ! BOXTEXT in Baum FSEL
@@ -12382,513 +13970,7 @@ LET cuechnge&=88 ! BUTTON in Baum CUELIST
 LET cuemix&=89 ! USERDEF in Baum CUELIST
 LET cuecd&=91 ! USERDEF in Baum CUELIST
 '
-LET mixer&=4 ! Formular/Dialog
-LET mixbox1&=0 ! BOX in Baum MIXER
-LET mixbox2&=1 ! BOX in Baum MIXER
-LET mixload&=2 ! USERDEF in Baum MIXER
-LET mixsave&=3 ! USERDEF in Baum MIXER
-LET mixmax&=4 ! BOXTEXT in Baum MIXER
-LET mixact&=5 ! BOXTEXT in Baum MIXER
-LET mixmaxt&=6 ! TEXT in Baum MIXER
-LET mixactt&=7 ! TEXT in Baum MIXER
-LET mixfile&=8 ! BOXTEXT in Baum MIXER
-LET mixfilet&=9 ! TEXT in Baum MIXER
-LET mixbx1&=10 ! BOX in Baum MIXER
-LET mixvbox1&=11 ! BOX in Baum MIXER
-LET mixfade1&=12 ! USERDEF in Baum MIXER
-LET mixvol1&=13 ! USERDEF in Baum MIXER
-LET mixdb1&=14 ! BOX in Baum MIXER
-LET mixvold1&=18 ! TEXT in Baum MIXER
-LET mixvolm1&=22 ! TEXT in Baum MIXER
-LET mixvolz1&=30 ! IMAGE in Baum MIXER
-LET mixvoll1&=31 ! BOX in Baum MIXER
-LET mixvolr1&=32 ! BOX in Baum MIXER
-LET mixpkl1&=33 ! BOX in Baum MIXER
-LET mixpkr1&=34 ! BOX in Baum MIXER
-LET mixvolt1&=35 ! BOXTEXT in Baum MIXER
-LET mixvoln1&=36 ! BOXTEXT in Baum MIXER
-LET mxbalbx1&=37 ! BOX in Baum MIXER
-LET mixball1&=38 ! TEXT in Baum MIXER
-LET mixbalr1&=39 ! TEXT in Baum MIXER
-LET mixbalm1&=40 ! TEXT in Baum MIXER
-LET mixbal1&=41 ! USERDEF in Baum MIXER
-LET mixbalp1&=42 ! IMAGE in Baum MIXER
-LET mixtit1&=43 ! BOXTEXT in Baum MIXER
-LET mixbalt1&=44 ! BOXTEXT in Baum MIXER
-LET mixbaln1&=45 ! BOXTEXT in Baum MIXER
-LET mixon1&=46 ! USERDEF in Baum MIXER
-LET mixall1&=47 ! USERDEF in Baum MIXER
-LET mixmute1&=48 ! USERDEF in Baum MIXER
-LET mixtxt1&=49 ! BOXTEXT in Baum MIXER
-LET mixbyp1&=50 ! BOXTEXT in Baum MIXER
-LET mixbx2&=52 ! BOX in Baum MIXER
-LET mixvbox2&=53 ! BOX in Baum MIXER
-LET mixfade2&=54 ! USERDEF in Baum MIXER
-LET mixvol2&=55 ! USERDEF in Baum MIXER
-LET mixdb2&=56 ! BOX in Baum MIXER
-LET mixvold2&=60 ! TEXT in Baum MIXER
-LET mixvolm2&=64 ! TEXT in Baum MIXER
-LET mixvolz2&=72 ! IMAGE in Baum MIXER
-LET mixvoll2&=73 ! BOX in Baum MIXER
-LET mixvolr2&=74 ! BOX in Baum MIXER
-LET mixpkl2&=75 ! BOX in Baum MIXER
-LET mixpkr2&=76 ! BOX in Baum MIXER
-LET mixvolt2&=77 ! BOXTEXT in Baum MIXER
-LET mixvoln2&=78 ! BOXTEXT in Baum MIXER
-LET mxbalbx2&=79 ! BOX in Baum MIXER
-LET mixball2&=80 ! TEXT in Baum MIXER
-LET mixbalr2&=81 ! TEXT in Baum MIXER
-LET mixbalm2&=82 ! TEXT in Baum MIXER
-LET mixbal2&=83 ! USERDEF in Baum MIXER
-LET mixbalp2&=84 ! IMAGE in Baum MIXER
-LET mixtit2&=85 ! BOXTEXT in Baum MIXER
-LET mixbalt2&=86 ! BOXTEXT in Baum MIXER
-LET mixbaln2&=87 ! BOXTEXT in Baum MIXER
-LET mixon2&=88 ! USERDEF in Baum MIXER
-LET mixall2&=89 ! USERDEF in Baum MIXER
-LET mixmute2&=90 ! USERDEF in Baum MIXER
-LET mixtxt2&=91 ! BOXTEXT in Baum MIXER
-LET mixbyp2&=92 ! BOXTEXT in Baum MIXER
-LET mixbx3&=93 ! BOX in Baum MIXER
-LET mixvbox3&=94 ! BOX in Baum MIXER
-LET mixfade3&=95 ! USERDEF in Baum MIXER
-LET mixvol3&=96 ! USERDEF in Baum MIXER
-LET mixdb3&=97 ! BOX in Baum MIXER
-LET mixvold3&=101 ! TEXT in Baum MIXER
-LET mixvolm3&=105 ! TEXT in Baum MIXER
-LET mixvolz3&=113 ! IMAGE in Baum MIXER
-LET mixvoll3&=114 ! BOX in Baum MIXER
-LET mixvolr3&=115 ! BOX in Baum MIXER
-LET mixpkl3&=116 ! BOX in Baum MIXER
-LET mixpkr3&=117 ! BOX in Baum MIXER
-LET mixvolt3&=118 ! BOXTEXT in Baum MIXER
-LET mixvoln3&=119 ! BOXTEXT in Baum MIXER
-LET mxbalbx3&=120 ! BOX in Baum MIXER
-LET mixball3&=121 ! TEXT in Baum MIXER
-LET mixbalr3&=122 ! TEXT in Baum MIXER
-LET mixbalm3&=123 ! TEXT in Baum MIXER
-LET mixbal3&=124 ! USERDEF in Baum MIXER
-LET mixbalp3&=125 ! IMAGE in Baum MIXER
-LET mixtit3&=126 ! BOXTEXT in Baum MIXER
-LET mixbalt3&=127 ! BOXTEXT in Baum MIXER
-LET mixbaln3&=128 ! BOXTEXT in Baum MIXER
-LET mixon3&=129 ! USERDEF in Baum MIXER
-LET mixall3&=130 ! USERDEF in Baum MIXER
-LET mixmute3&=131 ! USERDEF in Baum MIXER
-LET mixtxt3&=132 ! BOXTEXT in Baum MIXER
-LET mixbyp3&=133 ! BOXTEXT in Baum MIXER
-LET mixbx4&=134 ! BOX in Baum MIXER
-LET mixvbox4&=135 ! BOX in Baum MIXER
-LET mixfade4&=136 ! USERDEF in Baum MIXER
-LET mixvol4&=137 ! USERDEF in Baum MIXER
-LET mixdb4&=138 ! BOX in Baum MIXER
-LET mixvold4&=142 ! TEXT in Baum MIXER
-LET mixvolm4&=146 ! TEXT in Baum MIXER
-LET mixvolz4&=154 ! IMAGE in Baum MIXER
-LET mixvoll4&=155 ! BOX in Baum MIXER
-LET mixvolr4&=156 ! BOX in Baum MIXER
-LET mixpkl4&=157 ! BOX in Baum MIXER
-LET mixpkr4&=158 ! BOX in Baum MIXER
-LET mixvolt4&=159 ! BOXTEXT in Baum MIXER
-LET mixvoln4&=160 ! BOXTEXT in Baum MIXER
-LET mxbalbx4&=161 ! BOX in Baum MIXER
-LET mixball4&=162 ! TEXT in Baum MIXER
-LET mixbalr4&=163 ! TEXT in Baum MIXER
-LET mixbalm4&=164 ! TEXT in Baum MIXER
-LET mixbal4&=165 ! USERDEF in Baum MIXER
-LET mixbalp4&=166 ! IMAGE in Baum MIXER
-LET mixtit4&=167 ! BOXTEXT in Baum MIXER
-LET mixbalt4&=168 ! BOXTEXT in Baum MIXER
-LET mixbaln4&=169 ! BOXTEXT in Baum MIXER
-LET mixon4&=170 ! USERDEF in Baum MIXER
-LET mixall4&=171 ! USERDEF in Baum MIXER
-LET mixmute4&=172 ! USERDEF in Baum MIXER
-LET mixtxt4&=173 ! BOXTEXT in Baum MIXER
-LET mixbyp4&=174 ! BOXTEXT in Baum MIXER
-LET mixbx5&=175 ! BOX in Baum MIXER
-LET mixvbox5&=176 ! BOX in Baum MIXER
-LET mixfade5&=177 ! USERDEF in Baum MIXER
-LET mixvol5&=178 ! USERDEF in Baum MIXER
-LET mixdb5&=179 ! BOX in Baum MIXER
-LET mixvold5&=183 ! TEXT in Baum MIXER
-LET mixvolm5&=187 ! TEXT in Baum MIXER
-LET mixvolz5&=195 ! IMAGE in Baum MIXER
-LET mixvoll5&=196 ! BOX in Baum MIXER
-LET mixvolr5&=197 ! BOX in Baum MIXER
-LET mixpkl5&=198 ! BOX in Baum MIXER
-LET mixpkr5&=199 ! BOX in Baum MIXER
-LET mixvolt5&=200 ! BOXTEXT in Baum MIXER
-LET mixvoln5&=201 ! BOXTEXT in Baum MIXER
-LET mxbalbx5&=202 ! BOX in Baum MIXER
-LET mixball5&=203 ! TEXT in Baum MIXER
-LET mixbalr5&=204 ! TEXT in Baum MIXER
-LET mixbalm5&=205 ! TEXT in Baum MIXER
-LET mixbal5&=206 ! USERDEF in Baum MIXER
-LET mixbalp5&=207 ! IMAGE in Baum MIXER
-LET mixtit5&=208 ! BOXTEXT in Baum MIXER
-LET mixbalt5&=209 ! BOXTEXT in Baum MIXER
-LET mixbaln5&=210 ! BOXTEXT in Baum MIXER
-LET mixon5&=211 ! USERDEF in Baum MIXER
-LET mixall5&=212 ! USERDEF in Baum MIXER
-LET mixmute5&=213 ! USERDEF in Baum MIXER
-LET mixtxt5&=214 ! BOXTEXT in Baum MIXER
-LET mixbyp5&=215 ! BOXTEXT in Baum MIXER
-LET mixbx6&=216 ! BOX in Baum MIXER
-LET mixvbox6&=217 ! BOX in Baum MIXER
-LET mixfade6&=218 ! USERDEF in Baum MIXER
-LET mixvol6&=219 ! USERDEF in Baum MIXER
-LET mixdb6&=220 ! BOX in Baum MIXER
-LET mixvold6&=224 ! TEXT in Baum MIXER
-LET mixvolm6&=228 ! TEXT in Baum MIXER
-LET mixvolz6&=236 ! IMAGE in Baum MIXER
-LET mixvoll6&=237 ! BOX in Baum MIXER
-LET mixvolr6&=238 ! BOX in Baum MIXER
-LET mixpkl6&=239 ! BOX in Baum MIXER
-LET mixpkr6&=240 ! BOX in Baum MIXER
-LET mixvolt6&=241 ! BOXTEXT in Baum MIXER
-LET mixvoln6&=242 ! BOXTEXT in Baum MIXER
-LET mxbalbx6&=243 ! BOX in Baum MIXER
-LET mixball6&=244 ! TEXT in Baum MIXER
-LET mixbalr6&=245 ! TEXT in Baum MIXER
-LET mixbalm6&=246 ! TEXT in Baum MIXER
-LET mixbal6&=247 ! USERDEF in Baum MIXER
-LET mixbalp6&=248 ! IMAGE in Baum MIXER
-LET mixtit6&=249 ! BOXTEXT in Baum MIXER
-LET mixbalt6&=250 ! BOXTEXT in Baum MIXER
-LET mixbaln6&=251 ! BOXTEXT in Baum MIXER
-LET mixon6&=252 ! USERDEF in Baum MIXER
-LET mixall6&=253 ! USERDEF in Baum MIXER
-LET mixmute6&=254 ! USERDEF in Baum MIXER
-LET mixtxt6&=255 ! BOXTEXT in Baum MIXER
-LET mixbyp6&=256 ! BOXTEXT in Baum MIXER
-LET mixbx7&=257 ! BOX in Baum MIXER
-LET mixvbox7&=258 ! BOX in Baum MIXER
-LET mixfade7&=259 ! USERDEF in Baum MIXER
-LET mixvol7&=260 ! USERDEF in Baum MIXER
-LET mixdb7&=261 ! BOX in Baum MIXER
-LET mixvold7&=265 ! TEXT in Baum MIXER
-LET mixvolm7&=269 ! TEXT in Baum MIXER
-LET mixvolz7&=277 ! IMAGE in Baum MIXER
-LET mixvoll7&=278 ! BOX in Baum MIXER
-LET mixvolr7&=279 ! BOX in Baum MIXER
-LET mixpkl7&=280 ! BOX in Baum MIXER
-LET mixpkr7&=281 ! BOX in Baum MIXER
-LET mixvolt7&=282 ! BOXTEXT in Baum MIXER
-LET mixvoln7&=283 ! BOXTEXT in Baum MIXER
-LET mxbalbx7&=284 ! BOX in Baum MIXER
-LET mixball7&=285 ! TEXT in Baum MIXER
-LET mixbalr7&=286 ! TEXT in Baum MIXER
-LET mixbalm7&=287 ! TEXT in Baum MIXER
-LET mixbal7&=288 ! USERDEF in Baum MIXER
-LET mixbalp7&=289 ! IMAGE in Baum MIXER
-LET mixtit7&=290 ! BOXTEXT in Baum MIXER
-LET mixbalt7&=291 ! BOXTEXT in Baum MIXER
-LET mixbaln7&=292 ! BOXTEXT in Baum MIXER
-LET mixon7&=293 ! USERDEF in Baum MIXER
-LET mixall7&=294 ! USERDEF in Baum MIXER
-LET mixmute7&=295 ! USERDEF in Baum MIXER
-LET mixtxt7&=296 ! BOXTEXT in Baum MIXER
-LET mixbyp7&=297 ! BOXTEXT in Baum MIXER
-LET mixbx8&=298 ! BOX in Baum MIXER
-LET mixvbox8&=299 ! BOX in Baum MIXER
-LET mixfade8&=300 ! USERDEF in Baum MIXER
-LET mixvol8&=301 ! USERDEF in Baum MIXER
-LET mixdb8&=302 ! BOX in Baum MIXER
-LET mixvold8&=306 ! TEXT in Baum MIXER
-LET mixvolm8&=310 ! TEXT in Baum MIXER
-LET mixvolz8&=318 ! IMAGE in Baum MIXER
-LET mixvoll8&=319 ! BOX in Baum MIXER
-LET mixvolr8&=320 ! BOX in Baum MIXER
-LET mixpkl8&=321 ! BOX in Baum MIXER
-LET mixpkr8&=322 ! BOX in Baum MIXER
-LET mixvolt8&=323 ! BOXTEXT in Baum MIXER
-LET mixvoln8&=324 ! BOXTEXT in Baum MIXER
-LET mxbalbx8&=325 ! BOX in Baum MIXER
-LET mixball8&=326 ! TEXT in Baum MIXER
-LET mixbalr8&=327 ! TEXT in Baum MIXER
-LET mixbalm8&=328 ! TEXT in Baum MIXER
-LET mixbal8&=329 ! USERDEF in Baum MIXER
-LET mixbalp8&=330 ! IMAGE in Baum MIXER
-LET mixtit8&=331 ! BOXTEXT in Baum MIXER
-LET mixbalt8&=332 ! BOXTEXT in Baum MIXER
-LET mixbaln8&=333 ! BOXTEXT in Baum MIXER
-LET mixon8&=334 ! USERDEF in Baum MIXER
-LET mixall8&=335 ! USERDEF in Baum MIXER
-LET mixmute8&=336 ! USERDEF in Baum MIXER
-LET mixtxt8&=337 ! BOXTEXT in Baum MIXER
-LET mixbyp8&=338 ! BOXTEXT in Baum MIXER
-LET mixbxm&=339 ! BOX in Baum MIXER
-LET mixvboxm&=340 ! BOX in Baum MIXER
-LET mixfadem&=341 ! USERDEF in Baum MIXER
-LET mixvolm&=342 ! USERDEF in Baum MIXER
-LET mixdbm&=343 ! BOX in Baum MIXER
-LET mixvoldm&=347 ! TEXT in Baum MIXER
-LET mixvolmm&=351 ! TEXT in Baum MIXER
-LET mixvolzm&=359 ! IMAGE in Baum MIXER
-LET mixvollm&=360 ! BOX in Baum MIXER
-LET mixvolrm&=361 ! BOX in Baum MIXER
-LET mixpklm&=362 ! BOX in Baum MIXER
-LET mixpkrm&=363 ! BOX in Baum MIXER
-LET mixvoltm&=364 ! BOXTEXT in Baum MIXER
-LET mixvolnm&=365 ! BOXTEXT in Baum MIXER
-LET mxbalbxm&=366 ! BOX in Baum MIXER
-LET mixballm&=367 ! TEXT in Baum MIXER
-LET mixbalrm&=368 ! TEXT in Baum MIXER
-LET mixbalmm&=369 ! TEXT in Baum MIXER
-LET mixbalm&=370 ! USERDEF in Baum MIXER
-LET mixbalpm&=371 ! IMAGE in Baum MIXER
-LET mixtitm&=372 ! BOXTEXT in Baum MIXER
-LET mixbaltm&=373 ! BOXTEXT in Baum MIXER
-LET mixbalnm&=374 ! BOXTEXT in Baum MIXER
-LET mixonm&=375 ! USERDEF in Baum MIXER
-LET mixallm&=376 ! USERDEF in Baum MIXER
-LET mixmutem&=377 ! USERDEF in Baum MIXER
-LET mixtxtm&=378 ! BOXTEXT in Baum MIXER
-LET mixbypm&=379 ! BOXTEXT in Baum MIXER
-LET mixbx9&=380 ! BOX in Baum MIXER
-LET mixvbox9&=381 ! BOX in Baum MIXER
-LET mixfade9&=382 ! USERDEF in Baum MIXER
-LET mixvol9&=383 ! USERDEF in Baum MIXER
-LET mixdb9&=384 ! BOX in Baum MIXER
-LET mixvold9&=388 ! TEXT in Baum MIXER
-LET mixvolm9&=392 ! TEXT in Baum MIXER
-LET mixvolz9&=400 ! IMAGE in Baum MIXER
-LET mixvoll9&=401 ! BOX in Baum MIXER
-LET mixvolr9&=402 ! BOX in Baum MIXER
-LET mixpkl9&=403 ! BOX in Baum MIXER
-LET mixpkr9&=404 ! BOX in Baum MIXER
-LET mixvolt9&=405 ! BOXTEXT in Baum MIXER
-LET mixvoln9&=406 ! BOXTEXT in Baum MIXER
-LET mxbalbx9&=407 ! BOX in Baum MIXER
-LET mixball9&=408 ! TEXT in Baum MIXER
-LET mixbalr9&=409 ! TEXT in Baum MIXER
-LET mixbalm9&=410 ! TEXT in Baum MIXER
-LET mixbal9&=411 ! USERDEF in Baum MIXER
-LET mixbalp9&=412 ! IMAGE in Baum MIXER
-LET mixtit9&=413 ! BOXTEXT in Baum MIXER
-LET mixbalt9&=414 ! BOXTEXT in Baum MIXER
-LET mixbaln9&=415 ! BOXTEXT in Baum MIXER
-LET mixon9&=416 ! USERDEF in Baum MIXER
-LET mixall9&=417 ! USERDEF in Baum MIXER
-LET mixmute9&=418 ! USERDEF in Baum MIXER
-LET mixtxt9&=419 ! BOXTEXT in Baum MIXER
-LET mixbyp9&=420 ! BOXTEXT in Baum MIXER
-LET mixbx10&=421 ! BOX in Baum MIXER
-LET mxvbox10&=422 ! BOX in Baum MIXER
-LET mixfad10&=423 ! USERDEF in Baum MIXER
-LET mixvol10&=424 ! USERDEF in Baum MIXER
-LET mixdb10&=425 ! BOX in Baum MIXER
-LET mxvold10&=429 ! TEXT in Baum MIXER
-LET mxvolm10&=433 ! TEXT in Baum MIXER
-LET mxvolz10&=441 ! IMAGE in Baum MIXER
-LET mxvoll10&=442 ! BOX in Baum MIXER
-LET mxvolr10&=443 ! BOX in Baum MIXER
-LET mixpkl10&=444 ! BOX in Baum MIXER
-LET mixpkr10&=445 ! BOX in Baum MIXER
-LET mxvolt10&=446 ! BOXTEXT in Baum MIXER
-LET mxvoln10&=447 ! BOXTEXT in Baum MIXER
-LET mbalbx10&=448 ! BOX in Baum MIXER
-LET mixbll10&=449 ! TEXT in Baum MIXER
-LET mixblr10&=450 ! TEXT in Baum MIXER
-LET mixblm10&=451 ! TEXT in Baum MIXER
-LET mixbal10&=452 ! USERDEF in Baum MIXER
-LET mixblp10&=453 ! IMAGE in Baum MIXER
-LET mixtit10&=454 ! BOXTEXT in Baum MIXER
-LET mixblt10&=455 ! BOXTEXT in Baum MIXER
-LET mixbln10&=456 ! BOXTEXT in Baum MIXER
-LET mixon10&=457 ! USERDEF in Baum MIXER
-LET mixall10&=458 ! USERDEF in Baum MIXER
-LET mixmut10&=459 ! USERDEF in Baum MIXER
-LET mixtxt10&=460 ! BOXTEXT in Baum MIXER
-LET mixbyp10&=461 ! BOXTEXT in Baum MIXER
-LET mixbx11&=462 ! BOX in Baum MIXER
-LET mxvbox11&=463 ! BOX in Baum MIXER
-LET mixfad11&=464 ! USERDEF in Baum MIXER
-LET mixvol11&=465 ! USERDEF in Baum MIXER
-LET mixdb11&=466 ! BOX in Baum MIXER
-LET mxvold11&=470 ! TEXT in Baum MIXER
-LET mxvolm11&=474 ! TEXT in Baum MIXER
-LET mxvolz11&=482 ! IMAGE in Baum MIXER
-LET mxvoll11&=483 ! BOX in Baum MIXER
-LET mxvolr11&=484 ! BOX in Baum MIXER
-LET mixpkl11&=485 ! BOX in Baum MIXER
-LET mixpkr11&=486 ! BOX in Baum MIXER
-LET mxvolt11&=487 ! BOXTEXT in Baum MIXER
-LET mxvoln11&=488 ! BOXTEXT in Baum MIXER
-LET mbalbx11&=489 ! BOX in Baum MIXER
-LET mixbll11&=490 ! TEXT in Baum MIXER
-LET mixblr11&=491 ! TEXT in Baum MIXER
-LET mixblm11&=492 ! TEXT in Baum MIXER
-LET mixbal11&=493 ! USERDEF in Baum MIXER
-LET mixblp11&=494 ! IMAGE in Baum MIXER
-LET mixtit11&=495 ! BOXTEXT in Baum MIXER
-LET mixblt11&=496 ! BOXTEXT in Baum MIXER
-LET mixbln11&=497 ! BOXTEXT in Baum MIXER
-LET mixon11&=498 ! USERDEF in Baum MIXER
-LET mixall11&=499 ! USERDEF in Baum MIXER
-LET mixmut11&=500 ! USERDEF in Baum MIXER
-LET mixtxt11&=501 ! BOXTEXT in Baum MIXER
-LET mixbyp11&=502 ! BOXTEXT in Baum MIXER
-LET mixbx12&=503 ! BOX in Baum MIXER
-LET mxvbox12&=504 ! BOX in Baum MIXER
-LET mixfad12&=505 ! USERDEF in Baum MIXER
-LET mixvol12&=506 ! USERDEF in Baum MIXER
-LET mixdb12&=507 ! BOX in Baum MIXER
-LET mxvold12&=511 ! TEXT in Baum MIXER
-LET mxvolm12&=515 ! TEXT in Baum MIXER
-LET mxvolz12&=523 ! IMAGE in Baum MIXER
-LET mxvoll12&=524 ! BOX in Baum MIXER
-LET mxvolr12&=525 ! BOX in Baum MIXER
-LET mixpkl12&=526 ! BOX in Baum MIXER
-LET mixpkr12&=527 ! BOX in Baum MIXER
-LET mxvolt12&=528 ! BOXTEXT in Baum MIXER
-LET mxvoln12&=529 ! BOXTEXT in Baum MIXER
-LET mbalbx12&=530 ! BOX in Baum MIXER
-LET mixbll12&=531 ! TEXT in Baum MIXER
-LET mixblr12&=532 ! TEXT in Baum MIXER
-LET mixblm12&=533 ! TEXT in Baum MIXER
-LET mixbal12&=534 ! USERDEF in Baum MIXER
-LET mixblp12&=535 ! IMAGE in Baum MIXER
-LET mixtit12&=536 ! BOXTEXT in Baum MIXER
-LET mixblt12&=537 ! BOXTEXT in Baum MIXER
-LET mixbln12&=538 ! BOXTEXT in Baum MIXER
-LET mixon12&=539 ! USERDEF in Baum MIXER
-LET mixall12&=540 ! USERDEF in Baum MIXER
-LET mixmut12&=541 ! USERDEF in Baum MIXER
-LET mixtxt12&=542 ! BOXTEXT in Baum MIXER
-LET mixbyp12&=543 ! BOXTEXT in Baum MIXER
-LET mixbx13&=544 ! BOX in Baum MIXER
-LET mxvbox13&=545 ! BOX in Baum MIXER
-LET mixfad13&=546 ! USERDEF in Baum MIXER
-LET mixvol13&=547 ! USERDEF in Baum MIXER
-LET mixdb13&=548 ! BOX in Baum MIXER
-LET mxvold13&=552 ! TEXT in Baum MIXER
-LET mxvolm13&=556 ! TEXT in Baum MIXER
-LET mxvolz13&=564 ! IMAGE in Baum MIXER
-LET mxvoll13&=565 ! BOX in Baum MIXER
-LET mxvolr13&=566 ! BOX in Baum MIXER
-LET mixpkl13&=567 ! BOX in Baum MIXER
-LET mixpkr13&=568 ! BOX in Baum MIXER
-LET mxvolt13&=569 ! BOXTEXT in Baum MIXER
-LET mxvoln13&=570 ! BOXTEXT in Baum MIXER
-LET mbalbx13&=571 ! BOX in Baum MIXER
-LET mixbll13&=572 ! TEXT in Baum MIXER
-LET mixblr13&=573 ! TEXT in Baum MIXER
-LET mixblm13&=574 ! TEXT in Baum MIXER
-LET mixbal13&=575 ! USERDEF in Baum MIXER
-LET mixblp13&=576 ! IMAGE in Baum MIXER
-LET mixtit13&=577 ! BOXTEXT in Baum MIXER
-LET mixblt13&=578 ! BOXTEXT in Baum MIXER
-LET mixbln13&=579 ! BOXTEXT in Baum MIXER
-LET mixon13&=580 ! USERDEF in Baum MIXER
-LET mixall13&=581 ! USERDEF in Baum MIXER
-LET mixmut13&=582 ! USERDEF in Baum MIXER
-LET mixtxt13&=583 ! BOXTEXT in Baum MIXER
-LET mixbyp13&=584 ! BOXTEXT in Baum MIXER
-LET mixbx14&=585 ! BOX in Baum MIXER
-LET mxvbox14&=586 ! BOX in Baum MIXER
-LET mixfad14&=587 ! USERDEF in Baum MIXER
-LET mixvol14&=588 ! USERDEF in Baum MIXER
-LET mixdb14&=589 ! BOX in Baum MIXER
-LET mxvold14&=593 ! TEXT in Baum MIXER
-LET mxvolm14&=597 ! TEXT in Baum MIXER
-LET mxvolz14&=605 ! IMAGE in Baum MIXER
-LET mxvoll14&=606 ! BOX in Baum MIXER
-LET mxvolr14&=607 ! BOX in Baum MIXER
-LET mixpkl14&=608 ! BOX in Baum MIXER
-LET mixpkr14&=609 ! BOX in Baum MIXER
-LET mxvolt14&=610 ! BOXTEXT in Baum MIXER
-LET mxvoln14&=611 ! BOXTEXT in Baum MIXER
-LET mbalbx14&=612 ! BOX in Baum MIXER
-LET mixbll14&=613 ! TEXT in Baum MIXER
-LET mixblr14&=614 ! TEXT in Baum MIXER
-LET mixblm14&=615 ! TEXT in Baum MIXER
-LET mixbal14&=616 ! USERDEF in Baum MIXER
-LET mixblp14&=617 ! IMAGE in Baum MIXER
-LET mixtit14&=618 ! BOXTEXT in Baum MIXER
-LET mixblt14&=619 ! BOXTEXT in Baum MIXER
-LET mixbln14&=620 ! BOXTEXT in Baum MIXER
-LET mixon14&=621 ! USERDEF in Baum MIXER
-LET mixall14&=622 ! USERDEF in Baum MIXER
-LET mixmut14&=623 ! USERDEF in Baum MIXER
-LET mixtxt14&=624 ! BOXTEXT in Baum MIXER
-LET mixbyp14&=625 ! BOXTEXT in Baum MIXER
-LET mixbx15&=626 ! BOX in Baum MIXER
-LET mxvbox15&=627 ! BOX in Baum MIXER
-LET mixfad15&=628 ! USERDEF in Baum MIXER
-LET mixvol15&=629 ! USERDEF in Baum MIXER
-LET mixdb15&=630 ! BOX in Baum MIXER
-LET mxvold15&=634 ! TEXT in Baum MIXER
-LET mxvolm15&=638 ! TEXT in Baum MIXER
-LET mxvolz15&=646 ! IMAGE in Baum MIXER
-LET mxvoll15&=647 ! BOX in Baum MIXER
-LET mxvolr15&=648 ! BOX in Baum MIXER
-LET mixpkl15&=649 ! BOX in Baum MIXER
-LET mixpkr15&=650 ! BOX in Baum MIXER
-LET mxvolt15&=651 ! BOXTEXT in Baum MIXER
-LET mxvoln15&=652 ! BOXTEXT in Baum MIXER
-LET mbalbx15&=653 ! BOX in Baum MIXER
-LET mixbll15&=654 ! TEXT in Baum MIXER
-LET mixblr15&=655 ! TEXT in Baum MIXER
-LET mixblm15&=656 ! TEXT in Baum MIXER
-LET mixbal15&=657 ! USERDEF in Baum MIXER
-LET mixblp15&=658 ! IMAGE in Baum MIXER
-LET mixtit15&=659 ! BOXTEXT in Baum MIXER
-LET mixblt15&=660 ! BOXTEXT in Baum MIXER
-LET mixbln15&=661 ! BOXTEXT in Baum MIXER
-LET mixon15&=662 ! USERDEF in Baum MIXER
-LET mixall15&=663 ! USERDEF in Baum MIXER
-LET mixmut15&=664 ! USERDEF in Baum MIXER
-LET mixtxt15&=665 ! BOXTEXT in Baum MIXER
-LET mixbyp15&=666 ! BOXTEXT in Baum MIXER
-LET mixbx16&=667 ! BOX in Baum MIXER
-LET mxvbox16&=668 ! BOX in Baum MIXER
-LET mixfad16&=669 ! USERDEF in Baum MIXER
-LET mixvol16&=670 ! USERDEF in Baum MIXER
-LET mixdb16&=671 ! BOX in Baum MIXER
-LET mxvold16&=675 ! TEXT in Baum MIXER
-LET mxvolm16&=679 ! TEXT in Baum MIXER
-LET mxvolz16&=687 ! IMAGE in Baum MIXER
-LET mxvoll16&=688 ! BOX in Baum MIXER
-LET mxvolr16&=689 ! BOX in Baum MIXER
-LET mixpkl16&=690 ! BOX in Baum MIXER
-LET mixpkr16&=691 ! BOX in Baum MIXER
-LET mxvolt16&=692 ! BOXTEXT in Baum MIXER
-LET mxvoln16&=693 ! BOXTEXT in Baum MIXER
-LET mbalbx16&=694 ! BOX in Baum MIXER
-LET mixbll16&=695 ! TEXT in Baum MIXER
-LET mixblr16&=696 ! TEXT in Baum MIXER
-LET mixblm16&=697 ! TEXT in Baum MIXER
-LET mixbal16&=698 ! USERDEF in Baum MIXER
-LET mixblp16&=699 ! IMAGE in Baum MIXER
-LET mixtit16&=700 ! BOXTEXT in Baum MIXER
-LET mixblt16&=701 ! BOXTEXT in Baum MIXER
-LET mixbln16&=702 ! BOXTEXT in Baum MIXER
-LET mixon16&=703 ! USERDEF in Baum MIXER
-LET mixall16&=704 ! USERDEF in Baum MIXER
-LET mixmut16&=705 ! USERDEF in Baum MIXER
-LET mixtxt16&=706 ! BOXTEXT in Baum MIXER
-LET mixbyp16&=707 ! BOXTEXT in Baum MIXER
-LET mixbox3&=708 ! BOX in Baum MIXER
-LET mixstop&=709 ! USERDEF in Baum MIXER
-LET mixwait&=710 ! USERDEF in Baum MIXER
-LET mixhelp&=711 ! BOXTEXT in Baum MIXER
-LET mixexit&=712 ! BUTTON in Baum MIXER
-LET mixrec&=713 ! USERDEF in Baum MIXER
-LET mixplay&=714 ! USERDEF in Baum MIXER
-LET mixarec&=715 ! USERDEF in Baum MIXER
-LET mixrecp&=716 ! USERDEF in Baum MIXER
-LET mpkhl&=717 ! USERDEF in Baum MIXER
-LET mpkhslid&=718 ! BOX in Baum MIXER
-LET mpkhbut&=719 ! BUTTON in Baum MIXER
-LET mpkhr&=720 ! USERDEF in Baum MIXER
-LET mixpeak&=721 ! BOXTEXT in Baum MIXER
-LET mixpeakt&=722 ! TEXT in Baum MIXER
-LET mixerr&=723 ! BOXTEXT in Baum MIXER
-LET mixerrt&=724 ! TEXT in Baum MIXER
-LET dsicon&=725 ! USERDEF in Baum MIXER
-'
-LET virtual&=5 ! Formular/Dialog
+LET virtual&=4 ! Formular/Dialog
 LET virtbox&=0 ! BOX in Baum VIRTUAL
 LET virthelp&=2 ! BOXTEXT in Baum VIRTUAL
 LET virtbloc&=4 ! BUTTON in Baum VIRTUAL
@@ -12910,7 +13992,7 @@ LET virtno&=21 ! BUTTON in Baum VIRTUAL
 LET virtplay&=22 ! USERDEF in Baum VIRTUAL
 LET virtstop&=24 ! USERDEF in Baum VIRTUAL
 '
-LET record&=6 ! Formular/Dialog
+LET record&=5 ! Formular/Dialog
 LET recbox&=0 ! BOX in Baum RECORD
 LET recfree&=1 ! BOXTEXT in Baum RECORD
 LET recok&=2 ! BUTTON in Baum RECORD
@@ -12941,7 +14023,7 @@ LET recti4&=34 ! BOX in Baum RECORD
 LET tinmin&=35 ! BUTTON in Baum RECORD
 LET tinmax&=36 ! BUTTON in Baum RECORD
 '
-LET savebloc&=7 ! Formular/Dialog
+LET savebloc&=6 ! Formular/Dialog
 LET savebox&=0 ! BOX in Baum SAVEBLOC
 LET savall&=1 ! USERDEF in Baum SAVEBLOC
 LET savblock&=2 ! USERDEF in Baum SAVEBLOC
@@ -12949,7 +14031,7 @@ LET savexit&=3 ! BUTTON in Baum SAVEBLOC
 LET savetxt&=4 ! TEXT in Baum SAVEBLOC
 LET savehelp&=5 ! BOXTEXT in Baum SAVEBLOC
 '
-LET abackup&=8 ! Formular/Dialog
+LET abackup&=7 ! Formular/Dialog
 LET abackbox&=0 ! BOX in Baum ABACKUP
 LET abacktxt&=1 ! BOXTEXT in Baum ABACKUP
 LET abackok&=2 ! BUTTON in Baum ABACKUP
@@ -12963,7 +14045,7 @@ LET abackbo2&=12 ! BOX in Baum ABACKUP
 LET aback&=13 ! BUTTON in Baum ABACKUP
 LET abacknam&=14 ! BUTTON in Baum ABACKUP
 '
-LET midiedit&=9 ! Formular/Dialog
+LET midiedit&=8 ! Formular/Dialog
 LET midibox&=0 ! BOX in Baum MIDIEDIT
 LET notetxt&=1 ! BOXTEXT in Baum MIDIEDIT
 LET chtxt&=3 ! BOXTEXT in Baum MIDIEDIT
@@ -12976,7 +14058,7 @@ LET midiodwn&=12 ! USERDEF in Baum MIDIEDIT
 LET midicup&=13 ! USERDEF in Baum MIDIEDIT
 LET midicdwn&=14 ! USERDEF in Baum MIDIEDIT
 '
-LET normaliz&=10 ! Formular/Dialog
+LET normaliz&=9 ! Formular/Dialog
 LET normbox&=0 ! BOX in Baum NORMALIZ
 LET normok&=2 ! BUTTON in Baum NORMALIZ
 LET normexit&=3 ! BUTTON in Baum NORMALIZ
@@ -12995,7 +14077,7 @@ LET normr1&=18 ! USERDEF in Baum NORMALIZ
 LET normr2&=19 ! USERDEF in Baum NORMALIZ
 LET normr3&=20 ! USERDEF in Baum NORMALIZ
 '
-LET resample&=11 ! Formular/Dialog
+LET resample&=10 ! Formular/Dialog
 LET resmpbox&=0 ! BOX in Baum RESAMPLE
 LET rsmptxt1&=2 ! TEXT in Baum RESAMPLE
 LET resmpbx2&=3 ! BOX in Baum RESAMPLE
@@ -13019,7 +14101,7 @@ LET helprsmp&=23 ! BOXTEXT in Baum RESAMPLE
 LET resexit&=24 ! BUTTON in Baum RESAMPLE
 LET resok&=25 ! BUTTON in Baum RESAMPLE
 '
-LET mrkfind&=12 ! Formular/Dialog
+LET mrkfind&=11 ! Formular/Dialog
 LET mrkfbox&=0 ! BOX in Baum MRKFIND
 LET mrkfex&=2 ! BUTTON in Baum MRKFIND
 LET mrkfhelp&=3 ! BOXTEXT in Baum MRKFIND
@@ -13041,7 +14123,7 @@ LET mrkfbute&=19 ! USERDEF in Baum MRKFIND
 LET mrkfbuti&=20 ! USERDEF in Baum MRKFIND
 LET mrkfbutr&=21 ! USERDEF in Baum MRKFIND
 '
-LET disked&=13 ! Formular/Dialog
+LET disked&=12 ! Formular/Dialog
 LET dskedbox&=0 ! BOX in Baum DISKED
 LET dskedex&=1 ! BUTTON in Baum DISKED
 LET dskedhlp&=2 ! BOXTEXT in Baum DISKED
@@ -13054,7 +14136,7 @@ LET dskedbx3&=10 ! BOX in Baum DISKED
 LET dskedtxt&=11 ! BOXTEXT in Baum DISKED
 LET dskill&=13 ! USERDEF in Baum DISKED
 '
-LET xfade&=14 ! Formular/Dialog
+LET xfade&=13 ! Formular/Dialog
 LET xfadebox&=0 ! BOX in Baum XFADE
 LET xfadexit&=1 ! BUTTON in Baum XFADE
 LET xfadehlp&=2 ! BOXTEXT in Baum XFADE
@@ -13065,7 +14147,7 @@ LET xfadcros&=7 ! USERDEF in Baum XFADE
 LET xfadedwn&=8 ! USERDEF in Baum XFADE
 LET xfadebx3&=9 ! BOX in Baum XFADE
 '
-LET partsel&=15 ! Formular/Dialog
+LET partsel&=14 ! Formular/Dialog
 LET partbox&=0 ! BOX in Baum PARTSEL
 LET partc&=2 ! BUTTON in Baum PARTSEL
 LET part6&=31 ! BUTTON in Baum PARTSEL
@@ -13083,7 +14165,7 @@ LET partachk&=128 ! BUTTON in Baum PARTSEL
 LET partchk&=129 ! BUTTON in Baum PARTSEL
 LET partutil&=130 ! BUTTON in Baum PARTSEL
 '
-LET clocks&=16 ! Formular/Dialog
+LET clocks&=15 ! Formular/Dialog
 LET clkbox&=0 ! BOX in Baum CLOCKS
 LET clockex&=2 ! BUTTON in Baum CLOCKS
 LET clockhlp&=3 ! BOXTEXT in Baum CLOCKS
@@ -13284,513 +14366,7 @@ LET cuechnge&=88 ! BUTTON in Baum CUELIST
 LET cuemix&=89 ! USERDEF in Baum CUELIST
 LET cuecd&=91 ! USERDEF in Baum CUELIST
 '
-LET mixer&=4 ! Formular/Dialog
-LET mixbox1&=0 ! BOX in Baum MIXER
-LET mixbox2&=1 ! BOX in Baum MIXER
-LET mixload&=2 ! USERDEF in Baum MIXER
-LET mixsave&=3 ! USERDEF in Baum MIXER
-LET mixmax&=4 ! BOXTEXT in Baum MIXER
-LET mixact&=5 ! BOXTEXT in Baum MIXER
-LET mixmaxt&=6 ! TEXT in Baum MIXER
-LET mixactt&=7 ! TEXT in Baum MIXER
-LET mixfile&=8 ! BOXTEXT in Baum MIXER
-LET mixfilet&=9 ! TEXT in Baum MIXER
-LET mixbx1&=10 ! BOX in Baum MIXER
-LET mixvbox1&=11 ! BOX in Baum MIXER
-LET mixfade1&=12 ! USERDEF in Baum MIXER
-LET mixvol1&=13 ! USERDEF in Baum MIXER
-LET mixdb1&=14 ! BOX in Baum MIXER
-LET mixvold1&=18 ! TEXT in Baum MIXER
-LET mixvolm1&=22 ! TEXT in Baum MIXER
-LET mixvolz1&=30 ! IMAGE in Baum MIXER
-LET mixvoll1&=31 ! BOX in Baum MIXER
-LET mixvolr1&=32 ! BOX in Baum MIXER
-LET mixpkl1&=33 ! BOX in Baum MIXER
-LET mixpkr1&=34 ! BOX in Baum MIXER
-LET mixvolt1&=35 ! BOXTEXT in Baum MIXER
-LET mixvoln1&=36 ! BOXTEXT in Baum MIXER
-LET mxbalbx1&=37 ! BOX in Baum MIXER
-LET mixball1&=38 ! TEXT in Baum MIXER
-LET mixbalr1&=39 ! TEXT in Baum MIXER
-LET mixbalm1&=40 ! TEXT in Baum MIXER
-LET mixbal1&=41 ! USERDEF in Baum MIXER
-LET mixbalp1&=42 ! IMAGE in Baum MIXER
-LET mixtit1&=43 ! BOXTEXT in Baum MIXER
-LET mixbalt1&=44 ! BOXTEXT in Baum MIXER
-LET mixbaln1&=45 ! BOXTEXT in Baum MIXER
-LET mixon1&=46 ! USERDEF in Baum MIXER
-LET mixall1&=47 ! USERDEF in Baum MIXER
-LET mixmute1&=48 ! USERDEF in Baum MIXER
-LET mixtxt1&=49 ! BOXTEXT in Baum MIXER
-LET mixbyp1&=50 ! BOXTEXT in Baum MIXER
-LET mixbx2&=52 ! BOX in Baum MIXER
-LET mixvbox2&=53 ! BOX in Baum MIXER
-LET mixfade2&=54 ! USERDEF in Baum MIXER
-LET mixvol2&=55 ! USERDEF in Baum MIXER
-LET mixdb2&=56 ! BOX in Baum MIXER
-LET mixvold2&=60 ! TEXT in Baum MIXER
-LET mixvolm2&=64 ! TEXT in Baum MIXER
-LET mixvolz2&=72 ! IMAGE in Baum MIXER
-LET mixvoll2&=73 ! BOX in Baum MIXER
-LET mixvolr2&=74 ! BOX in Baum MIXER
-LET mixpkl2&=75 ! BOX in Baum MIXER
-LET mixpkr2&=76 ! BOX in Baum MIXER
-LET mixvolt2&=77 ! BOXTEXT in Baum MIXER
-LET mixvoln2&=78 ! BOXTEXT in Baum MIXER
-LET mxbalbx2&=79 ! BOX in Baum MIXER
-LET mixball2&=80 ! TEXT in Baum MIXER
-LET mixbalr2&=81 ! TEXT in Baum MIXER
-LET mixbalm2&=82 ! TEXT in Baum MIXER
-LET mixbal2&=83 ! USERDEF in Baum MIXER
-LET mixbalp2&=84 ! IMAGE in Baum MIXER
-LET mixtit2&=85 ! BOXTEXT in Baum MIXER
-LET mixbalt2&=86 ! BOXTEXT in Baum MIXER
-LET mixbaln2&=87 ! BOXTEXT in Baum MIXER
-LET mixon2&=88 ! USERDEF in Baum MIXER
-LET mixall2&=89 ! USERDEF in Baum MIXER
-LET mixmute2&=90 ! USERDEF in Baum MIXER
-LET mixtxt2&=91 ! BOXTEXT in Baum MIXER
-LET mixbyp2&=92 ! BOXTEXT in Baum MIXER
-LET mixbx3&=93 ! BOX in Baum MIXER
-LET mixvbox3&=94 ! BOX in Baum MIXER
-LET mixfade3&=95 ! USERDEF in Baum MIXER
-LET mixvol3&=96 ! USERDEF in Baum MIXER
-LET mixdb3&=97 ! BOX in Baum MIXER
-LET mixvold3&=101 ! TEXT in Baum MIXER
-LET mixvolm3&=105 ! TEXT in Baum MIXER
-LET mixvolz3&=113 ! IMAGE in Baum MIXER
-LET mixvoll3&=114 ! BOX in Baum MIXER
-LET mixvolr3&=115 ! BOX in Baum MIXER
-LET mixpkl3&=116 ! BOX in Baum MIXER
-LET mixpkr3&=117 ! BOX in Baum MIXER
-LET mixvolt3&=118 ! BOXTEXT in Baum MIXER
-LET mixvoln3&=119 ! BOXTEXT in Baum MIXER
-LET mxbalbx3&=120 ! BOX in Baum MIXER
-LET mixball3&=121 ! TEXT in Baum MIXER
-LET mixbalr3&=122 ! TEXT in Baum MIXER
-LET mixbalm3&=123 ! TEXT in Baum MIXER
-LET mixbal3&=124 ! USERDEF in Baum MIXER
-LET mixbalp3&=125 ! IMAGE in Baum MIXER
-LET mixtit3&=126 ! BOXTEXT in Baum MIXER
-LET mixbalt3&=127 ! BOXTEXT in Baum MIXER
-LET mixbaln3&=128 ! BOXTEXT in Baum MIXER
-LET mixon3&=129 ! USERDEF in Baum MIXER
-LET mixall3&=130 ! USERDEF in Baum MIXER
-LET mixmute3&=131 ! USERDEF in Baum MIXER
-LET mixtxt3&=132 ! BOXTEXT in Baum MIXER
-LET mixbyp3&=133 ! BOXTEXT in Baum MIXER
-LET mixbx4&=134 ! BOX in Baum MIXER
-LET mixvbox4&=135 ! BOX in Baum MIXER
-LET mixfade4&=136 ! USERDEF in Baum MIXER
-LET mixvol4&=137 ! USERDEF in Baum MIXER
-LET mixdb4&=138 ! BOX in Baum MIXER
-LET mixvold4&=142 ! TEXT in Baum MIXER
-LET mixvolm4&=146 ! TEXT in Baum MIXER
-LET mixvolz4&=154 ! IMAGE in Baum MIXER
-LET mixvoll4&=155 ! BOX in Baum MIXER
-LET mixvolr4&=156 ! BOX in Baum MIXER
-LET mixpkl4&=157 ! BOX in Baum MIXER
-LET mixpkr4&=158 ! BOX in Baum MIXER
-LET mixvolt4&=159 ! BOXTEXT in Baum MIXER
-LET mixvoln4&=160 ! BOXTEXT in Baum MIXER
-LET mxbalbx4&=161 ! BOX in Baum MIXER
-LET mixball4&=162 ! TEXT in Baum MIXER
-LET mixbalr4&=163 ! TEXT in Baum MIXER
-LET mixbalm4&=164 ! TEXT in Baum MIXER
-LET mixbal4&=165 ! USERDEF in Baum MIXER
-LET mixbalp4&=166 ! IMAGE in Baum MIXER
-LET mixtit4&=167 ! BOXTEXT in Baum MIXER
-LET mixbalt4&=168 ! BOXTEXT in Baum MIXER
-LET mixbaln4&=169 ! BOXTEXT in Baum MIXER
-LET mixon4&=170 ! USERDEF in Baum MIXER
-LET mixall4&=171 ! USERDEF in Baum MIXER
-LET mixmute4&=172 ! USERDEF in Baum MIXER
-LET mixtxt4&=173 ! BOXTEXT in Baum MIXER
-LET mixbyp4&=174 ! BOXTEXT in Baum MIXER
-LET mixbx5&=175 ! BOX in Baum MIXER
-LET mixvbox5&=176 ! BOX in Baum MIXER
-LET mixfade5&=177 ! USERDEF in Baum MIXER
-LET mixvol5&=178 ! USERDEF in Baum MIXER
-LET mixdb5&=179 ! BOX in Baum MIXER
-LET mixvold5&=183 ! TEXT in Baum MIXER
-LET mixvolm5&=187 ! TEXT in Baum MIXER
-LET mixvolz5&=195 ! IMAGE in Baum MIXER
-LET mixvoll5&=196 ! BOX in Baum MIXER
-LET mixvolr5&=197 ! BOX in Baum MIXER
-LET mixpkl5&=198 ! BOX in Baum MIXER
-LET mixpkr5&=199 ! BOX in Baum MIXER
-LET mixvolt5&=200 ! BOXTEXT in Baum MIXER
-LET mixvoln5&=201 ! BOXTEXT in Baum MIXER
-LET mxbalbx5&=202 ! BOX in Baum MIXER
-LET mixball5&=203 ! TEXT in Baum MIXER
-LET mixbalr5&=204 ! TEXT in Baum MIXER
-LET mixbalm5&=205 ! TEXT in Baum MIXER
-LET mixbal5&=206 ! USERDEF in Baum MIXER
-LET mixbalp5&=207 ! IMAGE in Baum MIXER
-LET mixtit5&=208 ! BOXTEXT in Baum MIXER
-LET mixbalt5&=209 ! BOXTEXT in Baum MIXER
-LET mixbaln5&=210 ! BOXTEXT in Baum MIXER
-LET mixon5&=211 ! USERDEF in Baum MIXER
-LET mixall5&=212 ! USERDEF in Baum MIXER
-LET mixmute5&=213 ! USERDEF in Baum MIXER
-LET mixtxt5&=214 ! BOXTEXT in Baum MIXER
-LET mixbyp5&=215 ! BOXTEXT in Baum MIXER
-LET mixbx6&=216 ! BOX in Baum MIXER
-LET mixvbox6&=217 ! BOX in Baum MIXER
-LET mixfade6&=218 ! USERDEF in Baum MIXER
-LET mixvol6&=219 ! USERDEF in Baum MIXER
-LET mixdb6&=220 ! BOX in Baum MIXER
-LET mixvold6&=224 ! TEXT in Baum MIXER
-LET mixvolm6&=228 ! TEXT in Baum MIXER
-LET mixvolz6&=236 ! IMAGE in Baum MIXER
-LET mixvoll6&=237 ! BOX in Baum MIXER
-LET mixvolr6&=238 ! BOX in Baum MIXER
-LET mixpkl6&=239 ! BOX in Baum MIXER
-LET mixpkr6&=240 ! BOX in Baum MIXER
-LET mixvolt6&=241 ! BOXTEXT in Baum MIXER
-LET mixvoln6&=242 ! BOXTEXT in Baum MIXER
-LET mxbalbx6&=243 ! BOX in Baum MIXER
-LET mixball6&=244 ! TEXT in Baum MIXER
-LET mixbalr6&=245 ! TEXT in Baum MIXER
-LET mixbalm6&=246 ! TEXT in Baum MIXER
-LET mixbal6&=247 ! USERDEF in Baum MIXER
-LET mixbalp6&=248 ! IMAGE in Baum MIXER
-LET mixtit6&=249 ! BOXTEXT in Baum MIXER
-LET mixbalt6&=250 ! BOXTEXT in Baum MIXER
-LET mixbaln6&=251 ! BOXTEXT in Baum MIXER
-LET mixon6&=252 ! USERDEF in Baum MIXER
-LET mixall6&=253 ! USERDEF in Baum MIXER
-LET mixmute6&=254 ! USERDEF in Baum MIXER
-LET mixtxt6&=255 ! BOXTEXT in Baum MIXER
-LET mixbyp6&=256 ! BOXTEXT in Baum MIXER
-LET mixbx7&=257 ! BOX in Baum MIXER
-LET mixvbox7&=258 ! BOX in Baum MIXER
-LET mixfade7&=259 ! USERDEF in Baum MIXER
-LET mixvol7&=260 ! USERDEF in Baum MIXER
-LET mixdb7&=261 ! BOX in Baum MIXER
-LET mixvold7&=265 ! TEXT in Baum MIXER
-LET mixvolm7&=269 ! TEXT in Baum MIXER
-LET mixvolz7&=277 ! IMAGE in Baum MIXER
-LET mixvoll7&=278 ! BOX in Baum MIXER
-LET mixvolr7&=279 ! BOX in Baum MIXER
-LET mixpkl7&=280 ! BOX in Baum MIXER
-LET mixpkr7&=281 ! BOX in Baum MIXER
-LET mixvolt7&=282 ! BOXTEXT in Baum MIXER
-LET mixvoln7&=283 ! BOXTEXT in Baum MIXER
-LET mxbalbx7&=284 ! BOX in Baum MIXER
-LET mixball7&=285 ! TEXT in Baum MIXER
-LET mixbalr7&=286 ! TEXT in Baum MIXER
-LET mixbalm7&=287 ! TEXT in Baum MIXER
-LET mixbal7&=288 ! USERDEF in Baum MIXER
-LET mixbalp7&=289 ! IMAGE in Baum MIXER
-LET mixtit7&=290 ! BOXTEXT in Baum MIXER
-LET mixbalt7&=291 ! BOXTEXT in Baum MIXER
-LET mixbaln7&=292 ! BOXTEXT in Baum MIXER
-LET mixon7&=293 ! USERDEF in Baum MIXER
-LET mixall7&=294 ! USERDEF in Baum MIXER
-LET mixmute7&=295 ! USERDEF in Baum MIXER
-LET mixtxt7&=296 ! BOXTEXT in Baum MIXER
-LET mixbyp7&=297 ! BOXTEXT in Baum MIXER
-LET mixbx8&=298 ! BOX in Baum MIXER
-LET mixvbox8&=299 ! BOX in Baum MIXER
-LET mixfade8&=300 ! USERDEF in Baum MIXER
-LET mixvol8&=301 ! USERDEF in Baum MIXER
-LET mixdb8&=302 ! BOX in Baum MIXER
-LET mixvold8&=306 ! TEXT in Baum MIXER
-LET mixvolm8&=310 ! TEXT in Baum MIXER
-LET mixvolz8&=318 ! IMAGE in Baum MIXER
-LET mixvoll8&=319 ! BOX in Baum MIXER
-LET mixvolr8&=320 ! BOX in Baum MIXER
-LET mixpkl8&=321 ! BOX in Baum MIXER
-LET mixpkr8&=322 ! BOX in Baum MIXER
-LET mixvolt8&=323 ! BOXTEXT in Baum MIXER
-LET mixvoln8&=324 ! BOXTEXT in Baum MIXER
-LET mxbalbx8&=325 ! BOX in Baum MIXER
-LET mixball8&=326 ! TEXT in Baum MIXER
-LET mixbalr8&=327 ! TEXT in Baum MIXER
-LET mixbalm8&=328 ! TEXT in Baum MIXER
-LET mixbal8&=329 ! USERDEF in Baum MIXER
-LET mixbalp8&=330 ! IMAGE in Baum MIXER
-LET mixtit8&=331 ! BOXTEXT in Baum MIXER
-LET mixbalt8&=332 ! BOXTEXT in Baum MIXER
-LET mixbaln8&=333 ! BOXTEXT in Baum MIXER
-LET mixon8&=334 ! USERDEF in Baum MIXER
-LET mixall8&=335 ! USERDEF in Baum MIXER
-LET mixmute8&=336 ! USERDEF in Baum MIXER
-LET mixtxt8&=337 ! BOXTEXT in Baum MIXER
-LET mixbyp8&=338 ! BOXTEXT in Baum MIXER
-LET mixbxm&=339 ! BOX in Baum MIXER
-LET mixvboxm&=340 ! BOX in Baum MIXER
-LET mixfadem&=341 ! USERDEF in Baum MIXER
-LET mixvolm&=342 ! USERDEF in Baum MIXER
-LET mixdbm&=343 ! BOX in Baum MIXER
-LET mixvoldm&=347 ! TEXT in Baum MIXER
-LET mixvolmm&=351 ! TEXT in Baum MIXER
-LET mixvolzm&=359 ! IMAGE in Baum MIXER
-LET mixvollm&=360 ! BOX in Baum MIXER
-LET mixvolrm&=361 ! BOX in Baum MIXER
-LET mixpklm&=362 ! BOX in Baum MIXER
-LET mixpkrm&=363 ! BOX in Baum MIXER
-LET mixvoltm&=364 ! BOXTEXT in Baum MIXER
-LET mixvolnm&=365 ! BOXTEXT in Baum MIXER
-LET mxbalbxm&=366 ! BOX in Baum MIXER
-LET mixballm&=367 ! TEXT in Baum MIXER
-LET mixbalrm&=368 ! TEXT in Baum MIXER
-LET mixbalmm&=369 ! TEXT in Baum MIXER
-LET mixbalm&=370 ! USERDEF in Baum MIXER
-LET mixbalpm&=371 ! IMAGE in Baum MIXER
-LET mixtitm&=372 ! BOXTEXT in Baum MIXER
-LET mixbaltm&=373 ! BOXTEXT in Baum MIXER
-LET mixbalnm&=374 ! BOXTEXT in Baum MIXER
-LET mixonm&=375 ! USERDEF in Baum MIXER
-LET mixallm&=376 ! USERDEF in Baum MIXER
-LET mixmutem&=377 ! USERDEF in Baum MIXER
-LET mixtxtm&=378 ! BOXTEXT in Baum MIXER
-LET mixbypm&=379 ! BOXTEXT in Baum MIXER
-LET mixbx9&=380 ! BOX in Baum MIXER
-LET mixvbox9&=381 ! BOX in Baum MIXER
-LET mixfade9&=382 ! USERDEF in Baum MIXER
-LET mixvol9&=383 ! USERDEF in Baum MIXER
-LET mixdb9&=384 ! BOX in Baum MIXER
-LET mixvold9&=388 ! TEXT in Baum MIXER
-LET mixvolm9&=392 ! TEXT in Baum MIXER
-LET mixvolz9&=400 ! IMAGE in Baum MIXER
-LET mixvoll9&=401 ! BOX in Baum MIXER
-LET mixvolr9&=402 ! BOX in Baum MIXER
-LET mixpkl9&=403 ! BOX in Baum MIXER
-LET mixpkr9&=404 ! BOX in Baum MIXER
-LET mixvolt9&=405 ! BOXTEXT in Baum MIXER
-LET mixvoln9&=406 ! BOXTEXT in Baum MIXER
-LET mxbalbx9&=407 ! BOX in Baum MIXER
-LET mixball9&=408 ! TEXT in Baum MIXER
-LET mixbalr9&=409 ! TEXT in Baum MIXER
-LET mixbalm9&=410 ! TEXT in Baum MIXER
-LET mixbal9&=411 ! USERDEF in Baum MIXER
-LET mixbalp9&=412 ! IMAGE in Baum MIXER
-LET mixtit9&=413 ! BOXTEXT in Baum MIXER
-LET mixbalt9&=414 ! BOXTEXT in Baum MIXER
-LET mixbaln9&=415 ! BOXTEXT in Baum MIXER
-LET mixon9&=416 ! USERDEF in Baum MIXER
-LET mixall9&=417 ! USERDEF in Baum MIXER
-LET mixmute9&=418 ! USERDEF in Baum MIXER
-LET mixtxt9&=419 ! BOXTEXT in Baum MIXER
-LET mixbyp9&=420 ! BOXTEXT in Baum MIXER
-LET mixbx10&=421 ! BOX in Baum MIXER
-LET mxvbox10&=422 ! BOX in Baum MIXER
-LET mixfad10&=423 ! USERDEF in Baum MIXER
-LET mixvol10&=424 ! USERDEF in Baum MIXER
-LET mixdb10&=425 ! BOX in Baum MIXER
-LET mxvold10&=429 ! TEXT in Baum MIXER
-LET mxvolm10&=433 ! TEXT in Baum MIXER
-LET mxvolz10&=441 ! IMAGE in Baum MIXER
-LET mxvoll10&=442 ! BOX in Baum MIXER
-LET mxvolr10&=443 ! BOX in Baum MIXER
-LET mixpkl10&=444 ! BOX in Baum MIXER
-LET mixpkr10&=445 ! BOX in Baum MIXER
-LET mxvolt10&=446 ! BOXTEXT in Baum MIXER
-LET mxvoln10&=447 ! BOXTEXT in Baum MIXER
-LET mbalbx10&=448 ! BOX in Baum MIXER
-LET mixbll10&=449 ! TEXT in Baum MIXER
-LET mixblr10&=450 ! TEXT in Baum MIXER
-LET mixblm10&=451 ! TEXT in Baum MIXER
-LET mixbal10&=452 ! USERDEF in Baum MIXER
-LET mixblp10&=453 ! IMAGE in Baum MIXER
-LET mixtit10&=454 ! BOXTEXT in Baum MIXER
-LET mixblt10&=455 ! BOXTEXT in Baum MIXER
-LET mixbln10&=456 ! BOXTEXT in Baum MIXER
-LET mixon10&=457 ! USERDEF in Baum MIXER
-LET mixall10&=458 ! USERDEF in Baum MIXER
-LET mixmut10&=459 ! USERDEF in Baum MIXER
-LET mixtxt10&=460 ! BOXTEXT in Baum MIXER
-LET mixbyp10&=461 ! BOXTEXT in Baum MIXER
-LET mixbx11&=462 ! BOX in Baum MIXER
-LET mxvbox11&=463 ! BOX in Baum MIXER
-LET mixfad11&=464 ! USERDEF in Baum MIXER
-LET mixvol11&=465 ! USERDEF in Baum MIXER
-LET mixdb11&=466 ! BOX in Baum MIXER
-LET mxvold11&=470 ! TEXT in Baum MIXER
-LET mxvolm11&=474 ! TEXT in Baum MIXER
-LET mxvolz11&=482 ! IMAGE in Baum MIXER
-LET mxvoll11&=483 ! BOX in Baum MIXER
-LET mxvolr11&=484 ! BOX in Baum MIXER
-LET mixpkl11&=485 ! BOX in Baum MIXER
-LET mixpkr11&=486 ! BOX in Baum MIXER
-LET mxvolt11&=487 ! BOXTEXT in Baum MIXER
-LET mxvoln11&=488 ! BOXTEXT in Baum MIXER
-LET mbalbx11&=489 ! BOX in Baum MIXER
-LET mixbll11&=490 ! TEXT in Baum MIXER
-LET mixblr11&=491 ! TEXT in Baum MIXER
-LET mixblm11&=492 ! TEXT in Baum MIXER
-LET mixbal11&=493 ! USERDEF in Baum MIXER
-LET mixblp11&=494 ! IMAGE in Baum MIXER
-LET mixtit11&=495 ! BOXTEXT in Baum MIXER
-LET mixblt11&=496 ! BOXTEXT in Baum MIXER
-LET mixbln11&=497 ! BOXTEXT in Baum MIXER
-LET mixon11&=498 ! USERDEF in Baum MIXER
-LET mixall11&=499 ! USERDEF in Baum MIXER
-LET mixmut11&=500 ! USERDEF in Baum MIXER
-LET mixtxt11&=501 ! BOXTEXT in Baum MIXER
-LET mixbyp11&=502 ! BOXTEXT in Baum MIXER
-LET mixbx12&=503 ! BOX in Baum MIXER
-LET mxvbox12&=504 ! BOX in Baum MIXER
-LET mixfad12&=505 ! USERDEF in Baum MIXER
-LET mixvol12&=506 ! USERDEF in Baum MIXER
-LET mixdb12&=507 ! BOX in Baum MIXER
-LET mxvold12&=511 ! TEXT in Baum MIXER
-LET mxvolm12&=515 ! TEXT in Baum MIXER
-LET mxvolz12&=523 ! IMAGE in Baum MIXER
-LET mxvoll12&=524 ! BOX in Baum MIXER
-LET mxvolr12&=525 ! BOX in Baum MIXER
-LET mixpkl12&=526 ! BOX in Baum MIXER
-LET mixpkr12&=527 ! BOX in Baum MIXER
-LET mxvolt12&=528 ! BOXTEXT in Baum MIXER
-LET mxvoln12&=529 ! BOXTEXT in Baum MIXER
-LET mbalbx12&=530 ! BOX in Baum MIXER
-LET mixbll12&=531 ! TEXT in Baum MIXER
-LET mixblr12&=532 ! TEXT in Baum MIXER
-LET mixblm12&=533 ! TEXT in Baum MIXER
-LET mixbal12&=534 ! USERDEF in Baum MIXER
-LET mixblp12&=535 ! IMAGE in Baum MIXER
-LET mixtit12&=536 ! BOXTEXT in Baum MIXER
-LET mixblt12&=537 ! BOXTEXT in Baum MIXER
-LET mixbln12&=538 ! BOXTEXT in Baum MIXER
-LET mixon12&=539 ! USERDEF in Baum MIXER
-LET mixall12&=540 ! USERDEF in Baum MIXER
-LET mixmut12&=541 ! USERDEF in Baum MIXER
-LET mixtxt12&=542 ! BOXTEXT in Baum MIXER
-LET mixbyp12&=543 ! BOXTEXT in Baum MIXER
-LET mixbx13&=544 ! BOX in Baum MIXER
-LET mxvbox13&=545 ! BOX in Baum MIXER
-LET mixfad13&=546 ! USERDEF in Baum MIXER
-LET mixvol13&=547 ! USERDEF in Baum MIXER
-LET mixdb13&=548 ! BOX in Baum MIXER
-LET mxvold13&=552 ! TEXT in Baum MIXER
-LET mxvolm13&=556 ! TEXT in Baum MIXER
-LET mxvolz13&=564 ! IMAGE in Baum MIXER
-LET mxvoll13&=565 ! BOX in Baum MIXER
-LET mxvolr13&=566 ! BOX in Baum MIXER
-LET mixpkl13&=567 ! BOX in Baum MIXER
-LET mixpkr13&=568 ! BOX in Baum MIXER
-LET mxvolt13&=569 ! BOXTEXT in Baum MIXER
-LET mxvoln13&=570 ! BOXTEXT in Baum MIXER
-LET mbalbx13&=571 ! BOX in Baum MIXER
-LET mixbll13&=572 ! TEXT in Baum MIXER
-LET mixblr13&=573 ! TEXT in Baum MIXER
-LET mixblm13&=574 ! TEXT in Baum MIXER
-LET mixbal13&=575 ! USERDEF in Baum MIXER
-LET mixblp13&=576 ! IMAGE in Baum MIXER
-LET mixtit13&=577 ! BOXTEXT in Baum MIXER
-LET mixblt13&=578 ! BOXTEXT in Baum MIXER
-LET mixbln13&=579 ! BOXTEXT in Baum MIXER
-LET mixon13&=580 ! USERDEF in Baum MIXER
-LET mixall13&=581 ! USERDEF in Baum MIXER
-LET mixmut13&=582 ! USERDEF in Baum MIXER
-LET mixtxt13&=583 ! BOXTEXT in Baum MIXER
-LET mixbyp13&=584 ! BOXTEXT in Baum MIXER
-LET mixbx14&=585 ! BOX in Baum MIXER
-LET mxvbox14&=586 ! BOX in Baum MIXER
-LET mixfad14&=587 ! USERDEF in Baum MIXER
-LET mixvol14&=588 ! USERDEF in Baum MIXER
-LET mixdb14&=589 ! BOX in Baum MIXER
-LET mxvold14&=593 ! TEXT in Baum MIXER
-LET mxvolm14&=597 ! TEXT in Baum MIXER
-LET mxvolz14&=605 ! IMAGE in Baum MIXER
-LET mxvoll14&=606 ! BOX in Baum MIXER
-LET mxvolr14&=607 ! BOX in Baum MIXER
-LET mixpkl14&=608 ! BOX in Baum MIXER
-LET mixpkr14&=609 ! BOX in Baum MIXER
-LET mxvolt14&=610 ! BOXTEXT in Baum MIXER
-LET mxvoln14&=611 ! BOXTEXT in Baum MIXER
-LET mbalbx14&=612 ! BOX in Baum MIXER
-LET mixbll14&=613 ! TEXT in Baum MIXER
-LET mixblr14&=614 ! TEXT in Baum MIXER
-LET mixblm14&=615 ! TEXT in Baum MIXER
-LET mixbal14&=616 ! USERDEF in Baum MIXER
-LET mixblp14&=617 ! IMAGE in Baum MIXER
-LET mixtit14&=618 ! BOXTEXT in Baum MIXER
-LET mixblt14&=619 ! BOXTEXT in Baum MIXER
-LET mixbln14&=620 ! BOXTEXT in Baum MIXER
-LET mixon14&=621 ! USERDEF in Baum MIXER
-LET mixall14&=622 ! USERDEF in Baum MIXER
-LET mixmut14&=623 ! USERDEF in Baum MIXER
-LET mixtxt14&=624 ! BOXTEXT in Baum MIXER
-LET mixbyp14&=625 ! BOXTEXT in Baum MIXER
-LET mixbx15&=626 ! BOX in Baum MIXER
-LET mxvbox15&=627 ! BOX in Baum MIXER
-LET mixfad15&=628 ! USERDEF in Baum MIXER
-LET mixvol15&=629 ! USERDEF in Baum MIXER
-LET mixdb15&=630 ! BOX in Baum MIXER
-LET mxvold15&=634 ! TEXT in Baum MIXER
-LET mxvolm15&=638 ! TEXT in Baum MIXER
-LET mxvolz15&=646 ! IMAGE in Baum MIXER
-LET mxvoll15&=647 ! BOX in Baum MIXER
-LET mxvolr15&=648 ! BOX in Baum MIXER
-LET mixpkl15&=649 ! BOX in Baum MIXER
-LET mixpkr15&=650 ! BOX in Baum MIXER
-LET mxvolt15&=651 ! BOXTEXT in Baum MIXER
-LET mxvoln15&=652 ! BOXTEXT in Baum MIXER
-LET mbalbx15&=653 ! BOX in Baum MIXER
-LET mixbll15&=654 ! TEXT in Baum MIXER
-LET mixblr15&=655 ! TEXT in Baum MIXER
-LET mixblm15&=656 ! TEXT in Baum MIXER
-LET mixbal15&=657 ! USERDEF in Baum MIXER
-LET mixblp15&=658 ! IMAGE in Baum MIXER
-LET mixtit15&=659 ! BOXTEXT in Baum MIXER
-LET mixblt15&=660 ! BOXTEXT in Baum MIXER
-LET mixbln15&=661 ! BOXTEXT in Baum MIXER
-LET mixon15&=662 ! USERDEF in Baum MIXER
-LET mixall15&=663 ! USERDEF in Baum MIXER
-LET mixmut15&=664 ! USERDEF in Baum MIXER
-LET mixtxt15&=665 ! BOXTEXT in Baum MIXER
-LET mixbyp15&=666 ! BOXTEXT in Baum MIXER
-LET mixbx16&=667 ! BOX in Baum MIXER
-LET mxvbox16&=668 ! BOX in Baum MIXER
-LET mixfad16&=669 ! USERDEF in Baum MIXER
-LET mixvol16&=670 ! USERDEF in Baum MIXER
-LET mixdb16&=671 ! BOX in Baum MIXER
-LET mxvold16&=675 ! TEXT in Baum MIXER
-LET mxvolm16&=679 ! TEXT in Baum MIXER
-LET mxvolz16&=687 ! IMAGE in Baum MIXER
-LET mxvoll16&=688 ! BOX in Baum MIXER
-LET mxvolr16&=689 ! BOX in Baum MIXER
-LET mixpkl16&=690 ! BOX in Baum MIXER
-LET mixpkr16&=691 ! BOX in Baum MIXER
-LET mxvolt16&=692 ! BOXTEXT in Baum MIXER
-LET mxvoln16&=693 ! BOXTEXT in Baum MIXER
-LET mbalbx16&=694 ! BOX in Baum MIXER
-LET mixbll16&=695 ! TEXT in Baum MIXER
-LET mixblr16&=696 ! TEXT in Baum MIXER
-LET mixblm16&=697 ! TEXT in Baum MIXER
-LET mixbal16&=698 ! USERDEF in Baum MIXER
-LET mixblp16&=699 ! IMAGE in Baum MIXER
-LET mixtit16&=700 ! BOXTEXT in Baum MIXER
-LET mixblt16&=701 ! BOXTEXT in Baum MIXER
-LET mixbln16&=702 ! BOXTEXT in Baum MIXER
-LET mixon16&=703 ! USERDEF in Baum MIXER
-LET mixall16&=704 ! USERDEF in Baum MIXER
-LET mixmut16&=705 ! USERDEF in Baum MIXER
-LET mixtxt16&=706 ! BOXTEXT in Baum MIXER
-LET mixbyp16&=707 ! BOXTEXT in Baum MIXER
-LET mixbox3&=708 ! BOX in Baum MIXER
-LET mixstop&=709 ! USERDEF in Baum MIXER
-LET mixwait&=710 ! USERDEF in Baum MIXER
-LET mixhelp&=711 ! BOXTEXT in Baum MIXER
-LET mixexit&=712 ! BUTTON in Baum MIXER
-LET mixrec&=713 ! USERDEF in Baum MIXER
-LET mixplay&=714 ! USERDEF in Baum MIXER
-LET mixarec&=715 ! USERDEF in Baum MIXER
-LET mixrecp&=716 ! USERDEF in Baum MIXER
-LET mpkhl&=717 ! USERDEF in Baum MIXER
-LET mpkhslid&=718 ! BOX in Baum MIXER
-LET mpkhbut&=719 ! BUTTON in Baum MIXER
-LET mpkhr&=720 ! USERDEF in Baum MIXER
-LET mixpeak&=721 ! BOXTEXT in Baum MIXER
-LET mixpeakt&=722 ! TEXT in Baum MIXER
-LET mixerr&=723 ! BOXTEXT in Baum MIXER
-LET mixerrt&=724 ! TEXT in Baum MIXER
-LET dsicon&=725 ! USERDEF in Baum MIXER
-'
-LET virtual&=5 ! Formular/Dialog
+LET virtual&=4 ! Formular/Dialog
 LET virtbox&=0 ! BOX in Baum VIRTUAL
 LET virthelp&=2 ! BOXTEXT in Baum VIRTUAL
 LET virtbloc&=4 ! BUTTON in Baum VIRTUAL
@@ -13812,7 +14388,7 @@ LET virtno&=21 ! BUTTON in Baum VIRTUAL
 LET virtplay&=22 ! USERDEF in Baum VIRTUAL
 LET virtstop&=24 ! USERDEF in Baum VIRTUAL
 '
-LET record&=6 ! Formular/Dialog
+LET record&=5 ! Formular/Dialog
 LET recbox&=0 ! BOX in Baum RECORD
 LET recfree&=1 ! BOXTEXT in Baum RECORD
 LET recok&=2 ! BUTTON in Baum RECORD
@@ -13843,7 +14419,7 @@ LET recti4&=34 ! BOX in Baum RECORD
 LET tinmin&=35 ! BUTTON in Baum RECORD
 LET tinmax&=36 ! BUTTON in Baum RECORD
 '
-LET savebloc&=7 ! Formular/Dialog
+LET savebloc&=6 ! Formular/Dialog
 LET savebox&=0 ! BOX in Baum SAVEBLOC
 LET savall&=1 ! USERDEF in Baum SAVEBLOC
 LET savblock&=2 ! USERDEF in Baum SAVEBLOC
@@ -13851,7 +14427,7 @@ LET savexit&=3 ! BUTTON in Baum SAVEBLOC
 LET savetxt&=4 ! TEXT in Baum SAVEBLOC
 LET savehelp&=5 ! BOXTEXT in Baum SAVEBLOC
 '
-LET abackup&=8 ! Formular/Dialog
+LET abackup&=7 ! Formular/Dialog
 LET abackbox&=0 ! BOX in Baum ABACKUP
 LET abacktxt&=1 ! BOXTEXT in Baum ABACKUP
 LET abackok&=2 ! BUTTON in Baum ABACKUP
@@ -13865,7 +14441,7 @@ LET abackbo2&=12 ! BOX in Baum ABACKUP
 LET aback&=13 ! BUTTON in Baum ABACKUP
 LET abacknam&=14 ! BUTTON in Baum ABACKUP
 '
-LET midiedit&=9 ! Formular/Dialog
+LET midiedit&=8 ! Formular/Dialog
 LET midibox&=0 ! BOX in Baum MIDIEDIT
 LET notetxt&=1 ! BOXTEXT in Baum MIDIEDIT
 LET chtxt&=3 ! BOXTEXT in Baum MIDIEDIT
@@ -13878,7 +14454,7 @@ LET midiodwn&=12 ! USERDEF in Baum MIDIEDIT
 LET midicup&=13 ! USERDEF in Baum MIDIEDIT
 LET midicdwn&=14 ! USERDEF in Baum MIDIEDIT
 '
-LET normaliz&=10 ! Formular/Dialog
+LET normaliz&=9 ! Formular/Dialog
 LET normbox&=0 ! BOX in Baum NORMALIZ
 LET normok&=2 ! BUTTON in Baum NORMALIZ
 LET normexit&=3 ! BUTTON in Baum NORMALIZ
@@ -13897,7 +14473,7 @@ LET normr1&=18 ! USERDEF in Baum NORMALIZ
 LET normr2&=19 ! USERDEF in Baum NORMALIZ
 LET normr3&=20 ! USERDEF in Baum NORMALIZ
 '
-LET resample&=11 ! Formular/Dialog
+LET resample&=10 ! Formular/Dialog
 LET resmpbox&=0 ! BOX in Baum RESAMPLE
 LET rsmptxt1&=1 ! TEXT in Baum RESAMPLE
 LET resmpsel&=6 ! BOXTEXT in Baum RESAMPLE
@@ -13921,7 +14497,7 @@ LET helprsmp&=23 ! BOXTEXT in Baum RESAMPLE
 LET resexit&=24 ! BUTTON in Baum RESAMPLE
 LET resok&=25 ! BUTTON in Baum RESAMPLE
 '
-LET mrkfind&=12 ! Formular/Dialog
+LET mrkfind&=11 ! Formular/Dialog
 LET mrkfbox&=0 ! BOX in Baum MRKFIND
 LET mrkfex&=2 ! BUTTON in Baum MRKFIND
 LET mrkfhelp&=3 ! BOXTEXT in Baum MRKFIND
@@ -13943,7 +14519,7 @@ LET mrkfbute&=19 ! USERDEF in Baum MRKFIND
 LET mrkfbuti&=20 ! USERDEF in Baum MRKFIND
 LET mrkfbutr&=21 ! USERDEF in Baum MRKFIND
 '
-LET disked&=13 ! Formular/Dialog
+LET disked&=12 ! Formular/Dialog
 LET dskedbox&=0 ! BOX in Baum DISKED
 LET dskedex&=1 ! BUTTON in Baum DISKED
 LET dskedhlp&=2 ! BOXTEXT in Baum DISKED
@@ -13956,7 +14532,7 @@ LET dskedbx3&=10 ! BOX in Baum DISKED
 LET dskedtxt&=11 ! BOXTEXT in Baum DISKED
 LET dskill&=13 ! USERDEF in Baum DISKED
 '
-LET xfade&=14 ! Formular/Dialog
+LET xfade&=13 ! Formular/Dialog
 LET xfadebox&=0 ! BOX in Baum XFADE
 LET xfadexit&=1 ! BUTTON in Baum XFADE
 LET xfadehlp&=2 ! BOXTEXT in Baum XFADE
@@ -13967,7 +14543,7 @@ LET xfadcros&=7 ! USERDEF in Baum XFADE
 LET xfadedwn&=8 ! USERDEF in Baum XFADE
 LET xfadebx3&=9 ! BOX in Baum XFADE
 '
-LET partsel&=15 ! Formular/Dialog
+LET partsel&=14 ! Formular/Dialog
 LET partbox&=0 ! BOX in Baum PARTSEL
 LET partc&=2 ! BUTTON in Baum PARTSEL
 LET part6&=31 ! BUTTON in Baum PARTSEL
@@ -13985,7 +14561,7 @@ LET partachk&=128 ! BUTTON in Baum PARTSEL
 LET partchk&=129 ! BUTTON in Baum PARTSEL
 LET partutil&=130 ! BUTTON in Baum PARTSEL
 '
-LET clocks&=16 ! Formular/Dialog
+LET clocks&=15 ! Formular/Dialog
 LET clkbox&=0 ! BOX in Baum CLOCKS
 LET clockex&=2 ! BUTTON in Baum CLOCKS
 LET clockhlp&=3 ! BOXTEXT in Baum CLOCKS
@@ -15025,7 +15601,7 @@ IF bigfoot=TRUE THEN
 @textcolor(trakker&,trk12&,1,1,0)
 @textcolor(trakker&,trk16&,1,1,0)
 ENDIF
-@textcolor(trakker&,trkmon&,1,1,0)
+'    @textcolor(trakker&,trkmon&,1,1,0)
 @textcolor(trakker&,trakk1&,1,1,0)
 @textcolor(trakker&,trakk2&,1,1,0)
 @textcolor(trakker&,trakk3&,1,1,0)
@@ -15265,6 +15841,97 @@ NEXT i
 @colorbox(mixer&,mixbx7&,0,7)
 @colorbox(mixer&,mixbx8&,0,7)
 @colorbox(mixer&,mixbxm&,0,7)
+IF bigfoot=TRUE THEN
+@colorbox(mixer&,mixbx9&,0,7)
+@colorbox(mixer&,mixbx10&,0,7)
+@colorbox(mixer&,mixbx11&,0,7)
+@colorbox(mixer&,mixbx12&,0,7)
+@colorbox(mixer&,mixbx13&,0,7)
+@colorbox(mixer&,mixbx14&,0,7)
+@colorbox(mixer&,mixbx15&,0,7)
+@colorbox(mixer&,mixbx16&,0,7)
+@textcolor(mixer&,mixtit9&,1,1,0)
+@textcolor(mixer&,mixtit10&,1,1,0)
+@textcolor(mixer&,mixtit11&,1,1,0)
+@textcolor(mixer&,mixtit12&,1,1,0)
+@textcolor(mixer&,mixtit13&,1,1,0)
+@textcolor(mixer&,mixtit14&,1,1,0)
+@textcolor(mixer&,mixtit15&,1,1,0)
+@textcolor(mixer&,mixtit16&,1,1,0)
+@textcolor(mixer&,mixfilet&,1,1,0)
+@textcolor(mixer&,mixbyp9&,1,1,0)
+@textcolor(mixer&,mixbyp10&,1,1,0)
+@textcolor(mixer&,mixbyp11&,1,1,0)
+@textcolor(mixer&,mixbyp12&,1,1,0)
+@textcolor(mixer&,mixbyp13&,1,1,0)
+@textcolor(mixer&,mixbyp14&,1,1,0)
+@textcolor(mixer&,mixbyp15&,1,1,0)
+@textcolor(mixer&,mixbyp16&,1,1,0)
+@colorbox(mixer&,mixvbox9&,0,7)
+@colorbox(mixer&,mxvbox10&,0,7)
+@colorbox(mixer&,mxvbox11&,0,7)
+@colorbox(mixer&,mxvbox12&,0,7)
+@colorbox(mixer&,mxvbox13&,0,7)
+@colorbox(mixer&,mxvbox14&,0,7)
+@colorbox(mixer&,mxvbox15&,0,7)
+@colorbox(mixer&,mxvbox16&,0,7)
+@colorbox(mixer&,mxbalbx9&,0,7)
+@colorbox(mixer&,mbalbx10&,0,7)
+@colorbox(mixer&,mbalbx11&,0,7)
+@colorbox(mixer&,mbalbx12&,0,7)
+@colorbox(mixer&,mbalbx13&,0,7)
+@colorbox(mixer&,mbalbx14&,0,7)
+@colorbox(mixer&,mbalbx15&,0,7)
+@colorbox(mixer&,mbalbx16&,0,7)
+@colorbox(mixer&,mixdb9&,0,7)
+@colorbox(mixer&,mixdb10&,0,7)
+@colorbox(mixer&,mixdb11&,0,7)
+@colorbox(mixer&,mixdb12&,0,7)
+@colorbox(mixer&,mixdb13&,0,7)
+@colorbox(mixer&,mixdb14&,0,7)
+@colorbox(mixer&,mixdb15&,0,7)
+@colorbox(mixer&,mixdb16&,0,7)
+@textcolor(mixer&,mixtxt9&,1,1,0)
+@textcolor(mixer&,mixtxt10&,1,1,0)
+@textcolor(mixer&,mixtxt11&,1,1,0)
+@textcolor(mixer&,mixtxt12&,1,1,0)
+@textcolor(mixer&,mixtxt13&,1,1,0)
+@textcolor(mixer&,mixtxt14&,1,1,0)
+@textcolor(mixer&,mixtxt15&,1,1,0)
+@textcolor(mixer&,mixtxt16&,1,1,0)
+@textcolor(mixer&,mixbaln9&,1,1,0)
+@textcolor(mixer&,mixbln10&,1,1,0)
+@textcolor(mixer&,mixbln11&,1,1,0)
+@textcolor(mixer&,mixbln12&,1,1,0)
+@textcolor(mixer&,mixbln13&,1,1,0)
+@textcolor(mixer&,mixbln14&,1,1,0)
+@textcolor(mixer&,mixbln15&,1,1,0)
+@textcolor(mixer&,mixbln16&,1,1,0)
+@textcolor(mixer&,mixvoln9&,1,1,0)
+@textcolor(mixer&,mxvoln10&,1,1,0)
+@textcolor(mixer&,mxvoln11&,1,1,0)
+@textcolor(mixer&,mxvoln12&,1,1,0)
+@textcolor(mixer&,mxvoln13&,1,1,0)
+@textcolor(mixer&,mxvoln14&,1,1,0)
+@textcolor(mixer&,mxvoln15&,1,1,0)
+@textcolor(mixer&,mxvoln16&,1,1,0)
+@textcolor(mixer&,mixvolt9&,0,0,1)
+@textcolor(mixer&,mxvolt10&,0,0,1)
+@textcolor(mixer&,mxvolt11&,0,0,1)
+@textcolor(mixer&,mxvolt12&,0,0,1)
+@textcolor(mixer&,mxvolt13&,0,0,1)
+@textcolor(mixer&,mxvolt14&,0,0,1)
+@textcolor(mixer&,mxvolt15&,0,0,1)
+@textcolor(mixer&,mxvolt16&,0,0,1)
+@textcolor(mixer&,mixbalt9&,0,0,1)
+@textcolor(mixer&,mixblt10&,0,0,1)
+@textcolor(mixer&,mixblt11&,0,0,1)
+@textcolor(mixer&,mixblt12&,0,0,1)
+@textcolor(mixer&,mixblt13&,0,0,1)
+@textcolor(mixer&,mixblt14&,0,0,1)
+@textcolor(mixer&,mixblt15&,0,0,1)
+@textcolor(mixer&,mixblt16&,0,0,1)
+ENDIF
 @colorbox(mixer&,mixvbox1&,0,7)
 @colorbox(mixer&,mixvbox2&,0,7)
 @colorbox(mixer&,mixvbox3&,0,7)
@@ -15297,7 +15964,6 @@ NEXT i
 @textcolor(mixer&,mixmax&,0,1,1)
 @textcolor(mixer&,mixmaxt&,1,1,0)
 @textcolor(mixer&,mixactt&,1,1,0)
-@textcolor(mixer&,mixfilet&,1,1,0)
 @textcolor(mixer&,mixtit1&,1,1,0)
 @textcolor(mixer&,mixtit2&,1,1,0)
 @textcolor(mixer&,mixtit3&,1,1,0)
@@ -15306,14 +15972,6 @@ NEXT i
 @textcolor(mixer&,mixtit6&,1,1,0)
 @textcolor(mixer&,mixtit7&,1,1,0)
 @textcolor(mixer&,mixtit8&,1,1,0)
-@textcolor(mixer&,mixtit9&,1,1,0)
-@textcolor(mixer&,mixtit10&,1,1,0)
-@textcolor(mixer&,mixtit11&,1,1,0)
-@textcolor(mixer&,mixtit12&,1,1,0)
-@textcolor(mixer&,mixtit13&,1,1,0)
-@textcolor(mixer&,mixtit14&,1,1,0)
-@textcolor(mixer&,mixtit15&,1,1,0)
-@textcolor(mixer&,mixtit16&,1,1,0)
 @textcolor(mixer&,mixtitm&,1,1,0)
 @textcolor(mixer&,mixtxt1&,1,1,0)
 @textcolor(mixer&,mixtxt2&,1,1,0)
@@ -15332,14 +15990,6 @@ NEXT i
 @textcolor(mixer&,mixbyp6&,1,1,0)
 @textcolor(mixer&,mixbyp7&,1,1,0)
 @textcolor(mixer&,mixbyp8&,1,1,0)
-@textcolor(mixer&,mixbyp9&,1,1,0)
-@textcolor(mixer&,mixbyp10&,1,1,0)
-@textcolor(mixer&,mixbyp11&,1,1,0)
-@textcolor(mixer&,mixbyp12&,1,1,0)
-@textcolor(mixer&,mixbyp13&,1,1,0)
-@textcolor(mixer&,mixbyp14&,1,1,0)
-@textcolor(mixer&,mixbyp15&,1,1,0)
-@textcolor(mixer&,mixbyp16&,1,1,0)
 @textcolor(mixer&,mixbypm&,1,1,0)
 @textcolor(mixer&,mixhelp&,1,1,0)
 @textcolor(mixer&,mixbaln1&,1,1,0)
@@ -16414,25 +17064,30 @@ ENDSELECT
 RETURN
 '
 > PROCEDURE nextwindow
-LOCAL inx
+LOCAL inx,inx2
 inx=nr
+inx2=0
+IF inx<32 THEN
 REPEAT
 IF lshft=FALSE AND rshft=FALSE THEN
 INC inx
 IF inx=32 THEN
 inx=0
+INC inx2
 ENDIF
 ELSE
 DEC inx
 IF inx<0 THEN
 inx=31
+INC inx2
 ENDIF
 ENDIF
-IF BTST(winh,inx)=TRUE THEN
-ENDIF
-UNTIL BTST(winh,inx)=TRUE
+UNTIL (BTST(winh,inx)=TRUE AND wflg(inx)>1) OR inx2>2
+IF wflg(inx)>1 THEN
 nr=inx
 @editselect
+ENDIF
+ENDIF
 RETURN
 '
 > PROCEDURE shortcuts
@@ -22184,7 +22839,7 @@ obj=nob
 playch=3
 @setplaychannels
 ENDIF
-IF nob=ddhost& THEN
+IF nob=ddhost& AND public=FALSE THEN
 obj=nob
 IF dspuse=FALSE THEN
 dspuse=TRUE
@@ -22193,7 +22848,7 @@ dspuse=FALSE
 ENDIF
 @rsc_state(rsc_menu&,obj,2,dspuse)
 ENDIF
-IF nob=ddmix& THEN
+IF nob=ddmix& AND public=FALSE THEN
 obj=nob
 IF dspmodemix=FALSE THEN
 dspmodemix=TRUE
@@ -22530,18 +23185,18 @@ LOCAL vnr,lrd,mg,mr
 '
 dstrm=TRUE    ! directstream ?
 '
-savldtxoffs=20812   ! adress-offset fÅr save/load Windowtext
-resmptxoffs=19876   ! adress-offset fÅr resample& Windowtext
-rectxoffs=21476     ! adress-offset fÅr record& Windowtext (record time)
+savldtxoffs=11748   ! adress-offset fÅr save/load Windowtext
+resmptxoffs=10812   ! adress-offset fÅr resample& Windowtext
+rectxoffs=12412     ! adress-offset fÅr record& Windowtext (record time)
 IF maxcol=2 THEN
 savldtxoffs=savldtxoffs-24
 resmptxoffs=resmptxoffs-24
 rectxoffs=rectxoffs-24
 ENDIF
 IF bigfoot=FALSE THEN
-fstxoffs=6756     ! adress-offset fÅr fsel& Windowtext (new fileselector)
+fstxoffs=13056    ! adress-offset fÅr fsel& Windowtext (new fileselector)
 ELSE
-fstxoffs=7204     ! adress-offset fÅr fsel& Windowtext (new fileselector)
+fstxoffs=19440    ! adress-offset fÅr fsel& Windowtext (new fileselector)
 ENDIF
 '
 DIM wflg(btree)
@@ -23493,9 +24148,9 @@ DPOKE buttadr+16,xp
 DPOKE buttadr+20,bp
 RETURN
 '
-> PROCEDURE dropentrys(dpoint,hp)
+> PROCEDURE dropentrys(wnr,dpoint,hp)
 LOCAL zu%,buttadr,h
-zu%=rsc_adr%(dropdown&)
+zu%=rsc_adr%(wnr)
 buttadr=zu%+24*dpoint
 DPOKE buttadr+22,hp*16
 RETURN
@@ -23640,7 +24295,9 @@ ENDIF
 ENDIF
 IF tdown=FALSE THEN
 hsec2=INT((TIMER-t)/2)
+IF bigfoot=TRUE OR (bigfoot=FALSE AND rch16=FALSE) THEN     !warum nur,warum???? stÅrzt sonst ab....
 tback%=LPEEK(trecback+24)          !36 Playbyte
+ENDIF
 @tcorr
 peakret=trecback+16    !28 max. Peakwert
 IF nr=trakker& OR (nr=mixer& AND pch16=TRUE AND matrix=TRUE) THEN
@@ -24412,7 +25069,7 @@ ENDIF
 ~@xrsrc_gaddr(0,info&,dzu%)
 nkind2=(DPEEK(dzu%+24*inforeg5&+2))
 nkind3=(DPEEK(dzu%+24*inforeg5&+4))
-IF nkind2<>1 OR nkind3<>23 THEN
+IF nkind2<>1 OR nkind3<>24 THEN
 tstcpr=23
 ENDIF
 IF pmo8=TRUE THEN
@@ -24468,38 +25125,6 @@ RETURN
 > PROCEDURE channel
 IF demo=FALSE OR falcon=TRUE THEN
 a=XBIOS(&H86,pt)
-ENDIF
-IF pt=0 THEN
-IF bigfoot=FALSE THEN
-a$="1+2"
-ELSE
-a$="M 1+2"
-ENDIF
-ENDIF
-IF pt=1 THEN
-IF bigfoot=FALSE THEN
-a$="3+4"
-ELSE
-a$="M 3+4"
-ENDIF
-ENDIF
-IF pt=2 THEN
-IF bigfoot=FALSE THEN
-a$="5+6"
-ELSE
-a$="M 5+6"
-ENDIF
-ENDIF
-IF pt=3 THEN
-IF bigfoot=FALSE THEN
-a$="7+8"
-ELSE
-a$="M 7+8"
-ENDIF
-ENDIF
-IF nr=trakker& THEN
-a$=a$+CHR$(0)
-@textfeld(trkmon&,a$,1)
 ENDIF
 RETURN
 '
@@ -24687,7 +25312,9 @@ ENDIF
 ENDIF
 t=TIMER
 intplay=TRUE
-IF nr<>mixer& THEN
+IF nr=mixer& THEN
+DEFMOUSE 3
+ELSE
 @maus_player
 ENDIF
 ENDIF
@@ -37654,6 +38281,12 @@ makecurve=0
 vorvornr=vornr
 vornr=nr
 nr=resample&
+~@xrsrc_gaddr(0,resample&,zu%)
+a$="Resample"+CHR$(0)
+string=LPEEK(zu%+resmptxoffs)
+FOR it=1 TO LEN(a$)
+POKE string+it-1,ASC(MID$(a$,it,1))
+NEXT it
 @makehz
 resorig=INT(hz/100)
 db$=RIGHT$("000"+STR$(resorig),3)+CHR$(0)
@@ -39422,26 +40055,6 @@ RETURN
 ~@xrsrc_gaddr(0,trakker&,zu%)
 buttadr=zu%+24*obj
 but=(DPEEK(buttadr+6)) AND 255
-IF but=22 THEN
-IF obj=trkmon& THEN
-IF popup&=1 THEN
-pt=0
-@channel
-ENDIF
-IF popup&=2 THEN
-pt=1
-@channel
-ENDIF
-IF popup&=3 THEN
-pt=2
-@channel
-ENDIF
-IF popup&=4 THEN
-pt=3
-@channel
-ENDIF
-ENDIF
-ENDIF
 IF obj=smpplay3& OR (obj=pause2& AND pwait=FALSE AND lshft=FALSE AND rshft=FALSE) THEN
 IF obj=pause2& THEN
 @setbutton(smpplay3&,1)
@@ -39747,7 +40360,7 @@ IF obj=trakplay& THEN
 @setbutton(obj,1)
 hz=thz
 @spuren(spuren*2)
-IF BTST(winh,mixer&)=TRUE AND (spuren*2)<>mixch THEN
+IF BTST(winh,mixer&)=TRUE AND ((spuren*2)<>mixch OR matrix=FALSE) THEN
 winh=BCLR(winh,mixer&)
 nr=mixer&
 @restaura2b
@@ -39758,7 +40371,7 @@ ENDIF
 rmo8=pmo8
 rch4=pch4
 '
-IF mixer=FALSE THEN
+IF mixer=FALSE AND matrix=TRUE THEN
 smixch=spuren*2
 panmix=TRUE
 extmix=TRUE
@@ -39766,7 +40379,21 @@ balmix=FALSE
 @mixbalinit
 ENDIF
 '
+IF matrix=TRUE THEN
 @mixer
+ELSE
+pwait=TRUE
+mtrkplay=TRUE
+hz=thz
+rch16=pch16
+rmo8=pmo8
+rch4=pch4
+@setbutton(smpplay3&,1)
+@setbutton(pause2&,1)
+@trkplay
+mtrkplay=FALSE
+pwait=FALSE
+ENDIF
 IF tstcpr<>0 THEN
 @wrongcopyright
 IF compile=TRUE THEN
@@ -44371,11 +44998,10 @@ vornr=nr
 nr=resample&
 ~@xrsrc_gaddr(0,resample&,zu%)
 zuadr=zu%
-versatz=1
-a$=" Samplerate "
+a$="Samplerate"+CHR$(0)
 string=LPEEK(zu%+resmptxoffs)
 FOR it=1 TO LEN(a$)
-POKE string+it-1+(versatz-1),ASC(MID$(a$,it,1))
+POKE string+it-1,ASC(MID$(a$,it,1))
 NEXT it
 @hidetree2(adjresmp&,TRUE)
 @hidetree2(resmpsec&,TRUE)
@@ -44511,10 +45137,10 @@ ENDIF
 @hidetree2(resmpfac&,FALSE)
 @restaura2
 ~@xrsrc_gaddr(0,resample&,zu%)
-a$="  Resample  "
+a$="Resample"+CHR$(0)
 string=LPEEK(zu%+resmptxoffs)
 FOR it=1 TO LEN(a$)
-POKE string+it-1+(versatz-1),ASC(MID$(a$,it,1))
+POKE string+it-1,ASC(MID$(a$,it,1))
 NEXT it
 vornr=vorvornr
 @setbutton(mrkobj,0)
@@ -47089,7 +47715,35 @@ IF public=TRUE THEN
 ~OBJC_DELETE(zu%,ddhost&-1)
 ~OBJC_DELETE(zu%,ddhost&)
 ~OBJC_DELETE(zu%,ddmix&)
-@dropentrys(ddsetup&-1,12)
+@dropentrys(dropdown&,ddsetup&-1,12)
+ENDIF
+IF BTST(hchk,0)=TRUE THEN       ! alte hardware?
+~@xrsrc_gaddr(0,popups&,zu%)
+~OBJC_DELETE(zu%,mixm5&)
+~OBJC_DELETE(zu%,mixm6&)
+~OBJC_DELETE(zu%,mixm7&)
+~OBJC_DELETE(zu%,mixm8&)
+~OBJC_DELETE(zu%,mixo9&)
+~OBJC_DELETE(zu%,mixo10&)
+~OBJC_DELETE(zu%,mixo11&)
+~OBJC_DELETE(zu%,mixo12&)
+~OBJC_DELETE(zu%,mixo13&)
+~OBJC_DELETE(zu%,mixo14&)
+~OBJC_DELETE(zu%,mixo15&)
+~OBJC_DELETE(zu%,mixo16&)
+@dropentrys(popups&,mixmpop&,4)
+@dropentrys(popups&,mixopop&,8)
+ENDIF
+IF BTST(hchk,3)=TRUE THEN
+@rsc_state(popups&,rate64&,3,TRUE)
+@rsc_state(popups&,rate88&,3,TRUE)
+@rsc_state(popups&,rate96&,3,TRUE)
+@rsc_state(popups&,make64&,3,TRUE)
+@rsc_state(popups&,make88&,3,TRUE)
+@rsc_state(popups&,make96&,3,TRUE)
+@rsc_state(popups&,ad64&,3,TRUE)
+@rsc_state(popups&,ad88&,3,TRUE)
+@rsc_state(popups&,ad96&,3,TRUE)
 ENDIF
 @winbuttset
 IF aback=TRUE THEN
@@ -49813,17 +50467,21 @@ IF nkind<>23 THEN
 INC tstcpr
 ENDIF
 nkind=(DPEEK(dzu%+24*inforeg4&))
+IF nkind<>24 THEN
+INC tstcpr
+ENDIF
+nkind=(DPEEK(dzu%+24*infohard&))
 IF nkind<>0 THEN
 INC tstcpr
 ENDIF
 nkind2=(DPEEK(dzu%+24*inforeg5&+2))
 nkind3=(DPEEK(dzu%+24*inforeg5&+4))
-IF nkind2<>1 OR nkind3<>23 THEN
+IF nkind2<>1 OR nkind3<>24 THEN
 INC tstcpr
 ENDIF
 nkind2=(DPEEK(dzu%+24*inforeg6&+2))
 nkind3=(DPEEK(dzu%+24*inforeg6&+4))
-IF nkind2<>1 OR nkind3<>23 THEN
+IF nkind2<>1 OR nkind3<>24 THEN
 INC tstcpr
 ENDIF
 IF tstcpr<>0 THEN
@@ -51344,7 +52002,9 @@ IF INSTR(a$,"dsp_mixout")<>0 THEN
 mixdsp=@getbinaer(a$)
 ENDIF
 IF INSTR(a$,"dsp_sum24")<>0 THEN
+IF BTST(hchk,0)=FALSE THEN     ! neue hardware?
 sum24=@getbinaer(a$)
+ENDIF
 ENDIF
 IF INSTR(a$,"directstream_autocheck")<>0 THEN
 ds_achk=@getbinaer(a$)
@@ -53223,7 +53883,9 @@ ENDIF
 IF dig24=FALSE THEN
 @setbutton(mast24&,0)
 @setbutton(mast16&,1)
+IF matrix=TRUE THEN
 @hidetree(recm8&,FALSE,wmbox3&)
+ENDIF
 @hidetree(mixdma&,FALSE,wmbox2&)
 ELSE
 @setbutton(mast16&,0)
@@ -55767,7 +56429,7 @@ ENDIF
 ~MFREE(mcl)
 ENDIF
 ELSE
-@alerts(66)
+@alerts(79)
 ENDIF
 RETURN
 '
@@ -55956,6 +56618,7 @@ ENDIF
 @textfeld2(mixer&,mixtit6&,"CH 06"+CHR$(0),1)
 @textfeld2(mixer&,mixtit7&,"CH 07"+CHR$(0),1)
 @textfeld2(mixer&,mixtit8&,"CH 08"+CHR$(0),1)
+IF bigfoot=TRUE THEN
 @textfeld2(mixer&,mixtit9&,"CH 09"+CHR$(0),1)
 @textfeld2(mixer&,mixtit10&,"CH 10"+CHR$(0),1)
 @textfeld2(mixer&,mixtit11&,"CH 11"+CHR$(0),1)
@@ -55964,6 +56627,7 @@ ENDIF
 @textfeld2(mixer&,mixtit14&,"CH 14"+CHR$(0),1)
 @textfeld2(mixer&,mixtit15&,"CH 15"+CHR$(0),1)
 @textfeld2(mixer&,mixtit16&,"CH 16"+CHR$(0),1)
+ENDIF
 @textfeld2(mixer&,mixtitm&,"MASTER"+CHR$(0),1)
 RETURN
 '
@@ -55976,6 +56640,7 @@ RETURN
 @textfeld2(mixer&,mixtxt6&," RT "+RIGHT$("0"+STR$(mixroute(6)),2)+" "+CHR$(0),1)
 @textfeld2(mixer&,mixtxt7&," RT "+RIGHT$("0"+STR$(mixroute(7)),2)+" "+CHR$(0),1)
 @textfeld2(mixer&,mixtxt8&," RT "+RIGHT$("0"+STR$(mixroute(8)),2)+" "+CHR$(0),1)
+IF bigfoot=TRUE THEN
 @textfeld2(mixer&,mixtxt9&," RT "+RIGHT$("0"+STR$(mixroute(9)),2)+" "+CHR$(0),1)
 @textfeld2(mixer&,mixtxt10&," RT "+RIGHT$("0"+STR$(mixroute(10)),2)+" "+CHR$(0),1)
 @textfeld2(mixer&,mixtxt11&," RT "+RIGHT$("0"+STR$(mixroute(11)),2)+" "+CHR$(0),1)
@@ -55984,14 +56649,16 @@ RETURN
 @textfeld2(mixer&,mixtxt14&," RT "+RIGHT$("0"+STR$(mixroute(14)),2)+" "+CHR$(0),1)
 @textfeld2(mixer&,mixtxt15&," RT "+RIGHT$("0"+STR$(mixroute(15)),2)+" "+CHR$(0),1)
 @textfeld2(mixer&,mixtxt16&," RT "+RIGHT$("0"+STR$(mixroute(16)),2)+" "+CHR$(0),1)
+ENDIF
 @textfeld2(mixer&,mixtxtm&,"RT "+RIGHT$("0"+STR$(mixroute(17)),2)+"/"+RIGHT$("0"+STR$(mixroute(18)),2)+CHR$(0),1)
 RETURN
 '
 > PROCEDURE mixvoldraw
-LOCAL i
+LOCAL z
 ~@xrsrc_gaddr(0,mixer&,zu%)
-FOR i=1 TO 17
-SELECT i
+FOR z=1 TO 17
+IF bigfoot=TRUE OR (bigfoot=FALSE AND ((z>0 AND z<9) OR z=17)) THEN
+SELECT z
 CASE 1
 o=mixbalp1&
 o2=mixmute1&
@@ -56095,25 +56762,26 @@ o3=mixonm&
 o4=mixvoltm&
 o5=mixbaltm&
 ENDSELECT
-IF mixmute(i)=TRUE THEN
+IF mixmute(z)=TRUE THEN
 @setbutton3(o2,1,mixer&)
 ELSE
 @setbutton3(o2,0,mixer&)
 ENDIF
-IF mixrec(i)=TRUE THEN
+IF mixrec(z)=TRUE THEN
 @setbutton3(o3,1,mixer&)
 ELSE
 @setbutton3(o3,0,mixer&)
 ENDIF
-mix=mixbwx(mixbal(i)+20)
-miy=mixbwy(mixbal(i)+20)
+mix=mixbwx(mixbal(z)+20)
+miy=mixbwy(mixbal(z)+20)
 DPOKE (zu%+24*o+16),mixbpx+mix                    ! Hîhenposition des Volume-Sliders verÑndern
 DPOKE (zu%+24*o+18),mixbpy+miy                    ! Hîhenposition des Volume-Sliders verÑndern
-v$=STR$(ROUND(pkp(i)/32768/255*100))+CHR$(0)
+v$=STR$(ROUND(pkp(z)/32768/255*100))+CHR$(0)
 @textfeld2(mixer&,o4,v$,1)
-v$=STR$(mixbal(i))+CHR$(0)
+v$=STR$(mixbal(z))+CHR$(0)
 @textfeld2(mixer&,o5,v$,1)
-NEXT i
+ENDIF
+NEXT z
 RETURN
 '
 > PROCEDURE mixvolinit
@@ -56208,11 +56876,17 @@ NEXT i
 dopix=FALSE
 shading=vshading
 @rsc_draw(nr,7)
+@wischwasch
 @buttbh(mixvoll1&,v,mvolh)
 DEC mvolh
 @readpos(mixvoll1&)
+IF bigfoot=TRUE THEN
 mvolx=bx-22
 mvoly=by+mvolh+22
+ELSE
+mvolx=bx-13
+mvoly=by+mvolh-11
+ENDIF
 winh=BSET(winh,nr)
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 @markhlp
@@ -56303,6 +56977,7 @@ RETURN
 @setbuttbh(mixpkl6&,bw+i,bh)
 @setbuttbh(mixpkl7&,bw+i,bh)
 @setbuttbh(mixpkl8&,bw+i,bh)
+IF bigfoot=TRUE THEN
 @setbuttbh(mixpkl9&,bw+i,bh)
 @setbuttbh(mixpkl10&,bw+i,bh)
 @setbuttbh(mixpkl11&,bw+i,bh)
@@ -56311,6 +56986,7 @@ RETURN
 @setbuttbh(mixpkl14&,bw+i,bh)
 @setbuttbh(mixpkl15&,bw+i,bh)
 @setbuttbh(mixpkl16&,bw+i,bh)
+ENDIF
 @buttbh(mixvoll1&,bw,bh)
 @setbuttbh(mixvoll1&,bw+i,bh)
 @setbuttbh(mixvoll2&,bw+i,bh)
@@ -56320,6 +56996,7 @@ RETURN
 @setbuttbh(mixvoll6&,bw+i,bh)
 @setbuttbh(mixvoll7&,bw+i,bh)
 @setbuttbh(mixvoll8&,bw+i,bh)
+IF bigfoot=TRUE THEN
 @setbuttbh(mixvoll9&,bw+i,bh)
 @setbuttbh(mxvoll10&,bw+i,bh)
 @setbuttbh(mxvoll11&,bw+i,bh)
@@ -56328,6 +57005,7 @@ RETURN
 @setbuttbh(mxvoll14&,bw+i,bh)
 @setbuttbh(mxvoll15&,bw+i,bh)
 @setbuttbh(mxvoll16&,bw+i,bh)
+ENDIF
 RETURN
 '
 > PROCEDURE panbaltxt
@@ -56339,6 +57017,7 @@ RETURN
 @textfeld2(mixer&,mixbaln6&,a$,1)
 @textfeld2(mixer&,mixbaln7&,a$,1)
 @textfeld2(mixer&,mixbaln8&,a$,1)
+IF bigfoot=TRUE THEN
 @textfeld2(mixer&,mixbaln9&,a$,1)
 @textfeld2(mixer&,mixbln10&,a$,1)
 @textfeld2(mixer&,mixbln11&,a$,1)
@@ -56347,6 +57026,7 @@ RETURN
 @textfeld2(mixer&,mixbln14&,a$,1)
 @textfeld2(mixer&,mixbln15&,a$,1)
 @textfeld2(mixer&,mixbln16&,a$,1)
+ENDIF
 RETURN
 '
 > PROCEDURE mixmute(i)
@@ -56358,8 +57038,9 @@ RETURN
 @hidetree3(mixer&,mixall6&,i)
 @hidetree3(mixer&,mixall7&,i)
 @hidetree3(mixer&,mixall8&,i)
-@hidetree3(mixer&,mixall9&,i)
 @hidetree3(mixer&,mixallm&,i)
+IF bigfoot=TRUE THEN
+@hidetree3(mixer&,mixall9&,i)
 @hidetree3(mixer&,mixall10&,i)
 @hidetree3(mixer&,mixall11&,i)
 @hidetree3(mixer&,mixall12&,i)
@@ -56367,9 +57048,13 @@ RETURN
 @hidetree3(mixer&,mixall14&,i)
 @hidetree3(mixer&,mixall15&,i)
 @hidetree3(mixer&,mixall16&,i)
+ENDIF
 RETURN
 '
 > PROCEDURE mixrecsel(v1,v2)
+IF bigfoot=FALSE AND v1>8 AND v1<17 THEN
+v1=0
+ENDIF
 SELECT v1
 CASE 1
 @setbutton(mixon1&,v2)
@@ -56423,15 +57108,19 @@ ems=FALSE
 ENDIF
 IF rch4=TRUE THEN
 @hidetree3(mixer&,mixfile&,TRUE)
-@hidetree3(mixer&,mixfilet&,TRUE)
 @setbutton3(mixarec&,8,mixer&)
+IF bigfoot=TRUE THEN
+@hidetree3(mixer&,mixfilet&,TRUE)
 @setbutton3(mixrecp&,8,mixer&)
+ENDIF
 @setbutton3(mixplay&,8,mixer&)
 ELSE
 @hidetree3(mixer&,mixfile&,FALSE)
-@hidetree3(mixer&,mixfilet&,FALSE)
 @setbutton3(mixarec&,0,mixer&)
+IF bigfoot=TRUE THEN
+@hidetree3(mixer&,mixfilet&,FALSE)
 @setbutton3(mixrecp&,0,mixer&)
+ENDIF
 @setbutton3(mixplay&,0,mixer&)
 ENDIF
 @hidetree3(mixer&,mixtxt1&,NOT extmix)
@@ -56442,6 +57131,7 @@ ENDIF
 @hidetree3(mixer&,mixtxt6&,NOT extmix)
 @hidetree3(mixer&,mixtxt7&,NOT extmix)
 @hidetree3(mixer&,mixtxt8&,NOT extmix)
+IF bigfoot=TRUE THEN
 @hidetree3(mixer&,mixtxt9&,NOT extmix)
 @hidetree3(mixer&,mixtxt10&,NOT extmix)
 @hidetree3(mixer&,mixtxt11&,NOT extmix)
@@ -56450,6 +57140,7 @@ ENDIF
 @hidetree3(mixer&,mixtxt14&,NOT extmix)
 @hidetree3(mixer&,mixtxt15&,NOT extmix)
 @hidetree3(mixer&,mixtxt16&,NOT extmix)
+ENDIF
 '
 IF rch4=TRUE OR extmix=TRUE THEN
 emx=TRUE
@@ -56469,6 +57160,7 @@ ENDIF
 @hidetree3(mixer&,mxbalbx6&,ems)
 @hidetree3(mixer&,mxbalbx7&,ems)
 @hidetree3(mixer&,mxbalbx8&,ems)
+IF bigfoot=TRUE THEN
 @hidetree3(mixer&,mxbalbx9&,ems)
 @hidetree3(mixer&,mbalbx10&,ems)
 @hidetree3(mixer&,mbalbx11&,ems)
@@ -56477,6 +57169,7 @@ ENDIF
 @hidetree3(mixer&,mbalbx14&,ems)
 @hidetree3(mixer&,mbalbx15&,ems)
 @hidetree3(mixer&,mbalbx16&,ems)
+ENDIF
 @hidetree3(mixer&,mxbalbxm&,ems)
 @hidetree3(mixer&,mixbalt1&,ems)
 @hidetree3(mixer&,mixbaln1&,ems)
@@ -56494,10 +57187,11 @@ ENDIF
 @hidetree3(mixer&,mixbaln7&,ems)
 @hidetree3(mixer&,mixbalt8&,ems)
 @hidetree3(mixer&,mixbaln8&,ems)
-@hidetree3(mixer&,mixbalt9&,ems)
-@hidetree3(mixer&,mixbaln9&,ems)
 @hidetree3(mixer&,mixbaltm&,ems)
 @hidetree3(mixer&,mixbalnm&,ems)
+IF bigfoot=TRUE THEN
+@hidetree3(mixer&,mixbalt9&,ems)
+@hidetree3(mixer&,mixbaln9&,ems)
 @hidetree3(mixer&,mixblt10&,ems)
 @hidetree3(mixer&,mixbln10&,ems)
 @hidetree3(mixer&,mixblt11&,ems)
@@ -56512,6 +57206,7 @@ ENDIF
 @hidetree3(mixer&,mixbln15&,ems)
 @hidetree3(mixer&,mixblt16&,ems)
 @hidetree3(mixer&,mixbln16&,ems)
+ENDIF
 @hidetree3(mixer&,mixpkr1&,pms)
 @hidetree3(mixer&,mixvolr1&,pms)
 @hidetree3(mixer&,mixpkr2&,pms)
@@ -56528,6 +57223,7 @@ ENDIF
 @hidetree3(mixer&,mixvolr7&,pms)
 @hidetree3(mixer&,mixpkr8&,pms)
 @hidetree3(mixer&,mixvolr8&,pms)
+IF bigfoot=TRUE THEN
 @hidetree3(mixer&,mixpkr9&,pms)
 @hidetree3(mixer&,mixvolr9&,pms)
 @hidetree3(mixer&,mixpkr10&,pms)
@@ -56544,8 +57240,13 @@ ENDIF
 @hidetree3(mixer&,mxvolr15&,pms)
 @hidetree3(mixer&,mixpkr16&,pms)
 @hidetree3(mixer&,mxvolr16&,pms)
+ENDIF
 IF panmix=TRUE THEN
+IF bigfoot=TRUE THEN
 @panmixset(11)
+ELSE
+@panmixset(8)
+ENDIF
 a$="PAN"+CHR$(0)
 @panbaltxt
 ENDIF
@@ -56555,7 +57256,7 @@ bwmbox=bwmbox+4
 vby2=by
 @readpos(mixbx1&)
 vby=by
-IF mixch=4 AND panmix=FALSE THEN
+IF bigfoot=TRUE AND mixch=4 AND panmix=FALSE THEN
 @readpos(mixbx3&)
 vbx=bx
 @readpos(mixbx1&)
@@ -56568,7 +57269,7 @@ vbx=bx
 @setpos(mixbx8&,bx,by)
 @setpos(mixbxm&,vbx+8,by)
 ENDIF
-IF (mixch=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE) THEN
+IF bigfoot=TRUE AND ((mixch=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE)) THEN
 @readpos(mixbx5&)
 vbx=bx
 @readpos(mixbx1&)
@@ -56578,7 +57279,7 @@ vbx=bx
 @setpos(mixbx8&,bx,by)
 @setpos(mixbxm&,vbx+8,by)
 ENDIF
-IF mixch<=8 THEN
+IF bigfoot=TRUE AND mixch<=8 THEN
 @setpos(mixbx9&,bx,vby)
 @setpos(mixbx10&,bx,vby)
 @setpos(mixbx11&,bx,vby)
@@ -56593,7 +57294,7 @@ jj=(maxch-mixch)*bwmbox/2
 ELSE
 jj=4*bwmbox
 ENDIF
-IF mixch>8 AND panmix=TRUE THEN
+IF bigfoot=TRUE AND mixch>8 AND panmix=TRUE THEN
 @buttbh(mixbx1&,bw,bh)
 @readpos(mixbox3&)
 @setpos(mixbox3&,bx-bw-8,by+bh+8)
@@ -56608,7 +57309,7 @@ IF mixch>8 AND panmix=TRUE THEN
 @buttbh(mixbox2&,bw2,bh)
 @setbuttbh(mixbox2&,bw2-bw-8,bh)
 ENDIF
-IF (mixch<=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE) THEN
+IF bigfoot=TRUE AND ((mixch<=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE)) THEN
 @readpos(mixbox3&)
 @setpos(mixbox3&,bx-jj,by)
 @readpos(mixfile&)
@@ -56629,7 +57330,7 @@ IF (mixch<=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE) THEN
 @hidetree3(mixer&,mixbx7&,TRUE)
 @hidetree3(mixer&,mixbx8&,TRUE)
 ENDIF
-IF (mixch<=16 AND panmix=FALSE) OR (mixch<=8 AND panmix=TRUE) THEN
+IF bigfoot=TRUE AND ((mixch<=16 AND panmix=FALSE) OR (mixch<=8 AND panmix=TRUE)) THEN
 @hidetree3(mixer&,mixbx9&,TRUE)
 @hidetree3(mixer&,mixbx10&,TRUE)
 @hidetree3(mixer&,mixbx11&,TRUE)
@@ -56639,7 +57340,7 @@ IF (mixch<=16 AND panmix=FALSE) OR (mixch<=8 AND panmix=TRUE) THEN
 @hidetree3(mixer&,mixbx15&,TRUE)
 @hidetree3(mixer&,mixbx16&,TRUE)
 ENDIF
-IF BTST(hchk,0)=TRUE AND mixch>4 AND panmix=TRUE THEN
+IF bigfoot=TRUE AND BTST(hchk,0)=TRUE AND mixch>4 AND panmix=TRUE THEN
 @setbutton3(mixon9&,8,mixer&)
 @setbutton3(mixon10&,8,mixer&)
 @setbutton3(mixon11&,8,mixer&)
@@ -56669,7 +57370,17 @@ IF mixch=4 AND panmix=FALSE THEN
 @hidetree3(mixer&,mixbx3&,TRUE)
 @hidetree3(mixer&,mixbx4&,TRUE)
 ENDIF
+IF bigfoot=FALSE AND ywidth<480 THEN
+@hidetree3(mixer&,mixbox2&,TRUE)
+@readpos(mixbox3&)
+@setpos(mixbox3&,bx,by-12)
 @buttbh(mixbox1&,bw,bh)
+bh=bh-12
+@setbuttbh(mixbox1&,bw,bh)
+rsch&(nr)=rsch&(nr)-12
+ENDIF
+@buttbh(mixbox1&,bw,bh)
+IF bigfoot=TRUE THEN
 IF (mixch<=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE) THEN
 rscw&(nr)=rscw&(nr)-jj
 bw=bw-jj
@@ -56685,6 +57396,7 @@ IF mixch>8 AND panmix=TRUE THEN
 rscw&(nr)=rscw&(nr)-bw2-8
 bw=bw-bw2-8
 @setbuttbh(mixbox1&,bw,bh)
+ENDIF
 ENDIF
 @readpos(mixbalp1&)
 mixbpx=bx
@@ -56716,28 +57428,41 @@ mixnr=nr
 nr=mixer&
 @setpos(mixbalp1&,mixbpx,mixbpy)
 IF panmix=TRUE THEN
+IF bigfoot=TRUE THEN
 @panmixset(-11)
+ELSE
+@panmixset(-8)
+ENDIF
 jj=4*bwmbox
 ELSE
 jj=(maxch-mixch)*bwmbox/2
 ENDIF
 @buttbh(mixbox1&,bw,bh)
-IF (mixch<=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE) THEN
+IF bigfoot=FALSE AND ywidth<480 THEN
+rsch&(nr)=rsch&(nr)+12
+@buttbh(mixbox1&,bw,bh)
+bh=bh+12
+@setbuttbh(mixbox1&,bw,bh)
+@readpos(mixbox3&)
+@setpos(mixbox3&,bx,by+12)
+@hidetree3(mixer&,mixbox2&,FALSE)
+ENDIF
+IF bigfoot=TRUE AND ((mixch<=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE)) THEN
 bw=bw+jj
 rscw&(nr)=rscw&(nr)+jj
 @setbuttbh(mixbox1&,bw,bh)
 ENDIF
-IF mixch>8 AND panmix=TRUE THEN
+IF bigfoot=TRUE AND (mixch>8 AND panmix=TRUE) THEN
 @buttbh(mixbx1&,bw2,bh2)
 rscw&(nr)=rscw&(nr)+bw2+8
 @setbuttbh(mixbox1&,bw+bw2+8,bh)
 ENDIF
-IF (mixch<=16 AND panmix=FALSE) OR (mixch<=8 AND panmix=TRUE) THEN
+IF bigfoot=TRUE AND ((mixch<=16 AND panmix=FALSE) OR (mixch<=8 AND panmix=TRUE)) THEN
 bh=bh+bhmbox+8
 rsch&(nr)=rsch&(nr)+bhmbox+8
 @setbuttbh(mixbox1&,bw,bh)
 ENDIF
-IF (mixch<=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE) THEN
+IF bigfoot=TRUE AND ((mixch<=8 AND panmix=FALSE) OR (mixch=4 AND panmix=TRUE)) THEN
 @buttbh(mixbox2&,bw,bh)
 bw=bw+jj
 @setbuttbh(mixbox2&,bw,bh)
@@ -56752,7 +57477,7 @@ bw=bw+jj
 @readpos(mixsave&)
 @setpos(mixsave&,bx+jj,by)
 ENDIF
-IF mixch>8 AND panmix=TRUE THEN
+IF bigfoot=TRUE AND mixch>8 AND panmix=TRUE THEN
 @buttbh(mixbx1&,bw,bh)
 @readpos(mixbox3&)
 @setpos(mixbox3&,bx+bw+8,by-bh-8)
@@ -56768,6 +57493,7 @@ IF mixch>8 AND panmix=TRUE THEN
 @setbuttbh(mixbox2&,bw2+bw+8,bh)
 ENDIF
 @readpos(mixbx1&)
+IF bigfoot=TRUE THEN
 @setpos(mixbx3&,bx+bwmbox*2,by)
 @setpos(mixbx4&,bx+bwmbox*3,by)
 @setpos(mixbx5&,bx+bwmbox*4,by)
@@ -56783,12 +57509,6 @@ ENDIF
 @setpos(mixbx14&,bx+bwmbox*5,vby2)
 @setpos(mixbx15&,bx+bwmbox*6,vby2)
 @setpos(mixbx16&,bx+bwmbox*7,vby2)
-@hidetree3(mixer&,mixbx3&,FALSE)
-@hidetree3(mixer&,mixbx4&,FALSE)
-@hidetree3(mixer&,mixbx5&,FALSE)
-@hidetree3(mixer&,mixbx6&,FALSE)
-@hidetree3(mixer&,mixbx7&,FALSE)
-@hidetree3(mixer&,mixbx8&,FALSE)
 @hidetree3(mixer&,mixbx9&,FALSE)
 @hidetree3(mixer&,mixbx10&,FALSE)
 @hidetree3(mixer&,mixbx11&,FALSE)
@@ -56797,6 +57517,13 @@ ENDIF
 @hidetree3(mixer&,mixbx14&,FALSE)
 @hidetree3(mixer&,mixbx15&,FALSE)
 @hidetree3(mixer&,mixbx16&,FALSE)
+ENDIF
+@hidetree3(mixer&,mixbx3&,FALSE)
+@hidetree3(mixer&,mixbx4&,FALSE)
+@hidetree3(mixer&,mixbx5&,FALSE)
+@hidetree3(mixer&,mixbx6&,FALSE)
+@hidetree3(mixer&,mixbx7&,FALSE)
+@hidetree3(mixer&,mixbx8&,FALSE)
 @mixmute(FALSE)
 IF panmix=TRUE THEN
 a$="BALANCE"+CHR$(0)
@@ -56806,7 +57533,7 @@ smixch=16
 nr=mixnr
 RETURN
 '
-> PROCEDURE mixworking
+PROCEDURE mixworking
 ~@xrsrc_gaddr(0,mixer&,zu%)
 zuadr=zu%
 buttadr=zuadr+24*obj
@@ -56815,7 +57542,7 @@ IF but=22 THEN
 IF obj=mixtxt1& OR obj=mixtxt2& OR obj=mixtxt3& OR obj=mixtxt4& OR obj=mixtxt5& OR obj=mixtxt6& OR obj=mixtxt7& OR obj=mixtxt8& THEN
 mixtex=TRUE
 ENDIF
-IF obj=mixtxt9& OR obj=mixtxt10& OR obj=mixtxt11& OR obj=mixtxt12& OR obj=mixtxt13& OR obj=mixtxt14& OR obj=mixtxt15& OR obj=mixtxt16& THEN
+IF bigfoot=TRUE AND (obj=mixtxt9& OR obj=mixtxt10& OR obj=mixtxt11& OR obj=mixtxt12& OR obj=mixtxt13& OR obj=mixtxt14& OR obj=mixtxt15& OR obj=mixtxt16&) THEN
 mixtex=TRUE
 ENDIF
 IF obj=mixtxtm& THEN
@@ -56848,6 +57575,7 @@ IF mixroute(17)=3 THEN
 ENDIF
 ENDIF
 ENDIF
+obj=0
 ENDIF
 IF mixtex=TRUE THEN
 mixtex=FALSE
@@ -56889,14 +57617,22 @@ pka=16
 ENDSELECT
 mixroute(pka)=popup&
 @routeset(pka-1,popup&-1)
+obj=0
 ENDIF
+ENDIF
+IF obj=mixstop& THEN
+@breakstop
+@setbutton(mixstop&,0)
+ENDIF
+IF obj=mixwait&
+@breakwait
 ENDIF
 mixbal=FALSE
 IF obj=mixbalm1& OR obj=mixbalm2& OR obj=mixbalm3& OR obj=mixbalm4& OR obj=mixbalm5& OR obj=mixbalm6& OR obj=mixbalm7& OR obj=mixbalm8& OR obj=mixbalmm& THEN
 mixbal=TRUE
 mixdir=0
 ENDIF
-IF obj=mixbalm9& OR obj=mixblm10& OR obj=mixblm11& OR obj=mixblm12& OR obj=mixblm13& OR obj=mixblm14& OR obj=mixblm15& OR obj=mixblm16& THEN
+IF bigfoot=TRUE AND (obj=mixbalm9& OR obj=mixblm10& OR obj=mixblm11& OR obj=mixblm12& OR obj=mixblm13& OR obj=mixblm14& OR obj=mixblm15& OR obj=mixblm16&) THEN
 mixbal=TRUE
 mixdir=0
 ENDIF
@@ -56904,7 +57640,7 @@ IF obj=mixball1& OR obj=mixball2& OR obj=mixball3& OR obj=mixball4& OR obj=mixba
 mixbal=TRUE
 mixdir=1
 ENDIF
-IF obj=mixball9& OR obj=mixbll10& OR obj=mixbll11& OR obj=mixbll12& OR obj=mixbll13& OR obj=mixbll14& OR obj=mixbll15& OR obj=mixbll16& THEN
+IF bigfoot=TRUE AND (obj=mixball9& OR obj=mixbll10& OR obj=mixbll11& OR obj=mixbll12& OR obj=mixbll13& OR obj=mixbll14& OR obj=mixbll15& OR obj=mixbll16&) THEN
 mixbal=TRUE
 mixdir=1
 ENDIF
@@ -56912,13 +57648,13 @@ IF obj=mixbalr1& OR obj=mixbalr2& OR obj=mixbalr3& OR obj=mixbalr4& OR obj=mixba
 mixbal=TRUE
 mixdir=2
 ENDIF
-IF obj=mixbalr9& OR obj=mixblr10& OR obj=mixblr11& OR obj=mixblr12& OR obj=mixblr13& OR obj=mixblr14& OR obj=mixblr15& OR obj=mixblr16& THEN
+IF bigfoot=TRUE AND (obj=mixbalr9& OR obj=mixblr10& OR obj=mixblr11& OR obj=mixblr12& OR obj=mixblr13& OR obj=mixblr14& OR obj=mixblr15& OR obj=mixblr16&) THEN
 mixbal=TRUE
 mixdir=2
 ENDIF
 IF mixbal=TRUE THEN
 mixbal=FALSE
-@setbutton(obj,1)
+'    @setbutton(obj,1)
 IF obj=mixbalm1& OR obj=mixball1& OR obj=mixbalr1& THEN
 obj2=mixbal1&
 obj3=mixbalt1&
@@ -57046,12 +57782,12 @@ v$=STR$(mixbal(mdx))+CHR$(0)
 @textfeld(obj3,v$,1)
 @mixvolset(mdx)
 PAUSE 2
-@setbutton(obj,0)
+'    @setbutton(obj,0)
 ENDIF
 IF obj=mixbalp1& OR obj=mixbalp2& OR obj=mixbalp3& OR obj=mixbalp4& OR obj=mixbalp5& OR obj=mixbalp6& OR obj=mixbalp7& OR obj=mixbalp8& OR obj=mixbalpm& THEN
 mixbal2=TRUE
 ENDIF
-IF obj=mixbalp9& OR obj=mixblp10& OR obj=mixblp11& OR obj=mixblp12& OR obj=mixblp13& OR obj=mixblp14& OR obj=mixblp15& OR obj=mixblp16& THEN
+IF bigfoot=TRUE AND (obj=mixbalp9& OR obj=mixblp10& OR obj=mixblp11& OR obj=mixblp12& OR obj=mixblp13& OR obj=mixblp14& OR obj=mixblp15& OR obj=mixblp16&) THEN
 mixbal2=TRUE
 ENDIF
 @mixpanmake(FALSE,0)
@@ -57059,7 +57795,7 @@ IF obj=mixvolm1& OR obj=mixvolm2& OR obj=mixvolm3& OR obj=mixvolm4& OR obj=mixvo
 mixvol=TRUE
 mixdir=0
 ENDIF
-IF obj=mixvolm9& OR obj=mxvolm10& OR obj=mxvolm11& OR obj=mxvolm12& OR obj=mxvolm13& OR obj=mxvolm14& OR obj=mxvolm15& OR obj=mxvolm16& THEN
+IF bigfoot=TRUE AND (obj=mixvolm9& OR obj=mxvolm10& OR obj=mxvolm11& OR obj=mxvolm12& OR obj=mxvolm13& OR obj=mxvolm14& OR obj=mxvolm15& OR obj=mxvolm16&) THEN
 mixvol=TRUE
 mixdir=0
 ENDIF
@@ -57067,7 +57803,7 @@ IF obj=mixvold1& OR obj=mixvold2& OR obj=mixvold3& OR obj=mixvold4& OR obj=mixvo
 mixvol=TRUE
 mixdir=1
 ENDIF
-IF obj=mixvold9& OR obj=mxvold10& OR obj=mxvold11& OR obj=mxvold12& OR obj=mxvold13& OR obj=mxvold14& OR obj=mxvold15& OR obj=mxvold16& THEN
+IF bigfoot=TRUE AND (obj=mixvold9& OR obj=mxvold10& OR obj=mxvold11& OR obj=mxvold12& OR obj=mxvold13& OR obj=mxvold14& OR obj=mxvold15& OR obj=mxvold16&) THEN
 mixvol=TRUE
 mixdir=1
 ENDIF
@@ -57075,7 +57811,7 @@ IF obj=mixvolz1& OR obj=mixvolz2& OR obj=mixvolz3& OR obj=mixvolz4& OR obj=mixvo
 mixvol=TRUE
 mixdir=2
 ENDIF
-IF obj=mixvolz9& OR obj=mxvolz10& OR obj=mxvolz11& OR obj=mxvolz12& OR obj=mxvolz13& OR obj=mxvolz14& OR obj=mxvolz15& OR obj=mxvolz16& THEN
+IF bigfoot=TRUE AND (obj=mixvolz9& OR obj=mxvolz10& OR obj=mxvolz11& OR obj=mxvolz12& OR obj=mxvolz13& OR obj=mxvolz14& OR obj=mxvolz15& OR obj=mxvolz16&) THEN
 mixvol=TRUE
 mixdir=2
 ENDIF
@@ -57230,74 +57966,91 @@ ENDIF
 IF obj=mixvol1& OR obj=mixvol2& OR obj=mixvol3& OR obj=mixvol4& OR obj=mixvol5& OR obj=mixvol6& OR obj=mixvol7& OR obj=mixvol8& OR obj=mixvolm& THEN
 mixvol2=TRUE
 ENDIF
-IF obj=mixvol9& OR obj=mixvol10& OR obj=mixvol11& OR obj=mixvol12& OR obj=mixvol13& OR obj=mixvol14& OR obj=mixvol15& OR obj=mixvol16& THEN
+IF bigfoot=TRUE AND (obj=mixvol9& OR obj=mixvol10& OR obj=mixvol11& OR obj=mixvol12& OR obj=mixvol13& OR obj=mixvol14& OR obj=mixvol15& OR obj=mixvol16&) THEN
 mixvol2=TRUE
 ENDIF
 @mixvolmake(FALSE,0)
 IF obj=mixtit1& OR obj=mixtit2& OR obj=mixtit3& OR obj=mixtit4& OR obj=mixtit5& OR obj=mixtit6& OR obj=mixtit7& OR obj=mixtit8& OR obj=mixtitm& THEN
 @setbutton(obj,0)
 ENDIF
-IF obj=mixtit9& OR obj=mixtit10& OR obj=mixtit11& OR obj=mixtit12& OR obj=mixtit13& OR obj=mixtit14& OR obj=mixtit15& OR obj=mixtit16& THEN
+IF bigfoot=TRUE AND (obj=mixtit9& OR obj=mixtit10& OR obj=mixtit11& OR obj=mixtit12& OR obj=mixtit13& OR obj=mixtit14& OR obj=mixtit15& OR obj=mixtit16&) THEN
 @setbutton(obj,0)
 ENDIF
 IF obj=mixmute1& OR obj=mixmute2& OR obj=mixmute3& OR obj=mixmute4& OR obj=mixmute5& OR obj=mixmute6& OR obj=mixmute7& OR obj=mixmute8& OR obj=mixmutem& THEN
 mixmut=TRUE
 ENDIF
-IF obj=mixmute9& OR obj=mixmut10& OR obj=mixmut11& OR obj=mixmut12& OR obj=mixmut13& OR obj=mixmut14& OR obj=mixmut15& OR obj=mixmut16& THEN
+IF bigfoot=TRUE AND (obj=mixmute9& OR obj=mixmut10& OR obj=mixmut11& OR obj=mixmut12& OR obj=mixmut13& OR obj=mixmut14& OR obj=mixmut15& OR obj=mixmut16&) THEN
 mixmut=TRUE
 ENDIF
 @mixmutemake(FALSE,0)
 IF obj=mixbyp1& OR obj=mixbyp2& OR obj=mixbyp3& OR obj=mixbyp4& OR obj=mixbyp5& OR obj=mixbyp6& OR obj=mixbyp7& OR obj=mixbyp8& OR obj=mixbypm& THEN
 mixbyp=TRUE
 ENDIF
-IF obj=mixbyp9& OR obj=mixbyp10& OR obj=mixbyp11& OR obj=mixbyp12& OR obj=mixbyp13& OR obj=mixbyp14& OR obj=mixbyp15& OR obj=mixbyp16& THEN
+IF bigfoot=TRUE AND (obj=mixbyp9& OR obj=mixbyp10& OR obj=mixbyp11& OR obj=mixbyp12& OR obj=mixbyp13& OR obj=mixbyp14& OR obj=mixbyp15& OR obj=mixbyp16&) THEN
 mixbyp=TRUE
 ENDIF
 @mixbypass
 RETURN
 '
-> PROCEDURE mixwork
-LOCAL i,a,b,t,t2,nov,nov2,c,ky,shift&,mbi,my,mx,em
-GRAPHMODE 1
-DEFLINE 1
-IF nr=mixer& THEN
-IF stc=&H71273800 THEN
-'
-' em=EVNT_MULTI(&X110011,2,1,1,0,0,0,0,0,0,0,0,0,0,0,1,mx,my,mbi,shift&,ky,c)
-' IF BTST(em,4) THEN
-'  @message
-'  @drop
-'  @wischwasch    ! ganz neu !!!!
-' ENDIF
-'
-~GRAF_MKSTATE(x,y,k,pshift)
-IF k=1 THEN
-mx&=x
-my&=y
-~@xrsrc_gaddr(0,nr,zu%)
-next_obj&=OBJC_FIND(zu%,0,6,mx&,my&)
-IF next_obj&<>0 THEN
-'          obj&=obj
-'          next_obj&=obj
+FUNCTION find_butt(mnr)
+$F%
+LOCAL c,ky,shift&,mbi,o,r%
+IF doslide=FALSE THEN
+IF BTST(EVNT_MULTI(&X100010,2,1,1,0,0,0,0,0,0,0,0,0,0,0,1,mx&,my&,mbi,shift&,ky,c),1) THEN
+r%=rsc_adr%(mnr)
+o=OBJC_FIND(r%,0,100,mx&,my&)
+obj=o
 tree&=nr
+'
+IF SHR(OB_TYPE(r%,o),8)=27 AND BTST(OB_STATE(r%,MAX(0,PRED(o))),5) AND (NOT BTST(OB_STATE(r%,MAX(0,PRED(o))),3))
 @button
-peakrd=TRUE
-@mixworking
-peakrd=FALSE
+ELSE IF BTST(OB_STATE(r%,o),5) AND BTST(OB_FLAGS(r%,o),6) AND (NOT BTST(OB_STATE(r%,o),3))
+@button
+ELSE
+IF o=mixvol1& OR o=mixvol2& OR o=mixvol3& OR o=mixvol4& OR o=mixvol5& OR o=mixvol6& THEN
+leave=TRUE
 ENDIF
+IF o=mixvol7& OR o=mixvol8& OR o=mixvolm& OR o=mixvol15& OR o=mixvol16& THEN
+leave=TRUE
+ENDIF
+IF o=mixvol9& OR o=mixvol10& OR o=mixvol11& OR o=mixvol12& OR o=mixvol13& OR o=mixvol14& THEN
+leave=TRUE
+ENDIF
+IF o=mixbalp1& OR o=mixbalp2& OR o=mixbalp3& OR o=mixbalp4& OR o=mixbalp5& OR o=mixbalp6& THEN
+leave=TRUE
+ENDIF
+IF o=mixbalp7& OR o=mixbalp8& OR o=mixbalpm& OR o=mixblp15& OR o=mixblp16& THEN
+leave=TRUE
+ENDIF
+IF o=mixbalp9& OR o=mixblp10& OR o=mixblp11& OR o=mixblp12& OR o=mixblp13& OR o=mixblp14& THEN
+leave=TRUE
+ENDIF
+IF leave=FALSE
+~FORM_BUTTON(rsc_adr%(mnr),o,1,o)        ! fÅr MagiC weggelassen, macht Probleme
+ELSE
+leave=FALSE
+ENDIF
+ENDIF
+'
+RETURN TRUE
+ELSE
+RETURN FALSE
+ENDIF
+ELSE
+RETURN FALSE
+ENDIF
+ENDFUNC
+'
+> PROCEDURE mixwork
+IF nr=mixer& AND stc=&H71273800 THEN
+IF @find_butt(mixer&)    ! Mausbutton-Event?  (Returnwert obj)
+@mixworking
 ENDIF
 IF rch4=TRUE THEN
-IF mtrkplay=FALSE THEN
-@peakrec2
-ELSE
 @peakrec2
 ENDIF
-ENDIF
-IF rmo8=TRUE OR rch16=TRUE OR (mtrkplay=TRUE AND pch4=TRUE) THEN
-IF showmix=TRUE THEN
+IF showmix=TRUE AND (rmo8=TRUE OR rch16=TRUE OR (mtrkplay=TRUE AND pch4=TRUE)) THEN
 @mixhandler
-ENDIF
-ENDIF
 ENDIF
 ENDIF
 RETURN
@@ -57390,7 +58143,7 @@ ENDIF
 IF @rsc_state(mixer&,obj,3)=FALSE AND (obj=mixon1& OR obj=mixon2& OR obj=mixon3& OR obj=mixon4& OR obj=mixon5& OR obj=mixon6& OR obj=mixon7& OR obj=mixon8& OR obj=mixonm&) THEN
 mixrec=TRUE
 ENDIF
-IF @rsc_state(mixer&,obj,3)=FALSE AND (obj=mixon9& OR obj=mixon10& OR obj=mixon11& OR obj=mixon12& OR obj=mixon13& OR obj=mixon14& OR obj=mixon15& OR obj=mixon16&) THEN
+IF bigfoot=TRUE AND @rsc_state(mixer&,obj,3)=FALSE AND (obj=mixon9& OR obj=mixon10& OR obj=mixon11& OR obj=mixon12& OR obj=mixon13& OR obj=mixon14& OR obj=mixon15& OR obj=mixon16&) THEN
 mixrec=TRUE
 ENDIF
 IF mixrec=TRUE THEN
@@ -57532,7 +58285,52 @@ obj=0
 ENDIF
 RETURN
 '
+> PROCEDURE mixfstbuf
+IF mtrkplay=TRUE THEN
+IF partact=TRUE AND dstrm=TRUE AND ds_rdy=TRUE THEN
+memf=LPEEK(recback+4)        ! Memflag
+hsec2=INT((TIMER-t)/2)
+IF INT(hsec2/4)<>INT(hsec/4) THEN    ! ums langsamer zu machen !
+back%=LPEEK(recback+24)          ! Playbyte
+@show_timepos_hd
+ENDIF
+IF memf=1 AND vmemf=0 THEN
+memz=mems1
+halfbuf=meml1
+memx1=mems1
+memx2=meme1
+memxo=meml2
+@read_pmemp
+ENDIF
+IF memf=0 AND vmemf=1 THEN
+memz=mems2
+halfbuf=meml2
+memx1=mems2
+memx2=meme2
+memxo=meml1
+@read_pmemp
+ENDIF
+ELSE
+hsec2=INT((TIMER-t)/2)
+IF INT(hsec2/16)<>INT(hsec/16) THEN            ! ums langsamer zu machen !
+IF thz>0 THEN
+tback%=LPEEK(trecback+24)          !36 Playbyte
+@tcorr
+hsec=INT(tback%/thz/tmbit*100)
+@htimeset                                  ! zeituhr zeigen
+hsec=hsec2
+IF flicker=TRUE THEN
+VSYNC
+ENDIF
+@textfeld(mixact&,a$,1)
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+RETURN
+'
 > PROCEDURE mixvolmake(mset,mvol)
+LOCAL x,y,k
 IF mixvol2=TRUE THEN
 mixvol2=FALSE
 IF mset=FALSE THEN
@@ -57573,81 +58371,84 @@ CASE mixvolm&
 pka=17
 ENDSELECT
 ENDIF
+IF bigfoot=TRUE OR (bigfoot=FALSE AND (pka<9 OR pka=17)) THEN
 SELECT pka
 CASE 1
-obj=mixvol1&
-obj2=mixvbox1&
-obj3=mixvolt1&
+ob=mixvol1&
+ob2=mixvbox1&
+ob3=mixvolt1&
 CASE 2
-obj=mixvol2&
-obj2=mixvbox2&
-obj3=mixvolt2&
+ob=mixvol2&
+ob2=mixvbox2&
+ob3=mixvolt2&
 CASE 3
-obj=mixvol3&
-obj2=mixvbox3&
-obj3=mixvolt3&
+ob=mixvol3&
+ob2=mixvbox3&
+ob3=mixvolt3&
 CASE 4
-obj=mixvol4&
-obj2=mixvbox4&
-obj3=mixvolt4&
+ob=mixvol4&
+ob2=mixvbox4&
+ob3=mixvolt4&
 CASE 5
-obj=mixvol5&
-obj2=mixvbox5&
-obj3=mixvolt5&
+ob=mixvol5&
+ob2=mixvbox5&
+ob3=mixvolt5&
 CASE 6
-obj=mixvol6&
-obj2=mixvbox6&
-obj3=mixvolt6&
+ob=mixvol6&
+ob2=mixvbox6&
+ob3=mixvolt6&
 CASE 7
-obj=mixvol7&
-obj2=mixvbox7&
-obj3=mixvolt7&
+ob=mixvol7&
+ob2=mixvbox7&
+ob3=mixvolt7&
 CASE 8
-obj=mixvol8&
-obj2=mixvbox8&
-obj3=mixvolt8&
+ob=mixvol8&
+ob2=mixvbox8&
+ob3=mixvolt8&
 CASE 9
-obj=mixvol9&
-obj2=mixvbox9&
-obj3=mixvolt9&
+ob=mixvol9&
+ob2=mixvbox9&
+ob3=mixvolt9&
 CASE 10
-obj=mixvol10&
-obj2=mxvbox10&
-obj3=mxvolt10&
+ob=mixvol10&
+ob2=mxvbox10&
+ob3=mxvolt10&
 CASE 11
-obj=mixvol11&
-obj2=mxvbox11&
-obj3=mxvolt11&
+ob=mixvol11&
+ob2=mxvbox11&
+ob3=mxvolt11&
 CASE 12
-obj=mixvol12&
-obj2=mxvbox12&
-obj3=mxvolt12&
+ob=mixvol12&
+ob2=mxvbox12&
+ob3=mxvolt12&
 CASE 13
-obj=mixvol13&
-obj2=mxvbox13&
-obj3=mxvolt13&
+ob=mixvol13&
+ob2=mxvbox13&
+ob3=mxvolt13&
 CASE 14
-obj=mixvol14&
-obj2=mxvbox14&
-obj3=mxvolt14&
+ob=mixvol14&
+ob2=mxvbox14&
+ob3=mxvolt14&
 CASE 15
-obj=mixvol15&
-obj2=mxvbox15&
-obj3=mxvolt15&
+ob=mixvol15&
+ob2=mxvbox15&
+ob3=mxvolt15&
 CASE 16
-obj=mixvol16&
-obj2=mxvbox16&
-obj3=mxvolt16&
+ob=mixvol16&
+ob2=mxvbox16&
+ob3=mxvolt16&
 CASE 17
-obj=mixvolm&
-obj2=mixvboxm&
-obj3=mixvoltm&
+ob=mixvolm&
+ob2=mixvboxm&
+ob3=mixvoltm&
 ENDSELECT
 pkp(pka)=-1
 @buttbh(mixfade1&,v,pks1)
 @buttbh(mixvol1&,v,pkv1)
 pkg1=pks1-pkv1
+doslide=TRUE
 REPEAT
+@mixfstbuf
 IF rch4=TRUE THEN
 IF mtrkplay=FALSE THEN
 IF hdr=FALSE THEN
@@ -57664,7 +58465,11 @@ IF showmix=TRUE THEN
 ENDIF
 ~GRAF_MKSTATE(x,y,k,pshift)
 IF pka<9 OR pka=17 OR panmix=FALSE THEN
+IF bigfoot=TRUE THEN
 py=y-yd-174
+ELSE
+py=y-yd-134
+ENDIF
 ELSE
 py=y-yd-520
 ENDIF
@@ -57677,23 +58482,25 @@ ENDIF
 IF vpkp(pka)<>pkp(pka) THEN
 pkp(pka)=vpkp(pka)
 v$=STR$(ROUND(pkp(pka)/32768/255*100))+CHR$(0)
-@textfeld(obj3,v$,1)
+@textfeld(ob3,v$,1)
 IF flicker=TRUE THEN
 VSYNC
 ENDIF
 @mixvolset(pka)
 ~@xrsrc_gaddr(0,mixer&,zu%)
 py=pkg1-(pkg1/&H800000*vpkp(pka))
-DPOKE (zu%+24*obj+18),py                    ! Hîhenposition des Volume-Sliders verÑndern
+DPOKE (zu%+24*ob+18),py                    ! Hîhenposition des Volume-Sliders verÑndern
 ~WIND_UPDATE(1)                                  ! BEG_UPDATE
 IF flicker=TRUE THEN
 VSYNC
 ENDIF
-~OBJC_DRAW(zu%,obj2,3,0,0,xwidth,ywidth)      ! neu zeichnen
+~OBJC_DRAW(zu%,ob2,3,0,0,xwidth,ywidth)      ! neu zeichnen
 ~WIND_UPDATE(0)
 ENDIF
 ENDIF
 UNTIL k=0
+doslide=FALSE
+ENDIF
 ENDIF
 RETURN
 '
@@ -57738,78 +58545,80 @@ CASE mixbalpm&
 mdx=17
 ENDSELECT
 ENDIF
+IF bigfoot=TRUE OR (bigfoot=FALSE AND (mdx<9 OR mdx=17)) THEN
 SELECT mdx
 CASE 1
-obj=mixbalp1&
-obj2=mixbal1&
-obj3=mixbalt1&
+ob=mixbalp1&
+ob2=mixbal1&
+ob3=mixbalt1&
 CASE 2
-obj=mixbalp2&
-obj2=mixbal2&
-obj3=mixbalt2&
+ob=mixbalp2&
+ob2=mixbal2&
+ob3=mixbalt2&
 CASE 3
-obj=mixbalp3&
-obj2=mixbal3&
-obj3=mixbalt3&
+ob=mixbalp3&
+ob2=mixbal3&
+ob3=mixbalt3&
 CASE 4
-obj=mixbalp4&
-obj2=mixbal4&
-obj3=mixbalt4&
+ob=mixbalp4&
+ob2=mixbal4&
+ob3=mixbalt4&
 CASE 5
-obj=mixbalp5&
-obj2=mixbal5&
-obj3=mixbalt5&
+ob=mixbalp5&
+ob2=mixbal5&
+ob3=mixbalt5&
 CASE 6
-obj=mixbalp6&
-obj2=mixbal6&
-obj3=mixbalt6&
+ob=mixbalp6&
+ob2=mixbal6&
+ob3=mixbalt6&
 CASE 7
-obj=mixbalp7&
-obj2=mixbal7&
-obj3=mixbalt7&
+ob=mixbalp7&
+ob2=mixbal7&
+ob3=mixbalt7&
 CASE 8
-obj=mixbalp8&
-obj2=mixbal8&
-obj3=mixbalt8&
+ob=mixbalp8&
+ob2=mixbal8&
+ob3=mixbalt8&
 CASE 9
-obj=mixbalp9&
-obj2=mixbal9&
-obj3=mixbalt9&
+ob=mixbalp9&
+ob2=mixbal9&
+ob3=mixbalt9&
 CASE 10
-obj=mixblp10&
-obj2=mixbal10&
-obj3=mixblt10&
+ob=mixblp10&
+ob2=mixbal10&
+ob3=mixblt10&
 CASE 11
-obj=mixblp11&
-obj2=mixbal11&
-obj3=mixblt11&
+ob=mixblp11&
+ob2=mixbal11&
+ob3=mixblt11&
 CASE 12
-obj=mixblp12&
-obj2=mixbal12&
-obj3=mixblt12&
+ob=mixblp12&
+ob2=mixbal12&
+ob3=mixblt12&
 CASE 13
-obj=mixblp13&
-obj2=mixbal13&
-obj3=mixblt13&
+ob=mixblp13&
+ob2=mixbal13&
+ob3=mixblt13&
 CASE 14
-obj=mixblp14&
-obj2=mixbal14&
-obj3=mixblt14&
+ob=mixblp14&
+ob2=mixbal14&
+ob3=mixblt14&
 CASE 15
-obj=mixblp15&
-obj2=mixbal15&
-obj3=mixblt15&
+ob=mixblp15&
+ob2=mixbal15&
+ob3=mixblt15&
 CASE 16
-obj=mixblp16&
-obj2=mixbal16&
-obj3=mixblt16&
+ob=mixblp16&
+ob2=mixbal16&
+ob3=mixblt16&
 CASE 17
-obj=mixbalpm&
-obj2=mixbalm&
-obj3=mixbaltm&
+ob=mixbalpm&
+ob2=mixbalm&
+ob3=mixbaltm&
 ENDSELECT
 ~@xrsrc_gaddr(0,mixer&,zu%)
 REPEAT
+@mixfstbuf
 IF rch4=TRUE THEN
 IF mtrkplay=FALSE THEN
 IF hdr=FALSE THEN
@@ -57849,21 +58658,22 @@ ENDIF
 IF px>=-20 AND px<=20 THEN
 mix=mixbwx(px+20)
 miy=mixbwy(px+20)
-DPOKE (zu%+24*obj+16),mixbpx+mix                    ! Hîhenposition des Volume-Sliders verÑndern
-DPOKE (zu%+24*obj+18),mixbpy+miy                    ! Hîhenposition des Volume-Sliders verÑndern
+DPOKE (zu%+24*ob+16),mixbpx+mix                    ! Hîhenposition des Volume-Sliders verÑndern
+DPOKE (zu%+24*ob+18),mixbpy+miy                    ! Hîhenposition des Volume-Sliders verÑndern
 ~WIND_UPDATE(1)                                  ! BEG_UPDATE
 IF flicker=TRUE THEN
 VSYNC
 ENDIF
-~OBJC_DRAW(zu%,obj2,3,0,0,xwidth,ywidth)      ! neu zeichnen
-~OBJC_DRAW(zu%,obj,3,0,0,xwidth,ywidth)      ! neu zeichnen
+~OBJC_DRAW(zu%,ob2,3,0,0,xwidth,ywidth)      ! neu zeichnen
+~OBJC_DRAW(zu%,ob,3,0,0,xwidth,ywidth)      ! neu zeichnen
 ~WIND_UPDATE(0)
 mixbal(mdx)=px
 v$=STR$(mixbal(mdx))+CHR$(0)
-@textfeld(obj3,v$,1)
+@textfeld(ob3,v$,1)
 @mixvolset(mdx)
 ENDIF
 UNTIL k=0
+ENDIF
 ENDIF
 RETURN
 '
@@ -57907,6 +58717,7 @@ pka=16
 CASE mixmutem&
 pka=17
 ENDSELECT
+IF bigfoot=TRUE OR (bigfoot=FALSE AND (pka<9 OR pka=17)) THEN
 IF mixmute(pka)=FALSE THEN
 mixmute(pka)=TRUE
 IF panmix=TRUE AND (extmix=TRUE OR (extmix=FALSE AND pka=17)) THEN
@@ -57925,6 +58736,7 @@ IF extmix=TRUE AND pka=17 THEN
 FOR i=0 TO 15
 @mixbypset(i,1)
 NEXT i
+ENDIF
 ENDIF
 ENDIF
 ENDIF
@@ -57972,6 +58784,7 @@ pka=16
 CASE mixbypm&
 pka=17
 ENDSELECT
+IF bigfoot=TRUE OR (bigfoot=FALSE AND (pka<9 OR pka=17)) THEN
 vx=pka-1
 IF mixbyp(pka)=FALSE THEN
 mixbyp(pka)=TRUE
@@ -57988,6 +58801,7 @@ IF extmix=FALSE THEN
 ELSE
 IF pka=17 THEN
 @allbypass
+ENDIF
 ENDIF
 ENDIF
 ENDIF
@@ -58025,6 +58839,7 @@ RETURN
 '
 > PROCEDURE dobyp2(i1,i2)
 FOR i=i1 TO i2
+IF bigfoot=TRUE OR (bigfoot=FALSE AND (i<9 OR i=17)) THEN
 SELECT i
 CASE 1
 o2=mixbyp1&
@@ -58071,15 +58886,12 @@ ELSE
 @mixbypset(vx,0)
 @setbutton2(o2,0,mixer&)
 ENDIF
+ENDIF
 NEXT i
 RETURN
 '
 > PROCEDURE mixhandler
 LOCAL a$
-IF matrix=FALSE THEN
-INC ccc
-TEXT 32,32,ccc
-ENDIF
 IF ((mtrkplay=TRUE AND pch4=TRUE) OR rmo8=TRUE OR rch16=TRUE) AND nr=mixer& THEN
 IF rmo8=TRUE OR rch16=TRUE THEN
 a$=""
@@ -58095,14 +58907,19 @@ IF extmix=FALSE THEN
 @mixread(17)
 @mixread(18)
 ENDIF
-IF mixch=16 THEN
+IF mixch=16 AND bigfoot=FALSE THEN
 j=3
 ELSE
 j=mixch/2-1
 ENDIF
-FOR i=0 TO mixch/2-1
+FOR i=0 TO j
 @mixhandler2(i)
 NEXT i
+IF mtrkplay=TRUE THEN
+IF @find_butt(mixer&)   ! Mausbutton-Event?  (Returnwert obj)
+@mixworking
+ENDIF
+ENDIF
 IF extmix=FALSE THEN
 @mixhandler2(8)
 ENDIF
@@ -58139,14 +58956,26 @@ RETURN
 '
 > PROCEDURE mixhandler2(i)
 LOCAL prest8,extpky
+@windowtest
+~WIND_UPDATE(1)                                    ! BEG_UPDATE
+IF shading=FALSE THEN
 mixd1=11
 prest8=0.95
 mixd2=i*bwmbox
+IF bigfoot=TRUE THEN
 IF panmix=TRUE AND i<>8 THEN
 mixd2=i*bwmbox*2
 mixdv=18
 ELSE
 mixdv=7
+ENDIF
+ELSE
+IF panmix=TRUE AND i<>8 THEN
+mixd2=i*bwmbox*2
+mixdv=13
+ELSE
+mixdv=5
+ENDIF
 ENDIF
 extpky=0
 IF panmix=TRUE AND (pch16=TRUE OR rch16=TRUE) AND i>3 AND i<8 THEN
@@ -58155,9 +58984,17 @@ mixd2=(i-4)*bwmbox*2
 ENDIF
 IF i=8 THEN
 IF panmix=FALSE OR (panmix=TRUE AND mixch>8) THEN
+IF bigfoot=TRUE THEN
 mixd2=mixch/2*bwmbox+8
 ELSE
+mixd2=mixch/2*bwmbox+5
+ENDIF
+ELSE
+IF bigfoot=TRUE THEN
 mixd2=mixch*bwmbox+8
+ELSE
+mixd2=mixch*bwmbox+5
+ENDIF
 ENDIF
 ENDIF
 mixyd=peakw(i*2+1)
@@ -58189,6 +59026,9 @@ IF panmix=TRUE AND i<>8 THEN
 mixd2=i*bwmbox*2+bwmbox
 mixd1=0
 ENDIF
+IF i=8 AND bigfoot=FALSE THEN
+mixd2=i*bwmbox+2
+ENDIF
 IF panmix=TRUE AND (pch16=TRUE OR rch16=TRUE) AND i>3 AND i<8 THEN
 mixd2=(i-4)*bwmbox*2+bwmbox
 ENDIF
@@ -58217,6 +59057,8 @@ ENDIF
 PBOX mvolx+mixd2+mixd1+xd,mvoly+yd+extpky-mixyd,mvolx+mixd2+mixd1+xd+mixdv,mvoly+yd+extpky-vmixyd
 ENDIF
 ENDIF
+ENDIF
+~WIND_UPDATE(0)                                    ! END_UPDATE
 RETURN
 '
 > PROCEDURE setvol8(v1,v2)
@@ -58417,10 +59259,13 @@ RETURN
 '
 > PROCEDURE setsync
 LOCAL b1$,b24,b3$,b4$
+IF setsy=FALSE THEN
 adat0$=" EXT     "
 IF adat=TRUE THEN
 masterclk=24576000
+setsy=TRUE
 @adextl2
+setsy=FALSE
 ELSE
 masterclk=synchertz
 IF ext>0 THEN
@@ -58478,6 +59323,7 @@ ENDIF
 @stringfeld(popups&,ratexth2&,b1$+CHR$(0),6)
 @stringfeld(popups&,ratexth1&,b3$+CHR$(0),6)
 @stringfeld(popups&,ratextl1&,b4$+CHR$(0),6)
+ENDIF
 RETURN
 '
 > PROCEDURE do_workmode
@@ -58621,17 +59467,19 @@ IF obj=mast24& THEN
 @setbutton(mast24&,1)
 IF matrix=TRUE THEN
 @hidetree(recm16&,TRUE,wmbox3&)
+rch16=FALSE
 ENDIF
-IF rmo8=TRUE THEN
 @setrecart
-ENDIF
 ENDIF
 IF obj=mast16& THEN
 @setbitrate16
 @setbutton(mast24&,0)
 @setbutton(mast16&,1)
-IF BTST(hchk,0)=FALSE THEN             ! alte hardware
+IF matrix=TRUE THEN             ! neue hardware?
+IF BTST(hchk,0)=FALSE THEN             ! neue hardware?
 @hidetree(recm16&,FALSE,wmbox3&)
+ENDIF
+@hidetree(recm8&,FALSE,wmbox3&)
 ENDIF
 @hidetree(mixdma&,FALSE,wmbox2&)
 ENDIF
@@ -58650,6 +59498,9 @@ ENDIF
 IF obj=mixcpu& THEN
 matrix=FALSE
 mixdsp=FALSE
+IF BTST(hchk,0)=FALSE THEN             ! neue hardware?
+@hidetree(recm16&,FALSE,wmbox3&)
+ENDIF
 ENDIF
 IF obj=mixdma& THEN
 matrix=TRUE
@@ -58660,13 +59511,22 @@ matrix=TRUE
 mixdsp=TRUE
 ENDIF
 IF obj=mixdsp& OR obj=mixdma& OR obj=mixcpu& THEN
+IF matrix=FALSE THEN
+@hidetree(recm16&,TRUE,wmbox3&)
+@hidetree(recm8&,TRUE,wmbox3&)
+rch16=FALSE
+rmo8=FALSE
+@setrecart
+ELSE
+@hidetree(recm8&,FALSE,wmbox3&)
 IF dig24=TRUE THEN
 @hidetree(recm16&,TRUE,wmbox3&)
 rch16=FALSE
 @setrecart
 ELSE
-IF BTST(hchk,0)=FALSE THEN             ! alte hardware
+IF BTST(hchk,0)=FALSE THEN             ! neue hardware?
 @hidetree(recm16&,FALSE,wmbox3&)
+ENDIF
 ENDIF
 ENDIF
 ENDIF
