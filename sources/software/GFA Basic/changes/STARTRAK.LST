@@ -3326,7 +3326,7 @@ RETURN
     IF (nr=mixer& AND n=mixwait&) OR (nr=cuelist& AND n=cuewait&) OR (nr=smpedit& AND n=smpwait&) OR (nr=fsel& AND n=fswait&) OR (nr=peak& AND n=peakwait& AND volmake=FALSE AND balmake=FALSE) OR (nr=arranger& AND n=pause&) OR (nr=trakker& AND n=pause2&)
       expause=TRUE
     ENDIF
-    IF (nr=mixer& AND n=mixstop&) OR (nr=peak& AND n=playstop& AND volmake=FALSE AND balmake=FALSE) OR (nr=smpedit& AND n=smpstop&) OR (nr=arranger& AND n=stop&) OR (nr=trakker& AND n=stop2&) OR (nr=fsel& AND n=fsstop&) OR (nr=cuelist& AND n=cuestop&)
+    IF (nr=peak& AND n=playstop& AND volmake=FALSE AND balmake=FALSE) OR (nr=smpedit& AND n=smpstop&) OR (nr=arranger& AND n=stop&) OR (nr=trakker& AND n=stop2&) OR (nr=fsel& AND n=fsstop&) OR (nr=cuelist& AND n=cuestop&)
       expause=TRUE
     ENDIF
   UNTIL expause=TRUE
@@ -3449,7 +3449,7 @@ RETURN
         one%=1
       ENDIF
     ENDIF
-    '    @zeigtime
+    @zeigtime
     @peakbreak
     IF BTST(em,0) AND ascii|=32 THEN
       @keymarkers
@@ -3463,11 +3463,6 @@ RETURN
         ENDIF
         allcount=allcountm
         sectors=allcount
-      ENDIF
-    ENDIF
-    IF nr=mixer& THEN
-      IF @find_butt(mixer&)   ! Mausbutton-Event?  (Returnwert obj)
-        @mixworking
       ENDIF
     ENDIF
   UNTIL halfbuf=0 OR exfill=TRUE OR (allcount<=0 AND (((sloop!=FALSE OR virtual=FALSE) AND (nr=smpedit& OR nr=peak&)) OR (nr<>smpedit& AND nr<>peak&)))
@@ -3784,11 +3779,7 @@ RETURN
     posloop=0
     '
     @fillpmem
-    IF nr=mixer& THEN
-      DEFMOUSE 3
-    ELSE
-      @maus_player
-    ENDIF
+    @maus_player
     back%=cntstrt
     @show_timepos_hd
     IF nr=smpedit& THEN
@@ -6568,11 +6559,13 @@ RETURN
   ENDIF
 rsc_dox_ende:
 RETURN
-PROCEDURE button
+> PROCEDURE button
   LOCAL popok,dif
   rsc_adr%=rsc_adr%(nr)
   IF next_obj&<>-1 OR rsc_handle%(tree&)>1000 THEN
     IF BTST(evnt&,4) THEN    ! redraw bevor buttondruck in fremdes Fenster gezeichnet wird
+      @message
+      @wischwasch
     ENDIF
     next_obj&=OBJC_FIND(rsc_adr%,0,100,mx&,my&)
   ENDIF
@@ -8350,7 +8343,7 @@ ENDIF
 rsc_handle%(tree&)=0
 ~WIND_UPDATE(0)                                      ! END_UPDATE
 IF rsc_window&>0 THEN
-IF nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info&
+IF nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info& OR nr=trakk
   nr=smpedit&
   tree&=smpedit&
   rsc_message(tree&,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
@@ -15441,7 +15434,7 @@ OB_Y(rsc_adr%(i),0)=ADD(rscy&(i),3)
 ENDIF
 RETURN
 '
-> PROCEDURE change_colors
+PROCEDURE change_colors
 IF maxcol=2 OR dreidim=0 THEN
 @textcolor(peak&,peakmax&,0,1,1)  !text,rahmen,fill
 @textcolor(peak&,peakch1&,1,1,0)  !text,rahmen,fill
@@ -15867,6 +15860,7 @@ IF bigfoot=TRUE THEN
 @textcolor(mixer&,mixbyp14&,1,1,0)
 @textcolor(mixer&,mixbyp15&,1,1,0)
 @textcolor(mixer&,mixbyp16&,1,1,0)
+'
 @colorbox(mixer&,mixvbox9&,0,7)
 @colorbox(mixer&,mxvbox10&,0,7)
 @colorbox(mixer&,mxvbox11&,0,7)
@@ -15883,54 +15877,8 @@ IF bigfoot=TRUE THEN
 @colorbox(mixer&,mbalbx14&,0,7)
 @colorbox(mixer&,mbalbx15&,0,7)
 @colorbox(mixer&,mbalbx16&,0,7)
-@colorbox(mixer&,mixdb9&,0,7)
-@colorbox(mixer&,mixdb10&,0,7)
-@colorbox(mixer&,mixdb11&,0,7)
-@colorbox(mixer&,mixdb12&,0,7)
-@colorbox(mixer&,mixdb13&,0,7)
-@colorbox(mixer&,mixdb14&,0,7)
-@colorbox(mixer&,mixdb15&,0,7)
-@colorbox(mixer&,mixdb16&,0,7)
-@textcolor(mixer&,mixtxt9&,1,1,0)
-@textcolor(mixer&,mixtxt10&,1,1,0)
-@textcolor(mixer&,mixtxt11&,1,1,0)
-@textcolor(mixer&,mixtxt12&,1,1,0)
-@textcolor(mixer&,mixtxt13&,1,1,0)
-@textcolor(mixer&,mixtxt14&,1,1,0)
-@textcolor(mixer&,mixtxt15&,1,1,0)
-@textcolor(mixer&,mixtxt16&,1,1,0)
-@textcolor(mixer&,mixbaln9&,1,1,0)
-@textcolor(mixer&,mixbln10&,1,1,0)
-@textcolor(mixer&,mixbln11&,1,1,0)
-@textcolor(mixer&,mixbln12&,1,1,0)
-@textcolor(mixer&,mixbln13&,1,1,0)
-@textcolor(mixer&,mixbln14&,1,1,0)
-@textcolor(mixer&,mixbln15&,1,1,0)
-@textcolor(mixer&,mixbln16&,1,1,0)
-@textcolor(mixer&,mixvoln9&,1,1,0)
-@textcolor(mixer&,mxvoln10&,1,1,0)
-@textcolor(mixer&,mxvoln11&,1,1,0)
-@textcolor(mixer&,mxvoln12&,1,1,0)
-@textcolor(mixer&,mxvoln13&,1,1,0)
-@textcolor(mixer&,mxvoln14&,1,1,0)
-@textcolor(mixer&,mxvoln15&,1,1,0)
-@textcolor(mixer&,mxvoln16&,1,1,0)
-@textcolor(mixer&,mixvolt9&,0,0,1)
-@textcolor(mixer&,mxvolt10&,0,0,1)
-@textcolor(mixer&,mxvolt11&,0,0,1)
-@textcolor(mixer&,mxvolt12&,0,0,1)
-@textcolor(mixer&,mxvolt13&,0,0,1)
-@textcolor(mixer&,mxvolt14&,0,0,1)
-@textcolor(mixer&,mxvolt15&,0,0,1)
-@textcolor(mixer&,mxvolt16&,0,0,1)
-@textcolor(mixer&,mixbalt9&,0,0,1)
-@textcolor(mixer&,mixblt10&,0,0,1)
-@textcolor(mixer&,mixblt11&,0,0,1)
-@textcolor(mixer&,mixblt12&,0,0,1)
-@textcolor(mixer&,mixblt13&,0,0,1)
-@textcolor(mixer&,mixblt14&,0,0,1)
-@textcolor(mixer&,mixblt15&,0,0,1)
-@textcolor(mixer&,mixblt16&,0,0,1)
+'
+'
 ENDIF
 @colorbox(mixer&,mixvbox1&,0,7)
 @colorbox(mixer&,mixvbox2&,0,7)
@@ -15957,7 +15905,7 @@ ENDIF
 @colorbox(mixer&,mixdb5&,0,7)
 @colorbox(mixer&,mixdb6&,0,7)
 @colorbox(mixer&,mixdb7&,0,7)
-@colorbox(mixer&,mixdb8&,0,7)
+@colorbox(mixer&,mixdb8&,0,7)    ! und weiter ?
 @colorbox(mixer&,mixdbm&,0,7)
 @textcolor(mixer&,mixpeak&,0,1,1)
 @textcolor(mixer&,mixerr&,0,1,1)
@@ -15980,7 +15928,7 @@ ENDIF
 @textcolor(mixer&,mixtxt5&,1,1,0)
 @textcolor(mixer&,mixtxt6&,1,1,0)
 @textcolor(mixer&,mixtxt7&,1,1,0)
-@textcolor(mixer&,mixtxt8&,1,1,0)
+@textcolor(mixer&,mixtxt8&,1,1,0)  ! unn weiter?
 @textcolor(mixer&,mixtxtm&,1,1,0)
 @textcolor(mixer&,mixbyp1&,1,1,0)
 @textcolor(mixer&,mixbyp2&,1,1,0)
@@ -15999,7 +15947,7 @@ ENDIF
 @textcolor(mixer&,mixbaln5&,1,1,0)
 @textcolor(mixer&,mixbaln6&,1,1,0)
 @textcolor(mixer&,mixbaln7&,1,1,0)
-@textcolor(mixer&,mixbaln8&,1,1,0)
+@textcolor(mixer&,mixbaln8&,1,1,0) ! und weiter?
 @textcolor(mixer&,mixbalnm&,1,1,0)
 @textcolor(mixer&,mixvoln1&,1,1,0)
 @textcolor(mixer&,mixvoln2&,1,1,0)
@@ -16008,7 +15956,7 @@ ENDIF
 @textcolor(mixer&,mixvoln5&,1,1,0)
 @textcolor(mixer&,mixvoln6&,1,1,0)
 @textcolor(mixer&,mixvoln7&,1,1,0)
-@textcolor(mixer&,mixvoln8&,1,1,0)
+@textcolor(mixer&,mixvoln8&,1,1,0) ! und weiter?
 @textcolor(mixer&,mixvolnm&,1,1,0)
 @textcolor(mixer&,mixvolt1&,0,0,1)
 @textcolor(mixer&,mixvolt2&,0,0,1)
@@ -16017,7 +15965,7 @@ ENDIF
 @textcolor(mixer&,mixvolt5&,0,0,1)
 @textcolor(mixer&,mixvolt6&,0,0,1)
 @textcolor(mixer&,mixvolt7&,0,0,1)
-@textcolor(mixer&,mixvolt8&,0,0,1)
+@textcolor(mixer&,mixvolt8&,0,0,1) ! und weiter?
 @textcolor(mixer&,mixvoltm&,0,0,1)
 @textcolor(mixer&,mixbalt1&,0,0,1)
 @textcolor(mixer&,mixbalt2&,0,0,1)
@@ -16026,7 +15974,7 @@ ENDIF
 @textcolor(mixer&,mixbalt5&,0,0,1)
 @textcolor(mixer&,mixbalt6&,0,0,1)
 @textcolor(mixer&,mixbalt7&,0,0,1)
-@textcolor(mixer&,mixbalt8&,0,0,1)
+@textcolor(mixer&,mixbalt8&,0,0,1) ! und weiter?
 @textcolor(mixer&,mixbaltm&,0,0,1)
 @colorbox(plugin&,panbox&,0,7)
 @colorbox(plgconfg&,pcfgbox&,0,7)
@@ -25312,9 +25260,7 @@ ENDIF
 ENDIF
 t=TIMER
 intplay=TRUE
-IF nr=mixer& THEN
-DEFMOUSE 3
-ELSE
+IF nr<>mixer& THEN
 @maus_player
 ENDIF
 ENDIF
@@ -56429,7 +56375,7 @@ ENDIF
 ~MFREE(mcl)
 ENDIF
 ELSE
-@alerts(79)
+@alerts(66)
 ENDIF
 RETURN
 '
@@ -57533,7 +57479,7 @@ smixch=16
 nr=mixnr
 RETURN
 '
-PROCEDURE mixworking
+> PROCEDURE mixworking
 ~@xrsrc_gaddr(0,mixer&,zu%)
 zuadr=zu%
 buttadr=zuadr+24*obj
@@ -57575,7 +57521,6 @@ IF mixroute(17)=3 THEN
 ENDIF
 ENDIF
 ENDIF
-obj=0
 ENDIF
 IF mixtex=TRUE THEN
 mixtex=FALSE
@@ -57617,15 +57562,7 @@ pka=16
 ENDSELECT
 mixroute(pka)=popup&
 @routeset(pka-1,popup&-1)
-obj=0
 ENDIF
-ENDIF
-IF obj=mixstop& THEN
-@breakstop
-@setbutton(mixstop&,0)
-ENDIF
-IF obj=mixwait&
-@breakwait
 ENDIF
 mixbal=FALSE
 IF obj=mixbalm1& OR obj=mixbalm2& OR obj=mixbalm3& OR obj=mixbalm4& OR obj=mixbalm5& OR obj=mixbalm6& OR obj=mixbalm7& OR obj=mixbalm8& OR obj=mixbalmm& THEN
@@ -57992,65 +57929,48 @@ ENDIF
 @mixbypass
 RETURN
 '
-FUNCTION find_butt(mnr)
-$F%
-LOCAL c,ky,shift&,mbi,o,r%
-IF doslide=FALSE THEN
-IF BTST(EVNT_MULTI(&X100010,2,1,1,0,0,0,0,0,0,0,0,0,0,0,1,mx&,my&,mbi,shift&,ky,c),1) THEN
-r%=rsc_adr%(mnr)
-o=OBJC_FIND(r%,0,100,mx&,my&)
-obj=o
-tree&=nr
-'
-IF SHR(OB_TYPE(r%,o),8)=27 AND BTST(OB_STATE(r%,MAX(0,PRED(o))),5) AND (NOT BTST(OB_STATE(r%,MAX(0,PRED(o))),3))
-@button
-ELSE IF BTST(OB_STATE(r%,o),5) AND BTST(OB_FLAGS(r%,o),6) AND (NOT BTST(OB_STATE(r%,o),3))
-@button
-ELSE
-IF o=mixvol1& OR o=mixvol2& OR o=mixvol3& OR o=mixvol4& OR o=mixvol5& OR o=mixvol6& THEN
-leave=TRUE
-ENDIF
-IF o=mixvol7& OR o=mixvol8& OR o=mixvolm& OR o=mixvol15& OR o=mixvol16& THEN
-leave=TRUE
-ENDIF
-IF o=mixvol9& OR o=mixvol10& OR o=mixvol11& OR o=mixvol12& OR o=mixvol13& OR o=mixvol14& THEN
-leave=TRUE
-ENDIF
-IF o=mixbalp1& OR o=mixbalp2& OR o=mixbalp3& OR o=mixbalp4& OR o=mixbalp5& OR o=mixbalp6& THEN
-leave=TRUE
-ENDIF
-IF o=mixbalp7& OR o=mixbalp8& OR o=mixbalpm& OR o=mixblp15& OR o=mixblp16& THEN
-leave=TRUE
-ENDIF
-IF o=mixbalp9& OR o=mixblp10& OR o=mixblp11& OR o=mixblp12& OR o=mixblp13& OR o=mixblp14& THEN
-leave=TRUE
-ENDIF
-IF leave=FALSE
-~FORM_BUTTON(rsc_adr%(mnr),o,1,o)        ! fr MagiC weggelassen, macht Probleme
-ELSE
-leave=FALSE
-ENDIF
-ENDIF
-'
-RETURN TRUE
-ELSE
-RETURN FALSE
-ENDIF
-ELSE
-RETURN FALSE
-ENDIF
-ENDFUNC
-'
 > PROCEDURE mixwork
-IF nr=mixer& AND stc=&H71273800 THEN
-IF @find_butt(mixer&)    ! Mausbutton-Event?  (Returnwert obj)
+LOCAL i,a,b,t,t2,nov,nov2,c,ky,shift&,mbi,my,mx,em
+GRAPHMODE 1
+DEFLINE 1
+IF nr=mixer& THEN
+IF stc=&H71273800 THEN
+'
+' em=EVNT_MULTI(&X110011,2,1,1,0,0,0,0,0,0,0,0,0,0,0,1,mx,my,mbi,shift&,ky,c)
+' IF BTST(em,4) THEN
+'  @message
+'  @drop
+'  @wischwasch    ! ganz neu !!!!
+' ENDIF
+'
+~GRAF_MKSTATE(x,y,k,pshift)
+IF k=1 THEN
+mx&=x
+my&=y
+~@xrsrc_gaddr(0,nr,zu%)
+next_obj&=OBJC_FIND(zu%,0,6,mx&,my&)
+IF next_obj&<>0 THEN
+'          obj&=obj
+'          next_obj&=obj
+tree&=nr
+@button
+peakrd=TRUE
 @mixworking
+peakrd=FALSE
+ENDIF
 ENDIF
 IF rch4=TRUE THEN
+IF mtrkplay=FALSE THEN
+@peakrec2
+ELSE
 @peakrec2
 ENDIF
-IF showmix=TRUE AND (rmo8=TRUE OR rch16=TRUE OR (mtrkplay=TRUE AND pch4=TRUE)) THEN
+ENDIF
+IF rmo8=TRUE OR rch16=TRUE OR (mtrkplay=TRUE AND pch4=TRUE) THEN
+IF showmix=TRUE THEN
 @mixhandler
+ENDIF
+ENDIF
 ENDIF
 ENDIF
 RETURN
@@ -58285,52 +58205,7 @@ obj=0
 ENDIF
 RETURN
 '
-> PROCEDURE mixfstbuf
-IF mtrkplay=TRUE THEN
-IF partact=TRUE AND dstrm=TRUE AND ds_rdy=TRUE THEN
-memf=LPEEK(recback+4)        ! Memflag
-hsec2=INT((TIMER-t)/2)
-IF INT(hsec2/4)<>INT(hsec/4) THEN    ! ums langsamer zu machen !
-back%=LPEEK(recback+24)          ! Playbyte
-@show_timepos_hd
-ENDIF
-IF memf=1 AND vmemf=0 THEN
-memz=mems1
-halfbuf=meml1
-memx1=mems1
-memx2=meme1
-memxo=meml2
-@read_pmemp
-ENDIF
-IF memf=0 AND vmemf=1 THEN
-memz=mems2
-halfbuf=meml2
-memx1=mems2
-memx2=meme2
-memxo=meml1
-@read_pmemp
-ENDIF
-ELSE
-hsec2=INT((TIMER-t)/2)
-IF INT(hsec2/16)<>INT(hsec/16) THEN            ! ums langsamer zu machen !
-IF thz>0 THEN
-tback%=LPEEK(trecback+24)          !36 Playbyte
-@tcorr
-hsec=INT(tback%/thz/tmbit*100)
-@htimeset                                  ! zeituhr zeigen
-hsec=hsec2
-IF flicker=TRUE THEN
-VSYNC
-ENDIF
-@textfeld(mixact&,a$,1)
-ENDIF
-ENDIF
-ENDIF
-ENDIF
-RETURN
-'
 > PROCEDURE mixvolmake(mset,mvol)
-LOCAL x,y,k
 IF mixvol2=TRUE THEN
 mixvol2=FALSE
 IF mset=FALSE THEN
@@ -58374,81 +58249,79 @@ ENDIF
 IF bigfoot=TRUE OR (bigfoot=FALSE AND (pka<9 OR pka=17)) THEN
 SELECT pka
 CASE 1
-ob=mixvol1&
-ob2=mixvbox1&
-ob3=mixvolt1&
+obj=mixvol1&
+obj2=mixvbox1&
+obj3=mixvolt1&
 CASE 2
-ob=mixvol2&
-ob2=mixvbox2&
-ob3=mixvolt2&
+obj=mixvol2&
+obj2=mixvbox2&
+obj3=mixvolt2&
 CASE 3
-ob=mixvol3&
-ob2=mixvbox3&
-ob3=mixvolt3&
+obj=mixvol3&
+obj2=mixvbox3&
+obj3=mixvolt3&
 CASE 4
-ob=mixvol4&
-ob2=mixvbox4&
-ob3=mixvolt4&
+obj=mixvol4&
+obj2=mixvbox4&
+obj3=mixvolt4&
 CASE 5
-ob=mixvol5&
-ob2=mixvbox5&
-ob3=mixvolt5&
+obj=mixvol5&
+obj2=mixvbox5&
+obj3=mixvolt5&
 CASE 6
-ob=mixvol6&
-ob2=mixvbox6&
-ob3=mixvolt6&
+obj=mixvol6&
+obj2=mixvbox6&
+obj3=mixvolt6&
 CASE 7
-ob=mixvol7&
-ob2=mixvbox7&
-ob3=mixvolt7&
+obj=mixvol7&
+obj2=mixvbox7&
+obj3=mixvolt7&
 CASE 8
-ob=mixvol8&
-ob2=mixvbox8&
-ob3=mixvolt8&
+obj=mixvol8&
+obj2=mixvbox8&
+obj3=mixvolt8&
 CASE 9
-ob=mixvol9&
-ob2=mixvbox9&
-ob3=mixvolt9&
+obj=mixvol9&
+obj2=mixvbox9&
+obj3=mixvolt9&
 CASE 10
-ob=mixvol10&
-ob2=mxvbox10&
-ob3=mxvolt10&
+obj=mixvol10&
+obj2=mxvbox10&
+obj3=mxvolt10&
 CASE 11
-ob=mixvol11&
-ob2=mxvbox11&
-ob3=mxvolt11&
+obj=mixvol11&
+obj2=mxvbox11&
+obj3=mxvolt11&
 CASE 12
-ob=mixvol12&
-ob2=mxvbox12&
-ob3=mxvolt12&
+obj=mixvol12&
+obj2=mxvbox12&
+obj3=mxvolt12&
 CASE 13
-ob=mixvol13&
-ob2=mxvbox13&
-ob3=mxvolt13&
+obj=mixvol13&
+obj2=mxvbox13&
+obj3=mxvolt13&
 CASE 14
-ob=mixvol14&
-ob2=mxvbox14&
-ob3=mxvolt14&
+obj=mixvol14&
+obj2=mxvbox14&
+obj3=mxvolt14&
 CASE 15
-ob=mixvol15&
-ob2=mxvbox15&
-ob3=mxvolt15&
+obj=mixvol15&
+obj2=mxvbox15&
+obj3=mxvolt15&
 CASE 16
-ob=mixvol16&
-ob2=mxvbox16&
-ob3=mxvolt16&
+obj=mixvol16&
+obj2=mxvbox16&
+obj3=mxvolt16&
 CASE 17
-ob=mixvolm&
-ob2=mixvboxm&
-ob3=mixvoltm&
+obj=mixvolm&
+obj2=mixvboxm&
+obj3=mixvoltm&
 ENDSELECT
 pkp(pka)=-1
 @buttbh(mixfade1&,v,pks1)
 @buttbh(mixvol1&,v,pkv1)
 pkg1=pks1-pkv1
-doslide=TRUE
 REPEAT
-@mixfstbuf
 IF rch4=TRUE THEN
 IF mtrkplay=FALSE THEN
 IF hdr=FALSE THEN
@@ -58482,24 +58355,23 @@ ENDIF
 IF vpkp(pka)<>pkp(pka) THEN
 pkp(pka)=vpkp(pka)
 v$=STR$(ROUND(pkp(pka)/32768/255*100))+CHR$(0)
-@textfeld(ob3,v$,1)
+@textfeld(obj3,v$,1)
 IF flicker=TRUE THEN
 VSYNC
 ENDIF
 @mixvolset(pka)
 ~@xrsrc_gaddr(0,mixer&,zu%)
 py=pkg1-(pkg1/&H800000*vpkp(pka))
-DPOKE (zu%+24*ob+18),py                    ! H”henposition des Volume-Sliders ver„ndern
+DPOKE (zu%+24*obj+18),py                    ! H”henposition des Volume-Sliders ver„ndern
 ~WIND_UPDATE(1)                                  ! BEG_UPDATE
 IF flicker=TRUE THEN
 VSYNC
 ENDIF
-~OBJC_DRAW(zu%,ob2,3,0,0,xwidth,ywidth)      ! neu zeichnen
+~OBJC_DRAW(zu%,obj2,3,0,0,xwidth,ywidth)      ! neu zeichnen
 ~WIND_UPDATE(0)
 ENDIF
 ENDIF
 UNTIL k=0
-doslide=FALSE
 ENDIF
 ENDIF
 RETURN
@@ -58548,77 +58420,76 @@ ENDIF
 IF bigfoot=TRUE OR (bigfoot=FALSE AND (mdx<9 OR mdx=17)) THEN
 SELECT mdx
 CASE 1
-ob=mixbalp1&
-ob2=mixbal1&
-ob3=mixbalt1&
+obj=mixbalp1&
+obj2=mixbal1&
+obj3=mixbalt1&
 CASE 2
-ob=mixbalp2&
-ob2=mixbal2&
-ob3=mixbalt2&
+obj=mixbalp2&
+obj2=mixbal2&
+obj3=mixbalt2&
 CASE 3
-ob=mixbalp3&
-ob2=mixbal3&
-ob3=mixbalt3&
+obj=mixbalp3&
+obj2=mixbal3&
+obj3=mixbalt3&
 CASE 4
-ob=mixbalp4&
-ob2=mixbal4&
-ob3=mixbalt4&
+obj=mixbalp4&
+obj2=mixbal4&
+obj3=mixbalt4&
 CASE 5
-ob=mixbalp5&
-ob2=mixbal5&
-ob3=mixbalt5&
+obj=mixbalp5&
+obj2=mixbal5&
+obj3=mixbalt5&
 CASE 6
-ob=mixbalp6&
-ob2=mixbal6&
-ob3=mixbalt6&
+obj=mixbalp6&
+obj2=mixbal6&
+obj3=mixbalt6&
 CASE 7
-ob=mixbalp7&
-ob2=mixbal7&
-ob3=mixbalt7&
+obj=mixbalp7&
+obj2=mixbal7&
+obj3=mixbalt7&
 CASE 8
-ob=mixbalp8&
-ob2=mixbal8&
-ob3=mixbalt8&
+obj=mixbalp8&
+obj2=mixbal8&
+obj3=mixbalt8&
 CASE 9
-ob=mixbalp9&
-ob2=mixbal9&
-ob3=mixbalt9&
+obj=mixbalp9&
+obj2=mixbal9&
+obj3=mixbalt9&
 CASE 10
-ob=mixblp10&
-ob2=mixbal10&
-ob3=mixblt10&
+obj=mixblp10&
+obj2=mixbal10&
+obj3=mixblt10&
 CASE 11
-ob=mixblp11&
-ob2=mixbal11&
-ob3=mixblt11&
+obj=mixblp11&
+obj2=mixbal11&
+obj3=mixblt11&
 CASE 12
-ob=mixblp12&
-ob2=mixbal12&
-ob3=mixblt12&
+obj=mixblp12&
+obj2=mixbal12&
+obj3=mixblt12&
 CASE 13
-ob=mixblp13&
-ob2=mixbal13&
-ob3=mixblt13&
+obj=mixblp13&
+obj2=mixbal13&
+obj3=mixblt13&
 CASE 14
-ob=mixblp14&
-ob2=mixbal14&
-ob3=mixblt14&
+obj=mixblp14&
+obj2=mixbal14&
+obj3=mixblt14&
 CASE 15
-ob=mixblp15&
-ob2=mixbal15&
-ob3=mixblt15&
+obj=mixblp15&
+obj2=mixbal15&
+obj3=mixblt15&
 CASE 16
-ob=mixblp16&
-ob2=mixbal16&
-ob3=mixblt16&
+obj=mixblp16&
+obj2=mixbal16&
+obj3=mixblt16&
 CASE 17
-ob=mixbalpm&
-ob2=mixbalm&
-ob3=mixbaltm&
+obj=mixbalpm&
+obj2=mixbalm&
+obj3=mixbaltm&
 ENDSELECT
 ~@xrsrc_gaddr(0,mixer&,zu%)
 REPEAT
-@mixfstbuf
 IF rch4=TRUE THEN
 IF mtrkplay=FALSE THEN
 IF hdr=FALSE THEN
@@ -58658,18 +58529,18 @@ ENDIF
 IF px>=-20 AND px<=20 THEN
 mix=mixbwx(px+20)
 miy=mixbwy(px+20)
-DPOKE (zu%+24*ob+16),mixbpx+mix                    ! H”henposition des Volume-Sliders ver„ndern
-DPOKE (zu%+24*ob+18),mixbpy+miy                    ! H”henposition des Volume-Sliders ver„ndern
+DPOKE (zu%+24*obj+16),mixbpx+mix                    ! H”henposition des Volume-Sliders ver„ndern
+DPOKE (zu%+24*obj+18),mixbpy+miy                    ! H”henposition des Volume-Sliders ver„ndern
 ~WIND_UPDATE(1)                                  ! BEG_UPDATE
 IF flicker=TRUE THEN
 VSYNC
 ENDIF
-~OBJC_DRAW(zu%,ob2,3,0,0,xwidth,ywidth)      ! neu zeichnen
-~OBJC_DRAW(zu%,ob,3,0,0,xwidth,ywidth)      ! neu zeichnen
+~OBJC_DRAW(zu%,obj2,3,0,0,xwidth,ywidth)      ! neu zeichnen
+~OBJC_DRAW(zu%,obj,3,0,0,xwidth,ywidth)      ! neu zeichnen
 ~WIND_UPDATE(0)
 mixbal(mdx)=px
 v$=STR$(mixbal(mdx))+CHR$(0)
-@textfeld(ob3,v$,1)
+@textfeld(obj3,v$,1)
 @mixvolset(mdx)
 ENDIF
 UNTIL k=0
@@ -58892,6 +58763,10 @@ RETURN
 '
 > PROCEDURE mixhandler
 LOCAL a$
+IF matrix=FALSE THEN
+INC ccc
+TEXT 32,32,ccc
+ENDIF
 IF ((mtrkplay=TRUE AND pch4=TRUE) OR rmo8=TRUE OR rch16=TRUE) AND nr=mixer& THEN
 IF rmo8=TRUE OR rch16=TRUE THEN
 a$=""
@@ -58915,11 +58790,6 @@ ENDIF
 FOR i=0 TO j
 @mixhandler2(i)
 NEXT i
-IF mtrkplay=TRUE THEN
-IF @find_butt(mixer&)   ! Mausbutton-Event?  (Returnwert obj)
-@mixworking
-ENDIF
-ENDIF
 IF extmix=FALSE THEN
 @mixhandler2(8)
 ENDIF
@@ -58956,9 +58826,6 @@ RETURN
 '
 > PROCEDURE mixhandler2(i)
 LOCAL prest8,extpky
-@windowtest
-~WIND_UPDATE(1)                                    ! BEG_UPDATE
-IF shading=FALSE THEN
 mixd1=11
 prest8=0.95
 mixd2=i*bwmbox
@@ -59057,8 +58924,6 @@ ENDIF
 PBOX mvolx+mixd2+mixd1+xd,mvoly+yd+extpky-mixyd,mvolx+mixd2+mixd1+xd+mixdv,mvoly+yd+extpky-vmixyd
 ENDIF
 ENDIF
-ENDIF
-~WIND_UPDATE(0)                                    ! END_UPDATE
 RETURN
 '
 > PROCEDURE setvol8(v1,v2)
