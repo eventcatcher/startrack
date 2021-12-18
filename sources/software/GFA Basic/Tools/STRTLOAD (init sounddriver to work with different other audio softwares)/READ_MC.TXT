@@ -1,0 +1,16 @@
+StarTrack Utility START_MC.PRG
+------------------------------
+
+For use the StarTrack Audiocard with Musicom, the Audiocard must be
+initialize a few special things for correct work with it.
+For an easier handling, we maked a little Utility-Program
+that initialize the Audiocard and starts Musicom.
+
+Requirements: a DSP-Expansion and TOS ( it runs not with MagiC)
+and a loaded Audiodriver SOUND.PRG.
+Copy the SOUND.PRG in the AUTO-Folder, that's the best way.
+
+Copy the Startup-Program "START_MC.PRG" in the filepath of the program.
+
+That's all, start now START_MC.PRG.
+

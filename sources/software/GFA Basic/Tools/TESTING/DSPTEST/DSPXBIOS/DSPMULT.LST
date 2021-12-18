@@ -1,0 +1,143 @@
+'
+' Testet die MultBlocks-Funktion des Falcon-XBIOS
+'
+'
+CLS
+a$="K:\LODS\BLOCKS.LOD"+CHR$(0)
+@fdsptest(a$)
+END
+PROCEDURE fdsptest(a$)
+  RESERVE 200000
+  e=0
+  mydat%=MALLOC(10000)
+  mydat1%=mydat%+1000
+  mydat2%=mydat%+5000
+  mydat3%=mydat%+9000
+  mydat4%=mydat%+9100
+  FOR i=0 TO 9999
+    POKE mydat%+i,255
+  NEXT i
+  wsize=XBIOS(103)
+  '
+  ability=XBIOS(113)
+  PRINT "Nummer ability(113):";ability
+  '
+  size=XBIOS(111,L:VARPTR(a$),L:mydat%)
+  PRINT "Load to binary:(111,size)";size
+  '
+  a=XBIOS(109,L:mydat%,L:size,ability)
+  PRINT "send and start program:(109)";a
+  '
+  '
+  DPOKE mydat3%,0
+  LPOKE mydat3%+2,300
+  LPOKE mydat3%+6,mydat1%
+  DPOKE mydat3%+10,1
+  LPOKE mydat3%+12,300
+  LPOKE mydat3%+16,mydat1%+1200
+  DPOKE mydat3%+20,2
+  LPOKE mydat3%+22,400
+  LPOKE mydat3%+26,mydat1%+1800
+  '
+  DPOKE mydat4%,0
+  LPOKE mydat4%+2,300
+  LPOKE mydat4%+6,mydat2%
+  DPOKE mydat4%+10,1
+  LPOKE mydat4%+12,300
+  LPOKE mydat4%+16,mydat2%+1200
+  DPOKE mydat4%+20,2
+  LPOKE mydat4%+22,400
+  LPOKE mydat4%+26,mydat2%+1800
+  '
+  '
+  j=&H10000
+  i=0
+  k=0
+  REPEAT
+    INC j
+    INC k
+    LPOKE mydat1%+i,j
+    i=i+4
+  UNTIL k=300
+  '
+  j=&H2000
+  k=0
+  REPEAT
+    INC j
+    INC k
+    DPOKE mydat1%+i,j
+    i=i+2
+  UNTIL k=300
+  '
+  j=0
+  k=0
+  REPEAT
+    INC j
+    INC k
+    POKE mydat1%+i,j
+    i=i+1
+  UNTIL k=400
+  '
+  PAUSE 50
+  '
+  blkbytes=XBIOS(127,L:3,L:3,L:mydat3%,L:mydat4%)
+  PRINT "Blockbytes(127):";blkbytes
+  '
+  j=&H10000
+  i=0
+  k=0
+  REPEAT
+    INC j
+    INC k
+    t1=LPEEK(mydat1%+i)
+    t2=LPEEK(mydat2%+i)
+    IF t1<>t2 THEN
+      INC e
+    ENDIF
+    IF t2<>j THEN
+      INC e2
+    ENDIF
+    i=i+4
+  UNTIL k=300
+  '
+  j=&H2000
+  k=0
+  REPEAT
+    INC j
+    INC k
+    t1=DPEEK(mydat1%+i)
+    t2=DPEEK(mydat2%+i)
+    IF t1<>t2 THEN
+      INC e
+    ENDIF
+    IF t2<>j THEN
+      INC e2
+    ENDIF
+    i=i+2
+  UNTIL k=300
+  '
+  j=0
+  k=0
+  REPEAT
+    INC j
+    INC k
+    t1=PEEK(mydat1%+i)
+    t2=PEEK(mydat2%+i)
+    IF t1<>t2 THEN
+      INC e
+    ENDIF
+    IF t2<>(j AND 255) THEN
+      INC e2
+    ENDIF
+    i=i+1
+  UNTIL k=400
+  '
+  PRINT
+  PRINT "Fehler:";e,e2
+  PRINT
+  PAUSE 50
+  '
+  unlock=XBIOS(105)
+  PRINT "UnLock(105):";unlock
+  ~MFREE(mydat%)
+RETURN

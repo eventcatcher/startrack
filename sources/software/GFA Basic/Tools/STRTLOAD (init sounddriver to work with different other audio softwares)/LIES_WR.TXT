@@ -1,0 +1,17 @@
+StarTrack Utility START_WR.PRG
+------------------------------
+
+Da Winrec erst zur Zusammenarbeit mit der StarTrack Audiokarte
+berredet werden mu, wurde ein kleines Programm geschrieben,
+das die Audiokarte fr Winrec korrekt initialisiert und
+danach Winrec automatisch nachl„dt und startet.
+
+Voraussetzung fr die Benutzung von Winrec ist die DSP-Erweiterung
+und MagiC (Winrec verlang TOS 4.0 Kompatibilit„t).
+Auerdem sollte vorher der Audiotreiber SOUND.PRG geladen sein.
+Diesen legen sie hierfr am besten in den Autoordner.
+
+Kopieren sie das Startup-Programm "START_WR.PRG" in den Programmpfad.
+
+Das war eigentlich schon alles, sie mssen nur noch
+START_WR.PRG starten.
