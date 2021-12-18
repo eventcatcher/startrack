@@ -1,0 +1,97 @@
+StarTrack Modewatch-Accessory : Die Matrix-Steuerung
+----------------------------------------------------
+
+Hier haben sie eine einfache Mîglichkeit die devconnect-Einstellungen
+zu kontrollieren,Fehler in der devconnect Matrix-Verbindung oder falsch
+gewÑhlte Moduseinstellungen zu finden.
+Dies ist sehr hilfreich um Falcon-Programme an die etwas andere
+Funktionsweise der StarTrack-Audiokarte anzupassen.
+Zur besseren VerstÑndnis sollte man das ›BILD›STARDEVC.IMG› des
+Matrix-Fensters zu Rate ziehen.
+
+1) StarTrack Matrix
+-------------------
+Hier kînnen sie die Matrixeinstellungen der StarTrack-Audiokarte
+kontrollieren und verÑndern. Eine hier vorgenommene VerÑnderung
+wirkt direkt auf die Hardware-Register und umgeht sÑmtliche
+XBIOS-Funktionen. Nur so ist sichergestellt, das nicht eine
+unter UmstÑnden noch fehlerhafte devconnect-Funktion zu falschen
+Ergebnissen fÅhrt. Diese Funktion ist nur fÅr Fehlersuche bzw.
+zur Anpassung von "unsauberen" Falcon-Programmen implementiert,
+um schnell eine korrekte devconnect-Einstellung zu finden.
+
+StarTrack Matrix-Quelle
+--------------------------------------------------------------------
+DMAPLAY ~ Matrix-Wiedergabe
+MATXIN  ~ Datenempfang von DSPcard
+ADC     ~ StarTrack A/D Wandler 
+
+StarTrack Matrix-Ziel
+--------------------------------------------------------------------  
+DMAREC  ~ Matrix-Aufnahme
+MATXOUT ~ DatenÅbertragung zur DSPcard
+DAC     ~ StarTrack D/A Wandler
+
+wird keine Quelle ausgewÑhlt, wird die Zielkomponente abgeschaltet.
+
+2) DSP Matrix
+-------------
+Hier kînnen sie die Matrixeinstellungen der DSP-Erweiterung
+kontrollieren und verÑndern. Eine hier vorgenommene VerÑnderung
+wirkt direkt auf die Hardware-Register und umgeht sÑmtliche
+XBIOS-Funktionen. Nur so ist sichergestellt, das nicht eine
+unter UmstÑnden noch fehlerhafte devconnect-Funktion zu falschen
+Ergebnissen fÅhrt. Diese Funktion ist nur fÅr Fehlersuche bzw.
+zur Anpassung von "unsauberen" Falcon-Programmen implementiert,
+um schnell eine korrekte devconnect-Einstellung zu finden.
+
+Matrix-Quelle der DSP-Erweiterung
+--------------------------------------------------------------------
+EXPIN   ~ Datenempfang von StarTrack-Matrix
+DSPXMIT ~ DSP-Datenausgabe (transmit)
+EXTINP  ~ Daten vom DSP-Port (RDATA) 
+
+Matrix-Ziel der DSP-Erweiterung
+--------------------------------------------------------------------  
+EXTOUT  ~ Daten zum DSP-Port (PDATA)
+DSPREC  ~ DSP-Dateneingang (receive)
+EXPOUT  ~ DatenÅbertragung zur StarTrack-Matrix
+
+Es ist immer ein Quelle ausgewÑhlt, die Zielkomponente kann nicht
+abgeschaltet werden.
+
+Die Matrix hat jetzt einen zusÑtzlichen, festen Pfad von EXTOUT
+nach DMAREC. Das ist nÅtzlich, damit gleichzeitig die Aufnahme
+von 8 KanÑlen (Åber diesen Zusatzpfad) UND die Konvertierung in
+2 MonitorkanÑle fÅr den DAC mîglich ist.
+
+3) convert to monitor
+---------------------
+Im Stereomode sollte convert immer ausgeschaltet sein.
+Im Achtkanalmode sollte convert immer dann eingeschaltet
+werden, wenn ein Stereokanal mit dem DAC wiedergegeben
+oder nur ein Stereokanal aufgenommen werden soll.
+Ist jedoch convert ausgeschaltet gelangen die 128Bit
+unverÑndert zum DAC, der damit nichts anfangen kann.
+Daher sollte man dann den DAC via devconnect abschalten,
+wenn 8 KanÑle aufgenommen werden sollen, oder die
+Datenein-ausgabe komplett Åber externe Interfaces
+(z.B. ADAT) stattfinden soll.
+
+4) Show
+-------
+Hiermit wird ein Dialog geîffnet der die ›Devconnect-Liste›DEVLIST.TXT› anzeigt.
+Man kann hier alle wichtigen Devconnect-aufrufe des XBIOS mitprotokollieren
+lassen und detailliert analysieren.
+
+5) Help
+-------
+Hiermit rufen sie das Hilfssystem auf
+
+6) Undo
+-------
+Hiermit schalten sie zwischen den Fenstern um 
+
+7) Exit
+-------
+Hiermit verlassen sie das Accessory bzw. Programm.

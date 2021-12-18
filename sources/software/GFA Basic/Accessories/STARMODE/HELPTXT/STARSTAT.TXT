@@ -1,0 +1,90 @@
+StarTrack Modewatch-Accessory : Die Statusanzeige
+-------------------------------------------------
+
+Hier haben sie eine einfache Mîglichkeit die mit den Falcon-Funktionen
+vorgenommenen Moduseinstellungen zu kontrollieren,
+Dies ist sehr hilfreich um Falcon-Programme an die etwas andere
+Funktionsweise der StarTrack-Audiokarte anzupassen.
+Zur besseren VerstÑndnis sollte man das ›BILD›STARSTAT.IMG› des
+Status-Fensters zu Rate ziehen.
+
+1) srcclk
+---------
+Hier sehen sie, welche Source-Clock mit devconnect ausgewÑhlt wurde.
+Im Gegensatz zum Falcon gibt es aber 4 Quellen:
+
+internal: Die intern generierten Taktraten
+ext SP/DIF/ADAT : Die Taktrate wird durch die Einstellung der GPIO-Bits
+                  nach der Soundpool-Spezifikation fÅr externe Interfaces
+                  interpretiert bzw. eingestellt.
+ext clkdiv:       Hier wird die Taktrate durch den externen Clock am DSP-Port
+                  und einen zusÑtzlichen Taktteiler bestimmt.
+ext falcon clk:   Hier werden die Original Falcon-Taktraten mit einem
+                  externen Mastertakt von 25.175 MHz und einem zusÑtzlichen
+                  Taktteiler erzeugt.
+                  
+NÑhere Informationen hierzu finden sie in der Doku zum Falcon-Bios.
+
+2) monitor
+----------
+Hier sehen sie die Einstellung der setmontrack-Funktion des Falcon-XBIOS
+
+3) tracks
+---------
+Hier sehen sie die Einstellungen der settrack-Funktion des Falcon-XBIOS
+Auf der linken Seite finden sie die Einstellung der AufnahmekanÑle
+und auf der rechten Seite die der WiedergabekanÑle.
+
+4) rate
+-------
+Hier sehen sie die prescale-Einstellung von devconnect. Oben wird die
+prescale-Nummer angegeben, darunter die entsprechende Sampleraten-Angabe
+der StarTrack-Audiokarte bei dieser Einstellung.
+
+5) sndmode
+----------
+Hier sehen sie die Einstellung der setsndmode-Funktion des Falcon-XBIOS.
+
+6) interrupt
+------------
+Hier sehen sie die Einstellungen der setinterrupt-Funktion des Falcon-XBIOS.
+Auf der linken Seite finden sie die Einstellung fÅr den Aufnahme-Interupt
+und auf der rechten Seite finden sie die Einstellung fÅr den Wiedergabe-Int.
+
+7) ADCINPUT
+-----------
+Hier sehen sie die adcinput-Einstellungen der soundcmd-Funktion.
+Ist das Feld nicht selektiert, ist der ADC-Kanal mit dem Mikrophon verbunden,
+ist es selektiert ist der ADC-Kanal mit dem Soundchip verbunden.
+Die Funktion hat allerdings keinerlei Auswirkungen auf den ADC der
+Audiokarte, da der ADC hier immer mit den CincheingÑngen verbunden ist
+und es im Audiosystem keinen weiteren Soundchip gibt.
+
+8) ADDRIN
+---------
+Hier sehen sie die addrin-Einstellungen der soundcmd-Funktion.
+Mit dieser Funktion wird die Einbindung des Hardwareaddierers des 
+Falcon-CODECs angezeigt. Da in den Åblichen HIFI-DACs keine Hardwareaddierer
+existieren, hat diese Funktion kaum (siehe unten) Einfluû auf die
+Arbeitsweise der Audiokarte. Entsprechend muû bei Programmen die diese
+Funktion nutzen nachgebessert werden, da diese Funktion auch anders lîsbar
+sein sollte. Ist der ADC allerdings alleine mit dem Hardwareaddierer
+verbunden, wird der ADC direkt mit dem DAC verbunden.
+ 
+9) Show
+-------
+Hiermit wird ein Dialog geîffnet der die ›Soundaufruf-Liste›SNDLIST.TXT› anzeigt.
+Man kann hier alle wichtigen Sound- und DSP-Aufrufe des XBIOS
+mitprotokollieren und ausfÅhrlich analysieren.
+ 
+10) Help
+--------
+Hiermit rufen sie das Hilfssystem auf
+
+11) Undo
+-------
+Hiermit schalten sie zwischen dem Fenstern um
+
+12) Exit
+--------
+Hiermit verlassen sie das Accessory bzw. Programm.

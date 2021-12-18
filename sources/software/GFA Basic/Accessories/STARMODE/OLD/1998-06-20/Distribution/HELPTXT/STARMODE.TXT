@@ -1,0 +1,112 @@
+StarTrack Modewatch-Accessory : Die Modus-Steuerung
+---------------------------------------------------
+Die Modus-Steuerung dient zur Modusauswahl der StarTrack Audiokarte
+fÅr Falcon-Programme, da diese die erweiterten Mîglichkeiten der
+StarTrack-Audiokarte alleine mit den Falcon XBIOS-Routinen
+nicht ausschîpfen kînnen.
+Zur besseren VerstÑndnis sollte man das ›BILD›STARMODE.IMG› des
+Mode-Fensters zu Rate ziehen.
+
+1) matrixmode
+-------------
+Hier wird der Matrix Datenmode angezeigt.
+
+Die Matrix kann bei Aufnahme mit 2,4 oder 8 KanÑlen arbeiten.
+Der (R)ecordmode wird mit den Falcon-spezifischen Soundaufrufen
+automatisch richtig gewÑhlt,abhÑngig von den Einstellungen
+von Playmode.
+
+Die Matrix kann bei Wiedergabe mit 2,4,8 oder 16 KanÑlen arbeiten.
+Der (P)laymode kann Åber den XBIOS Playmode-Aufruf ausgewÑhlt
+werden. Momentan ist mit den Falcon-Routinen nur Wiedergabe im
+Modus fÅr 2 oder 8 KanÑle mîglich. Der Playmode kann auch im
+StarTrack Modewatch-Accessory ausgewÑhlt werden. 
+
+emulate inp
+-----------
+Der Digitaleingang auf der StarTrack-Audiokarte kann nur
+eingeschrÑnkt im 128Bit-Mode arbeiten, er arbeitet Åblicherweise
+nur im Stereo und 4Kanalmode. Im 128Bit-Modus wird der linke
+Kanal auf Channel 0 und der rechte Kanal auf Channel 3 gesendet.
+Der ADC arbeitet nun voll im 128Bit-Modus auf Channel 0+1
+Um dennoch den Digitaleingang im Achtkanalmode benutzen zu kînnen,
+gibt es einen Emulationsmodus. Hierbei werden Åber einen kleinen
+Aufnahmebuffer die Daten des SP/DIF im Stereomode eingelesen und
+dann sofort im Achtkanalformat wieder ausgegeben (Åber DMAPLAY).
+Dadurch kînnen die Daten der SP/DIF im Achtkanalmode korrekt zum DSP
+und EXTOUT (z.B. zum Analog8) Åbertragen werden. Nachteil: Durch die
+Zweckentfremdung von DMAREC und DMAPLAY sind nicht mehr alle
+Matrixverbindungen nutzbar.
+
+2) DSP-RAM
+----------
+falcon 32Kx24 : Der SRAM-Speicher des DSP arbeitet mit Falcon-kompatibler
+                X,Y und P-RAM Speicheraufteilung. Man hat zwar volle
+                KompatibilitÑt zum Falcon, aber es ist auch weniger
+                Speicher nutzbar,als tatsÑchlich vorhanden ist.
+                
+extend 128Kx24: In diesem Modus ist der SRAM-Speicher anders als im
+                Falcon aufgeteilt, dafÅr kann man aber den verfÅgbaren
+                Speicher voll nutzen. Wenn die Software NICHT auf die
+                im falcon-mode mîglichen Mirror-Speicherbereiche zugreift,
+                sollte sie auch im extend-mode funktionieren.
+                
+3) compatibility
+----------------
+emulate TOS 4.0 : Da einige Falcon-Programme die TOS-Version und andere
+                  Variablen abfragen und anderenfalls garnicht erst starten,
+                  hat man hier die Mîglichkeit, diese Variablen und Cookies
+                  auf die Werte eines Falcon-TOS 4.04 zu setzen.
+                  Da diese Einstellungen wiederum bei anderen Programmen zu
+                  Problemen fÅhren kînnen, ist die TOS-Emulation auch
+                  abschaltbar. DefaultmÑûig ist sie eingeschaltet.
+                  
+falcon clock:     Wenn man ein externes 25.175MHz-Clockmodul am DSP-Port
+                  anschlieût, hat man die Mîglichkeit auch mit den Original
+                  Falcon Sampleraren zu arbeiten (z.B. 49200 Hz).
+                  Hier kann man nun auswÑhlen, ob diese Taktraten als
+                  Default-Einstellung (srcclk=0) fÅr den devconnect-Vorteiler
+                  benutzt werden soll oder nicht. In diesem Fall stehen die
+                  zusÑtzlichen Falcon-Sampleraten zusÑtzlich (srcclk=3)
+                  zur Auswahl.
+                  
+4) mastering
+------------
+Hier kann man auswÑhlen ob im Stereomode mit 16Bit oder 24Bit gearbeitet werden
+soll. Der 24Bit-Mode ist momentan nur mit den StarTrack-spezifischen Funktionen
+und NICHT mit den Falcon-Routinen mîglich.
+                   
+5) source
+---------
+swc: Hier kann man den Analog- oder Digitaleingang auswÑhlen, da dies mit den
+     Falcon-Routinen nicht mîglich ist. Damit kann man auch nicht angepaûten
+     Falcon-Programmen eine Aufnahme Åber den Digitaleingang ermîglichen.
+     
+lnk: Hier wÑhlt man zwischen optischem,elektrischen oder XLR-Digitaleingang.
+     Der XLR-Eingang erfordert aber einen Zusatzplatine und ist nicht
+     standartmÑûig vorhanden.
+     
+6) Help
+-------
+Hiermit rufen sie das Hilfssystem auf
+
+7) Undo
+-------
+Hiermit schalten sie zwischen den Fenstern um
+
+8) Kick-Rst
+-----------
+Hiermit kînnen die D/A-Wandler zurÅckgesetzt werden. Das ist z.B. notwendig,
+wenn die Wandler keinen Takt bekommen (ist der Fall wenn external Clocksync
+gewÑhlt wurde, aber kein Takt anliegt).
+
+9) Vol-Rst
+----------
+Hiermit wird die AusgangslautstÑrke wieder auf Normalwert gesetzt.
+Das ist ganz nÅtzlich wenn ein Programm diesen Wert zu niedrig setzt,
+und man dadurch nichts mehr hîren kann.
+
+10) Exit
+--------
+Hiermit verlassen sie das Accessory bzw. Programm.
+ 
