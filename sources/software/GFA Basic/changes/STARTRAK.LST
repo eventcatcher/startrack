@@ -4,15 +4,6 @@ $e$
 showmix=TRUE               ! show mixerpeaks
 public=TRUE                ! public or non-public
 falconda=FALSE             ! Falcon-Emulation
-'
-' dspuse         ! Host-Port-öbertragung : DSP fÅr trkplay, play & record-Funktionen nutzen
-'
-' matrixplay     ! Wiedergabe Åber Matrix(TRUE) oder DSP(FALSE)
-'
-' pch4           ! 4Kanal-PlayMode
-' pmo8           ! Play- 8Kanal-Mode nutzen (auch fÅr 16Ch-Mode)
-' pch16          ! 16Kanal-PlayMode
-'
 xinit=FALSE
 xload=FALSE
 windowda=FALSE
@@ -29,13 +20,9 @@ ON ERROR GOSUB fehler
 ' ------------------------------------------------------------------------------
 ' -------------------V 2.21 - Revision 26.02.2000 ------------------------------
 ' ------------------------------------------------------------------------------
-'
-'
-' ---- Directstream-Version
-'
+' ------------------------ Directstream-Version --------------------------------
 '
 drvtyp$="STARTRACK"
-'
 '
 compile=BYTE{ADD(BASEPAGE,256)}<>96
 @changecr
@@ -64,12 +51,10 @@ IF maxcol<16 THEN
   maxcol=2
 ENDIF
 '
-'
 OPTION BASE 0
 IF compile=FALSE THEN
   RESERVE 1000000
 ENDIF
-'
 '
 IF acc=TRUE THEN
   ap_id&=APPL_INIT()
@@ -245,8 +230,6 @@ IF rsc_mtsk!=TRUE THEN
   ~MENU_REGISTER(ap_id&,"  StarTrack")
 ENDIF
 '
-'
-'
 mtype=INT(C:rsc_cookie%(L:CVL("_MCH"))/&H10000)   ! COOKIE-ABFRAGE Maschinentyp : 0,1=ST   2=TT,Medusa
 magicmac=INT(C:rsc_cookie%(L:CVL("MgMc")))        ! COOKIE-ABFRAGE MagicMac
 magix=INT(C:rsc_cookie%(L:CVL("MagX")))           ! COOKIE-ABFRAGE MagiC
@@ -351,7 +334,6 @@ IF EXIST(s$+rsc1$)=TRUE AND EXIST(s$+rsc2$)=TRUE AND EXIST(s$+rsc3$)=TRUE AND EX
 ELSE
   rscda=FALSE
 ENDIF
-'
 '
 IF away=FALSE THEN
   IF rscda=TRUE THEN ! File$,Trees,Popup,Menu,Alert
@@ -57083,6 +57065,9 @@ IF nr=smpedit& THEN
 ELSE
 @setbutton3(peaksw2&,0,smpedit&)
 ENDIF
+IF matrix=FALSE AND rch4=TRUE THEN
+@alerts(79)
+ENDIF
 ELSE
 IF rsc_window&<7 THEN
 vornr=nr
@@ -57353,8 +57338,26 @@ CASE 17
 ENDSELECT
 RETURN
 '
-PROCEDURE hidesolobut(mset)
-@hidetree3(mixer&,mixall1&,mset)
+> PROCEDURE hidesolobut(mset)
+@setbutton3(mixall1&,mset,mixer&)
+@setbutton3(mixall2&,mset,mixer&)
+@setbutton3(mixall3&,mset,mixer&)
+@setbutton3(mixall4&,mset,mixer&)
+@setbutton3(mixall5&,mset,mixer&)
+@setbutton3(mixall6&,mset,mixer&)
+@setbutton3(mixall7&,mset,mixer&)
+@setbutton3(mixall8&,mset,mixer&)
+@setbutton3(mixallm&,mset,mixer&)
+IF bigfoot=TRUE THEN
+@setbutton3(mixall9&,mset,mixer&)
+@setbutton3(mixall10&,mset,mixer&)
+@setbutton3(mixall11&,mset,mixer&)
+@setbutton3(mixall12&,mset,mixer&)
+@setbutton3(mixall13&,mset,mixer&)
+@setbutton3(mixall14&,mset,mixer&)
+@setbutton3(mixall15&,mset,mixer&)
+@setbutton3(mixall16&,mset,mixer&)
+ENDIF
 RETURN
 '
 > PROCEDURE mixerinit
@@ -57385,7 +57388,7 @@ IF bigfoot=TRUE THEN
 @hidetree3(mixer&,mixfilet&,TRUE)
 @setbutton3(mixrecp&,8,mixer&)
 ENDIF
-@hidesolobut(TRUE)
+@hidesolobut(8)
 ELSE
 IF rch16=FALSE AND pch16=FALSE AND BTST(hchk,0)=FALSE THEN
 @setbutton3(mixm5&,8,popups&)
@@ -57818,7 +57821,7 @@ ENDIF
 @hidetree3(mixer&,mixvolrm&,FALSE)
 @hidetree3(mixer&,mixpklm&,FALSE)
 @hidetree3(mixer&,mixvollm&,FALSE)
-@hidesolobut(FALSE)
+@hidesolobut(0)
 IF panmix=TRUE THEN
 a$="BALANCE"+CHR$(0)
 @panbaltxt
@@ -57928,10 +57931,10 @@ IF obj=mixwait& AND (mtrkplay=TRUE OR hdr=TRUE)
 @breakwait
 ENDIF
 mixslo=FALSE
-IF obj=mixall1& OR obj=mixall2& OR obj=mixall3& OR obj=mixall4& OR obj=mixall5& OR obj=mixall6& OR obj=mixall7& OR obj=mixall8& OR obj=mixallm& THEN
+IF @rsc_state(mixer&,obj,3)=FALSE AND (obj=mixall1& OR obj=mixall2& OR obj=mixall3& OR obj=mixall4& OR obj=mixall5& OR obj=mixall6& OR obj=mixall7& OR obj=mixall8& OR obj=mixallm&) THEN
 mixslo=TRUE
 ENDIF
-IF bigfoot=TRUE AND (obj=mixall9& OR obj=mixall10& OR obj=mixall11& OR obj=mixall12& OR obj=mixall13& OR obj=mixall14& OR obj=mixall15& OR obj=mixall16&) THEN
+IF bigfoot=TRUE AND @rsc_state(mixer&,obj,3)=FALSE AND (obj=mixall9& OR obj=mixall10& OR obj=mixall11& OR obj=mixall12& OR obj=mixall13& OR obj=mixall14& OR obj=mixall15& OR obj=mixall16&) THEN
 mixslo=TRUE
 ENDIF
 @mixsolomake
@@ -59203,6 +59206,8 @@ CASE mixall15&
 pka=15
 CASE mixall16&
 pka=16
+CASE mixallm&
+pka=17
 ENDSELECT
 RETURN
 '
@@ -59244,18 +59249,18 @@ mixmute(i)=vmixmute(i)
 NEXT i
 ENDIF
 mixsolo(pka)=TRUE
-IF rmo8=TRUE AND panmix=TRUE AND extmix=FALSE THEN
+IF rmo8=TRUE AND panmix=TRUE THEN
 FOR i=1 TO 16
 vmixmute(i)=mixmute(i)
 mixmute(i)=TRUE
 @mixvolset(i,i)
 NEXT i
-mixmute(ipka)=FALSE
+mixmute(pka)=FALSE
 @mixvolset(pka,ipka)
 ENDIF
 ELSE
 mixsolo(pka)=FALSE
-IF rmo8=TRUE AND panmix=TRUE AND extmix=FALSE THEN
+IF rmo8=TRUE AND panmix=TRUE THEN
 FOR i=1 TO 16
 mixmute(i)=vmixmute(i)
 @mixvolset(i,i)
