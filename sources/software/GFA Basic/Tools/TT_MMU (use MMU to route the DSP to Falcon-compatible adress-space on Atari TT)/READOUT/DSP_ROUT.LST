@@ -1,0 +1,93 @@
+'
+' DSP-Router : routes the DSP of the StarTrack Audiocard to
+'              Falcon-compatible adress-space (MMU-program)
+'
+' route FFFFA000 -> FEFF2000 (DSP-Register) pagesize 2K
+' route 00FFA000 -> FEFF2000 (DSP-Register) pagesize 2K
+'
+IF XBIOS(500,1)=&H71273800 THEN
+  tabadr=XBIOS(500,407)             ! memory for new MMU tables
+  IF tabadr>0 AND XBIOS(500,1)=&H71273800 THEN
+    tabadr=tabadr+1024
+    tabadr=INT(tabadr/1024)*1024
+    rootadr=tabadr        ! memory for rootpointer and translation control
+    tabadr=tabadr+1024
+    '
+    ~XBIOS(500,401,L:rootadr)
+    rp=LPEEK(rootadr+4)    ! root pointer
+    ~XBIOS(500,402,L:rootadr+8)
+    tc=LPEEK(rootadr+8)
+    FOR i=rp TO rp+&HFF STEP 4
+      j=LPEEK(i)       ! short pointer
+      j=BCLR(j,3)
+      j=BCLR(j,4)
+      LPOKE tabadr+(i-rp),j
+    NEXT i
+    '
+    ' Table A  -> Offset 0
+    ' Table B0 -> 0x xx xx xx -> Offset $40
+    ' Table B1 -> Fx xx xx xx -> Offset $80
+    ' Table C0 -> 00 xx xx xx -> Offset $c0
+    ' Table C1 -> FF xx xx xx -> Offset $100
+    '
+    LPOKE tabadr,tabadr+&H4A       ! 0x xx xx xx link Table A -> Table B0
+    LPOKE tabadr+&H3C,tabadr+&H8A  ! Fx xx xx xx link Table A -> Table B1
+    '
+    '
+    ' copy Table C for FF xx xx xx
+    j=0
+    FOR i=tabadr+&H100 TO tabadr+&H13F STEP 4
+      c=LPEEK(rp+&HC0+j*4)
+      c=BCLR(c,3)
+      c=BCLR(c,4)
+      LPOKE i,c
+      INC j
+    NEXT i
+    '
+    LPOKE tabadr+&H40,tabadr+&HCA    ! 00 xx xx xx link Table B0 -> Table C0
+    LPOKE tabadr+&HBC,tabadr+&H10A   ! FF xx xx xx link Table B1 -> Table C1
+    '
+    '
+    ' Table D for 00 Fx xx xx
+    j=0
+    FOR i=tabadr+&H200 TO tabadr+&H3FF STEP 4
+      LPOKE i,&H2000*j+&H41
+      INC j
+    NEXT i
+    LPOKE tabadr+&H200+500,&HFEFF2041    ! new Adress
+    LPOKE tabadr+&HFC,tabadr+&H20A       ! 00 Fx xx xx link Table C0 -> Table D0
+    '
+    ' Table D for FF Fx xx xx
+    j=0
+    FOR i=tabadr+&H400 TO tabadr+&H5FF STEP 4
+      LPOKE i,&H2000*j+&HF00041
+      INC j
+    NEXT i
+    LPOKE tabadr+&H400+500,&HFEFF2041    ! new Adress
+    LPOKE tabadr+&H13C,tabadr+&H40A      ! FF Fx xx xx link Table C1 -> Table D1
+    '
+    '
+    LPOKE rootadr+4,tabadr
+    ~XBIOS(500,404,L:rootadr)        ! set new route
+    '
+    LPOKE rootadr+8,&H80D04447
+    ~XBIOS(500,405,L:rootadr+8)      ! set new translation register
+    '
+    ' route FFFFA000 -> FEFF2000 (DSP-Register) pagesize 2K
+    ' route 00FFA000 -> FEFF2000 (DSP-Register) pagesize 2K
+    '
+    PRINT
+    PRINT "dsproute successful"
+    PRINT
+  ELSE
+    PRINT
+    PRINT "dsproute failed, no memory"
+    PRINT
+  ENDIF
+ELSE
+  PRINT
+  PRINT "dsproute failed, no audiodriver found"
+  PRINT
+ENDIF
+END
+'

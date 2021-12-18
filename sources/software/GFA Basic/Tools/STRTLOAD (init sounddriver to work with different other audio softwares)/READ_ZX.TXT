@@ -1,0 +1,20 @@
+StarTrack Utility START_ZX.PRG
+------------------------------
+
+For use the StarTrack Audiocard with Zero_X, the Audiocard must be
+initialize a few special things for correct work with it.
+For an easier handling, we maked a little Utility-Program
+that initialize the Audiocard and starts Zero_X.
+
+Requirements: a DSP-Expansion and a loaded Audiodriver SOUND.PRG.
+Copy the SOUND.PRG in the AUTO-Folder, that's the best way.
+
+Copy the Startup-Program "START_ZX.PRG" in the filepath of the program.
+
+That's all, start now START_ZX.PRG.
+
+Zero_x writes direct in the Hardware-Registers to select the
+samplerate. That's the problem why Zero_X cannot switch the
+Samplerate of the StarTrack Audiocard.
+The Developers of Zero_X are informed about this problem and
+works on a debugged version for StarTrack. The rest works.

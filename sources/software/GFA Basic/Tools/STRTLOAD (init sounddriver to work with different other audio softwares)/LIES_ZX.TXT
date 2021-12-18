@@ -1,0 +1,21 @@
+StarTrack Utility START_ZX.PRG
+------------------------------
+
+Da Zero_X erst zur Zusammenarbeit mit der StarTrack Audiokarte
+berredet werden mu, wurde ein kleines Programm geschrieben,
+das die Audiokarte fr Zero_X korrekt initialisiert und
+danach Zero_X automatisch nachl„dt und startet.
+
+Voraussetzung fr die Benutzung von Zero_X ist die DSP-Erweiterung.
+Auerdem sollte vorher der Audiotreiber SOUND.PRG geladen sein.
+Diesen legen sie hierfr am besten in den Autoordner.
+
+Kopieren sie das Startup-Programm "START_ZX.PRG" in den Programmpfad.
+
+Das war eigentlich schon alles, sie mssen nur noch
+START_ZX.PRG starten.
+
+Da Zero_X die Samplerate umstellt, indem es unsauber direkt in die
+Hardware-Register schreibt, kann diese momentan nicht korrekt
+umgeschaltet werden. Die Entwickler von Zero_X sind darber
+informiert und arbeiten an einer Anpassung. Der Rest funktioniert.
