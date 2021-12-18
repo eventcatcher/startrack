@@ -1,4 +1,4 @@
-$m50000
+$m250000
 $e$
 '
 ' Mode-Control and Soundcall-Analyser for StarTrack Audiocard V2.0
@@ -36,68 +36,79 @@ ENDIF
 ' ------------------------------------------------------------------------------
 ' ------------------------RSC-VARIABLEN-----------------------------------------
 ' ------------------------------------------------------------------------------
-REM Resource Datei Indizes fÅr STARMOD2
+REM Resource Datei Indizes fÅr STARMODE
 '
 LET mode&=0 ! Formular/Dialog
 LET mainbox&=0 ! BOX in Baum MODE
-LET exit&=1 ! BUTTON in Baum MODE
 LET mainbox2&=2 ! BOX in Baum MODE
-LET wmbox3&=4 ! BOX in Baum MODE
-LET mat2&=5 ! BUTTON in Baum MODE
-LET mat4&=6 ! BUTTON in Baum MODE
-LET mat16&=7 ! BUTTON in Baum MODE
-LET mat8&=8 ! BUTTON in Baum MODE
-LET wmbox7&=10 ! BOX in Baum MODE
-LET rec2&=11 ! BUTTON in Baum MODE
-LET rec4&=12 ! BUTTON in Baum MODE
-LET rec8&=13 ! BUTTON in Baum MODE
-LET emadc8&=14 ! BUTTON in Baum MODE
-LET emadca8&=16 ! BUTTON in Baum MODE
-LET wmbox4&=19 ! BOX in Baum MODE
-LET mast16&=20 ! BUTTON in Baum MODE
-LET mast24&=21 ! BUTTON in Baum MODE
-LET wmbox5&=23 ! BOX in Baum MODE
-LET ramlo&=24 ! BUTTON in Baum MODE
-LET ramhi&=25 ! BUTTON in Baum MODE
-LET wmbox6&=27 ! BOX in Baum MODE
-LET emula&=28 ! BUTTON in Baum MODE
-LET falclk&=29 ! BUTTON in Baum MODE
-LET inswc&=32 ! BOXTEXT in Baum MODE
-LET incirc&=33 ! BOXCHAR in Baum MODE
-LET inlnk&=35 ! BOXTEXT in Baum MODE
-LET ratecir2&=36 ! BOXCHAR in Baum MODE
-LET helpmod&=37 ! BOXTEXT in Baum MODE
-LET modeundo&=39 ! BOXTEXT in Baum MODE
-LET modekick&=40 ! BUTTON in Baum MODE
-LET modevol&=41 ! BUTTON in Baum MODE
+LET matrixbx&=3 ! BUTTON in Baum MODE
+LET chnltxt&=4 ! STRING in Baum MODE
+LET channel&=5 ! BOXTEXT in Baum MODE
+LET chnlrot&=6 ! BOXCHAR in Baum MODE
+LET bitstxt&=7 ! STRING in Baum MODE
+LET bits&=8 ! BOXTEXT in Baum MODE
+LET bitsrot&=9 ! BOXCHAR in Baum MODE
+LET hztxt&=10 ! STRING in Baum MODE
+LET hertz&=11 ! BOXTEXT in Baum MODE
+LET hertzrot&=12 ! BOXCHAR in Baum MODE
+LET synctxt&=13 ! STRING in Baum MODE
+LET sync&=14 ! BOXTEXT in Baum MODE
+LET syncrot&=15 ! BOXCHAR in Baum MODE
+LET matshow&=16 ! BUTTON in Baum MODE
+LET compatbx&=17 ! BUTTON in Baum MODE
+LET dramtxt&=18 ! STRING in Baum MODE
+LET dspram&=19 ! BOXTEXT in Baum MODE
+LET ramrot&=20 ! BOXCHAR in Baum MODE
+LET emula&=21 ! BUTTON in Baum MODE
+LET compshow&=22 ! BUTTON in Baum MODE
+LET devbox&=23 ! BUTTON in Baum MODE
+LET devintxt&=24 ! STRING in Baum MODE
+LET devin&=25 ! BOXTEXT in Baum MODE
+LET devinrot&=26 ! BOXCHAR in Baum MODE
+LET montxt&=27 ! STRING in Baum MODE
+LET mon&=28 ! BOXTEXT in Baum MODE
+LET monrot&=29 ! BOXCHAR in Baum MODE
+LET rstbox&=30 ! BUTTON in Baum MODE
+LET unlock&=31 ! BUTTON in Baum MODE
+LET modevol&=32 ! BUTTON in Baum MODE
+LET modekick&=33 ! BUTTON in Baum MODE
+LET mxbalbx&=34 ! BOX in Baum MODE
+LET mixball&=35 ! TEXT in Baum MODE
+LET mixbalr&=36 ! TEXT in Baum MODE
+LET mixbalm&=37 ! TEXT in Baum MODE
+LET mixbal&=38 ! ICON in Baum MODE
+LET mixbalp&=39 ! ICON in Baum MODE
+LET balbox&=40 ! ICON in Baum MODE
+LET balance&=41 ! ICON in Baum MODE
+LET helpmod&=42 ! BOXTEXT in Baum MODE
+LET exit&=43 ! BUTTON in Baum MODE
 '
 LET devco&=1 ! Formular/Dialog
 LET devcobx&=0 ! BOX in Baum DEVCO
-LET devcobx2&=1 ! BOX in Baum DEVCO
-LET devcobx1&=3 ! BOX in Baum DEVCO
-LET dmap0&=4 ! BUTTON in Baum DEVCO
-LET xmita0&=5 ! BUTTON in Baum DEVCO
-LET adc0&=6 ! BUTTON in Baum DEVCO
-LET adc1&=10 ! BUTTON in Baum DEVCO
-LET adc2&=11 ! BUTTON in Baum DEVCO
-LET xmita1&=12 ! BUTTON in Baum DEVCO
-LET xmita2&=13 ! BUTTON in Baum DEVCO
-LET dmap1&=14 ! BUTTON in Baum DEVCO
-LET dmap2&=15 ! BUTTON in Baum DEVCO
-LET devcobx5&=21 ! BOX in Baum DEVCO
-LET xmitb0&=22 ! BUTTON in Baum DEVCO
-LET dspx0&=23 ! BUTTON in Baum DEVCO
-LET exti0&=24 ! BUTTON in Baum DEVCO
-LET exti1&=28 ! BUTTON in Baum DEVCO
-LET exti2&=29 ! BUTTON in Baum DEVCO
-LET dspx1&=30 ! BUTTON in Baum DEVCO
-LET dspx2&=31 ! BUTTON in Baum DEVCO
-LET xmitb1&=32 ! BUTTON in Baum DEVCO
-LET xmitb2&=33 ! BUTTON in Baum DEVCO
-LET devcobx4&=39 ! BOX in Baum DEVCO
-LET conv&=40 ! BUTTON in Baum DEVCO
-LET devcohlp&=52 ! BOXTEXT in Baum DEVCO
-LET devundo&=53 ! BOXTEXT in Baum DEVCO
+LET devcobx2&=2 ! BOX in Baum DEVCO
+LET devcobx1&=4 ! BOX in Baum DEVCO
+LET dmap0&=5 ! BUTTON in Baum DEVCO
+LET xmita0&=6 ! BUTTON in Baum DEVCO
+LET adc0&=7 ! BUTTON in Baum DEVCO
+LET adc1&=11 ! BUTTON in Baum DEVCO
+LET adc2&=12 ! BUTTON in Baum DEVCO
+LET xmita1&=13 ! BUTTON in Baum DEVCO
+LET xmita2&=14 ! BUTTON in Baum DEVCO
+LET dmap1&=15 ! BUTTON in Baum DEVCO
+LET dmap2&=16 ! BUTTON in Baum DEVCO
+LET devcobx5&=22 ! BOX in Baum DEVCO
+LET xmitb0&=23 ! BUTTON in Baum DEVCO
+LET dspx0&=24 ! BUTTON in Baum DEVCO
+LET exti0&=25 ! BUTTON in Baum DEVCO
+LET exti1&=29 ! BUTTON in Baum DEVCO
+LET exti2&=30 ! BUTTON in Baum DEVCO
+LET dspx1&=31 ! BUTTON in Baum DEVCO
+LET dspx2&=32 ! BUTTON in Baum DEVCO
+LET xmitb1&=33 ! BUTTON in Baum DEVCO
+LET xmitb2&=34 ! BUTTON in Baum DEVCO
+LET devcobx4&=40 ! BOX in Baum DEVCO
+LET conv&=41 ! BUTTON in Baum DEVCO
+LET devcohlp&=53 ! BOXTEXT in Baum DEVCO
 LET devexit&=54 ! BUTTON in Baum DEVCO
 LET devshow&=55 ! BUTTON in Baum DEVCO
 LET expotxt&=56 ! BOXTEXT in Baum DEVCO
@@ -107,7 +118,6 @@ LET extotxt&=62 ! BOXTEXT in Baum DEVCO
 '
 LET status&=2 ! Formular/Dialog
 LET statbx1&=0 ! BOX in Baum STATUS
-LET statexit&=1 ! BUTTON in Baum STATUS
 LET statbx2&=2 ! BOX in Baum STATUS
 LET statbx7&=4 ! BOX in Baum STATUS
 LET snd0&=5 ! BUTTON in Baum STATUS
@@ -129,89 +139,135 @@ LET trkr0&=24 ! BUTTON in Baum STATUS
 LET trkr1&=25 ! BUTTON in Baum STATUS
 LET trkr2&=26 ! BUTTON in Baum STATUS
 LET trkr3&=27 ! BUTTON in Baum STATUS
-LET statbx3&=30 ! BOX in Baum STATUS
-LET src0&=31 ! BUTTON in Baum STATUS
-LET src1&=32 ! BUTTON in Baum STATUS
-LET src2&=33 ! BUTTON in Baum STATUS
-LET src3&=34 ! BUTTON in Baum STATUS
-LET statbx4&=36 ! BOX in Baum STATUS
-LET mon0&=37 ! BUTTON in Baum STATUS
-LET mon1&=38 ! BUTTON in Baum STATUS
-LET mon3&=39 ! BUTTON in Baum STATUS
-LET mon2&=40 ! BUTTON in Baum STATUS
-LET statbx8&=42 ! BOX in Baum STATUS
-LET intp0&=43 ! BUTTON in Baum STATUS
-LET intp1&=44 ! BUTTON in Baum STATUS
-LET statbx12&=47 ! BOX in Baum STATUS
-LET intr0&=48 ! BUTTON in Baum STATUS
-LET intr1&=49 ! BUTTON in Baum STATUS
-LET statbx6&=51 ! BOX in Baum STATUS
-LET rate0&=53 ! BOXTEXT in Baum STATUS
-LET rate1&=54 ! BOXTEXT in Baum STATUS
-LET stathelp&=58 ! BOXTEXT in Baum STATUS
-LET statundo&=60 ! BOXTEXT in Baum STATUS
-LET statshow&=61 ! BUTTON in Baum STATUS
+LET statbx8&=30 ! BOX in Baum STATUS
+LET intp0&=31 ! BUTTON in Baum STATUS
+LET intp1&=32 ! BUTTON in Baum STATUS
+LET statbx12&=35 ! BOX in Baum STATUS
+LET intr0&=36 ! BUTTON in Baum STATUS
+LET intr1&=37 ! BUTTON in Baum STATUS
+LET stathelp&=41 ! BOXTEXT in Baum STATUS
+LET statshow&=42 ! BUTTON in Baum STATUS
+LET statexit&=43 ! BUTTON in Baum STATUS
 '
 LET seedev&=3 ! Formular/Dialog
 LET fselbox&=0 ! BOX in Baum SEEDEV
-LET fselbox2&=1 ! BOX in Baum SEEDEV
-LET fsbut1&=2 ! BOXTEXT in Baum SEEDEV
-LET fsbut2&=3 ! BOXTEXT in Baum SEEDEV
-LET fsbut3&=4 ! BOXTEXT in Baum SEEDEV
-LET fsbut4&=5 ! BOXTEXT in Baum SEEDEV
-LET fsbut5&=6 ! BOXTEXT in Baum SEEDEV
-LET fsbut6&=7 ! BOXTEXT in Baum SEEDEV
-LET fsbut7&=8 ! BOXTEXT in Baum SEEDEV
-LET fsbut8&=9 ! BOXTEXT in Baum SEEDEV
-LET fsbut9&=10 ! BOXTEXT in Baum SEEDEV
-LET fsbut10&=11 ! BOXTEXT in Baum SEEDEV
-LET fsbut11&=12 ! BOXTEXT in Baum SEEDEV
-LET fsbut12&=13 ! BOXTEXT in Baum SEEDEV
-LET fsbut13&=14 ! BOXTEXT in Baum SEEDEV
-LET fsbut14&=15 ! BOXTEXT in Baum SEEDEV
-LET fsbut15&=16 ! BOXTEXT in Baum SEEDEV
-LET fstxt1&=17 ! BOXTEXT in Baum SEEDEV
-LET fstxt2&=18 ! BOXTEXT in Baum SEEDEV
-LET fstxt3&=19 ! BOXTEXT in Baum SEEDEV
-LET fstxt4&=20 ! BOXTEXT in Baum SEEDEV
-LET fstxt5&=21 ! BOXTEXT in Baum SEEDEV
-LET fstxt6&=22 ! BOXTEXT in Baum SEEDEV
-LET fstxt7&=23 ! BOXTEXT in Baum SEEDEV
-LET fstxt8&=24 ! BOXTEXT in Baum SEEDEV
-LET fstxt9&=25 ! BOXTEXT in Baum SEEDEV
-LET fstxt10&=26 ! BOXTEXT in Baum SEEDEV
-LET fstxt11&=27 ! BOXTEXT in Baum SEEDEV
-LET fstxt12&=28 ! BOXTEXT in Baum SEEDEV
-LET fstxt13&=29 ! BOXTEXT in Baum SEEDEV
-LET fstxt14&=30 ! BOXTEXT in Baum SEEDEV
-LET fstxt15&=31 ! BOXTEXT in Baum SEEDEV
-LET fsslide&=32 ! BOX in Baum SEEDEV
-LET fssldbut&=33 ! BUTTON in Baum SEEDEV
-LET fsexit&=34 ! BUTTON in Baum SEEDEV
-LET fshelp&=35 ! BOXTEXT in Baum SEEDEV
-LET fssldup&=37 ! ICON in Baum SEEDEV
-LET fsslddwn&=38 ! ICON in Baum SEEDEV
-LET fsclear&=39 ! BUTTON in Baum SEEDEV
-LET fsdsp&=40 ! BUTTON in Baum SEEDEV
-LET fssnd&=41 ! BUTTON in Baum SEEDEV
-LET fsdevc&=42 ! BUTTON in Baum SEEDEV
-LET fsclip&=43 ! BUTTON in Baum SEEDEV
+LET fssldup&=3 ! ICON in Baum SEEDEV
+LET fsslide&=4 ! BOX in Baum SEEDEV
+LET fssldbut&=5 ! BUTTON in Baum SEEDEV
+LET fsslddwn&=6 ! ICON in Baum SEEDEV
+LET fshelp&=7 ! BOXTEXT in Baum SEEDEV
+LET fsclip&=8 ! BUTTON in Baum SEEDEV
+LET fsdevc&=9 ! BUTTON in Baum SEEDEV
+LET fssnd&=10 ! BUTTON in Baum SEEDEV
+LET fsdsp&=11 ! BUTTON in Baum SEEDEV
+LET fsclear&=12 ! BUTTON in Baum SEEDEV
+LET fsexit&=13 ! BUTTON in Baum SEEDEV
+LET fselbox2&=14 ! BOX in Baum SEEDEV
+LET fsbut1&=15 ! BOXTEXT in Baum SEEDEV
+LET fsbut2&=16 ! BOXTEXT in Baum SEEDEV
+LET fsbut3&=17 ! BOXTEXT in Baum SEEDEV
+LET fsbut4&=18 ! BOXTEXT in Baum SEEDEV
+LET fsbut5&=19 ! BOXTEXT in Baum SEEDEV
+LET fsbut6&=20 ! BOXTEXT in Baum SEEDEV
+LET fsbut7&=21 ! BOXTEXT in Baum SEEDEV
+LET fsbut8&=22 ! BOXTEXT in Baum SEEDEV
+LET fsbut9&=23 ! BOXTEXT in Baum SEEDEV
+LET fsbut10&=24 ! BOXTEXT in Baum SEEDEV
+LET fsbut11&=25 ! BOXTEXT in Baum SEEDEV
+LET fsbut12&=26 ! BOXTEXT in Baum SEEDEV
+LET fsbut13&=27 ! BOXTEXT in Baum SEEDEV
+LET fsbut14&=28 ! BOXTEXT in Baum SEEDEV
+LET fsbut15&=29 ! BOXTEXT in Baum SEEDEV
+LET fstxt1&=30 ! BOXTEXT in Baum SEEDEV
+LET fstxt2&=31 ! BOXTEXT in Baum SEEDEV
+LET fstxt3&=32 ! BOXTEXT in Baum SEEDEV
+LET fstxt4&=33 ! BOXTEXT in Baum SEEDEV
+LET fstxt5&=34 ! BOXTEXT in Baum SEEDEV
+LET fstxt6&=35 ! BOXTEXT in Baum SEEDEV
+LET fstxt7&=36 ! BOXTEXT in Baum SEEDEV
+LET fstxt8&=37 ! BOXTEXT in Baum SEEDEV
+LET fstxt9&=38 ! BOXTEXT in Baum SEEDEV
+LET fstxt10&=39 ! BOXTEXT in Baum SEEDEV
+LET fstxt11&=40 ! BOXTEXT in Baum SEEDEV
+LET fstxt12&=41 ! BOXTEXT in Baum SEEDEV
+LET fstxt13&=42 ! BOXTEXT in Baum SEEDEV
+LET fstxt14&=43 ! BOXTEXT in Baum SEEDEV
+LET fstxt15&=44 ! BOXTEXT in Baum SEEDEV
 '
 LET popups&=4 ! Formular/Dialog
-LET inpop&=1 ! BOX in Baum POPUPS
-LET analog&=2 ! STRING in Baum POPUPS
-LET digital&=3 ! STRING in Baum POPUPS
-LET srcpop&=4 ! BOX in Baum POPUPS
-LET opto&=5 ! STRING in Baum POPUPS
-LET coax&=6 ! STRING in Baum POPUPS
-LET aesebu&=7 ! STRING in Baum POPUPS
+LET chnlpop&=1 ! BOX in Baum POPUPS
+LET ch2&=2 ! STRING in Baum POPUPS
+LET ch4&=3 ! STRING in Baum POPUPS
+LET ch8&=4 ! STRING in Baum POPUPS
+LET ch16&=5 ! STRING in Baum POPUPS
+LET bitspop&=6 ! BOX in Baum POPUPS
+LET bit16&=7 ! STRING in Baum POPUPS
+LET bit24&=8 ! STRING in Baum POPUPS
+LET smppop&=9 ! BOX in Baum POPUPS
+LET ad32&=10 ! STRING in Baum POPUPS
+LET ad44&=11 ! STRING in Baum POPUPS
+LET ad48&=12 ! STRING in Baum POPUPS
+LET ad64&=14 ! STRING in Baum POPUPS
+LET ad88&=15 ! STRING in Baum POPUPS
+LET ad96&=16 ! STRING in Baum POPUPS
+LET ad8&=18 ! STRING in Baum POPUPS
+LET ad11&=19 ! STRING in Baum POPUPS
+LET ad12&=20 ! STRING in Baum POPUPS
+LET ad16&=21 ! STRING in Baum POPUPS
+LET ad17&=22 ! STRING in Baum POPUPS
+LET ad22&=23 ! STRING in Baum POPUPS
+LET ad24&=24 ! STRING in Baum POPUPS
+LET ad33&=25 ! STRING in Baum POPUPS
+LET clkpop&=26 ! BOX in Baum POPUPS
+LET syncint&=27 ! STRING in Baum POPUPS
+LET spdif&=28 ! STRING in Baum POPUPS
+LET clkfalc&=29 ! STRING in Baum POPUPS
+LET syncext&=30 ! STRING in Baum POPUPS
+LET rampop&=31 ! BOX in Baum POPUPS
+LET dsp32&=32 ! STRING in Baum POPUPS
+LET dsp128&=33 ! STRING in Baum POPUPS
+LET srcpop&=34 ! BOX in Baum POPUPS
+LET analog&=35 ! STRING in Baum POPUPS
+LET opto&=36 ! STRING in Baum POPUPS
+LET coax&=37 ! STRING in Baum POPUPS
+LET aesebu&=38 ! STRING in Baum POPUPS
+LET extin&=39 ! STRING in Baum POPUPS
+LET monpop&=40 ! BOX in Baum POPUPS
+LET mon12&=41 ! STRING in Baum POPUPS
+LET mon34&=42 ! STRING in Baum POPUPS
+LET mon56&=43 ! STRING in Baum POPUPS
+LET mon78&=44 ! STRING in Baum POPUPS
+LET smppop2&=45 ! BOX in Baum POPUPS
+LET fclk1&=46 ! STRING in Baum POPUPS
+LET fclk2&=47 ! STRING in Baum POPUPS
+LET fclk3&=48 ! STRING in Baum POPUPS
+LET fclk4&=49 ! STRING in Baum POPUPS
+LET fclk5&=50 ! STRING in Baum POPUPS
+LET fclk6&=51 ! STRING in Baum POPUPS
+LET fclk7&=52 ! STRING in Baum POPUPS
+LET fclk8&=53 ! STRING in Baum POPUPS
+LET fclk9&=54 ! STRING in Baum POPUPS
+LET fclk10&=55 ! STRING in Baum POPUPS
+LET fclk11&=56 ! STRING in Baum POPUPS
+LET fclk12&=57 ! STRING in Baum POPUPS
+LET fclk13&=58 ! STRING in Baum POPUPS
+LET fclk14&=59 ! STRING in Baum POPUPS
+LET smppop3&=60 ! BOX in Baum POPUPS
+LET dif1&=61 ! STRING in Baum POPUPS
+LET dif2&=62 ! STRING in Baum POPUPS
+LET dif3&=63 ! STRING in Baum POPUPS
+LET dif4&=64 ! STRING in Baum POPUPS
+LET dif5&=65 ! STRING in Baum POPUPS
+LET dif6&=66 ! STRING in Baum POPUPS
+LET smppop4&=67 ! BOX in Baum POPUPS
+LET none&=68 ! STRING in Baum POPUPS
 '
 LET alertbox&=5 ! Formular/Dialog
 LET alertcol&=0 ! BOX in Baum ALERTBOX
 '
 OPTION BASE 0
 IF compile=FALSE THEN
-  RESERVE &H100000
+  RESERVE &H250000
 ENDIF
 '
 maxcol=WORK_OUT(13)
@@ -315,7 +371,6 @@ END
   IF (key& AND edit_obj&<>0) OR (((key& AND 255)=13) AND ((key& DIV 256)<>50))    ! jetzt so....
     cont&=@form_keybd(rsc_adr%,edit_obj&,key&,0,next_obj&,key&,idx&)
   ENDIF
-  '  cont&=@form_keybd(rsc_adr%,edit_obj&,key&,0,next_obj&,key&,idx&)
   '
   obj&=0
   ~WIND_GET(MENU(4),10,mrkhandle2,v1,v2,v3)
@@ -622,7 +677,7 @@ RETURN
   ' ENDIF
   REPEAT
     ~GRAF_MKSTATE(v,v2,v3,v4)        ! NEU !!!
-  UNTIL v3=0 OR leave=TRUE
+  UNTIL v3=0
 RETURN
 > PROCEDURE rsc_init
   .| Glob. Var.: ap_id&,rsc_aes&,rsc_mtsk!,rsc_alert&,wchar&,hchar&,rsc_vh&
@@ -714,7 +769,7 @@ popup_back%=0
 ' Wollen Sie das RSC-File direkt im Programmcode 'aufbewahren'?
 ' Dann entREMen Sie diese Zeilen und laden Sie die Funktion
 ' 'rsc_conv' aus EXTENDED.LST hinzu...
-INLINE rsc%,11038
+INLINE rsc%,13306
 IF @rsrc_conv(rsc%)=0
   ~FORM_ALERT(1,"[3][ | Fehler beim Laden | der RSC-Datei! | ][Abbruch]")
   RETURN FALSE
@@ -2908,6 +2963,14 @@ IF maxcol=2 AND rscda=TRUE THEN
 @colorbox(mode&,wmbox5&,0,7)
 @colorbox(mode&,wmbox6&,0,7)
 @colorbox(mode&,wmbox7&,0,7)
+@colorbox(mode&,mxbalbx&,0,7)
+@textcolor(mode&,channel&,1,1,0)
+@textcolor(mode&,bits&,1,1,0)
+@textcolor(mode&,hertz&,1,1,0)
+@textcolor(mode&,sync&,1,1,0)
+@textcolor(mode&,devin&,1,1,0)
+@textcolor(mode&,mon&,1,1,0)
+@textcolor(mode&,dspram&,1,1,0)
 @colorbox(devco&,devcobx&,0,7)
 @colorbox(devco&,devcobx1&,0,7)
 @colorbox(devco&,devcobx2&,0,7)
@@ -2966,51 +3029,6 @@ lddesk=TRUE
 RETURN
 '
 > PROCEDURE setmatrtxt
-IF nr=devco& THEN
-IF matchannel=2 THEN
-a$="2CH/64BIT"+CHR$(0)
-@textfeld(mchotxt&,a$,1)
-@textfeld(expotxt&,a$,1)
-@textfeld(mchitxt&,a$,1)
-@textfeld(extotxt&,a$,1)
-ENDIF
-IF matchannel=4 THEN
-a$="2CH/64BIT"+CHR$(0)
-@textfeld(mchotxt&,a$,1)
-@textfeld(expotxt&,a$,1)
-@textfeld(mchitxt&,a$,1)
-@textfeld(extotxt&,a$,1)
-ENDIF
-IF matchannel=8 THEN
-a$="8CH/128BIT"+CHR$(0)
-@textfeld(mchotxt&,a$,1)
-@textfeld(expotxt&,a$+CHR$(0),1)
-IF cv=1 THEN
-a$="2CH/64BIT"+CHR$(0)
-@textfeld(mchitxt&,a$,1)
-ELSE
-a$="8CH/128BIT"+CHR$(0)
-@textfeld(mchitxt&,a$,1)
-ENDIF
-a$="8CH/128BIT"+CHR$(0)
-@textfeld(extotxt&,a$,1)
-ENDIF
-IF matchannel=16 THEN
-a$="16CH/128BIT"+CHR$(0)
-@textfeld(mchotxt&,a$,1)
-a$="8CH/128BIT"+CHR$(0)
-@textfeld(expotxt&,a$,1)
-IF cv=1 THEN
-a$="2CH/64BIT"+CHR$(0)
-@textfeld(mchitxt&,a$,1)
-ELSE
-a$="8CH/128BIT"+CHR$(0)
-@textfeld(mchitxt&,a$,1)
-ENDIF
-a$="8CH/128BIT"+CHR$(0)
-@textfeld(extotxt&,a$,1)
-ENDIF
-ELSE
 IF matchannel=2 THEN
 a$="2CH/64BIT"+CHR$(0)
 @textfeld2(devco&,mchotxt&,a$,1)
@@ -3053,7 +3071,6 @@ a$="8CH/128BIT"+CHR$(0)
 ENDIF
 a$="8CH/128BIT"+CHR$(0)
 @textfeld2(devco&,extotxt&,a$,1)
-ENDIF
 ENDIF
 RETURN
 '
@@ -3318,10 +3335,6 @@ RETURN
 '
 > PROCEDURE goodbye
 IF rscda=TRUE THEN
-IF profi=TRUE THEN
-@rsc_back(status&)
-@rsc_back(devco&)
-ENDIF
 @rsc_back(mode&)
 proghere=FALSE
 ENDIF
@@ -3369,6 +3382,8 @@ RETURN a
 ENDFUNC
 '
 > PROCEDURE initdata
+hz=1
+winh=0
 xbs=500
 starmagic=&H71273800
 matchannel=2
@@ -3384,6 +3399,7 @@ vcv=-2
 vstd=-2
 vdspin=-2
 vpdat=-2
+vextinp=-1
 vmatchannel=-2
 vmastering=-2
 vbigram=-2
@@ -3393,6 +3409,7 @@ vanalog=-2
 vdigmode=-2
 vrecmode=-2
 vemuladc8=-2
+vclkfalc=-2
 vaddr=-2
 vadci=-2
 vsndmod=-2
@@ -3401,51 +3418,28 @@ vtrkr=-2
 vmon=-2
 vinta=-2
 vsrca=-2
-'
+vclkr=-2
 RETURN
 '
 > PROCEDURE moderead
 IF demo=FALSE THEN
 a=XBIOS(xbs,27,-1)
 ENDIF
-IF a=0 THEN
+SELECT a
+CASE 0
 matchannel=2
-ENDIF
-IF a=1 THEN
+CASE 1
 matchannel=4
-ENDIF
-IF a=2 THEN
+CASE 2
 matchannel=8
-ENDIF
-IF a=3 THEN
+CASE 3
 matchannel=16
-ENDIF
+ENDSELECT
 IF vmatchannel<>matchannel THEN
-IF matchannel=2 THEN
-@setbutton(mat4&,0)
-@setbutton(mat8&,0)
-@setbutton(mat16&,0)
-@setbutton(mat2&,1)
-ENDIF
-IF matchannel=4 THEN
-@setbutton(mat2&,0)
-@setbutton(mat8&,0)
-@setbutton(mat16&,0)
-@setbutton(mat4&,1)
-ENDIF
-IF matchannel=8 THEN
-@setbutton(mat2&,0)
-@setbutton(mat4&,0)
-@setbutton(mat16&,0)
-@setbutton(mat8&,1)
-ENDIF
-IF matchannel=16 THEN
-@setbutton(mat2&,0)
-@setbutton(mat4&,0)
-@setbutton(mat8&,0)
-@setbutton(mat16&,1)
-ENDIF
+a$=@rsc_text$(popups&,chnlpop&+a+1)
+@textfeld(channel&,a$,1)
 vmatchannel=matchannel
+@setmatrtxt
 ENDIF
 '
 IF demo=FALSE THEN
@@ -3458,13 +3452,12 @@ mastering=16
 ENDIF
 IF vmastering<>mastering THEN
 IF mastering=16 THEN
-@setbutton(mast24&,0)
-@setbutton(mast16&,1)
+a$=@rsc_text$(popups&,bitspop&+1)
 ENDIF
 IF mastering=24 THEN
-@setbutton(mast16&,0)
-@setbutton(mast24&,1)
+a$=@rsc_text$(popups&,bitspop&+2)
 ENDIF
+@textfeld(bits&,a$,1)
 vmastering=mastering
 ENDIF
 '
@@ -3478,12 +3471,11 @@ bigram=TRUE
 ENDIF
 IF vbigram<>bigram THEN
 IF bigram=FALSE THEN
-@setbutton(ramhi&,0)
-@setbutton(ramlo&,1)
+a$=@rsc_text$(popups&,rampop&+1)
 ELSE
-@setbutton(ramlo&,0)
-@setbutton(ramhi&,1)
+a$=@rsc_text$(popups&,rampop&+2)
 ENDIF
+@textfeld(dspram&,a$,1)
 vbigram=bigram
 ENDIF
 '
@@ -3505,95 +3497,139 @@ vemulate=emulate
 ENDIF
 '
 IF demo=FALSE THEN
-a=XBIOS(xbs,75,-1)
+mon=3 AND (XBIOS(&H86,-1))
 ENDIF
-IF a=0 THEN
-fclk=FALSE
-ELSE
-fclk=TRUE
-ENDIF
-IF vfclk<>fclk THEN
-IF fclk=FALSE THEN
-@setbutton(falclk&,0)
-ELSE
-@setbutton(falclk&,1)
-ENDIF
-vfclk=fclk
-vsrca=-2
+IF vmon<>mon THEN
+a$=@rsc_text$(popups&,monpop&+mon+1)
+@textfeld(mon&,a$,1)
+vmon=mon
 ENDIF
 '
+IF demo=FALSE THEN
+a=XBIOS(xbs,226,-1)
+idmarec=DPEEK(a)
+idac=DPEEK(a+2)
+a=XBIOS(xbs,221)
+istd=(SHR(a,1) AND 3)
+a=XBIOS(xbs,224)
+idspin=(SHR(a,3) AND 1)
+IF (istd=1 AND (idac=3 OR idmarec=3)) OR ((idspin=1 AND istd=0) AND (idac=3 OR idmarec=3)) THEN
+extinp=TRUE
+ELSE
+extinp=FALSE
+ENDIF
+IF vextinp<>extinp THEN
+IF extinp=TRUE THEN
+a$=@rsc_text$(popups&,srcpop&+5)
+@textfeld(devin&,a$,1)
+ENDIF
+vextinp=extinp
+ENDIF
+ENDIF
+'
+IF extinp=FALSE THEN
 IF demo=FALSE THEN
 analog=XBIOS(xbs,20,-1)
 ENDIF
 IF vanalog<>analog THEN
 IF analog=1 THEN
-a$=@rsc_text$(popups&,analog&)
-@textfeld(inswc&,a$,1)
+a$=@rsc_text$(popups&,srcpop&+1)
+@textfeld(devin&,a$,1)
 ENDIF
 IF analog=0 THEN
-a$=@rsc_text$(popups&,digital&)
-@textfeld(inswc&,a$,1)
-ENDIF
-vanalog=analog
-ENDIF
-'
 IF demo=FALSE THEN
 digmode=XBIOS(xbs,21,-1)
 ENDIF
 IF vdigmode<>digmode THEN
 IF digmode=0 THEN
-a$=@rsc_text$(popups&,opto&)
-@textfeld(inlnk&,a$,1)
+a$=@rsc_text$(popups&,srcpop&+2)
+@textfeld(devin&,a$,1)
 ENDIF
 IF digmode=1 THEN
-a$=@rsc_text$(popups&,coax&)
-@textfeld(inlnk&,a$,1)
+a$=@rsc_text$(popups&,srcpop&+3)
+@textfeld(devin&,a$,1)
 ENDIF
 IF digmode=2 THEN
-a$=@rsc_text$(popups&,aesebu&)
-@textfeld(inlnk&,a$,1)
+a$=@rsc_text$(popups&,srcpop&+4)
+@textfeld(devin&,a$,1)
 ENDIF
 vdigmode=digmode
 ENDIF
-'
-IF demo=FALSE THEN
-recmode=XBIOS(xbs,26,-1)
 ENDIF
-IF vrecmode<>recmode THEN
-IF recmode=0 OR (matchannel=0 AND recmode<>1) THEN
-@setbutton(rec4&,0)
-@setbutton(rec8&,0)
-@setbutton(rec2&,1)
+vanalog=analog
 ENDIF
-IF recmode=1 THEN
-@setbutton(rec2&,0)
-@setbutton(rec8&,0)
-@setbutton(rec4&,1)
-ENDIF
-IF recmode=2 OR (matchannel>=8 AND recmode<>1) THEN
-@setbutton(rec2&,0)
-@setbutton(rec4&,0)
-@setbutton(rec8&,1)
-ENDIF
-vrecmode=recmode
 ENDIF
 '
 IF demo=FALSE THEN
-emuladc8=XBIOS(xbs,165,-1)
+clkr=XBIOS(xbs,23,-1)
+IF vclkr<>clkr THEN
+IF clkr=0 THEN
+a$=@rsc_text$(popups&,clkpop&+2)
+@textfeld(sync&,a$,1)
+syncmode=2
+hz=1
+@sethertz(hz)
+~RSRC_GADDR(0,nr,zu%)
+buttadr=zu%+24*hertz&
+DPOKE buttadr+6,&H2816
+a$=@rsc_text$(popups&,smppop4&+hz)
+@textfeld(hertz&,a$,1)
 ENDIF
-IF vemuladc8<>emuladc8 THEN
-IF BTST(emuladc8,0)=0 THEN
-@setbutton(emadc8&,0)
+IF clkr>0 AND clkr<12 THEN
+a$=@rsc_text$(popups&,clkpop&+1)
+@textfeld(sync&,a$,1)
+syncmode=1
+hz=clkr
+hz2=hz
+IF hz>3 THEN
+hz=hz+3
+hz2=hz+2
 ELSE
-@setbutton(emadc8&,1)
+hiclk=XBIOS(xbs,24,-1)
+IF hiclk=1 THEN
+hz=hz+3
+hz2=hz+1
 ENDIF
-IF BTST(emuladc8,16)=0 THEN
-@setbutton(emadca8&,0)
+ENDIF
+@sethertz(hz)
+~RSRC_GADDR(0,nr,zu%)
+buttadr=zu%+24*hertz&
+DPOKE buttadr+6,&H2116
+a$=@rsc_text$(popups&,smppop&+hz2)
+@textfeld(hertz&,a$,1)
+ENDIF
+IF clkr>11 THEN
+clkfalc=(XBIOS(xbs,75,-1) AND &HFFFF)
+IF vclkfalc<>clkfalc THEN
+IF clkfalc=1 THEN
+a$=@rsc_text$(popups&,clkpop&+3)
+@textfeld(sync&,a$,1)
+syncmode=3
+@sethertz(hz)
+~RSRC_GADDR(0,nr,zu%)
+buttadr=zu%+24*hertz&
+DPOKE buttadr+6,&H2616
+a$=@rsc_text$(popups&,smppop2&+hz)
+@textfeld(hertz&,a$,1)
 ELSE
-@setbutton(emadca8&,1)
+a$=@rsc_text$(popups&,clkpop&+4)
+@textfeld(sync&,a$,1)
+syncmode=4
+hz=1
+@sethertz(hz)
+~RSRC_GADDR(0,nr,zu%)
+buttadr=zu%+24*hertz&
+DPOKE buttadr+6,&H2816
+a$=@rsc_text$(popups&,smppop4&+hz)
+@textfeld(hertz&,a$,1)
 ENDIF
-vemuladc8=emuladc8
+vclkfalc=clkfalc
 ENDIF
+ENDIF
+vclkr=clkr
+ENDIF
+ENDIF
+'
 RETURN
 '
 > PROCEDURE main
@@ -3611,81 +3647,40 @@ DIM dbank$(500)
 db=TRUE
 @wischwasch
 @initdata
-IF profi=TRUE THEN
-nr=status&
-@rsc_draw(nr,1)
-@wischwasch
-nr=-1
-@setmatrtxt
-nr=devco&
-@rsc_draw(nr,1)
-@wischwasch
-@devcoread
-@wischwasch
-ENDIF
 nr=mode&
 vornr=nr
 @rsc_draw(nr,7)
 @wischwasch
+winh=nr
 ENDIF
 proghere=TRUE
 ~RSRC_GADDR(0,nr,zu%)
 zuadr=zu%
 buttadr=zuadr+24*obj
 but=DPEEK(buttadr+6) AND 255
-@moderead
+'  @moderead
 REPEAT
 obj=@rsc_do(nr,obj,popup&)
 ~RSRC_GADDR(0,nr,zu%)
 zuadr=zu%
 buttadr=zuadr+24*obj
 but=DPEEK(buttadr+6) AND 255
-IF obj<>0 AND nr=mode& THEN
+IF winh=mode& AND obj<>0 AND nr=mode& THEN
 @modemaker
 ENDIF
-IF obj<>0 AND nr=devco& THEN
+IF winh=devco& AND obj<>0 AND nr=devco& THEN
 @devmaker
 ENDIF
-IF obj<>0 AND nr=status& THEN
+IF winh=status& AND obj<>0 AND nr=status& THEN
 @statmaker
 ENDIF
-IF nr=mode& AND obj=modeundo& THEN
-@readbutton(obj)
-buttflag=(buttflag AND &HFFFE)
-PAUSE 3
-@setbutton(obj,buttflag)
-@wischwasch
-IF profi=TRUE THEN
-nr=devco&
-ELSE
-nr=mode&
-ENDIF
-@editselect
-ENDIF
-IF nr=devco& AND obj=devundo& THEN
-@readbutton(obj)
-buttflag=(buttflag AND &HFFFE)
-PAUSE 3
-@setbutton(obj,buttflag)
-@wischwasch
-nr=status&
-@editselect
-ENDIF
-IF nr=status& AND obj=statundo& THEN
-@readbutton(obj)
-buttflag=(buttflag AND &HFFFE)
-PAUSE 3
-@setbutton(obj,buttflag)
-@wischwasch
-nr=mode&
-@editselect
-ENDIF
-UNTIL (((obj=devexit& AND nr=devco&) OR (obj=statexit& AND nr=status&) OR (obj=exit& AND nr=mode&)) OR obj=9999)
+UNTIL (obj=exit& OR obj=9999) AND nr=mode&
 IF obj<>9999 THEN
 @setbutton(obj,0)
 ENDIF
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
 obj=0
+winh=0
 @goodbye
 RETURN
 '
@@ -3950,33 +3945,6 @@ vtrkr=trkr
 ENDIF
 '
 IF demo=FALSE THEN
-mon=3 AND (XBIOS(&H86,-1))
-ENDIF
-IF vmon<>mon THEN
-IF mon=0 THEN
-@setbutton(mon0&,1)
-ELSE
-@setbutton(mon0&,0)
-ENDIF
-IF mon=1 THEN
-@setbutton(mon1&,1)
-ELSE
-@setbutton(mon1&,0)
-ENDIF
-IF mon=2 THEN
-@setbutton(mon2&,1)
-ELSE
-@setbutton(mon2&,0)
-ENDIF
-IF mon=3 THEN
-@setbutton(mon3&,1)
-ELSE
-@setbutton(mon3&,0)
-ENDIF
-vmon=mon
-ENDIF
-'
-IF demo=FALSE THEN
 inta=XBIOS(&H87,-1)
 mfp=(1 AND SHR(inta,16))
 ints=(inta AND 3)
@@ -4015,48 +3983,235 @@ ENDIF
 ENDIF
 vinta=inta
 ENDIF
-'
-IF demo=FALSE THEN
-srca=XBIOS(xbs,229)
-src=3 AND (SHR(srca,16))
-pre=(srca AND &HFF)
-ENDIF
-IF vsrca<>srca THEN
-IF src=0 THEN
-@setbutton(src0&,1)
-ELSE
-@setbutton(src0&,0)
-ENDIF
-IF src=1 THEN
-@setbutton(src1&,1)
-ELSE
-@setbutton(src1&,0)
-ENDIF
-IF src=2 THEN
-@setbutton(src2&,1)
-ELSE
-@setbutton(src2&,0)
-ENDIF
-IF src=3 THEN
-@setbutton(src3&,1)
-ELSE
-@setbutton(src3&,0)
-ENDIF
-a$=STR$(pre)+CHR$(0)
-@textfeld(rate0&,a$,1)
-@maketime
-@textfeld(rate1&,a$,1)
-vsrca=srca
-ENDIF
 RETURN
 '
 > PROCEDURE statmaker
-IF obj=statshow& THEN
+SELECT obj
+CASE trkr0&
+~XBIOS(&H85,trkp,0)
+CASE trkr1&
+~XBIOS(&H85,trkp,1)
+CASE trkr2&
+~XBIOS(&H85,trkp,2)
+CASE trkr3&
+~XBIOS(&H85,trkp,3)
+CASE trkp0&
+~XBIOS(&H85,0,trkr)
+CASE trkp1&
+~XBIOS(&H85,1,trkr)
+CASE trkp2&
+~XBIOS(&H85,2,trkr)
+CASE trkp3&
+~XBIOS(&H85,3,trkr)
+CASE snd0&
+~XBIOS(&H84,0)
+CASE snd1&
+~XBIOS(&H84,1)
+CASE snd2&
+~XBIOS(&H84,2)
+CASE adci0&
+IF BTST(adci,0)=TRUE THEN
+~XBIOS(&H82,5,adci AND 2)
+ELSE
+~XBIOS(&H82,5,adci OR 1)
+ENDIF
+CASE adci1&
+IF BTST(adci,1)=TRUE THEN
+~XBIOS(&H82,5,adci AND 1)
+ELSE
+~XBIOS(&H82,5,adci OR 2)
+ENDIF
+CASE intr0&
+IF BTST(ints,1)=TRUE THEN
+~XBIOS(&H87,0,ints AND 1)
+ELSE
+~XBIOS(&H87,0,ints OR 2)
+ENDIF
+CASE intr1&
+IF BTST(ints,1)=TRUE THEN
+~XBIOS(&H87,1,ints AND 1)
+ELSE
+~XBIOS(&H87,1,ints OR 2)
+ENDIF
+CASE intp0&
+IF BTST(ints,0)=TRUE THEN
+~XBIOS(&H87,0,ints AND 2)
+ELSE
+~XBIOS(&H87,0,ints OR 1)
+ENDIF
+CASE intp1&
+IF BTST(ints,0)=TRUE THEN
+~XBIOS(&H87,1,ints AND 2)
+ELSE
+~XBIOS(&H87,1,ints OR 1)
+ENDIF
+CASE addr0&
+IF BTST(addr,0)=TRUE THEN
+~XBIOS(&H82,4,addr AND 2)
+ELSE
+~XBIOS(&H82,4,addr OR 1)
+ENDIF
+CASE addr1&
+IF BTST(addr,1)=TRUE THEN
+~XBIOS(&H82,4,addr AND 1)
+ELSE
+~XBIOS(&H82,4,addr OR 2)
+ENDIF
+CASE statshow&
 @devliste2
-ENDIF
-IF obj=stathelp& THEN
+CASE stathelp&
 @helptxt("DEVSTAT")
-ENDIF
+CASE statexit&
+winh=0
+@setbutton(obj,0)
+@rsc_back(status&)
+obj=0
+next_obj&=0
+nr=mode&
+tree&=nr
+@editselect
+winh=nr
+@setbutton(compshow&,0)
+ENDSELECT
+RETURN
+'
+> PROCEDURE sethertz(i)
+SELECT i
+CASE 1
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,1)
+CASE 2
+~XBIOS(xbs,23,0)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,2)
+CASE 4
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,0)
+ENDSELECT
+CASE 2
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,2)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,3)
+ENDSELECT
+CASE 3
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,3)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,4)
+ENDSELECT
+CASE 4
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,1)
+~XBIOS(xbs,24,1)
+CASE 3
+~XBIOS(xbs,24,0)
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,5)
+ENDSELECT
+CASE 5
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,2)
+~XBIOS(xbs,24,1)
+CASE 3
+~XBIOS(xbs,24,0)
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,6)
+ENDSELECT
+CASE 6
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,3)
+~XBIOS(xbs,24,1)
+CASE 3
+~XBIOS(xbs,24,0)
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,7)
+ENDSELECT
+CASE 7
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,4)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,8)
+ENDSELECT
+CASE 8
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,5)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,9)
+ENDSELECT
+CASE 9
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,6)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,10)
+ENDSELECT
+CASE 10
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,7)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,11)
+ENDSELECT
+CASE 11
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,8)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,12)
+ENDSELECT
+CASE 12
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,9)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,13)
+ENDSELECT
+CASE 13
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,10)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,14)
+ENDSELECT
+CASE 14
+~XBIOS(xbs,24,0)
+SELECT syncmode
+CASE 1
+~XBIOS(xbs,23,11)
+CASE 3
+~XBIOS(xbs,23,13)
+~XBIOS(xbs,71,15)
+ENDSELECT
+ENDSELECT
 RETURN
 '
 > PROCEDURE modemaker
@@ -4065,140 +4220,184 @@ zuadr=zu%
 buttadr=zuadr+24*obj
 but=DPEEK(buttadr+6) AND 255
 IF but=22 THEN
-IF obj=inswc& THEN
-a$=@rsc_text$(popups&,inpop&+popup&)
+IF obj=channel& THEN
+a$=@rsc_text$(popups&,chnlpop&+popup&)
 @textfeld(obj,a$,1)
 IF demo=FALSE THEN
-IF popup&=1 THEN
-~XBIOS(xbs,20,1)
+SELECT popup&
+CASE 1
+~XBIOS(xbs,27,0)
+CASE 2
+~XBIOS(xbs,27,1)
+CASE 3
+~XBIOS(xbs,27,2)
+CASE 4
+~XBIOS(xbs,27,3)
+ENDSELECT
 ENDIF
-IF popup&=2 THEN
-~XBIOS(xbs,20,0)
+ENDIF
+IF obj=hertz& THEN
+hz=popup&
+SELECT syncmode
+CASE 1
+a$=@rsc_text$(popups&,smppop&+popup&)
+IF hz>8 THEN
+DEC hz
+ENDIF
+IF hz>4 THEN
+DEC hz
+ENDIF
+CASE 2
+a$=@rsc_text$(popups&,smppop4&+popup&)
+CASE 3
+a$=@rsc_text$(popups&,smppop2&+popup&)
+CASE 4
+a$=@rsc_text$(popups&,smppop4&+popup&)
+ENDSELECT
+@textfeld(obj,a$,1)
+IF demo=FALSE THEN
+@sethertz(hz)
 ENDIF
 ENDIF
-obj=0
-next_obj&=0
+IF obj=sync& THEN
+a$=@rsc_text$(popups&,clkpop&+popup&)
+@textfeld(obj,a$,1)
+IF demo=FALSE THEN
+SELECT popup&
+CASE 1
+syncmode=1
+IF hz=0 THEN
+hz=2
 ENDIF
-IF obj=inlnk& THEN
+fclk=FALSE
+~XBIOS(xbs,75,0)
+@sethertz(hz)
+~RSRC_GADDR(0,nr,zu%)
+buttadr=zu%+24*hertz&
+DPOKE buttadr+6,&H2116
+a$=@rsc_text$(popups&,smppop&+hz)
+@textfeld(hertz&,a$,1)
+CASE 2
+syncmode=2
+fclk=FALSE
+~XBIOS(xbs,75,0)
+~XBIOS(xbs,23,0)
+hz=1
+@sethertz(hz)
+~RSRC_GADDR(0,nr,zu%)
+buttadr=zu%+24*hertz&
+DPOKE buttadr+6,&H2816
+a$=@rsc_text$(popups&,smppop4&+1)
+@textfeld(hertz&,a$,1)
+CASE 3
+syncmode=3
+fclk=TRUE
+~XBIOS(xbs,75,1)
+~XBIOS(xbs,23,13)
+@sethertz(hz)
+~RSRC_GADDR(0,nr,zu%)
+buttadr=zu%+24*hertz&
+DPOKE buttadr+6,&H2616
+a$=@rsc_text$(popups&,smppop2&+hz)
+@textfeld(hertz&,a$,1)
+CASE 4
+syncmode=4
+fclk=FALSE
+~XBIOS(xbs,75,0)
+~XBIOS(xbs,23,13)
+hz=1
+@sethertz(hz)
+~RSRC_GADDR(0,nr,zu%)
+buttadr=zu%+24*hertz&
+DPOKE buttadr+6,&H2816
+a$=@rsc_text$(popups&,smppop4&+1)
+@textfeld(hertz&,a$,1)
+ENDSELECT
+ENDIF
+ENDIF
+IF obj=devin& THEN
 a$=@rsc_text$(popups&,srcpop&+popup&)
 @textfeld(obj,a$,1)
 IF demo=FALSE THEN
-IF popup&=1 THEN
+SELECT popup&
+CASE 1
+~XBIOS(&H8B,3,2,srcclk,hz,1)
+~XBIOS(xbs,20,1)
+CASE 2
+~XBIOS(&H8B,3,2,srcclk,hz,1)
+~XBIOS(xbs,20,0)
 ~XBIOS(xbs,21,0)
-ENDIF
-IF popup&=2 THEN
+CASE 3
+~XBIOS(&H8B,3,2,srcclk,hz,1)
+~XBIOS(xbs,20,0)
 ~XBIOS(xbs,21,1)
-ENDIF
-IF popup&=3 THEN
+CASE 4
+~XBIOS(&H8B,3,2,srcclk,hz,1)
+~XBIOS(xbs,20,0)
 ~XBIOS(xbs,21,2)
+CASE 5
+~XBIOS(&H8B,2,3,srcclk,hz,1)
+~XBIOS(&H8B,1,12,srcclk,hz,1)
+ENDSELECT
+ENDIF
+ENDIF
+IF obj=mon& THEN
+a$=@rsc_text$(popups&,monpop&+popup&)
+@textfeld(obj,a$,1)
+IF demo=FALSE THEN
+SELECT popup&
+CASE 1
+~XBIOS(&H86,0)
+CASE 2
+~XBIOS(&H86,1)
+CASE 3
+~XBIOS(&H86,2)
+CASE 4
+~XBIOS(&H86,3)
+ENDSELECT
+ENDIF
+ENDIF
+IF obj=bits& THEN
+a$=@rsc_text$(popups&,bitspop&+popup&)
+@textfeld(obj,a$,1)
+IF demo=FALSE THEN
+SELECT popup&
+CASE 1
+~XBIOS(xbs,28,0)
+CASE 2
+~XBIOS(xbs,28,1)
+ENDSELECT
+ENDIF
+ENDIF
+IF obj=dspram& THEN
+a$=@rsc_text$(popups&,rampop&+popup&)
+@textfeld(obj,a$,1)
+IF demo=FALSE THEN
+SELECT popup&
+CASE 1
+~XBIOS(xbs,70,0)
+CASE 2
+~XBIOS(xbs,70,1)
+ENDSELECT
 ENDIF
 ENDIF
 obj=0
 next_obj&=0
 ENDIF
-ENDIF
-IF obj=mat2& THEN
-matchannel=2
-@setbutton(rec4&,0)
-@setbutton(rec8&,0)
-@setbutton(rec2&,1)
-IF demo=FALSE THEN
-~XBIOS(xbs,27,0)
-@setmatrtxt
-ENDIF
-ENDIF
-IF obj=mat4& THEN
-matchannel=4
-IF demo=FALSE THEN
-~XBIOS(xbs,27,1)
-@setmatrtxt
-ENDIF
-ENDIF
-IF obj=mat8& THEN
-matchannel=8
-@setbutton(rec2&,0)
-@setbutton(rec4&,0)
-@setbutton(rec8&,1)
-IF demo=FALSE THEN
-~XBIOS(xbs,27,2)
-@setmatrtxt
-ENDIF
-ENDIF
-IF obj=mat16& THEN
-matchannel=16
-@setbutton(rec2&,0)
-@setbutton(rec4&,0)
-@setbutton(rec8&,1)
-IF demo=FALSE THEN
-~XBIOS(xbs,27,3)
-@setmatrtxt
-ENDIF
-ENDIF
-IF obj=mast16& THEN
-mastering=16
-IF demo=FALSE THEN
-~XBIOS(xbs,28,0)
-ENDIF
-ENDIF
-IF obj=mast24& THEN
-mastering=24
-IF demo=FALSE THEN
-~XBIOS(xbs,28,1)
-ENDIF
-ENDIF
-IF obj=ramlo& THEN
-bigram=FALSE
-IF demo=FALSE THEN
-~XBIOS(xbs,70,0)
-ENDIF
-ENDIF
-IF obj=ramhi& THEN
-bigram=TRUE
-IF demo=FALSE THEN
-~XBIOS(xbs,70,1)
-ENDIF
-ENDIF
 IF obj=emula& THEN
 IF emulate=FALSE THEN
-emulate=TRUE
 IF demo=FALSE THEN
 ~XBIOS(xbs,160,1)
 ENDIF
 ELSE
-emulate=FALSE
 IF demo=FALSE THEN
 ~XBIOS(xbs,160,0)
 ENDIF
 ENDIF
 ENDIF
-IF obj=falclk& THEN
-IF fclk=FALSE THEN
-fclk=TRUE
-IF demo=FALSE THEN
-~XBIOS(xbs,75,1)
-ENDIF
-ELSE
-fclk=FALSE
-IF demo=FALSE THEN
-~XBIOS(xbs,75,0)
-ENDIF
-ENDIF
-ENDIF
-IF obj=emadc8& THEN
-IF emuladc8=FALSE THEN
-emuladc8=TRUE
-IF demo=FALSE THEN
-~XBIOS(xbs,165,1)
-ENDIF
-ELSE
-emuladc8=FALSE
-IF demo=FALSE THEN
-~XBIOS(xbs,165,0)
-ENDIF
-ENDIF
-ENDIF
-IF obj=helpmod& THEN
-@helptxt("MODESEL")
+IF obj=unlock& THEN
+~XBIOS(&H81)
+@setbutton(obj,0)
 ENDIF
 IF obj=modekick& THEN
 ~XBIOS(xbs,60)
@@ -4210,6 +4409,32 @@ IF obj=modevol& THEN
 ~XBIOS(&H82,2,0)
 ~XBIOS(&H82,3,0)
 @setbutton(obj,0)
+ENDIF
+IF obj=helpmod& THEN
+@helptxt("MODESEL")
+ENDIF
+IF obj=matshow& THEN
+winh=0
+obj=0
+next_obj&=0
+nr=devco&
+tree&=nr
+@rsc_draw(nr,1)
+@wischwasch
+winh=nr
+@devcoread
+@wischwasch
+ENDIF
+IF obj=compshow& THEN
+winh=0
+obj=0
+next_obj&=0
+nr=status&
+tree&=nr
+@setmatrtxt
+@rsc_draw(nr,1)
+@wischwasch
+winh=nr
 ENDIF
 RETURN
 '
@@ -4399,6 +4624,19 @@ IF demo=FALSE THEN
 ~XBIOS(xbs,226,a1,a2,a3)
 ENDIF
 @devcoread
+ENDIF
+IF obj=devexit& THEN
+winh=0
+@setbutton(obj,0)
+@rsc_back(devco&)
+obj=0
+next_obj&=0
+nr=mode&
+tree&=nr
+@editselect
+winh=nr
+@setbutton(matshow&,0)
+obj=0
 ENDIF
 RETURN
 '
@@ -5274,7 +5512,10 @@ LOCAL j,g,x,y,k,v1,v2,v3,v4,nobj,ofil$,nx,ny
 '
 @setbutton(obj,0)
 onr=nr
+obj=0
+next_obj&=0
 nr=seedev&
+tree&=nr
 @rsc_draw(nr,0)
 '
 a=XBIOS(xbs,416,-1)
@@ -5455,6 +5696,9 @@ ENDIF
 @setbutton(obj,0)
 @rsc_back(nr)
 nr=onr
+obj=0
+next_obj&=0
+tree&=nr
 '
 RETURN
 '
@@ -5463,7 +5707,10 @@ LOCAL j,g,x,y,k,v1,v2,v3,v4,nobj,ofil$,nx,ny
 '
 @setbutton(obj,0)
 onr=nr
+obj=0
+next_obj&=0
 nr=seedev&
+tree&=nr
 @rsc_draw(nr,0)
 '
 a=XBIOS(xbs,416,-1)
@@ -5653,6 +5900,9 @@ ENDIF
 '
 @rsc_back(nr)
 nr=onr
+obj=0
+next_obj&=0
+tree&=nr
 '
 RETURN
 '
