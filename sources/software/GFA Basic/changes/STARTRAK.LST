@@ -450,11 +450,6 @@ RETURN
   ENDIF
 RETURN
 '
-> PROCEDURE write_smp(a)
-  IF demo=FALSE THEN
-    ~XBIOS(xbs,53,a)
-  ENDIF
-RETURN
 '
 > PROCEDURE read_digsrate
   IF demo=FALSE THEN
@@ -765,16 +760,6 @@ RETURN
   ENDIF
 RETURN
 '
-> PROCEDURE highsampling(state)
-  hsbit=state
-  IF demo=FALSE THEN
-    IF state=TRUE THEN
-      ~XBIOS(xbs,24,1)
-    ELSE
-      ~XBIOS(xbs,24,0)
-    ENDIF
-  ENDIF
-RETURN
 '
 > PROCEDURE proffhz                      ! Hier muû nachgearbeitet werden !   HZ !!
   IF demo=FALSE THEN
@@ -2092,66 +2077,6 @@ RETURN
   UNTIL y=TRUE OR raus=TRUE OR v3=2 OR INP?(2)=TRUE
 RETURN
 '
-> PROCEDURE maschruf5d
-  LOCAL p,b$,bw
-  ' HARDDISK-MIDI second generation
-  '
-  vdig24=dig24
-  omspos=-1
-  @busy_mouse
-  IF demo=FALSE THEN
-    IF over<0 THEN
-      sad%=mdat%+flen-mbit
-    ENDIF
-    scd%=handle
-    sdd%=playpos            !playposition
-    IF sectors<=1 THEN
-      sectors=2
-    ENDIF
-    sed%=sectors-10
-    sfd%=over
-    '
-    sgd%=l+8
-    '
-    sid%=midiwort
-    sfa%=fileart
-    saa%=meml
-    sba%=meml+sectors
-    '
-    handle=GEMDOS(61,L:VARPTR(pa$),0)
-    a1=GEMDOS(66,L:sdd%,scd%,0)
-    a2=GEMDOS(63,scd%,L:sed%,L:meml)
-    a3=GEMDOS(62,scd%)
-    '
-    IF stc=&H71273800 THEN
-      bw=XBIOS(xbs,122,0,L:saa%,L:sba%,L:0,sfd%,sgd%,sid%)
-      IF pwait=FALSE THEN
-        @write_int(1)
-      ELSE
-        intnr=1
-        @pausewait
-      ENDIF
-      intplay=TRUE
-      REPEAT
-      UNTIL @mousek=0
-      REPEAT
-        back3%=LPEEK(bw+8)
-        k=@mousek
-        ~FRE(0)
-      UNTIL back3%=1 OR k=3 OR k=2
-      intplay=FALSE
-      @write_int(0)
-    ENDIF
-  ELSE
-    back%=0
-  ENDIF
-  dig24=vdig24
-  IF dig24=FALSE THEN
-    @setbitrate16
-  ELSE
-    @setbitrate24
-  ENDIF
-RETURN
 '
 > PROCEDURE maschruf1
   ' LOAD/SAVE
@@ -4593,23 +4518,6 @@ RETURN
   ~FRE(0)
 RETURN
 '
-> PROCEDURE hearfour
-  IF demo=FALSE THEN
-    @dspbypass
-    ~XBIOS(xbs,20,1)   ! Analogeingang benutzen
-    ~XBIOS(xbs,23,0)   ! Taktrate vom digitaleingang
-    '
-    ~XBIOS(xbs,26,1)
-    ~XBIOS(&H8B,3,11,0,0,1)
-    '
-    POKE &HFEFF0441,0
-    POKE &HFEFF0441,4
-    POKE &HFEFF0441,4
-    POKE &HFEFF0441,4
-    POKE &HFEFF0441,4
-    POKE &HFEFF0481,1+4+32
-  ENDIF
-RETURN
 '
 > PROCEDURE beepmaster
   LOCAL bp$,beep,beeph,bpl,bhz
@@ -4829,54 +4737,6 @@ RETURN
   @dobypass
 RETURN
 '
-> PROCEDURE mixerset2
-  '  PRINT "mixerset2-mode",rmo8,rch16
-  IF panmix=TRUE AND (rmo8=TRUE OR rch16=TRUE) THEN
-    IF extmix=TRUE THEN
-      IF rch16=FALSE THEN
-        IF dig24=TRUE THEN
-          @mixmodeset(2)
-        ELSE
-          @mixmodeset(dmxa+0)
-        ENDIF
-      ELSE
-        IF dig24=FALSE THEN
-          IF BTST(hchk,0)=FALSE THEN
-            @mixmodeset(4)
-          ELSE
-            @mixmodeset(dmxa+0)   ! wg. alter hardware nur 8ch-dsp
-          ENDIF
-        ENDIF
-      ENDIF
-    ELSE
-      IF rch16=FALSE THEN
-        IF dig24=TRUE THEN
-          @mixmodeset(2)
-        ELSE
-          IF sum24=TRUE THEN
-            @mixmodeset(dmxa+1)
-          ELSE
-            @mixmodeset(dmxa+0)
-          ENDIF
-        ENDIF
-      ELSE
-        IF dig24=TRUE THEN
-          '  @mixmodeset(6)        24bit/16ch
-        ELSE
-          IF BTST(hchk,0)=FALSE THEN
-            IF sum24=TRUE THEN
-              @mixmodeset(5)
-            ELSE
-              @mixmodeset(4)
-            ENDIF
-          ELSE
-            @mixmodeset(dmxa+0)   ! wg. alter hardware nur 8ch-dsp
-          ENDIF
-        ENDIF
-      ENDIF
-    ENDIF
-  ENDIF
-RETURN
 '
 > PROCEDURE ds_init(dsall)   ! direct_stream_init
   LOCAL ii
@@ -5726,23 +5586,6 @@ RETURN
   ENDIF
 RETURN
 '
-> PROCEDURE adatmoni
-  IF demo=FALSE THEN
-    '  ~XBIOS(500,26,2)
-    POKE &HFEFF0441,0
-    POKE &HFEFF0441,4
-    POKE &HFEFF0481,36+3
-    POKE &HFEFF0441,4
-    POKE &HFEFF0481,36+3
-    POKE &HFEFF0441,4
-    POKE &HFEFF0481,36+1
-    POKE &HFEFF0441,0
-    POKE &HFEFF0615,3
-    '
-    POKE &HFEFF0615,3+8
-    @channel(pt)
-  ENDIF
-RETURN
 '
 > PROCEDURE maschruf9(ca,cb)
   ' CUT
@@ -5896,14 +5739,6 @@ RETURN
   ~XBIOS(xbs,316,L:sad%,L:sbd%)
 RETURN
 '
-> PROCEDURE maschruf29(start,dest)
-  ' COPYBACK
-  '
-  @busy_mouse
-  sad%=start
-  sbd%=dest
-  ~XBIOS(xbs,317,L:sad%,L:sbd%)
-RETURN
 '
 > PROCEDURE maschruf30(daten,werte,von,bis)
   ' FADE IN&OUT
@@ -9141,38 +8976,6 @@ BYTE{ob_spec%}=a&                               ! ...und Zeichen restaurieren
 edit_obj&=next_obj&
 '
 RETURN
-> PROCEDURE rsc_set_popup(popup&,anz&)
-LOCAL a&,obj&
-'
-' popup&: Objektnummer des Popup-MenÅs
-' anz&  : Neue Anzahl EintrÑge
-'
-' ----------------------------------------- Alle EintrÑge aktivieren...
-obj&=OB_TAIL(rsc_adr%(rsc_popup&),popup&) ! Letzter Eintrag des Popup's
-'
-a&=OB_NEXT(rsc_adr%(rsc_popup&),obj&)     ! Darauf folgender
-'
-WHILE a&=popup&                           ! Zeigt auf's Parent-Objekt...
-INC obj&                                ! ...nÑchster Eintrag
-'
-a&=OB_NEXT(rsc_adr%(rsc_popup&),obj&)
-IF a&>0 AND a&<=SUCC(obj&)              ! Existiert...
-~OBJC_ADD(rsc_adr%(rsc_popup&),popup&,obj&)
-ENDIF                                   ! ...wieder aktivieren
-'
-WEND
-'
-' ----------------------------------------- EintrÑge entfernen...
-a&=OB_TAIL(rsc_adr%(rsc_popup&),popup&)   ! Letzter Eintrag des Popup's
-'
-FOR obj&=a& DOWNTO ADD(popup&,SUCC(anz&)) ! Von hinten nach vorne...
-~OBJC_DELETE(rsc_adr%(rsc_popup&),obj&) ! ...entfernen
-NEXT obj&
-'
-' ----------------------------------------- Neue Hîhe setzen
-OB_H(rsc_adr%(rsc_popup&),popup&)=MUL(hchar&,anz&)
-'
-RETURN
 > FUNCTION rsc_shortcut(tree&,scan|,shift&,VAR title&)
 ' MenÅshortcut ermitteln...
 $F%
@@ -9478,111 +9281,6 @@ CHAR{msg%+16}=LEFT$(a$,240)
 ~APPL_WRITE(id&,16,msg%)                           ! Weg damit
 '
 RETURN
-> FUNCTION rsrc_conv(r_ra%)
-$F%
-'     r_ra%                            ! RSC INLINE Adresse
-LOCAL r_buf!                           ! TRUE=RSC Daten puffern
-LOCAL r_pa%                            ! Puffer-Adresse
-LOCAL r_o&,r_t&                        ! Laufvar
-LOCAL r_ob&                            ! Beginn des Objekt Feldes
-LOCAL r_no&                            ! Anzahl OBJECTS
-LOCAL r_nt&                            ! Anzahl TREES
-LOCAL r_rs&                            ! LÑnge des INLINEs
-LOCAL r_napt%                          ! neue TREE Table Adresse
-LOCAL r_gb%                            ! Adresse des AES Global Feldes
-LOCAL r_of%                            ! Objekt Feld
-LOCAL r_ns&                            ! Anzahl der freien Strings
-LOCAL r_ni&                            ! Anzahl der freien Images
-LOCAL r_adr%,r_i&                      ! Hilfsvar, Laufvar
-'
-r_buf!=(BYTE{ADD(BASEPAGE,256)}=96)    ! Im Interpreter? ==>puffern
-'
-r_rs&=WORD{ADD(r_ra%,&H22)}            ! LÑnge des INLINEs
-IF r_buf! AND DIM?(rsc_buf|())>0       ! Ist RSC Buf schon dimensioniert?...
-r_rs&=0
-ENDIF
-'
-IF r_rs&>0
-'
-IF r_buf!                            ! RSC Daten puffern (nur Interpreter)...
-DIM rsc_buf|(r_rs&)
-r_pa%=ADD({*rsc_buf|()},4)
-BMOVE r_ra%,r_pa%,r_rs&
-r_ra%=r_pa%
-ENDIF
-'
-r_napt%=ADD(r_ra%,WORD{ADD(r_ra%,&H12)})       ! neue Adresse der Tree Tabelle
-r_gb%={ADD(GB,4)}                    ! Adr. des AES-GLOBAL-Feldes
-{ADD(r_gb%,10)}=r_napt%              ! GLOBAL(5/6): neue Tabellen Adr.
-r_ob&=WORD{ADD(r_ra%,2)}             ! bisheriger Start Objekt Feld
-r_of%=ADD(r_ra%,r_ob&)               ! Neue Startadr. Objekt Feld
-r_no&=PRED(WORD{ADD(r_ra%,&H14)})    ! Anzahl der Objekte im File -1
-r_nt&=PRED(WORD{ADD(r_ra%,&H16)})    ! Anzahl der Trees in File  -1
-'
-FOR r_o&=0 TO r_no&                  ! Alle Objekte durchgehen...
-~RSRC_OBFIX(r_of%,r_o&)            ! ...Koordinaten umrechnen
-'
-SELECT BYTE(OB_TYPE(r_of%,r_o&))   ! Objekt-Typ...
-'
-CASE 21,22,29,30,31                ! ...G_TEXT,G_BOXTEXT,G_FTEXT,G_FBOXTEXT,G_ICON
-OB_SPEC(r_of%,r_o&)=ADD(OB_SPEC(r_of%,r_o&),r_ra%)
-{OB_SPEC(r_of%,r_o&)}=ADD({OB_SPEC(r_of%,r_o&)},r_ra%)
-{ADD(OB_SPEC(r_of%,r_o&),4)}=ADD({ADD(OB_SPEC(r_of%,r_o&),4)},r_ra%)
-{ADD(OB_SPEC(r_of%,r_o&),8)}=ADD({ADD(OB_SPEC(r_of%,r_o&),8)},r_ra%)
-'
-CASE 24                            ! ...G_USERDEF
-OB_SPEC(r_of%,r_o&)=ADD(OB_SPEC(r_of%,r_o&),r_ra%)
-{OB_SPEC(r_of%,r_o&)}=ADD({OB_SPEC(r_of%,r_o&)},r_ra%)
-{ADD(OB_SPEC(r_of%,r_o&),4)}=ADD({ADD(OB_SPEC(r_of%,r_o&),4)},r_ra%)
-'
-CASE 23                            ! ...G_IMAGE
-OB_SPEC(r_of%,r_o&)=ADD(OB_SPEC(r_of%,r_o&),r_ra%)
-{OB_SPEC(r_of%,r_o&)}=ADD({OB_SPEC(r_of%,r_o&)},r_ra%)
-'
-CASE 26,28,32                      ! ...G_BUTTON,G_STRING,G_TITLE
-OB_SPEC(r_of%,r_o&)=ADD(OB_SPEC(r_of%,r_o&),r_ra%)
-ENDSELECT
-'
-NEXT r_o&
-'
-FOR r_t&=0 TO r_nt&
-{ADD(r_napt%,MUL(4,r_t&))}=ADD({ADD(r_napt%,MUL(4,r_t&))},r_ra%)
-NEXT r_t&
-'
-r_ns&=PRED(WORD{ADD(r_ra%,&H1E)})
-IF r_ns&>-1
-r_adr%=ADD(r_ra%,WORD{ADD(r_ra%,&HA)})
-FOR r_i&=0 TO r_ns&
-{ADD(r_adr%,MUL(4,r_i&))}=ADD({ADD(r_adr%,MUL(4,r_i&))},r_ra%)
-NEXT r_i&
-ENDIF
-'
-r_ni&=PRED(WORD{ADD(r_ra%,&H20)})
-IF r_ni&>-1
-r_adr%=ADD(r_ra%,WORD{ADD(r_ra%,&H10)})
-'
-FOR r_i&=0 TO r_ni&
-{ADD(r_adr%,MUL(4,r_i&))}=ADD({ADD(r_adr%,MUL(4,r_i&))},r_ra%)
-{{ADD(r_adr%,MUL(4,r_i&))}}=ADD({{ADD(r_adr%,MUL(4,r_i&))}},r_ra%)
-NEXT r_i&
-'
-ENDIF
-'
-ENDIF
-'
-RETURN r_rs&
-ENDFUNC
-> FUNCTION rsc_clicks(VAR rsc&)
-$F%
-LOCAL mc&
-'
-mc&=BTST(rsc&,15)                                  ! Doppelklick?
-IF mc&
-rsc&=AND(rsc&,&X111111111111111)                 ! Bit 15 ausmaskieren
-ENDIF
-'
-RETURN 1-mc&
-ENDFUNC
 '
 ' ------------------------------------------------------------------------------
 ' ------------------------RCS-Zugriffs-Routinen---------------------------------
@@ -9687,31 +9385,6 @@ UNTIL a=0
 ENDIF
 RETURN
 '
-> PROCEDURE textfeld3(drawnr,txtname,txt$,versatz)    ! Textausgabe mit Hintergrund-Redraw in nichtaktives oder aktives Fenster
-LOCAL a,h,x1,y1,b1,h1,it,string,dzu%
-h=rsc_handle%(drawnr)
-~@xrsrc_gaddr(0,drawnr,dzu%)
-string=LPEEK(LPEEK(dzu%+24*txtname+12))
-FOR it=1 TO LEN(txt$)
-a=ASC(MID$(txt$,it,1))
-POKE string+it-1+(versatz-1),a
-EXIT IF a=0
-NEXT it
-IF h<>0 THEN
-~WIND_UPDATE(1)                                    ! BEG_UPDATE
-~WIND_GET(h,11,x1,y1,b1,h1)
-~OBJC_DRAW(dzu%,txtname,1,x1,y1,b1,h1)
-IF b1<>0 AND h1<>0 THEN
-REPEAT
-~WIND_GET(h,12,x1,y1,b1,h1)
-IF b1<>0 AND h1<>0 THEN
-~OBJC_DRAW(dzu%,txtname,1,x1,y1,b1,h1)
-ENDIF
-UNTIL b1=0 OR h1=0
-ENDIF
-~WIND_UPDATE(0)                                    ! BEG_UPDATE
-ENDIF
-RETURN
 '
 > PROCEDURE textfeld4(drawnr,txtname,txt$,versatz)
 LOCAL a
@@ -9806,12 +9479,6 @@ ENDIF
 ENDIF
 RETURN
 '
-> PROCEDURE setbild(buttnr,buttflag)
-@windowtest
-~@xrsrc_gaddr(0,nr,zu%)
-buttadr=zu%+24*buttnr
-DPOKE buttadr+10,buttflag
-RETURN
 '
 > FUNCTION chk_hide(wnr,buttnr)
 $F%
@@ -9893,11 +9560,6 @@ buttadr=zu%+24*buttnr
 DPOKE (buttadr+8),bfl
 RETURN
 '
-> PROCEDURE readflag(buttnr)
-~@xrsrc_gaddr(0,nr,zu%)
-buttadr=zu%+24*buttnr
-buttflag=DPEEK(buttadr+8)
-RETURN
 '
 > PROCEDURE readpos(buttnr)
 ~@xrsrc_gaddr(0,nr,zu%)
@@ -10043,18 +9705,6 @@ RETURN mk&
 '
 ENDFUNC
 '
-> FUNCTION mousex
-$F%
-LOCAL mx&,void&
-'
-'  ~WIND_UPDATE(3)
-~GRAF_MKSTATE(mx&,void&,void&,void&)
-'  ~WIND_UPDATE(2)
-'  SUB mx&,WORD{WINDTAB+64}
-'
-RETURN mx&
-'
-ENDFUNC
 '
 > FUNCTION mousey
 $F%
@@ -26254,21 +25904,6 @@ obj=0
 UNTIL g=1
 RETURN
 '
-> PROCEDURE winhandler
-LOCAL flags&,evnt&,key&,tim&,flags&,mx,my,mb
-tim&=1   ! EVENT-TIMER in msec
-flags&=&X110011                                      ! ...zus. MESSAGE-Events
-evnt&=EVNT_MULTI(&X110011,2,1,1,0,0,0,0,0,0,0,0,0,0,0,1,mx,my,mb,shift&,key&,c)
-IF BTST(evnt&,4) THEN
-@message
-@drop
-@markhlp
-ENDIF
-IF BTST(evnt&,1) THEN
-@button
-'    @windows
-ENDIF
-RETURN
 '
 > PROCEDURE goodbye
 CLOSE
@@ -27919,41 +27554,6 @@ mcs=INT(mcs/mbit)*mbit
 ENDIF
 RETURN
 '
-> PROCEDURE smptime
-LOCAL a,a2,tex,a$
-@testcopyright
-a=ASC(LEFT$(fil$,1))-64
-a2=@dfree(a)
-a2=INT(a2-(a2/254)-16384)
-IF a2<=0 THEN
-nofile=0
-@nomem
-ELSE
-vornr=nr
-nr=record&
-a$="Record-Time"+CHR$(0)
-@textfeld4(record&,rectxoffs,a$,1)
-hsec=INT(a2/hz/mbit*100)
-mmax=hsec
-@htimeset
-a$="FREETIME: "+a$
-@textfeld2(nr,recfree&,a$,1)
-timekey=4
-@timekey
-@rsc_draw(nr,1)
-@markhlp
-REPEAT
-@timeinp(mmax,rtime)
-IF obj=rechelp& THEN
-@helptxt("RECORD-TIME")
-ENDIF
-UNTIL obj<>rechelp&
-@restaura2
-IF obj=recok& THEN
-@minwrite
-ENDIF
-ENDIF
-RETURN
 '
 > PROCEDURE timeinp(timax,VAR tiwert)
 LOCAL tex,otiwert
@@ -33057,10 +32657,6 @@ INC flist
 ENDIF
 RETURN
 '
-> PROCEDURE fsnrset
-@clearfsel
-@getsel2
-RETURN
 '
 > PROCEDURE fsbutset
 LOCAL a
@@ -34806,18 +34402,6 @@ ENDIF
 @wischwasch
 RETURN
 '
-> PROCEDURE restaura5
-IF sblock=0 THEN
-@setbutton(smppmark&,0)
-ELSE
-@setbutton(smppmark&,1)
-ENDIF
-IF sloop!=FALSE THEN
-@setbutton(smploop&,0)
-ELSE
-@setbutton(smploop&,1)
-ENDIF
-RETURN
 '
 > PROCEDURE smpload
 IF ldtrk3=FALSE THEN
@@ -39224,34 +38808,6 @@ ENDIF
 flg=a
 RETURN
 '
-> PROCEDURE slidelr(slidename&,slbutname&,max,mx,my,pos,VAR slidr)
-LOCAL b,h,pbb,pbla,pbl
-@markhlp
-~@xrsrc_gaddr(0,nr,zu%)
-h=DPEEK(zu%+24*slidename&+22)         ! Hîhe des Sliders in Pixeln
-b=DPEEK(zu%+24*slidename&+20)         ! Breite des Sliders in Pixeln
-IF b>h OR b=tbkurz THEN
-pbb=DPEEK(zu%+24*slidename&+16)+ax&+24       ! X-Koordinate Anfangspunkt
-pbla=INT(b/max*pos)
-pbl=INT(b/max)
-IF pos<(max-1) AND mx>(pbb+pbla+pbl/2) THEN
-slidr=TRUE
-ENDIF
-IF pos>0 AND mx<(pbb+pbla-pbl/2) THEN
-slidr=FALSE
-ENDIF
-ELSE
-pbb=DPEEK(zu%+24*slidename&+18)+ay&-33    ! Y-Koordinate Anfangspunkt
-pbla=INT(h/max*pos)
-pbl=INT(h/max)
-IF pos<(max-1) AND my>(pbb+pbla+pbl/2) THEN
-slidr=TRUE
-ENDIF
-IF pos>0 AND my<(pbb+pbla-pbl/2) THEN
-slidr=FALSE
-ENDIF
-ENDIF
-RETURN
 '
 > PROCEDURE sliding(slidename&,slbutname&,max,bg,VAR pos,flg)
 LOCAL b,h,slwert,p,a
@@ -40070,41 +39626,6 @@ rsc_message(nr,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
 ENDIF
 RETURN
 '
-> PROCEDURE showtrak  ! debug-code fÅr tracks
-LOCAL w,is,a$
-DEFFILL 0
-IF credraw=FALSE THEN
-CLIP 0,0,xwidth,ywidth
-ENDIF
-PBOX 24,16,350,32+5*8
-IF credraw=FALSE THEN
-CLIP OFF
-ENDIF
-DEFFILL 1
-a$=STR$(trkp)+","+STR$(trkz)
-DEFTEXT 1,0,0,4
-TEXT 32,24,a$
-FOR is=1 TO 4
-a$=""
-w=trkpnt(is)
-a$=a$+STR$(w)
-IF w<>0 AND trkch(w)<>is THEN
-@alerts(51)
-ENDIF
-IF w<>0 THEN
-REPEAT
-w=trknext(w)
-IF w<>0 AND trkch(w)<>is THEN
-@alerts(51)
-ENDIF
-a$=a$+","+STR$(w)
-UNTIL w=0
-ENDIF
-TEXT 32,32+is*8,a$
-NEXT is
-drawnew=TRUE
-@setbutton(obj,0)
-RETURN
 '
 > PROCEDURE spuren(usetrk)
 ospuren=spuren
@@ -43142,15 +42663,6 @@ ENDIF
 ENDIF
 RETURN
 '
-> PROCEDURE traksethz
-'  thz=trksrate(trkp)
-'  IF thz=0 THEN
-'  thz=44100
-' ENDIF
-'  @swtosrate(thz)
-@analog
-@digout(TRUE)
-RETURN
 '
 > PROCEDURE normplay1
 xdig24=dig24
@@ -50260,320 +49772,7 @@ ENDIF
 ENDIF
 RETURN
 '
-> PROCEDURE make                  ! von mehreren Samples die Sampleraten umrechnen und zu einem File zusammenfÅgen
-LOCAL mhz,nomem,a,b,c,d,e,mrkhz,vm
-mrkobj=obj
-vorvornr=vornr
-vornr=nr
-nr=arrmake&
-vshading=shading
-shading=TRUE
-dopix=TRUE
-@makehz
-make$="             "
-@textfeld(maketxt&,make$,1)
-mhz=2
-IF hz=32000 THEN
-a$=@rsc_text$(popups&,make32&)
-@textfeld(makerate&,a$,1)
-mhz=1
-ENDIF
-IF hz=44100 THEN
-a$=@rsc_text$(popups&,make44&)
-@textfeld(makerate&,a$,1)
-mhz=2
-ENDIF
-IF hz=48000 THEN
-a$=@rsc_text$(popups&,make48&)
-@textfeld(makerate&,a$,1)
-mhz=3
-ENDIF
-IF hz=64000 THEN
-a$=@rsc_text$(popups&,make64&)
-@textfeld(makerate&,a$,1)
-mhz=4
-ENDIF
-IF hz=88200 THEN
-a$=@rsc_text$(popups&,make88&)
-@textfeld(makerate&,a$,1)
-mhz=5
-ENDIF
-IF hz=96000 THEN
-a$=@rsc_text$(popups&,make96&)
-@textfeld(makerate&,a$,1)
-mhz=6
-ENDIF
-@swtosrate(hz)
-dopix=FALSE
-shading=vshading
-@rsc_draw(nr,1)
-@markhlp
-REPEAT
-UNTIL @mousek=0
-REPEAT
-REPEAT
-REPEAT
-obj=@rsc_do(nr,0,popup&)
-UNTIL obj<>0 AND obj<>-1
-~@xrsrc_gaddr(0,smpedit&,zu%)
-zuadr=zu%
-buttadr=zuadr+24*obj
-but=(DPEEK(buttadr+6)) AND 255
-UNTIL but<>0
-IF obj=makerate& THEN
-a$=@rsc_text$(popups&,popmake&+popup&)
-@textfeld(obj,a$,1)
-IF popup&=1 THEN
-mhz=1
-@adlow
-ENDIF
-IF popup&=2 THEN
-mhz=2
-@admid
-ENDIF
-IF popup&=3 THEN
-mhz=3
-@adhigh
-ENDIF
-IF popup&=4 THEN
-mhz=1
-@adlow96
-ENDIF
-IF popup&=5 THEN
-mhz=2
-@admid96
-ENDIF
-IF popup&=6 THEN
-mhz=3
-@adhigh96
-ENDIF
-ENDIF
-~@xrsrc_gaddr(1,obj,zu%)
-objflag=DPEEK(zuadr+8)
-IF obj=makefsel& THEN
-@fileselect(op$+"*."+ext$,"","MAKEFILE:")
-vext$=ext$
-IF vext$="*" THEN
-IF dig24=FALSE THEN
-vext$="S16"
-ELSE
-vext$="S24"
-ENDIF
-ENDIF
-IF RINSTR(fil$,".")=0 THEN
-fil$=fil$+"."+vext$
-ENDIF
-IF fil$<>"" AND RIGHT$(fil$,1)<>"\" AND pret<>0 AND pbutt=1 THEN
-@textfeld(maketxt&,nam$+CHR$(0),1)
-ENDIF
-ENDIF
-IF obj=makehelp& THEN
-@helptxt("MAKE")
-ENDIF
-~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
-IF obj=makeok& OR obj=makexit& OR obj=makefsel& OR obj=makehelp& THEN
-@setbutton(obj,0)
-ENDIF
-UNTIL obj=makexit& OR (obj=makeok& AND fil$<>"" AND nam$<>"")
-IF obj=makeok& THEN
-IF mhz=1 THEN
-mhz=32000
-ENDIF
-IF mhz=2 THEN
-mhz=44100
-ENDIF
-IF mhz=3 THEN
-mhz=48000
-ENDIF
-IF mhz=4 THEN
-mhz=64000
-ENDIF
-IF mhz=5 THEN
-mhz=88200
-ENDIF
-IF mhz=6 THEN
-mhz=96000
-ENDIF
-b=0
-nomem=FALSE
-@busy_mouse
-FOR i=1 TO lmax2
-e=0
-IF arrpath$(i)<>"" THEN
-e=(arrend%(i)-arrstrt%(i))
-IF arrtri|(i)=2 THEN
-e=e+(arrend%(i)-arrstrt%(i))
-ENDIF
-nomem=TRUE
-ENDIF
-IF arrsrate%(i)<>mhz AND arrpath$(i)<>"" THEN
-nomem=TRUE
-mrkhz=arrsrate%(i)
-e=e/mrkhz*mhz
-ENDIF
-b=b+e
-NEXT i
-@busy_mouse
-a=ASC(LEFT$(fil$,1))-64
-IF @dfree(a)>=b THEN
-okay=TRUE
-ENDIF
-IF nomem=TRUE AND okay=TRUE THEN
-a2=ASC(LEFT$(virt$,1))-64
-c=mlen
-IF a=a2 THEN
-c=mlen+b
-ENDIF
-IF @dfree(a2)>=c THEN
-okay=TRUE
-ELSE
-okay=FALSE
-ENDIF
-BSAVE virt$,meml,mlen
-ENDIF
-IF okay=TRUE THEN
-OPEN "O",#1,fil$
-FOR i=1 TO lmax2
-@busy_mouse
-a$=arrpath$(i)
 '
-IF a$<>"" THEN
-OPEN "I",#2,a$
-IF arrtri|(i)=0 OR arrtri|(i)=2 THEN
-vln=(arrend%(i)-arrstrt%(i))
-anf=arrstrt%(i)
-SEEK #2,anf
-bytes=INT(mlen/mbit)*mbit
-IF arrsrate%(i)<>mhz THEN
-@arr_resmp
-ELSE
-REPEAT
-IF vln>=bytes THEN
-bytes=INT(mlen/mbit)*mbit
-ELSE
-bytes=INT(vln/mbit)*mbit
-ENDIF
-IF bytes>3 THEN
-BGET #2,meml,bytes
-BPUT #1,meml,bytes
-ENDIF
-vln=vln-bytes
-UNTIL vln<4
-IF vln>0 THEN
-BGET #2,meml,vln
-BPUT #1,meml,vln
-ENDIF
-ENDIF
-ENDIF
-IF arrtri|(i)=1 OR arrtri|(i)=2 THEN
-vln=(arrend%(i)-arrstrt%(i))
-bytes=INT(mlen/(mbit*2))*mbit
-len=bytes
-start=arrend%(i)
-IF arrsrate%(i)<>mhz THEN
-CLOSE #1
-a=ASC(LEFT$(fil$,1))-64
-IF @dfree(a)>=vln THEN
-virtp$=CHR$(a+64)+":\"+virtfile$
-OPEN "O",#1,virtp$
-ELSE
-okay=FALSE
-ENDIF
-ENDIF
-IF okay=TRUE THEN
-REPEAT
-IF vln<len THEN
-len=vln
-ENDIF
-start=start-len
-SEEK #2,start
-BGET #2,meml,len
-@maschruf29(meml,meml+len)
-BPUT #1,meml+len,len
-vln=vln-len
-UNTIL vln<1
-IF arrsrate%(i)<>mhz THEN
-CLOSE #1
-CLOSE #2
-OPEN "U",#1,fil$
-SEEK #1,LOF(#1)
-OPEN "I",#2,virtp$
-vln=LOF(#2)
-anf=0
-bytes=INT(mlen/mbit)*mbit
-@arr_resmp
-ENDIF
-ENDIF
-ENDIF
-CLOSE #2
-IF arrsrate%(i)<>mhz AND (arrtri|(i)=1 OR arrtri|(i)=2) AND okay=TRUE THEN
-KILL virtp$
-ENDIF
-ENDIF
-NEXT i
-CLOSE #1
-IF nomem=TRUE AND EXIST(virt$)=TRUE THEN
-BLOAD virt$,meml
-KILL virt$
-ENDIF
-ENDIF
-~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
-IF okay=FALSE AND obj<>makexit& THEN
-@nomem
-ENDIF
-ENDIF
-@restaura2
-obj=mrkobj
-@setbutton(obj,0)
-vornr=vorvornr
-RETURN
-'
-> PROCEDURE arr_resmp
-f=INT(mhz/100)
-e=INT(arrsrate%(i)/100)
-bedarf=f/e
-okay=FALSE
-drittel=(memh-meml)/(e+f)*e
-drittel=INT(drittel/mbit)*mbit
-IF drittel>=mbit*4 THEN
-drittel=drittel-(mbit*2)
-ENDIF
-a=ASC(LEFT$(fil$,1))-64
-IF @dfree(a)>=vln THEN
-okay=TRUE
-ENDIF
-IF okay=TRUE THEN
-seekz=anf
-REPEAT
-IF vln>=bytes THEN
-IF bedarf<=1 THEN
-bytes=INT(mlen/mbit)*mbit
-ELSE
-bytes=drittel
-ENDIF
-ELSE
-bytes=INT(vln/mbit)*mbit
-ENDIF
-SEEK #2,seekz
-IF bytes>3 THEN
-BGET #2,meml,bytes
-a=meml
-b=meml+bytes
-IF bedarf<=1 THEN
-c=meml
-ELSE
-c=meml+bytes
-ENDIF
-d=memh
-@maschruf16(a,b,c,d,e,f)
-back%=INT(back%/mbit)*mbit
-BPUT #1,c,back%-c
-ENDIF
-vln=vln-bytes
-seekz=seekz+bytes
-UNTIL vln<4
-ENDIF
-RETURN
 '
 > PROCEDURE info
 IF BTST(winh,info&)=FALSE THEN
@@ -53018,13 +52217,6 @@ ENDIF
 ENDIF
 RETURN
 '
-> PROCEDURE sram
-IF vsramda=FALSE THEN
-vsramda=TRUE
-ELSE
-vsramda=FALSE
-ENDIF
-RETURN
 '
 > PROCEDURE fselwahl
 IF vneufsel=FALSE THEN
@@ -62350,9 +61542,6 @@ RETURN
 nomem=TRUE
 RETURN
 '
-> PROCEDURE nomem2
-@alerts(3)
-RETURN
 '
 > PROCEDURE makevoldb(vdb)
 LOCAL v
@@ -64077,39 +63266,6 @@ ENDIF
 ~WIND_UPDATE(0)                                    ! BEG_UPDATE
 RETURN
 '
-> PROCEDURE peaktime
-LOCAL t
-IF demo=FALSE THEN
-rfull2=LPEEK(peakfull)
-ENDIF
-t=peaktime
-hsec2=INT((TIMER-t)/2)
-IF INT(hsec2/mbit)<>INT(hsec/mbit) THEN    ! ums langsamer zu machen !
-hsec=hsec2
-@htimeset
-IF nr=peak& THEN
-IF bigtxt=FALSE THEN
-IF flicker=TRUE THEN
-VSYNC
-ENDIF
-@textfeld(peakpos&,a$,1)
-ELSE
-@bigtext(nr,a$,1)
-ENDIF
-IF rfull2<>rfull THEN
-rfull=rfull2
-b$=STR$(rfull)+CHR$(0)
-@textfeld(recerror&,b$,1)
-ENDIF
-IF peaks2<>peaks THEN
-peaks=peaks2
-b$=STR$(peaks)+CHR$(0)
-@textfeld(recpeaks&,b$,1)
-ENDIF
-ENDIF
-ENDIF
-~FRE(0)
-RETURN
 '
 > PROCEDURE smpscrol
 smark=1
