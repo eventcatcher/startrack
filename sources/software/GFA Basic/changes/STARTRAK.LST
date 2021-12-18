@@ -7529,7 +7529,7 @@ OB_TYPE(rsc_adr%(tree&),obj&)=OR(SHL&(BYTE(OB_TYPE(rsc_adr%(tree&),obj&)),8),24)
 ADD rsc_userblk%,8
 '
 RETURN
-PROCEDURE rsc_draw(tree&,flag%)
+> PROCEDURE rsc_draw(tree&,flag%)
 LOCAL fly&,title&,obj&,x&,y&,w&,h&,rx&,ry&,rb&,rh&,handle&,a%,rsc_adr%
 '
 ' Stellt einen Dialog auf dem Bildschirm dar...
@@ -7597,10 +7597,7 @@ IF handle&>0                                      ! Fenster vorhanden...
   ~WIND_UPDATE(1)                                 ! BEG_UPDATE
   '
   INC rsc_window&                                 ! Anz. offene Fenster+1
-  IF menuon!=TRUE THEN
-    rsc_menu_ienable(FALSE)                         ! MenÅtitel disablen
-    STOP
-  ENDIF
+  rsc_menu_ienable(FALSE)                         ! MenÅtitel disablen
   '
   IF title&                                       ! Dialogtitel existiert...
     a%=C:rsc_obspec%(L:rsc_adr%,title&)           ! ...Adresse des Titels
@@ -7654,58 +7651,59 @@ ENDIF
 ~OBJC_DRAW(rsc_adr%,0,9,rscx&(tree&),rscy&(tree&),w&,h&)
 ENDIF
 '  mrkhandle=WIND_FIND(x&,y&)
-IF menuda=TRUE THEN
-IF flag%>1 THEN
-  @rsc_menu_ienable(TRUE)
-  STOP
-ENDIF
+IF menuda=TRUE AND flag%>1 THEN
+@rsc_menu_ienable(TRUE)
 ENDIF
 RETURN
 > PROCEDURE rsc_menu_ienable(stat!)
 LOCAL obj&,title&,rsc_adr%
-PRINT stat!
 '
 ' Disabled/enabled alle MenÅ-Titel und den 'About...'-MenÅ-Eintrag...
 '                                ! Gibt es ein MenÅ..
+IF wflg(vornr)<=1 AND stat!=TRUE AND nr<>smpedit& THEN
+stat!=FALSE
+ENDIF
+IF windowda=FALSE OR menuon!<>stat! THEN
+windowda=TRUE
 menuon!=stat!
 IF rsc_menu&>-1
-'
-rsc_adr%=rsc_adr%(rsc_menu&)
-'                              ! Objektbreite verÑndern...
-IF stat!                       ! Enablen...
-  OB_W(rsc_adr%,2)=rscw&(rsc_menu&)
-ELSE                           ! Disablen...
-  rscw&(rsc_menu&)=OB_W(rsc_adr%,2)
-  OB_W(rsc_adr%,2)=OB_W(rsc_adr%,3)
-ENDIF
-'
-obj&=3                         ! Ersten MenÅtitel Åberspringen
-'
-REPEAT
-  INC obj&
-  '                            ! G_TITEL...
-  IF BYTE(OB_TYPE(rsc_adr%,obj&))=32
-    '
-    ~MENU_IENABLE(rsc_adr%,obj&,stat!)
-    '
-    title&=obj&                ! Wird fÅr 'About...' gebraucht
+  '
+  rsc_adr%=rsc_adr%(rsc_menu&)
+  '                              ! Objektbreite verÑndern...
+  IF stat!                       ! Enablen...
+    OB_W(rsc_adr%,2)=rscw&(rsc_menu&)
+  ELSE                           ! Disablen...
+    rscw&(rsc_menu&)=OB_W(rsc_adr%,2)
+    OB_W(rsc_adr%,2)=OB_W(rsc_adr%,3)
   ENDIF
   '
-UNTIL BTST(OB_FLAGS(rsc_adr%,obj&),5)
-'                              ! 'About...' dis/enablen
-~MENU_IENABLE(rsc_adr%,ADD(title&,3),stat!)
-'                              ! Unter MultiTOS...
-IF (rsc_aes&>=&H400) AND rsc_mtsk!
-  ' zzz=MENU_BAR(rsc_adr%,-1)
-  ' IF ap_id&=zzz THEN
-  ~MENU_BAR(rsc_adr%,1)      ! ...Menu nur neu anzeigen, wenn erlaubt
-  ' ENDIF
-ELSE                           ! Unter SingleTOS...
-  ~MENU_BAR(rsc_adr%,1)        ! ...Menu immer neu anzeigen
+  obj&=3                         ! Ersten MenÅtitel Åberspringen
+  '
+  REPEAT
+    INC obj&
+    '                            ! G_TITEL...
+    IF BYTE(OB_TYPE(rsc_adr%,obj&))=32
+      '
+      ~MENU_IENABLE(rsc_adr%,obj&,stat!)
+      '
+      title&=obj&                ! Wird fÅr 'About...' gebraucht
+    ENDIF
+    '
+  UNTIL BTST(OB_FLAGS(rsc_adr%,obj&),5)
+  '                              ! 'About...' dis/enablen
+  ~MENU_IENABLE(rsc_adr%,ADD(title&,3),stat!)
+  '                              ! Unter MultiTOS...
+  IF (rsc_aes&>=&H400) AND rsc_mtsk!
+    ' zzz=MENU_BAR(rsc_adr%,-1)
+    ' IF ap_id&=zzz THEN
+    ~MENU_BAR(rsc_adr%,1)      ! ...Menu nur neu anzeigen, wenn erlaubt
+    ' ENDIF
+  ELSE                           ! Unter SingleTOS...
+    ~MENU_BAR(rsc_adr%,1)        ! ...Menu immer neu anzeigen
+  ENDIF
+  '
 ENDIF
-'
 ENDIF
-'
 RETURN
 > FUNCTION rsc_do(tree&,next_obj&,VAR popup&)
 $F%
@@ -8244,7 +8242,7 @@ ENDSELECT
 ~WIND_UPDATE(0)                                    ! END_UPDATE
 '
 RETURN
-PROCEDURE rsc_back(tree&)                                                ! Alle Fensternamen hier eintragen (zur Unterscheidung Flydial oder nicht) !!!
+> PROCEDURE rsc_back(tree&)                                                ! Alle Fensternamen hier eintragen (zur Unterscheidung Flydial oder nicht) !!!
 '
 ' Entfernt den Dialog vom Bildschirm...
 '
@@ -8255,7 +8253,6 @@ IF rsc_handle%(tree&)>0 AND rsc_handle%(tree&)<1000
 ~WIND_UPDATE(1)                                    ! BEG_UPDATE
 '
 rsc_menu_ienable(TRUE)                             ! ...MenÅ wieder wÑhlbar
-STOP
 '
 IF rsc_window&                                     ! Fenster existiert...
 '
@@ -8308,9 +8305,9 @@ ENDIF
 ELSE
 fly=FALSE
 ENDIF
-IF menuda=TRUE THEN
+IF menuda=TRUE AND wflg(nr)>1 THEN
 @rsc_menu_ienable(TRUE)
-STOP
+@wischwasch
 ENDIF
 RETURN
 > PROCEDURE rsc_text(tree&,robj&,a$)
@@ -33984,6 +33981,11 @@ LPOKE ADDRIN+8,fs_iinlabel%
 @ain(91,0,2,3,0)
 pret=GINTOUT(0)
 pbutt=GINTOUT(1)
+IF menuda=TRUE AND wflg(nr)<=1 THEN
+@wischwasch
+windowda=FALSE
+@rsc_menu_ienable(FALSE)
+ENDIF
 RETURN
 '
 > PROCEDURE ain(g0%,g2%,g4%,g6%,g8%)
@@ -45731,7 +45733,7 @@ virtln=LOF(#1)
 CLOSE #1
 RETURN
 '
-PROCEDURE wischwasch
+> PROCEDURE wischwasch
 LOCAL xevnt&,key&,xflags&,xtim&,mx&,my&,mb&,shift&,c
 IF rscda=TRUE THEN
 IF rsc_handle%(nr)<1000                             ! Fenster Dialog ?
@@ -45750,17 +45752,20 @@ RETURN
 > PROCEDURE meldung_on(m$)
 @testcopyright
 @wischwasch
-meldnr=nr
+meldnr=vornr
+vornr=nr
 nr=meldung&
 cupdate=TRUE
 @textfeld2(meldung&,meldtxt&,m$,1)
 cupdate=FALSE
-@rsc_draw(nr,5)
+@rsc_draw(nr,1)
+@wischwasch
 RETURN
 '
 > PROCEDURE meldung_off
 @rsc_back(nr)
-nr=meldnr
+nr=vornr
+vornr=meldnr
 @wischwasch
 RETURN
 '
