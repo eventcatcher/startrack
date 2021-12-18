@@ -2,7 +2,7 @@ $m900000
 $e$
 '
 showmix=TRUE              ! show mixerpeaks
-public=TRUE                ! public or non-public
+public=FALSE                ! public or non-public
 falconda=FALSE             ! Falcon-Emulation
 '
 ' dspuse         ! Host-Port-šbertragung : DSP fr trkplay, play & record-Funktionen nutzen
@@ -7529,7 +7529,7 @@ OB_TYPE(rsc_adr%(tree&),obj&)=OR(SHL&(BYTE(OB_TYPE(rsc_adr%(tree&),obj&)),8),24)
 ADD rsc_userblk%,8
 '
 RETURN
-> PROCEDURE rsc_draw(tree&,flag%)
+PROCEDURE rsc_draw(tree&,flag%)
 LOCAL fly&,title&,obj&,x&,y&,w&,h&,rx&,ry&,rb&,rh&,handle&,a%,rsc_adr%
 '
 ' Stellt einen Dialog auf dem Bildschirm dar...
@@ -7597,7 +7597,10 @@ IF handle&>0                                      ! Fenster vorhanden...
   ~WIND_UPDATE(1)                                 ! BEG_UPDATE
   '
   INC rsc_window&                                 ! Anz. offene Fenster+1
-  rsc_menu_ienable(FALSE)                         ! Mentitel disablen
+  IF menuon!=TRUE THEN
+    rsc_menu_ienable(FALSE)                         ! Mentitel disablen
+    STOP
+  ENDIF
   '
   IF title&                                       ! Dialogtitel existiert...
     a%=C:rsc_obspec%(L:rsc_adr%,title&)           ! ...Adresse des Titels
@@ -7654,11 +7657,13 @@ ENDIF
 IF menuda=TRUE THEN
 IF flag%>1 THEN
   @rsc_menu_ienable(TRUE)
+  STOP
 ENDIF
 ENDIF
 RETURN
 > PROCEDURE rsc_menu_ienable(stat!)
 LOCAL obj&,title&,rsc_adr%
+PRINT stat!
 '
 ' Disabled/enabled alle Men-Titel und den 'About...'-Men-Eintrag...
 '                                ! Gibt es ein Men..
@@ -8250,6 +8255,7 @@ IF rsc_handle%(tree&)>0 AND rsc_handle%(tree&)<1000
 ~WIND_UPDATE(1)                                    ! BEG_UPDATE
 '
 rsc_menu_ienable(TRUE)                             ! ...Men wieder w„hlbar
+STOP
 '
 IF rsc_window&                                     ! Fenster existiert...
 '
@@ -8302,8 +8308,9 @@ ENDIF
 ELSE
 fly=FALSE
 ENDIF
-IF menuda=TRUE AND wflg(nr)>1 THEN
+IF menuda=TRUE THEN
 @rsc_menu_ienable(TRUE)
+STOP
 ENDIF
 RETURN
 > PROCEDURE rsc_text(tree&,robj&,a$)
@@ -45724,7 +45731,7 @@ virtln=LOF(#1)
 CLOSE #1
 RETURN
 '
-> PROCEDURE wischwasch
+PROCEDURE wischwasch
 LOCAL xevnt&,key&,xflags&,xtim&,mx&,my&,mb&,shift&,c
 IF rscda=TRUE THEN
 IF rsc_handle%(nr)<1000                             ! Fenster Dialog ?
