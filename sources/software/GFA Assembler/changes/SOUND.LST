@@ -1,10 +1,10 @@
 ; Xbios
 ; Xbios-Erweiterung fr Audiokarte StarTrack (VME)
-; Release 19.11.1999 by SWE (Stephan Wilhelm Entwicklungsbro)
+; Release 30.01.2000 by SWE (Stephan Wilhelm Entwicklungsbro)
 ; for Milan,Hades,Medusa,TT and Mega STE
-; Directstream-Support
 
-;with Special 16Channel Multiplex-Mode & 24Bit-EightChannel-Support(Testversion)
+; +Directstream-Support
+; +Special 16Channel Multiplex-Mode & 24Bit-EightChannel-Support
 
                bra        startprog
 
@@ -13,7 +13,7 @@ creturn:       .DC.b 13,10,0
 infotext1:     .DC.b "StarTrack Xbios-Driver ",0
 infotext2:     .DC.b "Copyright by SWE,Stephan Wilhelm",13,10,10,0
 
-vtxt:          .DC.b "V2.00 / 22.09.1998",0
+vtxt:          .DC.b "V2.10 / 30.01.2000",0
                .EVEN 
 
 cpu68k         equ 0      ; 1=68000er, 0=030er,040er,060er
@@ -4986,6 +4986,11 @@ initregs:      move.b     #3,playch
                move.w     #0,pluglistp
                move.w     #0,pluglistr
                move.w     #0,plugcnt
+
+               lea.l      stack,a0
+               move.w     #1,(a0)       ; scms-decode on
+               bsr        scmsmode
+
                lea.l      plugs(pc),a1
                clr.w      d2
                clr.w      d3
@@ -4997,8 +5002,8 @@ delplugs:      move.w     #0,0(a1,d2.w)
                lea.l      vmestart(pc),a6
                movea.l    (a6),a6
                lea.l      hireg(pc),a1
-               move.b     #0,(a1)
-               move.b     #0,$40(a6)
+               move.b     #1,(a1)
+               move.b     #1,$40(a6)
                lea.l      dspreg,a1
                move.b     #36,(a1)
                move.b     #36,$80(a6)
@@ -5051,20 +5056,33 @@ delplugs:      move.w     #0,0(a1,d2.w)
 inimodus:      bsr        falcmodus
 iclrbuf:       bsr        clearbuffers
 
-;               move.b     #1,modr24
                clr.w      d0
                bsr        pushaesr
 
-               cmpi.w     #1,osrc
+               move.w     #2,d7
+               lea.l      asrc(pc),a5   ; analog oder digital
+               cmpi.w     #1,(a5)
+               beq.s      igtclk
+               move.w     #0,d7         ; clock is spdif
+
+igtclk:        cmpi.w     #1,osrc
                beq.s      osrc1
                cmpi.w     #2,osrc
                beq.s      osrc2
+               lea.l      stack,a0
+               move.w     #3,(a0)+      ; source=converter (adc or digin)
+               move.w     #$f,(a0)+     ; dest
+               move.w     #0,(a0)+      ; srcclk
+               move.w     d7,(a0)+      ; prescale
+               move.w     #1,(a0)       ; protocol
+               lea.l      stack,a0
+               bsr        devconnect
                bra.s      osrc0
 osrc1:         lea.l      stack,a0
                move.w     #0,(a0)+      ; source=dma
                move.w     #$f,(a0)+     ; dest
                move.w     #0,(a0)+      ; srcclk
-               move.w     #1,(a0)+      ; prescale
+               move.w     d7,(a0)+      ; prescale
                move.w     #1,(a0)       ; protocol
                lea.l      stack,a0
                bsr        devconnect
@@ -5073,7 +5091,7 @@ osrc2:         lea.l      stack,a0
                move.w     #2,(a0)+      ; source=external
                move.w     #$f,(a0)+     ; dest
                move.w     #0,(a0)+      ; srcclk
-               move.w     #1,(a0)+      ; prescale
+               move.w     d7,(a0)+      ; prescale
                move.w     #1,(a0)       ; protocol
                lea.l      stack,a0
                bsr        devconnect
@@ -5122,13 +5140,18 @@ fmodus2:       move.w     d1,(a0)       ; gpio1=1
                lea.l      stack,a0
                move.w     #3,(a0)+      ; source=adc
                move.w     #15,(a0)+     ; dest
-               move.w     #0,d1
+               move.w     #0,d1         ; clock is spdif
                cmpi.w     #0,(a5)
                beq.s      fmodus3
-               move.w     #1,d1
+               move.w     #2,d1         ; clock is 44.1k
 fmodus3:       move.w     d1,(a0)+      ; srcclk
                move.w     #0,(a0)+      ; srcclk=normal
-               move.w     #1,(a0)+      ; prescale
+               move.w     #2,d0         ; clock is 44.1k
+               lea.l      asrc(pc),a5   ; analog oder digital
+               cmpi.w     #1,(a5)
+               beq.s      iniaflc
+               move.w     #0,d0         ; clock is spdif
+iniaflc:       move.w     d0,(a0)+      ; prescale=44.1k or spdif
                move.w     #1,(a0)       ; protocol
                lea.l      stack,a0
                bsr        devconnect
@@ -5140,20 +5163,25 @@ nmodus:        move.w     #0,d2
                move.b     #0,(a1)
                lea.l      recmod(pc),a1
                move.b     #0,(a1)
+               lea.l      asrc(pc),a5   ; analog oder digital
                lea.l      stack,a0
                move.w     #3,(a0)+      ; source=adc
                move.w     #$f,(a0)+     ; dest
 nmodus2:       move.w     #0,(a0)+      ; srcclk
-               move.w     #1,(a0)+      ; prescale
+               move.w     #0,d1         ; clock is spdif
+               cmpi.w     #0,(a5)
+               beq.s      nmodus3
+               move.w     #2,d1         ; clock is 44.1k
+nmodus3:       move.w     d1,(a0)+      ; prescale
                move.w     #1,(a0)       ; protocol
                lea.l      stack,a0
                bsr        devconnect
-               move.w     #0,d0
+               move.w     #0,d0         ; clock is spdif
                lea.l      asrc(pc),a5   ; analog oder digital
                cmpi.w     #0,(a5)
-               beq.s      nmodus3
-               move.w     #2,d0
-nmodus3:       bsr        dclock
+               beq.s      nmodus4
+               move.w     #2,d0         ; clock is 44.1k
+nmodus4:       bsr        dclock
                rts        
 
 clearbuffers:  lea.l      recbuf,a3
@@ -10753,14 +10781,17 @@ pmonleave:     lea.l      montrack(pc),a1
                movea.l    (a6),a6
                lea.l      highsr(pc),a2
                move.w     (a2),d2
-               lea.l      modr24(pc),a3
-               move.b     (a3),d0
                bclr       #2,d1         ; normal digmode
                bclr       #3,d1         ; play normalmode
                bclr       #4,d1         ; rec normalmode
                move.b     d1,(a1)
                move.b     d1,$c0(a6)
+               bsr        nhrdtst
+               btst       #0,d0         ; neue oder alte hardware?
+               bne        pmonle2       ; alte hardware!
                move.b     d1,$c0(a6)    ; doppelt wegen sum24
+pmonle2:       lea.l      modr24(pc),a3
+               move.b     (a3),d0
                btst       #0,d0
                bne.s      pmonmdh24
                move.b     #0,(a3)
@@ -10780,7 +10811,7 @@ pmonmdh24:     move.b     #1,(a3)
                tst.w      d2
                beq.s      pmonweg
                move.b     d1,$c0(a6)
-               bra.s      pmonweg
+               bra        pmonweg
 
 profmake:      lea.l      proffm(pc),a2
                move.w     (a2),d2
@@ -12862,10 +12893,82 @@ nhrdtst:       move.l     a1,-(sp)
                movea.l    (sp)+,a1
                rts        
 
-               bsr        nhrdtst
-               btst       #0,d0         ; neue oder alte hardware?
+oldsetmontr:   lea.l      montrack(pc),a1
+               move.w     (a0)+,d0
+               cmpi.w     #-1,d0
+               beq        getmontr
+               tst.w      d0
+               blt        monterr
+               cmpi.w     #3,d0
+               bgt        monterr
+               move.w     d0,(a1)       ; set new montrack-value
+               bsr        pushaesr
+               bra        monterr
 
-setmontrack:   lea.l      montrack(pc),a1
+osetmontr2:               ; setmontrack - neuen wert in d0 bergeben
+               move.w     d7,d0
+               lea.l      montrack(pc),a1
+               move.w     2(a1),d7      ; letzten montrackwert holen
+               move.w     (a1),d0       ; neuen montrackwert holen
+               move.w     d0,2(a1)      ; alten montrackwert aktualisieren
+               move.w     d0,d6
+               lea.l      vmestart(pc),a6
+               movea.l    (a6),a6
+               lea.l      aesreg(pc),a1
+               move.b     (a1),d1
+               lea.l      playmod(pc),a3
+               move.w     (a3),d3
+oisma128:      bclr       #4,d1         ; recmode resetten
+               bclr       #2,d1         ; digmode resetten
+               btst       #3,d1         ; playmoderegister schon gesetzt ?
+               bne.s      oism128       ; dann dorthin
+               bclr       #3,d1
+               move.b     d1,$c0(a6)    ; playmoderegister resetten
+               move.b     d1,(a1)
+               bset       #3,d1
+               move.b     d1,$c0(a6)    ; playmode=128,auf channel 0 setzen
+               move.b     d1,(a1)
+               tst.w      d0
+               beq        omontgo
+               clr.w      d7            ; wir sind ja auf Channel 0
+oism128:       cmp.w      d7,d0
+               bgt.s      oism128b
+               addi.w     #4,d0
+oism128b:      sub.w      d7,d0
+               bset       #3,d1         ; recmode reset,playmode=128bit
+               move.b     d1,$c0(a6)    ; playset numero 1
+               move.b     d1,(a1)
+               cmpi.w     #1,d0         ; letztes channelset ?
+               beq.s      omontgo
+onormon1b:     move.b     d1,$c0(a6)    ; playset numero 2
+               move.b     d1,(a1)
+               cmpi.w     #2,d0         ; letztes channelset ?
+               beq.s      omontgo
+onormon1c:     move.b     d1,$c0(a6)    ; playset numero 3
+               move.b     d1,(a1)
+               cmpi.w     #3,d0         ; letztes channelset ?
+               beq.s      omontgo
+onormon1d:     move.b     d1,$c0(a6)    ; playset numero 4
+               move.b     d1,(a1)
+               cmpi.w     #4,d0         ; letztes channelset ?
+               beq.s      omontgo
+onormon1e:     move.b     d1,$c0(a6)    ; playset numero 5
+               move.b     d1,(a1)
+omontgo:       lea.l      dspconv(pc),a2          ; channel in dspconv setzen
+               move.b     (a2),d2
+               asl.w      #2,d6
+               andi.w     #$c,d6
+               andi.w     #$f3,d2
+               add.b      d6,d2
+               move.b     d2,(a2)
+               move.b     d2,$216(a6)
+               clr.l      d0
+               rts        
+
+setmontrack:   bsr        nhrdtst
+               btst       #0,d0         ; neue oder alte hardware?
+               bne        oldsetmontr
+               lea.l      montrack(pc),a1
                move.w     (a0)+,d0
                cmpi.w     #-1,d0
                beq.s      getmontr
@@ -12887,6 +12990,11 @@ getmontr:      clr.l      d0
                rts        
 
 setmontr2:                ; setmontrack - neuen wert in d0 bergeben
+               move.w     d0,d7
+               bsr        nhrdtst
+               btst       #0,d0         ; neue oder alte hardware?
+               bne        osetmontr2
+               move.w     d7,d0
                lea.l      montrack(pc),a1
                move.w     2(a1),d7      ; letzten montrackwert holen
                move.w     (a1),d0       ; neuen montrackwert holen
@@ -13760,9 +13868,9 @@ dmarset4:      move.w     #1,d0
 adout1:        lea.l      dsprec(pc),a0 ; quelle von DSPREC(ziel) holen
                btst       #1,d2         ; ist DSPREC unser ziel ?
                beq.s      adout2        ; wenn ja: ADC->DSPREC
-dsprset4:      move.w     asrc(pc),d7
-               cmpi.w     #1,d7
-               bne.s      dsprset4b
+dsprset4:                 ;    move.w     asrc(pc),d7
+;               cmpi.w     #1,d7
+;               bne.s      dsprset4b
                cmpi.w     #2,playmod    ; playmode=Achtkanal?
                bne.s      dsprset4b
 ;               cmpi.w     #2,recmod     ; recmode=Achtkanal?
@@ -13811,9 +13919,9 @@ extrset4:      move.w     #3,d0
 adout3:        lea.l      dacrec(pc),a0 ; quelle von DAC(ziel) holen
                btst       #3,d2         ; ist DAC unser ziel ?
                beq.s      adout4        ; wenn ja: ADC->DAC
-dacrset4:      move.w     asrc(pc),d7
-               cmpi.w     #1,d7
-               bne.s      dacrset4b
+dacrset4:                 ;     move.w     asrc(pc),d7
+;               cmpi.w     #1,d7
+;               bne.s      dacrset4b
                cmpi.w     #2,playmod    ; playmode=Achtkanal?
                bne.s      dacrset4b
 ;               cmpi.w     #2,recmod     ; recmode=Achtkanal?
@@ -15964,7 +16072,11 @@ mpkneg:        cmp.w      (a6),d5
 mpkexit:       addq.l     #2,a6
                rts        
 
-cpypkl:        lea.l      peaklist(pc),a2
+cpypkl:        bsr        nhrdtst
+               btst       #0,d0         ; neue oder alte hardware?
+               beq        cpypkl2       ; neue hardware!
+               rts        
+cpypkl2:       lea.l      peaklist(pc),a2
                lea.l      peakvalue(pc),a3
                move.w     #7,d0
 cpypkl1:       move.w     (a2),(a3)+
@@ -16005,7 +16117,10 @@ enowrlx16:     move.b     (a0),d0       ; FIFO halbleer ?
                andi.b     #2,d0
                bne.s      epcopya16
                bra.s      epfill16
-epcopya16:     move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
+epcopya16:     bsr        nhrdtst
+               btst       #0,d0         ; neue oder alte hardware?
+               bne        opcopya16     ; alte hardware!
+               move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
 epcopy16:      move.b     (a2)+,2(a1)   ; Kanal1,HighByte holen
                moveq.l    #7,d5
                bra.s      epcopy16c
@@ -16080,6 +16195,58 @@ eendplay16b:   move.l     #1,8(a4)      ; Breakflag setzen
                bsr        intbreak      ; Interrupt l”schen
                movem.l    (sp)+,d0-d7/a0-a6
                rte        
+
+opcopya16:     move.w     d2,d0         ; ...dann FIFO halb-fuellen (fifolen)!
+opcopy16:      move.b     (a2)+,d7      ; Linker Kanal1,HighByte holen
+               move.b     (a2)+,d6      ; Linker Kanal1,LowByte holen
+               addq.l     #2,a2
+               move.b     (a2)+,d5      ; Linker Kanal2,HighByte holen
+               move.b     (a2)+,d4      ; Linker Kanal2,LowByte holen
+               move.b     d7,2(a1)      ; Linker Kanal1,HighByte senden,A1=1
+               move.b     d5,(a1)       ; Linker Kanal2,HighByte senden,A1=0
+               move.b     d6,(a1)       ; Linker Kanal1,LowByte senden,A1=0
+               move.b     d4,(a1)       ; Linker Kanal2,LowByte senden,A1=0
+               move.l     d1,-(sp)
+               move.w     #2,d1
+opcop16b:      subq.l     #4,a2
+               move.b     (a2)+,d7      ; Rechter Kanal1,HighByte holen
+               move.b     (a2)+,d6      ; Rechter Kanal1,LowByte holen
+               addq.l     #2,a2
+               move.b     (a2)+,d5      ; Rechter Kanal2,HighByte holen
+               move.b     (a2)+,d4      ; Rechter Kanal2,LowByte holen
+               move.b     d7,(a1)       ; Rechter Kanal1,HighByte senden,A1=0
+               move.b     d5,(a1)       ; Rechter Kanal2,HighByte senden,A1=0
+               move.b     d6,(a1)       ; Rechter Kanal1,LowByte senden,A1=0
+               move.b     d4,(a1)       ; Rechter Kanal2,LowByte senden,A1=0
+               move.b     (a2)+,d7      ; Linker Kanal3,HighByte holen
+               move.b     (a2)+,d6      ; Linker Kanal3,LowByte holen
+               addq.l     #2,a2
+               move.b     (a2)+,d5      ; Linker Kanal4,HighByte holen
+               move.b     (a2)+,d4      ; Linker Kanal4,LowByte holen
+               move.b     d7,(a1)       ; Linker Kanal3,HighByte senden,A1=1
+               move.b     d5,(a1)       ; Linker Kanal4,HighByte senden,A1=0
+               move.b     d6,(a1)       ; Linker Kanal3,LowByte senden,A1=0
+               move.b     d4,(a1)       ; Linker Kanal4,LowByte senden,A1=0
+               dbra       d1,opcop16b
+               move.l     (sp)+,d1
+               subq.l     #4,a2
+               move.b     (a2)+,d7      ; Rechter Kanal7,HighByte holen
+               move.b     (a2)+,d6      ; Rechter Kanal7,LowByte holen
+               addq.l     #2,a2
+               move.b     (a2)+,d5      ; Rechter Kanal8,HighByte holen
+               move.b     (a2)+,d4      ; Rechter Kanal8,LowByte holen
+               move.b     d7,(a1)       ; Rechter Kanal7,HighByte senden,A1=0
+               move.b     d5,(a1)       ; Rechter Kanal8,HighByte senden,A1=0
+               move.b     d6,(a1)       ; Rechter Kanal7,LowByte senden,A1=0
+               move.b     d4,(a1)       ; Rechter Kanal8,LowByte senden,A1=0
+               addq.l     #4,24(a5)     ; Playposition
+               move.l     endcount(pc),d7
+               cmp.l      24(a5),d7
+               ble        eendplay16
+               cmpa.l     d1,a2
+               beq        eplayend16
+               dbra       d0,opcopy16
+               bra        ep_backb
 
 dsprecord:     lea.l      cadr(pc),a6
                movea.l    12(a6),a6     ; Startadresse DSP
