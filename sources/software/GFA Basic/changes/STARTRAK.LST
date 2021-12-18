@@ -1,7 +1,9 @@
 $m900000
 $e$
+'
 public=TRUE                ! public or non-public
 falconda=FALSE             ! Falcon-Emulation
+hardcursor=FALSE
 '
 ' dspuse         ! Host-Port-öbertragung : DSP fÅr trkplay, play & record-Funktionen nutzen
 '
@@ -23,8 +25,12 @@ ON ERROR GOSUB fehler
 ' ----------------------with VME StarTrack Audiocard 16/24Bit Harddisksampler---
 ' ------------------------First Release 22.8.1994-------------------------------
 ' ------------------------------------------------------------------------------
-' -------------------V 2.00 - Revision 25.05.1998 ------------------------------
+' -------------------V 2.00 - Revision 13.06.1998 ------------------------------
 ' ------------------------------------------------------------------------------
+'
+'
+starversion$="V2.00 / 13.06.1998"
+drvtyp$="STARTRACK"
 '
 '
 ' ------------------------------------------------------------------------------
@@ -2334,7 +2340,7 @@ ELSE
     LET alertbox&=36 ! Formular/Dialog
     LET alertcol&=0 ! BOX in Baum ALERTBOX
   ELSE
-    REM Resource Datei Indizes fÅr PANY2
+    REM Resource Datei Indizes fÅr PANY
     '
     LET smp16&=0 ! Formular/Dialog
     LET mainbox&=0 ! BOX in Baum SMP16
@@ -2878,17 +2884,17 @@ ELSE
     LET vseconds&=8 ! BUTTON in Baum VIRTUAL
     LET vsamples&=9 ! BUTTON in Baum VIRTUAL
     LET vblkmlen&=10 ! BOXTEXT in Baum VIRTUAL
-    LET vblkvlen&=11 ! BOXTEXT in Baum VIRTUAL
-    LET vslider&=12 ! BOX in Baum VIRTUAL
-    LET vslbut&=13 ! BUTTON in Baum VIRTUAL
-    LET virtbox2&=14 ! BOX in Baum VIRTUAL
-    LET virtwork&=15 ! BUTTON in Baum VIRTUAL
-    LET virtdir&=16 ! BUTTON in Baum VIRTUAL
-    LET vrslide&=17 ! USERDEF in Baum VIRTUAL
-    LET vlslide&=18 ! USERDEF in Baum VIRTUAL
-    LET virtno&=19 ! BUTTON in Baum VIRTUAL
-    LET virtplay&=20 ! USERDEF in Baum VIRTUAL
-    LET virtstop&=22 ! USERDEF in Baum VIRTUAL
+    LET vblkvlen&=12 ! BOXTEXT in Baum VIRTUAL
+    LET vslider&=13 ! BOX in Baum VIRTUAL
+    LET vslbut&=14 ! BUTTON in Baum VIRTUAL
+    LET virtbox2&=15 ! BOX in Baum VIRTUAL
+    LET virtwork&=16 ! BUTTON in Baum VIRTUAL
+    LET virtdir&=17 ! BUTTON in Baum VIRTUAL
+    LET vrslide&=18 ! USERDEF in Baum VIRTUAL
+    LET vlslide&=19 ! USERDEF in Baum VIRTUAL
+    LET virtno&=21 ! BUTTON in Baum VIRTUAL
+    LET virtplay&=22 ! USERDEF in Baum VIRTUAL
+    LET virtstop&=24 ! USERDEF in Baum VIRTUAL
     '
     LET wmode&=11 ! Formular/Dialog
     LET wmbox1&=0 ! BOX in Baum WMODE
@@ -2924,10 +2930,7 @@ ELSE
     LET frame25&=36 ! BUTTON in Baum WMODE
     LET frame30&=37 ! BUTTON in Baum WMODE
     '
-    LET icon&=12 ! Formular/Dialog
-    LET staricon&=1 ! ICON in Baum ICON
-    '
-    LET plugin&=13 ! Formular/Dialog
+    LET plugin&=12 ! Formular/Dialog
     LET panbox&=0 ! BOX in Baum PLUGIN
     LET panexit&=1 ! BUTTON in Baum PLUGIN
     LET panhelp&=2 ! BOXTEXT in Baum PLUGIN
@@ -2962,7 +2965,7 @@ ELSE
     LET plugct1&=31 ! BOXTEXT in Baum PLUGIN
     LET pluglin&=32 ! BOX in Baum PLUGIN
     '
-    LET record&=14 ! Formular/Dialog
+    LET record&=13 ! Formular/Dialog
     LET recbox&=0 ! BOX in Baum RECORD
     LET recfree&=1 ! BOXTEXT in Baum RECORD
     LET recok&=2 ! BUTTON in Baum RECORD
@@ -2987,7 +2990,7 @@ ELSE
     LET tinpdl3&=27 ! USERDEF in Baum RECORD
     LET tinpdl4&=28 ! USERDEF in Baum RECORD
     '
-    LET savebloc&=15 ! Formular/Dialog
+    LET savebloc&=14 ! Formular/Dialog
     LET savebox&=0 ! BOX in Baum SAVEBLOC
     LET savall&=1 ! USERDEF in Baum SAVEBLOC
     LET savblock&=2 ! USERDEF in Baum SAVEBLOC
@@ -2995,7 +2998,7 @@ ELSE
     LET savetxt&=4 ! TEXT in Baum SAVEBLOC
     LET savehelp&=5 ! BOXTEXT in Baum SAVEBLOC
     '
-    LET setup&=16 ! Formular/Dialog
+    LET setup&=15 ! Formular/Dialog
     LET setupbox&=0 ! BOX in Baum SETUP
     LET sync&=2 ! BUTTON in Baum SETUP
     LET fseldef&=4 ! BUTTON in Baum SETUP
@@ -3038,7 +3041,7 @@ ELSE
     LET viewset&=55 ! BUTTON in Baum SETUP
     LET emulset&=56 ! BUTTON in Baum SETUP
     '
-    LET arrmname&=17 ! Formular/Dialog
+    LET arrmname&=16 ! Formular/Dialog
     LET arrmnbox&=0 ! BOX in Baum ARRMNAME
     LET arrmnbx2&=1 ! BOX in Baum ARRMNAME
     LET memname&=2 ! FTEXT in Baum ARRMNAME
@@ -3046,7 +3049,7 @@ ELSE
     LET amhelp&=5 ! BOXTEXT in Baum ARRMNAME
     LET amok&=6 ! BUTTON in Baum ARRMNAME
     '
-    LET moving&=18 ! Formular/Dialog
+    LET moving&=17 ! Formular/Dialog
     LET movngbox&=0 ! BOX in Baum MOVING
     LET movhlp&=1 ! BOXTEXT in Baum MOVING
     LET mvcutcpy&=3 ! BUTTON in Baum MOVING
@@ -3055,7 +3058,7 @@ ELSE
     LET mvclrcpy&=6 ! BUTTON in Baum MOVING
     LET movexit&=7 ! BUTTON in Baum MOVING
     '
-    LET arrmake&=19 ! Formular/Dialog
+    LET arrmake&=18 ! Formular/Dialog
     LET makebox&=0 ! BOX in Baum ARRMAKE
     LET maketxt&=4 ! BOXTEXT in Baum ARRMAKE
     LET makefsel&=5 ! BUTTON in Baum ARRMAKE
@@ -3064,7 +3067,7 @@ ELSE
     LET makeok&=10 ! BUTTON in Baum ARRMAKE
     LET makexit&=11 ! BUTTON in Baum ARRMAKE
     '
-    LET timeed&=20 ! Formular/Dialog
+    LET timeed&=19 ! Formular/Dialog
     LET timebox&=0 ! BOX in Baum TIMEED
     LET timebox2&=1 ! BOX in Baum TIMEED
     LET tedtxt&=2 ! FTEXT in Baum TIMEED
@@ -3072,7 +3075,7 @@ ELSE
     LET tedhelp&=5 ! BOXTEXT in Baum TIMEED
     LET tedok&=6 ! BUTTON in Baum TIMEED
     '
-    LET abackup&=21 ! Formular/Dialog
+    LET abackup&=20 ! Formular/Dialog
     LET abackbox&=0 ! BOX in Baum ABACKUP
     LET abacktxt&=1 ! BOXTEXT in Baum ABACKUP
     LET abackok&=2 ! BUTTON in Baum ABACKUP
@@ -3085,6 +3088,11 @@ ELSE
     LET abackbo2&=12 ! BOX in Baum ABACKUP
     LET aback&=13 ! BUTTON in Baum ABACKUP
     LET abacknam&=14 ! BUTTON in Baum ABACKUP
+    '
+    LET inftxt&=21 ! Formular/Dialog
+    LET infbox&=0 ! BOX in Baum INFTXT
+    LET infbox2&=1 ! BOX in Baum INFTXT
+    LET inftitel&=2 ! BUTTON in Baum INFTXT
     '
     LET midiedit&=22 ! Formular/Dialog
     LET midibox&=0 ! BOX in Baum MIDIEDIT
@@ -3481,11 +3489,6 @@ ELSE
     '
     LET alertbox&=38 ! Formular/Dialog
     LET alertcol&=0 ! BOX in Baum ALERTBOX
-    '
-    LET inftxt&=39 ! Formular/Dialog
-    LET infbox&=0 ! BOX in Baum INFTXT
-    LET infbox2&=1 ! BOX in Baum INFTXT
-    LET inftitel&=2 ! BUTTON in Baum INFTXT
   ENDIF
 ENDIF
 '
@@ -3564,7 +3567,7 @@ ELSE
   IF bigfoot=FALSE THEN
     rsc$="STARLOW.RSC"        ! Name des kleinen Farb- und Mono RSC-Files
   ELSE
-    rsc$="PANY2.RSC"       ! Name des groûen Farb- und Mono RSC-Files
+    rsc$="PANY.RSC"       ! Name des groûen Farb- und Mono RSC-Files
   ENDIF
 ENDIF
 '
@@ -3572,6 +3575,8 @@ ENDIF
 btree=alertbox&                    ! Anzahl der BÑume-1
 DIM rx(btree)
 DIM ry(btree)
+DIM rb(btree)
+DIM rh(btree)
 alertflag=FALSE
 @alertload
 IF alertflag=FALSE THEN
@@ -3683,468 +3688,8 @@ rscda=FALSE
 IF m=TRUE THEN ! File$,Trees,Popup,Menu,Alert
   rscda=TRUE
   @language
-  IF freez=TRUE THEN                              ! Screen-Restauration
-    FOR i=0 TO ctree
-      IF BTST(winh,i)=TRUE THEN
-        rscx&(i)=rx(i)
-        rscy&(i)=ry(i)
-        b=OB_W(rsc_adr%(i),0)
-        h=OB_H(rsc_adr%(i),0)
-        IF rscx&(i)+b>xwidth THEN
-          rscx&(i)=xwidth-b
-        ENDIF
-        IF rscy&(i)+h>ywidth THEN
-          rscy&(i)=ywidth-h
-        ENDIF
-        IF i<>mensa THEN
-          OB_X(rsc_adr%(i),0)=ADD(rscx&(i),3)
-          OB_Y(rsc_adr%(i),0)=ADD(rscy&(i),3)
-        ENDIF
-      ENDIF
-    NEXT i
-  ENDIF
-  IF maxcol=2 THEN
-    @textcolor(peak&,peakmax&,0,1,1)  !text,rahmen,fill
-    @textcolor(peak&,peakch1&,1,1,0)  !text,rahmen,fill
-    @textcolor(peak&,peakch2&,1,1,0)  !text,rahmen,fill
-    @textcolor(peak&,peakch3&,1,1,0)  !text,rahmen,fill
-    @textcolor(peak&,peakch4&,1,1,0)  !text,rahmen,fill
-    @textcolor(marknumb&,mnumhelp&,1,1,0)
-    @textcolor(smp16&,helporig&,1,1,0)
-    @textcolor(smp16&,input&,1,1,0)
-    @textcolor(smp16&,rate2&,1,1,0)
-    @textcolor(smp16&,source&,1,1,0)
-    @textcolor(smp16&,mode&,1,1,0)
-    @textcolor(smp16&,protect&,1,1,0)
-    @textcolor(smp16&,emphasis&,1,1,0)
-    @textcolor(smp16&,dsp&,1,1,0)
-    @textcolor(smpedit&,smpedhlp&,1,1,0)
-    @textcolor(smpedit&,mover&,1,1,0)
-    @textcolor(smpedit&,rate&,1,1,0)
-    @textcolor(smpedit&,lp80&,1,1,0)
-    @textcolor(smpedit&,lp60&,1,1,0)
-    @textcolor(smpedit&,lp40&,1,1,0)
-    @textcolor(smpedit&,lp20&,1,1,0)
-    @textcolor(smpedit&,lp0&,1,1,0)
-    @textcolor(smpedit&,lm20&,1,1,0)
-    @textcolor(smpedit&,lm40&,1,1,0)
-    @textcolor(smpedit&,lm60&,1,1,0)
-    @textcolor(smpedit&,lm80&,1,1,0)
-    @textcolor(smpedit&,rp80&,1,1,0)
-    @textcolor(smpedit&,rp60&,1,1,0)
-    @textcolor(smpedit&,rp40&,1,1,0)
-    @textcolor(smpedit&,rp20&,1,1,0)
-    @textcolor(smpedit&,rp0&,1,1,0)
-    @textcolor(smpedit&,rm20&,1,1,0)
-    @textcolor(smpedit&,rm40&,1,1,0)
-    @textcolor(smpedit&,rm60&,1,1,0)
-    @textcolor(smpedit&,rm80&,1,1,0)
-    @textcolor(dspedit&,helpdsp&,1,1,0)
-    @textcolor(peak&,peakhelp&,1,1,0)
-    @textcolor(peak&,peakmax&,1,1,0)
-    @textcolor(peak&,peakpos&,1,1,0)
-    @textcolor(peak&,peakdb&,1,1,0)
-    @textcolor(peak&,peakbal&,1,1,0)
-    @textcolor(peak&,peakname&,1,1,0)
-    @textcolor(peak&,recpeaks&,1,1,0)
-    @textcolor(peak&,recerror&,1,1,0)
-    @textcolor(peak&,balbox&,1,1,0)
-    @textcolor(loop&,helploop&,1,1,0)
-    @textcolor(normaliz&,helpnorm&,1,1,0)
-    @textcolor(normaliz&,normdb&,1,1,0)
-    @textcolor(normaliz&,maxdb&,1,1,0)
-    @textcolor(resample&,helprsmp&,1,1,0)
-    @textcolor(resample&,resmplen&,1,1,0)
-    @textcolor(resample&,resmpsec&,1,1,0)
-    @textcolor(resample&,resmpfac&,1,1,0)
-    @textcolor(resample&,resother&,1,1,0)
-    @textcolor(midiedit&,helpmidi&,1,1,0)
-    @textcolor(midiedit&,notetxt&,1,1,0)
-    @textcolor(midiedit&,chtxt&,1,1,0)
-    @textcolor(editfade&,helpfade&,1,1,0)
-    @textcolor(record&,rechelp&,1,1,0)
-    @textcolor(record&,recfree&,1,1,0)
-    @textcolor(blkfunc&,blkhelp&,1,1,0)
-    @textcolor(savebloc&,savehelp&,1,1,0)
-    @textcolor(arranger&,arrhelp&,1,1,0)
-    @textcolor(arranger&,playlen&,1,1,0)
-    @textcolor(arranger&,playname&,1,1,0)
-    @textcolor(arranger&,arrnr1&,1,1,0)
-    @textcolor(arranger&,arrmem1&,1,1,0)
-    @textcolor(arranger&,spur1&,1,1,0)
-    @textcolor(arranger&,arrsmpr1&,1,1,0)
-    @textcolor(arranger&,arrnote1&,1,1,0)
-    @textcolor(arranger&,arrch1&,1,1,0)
-    @textcolor(arranger&,hardst1&,1,1,0)
-    @textcolor(arranger&,harde1&,1,1,0)
-    @textcolor(arranger&,hardlen1&,1,1,0)
-    @textcolor(arranger&,arrnr2&,1,1,0)
-    @textcolor(arranger&,arrmem2&,1,1,0)
-    @textcolor(arranger&,spur2&,1,1,0)
-    @textcolor(arranger&,arrsmpr2&,1,1,0)
-    @textcolor(arranger&,arrnote2&,1,1,0)
-    @textcolor(arranger&,arrch2&,1,1,0)
-    @textcolor(arranger&,hardst2&,1,1,0)
-    @textcolor(arranger&,harde2&,1,1,0)
-    @textcolor(arranger&,hardlen2&,1,1,0)
-    @textcolor(arranger&,arrnr3&,1,1,0)
-    @textcolor(arranger&,arrmem3&,1,1,0)
-    @textcolor(arranger&,spur3&,1,1,0)
-    @textcolor(arranger&,arrsmpr3&,1,1,0)
-    @textcolor(arranger&,arrnote3&,1,1,0)
-    @textcolor(arranger&,arrch3&,1,1,0)
-    @textcolor(arranger&,hardst3&,1,1,0)
-    @textcolor(arranger&,harde3&,1,1,0)
-    @textcolor(arranger&,hardlen3&,1,1,0)
-    @textcolor(arranger&,arrnr4&,1,1,0)
-    @textcolor(arranger&,arrmem4&,1,1,0)
-    @textcolor(arranger&,spur4&,1,1,0)
-    @textcolor(arranger&,arrsmpr4&,1,1,0)
-    @textcolor(arranger&,arrnote4&,1,1,0)
-    @textcolor(arranger&,arrch4&,1,1,0)
-    @textcolor(arranger&,hardst4&,1,1,0)
-    @textcolor(arranger&,harde4&,1,1,0)
-    @textcolor(arranger&,hardlen4&,1,1,0)
-    @textcolor(setup&,sethelp&,1,1,0)
-    @textcolor(setup&,tresdb&,1,1,0)
-    @textcolor(setup&,recm&,1,1,0)
-    @textcolor(setup&,seclen&,1,1,0)
-    @textcolor(setup&,fseltxt&,1,1,0)
-    @textcolor(setup&,setform&,1,1,0)
-    @textcolor(info&,helpinfo&,1,1,0)
-    @textcolor(arrmname&,amhelp&,1,1,0)
-    @textcolor(trknamin&,trktxhlp&,1,1,0)
-    @textcolor(virtual&,virthelp&,1,1,0)
-    @textcolor(virtual&,vblkmlen&,1,1,0)
-    @textcolor(virtual&,vblkvlen&,1,1,0)
-    @textcolor(arrmake&,makehelp&,1,1,0)
-    @textcolor(arrmake&,maketxt&,1,1,0)
-    @textcolor(arrmake&,makerate&,1,1,0)
-    @textcolor(timeed&,tedhelp&,1,1,0)
-    @textcolor(smpinf&,sinfhelp&,1,1,0)
-    @textcolor(smpinf&,sinfname&,1,1,0)
-    @textcolor(smpinf&,sinflen&,1,1,0)
-    @textcolor(smpinf&,sinfrate&,1,1,0)
-    @textcolor(smpinf&,sinfdate&,1,1,0)
-    @textcolor(smpinf&,sinfsus1&,1,1,0)
-    @textcolor(smpinf&,sinfsus2&,1,1,0)
-    @textcolor(smpinf&,sinfrel1&,1,1,0)
-    @textcolor(smpinf&,sinfrel2&,1,1,0)
-    @textcolor(smpinf&,sinfl1&,1,1,0)
-    @textcolor(smpinf&,sinfl2&,1,1,0)
-    @textcolor(smpinf&,sinfl3&,1,1,0)
-    @textcolor(smpinf&,sinfl4&,1,1,0)
-    @textcolor(smpinf&,sinfl5&,1,1,0)
-    @textcolor(smpinf&,sinfl6&,1,1,0)
-    @textcolor(smpinf&,sinfl7&,1,1,0)
-    @textcolor(smpinf&,sinfl8&,1,1,0)
-    @textcolor(smpinf&,sinfl9&,1,1,0)
-    @textcolor(smpinf&,sinfl10&,1,1,0)
-    @textcolor(smpinf&,sinfl11&,1,1,0)
-    @textcolor(smpinf&,sinfl12&,1,1,0)
-    @textcolor(trakker&,trakhelp&,1,1,0)
-    IF bigfoot=TRUE THEN
-      @textcolor(trakker&,trk4&,1,1,0)
-      @textcolor(trakker&,trk8&,1,1,0)
-      @textcolor(trakker&,trk12&,1,1,0)
-      @textcolor(trakker&,trk16&,1,1,0)
-    ENDIF
-    @textcolor(trakker&,trkmon&,1,1,0)
-    @textcolor(trakker&,trakk1&,1,1,0)
-    @textcolor(trakker&,trakk2&,1,1,0)
-    @textcolor(trakker&,trakk3&,1,1,0)
-    @textcolor(trakker&,trakk4&,1,1,0)
-    @textcolor(trakker&,trakstrt&,1,1,0)
-    @textcolor(trakker&,trakend&,1,1,0)
-    @textcolor(trakker&,traklen&,1,1,0)
-    @textcolor(trakker&,trksmpte&,1,1,0)
-    @textcolor(trakker&,trakdur&,1,1,0)
-    @textcolor(trakker&,tpstrt&,1,1,0)
-    @textcolor(trakker&,tpend&,1,1,0)
-    @textcolor(trakker&,trakinfo&,1,1,0)
-    @textcolor(trakker&,trakname&,1,1,0)
-    @textcolor(trakker&,traktime&,1,1,0)
-    @textcolor(trakker&,trkerr&,1,1,0)
-    @textcolor(trakker&,timeline&,1,1,0)
-    IF bigfoot=TRUE THEN
-      @textcolor(trakker&,timelin2&,1,1,0)
-      @textcolor(trakker&,trkslot2&,1,1,0)
-    ENDIF
-    @textcolor(trakker&,trkslot&,1,1,0)
-    @textcolor(fsel&,fshelp&,1,1,0)
-    @textcolor(fsel&,fsotxt&,1,1,0)
-    @textcolor(fsel&,fsbut1&,1,1,0)
-    @textcolor(fsel&,fsbut2&,1,1,0)
-    @textcolor(fsel&,fsbut3&,1,1,0)
-    @textcolor(fsel&,fsbut4&,1,1,0)
-    @textcolor(fsel&,fsbut5&,1,1,0)
-    @textcolor(fsel&,fsbut6&,1,1,0)
-    @textcolor(fsel&,fsbut7&,1,1,0)
-    @textcolor(fsel&,fsbut8&,1,1,0)
-    @textcolor(fsel&,fsbut9&,1,1,0)
-    @textcolor(fsel&,fsbut10&,1,1,0)
-    @textcolor(fsel&,fsbut11&,1,1,0)
-    @textcolor(fsel&,fsbut12&,1,1,0)
-    @textcolor(fsel&,fsbut13&,1,1,0)
-    @textcolor(fsel&,fsbut14&,1,1,0)
-    @textcolor(fsel&,fsbut15&,1,1,0)
-    @textcolor(fsel&,fstxt1&,1,1,0)
-    @textcolor(fsel&,fstxt2&,1,1,0)
-    @textcolor(fsel&,fstxt3&,1,1,0)
-    @textcolor(fsel&,fstxt4&,1,1,0)
-    @textcolor(fsel&,fstxt5&,1,1,0)
-    @textcolor(fsel&,fstxt6&,1,1,0)
-    @textcolor(fsel&,fstxt7&,1,1,0)
-    @textcolor(fsel&,fstxt8&,1,1,0)
-    @textcolor(fsel&,fstxt9&,1,1,0)
-    @textcolor(fsel&,fstxt10&,1,1,0)
-    @textcolor(fsel&,fstxt11&,1,1,0)
-    @textcolor(fsel&,fstxt12&,1,1,0)
-    @textcolor(fsel&,fstxt13&,1,1,0)
-    @textcolor(fsel&,fstxt14&,1,1,0)
-    @textcolor(fsel&,fstxt15&,1,1,0)
-    @textcolor(fsel&,fstime&,1,1,0)
-    @textcolor(arranger&,hlpedit2&,1,1,0)
-    @textcolor(moving&,movhlp&,1,1,0)
-    @textcolor(abackup&,abackhlp&,1,1,0)
-    @textcolor(abackup&,abacktxt&,1,1,0)
-    @textcolor(smpedit&,cstxt&,1,1,0)
-    @textcolor(smpedit&,cetxt&,1,1,0)
-    @textcolor(smpedit&,edmtims&,1,1,0)
-    @textcolor(smpedit&,edmtime&,1,1,0)
-    @textcolor(smpedit&,edmtimi&,1,1,0)
-    @textcolor(smpedit&,edmtimr&,1,1,0)
-    @textcolor(smpedit&,edmnr&,1,1,0)
-    @textcolor(smpedit&,edmtxt&,1,1,0)
-    @textcolor(smpedit&,smplen&,1,1,0)
-    @textcolor(smpedit&,smpfile&,1,1,0)
-    @textcolor(smpedit&,smpname&,1,1,0)
-    @textcolor(smpedit&,showxy&,1,1,0)
-    @textcolor(smpedit&,freemem&,1,1,0)
-    @textcolor(smpedit&,clock&,1,1,0)
-    @textcolor(smpedit&,pntprsmp&,1,1,0)
-    @textcolor(smpedit&,smprate&,1,1,0)
-    @textcolor(smpedit&,smpsec&,1,1,0)
-    @textcolor(smpedit&,mintext&,1,1,0)
-    @textcolor(trakker&,trklevt1&,1,1,0)
-    @textcolor(trakker&,trklevt2&,1,1,0)
-    @textcolor(trakker&,trklevt3&,1,1,0)
-    @textcolor(trakker&,trklevt4&,1,1,0)
-    @textcolor(trakker&,trktxt1&,1,1,0)
-    @textcolor(trakker&,trktxt2&,1,1,0)
-    @textcolor(trakker&,trktxt3&,1,1,0)
-    @textcolor(trakker&,trktxt4&,1,1,0)
-    @textcolor(trakker&,pantxt1&,1,1,0)
-    @textcolor(trakker&,pantxt2&,1,1,0)
-    @textcolor(trakker&,pantxt3&,1,1,0)
-    @textcolor(trakker&,pantxt4&,1,1,0)
-    @textcolor(trakker&,trkvbox&,1,1,0)
-    @textcolor(disked&,dskedtxt&,1,1,0)
-    @textcolor(meldung&,meldtxt&,1,1,0)
-    @textcolor(mrkfind&,mrkfnr&,1,1,0)
-    @textcolor(mrkfind&,mrkftims&,1,1,0)
-    @textcolor(mrkfind&,mrkftime&,1,1,0)
-    @textcolor(mrkfind&,mrkftimi&,1,1,0)
-    @textcolor(mrkfind&,mrkftimr&,1,1,0)
-    @textcolor(mrkfind&,mrkftxt&,1,1,0)
-    @textcolor(smpedit&,edmnr&,1,1,0)
-    @textcolor(smpedit&,edmtims&,1,1,0)
-    @textcolor(smpedit&,edmtime&,1,1,0)
-    @textcolor(smpedit&,edmtimi&,1,1,0)
-    @textcolor(smpedit&,edmtimr&,1,1,0)
-    @textcolor(smpedit&,edmtxt&,1,1,0)
-    @textcolor(smpedit&,smpedhlp&,1,1,0)
-    @textcolor(trkcomin&,trkchlp&,1,1,0)
-    @textcolor(mrktxtin&,mtexhelp&,1,1,0)
-    @textcolor(mrkfind&,mrkfhelp&,1,1,0)
-    @textcolor(disked&,dskedhlp&,1,1,0)
-    @textcolor(wmode&,wmhelp&,1,1,0)
-    @textcolor(clocks&,clockhlp&,1,1,0)
-    @textcolor(clocks&,clockm&,1,1,0)
-    @textcolor(clocks&,clock1&,1,1,0)
-    @textcolor(clocks&,clock2&,1,1,0)
-    @textcolor(clocks&,clock3&,0,1,1)
-    @textcolor(clocks&,clock4&,1,1,0)
-    @textcolor(clocks&,clock5&,1,1,0)
-    @textcolor(smpedit&,resolu&,1,1,0)
-    @textcolor(plugin&,panhelp&,1,1,0)
-    @textcolor(plugin&,levcnt1&,1,1,0)
-    @textcolor(plugin&,levcnt2&,1,1,0)
-    @textcolor(plugin&,levcnt3&,1,1,0)
-    @textcolor(plugin&,levcnt4&,1,1,0)
-    @textcolor(plugin&,levcnt5&,1,1,0)
-    @textcolor(plugin&,levart1&,1,1,0)
-    @textcolor(plugin&,levart2&,1,1,0)
-    @textcolor(plugin&,levart3&,1,1,0)
-    @textcolor(plugin&,levart4&,1,1,0)
-    @textcolor(plugin&,levart5&,1,1,0)
-    @textcolor(plugin&,levtxt1&,1,1,0)
-    @textcolor(plugin&,levtxt2&,1,1,0)
-    @textcolor(plugin&,levtxt3&,1,1,0)
-    @textcolor(plugin&,levtxt4&,1,1,0)
-    @textcolor(plugin&,levtxt5&,1,1,0)
-    @textcolor(plugin&,plugct1&,1,1,0)
-    @textcolor(plugin&,plugct2&,1,1,0)
-    @textcolor(plugin&,plugct3&,1,1,0)
-    @textcolor(plugin&,plgtitel&,1,1,0)
-    @textcolor(plgconfg&,pcfghelp&,1,1,0)
-    @textcolor(plgconfg&,plgcfg1&,1,1,0)
-    @textcolor(plgconfg&,plgcfg2&,1,1,0)
-    @textcolor(plgconfg&,plgcfg3&,1,1,0)
-    @textcolor(plgconfg&,plgcfg4&,1,1,0)
-    @textcolor(plgconfg&,plgcfg5&,1,1,0)
-    @textcolor(plgconfg&,plgcfg6&,1,1,0)
-    @textcolor(plgconfg&,plgcfg7&,1,1,0)
-    @textcolor(plgconfg&,plgcfg8&,1,1,0)
-    @textcolor(plgconfg&,plgcfg9&,1,1,0)
-    @textcolor(plgconfg&,plgcfg10&,1,1,0)
-    @textcolor(plgconfg&,plgrec1&,1,1,0)
-    @textcolor(plgconfg&,plgrec2&,1,1,0)
-    @textcolor(plgconfg&,plgrec3&,1,1,0)
-    @textcolor(plgconfg&,plgrec4&,1,1,0)
-    @textcolor(plgconfg&,plgrec5&,1,1,0)
-    @textcolor(plgconfg&,plgplay1&,1,1,0)
-    @textcolor(plgconfg&,plgplay2&,1,1,0)
-    @textcolor(plgconfg&,plgplay3&,1,1,0)
-    @textcolor(plgconfg&,plgplay4&,1,1,0)
-    @textcolor(plgconfg&,plgplay5&,1,1,0)
-    @textcolor(plgconfg&,pcfgtex1&,1,1,0)
-    @textcolor(plgconfg&,pcfgtex2&,1,1,0)
-    @textcolor(plgconfg&,pcfgtex3&,1,1,0)
-    @colorbox(plugin&,panbox&,0,7)
-    @colorbox(plgconfg&,pcfgbox&,0,7)
-    @colorbox(smp16&,mainbox6&,0,7)
-    @colorbox(smp16&,mainbox&,0,7)
-    @colorbox(smp16&,mainbox2&,0,7)
-    @colorbox(smp16&,mainbox4&,0,7)
-    @colorbox(smp16&,mainbox5&,0,7)
-    @colorbox(smpedit&,editbox&,0,7)
-    @colorbox(smpedit&,editbox2&,0,7)
-    @colorbox(smpedit&,editbox3&,0,7)
-    @colorbox(smpedit&,editbox5&,0,7)
-    @colorbox(smpedit&,editbox6&,0,7)
-    @colorbox(smpedit&,editbox7&,0,7)
-    @colorbox(smpedit&,zomslide&,1,1)
-    @colorbox(smpedit&,edmslide&,1,1)
-    @colorbox(smpedit&,scrlslde&,1,1)
-    @colorbox(smpedit&,curvbox&,0,7)
-    @colorbox(smpedit&,editbox4&,0,7)
-    @colorbox(smpedit&,editbox8&,0,7)
-    @colorbox(peak&,peakbox&,0,7)
-    @colorbox(peak&,peakbox2&,0,7)
-    @colorbox(peak&,volbox&,0,7)
-    @colorbox(loop&,loopbox&,0,7)
-    @colorbox(loop&,loopbox2&,0,7)
-    @colorbox(normaliz&,normbox&,0,7)
-    @colorbox(normaliz&,normbox2&,0,7)
-    @colorbox(resample&,resmpbox&,0,7)
-    @colorbox(midiedit&,midibox&,0,7)
-    @colorbox(editfade&,fadebox&,0,7)
-    @colorbox(editfade&,edfadbox&,0,7)
-    @colorbox(record&,recbox&,0,7)
-    @colorbox(blkfunc&,blkbox&,0,7)
-    @colorbox(savebloc&,savebox&,0,7)
-    @colorbox(arranger&,arrbox&,0,7)
-    @colorbox(arranger&,arrbox2&,0,7)
-    @colorbox(arranger&,arrbox3&,0,7)
-    @colorbox(arranger&,arrbox4&,0,7)
-    @colorbox(arranger&,arrbox5&,0,7)
-    @colorbox(arranger&,arrbox6&,0,7)
-    @colorbox(arranger&,arrbox7&,0,7)
-    @colorbox(arranger&,arrbox8&,0,7)
-    @colorbox(arranger&,arrslide&,1,1)
-    @colorbox(info&,infobox&,0,7)
-    @colorbox(trknamin&,trktxbox&,0,7)
-    @colorbox(trknamin&,trktxbo2&,0,7)
-    @colorbox(arrmname&,arrmnbox&,0,7)
-    @colorbox(arrmname&,arrmnbx2&,0,7)
-    @colorbox(dspedit&,dspbox&,0,7)
-    @colorbox(virtual&,virtbox&,0,7)
-    @colorbox(virtual&,virtbox2&,0,7)
-    @colorbox(virtual&,virtbox3&,0,7)
-    @colorbox(virtual&,vslider&,1,1)
-    @colorbox(moving&,movngbox&,0,7)
-    @colorbox(arrmake&,makebox&,0,7)
-    @colorbox(timeed&,timebox&,0,7)
-    @colorbox(timeed&,timebox2&,0,7)
-    @colorbox(abackup&,abackbox&,0,7)
-    @colorbox(abackup&,abackbo2&,0,7)
-    @colorbox(inftxt&,infbox&,0,7)
-    @colorbox(inftxt&,infbox2&,0,7)
-    @colorbox(trakker&,trakbox&,0,7)
-    @colorbox(trakker&,trakbox2&,0,7)
-    @colorbox(trakker&,trakbox3&,0,7)
-    @colorbox(trakker&,trakbox4&,0,7)
-    @colorbox(trakker&,trakbox5&,0,7)
-    @colorbox(trakker&,trakslid&,1,1)
-    @colorbox(trakker&,zoomslid&,1,1)
-    @colorbox(trakker&,spurslid&,1,1)
-    @colorbox(mrkfind&,mrkfslid&,1,1)
-    @colorbox(setup&,setupbox&,0,7)
-    @colorbox(setup&,setupbx2&,0,7)
-    @colorbox(setup&,setupbx3&,0,7)
-    @colorbox(fsel&,fselbox&,0,7)
-    @colorbox(fsel&,fselbox2&,0,7)
-    @colorbox(fsel&,fsslide&,1,1)
-    @colorbox(smpinf&,sinfbox&,0,7)
-    @colorbox(smpinf&,sinfbox2&,0,7)
-    @colorbox(trakker&,tlevbox&,0,7)
-    @colorbox(trakker&,trkbx1&,0,7)
-    @colorbox(trakker&,trkbx2&,0,7)
-    @colorbox(trakker&,trkbx3&,0,7)
-    @colorbox(trakker&,trkbx4&,0,7)
-    @colorbox(meldung&,meldbox&,0,7)
-    @colorbox(trkcomin&,trkcbox&,0,7)
-    @colorbox(trkcomin&,trkcbox2&,0,7)
-    @colorbox(mrktxtin&,mtexbox&,0,7)
-    @colorbox(mrktxtin&,mtexbox2&,0,7)
-    @colorbox(mrkfind&,mrkfbox&,0,7)
-    @colorbox(mrkfind&,mrkfbox2&,0,7)
-    IF bigfoot=TRUE THEN
-      @colorbox(mrkfind&,mrkfbox3&,0,7)
-      @colorbox(trakker&,trakbox6&,0,7)
-    ENDIF
-    @colorbox(disked&,dskedbox&,0,7)
-    @colorbox(disked&,dskedbx2&,0,7)
-    @colorbox(disked&,dskedbx3&,0,7)
-    @colorbox(disked&,dskedbx4&,0,7)
-    @colorbox(alertbox&,alertcol&,0,7)
-    @colorbox(wmode&,wmbox1&,0,7)
-    @colorbox(wmode&,wmbox2&,0,7)
-    @colorbox(wmode&,wmbox3&,0,7)
-    @colorbox(wmode&,wmbox4&,0,7)
-    @colorbox(wmode&,wmbox5&,0,7)
-    @colorbox(wmode&,wmbox7&,0,7)
-    @colorbox(clocks&,clkbox&,0,7)
-    @colorbox(clocks&,clkbox2&,0,7)
-    @colorbox(clocks&,clkslid&,1,1)
-    @colorbox(marknumb&,mnumbox&,0,7)
-    @colorbox(marknumb&,mnumbox2&,0,7)
-  ELSE
-    @colorbox(smpedit&,curvbox&,smpwcol,7)
-    @colorbox(smpedit&,editbox4&,smpblkcol,7)
-    @colorbox(smpedit&,editbox8&,smpblkcol,7)
-    @textcolor(smpedit&,lp80&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,lp60&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,lp40&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,lp20&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,lp0&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,lm20&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,lm40&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,lm60&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,lm80&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,rp80&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,rp60&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,rp40&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,rp20&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,rp0&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,rm20&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,rm40&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,rm60&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,rm80&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,smptxl&,0,smpwcol,smpwcol)
-    @textcolor(smpedit&,smptxr&,0,smpwcol,smpwcol)
-  ENDIF
+  @calc_windows
+  @change_colors
 ELSE
   rscda=FALSE
 ENDIF
@@ -6201,7 +5746,11 @@ RETURN
       IF nr=peak& THEN
         hsec=INT(l/hz/mbit*100)
         @htimeset
-        @textfeld(peakmax&,a$,1)
+        IF bigtxt=FALSE THEN
+          @textfeld(peakmax&,a$,1)
+        ELSE
+          @bigtext(nr,a$,0)
+        ENDIF
         @textfeld(recerror&,"0"+CHR$(0),1)
         @textfeld(recpeaks&,"0"+CHR$(0),1)
       ENDIF
@@ -6263,7 +5812,11 @@ RETURN
             @intzeiger2(b)
           ENDIF
           IF nr=peak& THEN
-            @textfeld(peakpos&,a$,1)
+            IF bigtxt=FALSE THEN
+              @textfeld(peakpos&,a$,1)
+            ELSE
+              @bigtext(nr,a$,1)
+            ENDIF
             IF rfull2<>rfull THEN
               rfull=rfull2
               b$=STR$(rfull)+CHR$(0)
@@ -8868,6 +8421,8 @@ RETURN
     nob=a
     obj&=a
     shcut=TRUE
+  ELSE
+    mscan=scan|
   ENDIF
   '
   rsc_adr%=rsc_adr%(nr)
@@ -8954,6 +8509,9 @@ RETURN
   ENDIF
   '  obj=obj&
   '
+  IF shcut=FALSE THEN
+    @shortcuts
+  ENDIF
 RETURN
 > PROCEDURE vor_update
   nr=a
@@ -8998,6 +8556,110 @@ RETURN
   '
   IF MENU(1)=&H4724 THEN
     accwindopen=TRUE
+  ENDIF
+  '
+  IF MENU(1)=27                                 ! Fenster vergrîûern...
+    IF handle&=rsc_handle%(a&) THEN
+      tree&=a&
+      IF tree&=smpedit& THEN
+        xneu=MENU(5)
+        yneu=MENU(6)
+        bneu=MENU(7)
+        hneu=MENU(8)
+        @calc_editsize
+      ENDIF
+      IF tree&=peak& THEN
+        xneu2=MENU(5)
+        yneu2=MENU(6)
+        bneu2=MENU(7)
+        hneu2=MENU(8)
+        @calc_peaksize
+      ENDIF
+      IF tree&=trakker& THEN
+        xneu3=MENU(5)
+        yneu3=MENU(6)
+        bneu3=MENU(7)
+        hneu3=MENU(8)
+        @calc_traksize
+      ENDIF
+    ENDIF
+  ENDIF
+  IF MENU(1)=23                                 ! Fenster auf volle Grîûe...
+    IF handle&=rsc_handle%(a&) THEN
+      tree&=a&
+      IF tree&=smpedit& THEN
+        IF rscw&(tree&)=xwidth AND rsch&(tree&)=ywidth-3 AND bold<>0 AND hold<>0 THEN
+          IF bold<>0 AND hold<>0 THEN
+            bneu=bold
+            hneu=hold
+          ENDIF
+        ELSE
+          xold=rscx&(tree&)
+          yold=rscy&(tree&)
+          bold=rscw&(tree&)
+          hold=rsch&(tree&)
+          IF yold<19 THEN
+            yold=19
+          ENDIF
+          IF hold>ywidth-19 THEN
+            hold=ywidth-19
+          ENDIF
+          xneu=0
+          yneu=19
+          bneu=xwidth
+          hneu=ywidth-19
+        ENDIF
+        @calc_editsize
+      ENDIF
+      IF tree&=peak& THEN
+        IF rsch&(tree&)=ywidth-3 AND bold2<>0 AND hold2<>0 THEN
+          IF bold2<>0 AND hold2<>0 THEN
+            bneu2=bold2
+            hneu2=hold2
+          ENDIF
+        ELSE
+          xold2=rscx&(tree&)
+          yold2=rscy&(tree&)
+          bold2=rscw&(tree&)
+          hold2=rsch&(tree&)
+          IF yold2<19 THEN
+            yold2=19
+          ENDIF
+          IF hold2>ywidth-19 THEN
+            hold2=ywidth-19
+          ENDIF
+          xneu2=0
+          yneu2=19
+          bneu2=xwidth
+          hneu2=ywidth-19
+        ENDIF
+        @calc_peaksize
+      ENDIF
+      IF tree&=trakker& THEN
+        IF rscw&(tree&)=xwidth AND rsch&(tree&)=INT((ywidth-3)/4)*4 AND bold3<>0 AND hold3<>0 THEN
+          IF bold3<>0 AND hold3<>0 THEN
+            bneu3=bold3
+            hneu3=hold3
+          ENDIF
+        ELSE
+          xold3=rscx&(tree&)
+          yold3=rscy&(tree&)
+          bold3=rscw&(tree&)
+          hold3=rsch&(tree&)
+          IF yold3<19 THEN
+            yold3=19
+          ENDIF
+          IF hold3>ywidth-19 THEN
+            hold3=ywidth-19
+          ENDIF
+          xneu3=0
+          yneu3=19
+          bneu3=xwidth
+          hneu3=ywidth-19
+        ENDIF
+        @calc_traksize
+      ENDIF
+    ENDIF
   ENDIF
   IF MENU(1)=41 OR (MENU(1)=22 AND tree&=a&)         ! AC_CLOSE/Closer...
     MUL rsc_window&,-(MENU(1)=22)
@@ -9058,6 +8720,8 @@ RETURN
       nonhz=hz
     ENDIF
     IF nr=trakker& THEN
+      wpl=0   ! peakhold left
+      wpr=0   ! peakhold right
       @trakvolinit
       IF tdrag=TRUE OR trdrag=TRUE THEN
         @setbutton(trakclip&,1)
@@ -9102,6 +8766,8 @@ RETURN
       edit_obj&=0
     ENDIF
     IF nr=peak& THEN
+      wpl=0   ! peakhold left
+      wpr=0   ! peakhold right
       @volinit
       IF hrd=1 THEN
         @setbutton(hardpeak&,1)
@@ -9148,6 +8814,20 @@ RETURN
     IF a<>-1 THEN
       IF a=peak& THEN
         peakint=FALSE
+        wpl=0   ! peakhold left
+        wpr=0   ! peakhold right
+        @vor_update
+        IF b1<>0 AND h1<>0 THEN
+          @bigtext2
+          REPEAT
+            ~WIND_GET(ha1,12,x1,y1,b1,h1)
+            IF b1<>0 AND h1<>0 THEN
+              CLIP x1,y1,b1,h1
+              @bigtext2
+            ENDIF
+          UNTIL b1=0 OR h1=0
+        ENDIF
+        @nach_update
       ENDIF
       IF a=smpedit& THEN
         @vor_update
@@ -9190,6 +8870,7 @@ RETURN
         IF b1<>0 AND h1<>0 THEN
           @putfsize
           IF memfade=0 OR (drawnew3=TRUE AND mnr=editfade&) THEN
+            credraw=TRUE
             IF fadericht=0 THEN
               @infade
             ELSE
@@ -9198,6 +8879,7 @@ RETURN
             IF drawnew3=TRUE AND mnr=editfade& THEN
               @getfade
             ENDIF
+            credraw=FALSE
           ELSE
             @putfade
           ENDIF
@@ -9206,6 +8888,7 @@ RETURN
             IF b1<>0 AND h1<>0 THEN
               CLIP x1,y1,b1,h1
               IF memfade=0 OR (drawnew3=TRUE AND mnr=editfade&) THEN
+                credraw=TRUE
                 IF fadericht=0 THEN
                   @infade
                 ELSE
@@ -9214,6 +8897,7 @@ RETURN
                 IF drawnew3=TRUE AND mnr=editfade& THEN
                   @getfade
                 ENDIF
+                credraw=FALSE
               ELSE
                 @putfade
               ENDIF
@@ -9224,7 +8908,9 @@ RETURN
       ENDIF
       '
       IF a=trakker& THEN
-        tcached=TRUE
+        wpl=0   ! peakhold left
+        wpr=0   ! peakhold right
+        '        tcached=TRUE             ! entfernt seit 13.6.98
         IF hz<>thz AND mnr=trakker& THEN
           thz=hz
           tcached=FALSE
@@ -9233,7 +8919,9 @@ RETURN
         IF b1<>0 AND h1<>0 THEN
           @puttrsize
           IF memtrak=0 OR tcached=FALSE OR (drawnew4=TRUE AND mnr=trakker&) THEN
+            credraw=TRUE
             @timeline
+            credraw=FALSE
             IF drawnew4=TRUE AND mnr=trakker& THEN
               @gettrak
             ENDIF
@@ -9245,7 +8933,9 @@ RETURN
             IF b1<>0 AND h1<>0 THEN
               CLIP x1,y1,b1,h1
               IF memtrak=0 OR tcached=FALSE OR (drawnew4=TRUE AND mnr=trakker&) THEN
+                credraw=TRUE
                 @timeline
+                credraw=FALSE
                 IF drawnew4=TRUE AND mnr=trakker& THEN
                   @gettrak
                 ENDIF
@@ -9369,7 +9059,7 @@ RETURN
       ENDIF
       '
       IF nr=trakker& AND next_obj&=spurslid& THEN
-        @slideupdate(spurslid&,spurybut&,ay&-32,trkvmax-4,mx&,my&,4,5,trkvz,slflg)
+        @slideupdate(spurslid&,spurybut&,ay&+42,trkvmax-4,mx&,my&,4,5,trkvz,slflg)    ! war vorher ay&-32
         IF slflg=TRUE THEN
           @spurbutt
           @timeline
@@ -9397,15 +9087,19 @@ RETURN
       '
       '
       IF nr=trakker& AND next_obj&=trakxbut& THEN
-        @killpmark2
-        IF trakkz2>(tscmax-tscstep) THEN
-          trakkz2=tscmax-tscstep
-        ENDIF
-        @sliding2(trakslid&,trakxbut&,tscmax,tscstep,trakkz2,slflg)
-        IF slflg=TRUE THEN
-          @timeinit2
-          @timeinit3
-          @timeline
+        IF dclick=FALSE THEN
+          @killpmark2
+          IF trakkz2>(tscmax-tscstep) THEN
+            trakkz2=tscmax-tscstep
+          ENDIF
+          @sliding2(trakslid&,trakxbut&,tscmax,tscstep,trakkz2,slflg)
+          IF slflg=TRUE THEN
+            @timeinit2
+            @timeinit3
+            @timeline
+          ENDIF
+        ELSE
+          @trkgotime
         ENDIF
         @setbutton(next_obj&,0)
         next_obj&=0
@@ -9451,7 +9145,7 @@ RETURN
         IF bigfoot=FALSE THEN
           tzj=1
         ELSE
-          tzj=4
+          tzj=7   ! war 4
         ENDIF
         @slideupdate(zoomslid&,zoomxbut&,ax&+tzj,tymax,mx&,my&,1,5,trakkyz,slflg)
         @delcache
@@ -9509,7 +9203,7 @@ RETURN
         IF bigfoot=FALSE THEN
           edj=242
         ELSE
-          edj=532
+          edj=rsch&(smpedit&)-156
         ENDIF
         vdifb=INT((loopz+1)/50)
         @slideupdate(edmslide&,edmbut&,ay&+edj,loopz,mx&,my&,vdifb,5,vsms,slflg)
@@ -9619,7 +9313,7 @@ RETURN
         IF bigfoot=FALSE THEN
           zj=12
         ELSE
-          zj=5
+          zj=INT((rscw&(smpedit&)/2)-505)
         ENDIF
         @slideupdate(zomslide&,zoombutt&,ax&+zj,zmax,mx&,my&,1,16,zoomp,slflg)
         IF slflg=TRUE THEN
@@ -10243,6 +9937,11 @@ ENDIF
 OB_SPEC(rsc_adr%,0)=AND(OB_SPEC(rsc_adr%,0),&X11111111000000001111111111111111)
 '
 rx&=OR(&X1001,SHL(-BTST(flag%,1),1))              ! Ggf. Schlieûfeld
+'
+IF bigfoot=TRUE AND (tree&=smpedit& OR tree&=peak& OR tree&=trakker&) THEN
+  rx&=(rx& OR &H46E4)              !  Fuller,Mover und Rollpfeile (Rollpfeile wegen MagiC)
+ENDIF
+'
 handle&=WIND_CREATE(rx&,deskx&,desky&,deskw&,deskh&)
 '    ~WIND_SET(handle&,10,handle&,0,0,0)  ! Fenstertitel setzen
 IF handle&>0                                      ! Fenster vorhanden...
@@ -10416,6 +10115,16 @@ tim&=20   ! EVENT-TIMER in msec
 REPEAT
 c=0
 evnt&=EVNT_MULTI(flags&,2,1,1,0,0,0,0,0,0,0,0,0,0,0,tim&,mx&,my&,mb&,shift&,key&,c)
+IF c=1 THEN
+click=TRUE
+ELSE
+click=FALSE
+ENDIF
+IF c=2 THEN
+dclick=TRUE
+ELSE
+dclick=FALSE
+ENDIF
 IF evnt&<>0 THEN
 IF donr=nr THEN
   IF BTST(evnt&,4) THEN
@@ -10424,12 +10133,40 @@ IF donr=nr THEN
     @wischwasch    ! ganz neu !!!!
   ENDIF
   '
+  IF BTST(evnt&,5) OR BTST(evnt&,0) OR BTST(evnt&,1) OR prkey<>0 OR prbut<>0 THEN
+    ~GRAF_MKSTATE(x,v,prbut,prkey)
+    v4=prkey
+    k=prbut
+    IF v4=0 THEN
+      nokey=TRUE
+    ELSE
+      nokey=FALSE
+    ENDIF
+    IF (v4 AND 1)=0 THEN
+      lshft=FALSE
+    ELSE
+      lshft=TRUE
+    ENDIF
+    IF (v4 AND 2)=0 THEN
+      rshft=FALSE
+    ELSE
+      rshft=TRUE
+    ENDIF
+    IF (v4 AND 4)=0 THEN
+      ctrlkey=FALSE
+    ELSE
+      ctrlkey=TRUE
+    ENDIF
+    IF (v4 AND 8)=0 THEN
+      altkey=FALSE
+    ELSE
+      altkey=TRUE
+    ENDIF
+  ENDIF
   IF BTST(evnt&,1) OR BTST(evnt&,5) AND nr=trakker& THEN
     ' Drag & Drop
-    k=@mousek
     IF k=1 THEN
-      ~GRAF_MKSTATE(x,v,k,v4)
-      IF (v4=0 AND trmode=1) AND c<>2 THEN
+      IF (v4=0 AND trmode=1) AND dclick=FALSE THEN
         @searchtrak
         @pmarkhlp2
         IF tfound=TRUE THEN
@@ -10466,7 +10203,6 @@ IF donr=nr THEN
       ENDIF
     ENDIF
     IF k=1 OR k=2 THEN
-      ~GRAF_MKSTATE(x,v,k,v4)
       IF v4=0 OR v4=1 OR v4=2 THEN
         IF trmode=2 OR (v4=0 AND k=2 AND trmode<>6) THEN
           ntrmode=2
@@ -10582,14 +10318,16 @@ IF donr=nr THEN
       IF showbdat<>showdat THEN
         showbdat=showdat
         IF tedart=1 THEN
-          shw$=STR$(showdat)+CHR$(0)
+          a$=STR$(showdat)
+          @formatsmp
+          shw$=a$+CHR$(0)
         ELSE
           hsec=showdat*100
           @htimeset
           shw$=a$
         ENDIF
-        IF LEN(shw$)>11 THEN
-          shw$=LEFT$(shw$,11)+CHR$(0)
+        IF LEN(shw$)>13 THEN
+          shw$=LEFT$(shw$,13)+CHR$(0)
         ENDIF
         @textfeld(freemem&,show$,1)
         @textfeld(showxy&,shw$,1)
@@ -11929,6 +11667,7 @@ EXIT IF a=0
 NEXT it
 IF cupdate=FALSE AND shading=FALSE THEN
 ~WIND_UPDATE(1)                                    ! BEG_UPDATE
+'      @rsc_draw_obj(nr,txtname)
 ~OBJC_DRAW(zu%,txtname,1,0,0,xwidth,ywidth)
 ~WIND_UPDATE(0)                                    ! BEG_UPDATE
 ENDIF
@@ -12230,6 +11969,1312 @@ ENDFUNC
 ' ------------------------------------------------------------------------------
 ' ------------------------HAUPTPROGRAMM-----------------------------------------
 ' ------------------------------------------------------------------------------
+'
+> PROCEDURE calc_windows
+IF freez=TRUE THEN                              ! Screen-Restauration
+FOR i=0 TO 31
+pkreinit=FALSE
+IF i<>mensa AND i<>popups& AND i<>btree THEN
+IF nosetload=FALSE THEN          ! Versionskontrolle
+rscx&(i)=rx(i)
+rscy&(i)=ry(i)
+ENDIF
+IF nosetload=FALSE AND (i=smpedit& OR i=peak& OR i=trakker&) THEN
+IF prgversion<1.2 THEN          ! Versionskontrolle
+b=OB_W(rsc_adr%(i),0)
+h=OB_H(rsc_adr%(i),0)
+ENDIF
+IF prgversion>=1.2 THEN          ! Versionskontrolle
+rscw&(i)=rb(i)
+rsch&(i)=rh(i)
+b=rb(i)
+h=rh(i)
+IF i=smpedit& THEN
+xold=rscx&(i)
+yold=rscy&(i)+19
+bold=rscw&(i)
+hold=rsch&(i)-19
+xneu=rscx&(i)
+yneu=rscy&(i)+19
+bneu=rscw&(i)
+hneu=rsch&(i)-19
+ENDIF
+IF i=peak& THEN
+xold2=rscx&(i)
+yold2=rscy&(i)+19
+bold2=rscw&(i)
+hold2=rsch&(i)-19
+xneu2=rscx&(i)
+yneu2=rscy&(i)+19
+bneu2=rscw&(i)
+hneu2=rsch&(i)-19
+nr=i
+notopen=TRUE
+@calc_peaksize
+nr=smpedit&
+notopen=FALSE
+ENDIF
+IF i=trakker& THEN
+xold3=rscx&(i)
+yold3=rscy&(i)+19
+bold3=rscw&(i)
+hold3=rsch&(i)-19
+xneu3=rscx&(i)
+yneu3=rscy&(i)+19
+bneu3=rscw&(i)
+hneu3=rsch&(i)-19
+nr=i
+notopen=TRUE
+@calc_traksize
+nr=smpedit&
+notopen=FALSE
+ENDIF
+ENDIF
+ELSE
+b=OB_W(rsc_adr%(i),0)
+h=OB_H(rsc_adr%(i),0)
+ENDIF
+IF (rscx&(i)+b)>xwidth THEN
+rscx&(i)=xwidth-b
+IF i=smpedit& THEN
+xold=rscx&(i)
+xneu=rscx&(i)
+ENDIF
+IF i=peak& THEN
+xold2=rscx&(i)
+xneu2=rscx&(i)
+pkreinit=TRUE
+ENDIF
+IF i=trakker& THEN
+xold3=rscx&(i)
+xneu3=rscx&(i)
+pkreinit=TRUE
+ENDIF
+ENDIF
+IF (rscy&(i)+h)>ywidth THEN
+rscy&(i)=ywidth-h
+IF i=smpedit& THEN
+yold=rscy&(i)+19
+yneu=rscy&(i)+19
+ENDIF
+IF i=peak& THEN
+yold2=rscy&(i)+19
+yneu2=rscy&(i)+19
+pkreinit=TRUE
+ENDIF
+IF i=trakker& THEN
+yold3=rscy&(i)+19
+yneu3=rscy&(i)+19
+pkreinit=TRUE
+ENDIF
+ENDIF
+IF rscx&(i)<0 THEN
+rscx&(i)=0
+IF i=smpedit& THEN
+xold=rscx&(i)
+xneu=rscx&(i)
+ENDIF
+IF i=peak& THEN
+xold2=rscx&(i)
+xneu2=rscx&(i)
+pkreinit=TRUE
+ENDIF
+IF i=trakker& THEN
+xold3=rscx&(i)
+xneu3=rscx&(i)
+pkreinit=TRUE
+ENDIF
+ENDIF
+IF rscy&(i)<0 THEN
+rscy&(i)=0
+IF i=smpedit& THEN
+yold=rscy&(i)+19
+yneu=rscy&(i)+19
+ENDIF
+IF i=peak& THEN
+yold2=rscy&(i)+19
+yneu2=rscy&(i)+19
+pkreinit=TRUE
+ENDIF
+IF i=trakker& THEN
+yold3=rscy&(i)+19
+yneu3=rscy&(i)+19
+pkreinit=TRUE
+ENDIF
+ENDIF
+IF (rscx&(i)+rscw&(i))>xwidth THEN
+rscw&(i)=xwidth-rscx&(i)
+IF i=smpedit& THEN
+bold=rscw&(i)
+bneu=rscw&(i)
+ENDIF
+IF i=peak& THEN
+bold2=rscw&(i)
+bneu2=rscw&(i)
+pkreinit=TRUE
+ENDIF
+IF i=trakker& THEN
+bold3=rscw&(i)
+bneu3=rscw&(i)
+pkreinit=TRUE
+ENDIF
+ENDIF
+IF (rscy&(i)+rsch&(i))>ywidth THEN
+rsch&(i)=ywidth-rscy&(i)
+IF i=smpedit& THEN
+hold=rsch&(i)-19
+hneu=rsch&(i)-19
+ENDIF
+IF i=peak& THEN
+hold2=rsch&(i)-19
+hneu2=rsch&(i)-19
+pkreinit=TRUE
+ENDIF
+IF i=trakker& THEN
+hold3=rsch&(i)-19
+hneu3=rsch&(i)-19
+pkreinit=TRUE
+ENDIF
+ENDIF
+IF i=peak& AND pkreinit=TRUE THEN
+nr=i
+notopen=TRUE
+@calc_peaksize
+nr=smpedit&
+notopen=FALSE
+ENDIF
+IF i=trakker& AND pkreinit=TRUE THEN
+nr=i
+notopen=TRUE
+@calc_traksize
+nr=smpedit&
+notopen=FALSE
+ENDIF
+OB_X(rsc_adr%(i),0)=ADD(rscx&(i),3)
+OB_Y(rsc_adr%(i),0)=ADD(rscy&(i),3)
+ENDIF
+NEXT i
+ENDIF
+RETURN
+'
+> PROCEDURE change_colors
+IF maxcol=2 THEN
+@textcolor(peak&,peakmax&,0,1,1)  !text,rahmen,fill
+@textcolor(peak&,peakch1&,1,1,0)  !text,rahmen,fill
+@textcolor(peak&,peakch2&,1,1,0)  !text,rahmen,fill
+@textcolor(peak&,peakch3&,1,1,0)  !text,rahmen,fill
+@textcolor(peak&,peakch4&,1,1,0)  !text,rahmen,fill
+@textcolor(marknumb&,mnumhelp&,1,1,0)
+@textcolor(smp16&,helporig&,1,1,0)
+@textcolor(smp16&,input&,1,1,0)
+@textcolor(smp16&,rate2&,1,1,0)
+@textcolor(smp16&,source&,1,1,0)
+@textcolor(smp16&,mode&,1,1,0)
+@textcolor(smp16&,protect&,1,1,0)
+@textcolor(smp16&,emphasis&,1,1,0)
+@textcolor(smp16&,dsp&,1,1,0)
+@textcolor(smpedit&,smpedhlp&,1,1,0)
+@textcolor(smpedit&,mover&,1,1,0)
+@textcolor(smpedit&,rate&,1,1,0)
+@textcolor(smpedit&,lr100&,1,1,0)
+@textcolor(smpedit&,lp80&,1,1,0)
+@textcolor(smpedit&,lp60&,1,1,0)
+@textcolor(smpedit&,lp40&,1,1,0)
+@textcolor(smpedit&,lp20&,1,1,0)
+@textcolor(smpedit&,lp0&,1,1,0)
+@textcolor(smpedit&,lm20&,1,1,0)
+@textcolor(smpedit&,lm40&,1,1,0)
+@textcolor(smpedit&,lm60&,1,1,0)
+@textcolor(smpedit&,lm80&,1,1,0)
+@textcolor(smpedit&,rp80&,1,1,0)
+@textcolor(smpedit&,rp60&,1,1,0)
+@textcolor(smpedit&,rp40&,1,1,0)
+@textcolor(smpedit&,rp20&,1,1,0)
+@textcolor(smpedit&,rp0&,1,1,0)
+@textcolor(smpedit&,rm20&,1,1,0)
+@textcolor(smpedit&,rm40&,1,1,0)
+@textcolor(smpedit&,rm60&,1,1,0)
+@textcolor(smpedit&,rm80&,1,1,0)
+@textcolor(dspedit&,helpdsp&,1,1,0)
+@textcolor(peak&,peakhelp&,1,1,0)
+@textcolor(peak&,peakmax&,1,1,0)
+@textcolor(peak&,peakpos&,1,1,0)
+@textcolor(peak&,peakdb&,1,1,0)
+@textcolor(peak&,peakbal&,1,1,0)
+@textcolor(peak&,peakname&,1,1,0)
+@textcolor(peak&,recpeaks&,1,1,0)
+@textcolor(peak&,recerror&,1,1,0)
+@textcolor(peak&,balbox&,1,1,0)
+@textcolor(loop&,helploop&,1,1,0)
+@textcolor(normaliz&,helpnorm&,1,1,0)
+@textcolor(normaliz&,normdb&,1,1,0)
+@textcolor(normaliz&,maxdb&,1,1,0)
+@textcolor(resample&,helprsmp&,1,1,0)
+@textcolor(resample&,resmplen&,1,1,0)
+@textcolor(resample&,resmpsec&,1,1,0)
+@textcolor(resample&,resmpfac&,1,1,0)
+@textcolor(resample&,resother&,1,1,0)
+@textcolor(midiedit&,helpmidi&,1,1,0)
+@textcolor(midiedit&,notetxt&,1,1,0)
+@textcolor(midiedit&,chtxt&,1,1,0)
+@textcolor(editfade&,helpfade&,1,1,0)
+@textcolor(record&,rechelp&,1,1,0)
+@textcolor(record&,recfree&,1,1,0)
+@textcolor(blkfunc&,blkhelp&,1,1,0)
+@textcolor(savebloc&,savehelp&,1,1,0)
+@textcolor(arranger&,arrhelp&,1,1,0)
+@textcolor(arranger&,playlen&,1,1,0)
+@textcolor(arranger&,playname&,1,1,0)
+@textcolor(arranger&,arrnr1&,1,1,0)
+@textcolor(arranger&,arrmem1&,1,1,0)
+@textcolor(arranger&,spur1&,1,1,0)
+@textcolor(arranger&,arrsmpr1&,1,1,0)
+@textcolor(arranger&,arrnote1&,1,1,0)
+@textcolor(arranger&,arrch1&,1,1,0)
+@textcolor(arranger&,hardst1&,1,1,0)
+@textcolor(arranger&,harde1&,1,1,0)
+@textcolor(arranger&,hardlen1&,1,1,0)
+@textcolor(arranger&,arrnr2&,1,1,0)
+@textcolor(arranger&,arrmem2&,1,1,0)
+@textcolor(arranger&,spur2&,1,1,0)
+@textcolor(arranger&,arrsmpr2&,1,1,0)
+@textcolor(arranger&,arrnote2&,1,1,0)
+@textcolor(arranger&,arrch2&,1,1,0)
+@textcolor(arranger&,hardst2&,1,1,0)
+@textcolor(arranger&,harde2&,1,1,0)
+@textcolor(arranger&,hardlen2&,1,1,0)
+@textcolor(arranger&,arrnr3&,1,1,0)
+@textcolor(arranger&,arrmem3&,1,1,0)
+@textcolor(arranger&,spur3&,1,1,0)
+@textcolor(arranger&,arrsmpr3&,1,1,0)
+@textcolor(arranger&,arrnote3&,1,1,0)
+@textcolor(arranger&,arrch3&,1,1,0)
+@textcolor(arranger&,hardst3&,1,1,0)
+@textcolor(arranger&,harde3&,1,1,0)
+@textcolor(arranger&,hardlen3&,1,1,0)
+@textcolor(arranger&,arrnr4&,1,1,0)
+@textcolor(arranger&,arrmem4&,1,1,0)
+@textcolor(arranger&,spur4&,1,1,0)
+@textcolor(arranger&,arrsmpr4&,1,1,0)
+@textcolor(arranger&,arrnote4&,1,1,0)
+@textcolor(arranger&,arrch4&,1,1,0)
+@textcolor(arranger&,hardst4&,1,1,0)
+@textcolor(arranger&,harde4&,1,1,0)
+@textcolor(arranger&,hardlen4&,1,1,0)
+@textcolor(setup&,sethelp&,1,1,0)
+@textcolor(setup&,tresdb&,1,1,0)
+@textcolor(setup&,recm&,1,1,0)
+@textcolor(setup&,seclen&,1,1,0)
+@textcolor(setup&,fseltxt&,1,1,0)
+@textcolor(setup&,setform&,1,1,0)
+@textcolor(info&,helpinfo&,1,1,0)
+@textcolor(arrmname&,amhelp&,1,1,0)
+@textcolor(trknamin&,trktxhlp&,1,1,0)
+@textcolor(virtual&,virthelp&,1,1,0)
+@textcolor(virtual&,vblkmlen&,1,1,0)
+@textcolor(virtual&,vblkvlen&,1,1,0)
+@textcolor(arrmake&,makehelp&,1,1,0)
+@textcolor(arrmake&,maketxt&,1,1,0)
+@textcolor(arrmake&,makerate&,1,1,0)
+@textcolor(timeed&,tedhelp&,1,1,0)
+@textcolor(smpinf&,sinfhelp&,1,1,0)
+@textcolor(smpinf&,sinfname&,1,1,0)
+@textcolor(smpinf&,sinflen&,1,1,0)
+@textcolor(smpinf&,sinfrate&,1,1,0)
+@textcolor(smpinf&,sinfdate&,1,1,0)
+@textcolor(smpinf&,sinfsus1&,1,1,0)
+@textcolor(smpinf&,sinfsus2&,1,1,0)
+@textcolor(smpinf&,sinfrel1&,1,1,0)
+@textcolor(smpinf&,sinfrel2&,1,1,0)
+@textcolor(smpinf&,sinfl1&,1,1,0)
+@textcolor(smpinf&,sinfl2&,1,1,0)
+@textcolor(smpinf&,sinfl3&,1,1,0)
+@textcolor(smpinf&,sinfl4&,1,1,0)
+@textcolor(smpinf&,sinfl5&,1,1,0)
+@textcolor(smpinf&,sinfl6&,1,1,0)
+@textcolor(smpinf&,sinfl7&,1,1,0)
+@textcolor(smpinf&,sinfl8&,1,1,0)
+@textcolor(smpinf&,sinfl9&,1,1,0)
+@textcolor(smpinf&,sinfl10&,1,1,0)
+@textcolor(smpinf&,sinfl11&,1,1,0)
+@textcolor(smpinf&,sinfl12&,1,1,0)
+@textcolor(trakker&,trakhelp&,1,1,0)
+IF bigfoot=TRUE THEN
+@textcolor(trakker&,trk4&,1,1,0)
+@textcolor(trakker&,trk8&,1,1,0)
+@textcolor(trakker&,trk12&,1,1,0)
+@textcolor(trakker&,trk16&,1,1,0)
+ENDIF
+@textcolor(trakker&,trkmon&,1,1,0)
+@textcolor(trakker&,trakk1&,1,1,0)
+@textcolor(trakker&,trakk2&,1,1,0)
+@textcolor(trakker&,trakk3&,1,1,0)
+@textcolor(trakker&,trakk4&,1,1,0)
+@textcolor(trakker&,trakstrt&,1,1,0)
+@textcolor(trakker&,trakend&,1,1,0)
+@textcolor(trakker&,traklen&,1,1,0)
+@textcolor(trakker&,trksmpte&,1,1,0)
+@textcolor(trakker&,trakdur&,1,1,0)
+@textcolor(trakker&,tpstrt&,1,1,0)
+@textcolor(trakker&,tpend&,1,1,0)
+@textcolor(trakker&,trakinfo&,1,1,0)
+@textcolor(trakker&,trakname&,1,1,0)
+@textcolor(trakker&,traktime&,1,1,0)
+@textcolor(trakker&,trkerr&,1,1,0)
+@textcolor(trakker&,timeline&,1,1,0)
+IF bigfoot=TRUE THEN
+@textcolor(trakker&,timelin2&,1,1,0)
+@textcolor(trakker&,trkslot2&,1,1,0)
+ENDIF
+@textcolor(trakker&,trkslot&,1,1,0)
+@textcolor(fsel&,fshelp&,1,1,0)
+@textcolor(fsel&,fsotxt&,1,1,0)
+@textcolor(fsel&,fsbut1&,1,1,0)
+@textcolor(fsel&,fsbut2&,1,1,0)
+@textcolor(fsel&,fsbut3&,1,1,0)
+@textcolor(fsel&,fsbut4&,1,1,0)
+@textcolor(fsel&,fsbut5&,1,1,0)
+@textcolor(fsel&,fsbut6&,1,1,0)
+@textcolor(fsel&,fsbut7&,1,1,0)
+@textcolor(fsel&,fsbut8&,1,1,0)
+@textcolor(fsel&,fsbut9&,1,1,0)
+@textcolor(fsel&,fsbut10&,1,1,0)
+@textcolor(fsel&,fsbut11&,1,1,0)
+@textcolor(fsel&,fsbut12&,1,1,0)
+@textcolor(fsel&,fsbut13&,1,1,0)
+@textcolor(fsel&,fsbut14&,1,1,0)
+@textcolor(fsel&,fsbut15&,1,1,0)
+@textcolor(fsel&,fstxt1&,1,1,0)
+@textcolor(fsel&,fstxt2&,1,1,0)
+@textcolor(fsel&,fstxt3&,1,1,0)
+@textcolor(fsel&,fstxt4&,1,1,0)
+@textcolor(fsel&,fstxt5&,1,1,0)
+@textcolor(fsel&,fstxt6&,1,1,0)
+@textcolor(fsel&,fstxt7&,1,1,0)
+@textcolor(fsel&,fstxt8&,1,1,0)
+@textcolor(fsel&,fstxt9&,1,1,0)
+@textcolor(fsel&,fstxt10&,1,1,0)
+@textcolor(fsel&,fstxt11&,1,1,0)
+@textcolor(fsel&,fstxt12&,1,1,0)
+@textcolor(fsel&,fstxt13&,1,1,0)
+@textcolor(fsel&,fstxt14&,1,1,0)
+@textcolor(fsel&,fstxt15&,1,1,0)
+@textcolor(fsel&,fstime&,1,1,0)
+@textcolor(arranger&,hlpedit2&,1,1,0)
+@textcolor(moving&,movhlp&,1,1,0)
+@textcolor(abackup&,abackhlp&,1,1,0)
+@textcolor(abackup&,abacktxt&,1,1,0)
+@textcolor(smpedit&,cstxt&,1,1,0)
+@textcolor(smpedit&,cetxt&,1,1,0)
+@textcolor(smpedit&,edmtims&,1,1,0)
+@textcolor(smpedit&,edmtime&,1,1,0)
+@textcolor(smpedit&,edmtimi&,1,1,0)
+@textcolor(smpedit&,edmtimr&,1,1,0)
+@textcolor(smpedit&,edmnr&,1,1,0)
+@textcolor(smpedit&,edmtxt&,1,1,0)
+@textcolor(smpedit&,smplen&,1,1,0)
+@textcolor(smpedit&,smpfile&,1,1,0)
+@textcolor(smpedit&,smpname&,1,1,0)
+@textcolor(smpedit&,showxy&,1,1,0)
+@textcolor(smpedit&,freemem&,1,1,0)
+@textcolor(smpedit&,clock&,1,1,0)
+@textcolor(smpedit&,pntprsmp&,1,1,0)
+@textcolor(smpedit&,smprate&,1,1,0)
+@textcolor(smpedit&,smpsec&,1,1,0)
+@textcolor(smpedit&,mintext&,1,1,0)
+@textcolor(trakker&,trklevt1&,1,1,0)
+@textcolor(trakker&,trklevt2&,1,1,0)
+@textcolor(trakker&,trklevt3&,1,1,0)
+@textcolor(trakker&,trklevt4&,1,1,0)
+@textcolor(trakker&,trktxt1&,1,1,0)
+@textcolor(trakker&,trktxt2&,1,1,0)
+@textcolor(trakker&,trktxt3&,1,1,0)
+@textcolor(trakker&,trktxt4&,1,1,0)
+@textcolor(trakker&,pantxt1&,1,1,0)
+@textcolor(trakker&,pantxt2&,1,1,0)
+@textcolor(trakker&,pantxt3&,1,1,0)
+@textcolor(trakker&,pantxt4&,1,1,0)
+@textcolor(trakker&,trksize&,1,1,0)
+@textcolor(trakker&,trkvbox&,1,1,0)
+@textcolor(disked&,dskedtxt&,1,1,0)
+@textcolor(meldung&,meldtxt&,1,1,0)
+@textcolor(mrkfind&,mrkfnr&,1,1,0)
+@textcolor(mrkfind&,mrkftims&,1,1,0)
+@textcolor(mrkfind&,mrkftime&,1,1,0)
+@textcolor(mrkfind&,mrkftimi&,1,1,0)
+@textcolor(mrkfind&,mrkftimr&,1,1,0)
+@textcolor(mrkfind&,mrkftxt&,1,1,0)
+@textcolor(smpedit&,edmnr&,1,1,0)
+@textcolor(smpedit&,edmtims&,1,1,0)
+@textcolor(smpedit&,edmtime&,1,1,0)
+@textcolor(smpedit&,edmtimi&,1,1,0)
+@textcolor(smpedit&,edmtimr&,1,1,0)
+@textcolor(smpedit&,edmtxt&,1,1,0)
+@textcolor(smpedit&,smpedhlp&,1,1,0)
+@textcolor(trkcomin&,trkchlp&,1,1,0)
+@textcolor(mrktxtin&,mtexhelp&,1,1,0)
+@textcolor(mrkfind&,mrkfhelp&,1,1,0)
+@textcolor(disked&,dskedhlp&,1,1,0)
+@textcolor(wmode&,wmhelp&,1,1,0)
+@textcolor(clocks&,clockhlp&,1,1,0)
+@textcolor(clocks&,clockm&,1,1,0)
+@textcolor(clocks&,clock1&,1,1,0)
+@textcolor(clocks&,clock2&,1,1,0)
+@textcolor(clocks&,clock3&,0,1,1)
+@textcolor(clocks&,clock4&,1,1,0)
+@textcolor(clocks&,clock5&,1,1,0)
+@textcolor(smpedit&,resolu&,1,1,0)
+@textcolor(plugin&,panhelp&,1,1,0)
+@textcolor(plugin&,levcnt1&,1,1,0)
+@textcolor(plugin&,levcnt2&,1,1,0)
+@textcolor(plugin&,levcnt3&,1,1,0)
+@textcolor(plugin&,levcnt4&,1,1,0)
+@textcolor(plugin&,levcnt5&,1,1,0)
+@textcolor(plugin&,levart1&,1,1,0)
+@textcolor(plugin&,levart2&,1,1,0)
+@textcolor(plugin&,levart3&,1,1,0)
+@textcolor(plugin&,levart4&,1,1,0)
+@textcolor(plugin&,levart5&,1,1,0)
+@textcolor(plugin&,levtxt1&,1,1,0)
+@textcolor(plugin&,levtxt2&,1,1,0)
+@textcolor(plugin&,levtxt3&,1,1,0)
+@textcolor(plugin&,levtxt4&,1,1,0)
+@textcolor(plugin&,levtxt5&,1,1,0)
+@textcolor(plugin&,plugct1&,1,1,0)
+@textcolor(plugin&,plugct2&,1,1,0)
+@textcolor(plugin&,plugct3&,1,1,0)
+@textcolor(plugin&,plgtitel&,1,1,0)
+@textcolor(plgconfg&,pcfghelp&,1,1,0)
+@textcolor(plgconfg&,plgcfg1&,1,1,0)
+@textcolor(plgconfg&,plgcfg2&,1,1,0)
+@textcolor(plgconfg&,plgcfg3&,1,1,0)
+@textcolor(plgconfg&,plgcfg4&,1,1,0)
+@textcolor(plgconfg&,plgcfg5&,1,1,0)
+@textcolor(plgconfg&,plgcfg6&,1,1,0)
+@textcolor(plgconfg&,plgcfg7&,1,1,0)
+@textcolor(plgconfg&,plgcfg8&,1,1,0)
+@textcolor(plgconfg&,plgcfg9&,1,1,0)
+@textcolor(plgconfg&,plgcfg10&,1,1,0)
+@textcolor(plgconfg&,plgrec1&,1,1,0)
+@textcolor(plgconfg&,plgrec2&,1,1,0)
+@textcolor(plgconfg&,plgrec3&,1,1,0)
+@textcolor(plgconfg&,plgrec4&,1,1,0)
+@textcolor(plgconfg&,plgrec5&,1,1,0)
+@textcolor(plgconfg&,plgplay1&,1,1,0)
+@textcolor(plgconfg&,plgplay2&,1,1,0)
+@textcolor(plgconfg&,plgplay3&,1,1,0)
+@textcolor(plgconfg&,plgplay4&,1,1,0)
+@textcolor(plgconfg&,plgplay5&,1,1,0)
+@textcolor(plgconfg&,pcfgtex1&,1,1,0)
+@textcolor(plgconfg&,pcfgtex2&,1,1,0)
+@textcolor(plgconfg&,pcfgtex3&,1,1,0)
+@colorbox(plugin&,panbox&,0,7)
+@colorbox(plgconfg&,pcfgbox&,0,7)
+@colorbox(smp16&,mainbox6&,0,7)
+@colorbox(smp16&,mainbox&,0,7)
+@colorbox(smp16&,mainbox2&,0,7)
+@colorbox(smp16&,mainbox4&,0,7)
+@colorbox(smp16&,mainbox5&,0,7)
+@colorbox(smpedit&,editbox&,0,7)
+@colorbox(smpedit&,editbox2&,0,7)
+@colorbox(smpedit&,editbox3&,0,7)
+@colorbox(smpedit&,editbox5&,0,7)
+@colorbox(smpedit&,editbox6&,0,7)
+@colorbox(smpedit&,editbox7&,0,7)
+@colorbox(smpedit&,zomslide&,1,1)
+@colorbox(smpedit&,edmslide&,1,1)
+@colorbox(smpedit&,scrlslde&,1,1)
+@colorbox(smpedit&,curvbox&,0,7)
+@colorbox(smpedit&,editbox4&,0,7)
+@colorbox(smpedit&,editbox8&,0,7)
+@colorbox(peak&,peakbox&,0,7)
+@colorbox(peak&,pkmbox&,0,7)
+@colorbox(peak&,pkmbox2&,0,7)
+@colorbox(peak&,peakbox2&,0,7)
+@colorbox(peak&,volbox&,0,7)
+@colorbox(loop&,loopbox&,0,7)
+@colorbox(loop&,loopbox2&,0,7)
+@colorbox(normaliz&,normbox&,0,7)
+@colorbox(normaliz&,normbox2&,0,7)
+@colorbox(resample&,resmpbox&,0,7)
+@colorbox(midiedit&,midibox&,0,7)
+@colorbox(editfade&,fadebox&,0,7)
+@colorbox(editfade&,edfadbox&,0,7)
+@colorbox(record&,recbox&,0,7)
+@colorbox(blkfunc&,blkbox&,0,7)
+@colorbox(savebloc&,savebox&,0,7)
+@colorbox(arranger&,arrbox&,0,7)
+@colorbox(arranger&,arrbox2&,0,7)
+@colorbox(arranger&,arrbox3&,0,7)
+@colorbox(arranger&,arrbox4&,0,7)
+@colorbox(arranger&,arrbox5&,0,7)
+@colorbox(arranger&,arrbox6&,0,7)
+@colorbox(arranger&,arrbox7&,0,7)
+@colorbox(arranger&,arrbox8&,0,7)
+@colorbox(arranger&,arrslide&,1,1)
+@colorbox(info&,infobox&,0,7)
+@colorbox(trknamin&,trktxbox&,0,7)
+@colorbox(trknamin&,trktxbo2&,0,7)
+@colorbox(arrmname&,arrmnbox&,0,7)
+@colorbox(arrmname&,arrmnbx2&,0,7)
+@colorbox(dspedit&,dspbox&,0,7)
+@colorbox(virtual&,virtbox&,0,7)
+@colorbox(virtual&,virtbox2&,0,7)
+@colorbox(virtual&,virtbox3&,0,7)
+@colorbox(virtual&,vslider&,1,1)
+@colorbox(moving&,movngbox&,0,7)
+@colorbox(arrmake&,makebox&,0,7)
+@colorbox(timeed&,timebox&,0,7)
+@colorbox(timeed&,timebox2&,0,7)
+@colorbox(abackup&,abackbox&,0,7)
+@colorbox(abackup&,abackbo2&,0,7)
+@colorbox(inftxt&,infbox&,0,7)
+@colorbox(inftxt&,infbox2&,0,7)
+@colorbox(trakker&,trakbox&,0,7)
+@colorbox(trakker&,trakedbx&,0,7)
+@colorbox(trakker&,trakbox2&,0,7)
+@colorbox(trakker&,trakbox3&,0,7)
+@colorbox(trakker&,trakbox4&,0,7)
+@colorbox(trakker&,trakbox5&,0,7)
+@colorbox(trakker&,trakbxw&,0,7)
+@colorbox(trakker&,trakslid&,1,1)
+@colorbox(trakker&,zoomslid&,1,1)
+@colorbox(trakker&,spurslid&,1,1)
+@colorbox(mrkfind&,mrkfslid&,1,1)
+@colorbox(setup&,setupbox&,0,7)
+@colorbox(setup&,setupbx2&,0,7)
+@colorbox(setup&,setupbx3&,0,7)
+@colorbox(fsel&,fselbox&,0,7)
+@colorbox(fsel&,fselbox2&,0,7)
+@colorbox(fsel&,fsslide&,1,1)
+@colorbox(smpinf&,sinfbox&,0,7)
+@colorbox(smpinf&,sinfbox2&,0,7)
+@colorbox(trakker&,tlevbox&,0,7)
+@colorbox(trakker&,trkbx1&,0,7)
+@colorbox(trakker&,trkbx2&,0,7)
+@colorbox(trakker&,trkbx3&,0,7)
+@colorbox(trakker&,trkbx4&,0,7)
+@colorbox(meldung&,meldbox&,0,7)
+@colorbox(trkcomin&,trkcbox&,0,7)
+@colorbox(trkcomin&,trkcbox2&,0,7)
+@colorbox(mrktxtin&,mtexbox&,0,7)
+@colorbox(mrktxtin&,mtexbox2&,0,7)
+@colorbox(mrkfind&,mrkfbox&,0,7)
+@colorbox(mrkfind&,mrkfbox2&,0,7)
+IF bigfoot=TRUE THEN
+@colorbox(mrkfind&,mrkfbox3&,0,7)
+@colorbox(trakker&,trakbox6&,0,7)
+ENDIF
+@colorbox(disked&,dskedbox&,0,7)
+@colorbox(disked&,dskedbx2&,0,7)
+@colorbox(disked&,dskedbx3&,0,7)
+@colorbox(disked&,dskedbx4&,0,7)
+@colorbox(alertbox&,alertcol&,0,7)
+@colorbox(wmode&,wmbox1&,0,7)
+@colorbox(wmode&,wmbox2&,0,7)
+@colorbox(wmode&,wmbox3&,0,7)
+@colorbox(wmode&,wmbox4&,0,7)
+@colorbox(wmode&,wmbox5&,0,7)
+@colorbox(wmode&,wmbox7&,0,7)
+@colorbox(clocks&,clkbox&,0,7)
+@colorbox(clocks&,clkbox2&,0,7)
+@colorbox(clocks&,clkslid&,1,1)
+@colorbox(marknumb&,mnumbox&,0,7)
+@colorbox(marknumb&,mnumbox2&,0,7)
+ELSE
+@colorbox(smpedit&,curvbox&,smpwcol,7)
+@colorbox(smpedit&,editbox4&,smpblkcol,7)
+@colorbox(smpedit&,editbox8&,smpblkcol,7)
+@colorbox(trakker&,trakbox2&,smpblkcol,7)
+@colorbox(trakker&,trakedbx&,smpwcol,7)
+@textcolor(trakker&,trkslot&,0,smpwcol,smpwcol)
+@textcolor(trakker&,trkslot2&,0,smpwcol,smpwcol)
+@textcolor(trakker&,timeline&,0,smpwcol,smpwcol)
+@textcolor(trakker&,timelin2&,0,smpwcol,smpwcol)
+@textcolor(trakker&,trktitxt&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,lr100&,6,smpwcol,smpwcol)
+@textcolor(smpedit&,lp80&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,lp60&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,lp40&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,lp20&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,lp0&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,lm20&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,lm40&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,lm60&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,lm80&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,rp80&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,rp60&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,rp40&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,rp20&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,rp0&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,rm20&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,rm40&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,rm60&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,rm80&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,smptxl&,0,smpwcol,smpwcol)
+@textcolor(smpedit&,smptxr&,0,smpwcol,smpwcol)
+ENDIF
+RETURN
+'
+> PROCEDURE bigtext(tre,t$,n)
+LOCAL l,s
+@markhlp
+s=40
+GRAPHMODE 1
+DEFFILL 1,1,1
+PBOX ax&-1+texposx,ay&-38+texposy+n*(s+5),ax&-1+texposx+bneu2-21,ay&-38+texposy-s-1+n*(s+5)
+IF n=0 THEN
+IF maxcol=2 THEN
+DEFTEXT 0,2,0,s
+ELSE
+DEFTEXT 9,0,0,s
+ENDIF
+ELSE
+DEFTEXT 0,0,0,s
+ENDIF
+GRAPHMODE 2
+l=LEN(t$)
+IF l>11 THEN
+t$=LEFT$(t$,11)
+ENDIF
+TEXT ax&-1+texposx+13,ay&-38+texposy-4+n*(s+5),t$
+DEFTEXT 1,0,0,4
+RETURN
+'
+> PROCEDURE bigtext2
+LOCAL s
+IF bigtxt=TRUE AND nr=peak& THEN
+@markhlp
+s=40
+GRAPHMODE 1
+DEFFILL 1,1,1
+PBOX ax&-1+texposx,ay&-38+texposy+0*(s+5),ax&-1+texposx+bneu2-21,ay&-38+texposy-s-1+0*(s+5)
+PBOX ax&-1+texposx,ay&-38+texposy+1*(s+5),ax&-1+texposx+bneu2-21,ay&-38+texposy-s-1+1*(s+5)
+ENDIF
+RETURN
+'
+> PROCEDURE bigtext3(x,y,n,t$,a,b)
+LOCAL l,s,m,m2,m3
+s=11
+s2=6
+GRAPHMODE 1
+IF maxcol=2 THEN
+DEFFILL 0,1,0
+ELSE
+DEFFILL smpwcol,1,smpwcol
+ENDIF
+m=s2*n*11
+m2=INT(m/2/n)+2
+m3=LEN(t$)*s2
+IF a=0 THEN
+PBOX x-m2-5,y,x+m2-4,y-s
+m3=INT(m3/2)
+ELSE
+PBOX x-m2-5,y,x+m2-4,y-s
+m3=INT(m3/2)+5
+ENDIF
+IF maxcol=2 THEN
+IF b=6 THEN
+DEFTEXT 1,2,0,s
+ELSE
+DEFTEXT 1,0,0,s
+ENDIF
+ELSE
+DEFTEXT b,0,0,s
+ENDIF
+GRAPHMODE 2
+l=LEN(t$)
+IF l>11 THEN
+t$=LEFT$(t$,11)
+ENDIF
+TEXT x-m3+1,y,t$
+DEFTEXT 1,0,0,4
+RETURN
+'
+> PROCEDURE calc_editsize
+LOCAL v,hadd,hadd2,hadd4,q
+IF (freez=TRUE AND notopen=TRUE) OR notopen=FALSE THEN
+IF bneu<1020 THEN
+bneu=1020
+ENDIF
+IF hneu<562 THEN
+hneu=562
+ENDIF
+bneu=bneu-6
+hneu=hneu-6
+@buttbh(editbox7&,b,h)
+badd=bneu-b
+IF cefadd2=FALSE THEN
+cefadd=16
+cefadd2=TRUE
+ELSE
+cefadd=0
+ENDIF
+hadd=hneu-h+cefadd
+hadd2=INT(hadd/2)
+hadd4=INT(hadd/4)
+@setbuttbh(editbox7&,bneu,hneu)
+@buttbh(editbox2&,b,h)
+b=b+badd
+@setbuttbh(editbox2&,b,h)
+@buttbh(curvbox&,b,h)
+b=b+badd
+h=h+hadd
+@setbuttbh(curvbox&,b,h)
+@buttbh(editbox4&,b,h)
+b=b+badd
+h=h+hadd2
+@setbuttbh(editbox4&,b,h)
+@buttbh(editbox8&,b,h)
+b=b+badd
+h=h+hadd2
+@setbuttbh(editbox8&,b,h)
+@readpos(editbox&)
+bx=INT(bx+badd/2)
+by=by+hadd
+@setpos(editbox&,bx,by)
+@readpos(lscroll&)
+by=by+hadd
+@setpos(lscroll&,bx,by)
+@readpos(rscroll&)
+bx=bx+badd
+by=by+hadd
+@setpos(rscroll&,bx,by)
+@readpos(scrlslde&)
+by=by+hadd
+@setpos(scrlslde&,bx,by)
+@buttbh(scrlslde&,b,h)
+b=b+badd
+@setbuttbh(scrlslde&,b,h)
+@readpos(editbox8&)
+by=by+hadd2
+@setpos(editbox8&,bx,by)
+@readpos(smpsave&)
+v=16
+bx=bneu-v-32
+@setpos(smpsave&,bx,by)
+bx=bneu-v-32*2
+@setpos(smpload&,bx,by)
+bx=bneu-v-32*3
+@setpos(disk&,bx,by)
+bx=bneu-v-32*4
+@setpos(smpdbank&,bx,by)
+@readpos(blkfiler&)
+bx=bneu-v-15-32
+@setpos(blkfiler&,bx,by)
+bx=bneu-(v-1)-32*4
+@setpos(blkfilel&,bx,by)
+@readpos(blkfile&)
+bx=bneu-(v-21)-32*3
+@setpos(blkfile&,bx,by)
+@calc_editboxes1
+cached=FALSE
+q=(ym+3)/10
+@readpos(lp80&)
+by2=4+q
+@setpos(lp80&,bx,by2)
+@readpos(lp60&)
+by2=by2+q
+by=INT(by2)
+@setpos(lp60&,bx,by)
+@readpos(lp40&)
+by2=by2+q
+by=INT(by2)
+@setpos(lp40&,bx,by)
+@readpos(lp20&)
+by2=by2+q
+by=INT(by2)
+@setpos(lp20&,bx,by)
+@readpos(lp0&)
+by2=by2+q
+by=INT(by2)
+@setpos(lp0&,bx,by)
+@readpos(lm20&)
+by2=by2+q
+by=INT(by2)
+@setpos(lm20&,bx,by)
+@readpos(lm40&)
+by2=by2+q
+by=INT(by2)
+@setpos(lm40&,bx,by)
+@readpos(lm60&)
+by2=by2+q
+by=INT(by2)
+@setpos(lm60&,bx,by)
+@readpos(lm80&)
+by2=by2+q
+by=INT(by2)
+@setpos(lm80&,bx,by)
+@readpos(lr100&)
+by2=by2+q+1
+by=INT(by2)
+@setpos(lr100&,bx,by)
+@readpos(rp80&)
+by2=by2+q+2
+by=INT(by2)
+@setpos(rp80&,bx,by)
+@readpos(rp60&)
+by2=by2+q
+by=INT(by2)
+@setpos(rp60&,bx,by)
+@readpos(rp40&)
+by2=by2+q
+by=INT(by2)
+@setpos(rp40&,bx,by)
+@readpos(rp20&)
+by2=by2+q
+by=INT(by2)
+@setpos(rp20&,bx,by)
+@readpos(rp0&)
+by2=by2+q
+by=INT(by2)
+@setpos(rp0&,bx,by)
+@readpos(rm20&)
+by2=by2+q
+by=INT(by2)
+@setpos(rm20&,bx,by)
+@readpos(rm40&)
+by2=by2+q
+by=INT(by2)
+@setpos(rm40&,bx,by)
+@readpos(rm60&)
+by2=by2+q
+by=INT(by2)
+@setpos(rm60&,bx,by)
+@readpos(rm80&)
+by2=by2+q
+by=INT(by2)
+@setpos(rm80&,bx,by)
+@readpos(smptxl&)
+bx=bneu-38
+by=by+hadd4
+@setpos(smptxl&,bx,by)
+@readpos(smptxr&)
+bx=bneu-38
+by=by+hadd2+hadd4
+@setpos(smptxr&,bx,by)
+IF smpedda=TRUE THEN
+@rsc_back(nr)
+ENDIF
+rscx&(nr)=xneu
+rscy&(nr)=yneu-18
+rscw&(nr)=bneu+6
+rsch&(nr)=hneu+6+16
+@setpos(editbox7&,xneu+3,yneu+3-18)
+@scrollinit
+@wischwasch
+IF notopen=FALSE THEN
+@rsc_draw(nr,7)
+@restaura
+ENDIF
+IF menuda=TRUE THEN
+@rsc_menu_ienable(TRUE)
+ENDIF
+ENDIF
+RETURN
+'
+PROCEDURE calc_peaksize
+IF (freez=TRUE AND notopen=TRUE) OR notopen=FALSE THEN
+bigpeak=532
+IF bneu2<>316 THEN
+bneu2=316
+ENDIF
+IF hneu2<406 THEN
+hneu2=406
+ENDIF
+bneu2=bneu2-6
+hneu2=hneu2-6
+IF hneu2>bigpeak THEN
+IF bigtxt=FALSE THEN
+@readpos(pkmbox&)
+pkmx=bx
+@readpos(pkmbox2&)
+pkmx2=bx
+@readpos(peakhelp&)
+pkmx3=bx
+pkmy3=by
+@readpos(peakexit&)
+pkmx4=bx
+pkmy4=by
+@readpos(peakmute&)
+pkmx5=bx
+pkmy5=by
+@readpos(balzero&)
+pkmx6=bx
+pkmy6=by
+hadds=32
+ELSE
+@readpos(pkmbox&)
+by=by+102
+@setpos(pkmbox&,pkmx,by)
+@readpos(pkmbox2&)
+by=by+432
+@setpos(pkmbox2&,pkmx2,by)
+'
+@readpos(peakhelp&)
+by=by-84
+@setpos(peakhelp&,pkmx3,by)
+@readpos(peakexit&)
+by=by-55
+@setpos(peakexit&,pkmx4,by)
+@readpos(peakmute&)
+by=by+130
+@setpos(peakmute&,pkmx5,by)
+@readpos(balzero&)
+by=by+105
+@setpos(balzero&,pkmx6,by)
+hadds=0
+ENDIF
+bigtxt=TRUE
+@hidetree2(peakpos&,TRUE)
+@hidetree2(peakpost&,TRUE)
+@hidetree2(peakmax&,TRUE)
+@hidetree2(peakmaxt&,TRUE)
+ELSE
+IF bigtxt=TRUE THEN
+@readpos(pkmbox&)
+by=by+102
+@setpos(pkmbox&,pkmx,by)
+@readpos(pkmbox2&)
+by=by+432
+@setpos(pkmbox2&,pkmx2,by)
+@readpos(peakhelp&)
+by=by-84
+@setpos(peakhelp&,pkmx3,by)
+@readpos(peakexit&)
+by=by-55
+@setpos(peakexit&,pkmx4,by)
+@readpos(peakmute&)
+by=by+130
+@setpos(peakmute&,pkmx5,by)
+@readpos(balzero&)
+by=by+105
+@setpos(balzero&,pkmx6,by)
+hadds=-32
+ELSE
+hadds=0
+ENDIF
+bigtxt=FALSE
+@hidetree2(peakpos&,FALSE)
+@hidetree2(peakpost&,FALSE)
+@hidetree2(peakmax&,FALSE)
+@hidetree2(peakmaxt&,FALSE)
+ENDIF
+texposx=4
+texposy=hneu2-62-32
+@buttbh(peakbox&,b,h)
+badd=bneu2-b
+hadd=hneu2-h+16-hadds
+hadd2=INT(hadd/2)
+hadd4=INT(hadd/4)
+@setbuttbh(peakbox&,bneu2,hneu2+16)
+@readpos(peakname&)
+by=by+hadd
+@setpos(peakname&,bx,by)
+@readpos(peakmute&)
+by=by+hadd
+IF hneu2>bigpeak THEN
+bx=bneu2-78
+by=by-130
+ENDIF
+@setpos(peakmute&,bx,by)
+@readpos(balzero&)
+by=by+hadd
+IF hneu2>bigpeak THEN
+bx=bneu2-78
+by=by-105
+ENDIF
+@setpos(balzero&,bx,by)
+@readpos(peakhelp&)
+by=by+hadd
+IF hneu2>bigpeak THEN
+bx=8
+by=by+84
+ENDIF
+@setpos(peakhelp&,bx,by)
+@readpos(peakexit&)
+by=by+hadd
+IF hneu2>bigpeak THEN
+bx=bneu2-76
+by=by+55
+ENDIF
+@setpos(peakexit&,bx,by)
+'
+@readpos(pkmbox&)
+by=by+hadd
+IF hneu2>bigpeak THEN
+by=by-102
+ENDIF
+@setpos(pkmbox&,bx,by)
+bx2=bx
+@readpos(pkmbox2&)
+by=by+hadd
+IF hneu2>bigpeak THEN
+by=by-432
+bx=bx2+30
+ENDIF
+@setpos(pkmbox2&,bx,by)
+@readpos(peaktl&)
+by=by+hadd
+@setpos(peaktl&,bx,by)
+@readpos(peaktr&)
+by=by+hadd
+@setpos(peaktr&,bx,by)
+@buttbh(peakbox2&,b,h)
+h=h+hadd
+@setbuttbh(peakbox2&,b,h)
+@buttbh(plmax&,b,h)
+h=h+hadd
+@setbuttbh(plmax&,b,h)
+@buttbh(prmax&,b,h)
+h=h+hadd
+@setbuttbh(prmax&,b,h)
+IF smpedda=TRUE THEN
+@rsc_back(nr)
+ENDIF
+nr=peak&
+rscx&(nr)=xneu2
+rscy&(nr)=yneu2-18
+rscw&(nr)=bneu2+6
+rsch&(nr)=hneu2+6+16
+@setpos(peakbox&,xneu2+3,yneu2+3-18)
+@buttbh(plmax&,v,peaksize)
+DEC peaksize
+wymax=peaksize
+pkblk=(wymax+3)/9                  ! Einteilungs-Blockgroesse
+pkrot=pkblk-2                      ! roter Bereich in Pixeln
+pksix=pkrot+4*pkblk                ! -6db-Bereich
+@readpos(pmdb1&)
+by2=by-1
+@readpos(pmdb2&)
+by2=by2+pkblk
+@setpos(pmdb2&,bx,by2)
+@readpos(pmdb3&)
+by2=by2+pkblk
+@setpos(pmdb3&,bx,by2)
+@readpos(pmdb4&)
+by2=by2+pkblk
+@setpos(pmdb4&,bx,by2)
+@readpos(pmdb5&)
+by2=by2+pkblk
+@setpos(pmdb5&,bx,by2)
+@readpos(pmdb6&)
+by2=by2+pkblk
+@setpos(pmdb6&,bx,by2)
+@readpos(pmdb7&)
+by2=by2+pkblk
+@setpos(pmdb7&,bx,by2)
+@readpos(pmdb8&)
+by2=by2+pkblk
+@setpos(pmdb8&,bx,by2)
+@readpos(pmdb9&)
+by2=by2+pkblk
+@setpos(pmdb9&,bx,by2)
+@readpos(pmdb10&)
+by2=by2+pkblk
+@setpos(pmdb10&,bx,by2)
+wpl=0   ! peakhold left
+wpr=0   ! peakhold right
+vpl=0   ! peakhold left
+vpr=0   ! peakhold right
+pl=0   ! peakhold left
+pr=0   ! peakhold right
+@wischwasch
+IF notopen=FALSE THEN
+@rsc_draw(nr,7)
+IF menuda=TRUE THEN
+@rsc_menu_ienable(TRUE)
+ENDIF
+ENDIF
+ENDIF
+RETURN
+'
+> PROCEDURE calc_traksize
+LOCAL v,hadd,hadd2,hadd4,q
+IF (freez=TRUE AND notopen=TRUE) OR notopen=FALSE THEN
+tcached=FALSE
+IF bneu3<1008 THEN
+bneu3=1008
+ENDIF
+IF hneu3<692 THEN
+hneu3=692
+ENDIF
+bneu3=bneu3-6
+hneu3=hneu3-6
+@buttbh(trakbox&,b,h)
+badd=bneu3-b
+badd2=INT(badd/2)
+IF cefaddb2=FALSE THEN
+cefaddb=16
+cefaddb2=TRUE
+ELSE
+cefaddb=0
+ENDIF
+hadd=hneu3-h+cefaddb
+hadd=INT(hadd/4)*4
+hneu3=hadd+h-cefaddb
+hadd2=hadd/2
+hadd4=hadd/4
+@setbuttbh(trakbox&,bneu3,hneu3)
+@readpos(trakbxw&)
+bx=bx+badd2
+by=by+hadd
+@setpos(trakbxw&,bx,by)
+@buttbh(trakedbx&,b,h)
+b=b+badd
+h=h+hadd
+@setbuttbh(trakedbx&,b,h)
+@buttbh(trakbox3&,b,h)
+b=b+badd
+@setbuttbh(trakbox3&,b,h)
+@readpos(zoomslid&)
+by=by+hadd
+@setpos(zoomslid&,bx,by)
+@readpos(zoomxl&)
+by=by+hadd
+@setpos(zoomxl&,bx,by)
+@readpos(zoomxr&)
+by=by+hadd
+@setpos(zoomxr&,bx,by)
+@readpos(trakxl&)
+by=by+hadd
+@setpos(trakxl&,bx,by)
+@readpos(trakslid&)
+by=by+hadd
+@setpos(trakslid&,bx,by)
+@buttbh(trakslid&,b,h)
+b=b+badd
+@setbuttbh(trakslid&,b,h)
+@readpos(trakxr&)
+bx=bx+badd
+by=by+hadd
+@setpos(trakxr&,bx,by)
+@readpos(spuro&)
+bx=bx+badd
+@setpos(spuro&,bx,by)
+@readpos(spurslid&)
+bx=bx+badd
+@setpos(spurslid&,bx,by)
+@buttbh(spurslid&,b,h)
+h=h+hadd
+@setbuttbh(spurslid&,b,h)
+@readpos(spuru&)
+bx=bx+badd
+by=by+hadd
+@setpos(spuru&,bx,by)
+@buttbh(trakbox5&,b,h)
+h=h+hadd
+@setbuttbh(trakbox5&,b,h)
+@buttbh(trakbox2&,b,h)
+b=b+badd
+h=h+hadd
+@setbuttbh(trakbox2&,b,h)
+@readpos(traksall&)
+bx=bx+badd
+@setpos(traksall&,bx,by)
+@readpos(traklall&)
+bx=bx+badd
+@setpos(traklall&,bx,by)
+@readpos(trakload&)
+bx=bx+badd
+@setpos(trakload&,bx,by)
+@readpos(trtfiler&)
+bx=bx+badd
+@setpos(trtfiler&,bx,by)
+@readpos(trtfile&)
+bx=bx+badd
+@setpos(trtfile&,bx,by)
+@readpos(trtfilel&)
+bx=bx+badd
+@setpos(trtfilel&,bx,by)
+@readpos(trkbx1&)
+@buttbh(trkbx1&,b,h)
+h=h+hadd4
+@setbuttbh(trkbx1&,b,h)
+by=by+h+2
+@setpos(trkbx2&,bx,by)
+@setbuttbh(trkbx2&,b,h)
+by=by+h+2
+@setpos(trkbx3&,bx,by)
+@setbuttbh(trkbx3&,b,h)
+by=by+h+2
+@setpos(trkbx4&,bx,by)
+@setbuttbh(trkbx4&,b,h)
+h2=h
+@buttbh(trakk1&,b,h)
+@setbuttbh(trakk1&,b,h2)
+@setbuttbh(trakk2&,b,h2)
+@setbuttbh(trakk3&,b,h2)
+@setbuttbh(trakk4&,b,h2)
+trht=8    ! Texthîhe
+@buttbh(trkbx1&,mxb,trhb)
+trhb=trhb-1                ! Hîhe der Boxen
+trhc=INT((trhb-trht)/2)    ! Hîhe der curves
+@readpos(trakedbx&)
+trhs=by
+trhs=trhs-28               ! add zu y-box startlocation
+@buttbh(trakbox2&,dig,v)   ! Breite des Boxenfeldes gesamt
+dig=dig-mxb-1
+dix=mxb-16             ! Abstand Boxen zum linken x-Rand
+IF smpedda=TRUE THEN
+@rsc_back(nr)
+ENDIF
+nr=trakker&
+rscx&(nr)=xneu3
+rscy&(nr)=yneu3-18
+rscw&(nr)=bneu3+6
+rsch&(nr)=hneu3+6+16
+@setpos(trakbox&,xneu3+3,yneu3+3-18)
+@timeinit
+@slidelen(trakslid&,trakxbut&,v,tscmax)
+tscstep=tscmax/tmax
+tscplus=tscstep/14
+IF notopen=FALSE THEN
+@slideinit(trakslid&,trakxbut&,tmax,5,vtrakkz)
+ENDIF
+@wischwasch
+@calc_trakboxes
+IF notopen=FALSE THEN
+tcached=FALSE
+@rsc_draw(nr,7)
+@timeinit2
+IF toffs3>0 THEN
+trakkz2=toffs2/toffs3*tscstep
+ELSE
+trakkz2=0
+ENDIF
+@setslide2(trakslid&,trakxbut&,tscmax,trakkz2,tscstep)
+ENDIF
+IF menuda=TRUE THEN
+@rsc_menu_ienable(TRUE)
+ENDIF
+ENDIF
+RETURN
+'
+> PROCEDURE shortcuts
+IF nr=smpedit& AND altkey=TRUE AND ascii|=ASC("V") THEN
+vtedart=tedart
+@viewset
+tedart=vtedart
+@hztext
+ENDIF
+RETURN
+'
+> PROCEDURE formatsmp
+sc$=""
+s=LEN(a$)
+REPEAT
+IF s>3 THEN
+sc$="."+RIGHT$(a$,3)+sc$
+a$=LEFT$(a$,s-3)
+s=s-3
+ENDIF
+UNTIL s<4
+IF s>0 THEN
+sc$=a$+sc$
+ENDIF
+a$=sc$
+RETURN
 '
 > PROCEDURE initplugins
 LOCAL d$,d,dta,da,n$,i,a,dn,nam$,nam,p,b,c,found,n,h,f$,f2$,f3$,f4$,n2$,k,m$
@@ -13354,7 +14399,39 @@ NEXT i
 ENDIF
 RETURN
 '
-PROCEDURE plugcfgset
+> PROCEDURE plugcfgset
+l=mdat2%
+IF plgr>0 THEN
+FOR i=1 TO plgr
+FOR j=1 TO maxplug
+EXIT IF plgsel$(plgrlist(i))=plugnam$(j) AND plugnam$(j)<>""
+NEXT j
+IF j<=maxplug THEN
+IF plgsel$(plgrlist(i))=plugnam$(j) AND plugnam$(j)<>"" THEN
+DPOKE l,j
+l=l+2
+ENDIF
+ENDIF
+NEXT i
+ENDIF
+DPOKE l,0
+c=XBIOS(500,255,L:mdat2%)
+l=mdat2%
+IF plgp>0 THEN
+FOR i=1 TO plgp
+FOR j=1 TO maxplug
+EXIT IF plgsel$(plgplist(i))=plugnam$(j) AND plugnam$(j)<>""
+NEXT j
+IF j<=maxplug THEN
+IF plgsel$(plgplist(i))=plugnam$(j) AND plugnam$(j)<>"" THEN
+DPOKE l,j
+l=l+2
+ENDIF
+ENDIF
+NEXT i
+ENDIF
+DPOKE l,0
+c=XBIOS(500,254,L:mdat2%)
 RETURN
 '
 > PROCEDURE drop2
@@ -13666,7 +14743,13 @@ RETURN
 LOCAL vnr
 DEFTEXT 1,0,0,4
 notrkmem=FALSE
+blue=4       ! FÅllfarbe blau = 4
+green=3      ! FÅllfarbe dunkelgrÅn
+bred=2+8     ! FÅllfarbe dunkelrot
+red=2        ! FÅllfarbe rot
 spuren=2
+prest=0.95   ! AbschwÑchwert relativ zum bisherigen Wert
+pschwell=1   ! Schwellwert zur Erkennung von abfallendem Peakwert
 just=FALSE
 rettfound=FALSE
 ldtrk=FALSE
@@ -13745,6 +14828,7 @@ zmax=30                ! Zoom-Auflîsungsstufen
 buttg=16               ! Mindestbreite der Sliderbuttons
 db16=96.32             ! dB-Auflîsung bei 16 bit
 db24=144.49            ! dB-Auflîsung bei 24 bit
+@setpeakblks
 IF dig24=FALSE THEN
 aufloes=db16           ! dB-Aufloesung der Wandler (16Bit)
 mbit=4
@@ -13775,17 +14859,27 @@ mrest=&H10000        ! Mindestrest-Speicher fÅr andere Applikationen
 ELSE
 mrest=&H40000        ! Mindestrest-Speicher fÅr andere Applikationen
 ENDIF
-lmcurv=955*431*planes&/8
+lmcurv=xwidth*ywidth*planes&/8
 lmfade=248*224*planes&/8
-lmtrak=844*450*planes&/8
+lmtrak=xwidth*ywidth*planes&/8
 mrest=mrest+lmcurv+lmfade+lmtrak
 mwmin=&H20000          ! Mindest-Samplespeicher
 notmem=FALSE
 m=@malloc(-1,0)
-windcache=TRUE
 IF m<(hbuf+hbuf2+hbuf3+tmlen+mrest+mwmin) THEN
-mrest=mrest-(lmcurv+lmfade+lmtrak)
 windcache=FALSE
+mrest=mrest-(lmcurv+lmfade+lmtrak)
+memfade=0
+memc=0
+memtrak=0
+ELSE
+windcache=TRUE
+memfade=@rsc_get(0,0,248,224)
+memc=@rsc_get(0,0,xwidth,ywidth)
+memtrak=@rsc_get(0,0,xwidth,ywidth)
+firstfade=1
+firstnc=1
+firsttrak=1
 ENDIF
 IF m>(hbuf+hbuf2+hbuf3+tmlen+mrest+mwmin) THEN
 tmem=@malloc(tmlen,0)         ! Buffer fÅr Tracker-Caches
@@ -14433,6 +15527,12 @@ LOCAL r,akku,j,rr,a,i,cl,ts,pm,sa,tm,tp,tl,ts
 '
 '  16 Channel-harddisk-player
 '
+pl=0
+pr=0
+vpl=0
+vpr=0
+wpl=0   ! peakhold left
+wpr=0   ! peakhold right
 sfila%=0
 IF demo=FALSE AND falcon=FALSE THEN
 @spuren(spuren*2)
@@ -15455,7 +16555,13 @@ CLIP 0,0,xwidth,ywidth
 ENDIF
 cx=bx-cs
 cx=cx/(ce-cs)*xm
+'
+IF hardcursor=FALSE THEN
+~GRAF_MKSTATE(x,y,k,v4)
+IF x>=cxd-16 AND x<=cxd+xmc+16 AND y>=ym1-16 AND y<=ym2+ymc+16 THEN
 ~GRAF_MOUSE(256,0)                              ! Hidem
+ENDIF
+ENDIF
 COLOR 1
 GRAPHMODE 3
 IF cx2<>-1 THEN
@@ -15469,7 +16575,12 @@ ENDIF
 cx2=cx
 COLOR 0
 GRAPHMODE 1
+IF hardcursor=FALSE THEN
+~GRAF_MKSTATE(x,y,k,v4)
+IF x>=cxd-16 AND x<=cxd+xmc+16 AND y>=ym1-16 AND y<=ym2+ymc+16 THEN
 ~GRAF_MOUSE(257,0)                              ! Showm
+ENDIF
+ENDIF
 IF credraw=FALSE THEN
 CLIP OFF
 ENDIF
@@ -15478,14 +16589,24 @@ IF cx2<>-1 THEN
 IF credraw=FALSE THEN
 CLIP 0,0,xwidth,ywidth
 ENDIF
+IF hardcursor=FALSE THEN
+~GRAF_MKSTATE(x,y,k,v4)
+IF x>=cxd-16 AND x<=cxd+xmc+16 AND y>=ym1-16 AND y<=ym2+ymc+16 THEN
 ~GRAF_MOUSE(256,0)                              ! Hidem
+ENDIF
+ENDIF
 COLOR 1
 GRAPHMODE 3
 LINE cx2+xd,stay1,cx2+xd,stay2
 drawnew=TRUE
 COLOR 0
 GRAPHMODE 1
+IF hardcursor=FALSE THEN
+~GRAF_MKSTATE(x,y,k,v4)
+IF x>=cxd-16 AND x<=cxd+xmc+16 AND y>=ym1-16 AND y<=ym2+ymc+16 THEN
 ~GRAF_MOUSE(257,0)                              ! Showm
+ENDIF
+ENDIF
 IF credraw=FALSE THEN
 CLIP OFF
 ENDIF
@@ -16240,7 +17361,7 @@ RETURN
 IF rsc_handle%(nr)<1001                             ! Normaler Dialog...
 handle&=rsc_handle%(nr)                         ! Fensterhandle des Dialogs
 ~WIND_GET(handle&,4,ax&,ay&,ab&,ah&)          ! 1. Rechteck
-xd=ax&+24           ! X-Locator
+xd=ax&+24+8           ! X-Locator
 yd=ay&+14           ! Y-Locator
 dazu=yd+222         ! Y-Locator fÅr Fade
 IF bigfoot=FALSE THEN
@@ -16249,11 +17370,43 @@ ym=76               ! Hîhe der Box
 stay1=yd+24         ! Anfang der Markline
 stay2=yd+195        ! Ende der Markline
 ELSE
-xm=952             ! Breite der Box
-ym=206             ! Hîhe der Box
-stay1=yd+24+8        ! Anfang der Markline
-stay2=yd+447+8       ! Ende der Markline
+@calc_editboxes1
+'
+'
+'      xm=952             ! Breite der Box
+'      ym=206             ! Hîhe der Box
+'      stay1=yd+24+8        ! Anfang der Markline
+'      stay2=yd+447+8       ! Ende der Markline
 ENDIF
+ENDIF
+RETURN
+'
+> PROCEDURE calc_editboxes1
+IF nr=smpedit& THEN
+@buttbh(editbox4&,xm,ym)
+stay1=yd+24+8        ! Anfang der Markline
+stay2=stay1+11+ym*2-3
+xm=xm-2
+ym=ym-3
+ENDIF
+RETURN
+'
+> PROCEDURE calc_editboxes2
+LOCAL v
+IF nr=smpedit& THEN
+@buttbh(editbox4&,v,ym2)
+ym1=ay&+41+8          ! Y-Locator erste Box
+ym2=ym2+ym1+3         ! Y-Locator zweite Box
+ENDIF
+RETURN
+'
+> PROCEDURE calc_trakboxes
+LOCAL bb3,v
+IF nr=trakker& THEN
+@buttbh(trakbox2&,trboxl,trboxh)
+@buttbh(trkbx1&,bb3,v)
+trxstp=(trboxl-bb3-2)/10   ! Pixelabstand pro Zeiteinheits-Teilung der X-Achse
+trboxl=trboxl-bb3+2
 ENDIF
 RETURN
 '
@@ -16268,6 +17421,7 @@ IF credraw=FALSE THEN
 CLIP 0,0,xwidth,ywidth
 ENDIF
 LINE xd,stay1,xd,stay2
+DEFTEXT 1,0,0,4
 TEXT xd-2,stay1-1,t$
 IF credraw=FALSE THEN
 CLIP OFF
@@ -16278,15 +17432,20 @@ ENDIF
 RETURN
 '
 > PROCEDURE markhlp3(i,i2,stxnr)
-LOCAL sc,sc$
+LOCAL sc,sc$,s,a$
 IF tedart=0 THEN
 hsec=INT(stxnr/hz/mbit*100)
 @htimeset
 sc$=a$
 ELSE
 sc=INT(stxnr/mbit)
-sc$=STR$(sc)
-sc$=LEFT$(sc$+SPACE$(9),9)+CHR$(0)
+a$=STR$(sc)
+@formatsmp
+a$=sc$
+IF LEN(sc$)>13 THEN
+sc$=LEFT$(sc$,13)
+ENDIF
+sc$=sc$+CHR$(0)
 ENDIF
 IF i>0 AND i<=loopz THEN
 @selblkstxt(i2,sc$)
@@ -16519,7 +17678,7 @@ ENDIF
 winh=BSET(winh,nr)
 '
 ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
-fxl=-6   ! Linke Kante-X Fadefenster
+fxl=-14   ! Linke Kante-X Fadefenster
 GRAPHMODE 1
 ~@xrsrc_gaddr(0,nr,zu%)
 boxadr=zu%
@@ -16570,7 +17729,7 @@ ENDIF
 RETURN
 '
 > PROCEDURE do_fade
-fxl=-6   ! Linke Kante-X Fadefenster
+fxl=-14   ! Linke Kante-X Fadefenster
 ~@xrsrc_gaddr(0,nr,zu%)
 zuadr=zu%
 IF obj=helpfade& THEN
@@ -16647,7 +17806,8 @@ RETURN
 '
 > PROCEDURE getfade
 LOCAL x,y,b,h
-IF nr=editfade& AND windcache=TRUE THEN
+IF nr=editfade& THEN
+IF windcache=TRUE THEN
 @windowtest
 @markhlp
 IF bigfoot=FALSE THEN
@@ -16671,6 +17831,9 @@ ENDIF
 ENDIF
 ~GRAF_MOUSE(257,0)                              ! Showm
 IF ((x+b)>xwidth OR (y+h)>ywidth) THEN
+drawnew3=TRUE
+ENDIF
+ELSE
 drawnew3=TRUE
 ENDIF
 ENDIF
@@ -16710,6 +17873,7 @@ RETURN
 > PROCEDURE putfade
 LOCAL x,y,b,h
 IF nr=editfade& THEN
+IF windcache=TRUE THEN
 @windowtest
 @markhlp
 IF bigfoot=FALSE THEN
@@ -16768,6 +17932,9 @@ IF shading=FALSE THEN
 ~GRAF_MOUSE(257,0)                              ! Showm
 ENDIF
 ENDIF
+ENDIF
+ELSE
+drawnew3=TRUE
 ENDIF
 ENDIF
 RETURN
@@ -17087,7 +18254,9 @@ RETURN
 .| Aufruf in : fade-1,fadesave-1,fadeload-1,
 LOCAL i
 @markhlp
+IF credraw=FALSE THEN
 CLIP 0,0,xwidth,ywidth
+ENDIF
 fadericht=0
 GRAPHMODE 1
 IF nr=editfade& AND cupdate=FALSE THEN
@@ -17111,7 +18280,9 @@ drawnew=TRUE
 ~GRAF_MOUSE(257,0)                              ! Showm
 ' ENDIF
 @getfade
+IF credraw=FALSE THEN
 CLIP OFF
+ENDIF
 RETURN
 '
 > PROCEDURE ausfade
@@ -17122,7 +18293,9 @@ RETURN
 .| Aufruf in : fade-1,fadesave-1,fadeload-1,
 LOCAL i
 @markhlp
+IF credraw=FALSE THEN
 CLIP 0,0,xwidth,ywidth
+ENDIF
 fadericht=1
 GRAPHMODE 1
 IF nr=editfade& AND cupdate=FALSE THEN
@@ -17146,7 +18319,9 @@ drawnew=TRUE
 ~GRAF_MOUSE(257,0)                              ! Showm
 ' ENDIF
 @getfade
+IF credraw=FALSE THEN
 CLIP OFF
+ENDIF
 RETURN
 '
 > PROCEDURE fadedel
@@ -18556,6 +19731,7 @@ IF credraw=FALSE THEN
 CLIP 0,0,xwidth,ywidth
 ENDIF
 LINE cx+xd,by1,cx+xd,by2
+DEFTEXT 1,0,0,4
 TEXT cx+xd-2,by1-txay,t$
 IF credraw=FALSE THEN
 CLIP OFF
@@ -18734,6 +19910,7 @@ ENDIF
 tx=vtx
 COLOR 1
 GRAPHMODE 3
+DEFTEXT 1,0,0,4
 TEXT ux+xd+txax-2,by1-txay,t$
 drawnew=TRUE
 @gettrak
@@ -20223,6 +21400,7 @@ UNTIL k=0
 GRAPHMODE 3
 ~MFREE(mha4)
 ~MFREE(mhb4)
+DEFTEXT 1,0,0,4
 TEXT tx+xd-2,stay1,t$
 TEXT tx2+xd-2,stay1,t2$
 IF credraw=FALSE THEN
@@ -24537,6 +25715,32 @@ SEEK #1,20
 ENDIF
 RETURN
 '
+> PROCEDURE setpeakblks
+pkdb=ROUND(db16)                ! dB-Auflîsung
+pkt=pkdb/LOG10(65535)
+'
+pkg0=ROUND(10^((pkdb-48)/pkt)/2)   ! BinÑr-Grenzen
+pkg1=ROUND(10^((pkdb-24)/pkt)/2)
+pkg2=ROUND(10^((pkdb-12)/pkt)/2)
+pkg3=ROUND(10^((pkdb-8)/pkt)/2)
+pkg4=ROUND(10^((pkdb-6)/pkt)/2)
+pkg5=ROUND(10^((pkdb-4)/pkt)/2)
+pkg6=ROUND(10^((pkdb-3)/pkt)/2)
+pkg7=ROUND(10^((pkdb-2)/pkt)/2)
+pkg8=ROUND(10^((pkdb-1)/pkt)/2)
+pkg9=ROUND(10^((pkdb-0)/pkt)/2)
+pkdb0=ROUND(pkt*LOG10(pkg0*2))     ! dB-Grenzen
+pkdb1=ROUND(pkt*LOG10(pkg1*2))
+pkdb2=ROUND(pkt*LOG10(pkg2*2))
+pkdb3=ROUND(pkt*LOG10(pkg3*2))
+pkdb4=ROUND(pkt*LOG10(pkg4*2))
+pkdb5=ROUND(pkt*LOG10(pkg5*2))
+pkdb6=ROUND(pkt*LOG10(pkg6*2))
+pkdb7=ROUND(pkt*LOG10(pkg7*2))
+pkdb8=ROUND(pkt*LOG10(pkg8*2))
+pkdb9=ROUND(pkt*LOG10(pkg9*2))
+RETURN
+'
 > PROCEDURE setbitrate16
 dig24=FALSE
 mbit=4
@@ -25458,6 +26662,14 @@ mloopz=loopz
 ENDIF
 ELSE
 mloopz=100
+IF loopz>mloopz THEN
+FOR i=mloopz+1 TO loopz
+bloops%(i,1)=-1
+bloops%(i,2)=-1
+bloops%(i,3)=-1
+bloops%(i,4)=-1
+NEXT i
+ENDIF
 ENDIF
 FOR i=1 TO mloopz
 INPUT #2,bloops%(i,1)
@@ -25476,6 +26688,14 @@ ENDIF
 UNTIL a$="" OR RIGHT$(a$,1)=CHR$(0)
 vedmtxt$(i)=c$
 NEXT i
+IF (loopz>mloopz AND loopz>100) OR iv=1.1 THEN
+FOR i=100 TO loopz
+bloops%(i,1)=-1
+bloops%(i,2)=-1
+bloops%(i,3)=-1
+bloops%(i,4)=-1
+NEXT i
+ENDIF
 ENDIF
 RETURN
 '
@@ -25637,6 +26857,16 @@ ah$=vedmtxt$(j)
 @findblock
 EXIT IF markfre=loopz
 NEXT j
+'
+IF loopz>a THEN
+FOR j=a+1 TO loopz
+loops%(j,1)=-1
+loops%(j,2)=-1
+loops%(j,3)=-1
+loops%(j,4)=-1
+NEXT j
+ENDIF
+'
 IF blks=0 THEN
 sms=1
 ENDIF
@@ -26045,6 +27275,14 @@ mloopz=loopz
 ENDIF
 ELSE
 mloopz=100
+IF loopz>100 THEN
+FOR i=101 TO loopz
+bloops%(i,1)=-1
+bloops%(i,2)=-1
+bloops%(i,3)=-1
+bloops%(i,4)=-1
+NEXT i
+ENDIF
 ENDIF
 FOR i=1 TO mloopz
 INPUT #2,bloops%(i,1)
@@ -26401,7 +27639,7 @@ RETURN
 .| Ruft auf  : textfeld,setbutton
 .| Aufruf in : ldhlp-2,smpedit-2,trash-2,memtovirt-1,memtovirt2-1,record2-1,
 LOCAL hac$,mem$
-mem$=SPACE$(11)+CHR$(0)
+mem$=SPACE$(14)+CHR$(0)
 IF nr=smpedit& THEN
 @textfeld(edmtxt&,mem$,1)
 @textfeld(edmtims&,mem$,1)
@@ -26492,12 +27730,17 @@ b$=RIGHT$(" "+STR$(INT(a/10*8))+"-",3)+CHR$(0)
 @textfeld(lm80&,b$,1)
 @textfeld(rp80&,b$,1)
 @textfeld(rm80&,b$,1)
+b$=RIGHT$("  "+STR$(INT(a)),3)+CHR$(0)
+@textfeld(lr100&,b$,1)
 byzoom=yzoom
 RETURN
 '
 > PROCEDURE getcurve
+ym1=ay&+41+8          ! Y-Locator erste Box
+ym2=ym2+ym1+3         ! Y-Locator zweite Box
 LOCAL x,y,b,h
-IF nr=smpedit& AND windcache=TRUE THEN
+IF nr=smpedit& THEN
+IF windcache=TRUE THEN
 @windowtest
 @markhlp
 IF bigfoot=FALSE THEN
@@ -26506,10 +27749,11 @@ y=ay&+41-8          ! Y-Locator erste Box
 b=xm+3              ! Breite der Box
 h=ym*2+24              ! Hîhe der Box
 ELSE
+@calc_editboxes1
 x=ax&+24-1          ! X-Locator
 y=ay&+41            ! Y-Locator erste Box
-b=xm+3              ! Breite der Box
-h=ym*2+19              ! Hîhe der Box
+b=xm+16              ! Breite der Box
+h=ym*2+19           ! Hîhe der Box
 ENDIF
 lmcurv=b*h*planes&/8
 ~GRAF_MOUSE(256,0)                              ! Hidem
@@ -26525,6 +27769,10 @@ IF ((x+b)>xwidth OR (y+h)>ywidth) THEN
 drawnew2=TRUE
 ENDIF
 ~GRAF_MOUSE(257,0)                              ! Showm
+ELSE
+drawnew2=TRUE
+cached=FALSE
+ENDIF
 ENDIF
 RETURN
 '
@@ -26535,9 +27783,10 @@ y=ay&+41-8          ! Y-Locator erste Box
 b=xm+3              ! Breite der Box
 h=ym*2+24              ! Hîhe der Box
 ELSE
+'    @calc_editboxes1
 x=ax&+24-1          ! X-Locator
 y=ay&+41          ! Y-Locator erste Box
-b=xm+3              ! Breite der Box
+b=xm+16              ! Breite der Box
 h=ym*2+19              ! Hîhe der Box
 ENDIF
 IF nr=smpedit& THEN
@@ -26561,6 +27810,7 @@ RETURN
 > PROCEDURE putcurve
 LOCAL x,y,b,h
 IF nr=smpedit& THEN
+IF windcache=TRUE THEN
 @windowtest
 @markhlp
 @putcsize
@@ -26612,6 +27862,10 @@ IF shading=FALSE THEN
 ENDIF
 ENDIF
 ENDIF
+ELSE
+drawnew2=TRUE
+cached=FALSE
+ENDIF
 ENDIF
 RETURN
 '
@@ -26623,9 +27877,10 @@ cxd=ax&+23          ! X-Locator
 ym1=ay&+41          ! Y-Locator erste Box
 ym2=ay&+129         ! Y-Locator zweite Box
 ELSE
-cxd=ax&+24          ! X-Locator
-ym1=ay&+41+8          ! Y-Locator erste Box
-ym2=ay&+253+8         ! Y-Locator zweite Box
+cxd=ax&+24+8          ! X-Locator
+'    ym1=ay&+41+8          ! Y-Locator erste Box
+'    ym2=ay&+253+8         ! Y-Locator zweite Box
+@calc_editboxes2
 ENDIF
 xmc=xm              ! Breite der Box
 ymc=ym              ! Hîhe der Box
@@ -26781,22 +28036,24 @@ LINE cxd+1,ym2+6+8*6,cxd+xmc,ym2+6+8*6
 LINE cxd+1,ym2+6+8*7,cxd+xmc,ym2+6+8*7
 LINE cxd+1,ym2+6+8*8,cxd+xmc,ym2+6+8*8
 ELSE
-LINE cxd+1,ym1+19,cxd+xmc,ym1+19
-LINE cxd+1,ym1+19+21,cxd+xmc,ym1+19+21
-LINE cxd+1,ym1+19+21*2,cxd+xmc,ym1+19+21*2
-LINE cxd+1,ym1+19+21*3,cxd+xmc,ym1+19+21*3
-LINE cxd+1,ym1+19+21*5,cxd+xmc,ym1+19+21*5
-LINE cxd+1,ym1+19+21*6,cxd+xmc,ym1+19+21*6
-LINE cxd+1,ym1+19+21*7,cxd+xmc,ym1+19+21*7
-LINE cxd+1,ym1+19+21*8,cxd+xmc,ym1+19+21*8
-LINE cxd+1,ym2+19,cxd+xmc,ym2+19
-LINE cxd+1,ym2+19+21,cxd+xmc,ym2+19+21
-LINE cxd+1,ym2+19+21*2,cxd+xmc,ym2+19+21*2
-LINE cxd+1,ym2+19+21*3,cxd+xmc,ym2+19+21*3
-LINE cxd+1,ym2+19+21*5,cxd+xmc,ym2+19+21*5
-LINE cxd+1,ym2+19+21*6,cxd+xmc,ym2+19+21*6
-LINE cxd+1,ym2+19+21*7,cxd+xmc,ym2+19+21*7
-LINE cxd+1,ym2+19+21*8,cxd+xmc,ym2+19+21*8
+q=(ym+3)/10
+'
+LINE cxd+1,ym1-1+q,cxd+xmc,ym1-1+q
+LINE cxd+1,ym1-1+q*2,cxd+xmc,ym1-1+q*2
+LINE cxd+1,ym1-1+q*3,cxd+xmc,ym1-1+q*3
+LINE cxd+1,ym1-1+q*4,cxd+xmc,ym1-1+q*4
+LINE cxd+1,ym1-1+q*6,cxd+xmc,ym1-1+q*6
+LINE cxd+1,ym1-1+q*7,cxd+xmc,ym1-1+q*7
+LINE cxd+1,ym1-1+q*8,cxd+xmc,ym1-1+q*8
+LINE cxd+1,ym1-1+q*9,cxd+xmc,ym1-1+q*9
+LINE cxd+1,ym2-1+q,cxd+xmc,ym2-1+q
+LINE cxd+1,ym2-1+q*2,cxd+xmc,ym2-1+q*2
+LINE cxd+1,ym2-1+q*3,cxd+xmc,ym2-1+q*3
+LINE cxd+1,ym2-1+q*4,cxd+xmc,ym2-1+q*4
+LINE cxd+1,ym2-1+q*6,cxd+xmc,ym2-1+q*6
+LINE cxd+1,ym2-1+q*7,cxd+xmc,ym2-1+q*7
+LINE cxd+1,ym2-1+q*8,cxd+xmc,ym2-1+q*8
+LINE cxd+1,ym2-1+q*9,cxd+xmc,ym2-1+q*9
 ENDIF
 GRAPHMODE 1
 DEFLINE 1
@@ -27623,7 +28880,7 @@ sy=0
 ENDIF
 ENDIF
 @windowtest
-IF shading=FALSE THEN
+IF shading=FALSE AND notopen=FALSE THEN
 ~WIND_UPDATE(1)                                    ! BEG_UPDATE
 ~OBJC_DRAW(zu%,slidename&,9,0,0,xwidth,ywidth)      ! neu zeichnen
 ~WIND_UPDATE(0)                                    ! BEG_UPDATE
@@ -28661,11 +29918,13 @@ thz=hz
 @swtosrate(thz)
 merkhz=hz
 oldplay=TRUE
-'
+tpkblk=77/9                         ! Einteilungs-Blockgroesse
+tpkrot=8                            ! roter Bereich in Pixeln
+tpksix=tpkrot+4*tpkblk                ! -6db-Bereich
 IF bigfoot=FALSE THEN
 trxstp=54 ! Pixelabstand pro Zeiteinheits-Teilung der X-Achse
 ELSE
-trxstp=84 ! Pixelabstand pro Zeiteinheits-Teilung der X-Achse
+@calc_trakboxes
 ENDIF
 @buttbh(trkbx1&,mxb,trhb)
 IF bigfoot=FALSE THEN
@@ -28673,21 +29932,15 @@ trhb=trhb-2
 ELSE
 trhb=trhb-1
 ENDIF
-'      trhb=44  ! Hîhe der Boxen
 trhd=3   ! y-Leerraum zur nÑchsten Box
 trht=8    ! Texthîhe
 trhc=INT((trhb-trht)/2)  ! Hîhe der curves
-@readpos(trakbox2&)
+@readpos(trakedbx&)
 trhs=by
-trhs=trhs-47
-'      trhs=38   ! add zu y-box-startlocation
-'
-'      dix=38    ! Abstand Boxen zum linken x-Rand
-dix=mxb-bx    !bx=11
-'      dig=538   ! Breite des Boxenfeldes gesamt
+trhs=trhs-28
+dix=mxb-16
 @buttbh(trakbox2&,dig,v)
-dig=dig-mxb
-'
+dig=dig-mxb-1
 arrz=0
 spring=FALSE
 arrherr=0
@@ -28695,14 +29948,18 @@ hardopen=FALSE
 playstop=0
 @timeinit
 tymax=8       ! maximale zoomstufe
-'
 @slidelen(trakslid&,trakxbut&,v,tscmax)
 tscstep=tscmax/tmax
 tscplus=tscstep/14
-'
 @slideinit(trakslid&,trakxbut&,tmax,5,vtrakkz)
 @slideinit(zoomslid&,zoomxbut&,tymax,5,vtrakkyz)
 @slideinit(spurslid&,spurybut&,trkvmax,5,trkvz)
+IF bigfoot=FALSE THEN
+@hidetree2(trkslot&,FALSE)
+@hidetree2(trkslot2&,FALSE)
+@hidetree2(timeline&,FALSE)
+@hidetree2(timelin2&,FALSE)
+ENDIF
 @rsc_draw(nr,7)
 IF menuda=TRUE THEN
 @rsc_menu_ienable(TRUE)
@@ -28768,6 +30025,7 @@ CLIP OFF
 ENDIF
 DEFFILL 1
 a$=STR$(trkp)+","+STR$(trkz)
+DEFTEXT 1,0,0,4
 TEXT 32,24,a$
 FOR is=1 TO 4
 a$=""
@@ -29243,9 +30501,76 @@ ENDIF
 obj=0
 RETURN
 '
+> PROCEDURE trkgotime
+LOCAL vtmax
+IF trkp>0 AND trkch(trkp)<>0 THEN
+vornr=nr
+nr=record&
+a$="TIME-JUMP"+CHR$(0)
+@textfeld2(record&,timemeld&,a$,1)
+@rsc_draw(nr,0)
+@markhlp
+mmax=24*60*60*100
+hsec=mmax
+@htimeset
+a$="MAX.TIME: "+a$
+@textfeld(recfree&,a$,1)
+m=tplaystart
+dt=INT(toffs2/10)
+REPEAT
+@timeinp(mmax,dt)
+IF obj=rechelp& THEN
+@helptxt("TIME-JUMP")
+ENDIF
+UNTIL obj<>rechelp&
+@restaura2
+IF obj=recok& THEN
+v=INT(dt*10/tv)
+trakkz=INT(v/trktf)
+trakkr=v-(trakkz*trktf)
+trakkz2=trakkz*tscstep+tscplus*trakkr
+toffs=(dt*trktf*trakkz)+dt*trakkr
+toffs2=(trakkz*tv*trktf)+tv*trakkr
+toffs3=tv*trktf
+vtmax=1+INT((toffs2+toffs3)/toffs3)
+IF tmax<vtmax THEN
+tmax=vtmax
+ENDIF
+tscstep=tscmax/tmax
+tscplus=tscstep/trktf
+trakkz2=trakkz*tscstep+tscplus*trakkr
+@setbuttgr(trakslid&,trakxbut&,tmax,5)
+@setslide2(trakslid&,trakxbut&,tscmax,trakkz2,tscstep)
+@timeline
+ENDIF
+ENDIF
+obj=0
+RETURN
+'
+> PROCEDURE calc_trkalltime
+LOCAL a,a2,a3
+trkall=0
+FOR a=1 TO trkvmax    ! Startpositionen anpassen fÅr Play-Startposition>0
+a2=trkpnt(a)
+IF a2<>0 THEN
+REPEAT
+a3=trktime(a2)+trkend(a2)-trkstrt(a2)
+IF a3>trkall THEN
+trkall=a3
+ENDIF
+a2=trknext(a2)
+UNTIL a2=0
+ENDIF
+NEXT a
+hsec=INT(trkall/thz/mbit*100)
+@htimeset
+@textfeld(trksize&,a$,1)
+RETURN
+'
 > PROCEDURE gettrak
 LOCAL x,y,b,h
-IF nr=trakker& AND windcache=TRUE THEN
+IF nr=trakker& THEN
+IF windcache=TRUE THEN
 @windowtest
 @markhlp
 IF bigfoot=FALSE THEN
@@ -29254,10 +30579,11 @@ y=ay&+31           ! Y-Locator erste Box
 b=540              ! Breite der Box
 h=208              ! Hîhe der Box
 ELSE
+@calc_trakboxes
 x=ax&+107          ! X-Locator
 y=ay&+29+8         ! Y-Locator erste Box
-b=844              ! Breite der Box
-h=470              ! Hîhe der Box
+b=trboxl+5         ! Breite der Box    war 844
+h=trboxh+27        ! Hîhe der Box      war 470
 ENDIF
 lmtrak=b*h*planes&/8
 ~GRAF_MOUSE(256,0)                              ! Hidem
@@ -29273,6 +30599,11 @@ ENDIF
 IF ((x+b)>xwidth OR (y+h)>ywidth) THEN
 drawnew4=TRUE
 ENDIF
+tcached=TRUE    ! neu seit 13.6.98
+ELSE
+drawnew4=TRUE
+tcached=FALSE
+ENDIF
 ENDIF
 RETURN
 '
@@ -29283,10 +30614,11 @@ y=ay&+31           ! Y-Locator erste Box
 b=540              ! Breite der Box
 h=208              ! Hîhe der Box
 ELSE
+'    @calc_trakboxes
 x=ax&+107          ! X-Locator
 y=ay&+29+8         ! Y-Locator erste Box
-b=844              ! Breite der Box
-h=470              ! Hîhe der Box
+b=trboxl+5         ! Breite der Box    war 844
+h=trboxh+27        ! Hîhe der Box      war 470
 ENDIF
 IF nr=trakker& THEN
 IF (x+b)>xwidth OR (y+h)>ywidth THEN
@@ -29308,6 +30640,7 @@ RETURN
 > PROCEDURE puttrak
 LOCAL x,y,b,h
 IF nr=trakker& THEN
+IF windcache=TRUE THEN
 @windowtest
 @markhlp
 IF bigfoot=FALSE THEN
@@ -29316,10 +30649,11 @@ y=ay&+31           ! Y-Locator erste Box
 b=540              ! Breite der Box
 h=208              ! Hîhe der Box
 ELSE
+'      @calc_trakboxes
 x=ax&+107          ! X-Locator
 y=ay&+29+8         ! Y-Locator erste Box
-b=844              ! Breite der Box
-h=470              ! Hîhe der Box
+b=trboxl+5         ! Breite der Box    war 844
+h=trboxh+27        ! Hîhe der Box      war 470
 ENDIF
 IF (x1+b1)>=x AND x1<=x+b AND (y1+h1)>=y AND y1<=y+h THEN
 mx=x1
@@ -29368,6 +30702,10 @@ IF shading=FALSE THEN
 ~GRAF_MOUSE(257,0)                              ! Showm
 ENDIF
 ENDIF
+ENDIF
+ELSE
+drawnew4=TRUE
+tcached=FALSE
 ENDIF
 ENDIF
 RETURN
@@ -30355,6 +31693,20 @@ trktime(atrkp)=INT(dt/100*thz)*mbit
 hsec=INT(trktime(atrkp)/thz/mbit*100)
 @htimeset
 @textfeld(trksmpte&,a$,1)
+'
+@calc_trkalltime
+v=trktime(atrkp)+trkend(atrkp)-trkstrt(atrkp)
+v=INT(v/thz/mbit*1000)
+vtmax=1+INT((v+toffs3)/toffs3)
+IF tmax<vtmax THEN
+tmax=vtmax
+tscstep=tscmax/tmax
+tscplus=tscstep/trktf
+trakkz2=trakkz*tscstep+tscplus*trakkr
+@setbuttgr(trakslid&,trakxbut&,tmax,5)
+ENDIF
+@setslide2(trakslid&,trakxbut&,tscmax,trakkz2,tscstep)
+'
 @timeline
 ENDIF
 ENDIF
@@ -30514,36 +31866,24 @@ RETURN
 @opentrk
 RETURN
 '
-> PROCEDURE timeline
-.| Glob. Var.: nr#,zu%,traknam1&,trakbox2&,xwidth#,ywidth#,trakkyz#,dt#,tv#
-.|     b$,toffs#,trakkz#,toffs2#,a$,timeline&,vtrkp#,trkp#,trkz#,notrk#,t#
-.|     trkc#,dv#,dv2#,trkbut#,d#,flen#
-.| Felder    : trkch#(),trktime#(),trkend#(),trkstrt#(),trkfn$(),trksrate#()
-.|     trkpnt#(),trknext#()
-.| Ruft auf  : xrsrc_gaddr,hidetree2,textfeld,trkbutcalc2,trkbutcalc1
-.|     hidetree
-.| Aufruf in : button-4,trakker-1,do_trakker-4,
-LOCAL i,j,t,d,dv,dv2,t$,sl$
-IF credraw=FALSE THEN
-CLIP 0,0,xwidth,ywidth
+> PROCEDURE trak_timetxt
+LOCAL i
+IF bigfoot=TRUE THEN
+@markhlp
+ttxlin=ax&+dix+32
+FOR i=0 TO 10
+IF maxcol=2 THEN
+COLOR 1
+ELSE
+COLOR 0
 ENDIF
-@windowtest
-IF cupdate=FALSE AND shading=FALSE THEN
-~WIND_UPDATE(1)                                    ! BEG_UPDATE
-~OBJC_DRAW(zu%,trakbox2&,9,0,0,xwidth,ywidth)     ! neu zeichnen
-~WIND_UPDATE(0)                                    ! BEG_UPDATE
+LINE ttxlin+trxstp*i,ay&+53,ttxlin+trxstp*i,ay&+57
+NEXT i
 ENDIF
-~@xrsrc_gaddr(0,nr,zu%)
-@timeinit
-@timeinit2
+IF trakkyz>5 THEN
 IF bigfoot=FALSE THEN
 sp=9
 sp2=91
-ELSE
-sp=14
-sp2=141
-ENDIF
-IF trakkyz>5 THEN
 t$=LEFT$(STR$(toffs)+b$+SPACE$(sp),sp)
 t$=t$+LEFT$(STR$(toffs+dt)+b$+SPACE$(sp),sp)
 t$=t$+LEFT$(STR$(toffs+dt*2)+b$+SPACE$(sp),sp)
@@ -30562,6 +31902,32 @@ sl$=LEFT$(sl$,sp2)
 ENDIF
 sl$=sl$+CHR$(0)
 ELSE
+sp=11
+t$=STR$(toffs)+b$
+@bigtext3(ttxlin+trxstp*0,ay&+53,1,t$,0,0)
+t$=STR$(toffs+dt)+b$
+@bigtext3(ttxlin+trxstp*1,ay&+53,1,t$,0,6)
+t$=STR$(toffs+dt*2)+b$
+@bigtext3(ttxlin+trxstp*2,ay&+53,1,t$,0,0)
+t$=STR$(toffs+dt*3)+b$
+@bigtext3(ttxlin+trxstp*3,ay&+53,1,t$,0,6)
+t$=STR$(toffs+dt*4)+b$
+@bigtext3(ttxlin+trxstp*4,ay&+53,1,t$,0,0)
+t$=STR$(toffs+dt*5)+b$
+@bigtext3(ttxlin+trxstp*5,ay&+53,1,t$,0,6)
+t$=STR$(toffs+dt*6)+b$
+@bigtext3(ttxlin+trxstp*6,ay&+53,1,t$,0,0)
+t$=STR$(toffs+dt*7)+b$
+@bigtext3(ttxlin+trxstp*7,ay&+53,1,t$,0,6)
+t$=STR$(toffs+dt*8)+b$
+@bigtext3(ttxlin+trxstp*8,ay&+53,1,t$,0,0)
+t$=STR$(toffs+dt*9)+b$
+@bigtext3(ttxlin+trxstp*9,ay&+53,1,t$,0,6)
+t$=STR$(toffs+dt*10)+b$
+@bigtext3(ttxlin+trxstp*10,ay&+53,1,t$,0,0)
+ENDIF
+ELSE
+IF bigfoot=FALSE THEN
 hsec=toffs2/10
 @htimeset                                  ! zeit
 a$=LEFT$(a$,LEN(a$)-1)
@@ -30589,30 +31955,97 @@ IF LEN(sl$)>sp2 THEN
 sl$=LEFT$(sl$,sp2)
 ENDIF
 sl$=sl$+CHR$(0)
+ELSE
+hsec=toffs2/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*0,ay&+53,2,t$,1,0)
+hsec=(toffs2+(tv*1))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*1,ay&+53,2,t$,1,6)
+hsec=(toffs2+(tv*2))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*2,ay&+53,2,t$,1,0)
+hsec=(toffs2+(tv*3))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*3,ay&+53,2,t$,1,6)
+hsec=(toffs2+(tv*4))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*4,ay&+53,2,t$,1,0)
+hsec=(toffs2+(tv*5))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*5,ay&+53,2,t$,1,6)
+hsec=(toffs2+(tv*6))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*6,ay&+53,2,t$,1,0)
+hsec=(toffs2+(tv*7))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*7,ay&+53,2,t$,1,6)
+hsec=(toffs2+(tv*8))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*8,ay&+53,2,t$,1,0)
+hsec=(toffs2+(tv*9))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*9,ay&+53,2,t$,1,6)
+hsec=(toffs2+(tv*10))/10
+@htimeset                                  ! zeit
+a$=LEFT$(a$,LEN(a$)-1)
+t$=LEFT$(a$+SPACE$(11),11)
+@bigtext3(ttxlin+trxstp*10,ay&+53,2,t$,1,0)
+ENDIF
 ENDIF
 IF bigfoot=FALSE THEN
 @textfeld(trkslot&,sl$,1)
 @textfeld(timeline&,t$,1)
-ELSE
-sl2$=sl$
-sl$=LEFT$(sl$,6*sp)+CHR$(0)
-sl2$=RIGHT$(sl2$,LEN(sl2$)-LEN(sl$)+1)
-IF LEN(sl2$)>4*sp THEN
-sl2$=LEFT$(sl2$,4*sp)+CHR$(0)
 ENDIF
-@textfeld(trkslot&,sl$,1)
-@textfeld(trkslot2&,sl2$,1)
-t2$=t$
-t$=LEFT$(t$,6*sp)+CHR$(0)
-t2$=RIGHT$(t2$,LEN(t2$)-LEN(t$)+1)
-IF LEN(t2$)>4*sp THEN
-t2$=LEFT$(t2$,4*sp)+CHR$(0)
+RETURN
+'
+> PROCEDURE timeline
+.| Glob. Var.: nr#,zu%,traknam1&,trakbox2&,xwidth#,ywidth#,trakkyz#,dt#,tv#
+.|     b$,toffs#,trakkz#,toffs2#,a$,timeline&,vtrkp#,trkp#,trkz#,notrk#,t#
+.|     trkc#,dv#,dv2#,trkbut#,d#,flen#
+.| Felder    : trkch#(),trktime#(),trkend#(),trkstrt#(),trkfn$(),trksrate#()
+.|     trkpnt#(),trknext#()
+.| Ruft auf  : xrsrc_gaddr,hidetree2,textfeld,trkbutcalc2,trkbutcalc1
+.|     hidetree
+.| Aufruf in : button-4,trakker-1,do_trakker-4,
+LOCAL i,j,t,d,dv,dv2,t$,sl$
+IF nr=trakker& THEN
+IF credraw=FALSE THEN
+CLIP 0,0,xwidth,ywidth
+@windowtest
 ENDIF
-@textfeld(timeline&,t$,1)
-@textfeld(timelin2&,t2$,1)
+IF cupdate=FALSE AND shading=FALSE THEN
+~WIND_UPDATE(1)                                    ! BEG_UPDATE
+~OBJC_DRAW(zu%,trakbox2&,9,0,0,xwidth,ywidth)     ! neu zeichnen
+~WIND_UPDATE(0)                                    ! BEG_UPDATE
 ENDIF
+~@xrsrc_gaddr(0,nr,zu%)
+@timeinit
+@timeinit2
+@trak_timetxt
 vtrkp=trkp
 IF trkz>0 THEN
+@calc_trkalltime
 FOR i=trkvz+1 TO trkvz+4
 notrk=FALSE
 t=0
@@ -30685,6 +32118,7 @@ IF credraw=FALSE THEN
 CLIP OFF
 ENDIF
 @gettrak
+ENDIF
 RETURN
 '
 > PROCEDURE tractdraw
@@ -31669,7 +33103,7 @@ trkg(trc)=0
 ENDIF
 ENDIF
 IF trkch(trkp)>0 AND trkp>0 THEN
-txtl=INT((tr_b-2)/6)
+txtl=INT((tr_b-2)/8)
 IF txtl>0 THEN
 IF LEN(a$)>txtl THEN
 a$=LEFT$(a$,txtl)
@@ -31678,7 +33112,13 @@ ENDIF
 IF credraw=FALSE THEN
 CLIP 0,0,xwidth,ywidth
 ENDIF
-TEXT tx+1,ty+5,a$
+COLOR 1
+GRAPHMODE 1
+DEFTEXT 1,0,0,6
+TEXT tx+1,ty+7,a$
+LINE tx+1,ty+9,tx+1+LEN(a$)*8,ty+9
+LINE tx+1+LEN(a$)*8,ty+9,tx+1+LEN(a$)*8,ty+1
+DEFTEXT 1,0,0,4
 IF credraw=FALSE THEN
 CLIP OFF
 ENDIF
@@ -31968,7 +33408,7 @@ trm1=@rsc_get(cx,cy,cb+1,trhb+1)           ! trm1=Kurveninhalt
 IF maxcol=2 THEN
 DEFFILL 0,1,0
 ELSE
-DEFFILL 8,1,8
+DEFFILL smpblkcol,1,smpblkcol
 ENDIF
 COLOR 1
 IF credraw=FALSE THEN
@@ -35187,6 +36627,7 @@ REPEAT
 ~GRAF_MOUSE(256,0)                              ! Hidem
 ~WIND_UPDATE(1)                                    ! BEG_UPDATE
 GRAPHMODE 2
+DEFTEXT 1,0,0,4
 TEXT xd+10,yd+24+zeile*8,w$
 GRAPHMODE 1
 ~WIND_UPDATE(0)                                    ! BEG_UPDATE
@@ -35333,13 +36774,13 @@ IF i=info& THEN
 winh=BCLR(winh,i)
 @info
 ENDIF
-IF i=blkfunc& THEN
-winh=BCLR(winh,i)
-@blkfunc
-ENDIF
 IF i=smp16& THEN
 winh=BCLR(winh,i)
 @main
+ENDIF
+IF i=blkfunc& THEN
+winh=BCLR(winh,i)
+@blkfunc
 ENDIF
 IF i=peak& THEN
 winh=BCLR(winh,i)
@@ -35357,16 +36798,30 @@ IF i=loop& THEN
 winh=BCLR(winh,i)
 @loopwahl
 ENDIF
+IF i=dspedit& THEN
+winh=BCLR(winh,i)
+@dspwahl
+ENDIF
 IF i=editfade& THEN
 winh=BCLR(winh,i)
 @fade
+ENDIF
+IF i=wmode& THEN
+winh=BCLR(winh,i)
+@workmode
 ENDIF
 ENDIF
 NEXT i
 ENDIF
 nr=smpedit&
+IF nosetload=FALSE AND prgversion>=1.2 THEN          ! Versionskontrolle
+notopen=TRUE
+@calc_editsize
+notopen=FALSE
+ENDIF
 @rsc_draw(nr,7)
 windowda=TRUE
+smpedda=TRUE
 '
 IF public=TRUE THEN
 '      @rsc_state(rsc_menu&,ddhost&,3,TRUE)
@@ -37290,12 +38745,8 @@ RETURN
 .| Ruft auf  : editfeld
 .| Aufruf in : time_edit-3,
 u=INT(s/mbit)
-a$=STR$(u)
-IF LEN(a$)>8 THEN
-a$=LEFT$(a$,8)
-ENDIF
+a$=RIGHT$("0000000000"+STR$(u),10)
 a$=a$+CHR$(0)
-@editfeld(tedtxt&,SPACE$(8)+CHR$(0))
 @editfeld(tedtxt&,a$)
 RETURN
 '
@@ -37745,7 +39196,12 @@ a$=a$+CHR$(b)
 ENDIF
 INC a
 UNTIL b=0
-a$=a$+" BY SWE,S.WILHELM"+CHR$(0)
+IF LEN(drvtyp$)>15 THEN
+drvtyp$=LEFT$(drvtyp$,15)
+ENDIF
+a$=drvtyp$+"-AUDIODRIVER "+a$+CHR$(0)
+@textfeld2(info&,cpyrdrv&,a$,1)
+a$="STARTRACK "+starversion$+" BY SWE,S.WILHELM"+CHR$(0)
 @textfeld2(info&,cpyright&,a$,1)
 ENDIF
 RETURN
@@ -38406,7 +39862,7 @@ obj=0
 IF nr=smpedit& THEN
 @setbutton(setuper&,0)
 @textfeld(clock&,SPACE$(8)+CHR$(0),1)
-@textfeld(showxy&,SPACE$(11)+CHR$(0),1)
+@textfeld(showxy&,SPACE$(13)+CHR$(0),1)
 @smpfree
 @minwrite
 ENDIF
@@ -38433,6 +39889,11 @@ IF EXIST(setup$) THEN
 @busy_mouse
 OPEN "I",#1,setup$
 INPUT #1,setv$              !  "STARTRACK-SETUP V1.0"  Versionskontrolle
+IF MID$(setv$,LEN(setv$)-3,1)="V" THEN
+prgversion=VAL(RIGHT$(setv$,3))
+ELSE
+prgversion=0
+ENDIF
 INPUT #1,language
 INPUT #1,vol
 INPUT #1,vol2
@@ -38489,7 +39950,7 @@ INPUT #1,freez
 INPUT #1,winh
 INPUT #1,neufsel
 '
-IF setv$="STARTRACK-SETUP V1.1" THEN          ! Versionskontrolle
+IF prgversion>=1.1 THEN          ! Versionskontrolle
 INPUT #1,adat
 INPUT #1,fmclk
 INPUT #1,bigram
@@ -38509,13 +39970,22 @@ INPUT #1,smptestrt
 ENDIF
 '
 INPUT #1,ctree
-FOR i=0 TO ctree
+FOR i=0 TO 31
 INPUT #1,rx(i)
 INPUT #1,ry(i)
 NEXT i
+IF prgversion>=1.2 THEN          ! Versionskontrolle
+FOR i=0 TO 31
+INPUT #1,rb(i)
+INPUT #1,rh(i)
+NEXT i
+ENDIF
 INPUT #1,hpath$
 CLOSE #1
+nosetload=FALSE
 ELSE
+prgversion=0
+nosetload=TRUE
 language=1             ! Sprache: 1=deutsch, 2=englisch
 neufsel=FALSE          ! neuen older alten Fileselektor benutzen ?
 digsource=0            ! Digitalanschluû-Art
@@ -38849,7 +40319,7 @@ winh=0
 ENDIF
 IF DFREE(a)>=sector THEN
 OPEN "O",#1,setup$
-PRINT #1,"STARTRACK-SETUP V1.1"           ! Versionskontrolle
+PRINT #1,"STARTRACK-SETUP V1.2"           ! Versionskontrolle
 PRINT #1,language
 PRINT #1,vvol
 PRINT #1,vvol2
@@ -38926,9 +40396,13 @@ PRINT #1,sendsmpte
 PRINT #1,framez
 PRINT #1,smptestrt
 PRINT #1,btree
-FOR i=0 TO btree
+FOR i=0 TO 31
 PRINT #1,rscx&(i)
 PRINT #1,rscy&(i)
+NEXT i
+FOR i=0 TO 31
+PRINT #1,rscw&(i)
+PRINT #1,rsch&(i)
 NEXT i
 PRINT #1,hpath$
 CLOSE #1
@@ -39363,6 +40837,7 @@ CLIP 0,0,xwidth,ywidth
 ENDIF
 LINE cx+xd,stay1,cx+xd,stay2
 LINE cx+xd,stay1,cx+xd,stay2
+DEFTEXT 1,0,0,4
 TEXT cx+xd-2,stay1-1,t$
 TEXT cx+xd-2,stay1-1,t$
 IF credraw=FALSE THEN
@@ -39390,6 +40865,7 @@ IF credraw=FALSE THEN
 CLIP 0,0,xwidth,ywidth
 ENDIF
 LINE cx+xd,stay1,cx+xd,stay2
+DEFTEXT 1,0,0,4
 TEXT cx+xd-2,stay1-1,t$
 IF credraw=FALSE THEN
 CLIP OFF
@@ -42252,15 +43728,13 @@ a$=a$+CHR$(0)
 a=v
 RETURN
 '
-PROCEDURE peakvar
+> PROCEDURE peakvar
 distx=10
-disty=217
+disty=30+wymax
 wy=1
 wx=31
 distx2=distx+72
-wymax=187
-'  @buttbh(plmax&,v,w)
-'  wymax=w-1
+wymax=peaksize
 px=volinbal
 RETURN
 '
@@ -42270,7 +43744,7 @@ IF vio=TRUE THEN
 @setbutton(volinout&,1)
 ~@xrsrc_gaddr(0,nr,zu%)
 pymax=DPEEK(zu%+24*volbox&+22)                    ! Hîhe der Volumebox in Pixeln
-pymax=pymax-31
+pymax=pymax-31+6
 IF vol2<192 THEN
 vp=LOG10(192-vol2)
 vp=pymax-ROUND((192-vp/LOG10(192)*192)/3*2/256*pymax)
@@ -42289,7 +43763,7 @@ IF shading=FALSE THEN
 ~WIND_UPDATE(0)                                   ! BEG_UPDATE
 ENDIF
 px=volinbal2
-DPOKE (zu%+24*balance&+16),px+pxmax              ! Horizontalposition des Balance-Sliders verÑndern
+DPOKE (zu%+24*balance&+16),px+pxmax+5              ! Horizontalposition des Balance-Sliders verÑndern
 IF shading=FALSE THEN
 ~WIND_UPDATE(1)                                  ! BEG_UPDATE
 ~OBJC_DRAW(zu%,balbox&,9,0,0,xwidth,ywidth)      ! neu zeichnen
@@ -42313,7 +43787,7 @@ ELSE
 @setbutton(volinout&,0)
 ~@xrsrc_gaddr(0,nr,zu%)
 pymax=DPEEK(zu%+24*volbox&+22)                    ! Hîhe der Volumebox in Pixeln
-pymax=pymax-31
+pymax=pymax-31+6
 IF vol<192 THEN
 vp=LOG10(192-vol)
 vp=pymax-ROUND((192-vp/LOG10(192)*192)/3*2/256*pymax)
@@ -42332,7 +43806,7 @@ IF shading=FALSE THEN
 ~WIND_UPDATE(0)                                   ! BEG_UPDATE
 ENDIF
 px=volinbal
-DPOKE (zu%+24*balance&+16),px+pxmax              ! Horizontalposition des Balance-Sliders verÑndern
+DPOKE (zu%+24*balance&+16),px+pxmax+5              ! Horizontalposition des Balance-Sliders verÑndern
 IF shading=FALSE THEN
 ~WIND_UPDATE(1)                                  ! BEG_UPDATE
 ~OBJC_DRAW(zu%,balbox&,9,0,0,xwidth,ywidth)      ! neu zeichnen
@@ -42378,6 +43852,16 @@ IF BTST(winh,peak&)=FALSE THEN
 IF rsc_window&<7 THEN
 vornr=nr
 nr=peak&
+'
+wpl=0   ! peakhold left
+wpr=0   ! peakhold right
+'
+@buttbh(plmax&,v,peaksize)
+DEC peaksize
+pkblk=(peaksize+3)/9                  ! Einteilungs-Blockgroesse
+pkrot=pkblk-2                      ! roter Bereich in Pixeln
+pksix=pkrot+4*pkblk                ! -6db-Bereich
+'
 IF adat=TRUE OR rch8=TRUE THEN
 @hidetree2(peakch1&,FALSE)
 @hidetree2(peakch2&,FALSE)
@@ -42407,6 +43891,7 @@ ENDIF
 xbmagic=XBIOS(xbs,1)
 winh=BSET(winh,nr)
 @markhlp
+@bigtext2
 GRAPHMODE 1
 DEFLINE 1
 prt=-1
@@ -42417,10 +43902,7 @@ plw=FALSE
 '     @setbutton(peakr&,0)
 @peakvar
 '
-fillc=4      ! FÅllfarbe dunkelblau (3=grÅn,2=rot)
-prest=0.95    ! AbschwÑchwert relativ zum bisherigen Wert
-pschwell=1   ! Schwellwert zur Erkennung von abfallendem Peakwert
-psec=3      ! AbschwÑchwert-Verzîgerung in 100tel Sekunden
+psec=3       ! AbschwÑchwert-Verzîgerung in 100tel Sekunden
 '
 peakint=FALSE
 @peakread
@@ -42429,7 +43911,7 @@ vpr=pr
 ~@xrsrc_gaddr(0,nr,zu%)
 '      @fifodel
 pxmax=DPEEK(zu%+24*balbox&+20)                    ! Breite der Balancebox in Pixeln
-pxmax=INT((pxmax-15)/2)
+pxmax=INT((pxmax-25)/2)
 balinmax=pxmax
 mute1=FALSE
 mute2=FALSE
@@ -42452,6 +43934,7 @@ ENDIF
 rsc_message(nr,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
 @wischwasch
 @volinit
+@bigtext2
 ENDIF
 IF nr=peak& THEN
 IF hrd=1 THEN
@@ -42661,7 +44144,7 @@ volinbal=0
 ELSE
 volinbal2=0
 ENDIF
-DPOKE (zu%+24*balance&+16),px+pxmax              ! Horizontalposition des Balance-Sliders verÑndern
+DPOKE (zu%+24*balance&+16),px+pxmax+5            ! Horizontalposition des Balance-Sliders verÑndern
 ~WIND_UPDATE(1)                                  ! BEG_UPDATE
 ~OBJC_DRAW(zu%,balbox&,9,0,0,xwidth,ywidth)      ! neu zeichnen
 ~WIND_UPDATE(0)                                  ! BEG_UPDATE
@@ -42702,7 +44185,7 @@ opx=x
 ENDIF
 IF opx<>x THEN
 opx=x
-pxv=x-xd-149
+pxv=x-xd-153+8
 IF ABS(pxv)<=pxmax THEN
 px=pxv
 IF vio=FALSE THEN
@@ -42725,7 +44208,7 @@ a$=LEFT$(a$,5)
 ENDIF
 a$=a$+CHR$(0)
 @textfeld(peakbal&,a$,1)
-DPOKE (zu%+24*balance&+16),px+pxmax              ! Horizontalposition des Balance-Sliders verÑndern
+DPOKE (zu%+24*balance&+16),px+pxmax+5            ! Horizontalposition des Balance-Sliders verÑndern
 ~WIND_UPDATE(1)                                  ! BEG_UPDATE
 ~OBJC_DRAW(zu%,balbox&,9,0,0,xwidth,ywidth)      ! neu zeichnen
 ~WIND_UPDATE(0)                                  ! BEG_UPDATE
@@ -42757,7 +44240,11 @@ opy=y
 ENDIF
 IF opy<>y THEN
 opy=y
-py=y-yd-12
+IF bigtxt=FALSE THEN
+py=y-yd-peaksize+176
+ELSE
+py=y-yd-peaksize+280
+ENDIF
 IF py<=pymax AND py>=0 THEN
 IF vio=FALSE THEN
 IF py>=INT(pymax/2) THEN
@@ -42830,7 +44317,7 @@ pshift2=FALSE
 ENDIF
 RETURN
 '
-PROCEDURE peakwert
+> PROCEDURE peakwert
 .| Glob. Var.: demo#,scb%,sth#,sdb%,recfifolen#,seb%,adr#,sfb%,peakint#
 .|     peakret#,back3%,pl#,pr#,wymax#,rwert#,pr2#,pl2#,gr1#,gr2#,n#
 .| Ruft auf  : mousek,read_smp
@@ -42871,8 +44358,7 @@ IF (TIMER-prt)>100 AND prw=TRUE THEN
 prw=FALSE
 @setbutton(peakr&,0)
 ENDIF
-pr=pr/32767*wymax
-pl=pl/32767*wymax
+@peakdbcalc(pkblk)
 ELSE
 REPEAT
 @read_smp
@@ -42902,8 +44388,6 @@ ENDIF
 IF pl>32767 THEN
 pl=ABS(pl-65536)
 ENDIF
-'
-'
 pr=pr/32767*wymax
 pl=pl/32767*wymax
 ENDIF
@@ -42923,11 +44407,116 @@ NEXT n
 ENDIF
 RETURN
 '
+> PROCEDURE peakdbcalc(mpkblk)
+pl2=pl
+IF pl2<=pkg0 THEN
+'        db=-96..-48
+pl=0
+ENDIF
+IF pl2>pkg0 AND pl2<=pkg1 THEN
+'        db=-48..-24
+pkdba=ROUND(pkt*LOG10(pl*2))
+pl=ROUND(mpkblk/(pkdb1-pkdb0)*(pkdba-pkdb0))
+ENDIF
+IF pl2>pkg1 AND pl2<=pkg2 THEN
+'        db=-24..-12
+pkdba=ROUND(pkt*LOG10(pl*2))
+pl=mpkblk+ROUND(mpkblk/(pkdb2-pkdb1)*(pkdba-pkdb1))
+ENDIF
+IF pl2>pkg2 AND pl2<=pkg3 THEN
+'        db=-12..-8
+pkdba=ROUND(pkt*LOG10(pl*2))
+pl=mpkblk*2+ROUND(mpkblk/(pkdb3-pkdb2)*(pkdba-pkdb2))
+ENDIF
+IF pl2>pkg3 AND pl2<=pkg4 THEN
+'        db=-8..-6
+pkdba=ROUND(pkt*LOG10(pl*2))
+pl=mpkblk*3+ROUND(mpkblk/(pkdb4-pkdb3)*(pkdba-pkdb3))
+ENDIF
+IF pl2>pkg4 AND pl2<=pkg5 THEN
+'        db=-6..-4
+pkdba=ROUND(pkt*LOG10(pl*2))
+pl=mpkblk*4+ROUND(mpkblk/(pkdb5-pkdb4)*(pkdba-pkdb4))
+ENDIF
+IF pl2>pkg5 AND pl2<=pkg6 THEN
+'        db=-4..-3
+pkdba=ROUND(pkt*LOG10(pl*2))
+pl=mpkblk*5+ROUND(mpkblk/(pkdb6-pkdb5)*(pkdba-pkdb5))
+ENDIF
+IF pl2>pkg6 AND pl2<=pkg7 THEN
+'        db=-3..-2
+pkdba=ROUND(pkt*LOG10(pl*2))
+pl=mpkblk*6+ROUND(mpkblk/(pkdb7-pkdb6)*(pkdba-pkdb6))
+ENDIF
+IF pl2>pkg7 AND pl2<=pkg8 THEN
+'        db=-2..-1
+pkdba=ROUND(pkt*LOG10(pl*2))
+pl=mpkblk*7+ROUND(mpkblk/(pkdb8-pkdb7)*(pkdba-pkdb7))
+ENDIF
+IF pl2>pkg8 THEN
+'        db=-1..0
+pkdba=ROUND(pkt*LOG10(pl*2))
+pl=mpkblk*8+ROUND((mpkblk-1)/(pkdb9-pkdb8)*(pkdba-pkdb8))
+ENDIF
+'
+pr2=pr
+IF pr2<=pkg0 THEN
+'        db=-96..-48
+pr=0
+ENDIF
+IF pr2>pkg0 AND pr2<=pkg1 THEN
+'        db=-48..-24
+pkdba=ROUND(pkt*LOG10(pr*2))
+pr=ROUND(mpkblk/(pkdb1-pkdb0)*(pkdba-pkdb0))
+ENDIF
+IF pr2>pkg1 AND pr2<=pkg2 THEN
+'        db=-24..-12
+pkdba=ROUND(pkt*LOG10(pr*2))
+pr=mpkblk+ROUND(mpkblk/(pkdb2-pkdb1)*(pkdba-pkdb1))
+ENDIF
+IF pr2>pkg2 AND pr2<=pkg3 THEN
+'        db=-12..-8
+pkdba=ROUND(pkt*LOG10(pr*2))
+pr=mpkblk*2+ROUND(mpkblk/(pkdb3-pkdb2)*(pkdba-pkdb2))
+ENDIF
+IF pr2>pkg3 AND pr2<=pkg4 THEN
+'        db=-8..-6
+pkdba=ROUND(pkt*LOG10(pr*2))
+pr=mpkblk*3+ROUND(mpkblk/(pkdb4-pkdb3)*(pkdba-pkdb3))
+ENDIF
+IF pr2>pkg4 AND pr2<=pkg5 THEN
+'        db=-6..-4
+pkdba=ROUND(pkt*LOG10(pr*2))
+pr=mpkblk*4+ROUND(mpkblk/(pkdb5-pkdb4)*(pkdba-pkdb4))
+ENDIF
+IF pr2>pkg5 AND pr2<=pkg6 THEN
+'        db=-4..-3
+pkdba=ROUND(pkt*LOG10(pr*2))
+pr=mpkblk*5+ROUND(mpkblk/(pkdb6-pkdb5)*(pkdba-pkdb5))
+ENDIF
+IF pr2>pkg6 AND pr2<=pkg7 THEN
+'        db=-3..-2
+pkdba=ROUND(pkt*LOG10(pr*2))
+pr=mpkblk*6+ROUND(mpkblk/(pkdb7-pkdb6)*(pkdba-pkdb6))
+ENDIF
+IF pr2>pkg7 AND pr2<=pkg8 THEN
+'        db=-2..-1
+pkdba=ROUND(pkt*LOG10(pr*2))
+pr=mpkblk*7+ROUND(mpkblk/(pkdb8-pkdb7)*(pkdba-pkdb7))
+ENDIF
+IF pr2>pkg8 THEN
+'        db=-1..0
+pkdba=ROUND(pkt*LOG10(pr*2))
+pr=mpkblk*8+ROUND((mpkblk-1)/(pkdb9-pkdb8)*(pkdba-pkdb8))
+ENDIF
+RETURN
+'
 > PROCEDURE peakread
 .| Glob. Var.: nr#,peak&,pl#,pr#
 .| Ruft auf  : peakwert,fifodel,peakread2
 .| Aufruf in : rsc_do-1,peak-1,do_peak-1,
 LOCAL i,a,b,t,t2,nov,nov2
+psec=3      ! AbschwÑchwert-Verzîgerung in 100tel Sekunden
 GRAPHMODE 1
 DEFLINE 1
 IF nr=peak& THEN
@@ -42960,6 +44549,9 @@ RETURN
 .|     ax&,distx#,ay&,disty#,wy#,wx#,plm#,maxcol#,noppause#,distx2#,prm#
 .| Ruft auf  : markhlp
 .| Aufruf in : peakread-1,peakrec-1,
+LOCAL x,y,k,v
+fstyle=2
+ffill=5
 @windowtest
 @peakvar
 IF mywindow=TRUE THEN
@@ -42977,9 +44569,8 @@ IF slowpeak>psec THEN    ! ums langsamer zu machen !
 slowpeak2=TIMER
 IF vrl>0 THEN
 pl=vpl*prest
-' pl=vpl+vrl*LOG((10-(8*(vrl/wymax))))
 ENDIF
-IF vrr>t2 THEN
+IF vrr>0 THEN
 pr=vpr*prest
 ENDIF
 ENDIF
@@ -42989,62 +44580,149 @@ IF credraw=FALSE THEN
 CLIP 0,0,xwidth,ywidth
 ENDIF
 @markhlp
+'
+IF hardcursor=FALSE THEN
+~GRAF_MKSTATE(x,y,k,v4)
+IF x>=ax&+distx-16 AND x<=ax&+distx2+wx+8 AND y<=ay&+disty+8 AND y>=ay&+disty-wymax-16 THEN
+~GRAF_MOUSE(256,0)                              ! Hidem
+ENDIF
+ENDIF
+'
+IF pl>wpl THEN
+wpl=pl
+ELSE
+INC wplz
+IF wplz>100 THEN
+DEFFILL 0,1,0
+PBOX ax&+distx,ay&+disty-wpl,ax&+distx+wx,ay&+disty-wpl+1
+wplz=0
+wpl=0
+ENDIF
+ENDIF
 IF vpl>pl THEN
 DEFFILL 0,1,0
-~GRAF_MOUSE(256,0)                              ! Hidem
-PBOX ax&+distx,ay&+disty-wy*pl,ax&+distx+wx,ay&+disty-wy*vpl
-~GRAF_MOUSE(257,0)                              ! Hidem
-ENDIF
-IF pl<wymax-8 THEN
-DEFFILL fillc,1,fillc
-~GRAF_MOUSE(256,0)                              ! Hidem
-PBOX ax&+distx,ay&+disty,ax&+distx+wx,ay&+disty-wy*pl
-~GRAF_MOUSE(257,0)                              ! Hidem
-IF intplay=FALSE THEN
-ENDIF
+IF INT(vpl)=INT(wpl) THEN
+PBOX ax&+distx,ay&+disty-pl,ax&+distx+wx,ay&+disty-vpl+1
 ELSE
-plm=pl-(wymax-8)
-DEFFILL fillc,1,fillc
-~GRAF_MOUSE(256,0)                              ! Hidem
-PBOX ax&+distx,ay&+disty,ax&+distx+wx,ay&+disty-wy*(pl-plm)
-~GRAF_MOUSE(257,0)                              ! Hidem
+PBOX ax&+distx,ay&+disty-pl,ax&+distx+wx,ay&+disty-vpl
+ENDIF
+ENDIF
+IF pl<wymax-pksix THEN
 IF maxcol=2 THEN
-DEFFILL 1,2,4
+DEFFILL 1,fstyle,ffill
 ELSE
-DEFFILL 2,1,2
+DEFFILL blue,1,blue
 ENDIF
-~GRAF_MOUSE(256,0)                              ! Hidem
-PBOX ax&+distx,ay&+disty-wy*(pl-plm),ax&+distx+wx,ay&+disty-wy*pl
-~GRAF_MOUSE(257,0)                              ! Hidem
+PBOX ax&+distx,ay&+disty,ax&+distx+wx,ay&+disty-pl
+ENDIF
+IF pl>=wymax-pksix AND pl<wymax-pkrot THEN
+plm=pl-(wymax-pksix)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL blue,1,blue
+ENDIF
+PBOX ax&+distx,ay&+disty,ax&+distx+wx,ay&+disty-(pl-plm)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL bred,1,bred
+ENDIF
+PBOX ax&+distx,ay&+disty-(pl-plm),ax&+distx+wx,ay&+disty-pl
+ENDIF
+IF pl>=wymax-pkrot THEN
+plm=pl-(wymax-pkrot)
+plm2=pl-(wymax-pksix)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL blue,1,blue
+ENDIF
+PBOX ax&+distx,ay&+disty,ax&+distx+wx,ay&+disty-(pl-plm2)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL bred,1,bred
+ENDIF
+PBOX ax&+distx,ay&+disty-(pl-plm2),ax&+distx+wx,ay&+disty-(pl-plm)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL red,1,red
+ENDIF
+PBOX ax&+distx,ay&+disty-(pl-plm),ax&+distx+wx,ay&+disty-pl
+ENDIF
+IF pr>wpr THEN
+wpr=pr
+ELSE
+INC wprz
+IF wprz>100 THEN
+DEFFILL 0,1,0
+PBOX ax&+distx2,ay&+disty-wpr,ax&+distx2+wx,ay&+disty-wpr+1
+wprz=0
+wpr=0
+ENDIF
 ENDIF
 IF vpr>pr THEN
 DEFFILL 0,1,0
-~GRAF_MOUSE(256,0)                              ! Hidem
-PBOX ax&+distx2,ay&+disty-wy*pr,ax&+distx2+wx,ay&+disty-wy*vpr
-~GRAF_MOUSE(257,0)                              ! Hidem
-ENDIF
-IF pr<wymax-8 THEN
-DEFFILL fillc,1,fillc
-~GRAF_MOUSE(256,0)                              ! Hidem
-PBOX ax&+distx2,ay&+disty,ax&+distx2+wx,ay&+disty-wy*pr
-~GRAF_MOUSE(257,0)                              ! Hidem
-IF intplay=FALSE THEN
-ENDIF
+IF INT(vpr)=INT(wpr) THEN
+PBOX ax&+distx2,ay&+disty-pr,ax&+distx2+wx,ay&+disty-vpr+1
 ELSE
-prm=pr-(wymax-8)
-DEFFILL fillc,1,fillc
-~GRAF_MOUSE(256,0)                              ! Hidem
-PBOX ax&+distx2,ay&+disty,ax&+distx2+wx,ay&+disty-wy*(pr-prm)
-~GRAF_MOUSE(257,0)                              ! Hidem
+PBOX ax&+distx2,ay&+disty-pr,ax&+distx2+wx,ay&+disty-vpr
+ENDIF
+ENDIF
+IF pr<wymax-pksix THEN
 IF maxcol=2 THEN
-DEFFILL 1,2,4
+DEFFILL 1,fstyle,ffill
 ELSE
-DEFFILL 2,1,2
+DEFFILL blue,1,blue
 ENDIF
-~GRAF_MOUSE(256,0)                              ! Hidem
-PBOX ax&+distx2,ay&+disty-wy*(pr-prm),ax&+distx2+wx,ay&+disty-wy*pr
+PBOX ax&+distx2,ay&+disty,ax&+distx2+wx,ay&+disty-pr
+ENDIF
+IF pr>=wymax-pksix AND pr<wymax-pkrot THEN
+prm=pr-(wymax-pksix)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL blue,1,blue
+ENDIF
+PBOX ax&+distx2,ay&+disty,ax&+distx2+wx,ay&+disty-(pr-prm)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL bred,1,bred
+ENDIF
+PBOX ax&+distx2,ay&+disty-(pr-prm),ax&+distx2+wx,ay&+disty-pr
+ENDIF
+IF pr>=wymax-pkrot THEN
+prm=pr-(wymax-pkrot)
+prm2=pr-(wymax-pksix)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL blue,1,blue
+ENDIF
+PBOX ax&+distx2,ay&+disty,ax&+distx2+wx,ay&+disty-(pr-prm2)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL bred,1,bred
+ENDIF
+PBOX ax&+distx2,ay&+disty-(pr-prm2),ax&+distx2+wx,ay&+disty-(pr-prm)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL red,1,red
+ENDIF
+PBOX ax&+distx2,ay&+disty-(pr-prm),ax&+distx2+wx,ay&+disty-pr
+ENDIF
+'
+IF hardcursor=FALSE THEN
+IF x>=ax&+distx-16 AND x<=ax&+distx2+wx+8 AND y<=ay&+disty+8 AND y>=ay&+disty-wymax-16 THEN
 ~GRAF_MOUSE(257,0)                              ! Hidem
 ENDIF
+ENDIF
+'
 IF credraw=FALSE THEN
 CLIP OFF
 ENDIF
@@ -43103,17 +44781,22 @@ IF pl>32766 THEN
 @setbutton(peakl&,1)
 plt=TIMER
 plw=TRUE
+IF ad=1 THEN
 INC peaks2
+ENDIF
 ENDIF
 IF pr>32766 THEN
 @setbutton(peakr&,1)
 prt=TIMER
 prw=TRUE
+IF ad=1 THEN
 INC peaks2
+ENDIF
 ENDIF
 RETURN
 '
 > PROCEDURE peakrec2
+psec=3      ! AbschwÑchwert-Verzîgerung in 100tel Sekunden
 IF demo=FALSE THEN
 pl=DPEEK(peakret)
 pr=DPEEK(peakret+2)
@@ -43127,8 +44810,7 @@ IF (TIMER-prt)>100 AND prw=TRUE THEN
 prw=FALSE
 @setbutton(peakr&,0)
 ENDIF
-pr=pr/32767*wymax
-pl=pl/32767*wymax
+@peakdbcalc(pkblk)
 @peakread2
 RETURN
 '
@@ -43146,9 +44828,9 @@ wymax=76
 distx2=distx+8
 ENDIF
 wy=4
-fillc=4      ! FÅllfarbe dunkelblau (3=grÅn,2=rot)
-prest=0.8    ! AbschwÑchwert relativ zum bisherigen Wert
-pschwell=1   ! Schwellwert zur Erkennung von abfallendem Peakwert
+blue=4
+green=3+8
+red=2
 psec=10      ! AbschwÑchwert-Verzîgerung in 100tel Sekunden
 IF demo=FALSE AND shading=FALSE THEN
 IF credraw=FALSE THEN
@@ -43161,7 +44843,7 @@ IF pl>32766 THEN
 IF maxcol=2 THEN
 DEFFILL 1,2,4
 ELSE
-DEFFILL 2,1,2
+DEFFILL red,1,red
 ENDIF
 ~GRAF_MOUSE(256,0)                              ! Hidem
 PBOX ax&+distx,ay&+disty-wymax-3,ax&+distx+wy,ay&+disty-wymax-6
@@ -43173,7 +44855,7 @@ IF pr>32766 THEN
 IF maxcol=2 THEN
 DEFFILL 1,2,4
 ELSE
-DEFFILL 2,1,2
+DEFFILL red,1,red
 ENDIF
 ~GRAF_MOUSE(256,0)                              ! Hidem
 PBOX ax&+distx2,ay&+disty-wymax-3,ax&+distx2+wy,ay&+disty-wymax-6
@@ -43199,12 +44881,15 @@ IF credraw=FALSE THEN
 CLIP OFF
 ENDIF
 ENDIF
-pr=pr/32767*wymax
-pl=pl/32767*wymax
+'  pr=pr/32767*wymax
+'  pl=pl/32767*wymax
+@peakdbcalc(tpkblk)
 @peakread3
 RETURN
 '
 > PROCEDURE peakread3
+fstyle=1
+ffill=5
 @windowtest
 IF mywindow=TRUE THEN
 IF nr=trakker& THEN
@@ -43232,53 +44917,157 @@ IF erlaub=TRUE AND shading=FALSE THEN
 IF credraw=FALSE THEN
 CLIP 0,0,xwidth,ywidth
 ENDIF
+IF pl>wpl THEN
+wpl=pl
+ELSE
+INC wplz
+IF wplz>100 THEN
+DEFFILL 0,1,0
+PBOX ax&+distx,ay&+disty-wpl,ax&+distx+wy,ay&+disty-wpl+1
+wplz=0
+wpl=0
+ENDIF
+ENDIF
 IF vpl>pl THEN
 DEFFILL 0,1,0
 ~GRAF_MOUSE(256,0)                              ! Hidem
+IF INT(vpl)=INT(wpl) THEN
+PBOX ax&+distx,ay&+disty-pl,ax&+distx+wy,ay&+disty-vpl+1
+ELSE
 PBOX ax&+distx,ay&+disty-pl,ax&+distx+wy,ay&+disty-vpl
+ENDIF
 ~GRAF_MOUSE(257,0)                              ! Hidem
 ENDIF
-IF pl<wymax-8 THEN
-DEFFILL fillc,1,fillc
+IF pl<wymax-tpksix THEN
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL blue,1,blue
+ENDIF
 ~GRAF_MOUSE(256,0)                              ! Hidem
 PBOX ax&+distx,ay&+disty,ax&+distx+wy,ay&+disty-pl
 ~GRAF_MOUSE(257,0)                              ! Hidem
+ENDIF
+IF pl>=wymax-tpksix AND pl<wymax-tpkrot THEN
+plm=pl-(wymax-tpksix)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
 ELSE
-plm=pl-(wymax-8)
-DEFFILL fillc,1,fillc
+DEFFILL blue,1,blue
+ENDIF
 ~GRAF_MOUSE(256,0)                              ! Hidem
 PBOX ax&+distx,ay&+disty,ax&+distx+wy,ay&+disty-(pl-plm)
 ~GRAF_MOUSE(257,0)                              ! Hidem
 IF maxcol=2 THEN
-DEFFILL 1,2,4
+DEFFILL 1,fstyle,ffill
 ELSE
-DEFFILL 2,1,2
+DEFFILL bred,1,bred
 ENDIF
 ~GRAF_MOUSE(256,0)                              ! Hidem
 PBOX ax&+distx,ay&+disty-(pl-plm),ax&+distx+wy,ay&+disty-pl
 ~GRAF_MOUSE(257,0)                              ! Hidem
 ENDIF
+IF pl>=wymax-tpkrot THEN
+plm=pl-(wymax-tpkrot)
+plm2=pl-(wymax-tpksix)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL blue,1,blue
+ENDIF
+~GRAF_MOUSE(256,0)                              ! Hidem
+PBOX ax&+distx,ay&+disty,ax&+distx+wy,ay&+disty-(pl-plm2)
+~GRAF_MOUSE(257,0)                              ! Hidem
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL bred,1,bred
+ENDIF
+~GRAF_MOUSE(256,0)                              ! Hidem
+PBOX ax&+distx,ay&+disty-(pl-plm2),ax&+distx+wy,ay&+disty-(pl-plm)
+~GRAF_MOUSE(257,0)                              ! Hidem
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL red,1,red
+ENDIF
+~GRAF_MOUSE(256,0)                              ! Hidem
+PBOX ax&+distx,ay&+disty-(pl-plm),ax&+distx+wy,ay&+disty-pl
+~GRAF_MOUSE(257,0)                              ! Hidem
+ENDIF
+IF pr>wpr THEN
+wpr=pr
+ELSE
+INC wprz
+IF wprz>100 THEN
+DEFFILL 0,1,0
+PBOX ax&+distx2,ay&+disty-wpr,ax&+distx2+wy,ay&+disty-wpr+1
+wprz=0
+wpr=0
+ENDIF
+ENDIF
 IF vpr>pr THEN
 DEFFILL 0,1,0
 ~GRAF_MOUSE(256,0)                              ! Hidem
+IF INT(vpr)=INT(wpr) THEN
+PBOX ax&+distx2,ay&+disty-pr,ax&+distx2+wy,ay&+disty-vpr+1
+ELSE
 PBOX ax&+distx2,ay&+disty-pr,ax&+distx2+wy,ay&+disty-vpr
+ENDIF
 ~GRAF_MOUSE(257,0)                              ! Hidem
 ENDIF
-IF pr<wymax-8 THEN
-DEFFILL fillc,1,fillc
+IF pr<wymax-tpksix THEN
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL blue,1,blue
+ENDIF
 ~GRAF_MOUSE(256,0)                              ! Hidem
 PBOX ax&+distx2,ay&+disty,ax&+distx2+wy,ay&+disty-pr
 ~GRAF_MOUSE(257,0)                              ! Hidem
+ENDIF
+IF pr>=wymax-tpksix AND pr<wymax-tpkrot THEN
+prm=pr-(wymax-tpksix)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
 ELSE
-prm=pr-(wymax-8)
-DEFFILL fillc,1,fillc
+DEFFILL blue,1,blue
+ENDIF
 ~GRAF_MOUSE(256,0)                              ! Hidem
 PBOX ax&+distx2,ay&+disty,ax&+distx2+wy,ay&+disty-(pr-prm)
 ~GRAF_MOUSE(257,0)                              ! Hidem
 IF maxcol=2 THEN
-DEFFILL 1,2,4
+DEFFILL 1,fstyle,ffill
 ELSE
-DEFFILL 2,1,2
+DEFFILL bred,1,bred
+ENDIF
+~GRAF_MOUSE(256,0)                              ! Hidem
+PBOX ax&+distx2,ay&+disty-(pr-prm),ax&+distx2+wy,ay&+disty-pr
+~GRAF_MOUSE(257,0)                              ! Hidem
+ENDIF
+IF pr>=wymax-tpkrot THEN
+prm=pr-(wymax-tpkrot)
+prm2=pr-(wymax-tpksix)
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL blue,1,blue
+ENDIF
+~GRAF_MOUSE(256,0)                              ! Hidem
+PBOX ax&+distx2,ay&+disty,ax&+distx2+wy,ay&+disty-(pr-prm2)
+~GRAF_MOUSE(257,0)                              ! Hidem
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL bred,1,bred
+ENDIF
+~GRAF_MOUSE(256,0)                              ! Hidem
+PBOX ax&+distx2,ay&+disty-(pr-prm2),ax&+distx2+wy,ay&+disty-(pr-prm)
+~GRAF_MOUSE(257,0)                              ! Hidem
+IF maxcol=2 THEN
+DEFFILL 1,fstyle,ffill
+ELSE
+DEFFILL red,1,red
 ENDIF
 ~GRAF_MOUSE(256,0)                              ! Hidem
 PBOX ax&+distx2,ay&+disty-(pr-prm),ax&+distx2+wy,ay&+disty-pr
@@ -43536,14 +45325,16 @@ ENDIF
 IF showbdat<>showdat THEN
 showbdat=showdat
 IF tedart=1 THEN
-shw$=STR$(showdat)+CHR$(0)
+a$=STR$(showdat)
+@formatsmp
+shw$=a$+CHR$(0)
 ELSE
 hsec=showdat*100
 @htimeset
 shw$=a$
 ENDIF
-IF LEN(shw$)>11 THEN
-shw$=LEFT$(shw$,11)+CHR$(0)
+IF LEN(shw$)>13 THEN
+shw$=LEFT$(shw$,13)+CHR$(0)
 ENDIF
 @textfeld(showxy&,shw$,1)
 ENDIF
@@ -43612,6 +45403,7 @@ ENDIF
 tx=vtx
 COLOR 1
 GRAPHMODE 3
+DEFTEXT 1,0,0,4
 TEXT ux+xd-2,stay1-1,t$
 drawnew=TRUE
 ENDIF
@@ -43649,6 +45441,7 @@ ux=x-cs
 ux=INT(ux/(ce-cs)*xm)
 GRAPHMODE 3
 LINE ux+xd,stay1,ux+xd,stay2
+DEFTEXT 1,0,0,4
 TEXT ux+xd-2,stay1-1,t$
 drawnew=TRUE
 IF credraw=FALSE THEN
