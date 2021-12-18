@@ -3333,6 +3333,12 @@ RETURN
     n=0
     REPEAT
       em=EVNT_MULTI(&X100011,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,mx,my,mbi,shift&,key&,c)
+      IF nr=mixer& THEN
+        phdr=hdr
+        hdr=FALSE
+        @mixhandler
+        hdr=phdr
+      ENDIF
     UNTIL BTST(em,1) OR BTST(em,0)
     '
     n=0
@@ -3347,7 +3353,6 @@ RETURN
         ENDIF
       UNTIL INP?(2)=FALSE
     ENDIF
-    '
     IF BTST(em,1) THEN
       n=OBJC_FIND(r%,0,100,mx,my)
     ENDIF
@@ -3880,8 +3885,6 @@ RETURN
             IF nr=mixer& THEN
               @sendmix(FALSE)
             ENDIF
-            ~XBIOS(&H8B,0,2,0,clk,1)
-            ~XBIOS(&H8B,1,1+4+8,0,clk,1)
             IF demo=FALSE THEN
               POKE &HFEFF0645,1
             ENDIF
@@ -4163,6 +4166,9 @@ RETURN
 '
 > PROCEDURE read_pmem
   FOR p=1 TO pmembl
+    IF preld=TRUE THEN
+      @busy_mouse
+    ENDIF
     @zeigtime2
     IF blkrmax=FALSE THEN
       pdsc=dscx
@@ -4250,12 +4256,19 @@ RETURN
 RETURN
 '
 > PROCEDURE preload
+  hdr=FALSE
+  preld=TRUE
+  @busy_mouse
   pmembl=INT(rmeml1/rmb)
   pmemz=rmems1
   @read_pmem
   pmembl=INT(rmeml2/rmb)
   pmemz=rmems2
   @read_pmem
+  ~GRAF_MOUSE(0,0)                                       ! Zur Sicherheit
+  preld=FALSE
+  hdr=TRUE
+  DEFMOUSE 3
 RETURN
 '
 > PROCEDURE fillrmem
@@ -4693,13 +4706,17 @@ RETURN
       ENDIF
     ENDIF
     ~XBIOS(&H8B,1,1+4+8,0,clk,1)
-    IF adc8=TRUE THEN
-      IF ad=0 THEN
-        clk=0
-      ENDIF
-      ~XBIOS(&H8B,3,2,0,clk,1)    ! Record vom ADC (Achtkanal)
+    IF mtrkplay=TRUE THEN
+      ~XBIOS(&H8B,0,2,0,clk,1)
     ELSE
-      ~XBIOS(&H8B,2,2,0,clk,1)    ! Record vom external RDATA (Achtkanal)
+      IF adc8=TRUE THEN
+        IF ad=0 THEN
+          clk=0
+        ENDIF
+        ~XBIOS(&H8B,3,2,0,clk,1)    ! Record vom ADC (Achtkanal)
+      ELSE
+        ~XBIOS(&H8B,2,2,0,clk,1)    ! Record vom external RDATA (Achtkanal)
+      ENDIF
     ENDIF
     @channel(0)
     IF mtrkplay=FALSE THEN
@@ -5156,7 +5173,9 @@ RETURN
         ENDIF
       ENDIF
       '
-      @maus_player
+      IF nr<>mixer& THEN
+        @maus_player
+      ENDIF
       IF demo=FALSE THEN
         IF stc=&H71273800 THEN
           IF recpaus=TRUE THEN
@@ -5208,96 +5227,6 @@ RETURN
                 ~XBIOS(xbs,72,15)      ! Fehler bei Jam-In (war 14)
                 ~XBIOS(xbs,27,2)
                 ~XBIOS(xbs,26,2)
-                IF mixdsp=FALSE THEN                            ! matrixmode...
-                  IF demo=FALSE OR falcon=TRUE THEN
-                    IF ds_rdy=TRUE THEN                         ! ...und DirectStream
-                      IF BTST(hchk,0)=TRUE AND adc8=FALSE THEN
-                        ' macht nur sinn,wenn fr rec in den mixdsp-mode geschaltet wird (Abh”ren Play & Rec ber DAC,Abh”ren Rec ber EXTOUT)
-                        re_mixdsp=TRUE
-                        mixdsp=TRUE
-                        IF BTST(winh,mixer&)=TRUE THEN
-                          winh=BCLR(winh,mixer&)
-                          nr=mixer&
-                          @restaura2b
-                          @mixerexit
-                          @mixer
-                        ENDIF
-                        ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
-                        ~XBIOS(&H8B,2,1+4,0,clk,1)   ! EXTINP  -> EXTOUT,DMAREC
-                        ~XBIOS(&H8B,1,8,0,clk,1)     ! DSPXMIT -> DAC
-                      ELSE
-                        IF nr=mixer& THEN
-                          @sendmix(FALSE)
-                        ENDIF
-                        IF adc8=TRUE THEN
-                          ~XBIOS(&H8B,3,1,0,clk,1)   ! ADC     -> DMAREC
-                        ELSE
-                          ~XBIOS(&H8B,2,1,0,clk,1)   ! EXTINP  -> DMAREC
-                        ENDIF
-                        ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
-                        ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
-                        IF demo=FALSE AND BTST(hchk,0)=FALSE THEN
-                          POKE &HFEFF0645,2          ! dmarec-path (only new hardware)
-                        ENDIF
-                      ENDIF
-                    ELSE                  ! ...und kein DirectStream
-                      IF adc8=TRUE THEN
-                        IF mixbyp(1)=TRUE AND mixbyp(2)=TRUE THEN
-                          ~XBIOS(&H8B,3,1+2+4,0,clk,1)   ! ADC     -> DMAREC,DSPREC,EXTOUT
-                          ~XBIOS(&H8B,1,8,0,clk,1)       ! DSPXMIT -> DAC
-                        ELSE
-                          ~XBIOS(&H8B,3,2,0,clk,1)       ! ADC     -> DSPREC
-                          ~XBIOS(&H8B,1,1+4+8,0,clk,1)   ! DSPXMIT -> DMAREC,EXTOUT,DAC
-                        ENDIF
-                      ELSE
-                        ~XBIOS(&H8B,2,1+2+4,0,clk,1)     ! EXTINP  -> DMAREC,DSPREC,EXTOUT
-                        ~XBIOS(&H8B,1,8,0,clk,1)         ! DSPXMIT -> DAC
-                      ENDIF
-                    ENDIF
-                    pt=rchmo
-                    @channel(pt)
-                  ENDIF
-                ELSE                               ! dspmix-mode...
-                  IF ds_rdy=TRUE THEN              ! ... und DirectStream
-                    IF adc8=TRUE THEN
-                      IF nr=mixer& THEN
-                        @sendmix(FALSE)
-                      ENDIF
-                      ~XBIOS(&H8B,3,1,0,clk,1)     ! ADC     -> DMAREC
-                      ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
-                      ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
-                    ELSE
-                      IF BTST(hchk,0)=TRUE THEN
-                        ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
-                        ~XBIOS(&H8B,2,1+4,0,clk,1)   ! EXTINP  -> EXTOUT,DMAREC
-                        ~XBIOS(&H8B,1,8,0,clk,1)     ! DSPXMIT -> DAC
-                      ELSE
-                        ~XBIOS(&H8B,2,1,0,clk,1)     ! EXTINP  -> DMAREC
-                        ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
-                        ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
-                        IF demo=FALSE THEN
-                          POKE &HFEFF0645,2         ! dmarec-path (only new hardware)
-                        ENDIF
-                      ENDIF
-                    ENDIF
-                  ELSE                              ! ...und kein DirectStream
-                    IF mixrec(17)=TRUE THEN
-                      ~XBIOS(&H8B,1,1+4+8,0,clk,1)   ! DSPXMIT -> DMAREC,EXTOUT,DAC
-                      IF adc8=TRUE THEN
-                        ~XBIOS(&H8B,3,2,0,clk,1)     ! ADC     -> DSPREC
-                      ELSE
-                        ~XBIOS(&H8B,2,2,0,clk,1)     ! EXTINP  -> DSPREC
-                      ENDIF
-                    ELSE
-                      IF adc8=TRUE THEN
-                        ~XBIOS(&H8B,3,1+2+4,0,clk,1) ! ADC     -> EXTOUT,DMAREC,DSPREC
-                      ELSE
-                        ~XBIOS(&H8B,2,1+2+4,0,clk,1) ! EXTINP  -> EXTOUT,DMAREC,DSPREC
-                      ENDIF
-                      ~XBIOS(&H8B,1,8,0,clk,1)       ! DSPXMIT -> DAC
-                    ENDIF
-                  ENDIF
-                ENDIF
               ENDIF
             ELSE
               ~XBIOS(xbs,55,0)
@@ -5452,11 +5381,105 @@ RETURN
           peakint=FALSE
           REPEAT
           UNTIL @mousek=0
+          IF rmo8=TRUE THEN
+            IF mixdsp=FALSE THEN                            ! matrixmode...
+              IF demo=FALSE OR falcon=TRUE THEN
+                IF ds_rdy=TRUE THEN                         ! ...und DirectStream
+                  IF BTST(hchk,0)=TRUE AND adc8=FALSE THEN
+                    ' macht nur sinn,wenn fr rec in den mixdsp-mode geschaltet wird (Abh”ren Play & Rec ber DAC,Abh”ren Rec ber EXTOUT)
+                    re_mixdsp=TRUE
+                    mixdsp=TRUE
+                    IF BTST(winh,mixer&)=TRUE THEN
+                      winh=BCLR(winh,mixer&)
+                      nr=mixer&
+                      @restaura2b
+                      @mixerexit
+                      @mixer
+                    ENDIF
+                    ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
+                    ~XBIOS(&H8B,2,1+4,0,clk,1)   ! EXTINP  -> EXTOUT,DMAREC
+                    ~XBIOS(&H8B,1,8,0,clk,1)     ! DSPXMIT -> DAC
+                  ELSE
+                    IF nr=mixer& THEN
+                      @sendmix(FALSE)
+                    ENDIF
+                    IF adc8=TRUE THEN
+                      ~XBIOS(&H8B,3,1,0,clk,1)   ! ADC     -> DMAREC
+                    ELSE
+                      ~XBIOS(&H8B,2,1,0,clk,1)   ! EXTINP  -> DMAREC
+                    ENDIF
+                    ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
+                    ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
+                    IF demo=FALSE AND BTST(hchk,0)=FALSE THEN
+                      POKE &HFEFF0645,2          ! dmarec-path (only new hardware)
+                    ENDIF
+                  ENDIF
+                ELSE                  ! ...und kein DirectStream
+                  IF adc8=TRUE THEN
+                    IF mixbyp(1)=TRUE AND mixbyp(2)=TRUE THEN
+                      ~XBIOS(&H8B,3,1+2+4,0,clk,1)   ! ADC     -> DMAREC,DSPREC,EXTOUT
+                      ~XBIOS(&H8B,1,8,0,clk,1)       ! DSPXMIT -> DAC
+                    ELSE
+                      ~XBIOS(&H8B,3,2,0,clk,1)       ! ADC     -> DSPREC
+                      ~XBIOS(&H8B,1,1+4+8,0,clk,1)   ! DSPXMIT -> DMAREC,EXTOUT,DAC
+                    ENDIF
+                  ELSE
+                    ~XBIOS(&H8B,2,1+2+4,0,clk,1)     ! EXTINP  -> DMAREC,DSPREC,EXTOUT
+                    ~XBIOS(&H8B,1,8,0,clk,1)         ! DSPXMIT -> DAC
+                  ENDIF
+                ENDIF
+                pt=rchmo
+                @channel(pt)
+              ENDIF
+            ELSE                               ! dspmix-mode...
+              IF ds_rdy=TRUE THEN              ! ... und DirectStream
+                IF adc8=TRUE THEN
+                  IF nr=mixer& THEN
+                    @sendmix(FALSE)
+                  ENDIF
+                  ~XBIOS(&H8B,3,1,0,clk,1)     ! ADC     -> DMAREC
+                  ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
+                  ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
+                ELSE
+                  IF BTST(hchk,0)=TRUE THEN
+                    ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
+                    ~XBIOS(&H8B,2,1+4,0,clk,1)   ! EXTINP  -> EXTOUT,DMAREC
+                    ~XBIOS(&H8B,1,8,0,clk,1)     ! DSPXMIT -> DAC
+                  ELSE
+                    ~XBIOS(&H8B,2,1,0,clk,1)     ! EXTINP  -> DMAREC
+                    ~XBIOS(&H8B,1,4+8,0,clk,1)   ! DSPXMIT -> DAC,EXTOUT
+                    ~XBIOS(&H8B,0,2,0,clk,1)     ! DMAPLAY -> DSPREC
+                    IF demo=FALSE THEN
+                      POKE &HFEFF0645,2         ! dmarec-path (only new hardware)
+                    ENDIF
+                  ENDIF
+                ENDIF
+              ELSE                              ! ...und kein DirectStream
+                IF mixrec(17)=TRUE THEN
+                  ~XBIOS(&H8B,1,1+4+8,0,clk,1)   ! DSPXMIT -> DMAREC,EXTOUT,DAC
+                  IF adc8=TRUE THEN
+                    ~XBIOS(&H8B,3,2,0,clk,1)     ! ADC     -> DSPREC
+                  ELSE
+                    ~XBIOS(&H8B,2,2,0,clk,1)     ! EXTINP  -> DSPREC
+                  ENDIF
+                ELSE
+                  IF adc8=TRUE THEN
+                    ~XBIOS(&H8B,3,1+2+4,0,clk,1) ! ADC     -> EXTOUT,DMAREC,DSPREC
+                  ELSE
+                    ~XBIOS(&H8B,2,1+2+4,0,clk,1) ! EXTINP  -> EXTOUT,DMAREC,DSPREC
+                  ENDIF
+                  ~XBIOS(&H8B,1,8,0,clk,1)       ! DSPXMIT -> DAC
+                ENDIF
+              ENDIF
+            ENDIF
+          ENDIF
           rfull=0
           peaks=0
           peaks2=0
           '
-          @maus_player
+          IF nr<>mixer& THEN
+            @maus_player
+          ENDIF
           pkreq=XBIOS(xbs,150)               ! peak-request Adresse holen
           '
           IF recp=FALSE THEN
@@ -7890,7 +7913,7 @@ IF rsc_menu&>-1
 ENDIF
 ENDIF
 RETURN
-FUNCTION rsc_do(tree&,next_obj&,VAR popup&)
+> FUNCTION rsc_do(tree&,next_obj&,VAR popup&)
 $F%
 LOCAL a&,handle&,a$,c
 LOCAL cont&,ob_tail&,obj&,flags&,rsc_adr%,keytab%
@@ -7936,255 +7959,255 @@ REPEAT
 c=0
 evnt&=EVNT_MULTI(flags&,2,1,1,0,0,0,0,0,0,0,0,0,0,0,tim&,mx&,my&,mb&,shift&,key&,c)
 IF c=1 THEN
-  click=TRUE
+click=TRUE
 ELSE
-  click=FALSE
+click=FALSE
 ENDIF
 IF c=2 THEN
-  dclick=TRUE
+dclick=TRUE
 ELSE
-  dclick=FALSE
+dclick=FALSE
 ENDIF
 IF evnt&<>0 THEN
-  IF donr=nr THEN
-    IF BTST(evnt&,4) THEN
-      @message
-      @drop
-      @wischwasch    ! ganz neu !!!!
+IF donr=nr THEN
+  IF BTST(evnt&,4) THEN
+    @message
+    @drop
+    @wischwasch    ! ganz neu !!!!
+  ENDIF
+  '
+  IF BTST(evnt&,5) OR BTST(evnt&,0) OR BTST(evnt&,1) OR prkey<>0 OR prbut<>0 THEN
+    @get_specialkeys
+  ENDIF
+  '
+  '
+  IF (BTST(evnt&,1) OR BTST(evnt&,5)) AND nr=trakker& AND MENU(1)<>27 THEN
+    '
+    IF mislide=TRUE THEN
+      REPEAT
+        @midislide   ! Midi Slidersteuerung
+        @midislide3
+      UNTIL INP?(3)=FALSE
     ENDIF
     '
-    IF BTST(evnt&,5) OR BTST(evnt&,0) OR BTST(evnt&,1) OR prkey<>0 OR prbut<>0 THEN
-      @get_specialkeys
+    ' Drag & Drop
+    IF k=1 THEN
+      IF (v4=0 AND trmode=1) AND dclick=FALSE THEN
+        @wischwasch
+        @searchtrak
+        @pmarkhlp2
+        IF tfound=TRUE THEN
+          @opentrk
+        ENDIF
+      ENDIF
+      IF (v4=4 AND trmode<>5) OR ((v4=4 OR v4=0) AND trmode=5) THEN
+        ntrmode=5
+        obj=tblkedit&
+        @tmarkmode
+        obj=0
+        @wischwasch
+        @searchtrak
+        @wischwasch
+        IF tfound=TRUE THEN
+          nr=smpedit&
+          @editselect
+          @loadtoedit
+          @wischwasch
+          '
+          ~XBIOS(xbs,27,0)
+          IF (pch4=TRUE OR pmo8=TRUE) AND (demo=FALSE OR falcon=TRUE) THEN
+            ~XBIOS(&H8B,0,2,0,clk,1)
+            ~XBIOS(&H8B,3,11,0,clk,1)
+          ENDIF
+          IF pmo8=TRUE AND demo=FALSE THEN
+            ~XBIOS(xbs,72,14)
+          ENDIF
+          matrixplay=FALSE
+          pch4=FALSE
+          pmo8=FALSE
+          pch16=FALSE
+          '
+        ENDIF
+      ENDIF
     ENDIF
-    '
-    '
-    IF (BTST(evnt&,1) OR BTST(evnt&,5)) AND nr=trakker& AND MENU(1)<>27 THEN
-      '
-      IF mislide=TRUE THEN
-        REPEAT
-          @midislide   ! Midi Slidersteuerung
-          @midislide3
-        UNTIL INP?(3)=FALSE
-      ENDIF
-      '
-      ' Drag & Drop
-      IF k=1 THEN
-        IF (v4=0 AND trmode=1) AND dclick=FALSE THEN
-          @wischwasch
-          @searchtrak
-          @pmarkhlp2
-          IF tfound=TRUE THEN
-            @opentrk
-          ENDIF
-        ENDIF
-        IF (v4=4 AND trmode<>5) OR ((v4=4 OR v4=0) AND trmode=5) THEN
-          ntrmode=5
-          obj=tblkedit&
+    IF k=1 OR k=2 THEN
+      IF v4=0 OR v4=1 OR v4=2 THEN
+        IF trmode=2 OR (v4=0 AND k=2 AND trmode<>6) THEN
+          ntrmode=2
+          obj=tblkmove&
           @tmarkmode
           obj=0
-          @wischwasch
-          @searchtrak
-          @wischwasch
-          IF tfound=TRUE THEN
-            nr=smpedit&
-            @editselect
-            @loadtoedit
-            @wischwasch
-            '
-            ~XBIOS(xbs,27,0)
-            IF (pch4=TRUE OR pmo8=TRUE) AND (demo=FALSE OR falcon=TRUE) THEN
-              ~XBIOS(&H8B,0,2,0,clk,1)
-              ~XBIOS(&H8B,3,11,0,clk,1)
-            ENDIF
-            IF pmo8=TRUE AND demo=FALSE THEN
-              ~XBIOS(xbs,72,14)
-            ENDIF
-            matrixplay=FALSE
-            pch4=FALSE
-            pmo8=FALSE
-            pch16=FALSE
-            '
-          ENDIF
         ENDIF
-      ENDIF
-      IF k=1 OR k=2 THEN
-        IF v4=0 OR v4=1 OR v4=2 THEN
-          IF trmode=2 OR (v4=0 AND k=2 AND trmode<>6) THEN
-            ntrmode=2
-            obj=tblkmove&
-            @tmarkmode
-            obj=0
-          ENDIF
-          IF (v4=1 OR v4=2) OR (trmode=6 AND ((v4=1 OR v4=2) OR (v4=0 AND (k=1 OR k=2)))) THEN
-            IF trmode=6 AND v4=0 AND (k=1 OR k=2) THEN
-              IF k=1 THEN
-                v4=2
-              ELSE
-                v4=1
-              ENDIF
-            ENDIF
-            ntrmode=6
-            obj=tblksnap&
-            @tmarkmode
-            obj=0
-          ENDIF
-          IF trmode=2 OR trmode=6 THEN
-            @wischwasch
-            @searchtrak
-            IF tfound=TRUE THEN
-              @opentrk
-              @trakmoving
+        IF (v4=1 OR v4=2) OR (trmode=6 AND ((v4=1 OR v4=2) OR (v4=0 AND (k=1 OR k=2)))) THEN
+          IF trmode=6 AND v4=0 AND (k=1 OR k=2) THEN
+            IF k=1 THEN
+              v4=2
+            ELSE
+              v4=1
             ENDIF
           ENDIF
-        ENDIF
-        IF (v4=8 AND trmode<>3) OR (trmode=3 AND (v4=0 OR v4=8)) THEN
-          ntrmode=3
-          obj=tblkcopy&
+          ntrmode=6
+          obj=tblksnap&
           @tmarkmode
           obj=0
+        ENDIF
+        IF trmode=2 OR trmode=6 THEN
           @wischwasch
           @searchtrak
           IF tfound=TRUE THEN
             @opentrk
-            @trakcopydrag
-          ENDIF
-        ENDIF
-        IF (v4=12 AND trmode<>4) OR (trmode=4 AND (v4=0 OR v4=12)) THEN
-          ntrmode=4
-          obj=tblkdrag&
-          @tmarkmode
-          obj=0
-          @searchtrak
-          IF tfound=TRUE THEN
-            @opentrk
-            tdrag2=FALSE
-            @trakdrag
+            @trakmoving
           ENDIF
         ENDIF
       ENDIF
-      IF just=TRUE AND k=0 THEN
-        just=FALSE
-        @timeline
-      ENDIF
-    ENDIF
-    '
-    IF next_obj&=-1 AND BTST(evnt&,1)=FALSE THEN
-      next_obj&=0
-    ENDIF
-    IF BTST(evnt&,1) THEN
-      @button
-    ENDIF
-    IF BTST(evnt&,0) AND (key&<>7181 OR (next_obj&=0 AND key&=7181)) THEN
-      IF nr=trakker& OR nr=record& OR nr=cuelist& THEN
-        dropkey=BYTE(SHR(key&,8))                            ! SCAN-Code
-        IF ctrlkey=TRUE AND ((nr<>trakker& AND (dropkey=72 OR dropkey=80)) OR (nr=trakker& AND dropkey=50 AND altkey=TRUE)) THEN
-          @shortcuts
-        ELSE
-          dropkey=0
+      IF (v4=8 AND trmode<>3) OR (trmode=3 AND (v4=0 OR v4=8)) THEN
+        ntrmode=3
+        obj=tblkcopy&
+        @tmarkmode
+        obj=0
+        @wischwasch
+        @searchtrak
+        IF tfound=TRUE THEN
+          @opentrk
+          @trakcopydrag
         ENDIF
       ENDIF
-      IF nr=virtual& THEN
-        ascii|=BYTE(key&)                                  ! ASCII-Code
-        scan|=BYTE(SHR(key&,8))                            ! SCAN-Code
-        IF ascii|=32 OR ctrlkey=TRUE THEN
-          @shortcuts
-        ELSE
-          @key
+      IF (v4=12 AND trmode<>4) OR (trmode=4 AND (v4=0 OR v4=12)) THEN
+        ntrmode=4
+        obj=tblkdrag&
+        @tmarkmode
+        obj=0
+        @searchtrak
+        IF tfound=TRUE THEN
+          @opentrk
+          tdrag2=FALSE
+          @trakdrag
         ENDIF
+      ENDIF
+    ENDIF
+    IF just=TRUE AND k=0 THEN
+      just=FALSE
+      @timeline
+    ENDIF
+  ENDIF
+  '
+  IF next_obj&=-1 AND BTST(evnt&,1)=FALSE THEN
+    next_obj&=0
+  ENDIF
+  IF BTST(evnt&,1) THEN
+    @button
+  ENDIF
+  IF BTST(evnt&,0) AND (key&<>7181 OR (next_obj&=0 AND key&=7181)) THEN
+    IF nr=trakker& OR nr=record& OR nr=cuelist& THEN
+      dropkey=BYTE(SHR(key&,8))                            ! SCAN-Code
+      IF ctrlkey=TRUE AND ((nr<>trakker& AND (dropkey=72 OR dropkey=80)) OR (nr=trakker& AND dropkey=50 AND altkey=TRUE)) THEN
+        @shortcuts
+      ELSE
+        dropkey=0
+      ENDIF
+    ENDIF
+    IF nr=virtual& THEN
+      ascii|=BYTE(key&)                                  ! ASCII-Code
+      scan|=BYTE(SHR(key&,8))                            ! SCAN-Code
+      IF ascii|=32 OR ctrlkey=TRUE THEN
+        @shortcuts
       ELSE
         @key
       ENDIF
-      IF obj&<>0 AND mb&=1 THEN
-        @button
-      ENDIF
-      IF obj&<>0 AND shcut=TRUE AND mb&=0 THEN
-        @drop2
-      ENDIF
+    ELSE
+      @key
     ENDIF
-    IF BTST(evnt&,5) AND BTST(winh,smp16&)=TRUE AND nr=smp16& THEN
-      @edhandler
+    IF obj&<>0 AND mb&=1 THEN
+      @button
     ENDIF
-    IF BTST(evnt&,5) AND BTST(winh,info&)=TRUE AND nr=info& THEN
-      @nonstop2
+    IF obj&<>0 AND shcut=TRUE AND mb&=0 THEN
+      @drop2
     ENDIF
-    IF BTST(winh,arranger&)=TRUE AND nr=arranger& AND intplay=TRUE THEN
-      @edhandler4
+  ENDIF
+  IF BTST(evnt&,5) AND BTST(winh,smp16&)=TRUE AND nr=smp16& THEN
+    @edhandler
+  ENDIF
+  IF BTST(evnt&,5) AND BTST(winh,info&)=TRUE AND nr=info& THEN
+    @nonstop2
+  ENDIF
+  IF BTST(winh,arranger&)=TRUE AND nr=arranger& AND intplay=TRUE THEN
+    @edhandler4
+  ENDIF
+  IF BTST(evnt&,5) AND nr=mixer& THEN
+    IF rch4=TRUE THEN
+      @peakwert
     ENDIF
-    IF BTST(evnt&,5) AND nr=mixer& THEN
-      IF rch4=TRUE THEN
-        @peakwert
-      ENDIF
-      IF mislide=TRUE THEN
-        REPEAT
-          @midislide   ! Midi Slidersteuerung
-          @midislide4
-        UNTIL INP?(3)=FALSE
-      ENDIF
-      IF showmix=TRUE THEN
-        @mixhandler
-      ENDIF
+    IF mislide=TRUE THEN
+      REPEAT
+        @midislide   ! Midi Slidersteuerung
+        @midislide4
+      UNTIL INP?(3)=FALSE
     ENDIF
-    IF BTST(evnt&,5) AND nr=peak& THEN
-      @peakread
-      IF mislide=TRUE THEN
-        REPEAT
-          @midislide   ! Midi Slidersteuerung
-          @midislide2
-        UNTIL INP?(3)=FALSE
-      ENDIF
-      IF peaks2<>peaks THEN
-        peaks=peaks2
-        b$=STR$(peaks)+CHR$(0)
-        @textfeld(recpeaks&,b$,1)
-      ENDIF
+    IF showmix=TRUE THEN
+      @mixhandler
     ENDIF
-    IF BTST(evnt&,5) AND BTST(evnt&,4)=FALSE AND nr=editfade& THEN
-      @fadehandler
+  ENDIF
+  IF BTST(evnt&,5) AND nr=peak& THEN
+    @peakread
+    IF mislide=TRUE THEN
+      REPEAT
+        @midislide   ! Midi Slidersteuerung
+        @midislide2
+      UNTIL INP?(3)=FALSE
     ENDIF
-    @maketime
-    IF BTST(evnt&,5) AND nr=smpedit& THEN
-      IF digana=FALSE THEN
-        @edhandler3
-      ENDIF
-      IF mx&>=xd AND mx&<=(xm+xd) AND xm>0 AND ce>cs AND my&>=stay1 AND my&<=stay2 AND show=TRUE THEN
-        showdat=(INT((INT((ce-cs)/mbit))/xm*(mx&-xd)))+INT(cs/mbit)
-        IF virtual=FALSE THEN
-          showert=meml+showdat*mbit
-          IF dig24=FALSE THEN
-            show$=HEX$(DPEEK(showert))+" "+HEX$(DPEEK(showert+2))+CHR$(0)
-          ELSE
-            show$=HEX$(PEEK(showert)*&H10000+PEEK(showert+1)*256+PEEK(showert+2))+" "+HEX$(PEEK(showert+3)*&H10000+PEEK(showert+4)*256+PEEK(showert+5))+CHR$(0)
-          ENDIF
+    IF peaks2<>peaks THEN
+      peaks=peaks2
+      b$=STR$(peaks)+CHR$(0)
+      @textfeld(recpeaks&,b$,1)
+    ENDIF
+  ENDIF
+  IF BTST(evnt&,5) AND BTST(evnt&,4)=FALSE AND nr=editfade& THEN
+    @fadehandler
+  ENDIF
+  @maketime
+  IF BTST(evnt&,5) AND nr=smpedit& THEN
+    IF digana=FALSE THEN
+      @edhandler3
+    ENDIF
+    IF mx&>=xd AND mx&<=(xm+xd) AND xm>0 AND ce>cs AND my&>=stay1 AND my&<=stay2 AND show=TRUE THEN
+      showdat=(INT((INT((ce-cs)/mbit))/xm*(mx&-xd)))+INT(cs/mbit)
+      IF virtual=FALSE THEN
+        showert=meml+showdat*mbit
+        IF dig24=FALSE THEN
+          show$=HEX$(DPEEK(showert))+" "+HEX$(DPEEK(showert+2))+CHR$(0)
+        ELSE
+          show$=HEX$(PEEK(showert)*&H10000+PEEK(showert+1)*256+PEEK(showert+2))+" "+HEX$(PEEK(showert+3)*&H10000+PEEK(showert+4)*256+PEEK(showert+5))+CHR$(0)
         ENDIF
-        IF tedart=0 THEN
-          showdat=showdat/hz
+      ENDIF
+      IF tedart=0 THEN
+        showdat=showdat/hz
+      ENDIF
+      IF showbdat<>showdat THEN
+        showbdat=showdat
+        IF tedart=1 THEN
+          a$=STR$(INT(showdat))
+          @formatsmp
+          shw$=a$+CHR$(0)
+        ELSE
+          hsec=INT(showdat*100)
+          @htimeset
+          shw$=a$
         ENDIF
-        IF showbdat<>showdat THEN
-          showbdat=showdat
-          IF tedart=1 THEN
-            a$=STR$(INT(showdat))
-            @formatsmp
-            shw$=a$+CHR$(0)
-          ELSE
-            hsec=INT(showdat*100)
-            @htimeset
-            shw$=a$
-          ENDIF
-          IF LEN(shw$)>13 THEN
-            shw$=LEFT$(shw$,13)+CHR$(0)
-          ENDIF
-          IF flicker=TRUE THEN
-            VSYNC
-          ENDIF
-          @textfeld(freemem&,show$,1)
-          @textfeld(showxy&,shw$,1)
+        IF LEN(shw$)>13 THEN
+          shw$=LEFT$(shw$,13)+CHR$(0)
         ENDIF
+        IF flicker=TRUE THEN
+          VSYNC
+        ENDIF
+        @textfeld(freemem&,show$,1)
+        @textfeld(showxy&,shw$,1)
       ENDIF
     ENDIF
   ENDIF
 ENDIF
+ENDIF
 IF mc&=2 AND BTST(OB_FLAGS(rsc_adr%,next_obj&),6)      ! Doppelklick auf
-  next_obj&=WORD(BSET(next_obj&,15))                   ! TOUCHEXIT...
+next_obj&=WORD(BSET(next_obj&,15))                   ! TOUCHEXIT...
 ENDIF
 UNTIL (next_obj&>0 OR donr<>nr OR doexit=TRUE)
 IF rsc_handle%(tree&)>1000                             ! Normaler Dialog...
@@ -8288,20 +8311,20 @@ ascii|=BYTE(key&)
 scan|=BYTE(SHR(key&,8))
 '                                              ! Noch kein sel. Eintrag...
 IF NOT (obj&>=first& AND obj&<=ADD(first&,anz&))
-  obj&=first&
-  '
+obj&=first&
+'
 ELSE IF scan|=80                               ! ...Cursor runter
-  INC obj&
-  IF obj&>ADD(first&,anz&)
-    obj&=first&
-  ENDIF
-  '
+INC obj&
+IF obj&>ADD(first&,anz&)
+  obj&=first&
+ENDIF
+'
 ELSE IF scan|=72                               ! ...Cursor runter
-  DEC obj&
-  IF obj&<first&
-    obj&=ADD(first&,anz&)
-  ENDIF
-  '
+DEC obj&
+IF obj&<first&
+  obj&=ADD(first&,anz&)
+ENDIF
+'
 ENDIF
 '
 ENDIF
@@ -8371,12 +8394,12 @@ IF message&=20                                   ! WM_REDRAW...
 ~WIND_GET(handle&,11,ax&,ay&,ab&,ah&)          ! 1. Rechteck
 '
 REPEAT
-  '
-  IF RC_INTERSECT(x&,y&,w&,h&,ax&,ay&,ab&,ah&) ! ...redrawen
-    ~OBJC_DRAW(rsc_adr%(tree&),0,7,ax&,ay&,ab&,ah&)
-  ENDIF
-  '
-  ~WIND_GET(handle&,12,ax&,ay&,ab&,ah&)        ! N„chstes Rechteck...
+'
+IF RC_INTERSECT(x&,y&,w&,h&,ax&,ay&,ab&,ah&) ! ...redrawen
+  ~OBJC_DRAW(rsc_adr%(tree&),0,7,ax&,ay&,ab&,ah&)
+ENDIF
+'
+~WIND_GET(handle&,12,ax&,ay&,ab&,ah&)        ! N„chstes Rechteck...
 UNTIL ab&=0 AND ah&=0                          ! ...kein Redraw mehr n”tig
 '
 ~GRAF_MOUSE(257,0)                           ! Showm
@@ -8393,7 +8416,7 @@ rsc_adr%=rsc_adr%(tree&)
 obj&=edit_obj&                                 ! Parent ermitteln...
 '
 REPEAT
-  obj&=OB_NEXT(rsc_adr%,obj&)
+obj&=OB_NEXT(rsc_adr%,obj&)
 UNTIL obj&<edit_obj&
 '
 ~OBJC_OFFSET(rsc_adr%,edit_obj&,ax&,ay&)       ! Koordinaten des Objekts
@@ -8401,7 +8424,7 @@ UNTIL obj&<edit_obj&
 a$=CHAR{{ADD(OB_SPEC(rsc_adr%,edit_obj&),4)}}  ! Maske: "Eingabe:______"
 ah&=1
 WHILE MID$(a$,ah&,1)<>"_"                      ! L„nge des Vortextes...
-  INC ah&
+INC ah&
 WEND                                           ! ...ermitteln
 '
 ADD ax&,MUL(wchar&,ADD(PRED(ah&),idx&))        ! Cursor-Position im Pixeln
@@ -8440,51 +8463,51 @@ IF rsc_handle%(tree&)>0 AND rsc_handle%(tree&)<1000
 rsc_menu_ienable(TRUE)                             ! ...Men wieder w„hlbar
 '
 IF rsc_window&                                     ! Fenster existiert...
-  '
-  ~WIND_CLOSE(rsc_handle%(tree&))
-  ~WIND_DELETE(rsc_handle%(tree&))                 ! ...schliežen & abmelden
-  '
-  DEC rsc_window&                                  ! Anz. offene Fenster-1
-  '
+'
+~WIND_CLOSE(rsc_handle%(tree&))
+~WIND_DELETE(rsc_handle%(tree&))                 ! ...schliežen & abmelden
+'
+DEC rsc_window&                                  ! Anz. offene Fenster-1
+'
 ELSE                                               ! Sonst Redraw ausl”sen...
-  ~FORM_DIAL(3,0,0,0,0,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
+~FORM_DIAL(3,0,0,0,0,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
 ENDIF
 ' -------------------------------------------------- Als normaler Dialog
 rsc_handle%(tree&)=0
 ~WIND_UPDATE(0)                                      ! END_UPDATE
 IF rsc_window&>0 THEN
-  IF nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info&
-    nr=smpedit&
-    tree&=smpedit&
-    rsc_message(tree&,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
-    IF rsc_handle%(tree&)>0 AND rsc_handle%(tree&)<1000
-      fly=FALSE
-    ELSE
-      fly=TRUE
-    ENDIF
+IF nr=smpedit& OR nr=mixer& OR nr=cuelist& OR nr=plugin& OR nr=wmode& OR nr=dspedit& OR nr=smp16& OR nr=blkfunc& OR nr=peak& OR nr=loop& OR nr=editfade& OR nr=arranger& OR nr=info&
+  nr=smpedit&
+  tree&=smpedit&
+  rsc_message(tree&,21,MENU(5),MENU(6),MENU(7),MENU(8),edit_obj&,idx&)
+  IF rsc_handle%(tree&)>0 AND rsc_handle%(tree&)<1000
+    fly=FALSE
+  ELSE
+    fly=TRUE
   ENDIF
+ENDIF
 ENDIF
 ELSE
 IF rsc_list$<>"" THEN
-  rsc_list$=LEFT$(rsc_list$,SUB(LEN(rsc_list$),2))   ! Dialog aus der Liste entf.
+rsc_list$=LEFT$(rsc_list$,SUB(LEN(rsc_list$),2))   ! Dialog aus der Liste entf.
 ENDIF
 '
 IF rsc_handle%(tree&)                              ! Hintergrund gerettet...
-  rsc_bitblt(rsc_handle%(tree&),rscw&(tree&),rsch&(tree&),0,0,0,0,0,rscw&(tree&),rsch&(tree&),rscx&(tree&),rscy&(tree&))
-  ~MFREE(rsc_handle%(tree&))
-  '
+rsc_bitblt(rsc_handle%(tree&),rscw&(tree&),rsch&(tree&),0,0,0,0,0,rscw&(tree&),rsch&(tree&),rscx&(tree&),rscy&(tree&))
+~MFREE(rsc_handle%(tree&))
+'
 ELSE                                               ! Desktop redrawen...
-  ~FORM_DIAL(3,0,0,0,0,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
-  IF rsc_list$<>""                                 ! Noch ein Dialog drunter...
-    ~OBJC_DRAW(rsc_adr%(CVI(RIGHT$(rsc_list$,2))),0,7,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
-  ENDIF                                            ! ...diesen auch redrawen
+~FORM_DIAL(3,0,0,0,0,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
+IF rsc_list$<>""                                 ! Noch ein Dialog drunter...
+  ~OBJC_DRAW(rsc_adr%(CVI(RIGHT$(rsc_list$,2))),0,7,rscx&(tree&),rscy&(tree&),rscw&(tree&),rsch&(tree&))
+ENDIF                                            ! ...diesen auch redrawen
 ENDIF
 rsc_handle%(tree&)=0
 ~WIND_UPDATE(0)                                      ! END_UPDATE
 IF rsc_handle%(vornr)>0 AND rsc_handle%(vornr)<1000
-  fly=FALSE
+fly=FALSE
 ELSE
-  fly=TRUE
+fly=TRUE
 ENDIF
 ENDIF
 ELSE
@@ -24192,6 +24215,7 @@ obj=aobj
 fly=afly
 edit_obj&=0
 wischwasch
+@markhlp
 RETURN
 '
 > PROCEDURE alerts2(alert)
@@ -57810,7 +57834,7 @@ ENDIF
 ENDIF
 RETURN
 '
-> PROCEDURE mixworking
+PROCEDURE mixworking
 ~@xrsrc_gaddr(0,mixer&,zu%)
 zuadr=zu%
 buttadr=zuadr+24*obj
@@ -57880,7 +57904,11 @@ IF obj=mixstop& THEN
 @setbutton(mixstop&,0)
 ENDIF
 IF obj=mixwait&
+IF mixplay=TRUE OR hdr=TRUE THEN
 @breakwait
+ELSE
+@setbutton(obj,0)
+ENDIF
 ENDIF
 mixbal=FALSE
 IF obj=mixbalm1& OR obj=mixbalm2& OR obj=mixbalm3& OR obj=mixbalm4& OR obj=mixbalm5& OR obj=mixbalm6& OR obj=mixbalm7& OR obj=mixbalm8& OR obj=mixbalmm& THEN
@@ -58391,7 +58419,7 @@ ENDIF
 ENDIF
 RETURN
 '
-PROCEDURE mixrec
+> PROCEDURE mixrec
 IF partact=TRUE AND dstrm=TRUE AND BTST(hchk,0)=TRUE AND (rch16=TRUE OR dig24=TRUE) THEN
 @alerts(79)
 @setbutton(mixrec&,0)
@@ -58578,8 +58606,6 @@ ENDIF
 IF obj=mixstop& THEN
 PAUSE 2
 @setbutton(obj,0)
-ENDIF
-IF obj=mixwait& THEN
 ENDIF
 IF obj=mixplay& THEN
 @mixplay
@@ -59328,6 +59354,11 @@ NEXT m
 FOR m=0 TO 3
 @mixhandler2(m)
 NEXT m
+IF extmix=FALSE THEN
+@mixread(17)
+@mixread(18)
+@mixhandler2(8)
+ENDIF
 ELSE
 a$=""
 FOR m=1 TO 8
