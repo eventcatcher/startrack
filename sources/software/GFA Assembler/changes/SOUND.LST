@@ -1,6 +1,6 @@
 ; Xbios
 ; Xbios-Erweiterung fÅr Audiokarte StarTrack (VME)
-; Release 13.02.2000 by SWE (Stephan Wilhelm EntwicklungsbÅro)
+; Release 27.02.2000 by SWE (Stephan Wilhelm EntwicklungsbÅro)
 ; for Milan,Hades,Medusa,TT and Mega STE
 
 ; +Directstream-Support
@@ -14,7 +14,7 @@ creturn:       .DC.b 13,10,0
 infotext1:     .DC.b "StarTrack Xbios-Driver ",0
 infotext2:     .DC.b "Copyright by SWE,Stephan Wilhelm",13,10,10,0
 
-vtxt:          .DC.b "V2.20 / 13.02.2000",0
+vtxt:          .DC.b "V2.21 / 27.02.2000",0
                .EVEN 
 
 cpu68k         equ 0      ; 1=68000er, 0=030er,040er,060er
@@ -6525,11 +6525,11 @@ xmemv3:        lea.l      fifo(pc),a2
                move.l     #0,(a2)       ; LoopzÑhler  d6
                lea.l      dcrosflag(pc),a2
                move.l     #0,(a2)       ; Richtungsflag lîschen
-               lea.l      dplaybyte(pc),a4        ; RÅckgabewerte-Liste
-               move.l     #0,8(a4)      ; Break lîschen
-               move.l     #0,4(a4)      ; Memflag lîschen (1=zweiter Memblock)
-               move.l     #0,12(a4)     ; Fehler lîschen
-               move.l     #0,16(a4)     ; Peak-RÅckgabewert lîschen
+               lea.l      dplaybyte(pc),a5        ; RÅckgabewerte-Liste
+               move.l     #0,8(a5)      ; Break lîschen
+               move.l     #0,4(a5)      ; Memflag lîschen (1=zweiter Memblock)
+               move.l     #0,12(a5)     ; Fehler lîschen
+               move.l     #0,16(a5)     ; Peak-RÅckgabewert lîschen
                lea.l      pimode(pc),a2
                move.l     #22,(a2)
                lea.l      drimode(pc),a2
@@ -7217,7 +7217,9 @@ init_xmemrec:  move.w     (a0)+,d0      ; Code der record-art
                beq        xrecinit8
                cmpi.w     #3,d0
                beq        xrecinit16
-               cmpi.w     #10,d0
+               cmpi.w     #10,d0        ; external8
+               beq        ds_rec
+               cmpi.w     #11,d0        ; adc8
                beq        ds_rec
 xrecinit:      lea.l      rvon(pc),a2
                move.l     (a0)+,d1      ; von a3
@@ -9734,7 +9736,7 @@ ihandler_play: movem.l    d0-d7/a0-a6,-(sp)
                move.l     pimode,d0
                tst.w      d0
                ble        playdummy
-               cmpi.w     #38,d0
+               cmpi.w     #39,d0
                bgt        playdummy
                lsl.w      #2,d0
                movea.l    0(a3,d0.w),a2
@@ -9748,7 +9750,7 @@ ihandler_dsp:  movem.l    d0-d7/a0-a6,-(sp)
                move.l     dpimode,d0
                tst.w      d0
                ble.s      dspintexit
-dspinthere:    cmpi.w     #38,d0
+dspinthere:    cmpi.w     #39,d0
                bgt.s      dspintexit
                lsl.w      #2,d0
                movea.l    0(a3,d0.w),a2
@@ -9761,7 +9763,7 @@ ihandler_rec:  movem.l    d0-d7/a0-a6,-(sp)
                move.l     rimode,d0
                tst.w      d0
                ble        recdummy
-               cmpi.w     #38,d0
+               cmpi.w     #39,d0
                bgt        recdummy
                lsl.w      #2,d0
                movea.l    0(a3,d0.w),a2
@@ -9808,6 +9810,7 @@ intlist:       .DC.l 0
                .DC.l imemruser          ; 36
                .DC.l xmdsrec8           ; 37
                .DC.l xmdsplay8          ; 38
+               .DC.l xmdsrin8           ; 39
 
 aes_params:    .DC.l control,global,int_in,int_out,addr_in,addr_out
 magic:         .DC.l $12233445
@@ -15714,22 +15717,22 @@ xrecinit8:     lea.l      xrch(pc),a2
                move.l     (a0)+,d3      ; laenge
                lea.l      dsfrm(pc),a2
                move.l     d3,(a2)
-               move.w     #8,d0
+               move.w     #8,d7
 xrecin8b:      move.l     d1,(a6)+
                move.l     d1,(a3)+      ; Bufferstart copy 1a
                add.l      d3,d1
-               dbra       d0,xrecin8b
-               move.w     #8,d0
+               dbra       d7,xrecin8b
+               move.w     #8,d7
 xrecin8c:      move.l     d2,(a5)+
                add.l      d3,d2
-               dbra       d0,xrecin8c
+               dbra       d7,xrecin8c
                lea.l      rendcount(pc),a2
                move.l     (a0)+,(a2)    ; Zaehler endwert
                lea.l      rfifo(pc),a2
-               move.l     #lfifo,d0
-               asr.w      #5,d0
-               subq.l     #1,d0
-               move.l     d0,(a2)       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
+               move.l     #lfifo,d7
+               asr.w      #5,d7
+               subq.l     #1,d7
+               move.l     d7,(a2)       ; fifolen  (len/2/4-1) bei 8192Byte=$3FF a4
                lea.l      dstrm(pc),a6
                cmpi.w     #0,(a6)       ; directstream ?
                bne.s      xrecin8d
@@ -15745,7 +15748,6 @@ xrecin8d:      lea.l      recbyte(pc),a4          ; RÅckgabewerte-Liste
                move.l     #0,24(a4)     ; Recposition lîschen
                lea.l      rimode(pc),a2
                move.l     #20,(a2)
-               move.l     a4,d0
                cmpi.w     #0,(a6)       ; directstream ?
                beq.s      xrecnds
                move.l     rvon2(pc),d2
@@ -15755,9 +15757,13 @@ xrecin8d:      lea.l      recbyte(pc),a4          ; RÅckgabewerte-Liste
                sub.l      d1,d2
                lea.l      dsfrlen(pc),a5
                move.l     d2,(a5)
-               move.l     #37,(a2)
                move.w     #0,(a6)
-xrecnds:       rts        
+               move.l     #37,(a2)      ; external8
+               cmpi.w     #11,d0        ; adc8?
+               bne.s      xrecnds
+               move.l     #39,(a2)      ; adc8
+xrecnds:       move.l     a4,d0
+               rts        
 
 xrecinit16:    lea.l      xrch(pc),a2
                move.w     (a0)+,d1      ; Bitliste Kanalnummer(n)
@@ -15906,7 +15912,7 @@ dsrecm8d:      adda.l     d5,a2
                ble        dsendrea2
                cmpa.l     (a3),a2       ; halfbuffer voll ?
                beq.s      dsrweg8
-               cmpa.l     (a6)+,a2      ; Speicher voll ?
+               cmpa.l     (a6),a2       ; Speicher voll ?
                beq.s      dsrfrset
 dsrcpya3:      dbra       d0,dsrcpy8b
 dsr_back8b:    movem.l    (sp)+,d0-d7/a0-a6
@@ -15950,6 +15956,106 @@ dsendrea2:     move.l     #1,8(a5)      ; Break setzen
                bsr        intbreak      ; Interrupt lîschen
                movem.l    (sp)+,d0-d7/a0-a6
                rte        
+
+xmdsrin8:      lea.l      firstbuf(pc),a1
+               tst.w      (a1)
+               bne.s      xmdsrin8b
+               move.w     #1,(a1)
+               bsr        killbuf
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+xmdsrin8b:     lea.l      recbyte(pc),a5          ; RÅckgabewerte-Liste
+               lea.l      vmestart(pc),a0
+               movea.l    (a0),a0
+               movea.l    a0,a1
+               adda.l     #$60,a0       ; StatH im Bytemode
+               adda.l     #$ff,a1       ; Playread im Wordmode
+               moveq.l    #8,d2
+               moveq.l    #2,d3
+               move.l     dsfrm(pc),d4
+               lea.l      dsblke(pc),a3
+dsrianf8:      move.b     (a0),d0       ; Flag lesen
+               btst       d3,d0         ; RECORD-FIFO voll ?
+               bne.s      dsirdfu8
+               tst.l      24(a5)        ; Recposition abfragen
+               beq.s      dsirdfu8
+               addi.l     #1,12(a5)     ;Fehler +1
+dsirdfu8:      and.b      d3,d0         ; FIFO mehr als halbvoll ?
+               beq.s      dsricpy8      ; wenn ja, daten einlesen
+               bra.s      dsrianf8
+dsricpy8:      move.l     rfifo(pc),d0  ; wenn ja, halbes FIFO auslesen und in Puffer schreiben
+dsricpy8b:     lea.l      rvon(pc),a6
+               move.w     (a1),d7       ; High-Byte, Kanal1 (Bit 8 gesetzt ?)...
+               btst       d2,d7
+               beq        dsricpya3     ; fehlerhafte Daten ?
+               move.w     (a1),d6       ; Low-Byte, Kanal1 (Bit 8 geloescht ?)...
+               btst       d2,d6
+               bne        dsricpya3     ; fehlerhafte Daten ?
+               move.b     xrch,d5
+               lsr.w      #2,d5
+               andi.l     #60,d5
+               cmpi.w     #0,d5
+               beq.s      dsricpya1
+               subi.w     #4,d5
+               adda.l     d5,a6
+               movea.l    (a6),a2       ; BufferStart1
+               move.b     d7,(a2)+      ; Kanal1-High
+               move.b     d6,(a2)+      ; Kanal1-Low
+               cmpi.w     #28,d5        ; letzter kanal?
+               bne.s      dsrilk1
+               subq.l     #2,a2
+dsrilk1:       move.l     a2,(a6)       ; BufferStart1
+dsricpya1:     lea.l      rvon(pc),a6
+               move.w     (a1),d7       ; High-Byte, Kanal2 (Bit 8 geloescht ?)...
+               btst       d2,d7
+               bne.s      dsricpya3     ; fehlerhafte Daten ?
+               move.w     (a1),d6
+               tst.w      asrc          ; digitalquelle?
+               bne.s      dsndgin       ; ist analog...
+               move.w     (a1),d7       ; High-Byte, Kanal2 (Bit 8 geloescht ?)...
+               move.w     (a1),d6
+dsndgin:       move.b     xrch,d5
+               lsl.w      #2,d5
+               andi.l     #60,d5
+               cmpi.w     #0,d5
+               beq.s      dsricpya2
+               subi.w     #4,d5
+               adda.l     d5,a6
+               movea.l    (a6),a2       ; BufferStart1
+               move.b     d7,(a2)+      ; Kanal1-High
+               move.b     d6,(a2)+      ; Kanal1-Low
+               cmpi.w     #28,d5        ; letzter kanal?
+               bne.s      dsrilk2
+               subq.l     #2,a2
+dsrilk2:       move.l     a2,(a6)       ; BufferStart
+dsricpya2:     lea.l      rvon(pc),a6
+               addi.l     #2,28(a6)
+               movea.l    28(a6),a2
+               move.w     #5,d1
+               tst.w      asrc          ; digitalquelle?
+               bne.s      dsricrd       ; ist analog...
+               move.w     #4,d1
+dsricrd:       move.w     (a1),d7
+               move.w     (a1),d6
+               dbra       d1,dsricrd
+               addq.l     #1,24(a5)     ; Recposition
+               move.l     rendcount(pc),d7
+               cmp.l      24(a5),d7
+               ble        dsendrea2
+               cmpa.l     (a3),a2       ; halfbuffer voll ?
+               beq        dsrweg8
+               cmpa.l     32(a6),a2     ; Speicher voll ?
+               beq.s      dsrifrset
+dsricpya3:     dbra       d0,dsricpy8b
+               movem.l    (sp)+,d0-d7/a0-a6
+               rte        
+dsrifrset:     lea.l      rvon(pc),a4
+               move.l     a2,(a4)+
+               move.w     #7,d5
+dsrifrs2:      adda.l     d4,a2
+               move.l     a2,(a4)+
+               dbra       d5,dsrifrs2
+               bra.s      dsricpya3
 
 xmemrec8:      lea.l      firstbuf(pc),a1
                tst.w      (a1)
@@ -18011,73 +18117,110 @@ dsprec24:      .DC.b "004000",13,10
                .DC.b "_END 0000",13,10
 edsprec2:      .EVEN 
 
-sdsprec4:      .DC.b "_START KRING4B 0000 0000 0000 DSP56000 5.3.2",13,10
-               .DC.b "_DATA P 0000",13,10
-               .DC.b "0C0040",13,10
-               .DC.b "_DATA P 000C",13,10
-               .DC.b "0BF080 00006F 0BF080 00006F 0BF080 0000CC 0BF080 0000CC",13,10
-               .DC.b "_DATA P 0020",13,10
-               .DC.b "0BF080 0000AF 0BF080 0000D9 0BF080 0000DA 0BF080 0000E6",13,10
-               .DC.b "_DATA P 0040",13,10
-               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0500BB 364000 05F426",13,10
-               .DC.b "FFFFFF 0502BA 08F4A1 000000 08F4A3 000000 08F4AC",13,10
-recfour24:     .DC.b "004000",13,10
-               .DC.b "08F4AD 00F200 08F4BF 003800 08F4A1 00FFE8 310000 617000",13,10
-               .DC.b "000053 617000 000054 65F400 004000 657000 000050 64F400",13,10
-               .DC.b "004000 647000 000051 05F424 0003FF 05F425 0003FF 2E0000",13,10
-               .DC.b "567000 000052 000000 08F4A8 000005 00FCB8 0C006E 655E00",13,10
-               .DC.b "455E00 565E00 575E00 084F2F 56F000 000053 250000 000000",13,10
-               .DC.b "000000 200065 0AF0AA 0000AA 65F000 000050 0AAEA1 0000A6",13,10
-               .DC.b "000000 5F5D00 657000 000050 577000 000055 45F400 004200",13,10
-               .DC.b "22AE00 200065 0AF0A2 00008F 2E0100 0AF080 000098 45F400",13,10
-               .DC.b "004000 22AE00 200065 0AF0A2 0000A1 2E0000 000000 000000",13,10
-               .DC.b "567000 000052 56F000 000053 08CE2B 250100 200060 567000",13,10
-               .DC.b "000053 57FE00 56FE00 45FE00 65FE00 000004 576500 577000",13,10
-               .DC.b "000056 0C00A1 0AAEA1 0000A7 577000 000055 0C00A1 455E00",13,10
-               .DC.b "645E00 565E00 084E2B 64F000 000051 000000 56F000 000054",13,10
-               .DC.b "250000 200065 0AF0A2 0000C2 08E4AB 250100 457000 000054",13,10
-               .DC.b "0AF080 0000C6 08DCEB 250000 457000 000054 647000 000051",13,10
-               .DC.b "56FE00 64FE00 45FE00 000004 455E00 0AAEA1 0000D5 000000",13,10
-               .DC.b "45F000 000055 08C52F 45FE00 000004 45F000 000056 08C52F",13,10
-               .DC.b "0C00D3 000004 615E00 61F400 004000 617000 000050 617000",13,10
-               .DC.b "000051 310000 617000 000053 61FE00 000004 615E00 310100",13,10
-               .DC.b "617000 000053 310000 617000 000054 61FE00 000004",13,10
-               .DC.b "_END 0000",13,10
+sdsprec4:      .DC.b "_START DSPREC2 0000 0000 0000 DSP56000 5.3.2",CR,LF
+               .DC.b "_DATA P 0000",CR,LF
+               .DC.b "0C0080",CR,LF
+               .DC.b "_DATA P 000C",CR,LF
+               .DC.b "0BF080 0000B1 0BF080 0000B1 0BF080 000141 0BF080 000141",CR,LF
+               .DC.b "_DATA P 0020",CR,LF
+               .DC.b "0BF080 000124 0BF080 00014E 0BF080 00014F 0BF080 00015B",CR,LF
+               .DC.b "0BF080 000164",CR,LF
+               .DC.b "_DATA P 0040",CR,LF
+               .DC.b "0BF080 000174 0BF080 000188",CR,LF
+               .DC.b "_DATA P 0080",CR,LF
+               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0500BB 364000 05F426",CR,LF
+               .DC.b "FFFFFF 0502BA 08F4A1 000000 08F4A3 000000 08F4AC",CR,LF
+recfour24:     .DC.b "004000",CR,LF
+               .DC.b "08F4AD 00F200 08F4BF 003800 08F4A1 00FFE8 310000 617000",CR,LF
+               .DC.b "00005C 617000 00005D 65F400 004000 657000 000059 64F400",CR,LF
+               .DC.b "004000 647000 00005A 05F424 0003FF 05F425 0003FF 67F400",CR,LF
+               .DC.b "000054 2E0000 567000 00005B 000000 08F4A8 000005 00FCB8",CR,LF
+               .DC.b "0C00B0 655E00 455E00 565E00 575E00 084F2F 56F000 00005C",CR,LF
+               .DC.b "250000 000000 000000 200065 0AF0AA 00010E 65F000 000059",CR,LF
+               .DC.b "0AAEA1 0000F9 000000 0A67A0 0000CB 62F400 000056 21E700",CR,LF
+               .DC.b "46E200 2000B8 20003A 5F5D00 657000 000059 62F400 000051",CR,LF
+               .DC.b "000000 000000 44E200 20004D 0AF0AF 0000D7 576200 577000",CR,LF
+               .DC.b "00005E 45F400 004200 22AE00 200065 0AF0A2 0000E2 2E0100",CR,LF
+               .DC.b "0AF080 0000EB 45F400 004000 22AE00 200065 0AF0A2 0000F4",CR,LF
+               .DC.b "2E0000 000000 000000 567000 00005B 56F000 00005C 08CE2B",CR,LF
+               .DC.b "250100 200060 567000 00005C 57FE00 56FE00 45FE00 65FE00",CR,LF
+               .DC.b "000004 0A67A0 000101 62F400 000055 21E700 46E200 2000B8",CR,LF
+               .DC.b "20003A 576500 62F400 000050 000000 000000 44E200 20004D",CR,LF
+               .DC.b "0AF0AF 00010B 576200 577000 00005F 0C00F4 0AAEA1 0000F9",CR,LF
+               .DC.b "0A67A0 000118 62F400 000056 21E700 46E200 2000B8 20003A",CR,LF
+               .DC.b "62F400 000051 000000 000000 44E200 20004D 0AF0AF 000121",CR,LF
+               .DC.b "576200 577000 00005E 0C00F4 455E00 645E00 565E00 084E2B",CR,LF
+               .DC.b "64F000 00005A 000000 56F000 00005D 250000 200065 0AF0A2",CR,LF
+               .DC.b "000137 08E4AB 250100 457000 00005D 0AF080 00013B 08DCEB",CR,LF
+               .DC.b "250000 457000 00005D 647000 00005A 56FE00 64FE00 45FE00",CR,LF
+               .DC.b "000004 455E00 0AAEA1 00014A 000000 45F000 00005E 08C52F",CR,LF
+               .DC.b "45FE00 000004 45F000 00005F 08C52F 0C0148 000004 615E00",CR,LF
+               .DC.b "61F400 004000 617000 000059 617000 00005A 310000 617000",CR,LF
+               .DC.b "00005C 61FE00 000004 615E00 310100 617000 00005C 310000",CR,LF
+               .DC.b "617000 00005D 61FE00 000004 565E00 605E00 60F400 000050",CR,LF
+               .DC.b "000000 060280 000170 0AA981 00016B 56E000 08CE2B 2E0000",CR,LF
+               .DC.b "565800 60FE00 56FE00 000004 565E00 605E00 000000 60F400",CR,LF
+               .DC.b "000055 0AA980 000179 084E2B 000000 000000 565800 0AA980",CR,LF
+               .DC.b "00017F 084E2B 000000 000000 566000 60FE00 56FE00 000004",CR,LF
+               .DC.b "565E00 605E00 000000 60F400 000054 0AA980 00018D 084E2B",CR,LF
+               .DC.b "000000 000000 565800 60FE00 56FE00 000004",CR,LF
+               .DC.b "_DATA X 0050",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 3FFF00 3FFF00 3FFF00",CR,LF
+               .DC.b "3FFF00",CR,LF
+               .DC.b "_END 0000",CR,LF
 edsprec4:      .EVEN 
 
-sdspplay2:     .DC.b "_START KRING2 0000 0000 0000 DSP56000 5.3.2",13,10
-               .DC.b "_DATA P 0000",13,10
-               .DC.b "0C0040",13,10
-               .DC.b "_DATA P 000C",13,10
-               .DC.b "0BF080 000079 0BF080 000079 0BF080 00007D 0BF080 00007D",13,10
-               .DC.b "_DATA P 0020",13,10
-               .DC.b "0BF080 0000B3 0BF080 0000DF 0BF080 0000E0",13,10
-               .DC.b "_DATA P 0040",13,10
-               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0500BB 364000 05F426",13,10
-               .DC.b "FFFFFF 0502BA 08F4A1 000000 08F4A3 000000 08F4AC",13,10
-dspplay24:     .DC.b "004000",13,10
-               .DC.b "08F4AD 00F200 08F4BF 003800 08F4A1 00FFE8 310000 617000",13,10
-               .DC.b "000053 617000 000054 65F400 004000 657000 000050 64F400",13,10
-               .DC.b "004000 647000 000051 05F424 000FFF 05F425 000FFF 2E0000",13,10
-               .DC.b "000000 000000 567000 000052 000000 0AA980 000073 084E2B",13,10
-               .DC.b "000000 000000 0C006D 08F4A8 000005 00FCB8 2E0100 08CE2B",13,10
-               .DC.b "0C0078 575E00 084F2F 57FE00 000004 645E00 455E00 565E00",13,10
-               .DC.b "56F000 000053 250100 200065 0AF0A7 00008A 250000 08C52F",13,10
-               .DC.b "0AF080 0000AD 64F000 000051 0AAEA1 0000B1 000000 08DCEF",13,10
-               .DC.b "647000 000051 45F400 004800 228E00 200065 0AF0A2 0000A0",13,10
-               .DC.b "2E0100 000000 000000 567000 000052 56F000 000053 08CE2B",13,10
-               .DC.b "45F400 004000 228E00 200065 0AF0A2 0000AD 2E0000 000000",13,10
-               .DC.b "000000 567000 000052 2E0100 08CE2B 56FE00 45FE00 64FE00",13,10
-               .DC.b "000004 08E4AF 0C00AD 455E00 565E00 65F000 000050 000000",13,10
-               .DC.b "56F000 000054 250000 200065 0AF0A2 0000C4 250100 457000",13,10
-               .DC.b "000054 0865AB 0AF080 0000DC 085DEB 657000 000050 250000",13,10
-               .DC.b "457000 000054 22AE00 45F400 0007FF 200066 250000 200065",13,10
-               .DC.b "0AF0A2 0000DC 56F000 000053 250100 200060 567000 000053",13,10
-               .DC.b "200065 0AF0A2 0000DC 08CE2B 56FE00 45FE00 000004 000004",13,10
-               .DC.b "615E00 565E00 310000 617000 000053 617000 000054 61F400",13,10
-               .DC.b "004000 617000 000050 617000 000051 2E0000 08CE2B 56FE00",13,10
-               .DC.b "61FE00 000004",13,10
-               .DC.b "_END 0000",13,10
+sdspplay2:     .DC.b "_START DSPPLAY 0000 0000 0000 DSP56000 5.3.2",CR,LF
+               .DC.b "_DATA P 0000",CR,LF
+               .DC.b "0C0080",CR,LF
+               .DC.b "_DATA P 000C",CR,LF
+               .DC.b "0BF080 0000BC 0BF080 0000BC 0BF080 0000C0 0BF080 0000C0",CR,LF
+               .DC.b "_DATA P 0020",CR,LF
+               .DC.b "0BF080 00011C 0BF080 00014D 0BF080 00014E 0BF080 000164",CR,LF
+               .DC.b "0BF080 000165",CR,LF
+               .DC.b "_DATA P 0040",CR,LF
+               .DC.b "0BF080 000175 0BF080 000189",CR,LF
+               .DC.b "_DATA P 0080",CR,LF
+               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0500BB 364000 05F426",CR,LF
+               .DC.b "FFFFFF 0502BA 08F4A1 000000 08F4A3 000000 08F4AC",CR,LF
+dspplay24:     .DC.b "004000",CR,LF
+               .DC.b "08F4AD 00F200 08F4BF 003800 08F4A1 00FFE8 67F400 000054",CR,LF
+               .DC.b "310000 617000 00005C 617000 00005D 65F400 004000 657000",CR,LF
+               .DC.b "000059 64F400 004000 647000 00005A 05F424 000FFF 05F425",CR,LF
+               .DC.b "000FFF 200013 000000 000000 567000 00005B 000000 0AA980",CR,LF
+               .DC.b "0000B5 084E2B 000000 000000 0C00AF 08F4A8 000005 00FCB8",CR,LF
+               .DC.b "56F400 000001 08CE2B 0C00BB 575E00 084F2F 57FE00 000004",CR,LF
+               .DC.b "625E00 645E00 455E00 565E00 56F000 00005C 45F400 000001",CR,LF
+               .DC.b "200065 0AF0A7 0000D0 45F400 000000 08C52F 0AF080 000104",CR,LF
+               .DC.b "64F000 00005A 0AAEA1 000109 000000 5EDC00 0A67A0 0000DE",CR,LF
+               .DC.b "62F400 000056 21C700 46E200 2000B0 200032 62F400 000051",CR,LF
+               .DC.b "000000 44E200 200045 0AF0AF 0000E6 566200 08CE2F 647000",CR,LF
+               .DC.b "00005A 45F400 004800 228E00 200065 0AF0A2 0000F7 56F400",CR,LF
+               .DC.b "000001 000000 567000 00005B 56F000 00005C 08CE2B 45F400",CR,LF
+               .DC.b "004000 228E00 200065 0AF0A2 000104 200013 000000 567000",CR,LF
+               .DC.b "00005B 56F400 000001 08CE2B 56FE00 45FE00 64FE00 62FE00",CR,LF
+               .DC.b "000004 56E400 0A67A0 000112 62F400 000055 21C700 46E200",CR,LF
+               .DC.b "2000B0 200032 62F400 000050 000000 44E200 200045 0AF0AF",CR,LF
+               .DC.b "00011A 566200 08CE2F 0C0104 455E00 565E00 65F000 000059",CR,LF
+               .DC.b "000000 56F000 00005D 45F400 000000 200065 0AF0A2 00012F",CR,LF
+               .DC.b "45F400 000001 457000 00005D 0865AB 0AF080 00014A 085DEB",CR,LF
+               .DC.b "657000 000059 45F400 000000 457000 00005D 22AE00 45F400",CR,LF
+               .DC.b "0007FF 200066 45F400 000000 200065 0AF0A2 00014A 56F000",CR,LF
+               .DC.b "00005C 45F400 000001 200060 567000 00005C 200065 0AF0A2",CR,LF
+               .DC.b "00014A 08CE2B 56FE00 45FE00 000004 000004 615E00 565E00",CR,LF
+               .DC.b "310000 617000 00005C 617000 00005D 61F400 004000 617000",CR,LF
+               .DC.b "000059 617000 00005A 05F424 000FFF 05F425 000FFF 200013",CR,LF
+               .DC.b "000000 08CE2B 56FE00 61FE00 000004 565E00 605E00 60F400",CR,LF
+               .DC.b "000050 000000 060280 000171 0AA981 00016C 56E000 08CE2B",CR,LF
+               .DC.b "200013 565800 60FE00 56FE00 000004 565E00 605E00 000000",CR,LF
+               .DC.b "60F400 000055 0AA980 00017A 084E2B 000000 000000 565800",CR,LF
+               .DC.b "0AA980 000180 084E2B 000000 000000 566000 60FE00 56FE00",CR,LF
+               .DC.b "000004 565E00 605E00 000000 60F400 000054 0AA980 00018E",CR,LF
+               .DC.b "084E2B 000000 000000 565800 60FE00 56FE00 000004",CR,LF
+               .DC.b "_DATA X 0050",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 3FFF00 3FFF00 3FFF00",CR,LF
+               .DC.b "3FFF00",CR,LF
+               .DC.b "_END 0000",CR,LF
 edspplay2:     .EVEN 
 
 sdspplay4:     .DC.b "_START RING3C 0000 0000 0000 DSP56000 5.3.2",13,10
@@ -18184,170 +18327,179 @@ sdspeff8:      .DC.b "_START MIX128B 0000 0000 0000 DSP56000 5.3.2",13,10
                .DC.b "_END 0000",13,10
 edspeff8:      .EVEN 
 
-extmxdsp:      .DC.b "_START EXTALL3",13,10
-               .DC.b "_DATA P 0000",13,10
-               .DC.b "0C0100",13,10
-               .DC.b "_DATA P 000C",13,10
-               .DC.b "0BF080 0001D3 0BF080 0001D3 0BF080 0001DE 0BF080 0001DE",13,10
-               .DC.b "_DATA P 0020",13,10
-               .DC.b "0BF080 0001EB 0BF080 0001F1 0BF080 0001F2 0BF080 0001F5",13,10
-               .DC.b "0BF080 00020D",13,10
-               .DC.b "_DATA P 0040",13,10
-               .DC.b "0BF080 000221 0BF080 000239 0BF080 00024D",13,10
-               .DC.b "_DATA P 0100",13,10
-               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0502BA 0500BB 66F400",13,10
-               .DC.b "000400 05F426 FFFFFF 08F4A1 000000 08F4A3 000000 08F4AC",13,10
-               .DC.b "004700 08F4AD 00F800 08F4BF 003800 08F4A1 00FFE8 65F400",13,10
-               .DC.b "002800 64F400 002000 45F400 002FF8 22B300 05F420 FFFFFF",13,10
-               .DC.b "05F421 FFFFFF 05F422 FFFFFF 05F423 000FFF 05F424 000FFF",13,10
-               .DC.b "05F425 000FFF 05F427 FFFFFF 60F400 0000A6 0AA980 000134",13,10
-               .DC.b "084E2B 000000 000000 0C012E 08F4A8 000005 00FCB8 22AE00",13,10
-               .DC.b "226666 200055 0EA137 62F400 000062 61F400 000074 67F400",13,10
-               .DC.b "000051 47F000 000050 0AC702 00018F 46DA00 635E00 0BF080",13,10
-               .DC.b "000177 63FE00 000000 47DB00 0BF080 000177 47FB00 635E00",13,10
-               .DC.b "61F400 0000A6 061080 000155 47FB00 477900 226600 62F400",13,10
-               .DC.b "000086 0BF080 000161 61F400 000097 0BF080 000161 63FE00",13,10
-               .DC.b "0C0137 060880 000175 56DA00 44D900 21CF00 47F400 000008",13,10
-               .DC.b "200076 0AF0AA 000171 20007C 47F43B 000001 20CE78 0AF080",13,10
-               .DC.b "000172 20CE3B 47D910 21D300 000000 446300 00000C 060880",13,10
-               .DC.b "00018D 0A5F80 00017F 0BF080 0001CA 0AF080 00018D 47E300",13,10
-               .DC.b "44D900 46F0B1 000072 200032 21C700 46DAB1 200032 565B00",13,10
-               .DC.b "47DB45 0AF0AF 00018D 567900 44D900 000000 00000C 46DA00",13,10
-               .DC.b "060880 0001A6 0A5F80 000198 0BF080 0001C1 0AF080 0001A6",13,10
-               .DC.b "47E300 44D900 46F0B1 000072 200032 21C700 46DAB1 200032",13,10
-               .DC.b "565B00 200045 0AF0AF 0001A6 567900 44D900 000000 635E00",13,10
-               .DC.b "61F400 00009E 060880 0001AE 47FB00 000000 477900 000000",13,10
-               .DC.b "226600 62F400 000086 060880 0001BD 44D900 57DA00 20CE00",13,10
-               .DC.b "000000 200010 000000 21D300 000000 446300 000000 63FE00",13,10
-               .DC.b "0C0137 46DA00 56DB00 44D900 200045 0AF0AF 0001C9 567900",13,10
-               .DC.b "44D900 00000C 46DA00 56DB00 44D900 47DB45 0AF0AF 0001D2",13,10
-               .DC.b "567900 44D900 00000C 0AAEA3 0001D7 085DAF 000004 565E00",13,10
-               .DC.b "22AE00 200066 21D500 56FE00 085DAF 000004 0AAEA2 0001E2",13,10
-               .DC.b "08DCAF 000004 575E00 228F00 20006E 21F400 000000 57DC00",13,10
-               .DC.b "57FE00 08DCAF 000004 565E00 56F000 00FFEB 565800 56FE00",13,10
-               .DC.b "000004 000004 60F400 0000A6 000004 565E00 575E00 445E00",13,10
-               .DC.b "60F400 0000A6 000000 57D800 000000 44E000 56F400 000062",13,10
-               .DC.b "000000 200010 000000 21D000 000000 446000 000000 60F400",13,10
-               .DC.b "0000A6 44FE00 57FE00 56FE00 000004 565E00 575E00 56F400",13,10
-               .DC.b "000074 57F000 0000A6 000000 200010 000000 21D000 000000",13,10
-               .DC.b "56E000 08CE2B 2E0000 566000 60F400 0000A6 57FE00 56FE00",13,10
-               .DC.b "000004 565E00 575E00 445E00 60F400 0000A6 000000 57D800",13,10
-               .DC.b "000000 44E000 56F400 000086 000000 200010 000000 21D000",13,10
-               .DC.b "000000 446000 000000 60F400 0000A6 44FE00 57FE00 56FE00",13,10
-               .DC.b "000004 565E00 575E00 445E00 60F400 0000A6 56F400 000051",13,10
-               .DC.b "57D800 44E000 200010 000000 21D000 000000 446000 60F400",13,10
-               .DC.b "0000A6 44FE00 57FE00 56FE00 000004 445E00 60F400 0000A6",13,10
-               .DC.b "000000 44E000 000000 60F400 000050 000000 446000 60F400",13,10
-               .DC.b "0000A6 65F400 002800 64F400 002000 0AC422 00026B 45F400",13,10
-               .DC.b "002FF8 0AC421 000267 08F4AC 004700 0AF080 000269 08F4AC",13,10
-               .DC.b "006700 44FE00 000004 45F400 002FF0 65F400 002800 64F400",13,10
-               .DC.b "002000 0AC421 000276 08F4AC 004F00 0C0269 08F4AC 006F00",13,10
-               .DC.b "0C0269",13,10
-               .DC.b "_DATA X 0050",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000001",13,10
-               .DC.b "000002 000003 000004 000005 000006 000007 000008 000009",13,10
-               .DC.b "00000A 00000B 00000C 00000D 00000E 00000F 000000 000000",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "_END 0000",13,10
+extmxdsp:      .DC.b "_START EXTALL4 0000 0000 0000 DSP56000 5.3.2",CR,LF
+               .DC.b "_DATA P 0000",CR,LF
+               .DC.b "0C0100",CR,LF
+               .DC.b "_DATA P 000C",CR,LF
+               .DC.b "0BF080 0001D3 0BF080 0001D3 0BF080 000201 0BF080 000201",CR,LF
+               .DC.b "_DATA P 0020",CR,LF
+               .DC.b "0BF080 00020E 0BF080 000214 0BF080 000215 0BF080 000218",CR,LF
+               .DC.b "0BF080 000230",CR,LF
+               .DC.b "_DATA P 0040",CR,LF
+               .DC.b "0BF080 000244 0BF080 00025C 0BF080 000270",CR,LF
+               .DC.b "_DATA P 0100",CR,LF
+               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0502BA 0500BB 66F400",CR,LF
+               .DC.b "000400 05F426 FFFFFF 08F4A1 000000 08F4A3 000000 08F4AC",CR,LF
+               .DC.b "004700 08F4AD 00F800 08F4BF 003800 08F4A1 00FFE8 65F400",CR,LF
+               .DC.b "002800 64F400 002000 45F400 002FF8 22B300 05F420 FFFFFF",CR,LF
+               .DC.b "05F421 FFFFFF 05F422 FFFFFF 05F423 000FFF 05F424 000FFF",CR,LF
+               .DC.b "05F425 000FFF 05F427 FFFFFF 60F400 0000A6 0AA980 000134",CR,LF
+               .DC.b "084E2B 000000 000000 0C012E 08F4A8 000005 00FCB8 22AE00",CR,LF
+               .DC.b "226666 200055 0EA137 62F400 000062 61F400 000074 67F400",CR,LF
+               .DC.b "000051 47F000 000050 0AC702 00018F 46DA00 635E00 0BF080",CR,LF
+               .DC.b "000177 63FE00 000000 47DB00 0BF080 000177 47FB00 635E00",CR,LF
+               .DC.b "61F400 0000A6 061080 000155 47FB00 477900 226600 62F400",CR,LF
+               .DC.b "000086 0BF080 000161 61F400 000097 0BF080 000161 63FE00",CR,LF
+               .DC.b "0C0137 060880 000175 56DA00 44D900 21CF00 47F400 000008",CR,LF
+               .DC.b "200076 0AF0AA 000171 20007C 47F43B 000001 20CE78 0AF080",CR,LF
+               .DC.b "000172 20CE3B 47D910 21D300 000000 446300 00000C 060880",CR,LF
+               .DC.b "00018D 0A5F80 00017F 0BF080 0001CA 0AF080 00018D 47E300",CR,LF
+               .DC.b "44D900 46F0B1 000072 200032 21C700 46DAB1 200032 565B00",CR,LF
+               .DC.b "47DB45 0AF0AF 00018D 567900 44D900 000000 00000C 46DA00",CR,LF
+               .DC.b "060880 0001A6 0A5F80 000198 0BF080 0001C1 0AF080 0001A6",CR,LF
+               .DC.b "47E300 44D900 46F0B1 000072 200032 21C700 46DAB1 200032",CR,LF
+               .DC.b "565B00 200045 0AF0AF 0001A6 567900 44D900 000000 635E00",CR,LF
+               .DC.b "61F400 00009E 060880 0001AE 47FB00 000000 477900 000000",CR,LF
+               .DC.b "226600 62F400 000086 060880 0001BD 44D900 57DA00 20CE00",CR,LF
+               .DC.b "000000 200010 000000 21D300 000000 446300 000000 63FE00",CR,LF
+               .DC.b "0C0137 46DA00 56DB00 44D900 200045 0AF0AF 0001C9 567900",CR,LF
+               .DC.b "44D900 00000C 46DA00 56DB00 44D900 47DB45 0AF0AF 0001D2",CR,LF
+               .DC.b "567900 44D900 00000C 0AAEA3 0001FA 565E00 455E00 45F000",CR,LF
+               .DC.b "000050 000000 0AC507 0001E9 22AE00 45F400 000007 000000",CR,LF
+               .DC.b "200066 45F400 000002 000000 200065 0AF0AA 0001ED 0AF0A7",CR,LF
+               .DC.b "0001F4 085DAF 45FE00 56FE00 000004 087DAF 56DD00 45F400",CR,LF
+               .DC.b "000000 000000 455D00 0C01EA 45F400 000000 000000 455D00",CR,LF
+               .DC.b "084E2F 0C01EA 565E00 22AE00 200066 21D500 56FE00 085DAF",CR,LF
+               .DC.b "000004 0AAEA2 000205 08DCAF 000004 575E00 228F00 20006E",CR,LF
+               .DC.b "21F400 000000 57DC00 57FE00 08DCAF 000004 565E00 56F000",CR,LF
+               .DC.b "00FFEB 565800 56FE00 000004 000004 60F400 0000A6 000004",CR,LF
+               .DC.b "565E00 575E00 445E00 60F400 0000A6 000000 57D800 000000",CR,LF
+               .DC.b "44E000 56F400 000062 000000 200010 000000 21D000 000000",CR,LF
+               .DC.b "446000 000000 60F400 0000A6 44FE00 57FE00 56FE00 000004",CR,LF
+               .DC.b "565E00 575E00 56F400 000074 57F000 0000A6 000000 200010",CR,LF
+               .DC.b "000000 21D000 000000 56E000 08CE2B 2E0000 566000 60F400",CR,LF
+               .DC.b "0000A6 57FE00 56FE00 000004 565E00 575E00 445E00 60F400",CR,LF
+               .DC.b "0000A6 000000 57D800 000000 44E000 56F400 000086 000000",CR,LF
+               .DC.b "200010 000000 21D000 000000 446000 000000 60F400 0000A6",CR,LF
+               .DC.b "44FE00 57FE00 56FE00 000004 565E00 575E00 445E00 60F400",CR,LF
+               .DC.b "0000A6 56F400 000051 57D800 44E000 200010 000000 21D000",CR,LF
+               .DC.b "000000 446000 60F400 0000A6 44FE00 57FE00 56FE00 000004",CR,LF
+               .DC.b "445E00 60F400 0000A6 000000 44E000 000000 60F400 000050",CR,LF
+               .DC.b "000000 446000 60F400 0000A6 65F400 002800 64F400 002000",CR,LF
+               .DC.b "0AC422 00028E 45F400 002FF8 0AC421 00028A 08F4AC 004700",CR,LF
+               .DC.b "0AF080 00028C 08F4AC 006700 44FE00 000004 45F400 002FF0",CR,LF
+               .DC.b "65F400 002800 64F400 002000 0AC421 000299 08F4AC 004F00",CR,LF
+               .DC.b "0C028C 08F4AC 006F00 0C028C",CR,LF
+               .DC.b "_DATA X 0050",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000001",CR,LF
+               .DC.b "000002 000003 000004 000005 000006 000007 000008 000009",CR,LF
+               .DC.b "00000A 00000B 00000C 00000D 00000E 00000F 000000 000000",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "_END 0000",CR,LF
 xtmxdsp:       .EVEN 
 
-panmxdsp:      .DC.b "_START PANALL3",13,10
-               .DC.b "_DATA P 0000",13,10
-               .DC.b "0C0080",13,10
-               .DC.b "_DATA P 000C",13,10
-               .DC.b "0BF080 0001B7 0BF080 0001B7 0BF080 0001C2 0BF080 0001C2",13,10
-               .DC.b "_DATA P 0020",13,10
-               .DC.b "0BF080 0001CF 0BF080 0001D6 0BF080 0001D7 0BF080 0001DA",13,10
-               .DC.b "0BF080 0001EE",13,10
-               .DC.b "_DATA P 0040",13,10
-               .DC.b "0BF080 000202 0BF080 000216 0BF080 00022A",13,10
-               .DC.b "_DATA P 0080",13,10
-               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0502BA 0500BB 66F400",13,10
-               .DC.b "000400 05F426 FFFFFF 08F4A1 000000 08F4A3 000000 08F4AC",13,10
-               .DC.b "004700 08F4AD 00F800 08F4BF 003800 08F4A1 00FFE8 65F400",13,10
-               .DC.b "002800 64F400 002000 45F400 002FF8 22B300 05F420 FFFFFF",13,10
-               .DC.b "05F421 FFFFFF 05F422 FFFFFF 05F423 000FFF 05F424 000FFF",13,10
-               .DC.b "05F425 000FFF 240000 05F427 FFFFFF 60F400 0000DA 447000",13,10
-               .DC.b "000050 0AA980 0000B5 084E2B 0C00B1 08F4A8 000005 00FCB8",13,10
-               .DC.b "65F400 002800 64F400 002000 22B300 0A7008 000050 22AE00",13,10
-               .DC.b "226666 200055 0EA0BF 62F413 000062 61F41B 0000A6 46DA00",13,10
-               .DC.b "47F000 000050 000000 0AC728 0000B8 0AC722 0000D2 000000",13,10
-               .DC.b "0AF080 00014C 635E00 0BF080 000134 226700 63FE00 475E00",13,10
-               .DC.b "475E00 47DB00 0BF080 000134 63FE00 44D900 0A67A0 0000E3",13,10
-               .DC.b "21C700 46DAB1 21E732 200045 0AF0AF 0000E8 567900 44D900",13,10
-               .DC.b "44D900 0A6780 0000ED 0AF080 0000EF 2000B9 20003A 27004D",13,10
-               .DC.b "0AF0AF 0000F3 577900 46F000 000050 000000 0AC621 000122",13,10
-               .DC.b "061080 0000FA 477B00 0AC620 00010D 226600 61F400 0000C8",13,10
-               .DC.b "21C700 56D900 200050 000000 21D300 000000 475B00 000000",13,10
-               .DC.b "47DB00 000000 576300 0AF080 000132 565B00 21C700 46F400",13,10
-               .DC.b "008000 2000B0 505B00 260000 465B00 465B00 465B00 465B00",13,10
-               .DC.b "465B00 465B00 575B00 21E700 46F400 008000 2000B0 505B00",13,10
-               .DC.b "0AF080 000132 477B00 477B00 477B00 477B00 477B00 477B00",13,10
-               .DC.b "477B00 577B00 477B00 477B00 477B00 477B00 477B00 477B00",13,10
-               .DC.b "477B00 567B00 63FE00 0C00BF 060880 00014A 44D900 47E300",13,10
-               .DC.b "565E00 46DAB0 46DA32 47E345 0AF0AF 000140 567900 44D900",13,10
-               .DC.b "46DAB0 200032 44FE00 47DB40 200011 575E00 46DAB8 47DB3A",13,10
-               .DC.b "44FE00 200048 200019 00000C 060880 000162 44D900 47E300",13,10
-               .DC.b "565E00 46DAB0 46DA32 47E345 0AF0AF 000158 567900 44D900",13,10
-               .DC.b "46DAB0 200032 44FE00 47DB40 200011 575E00 46DAB8 20003A",13,10
-               .DC.b "44FE00 200048 200019 62F400 0000A2 61F400 0000B6 67F400",13,10
-               .DC.b "000061 44D900 46DA00 0A67A0 000170 21C700 46DAB1 21E732",13,10
-               .DC.b "200045 0AF0AF 000175 567900 44D900 44D900 0A6780 00017B",13,10
-               .DC.b "635E00 0AF080 00017D 635EB9 20003A 27004D 0AF0AF 000181",13,10
-               .DC.b "577900 46F000 000050 000000 0AC621 0001AD 060880 000188",13,10
-               .DC.b "477B00 0AC620 00019C 226600 61F400 0000C8 21C700 56D900",13,10
-               .DC.b "200050 000000 21D300 000000 476300 56E100 200050 21D300",13,10
-               .DC.b "000000 576300 0AF080 0001B5 565B00 21C700 46F400 008000",13,10
-               .DC.b "2000B0 505B00 260000 465B00 465B00 575B00 21E700 46F400",13,10
-               .DC.b "008000 2000B0 505B00 0AF080 0001B5 477B00 477B00 477B00",13,10
-               .DC.b "577B00 477B00 477B00 477B00 567B00 63FE00 0C00BF 0AAEA3",13,10
-               .DC.b "0001BB 085DAF 000004 565E00 22AE00 200066 21D500 56FE00",13,10
-               .DC.b "085DAF 000004 0AAEA2 0001C6 08DCAF 000004 575E00 228F00",13,10
-               .DC.b "20006E 21F400 000000 57DC00 57FE00 08DCAF 000004 565E00",13,10
-               .DC.b "56F000 00FFEB 000000 565800 56FE00 000004 000004 60F400",13,10
-               .DC.b "0000DA 000004 565E00 575E00 445E00 60F400 0000DA 56F400",13,10
-               .DC.b "000062 57D800 44E000 200010 000000 21D000 000000 446000",13,10
-               .DC.b "60F400 0000DA 44FE00 57FE00 56FE00 000004 565E00 575E00",13,10
-               .DC.b "56F400 0000A6 57F000 0000DA 000000 200010 000000 21D000",13,10
-               .DC.b "000000 56E000 08CE2B 2E0000 566000 60F400 0000DA 57FE00",13,10
-               .DC.b "56FE00 000004 565E00 575E00 445E00 60F400 0000DA 56F400",13,10
-               .DC.b "0000B8 57D800 44E000 200010 000000 21D000 000000 446000",13,10
-               .DC.b "60F400 0000DA 44FE00 57FE00 56FE00 000004 565E00 575E00",13,10
-               .DC.b "445E00 60F400 0000DA 56F400 000051 57D800 44E000 200010",13,10
-               .DC.b "000000 21D000 000000 446000 60F400 0000DA 44FE00 57FE00",13,10
-               .DC.b "56FE00 000004 0003F8 445E00 60F400 0000DA 000000 44E000",13,10
-               .DC.b "000000 0AC468 60F400 000050 000000 446000 60F400 0000DA",13,10
-               .DC.b "65F400 002800 64F400 002000 22B300 0AC422 00024D 45F400",13,10
-               .DC.b "002FF8 0AC421 000247 08F4AC 004700 0AF080 000249 08F4AC",13,10
-               .DC.b "006700 44FE00 00FCB8 000000 000004 45F400 002FF0 0AC421",13,10
-               .DC.b "000254 08F4AC 004F00 0C0249 08F4AC 006F00 0C0249",13,10
-               .DC.b "_DATA X 0050",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",13,10
-               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 000000 000000",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000001 000002 000003 000004 000005 000006 000007",13,10
-               .DC.b "000008 000009 00000A 00000B 00000C 00000D 00000E 00000F",13,10
-               .DC.b "000000 000001 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",13,10
-               .DC.b "000000 000000",13,10
-               .DC.b "_END 0000",13,10
+panmxdsp:      .DC.b "_START PANALL4 0000 0000 0000 DSP56000 5.3.2",CR,LF
+               .DC.b "_DATA P 0000",CR,LF
+               .DC.b "0C0080",CR,LF
+               .DC.b "_DATA P 000C",CR,LF
+               .DC.b "0BF080 0001B7 0BF080 0001B7 0BF080 0001E5 0BF080 0001E5",CR,LF
+               .DC.b "_DATA P 0020",CR,LF
+               .DC.b "0BF080 0001F2 0BF080 0001F9 0BF080 0001FA 0BF080 0001FD",CR,LF
+               .DC.b "0BF080 000211",CR,LF
+               .DC.b "_DATA P 0040",CR,LF
+               .DC.b "0BF080 000225 0BF080 000239 0BF080 00024D",CR,LF
+               .DC.b "_DATA P 0080",CR,LF
+               .DC.b "08F4BE 000000 0003F8 08F4A0 000001 0502BA 0500BB 66F400",CR,LF
+               .DC.b "000400 05F426 FFFFFF 08F4A1 000000 08F4A3 000000 08F4AC",CR,LF
+               .DC.b "004700 08F4AD 00F800 08F4BF 003800 08F4A1 00FFE8 65F400",CR,LF
+               .DC.b "002800 64F400 002000 45F400 002FF8 22B300 05F420 FFFFFF",CR,LF
+               .DC.b "05F421 FFFFFF 05F422 FFFFFF 05F423 000FFF 05F424 000FFF",CR,LF
+               .DC.b "05F425 000FFF 240000 05F427 FFFFFF 60F400 0000DA 447000",CR,LF
+               .DC.b "000050 0AA980 0000B5 084E2B 0C00B1 08F4A8 000005 00FCB8",CR,LF
+               .DC.b "65F400 002800 64F400 002000 22B300 0A7008 000050 22AE00",CR,LF
+               .DC.b "226666 200055 0EA0BF 62F413 000062 61F41B 0000A6 46DA00",CR,LF
+               .DC.b "47F000 000050 000000 0AC728 0000B8 0AC722 0000D2 000000",CR,LF
+               .DC.b "0AF080 00014C 635E00 0BF080 000134 226700 63FE00 475E00",CR,LF
+               .DC.b "475E00 47DB00 0BF080 000134 63FE00 44D900 0A67A0 0000E3",CR,LF
+               .DC.b "21C700 46DAB1 21E732 200045 0AF0AF 0000E8 567900 44D900",CR,LF
+               .DC.b "44D900 0A6780 0000ED 0AF080 0000EF 2000B9 20003A 27004D",CR,LF
+               .DC.b "0AF0AF 0000F3 577900 46F000 000050 000000 0AC621 000122",CR,LF
+               .DC.b "061080 0000FA 477B00 0AC620 00010D 226600 61F400 0000C8",CR,LF
+               .DC.b "21C700 56D900 200050 000000 21D300 000000 475B00 000000",CR,LF
+               .DC.b "47DB00 000000 576300 0AF080 000132 565B00 21C700 46F400",CR,LF
+               .DC.b "008000 2000B0 505B00 260000 465B00 465B00 465B00 465B00",CR,LF
+               .DC.b "465B00 465B00 575B00 21E700 46F400 008000 2000B0 505B00",CR,LF
+               .DC.b "0AF080 000132 477B00 477B00 477B00 477B00 477B00 477B00",CR,LF
+               .DC.b "477B00 577B00 477B00 477B00 477B00 477B00 477B00 477B00",CR,LF
+               .DC.b "477B00 567B00 63FE00 0C00BF 060880 00014A 44D900 47E300",CR,LF
+               .DC.b "565E00 46DAB0 46DA32 47E345 0AF0AF 000140 567900 44D900",CR,LF
+               .DC.b "46DAB0 200032 44FE00 47DB40 200011 575E00 46DAB8 47DB3A",CR,LF
+               .DC.b "44FE00 200048 200019 00000C 060880 000162 44D900 47E300",CR,LF
+               .DC.b "565E00 46DAB0 46DA32 47E345 0AF0AF 000158 567900 44D900",CR,LF
+               .DC.b "46DAB0 200032 44FE00 47DB40 200011 575E00 46DAB8 20003A",CR,LF
+               .DC.b "44FE00 200048 200019 62F400 0000A2 61F400 0000B6 67F400",CR,LF
+               .DC.b "000061 44D900 46DA00 0A67A0 000170 21C700 46DAB1 21E732",CR,LF
+               .DC.b "200045 0AF0AF 000175 567900 44D900 44D900 0A6780 00017B",CR,LF
+               .DC.b "635E00 0AF080 00017D 635EB9 20003A 27004D 0AF0AF 000181",CR,LF
+               .DC.b "577900 46F000 000050 000000 0AC621 0001AD 060880 000188",CR,LF
+               .DC.b "477B00 0AC620 00019C 226600 61F400 0000C8 21C700 56D900",CR,LF
+               .DC.b "200050 000000 21D300 000000 476300 56E100 200050 21D300",CR,LF
+               .DC.b "000000 576300 0AF080 0001B5 565B00 21C700 46F400 008000",CR,LF
+               .DC.b "2000B0 505B00 260000 465B00 465B00 575B00 21E700 46F400",CR,LF
+               .DC.b "008000 2000B0 505B00 0AF080 0001B5 477B00 477B00 477B00",CR,LF
+               .DC.b "577B00 477B00 477B00 477B00 567B00 63FE00 0C00BF 0AAEA3",CR,LF
+               .DC.b "0001DE 565E00 455E00 45F000 000050 000000 0AC507 0001CD",CR,LF
+               .DC.b "22AE00 45F400 000007 000000 200066 45F400 000002 000000",CR,LF
+               .DC.b "200065 0AF0AA 0001D1 0AF0A7 0001D8 085DAF 45FE00 56FE00",CR,LF
+               .DC.b "000004 087DAF 56DD00 45F400 000000 000000 455D00 0C01CE",CR,LF
+               .DC.b "45F400 000000 000000 455D00 084E2F 0C01CE 565E00 22AE00",CR,LF
+               .DC.b "200066 21D500 56FE00 085DAF 000004 0AAEA2 0001E9 08DCAF",CR,LF
+               .DC.b "000004 575E00 228F00 20006E 21F400 000000 57DC00 57FE00",CR,LF
+               .DC.b "08DCAF 000004 565E00 56F000 00FFEB 000000 565800 56FE00",CR,LF
+               .DC.b "000004 000004 60F400 0000DA 000004 565E00 575E00 445E00",CR,LF
+               .DC.b "60F400 0000DA 56F400 000062 57D800 44E000 200010 000000",CR,LF
+               .DC.b "21D000 000000 446000 60F400 0000DA 44FE00 57FE00 56FE00",CR,LF
+               .DC.b "000004 565E00 575E00 56F400 0000A6 57F000 0000DA 000000",CR,LF
+               .DC.b "200010 000000 21D000 000000 56E000 08CE2B 2E0000 566000",CR,LF
+               .DC.b "60F400 0000DA 57FE00 56FE00 000004 565E00 575E00 445E00",CR,LF
+               .DC.b "60F400 0000DA 56F400 0000B8 57D800 44E000 200010 000000",CR,LF
+               .DC.b "21D000 000000 446000 60F400 0000DA 44FE00 57FE00 56FE00",CR,LF
+               .DC.b "000004 565E00 575E00 445E00 60F400 0000DA 56F400 000051",CR,LF
+               .DC.b "57D800 44E000 200010 000000 21D000 000000 446000 60F400",CR,LF
+               .DC.b "0000DA 44FE00 57FE00 56FE00 000004 0003F8 445E00 60F400",CR,LF
+               .DC.b "0000DA 000000 44E000 000000 0AC468 60F400 000050 000000",CR,LF
+               .DC.b "446000 60F400 0000DA 65F400 002800 64F400 002000 22B300",CR,LF
+               .DC.b "0AC422 000270 45F400 002FF8 0AC421 00026A 08F4AC 004700",CR,LF
+               .DC.b "0AF080 00026C 08F4AC 006700 44FE00 00FCB8 000000 000004",CR,LF
+               .DC.b "45F400 002FF0 0AC421 000277 08F4AC 004F00 0C026C 08F4AC",CR,LF
+               .DC.b "006F00 0C026C",CR,LF
+               .DC.b "_DATA X 0050",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00",CR,LF
+               .DC.b "1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 1FFF00 000000 000000",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000001 000002 000003 000004 000005 000006 000007",CR,LF
+               .DC.b "000008 000009 00000A 00000B 00000C 00000D 00000E 00000F",CR,LF
+               .DC.b "000000 000001 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000 000000 000000 000000 000000 000000 000000",CR,LF
+               .DC.b "000000 000000",CR,LF
+               .DC.b "_END 0000",CR,LF
 xpanmxdsp:     .EVEN 
 
 balmxdsp:      .DC.b "_START BALMIXER",13,10
