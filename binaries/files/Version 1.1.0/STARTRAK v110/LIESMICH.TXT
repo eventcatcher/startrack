@@ -1,0 +1,321 @@
+Viel Spaû mit der StarTrack Audiokarte und der StarTrack-Software V1.10 !              Kîln, den 9.5.1998
+
+Zuvor aber noch ein paar klarstellende und erklÑrende Worte.
+Alle Rechte an diesem Programm liegen bei SWE,Stephan Wilhelm,Niehler Str.312,50735 Kîln.
+Das Programm ist nicht fehlerfrei und wir haften nicht fÅr SchÑden die an Hard oder Software ihres
+Computers durch Benutzung dieses Programms dadurch eventuell entstehen kînnten (ist sehr unwahrscheinlich).
+
+
+Wichtig !!!
+-----------
+Bevor sie die Startrack Audiokarte installieren, lesen sie sich bitte vorher unbedingt die
+Installationshinweise im Hypertext durch. Besonders beim Einbau in den Hades ist zu beachten,
+daû das VME-Kabel korrekt eingesteckt wird, da hier keinerlei Verpolungsschutz des VME-Bus
+auf dem Hades-Board existiert.
+Installieren sie also bitte zuerst die Software und den Hypertext und lesen die entsprechenden
+Kapitel Åber die Hardwareinstallation durch.
+
+Ohne Audiokarte lÑuft die Software automatisch als Demoversion.
+In diesem Fall kînnen sie direkt mit der Installation der Software beginnen.
+
+
+Installation der Software
+-------------------------
+Die Installation ist ganz einfach: Entpacken sie die Software (Disk1, STARTRAK.ZIP) mit
+einem ZIP-Dekomprimierprogramm (empfohlen: ST-ZIP 2.6 oder hîher) auf einer beliebigen
+Partition ihrer Festplatte. Die Software benîtigt ca. 3 MB freien Platz auf dem Medium.
+Anschlieûend entpacken sie den Hypertext (Disk2, STARHELP.ZIP) in das Hauptverzeichnis
+des Startrack-Ordners "STARTRAK" Der Hypertext benîtigt ca. 5 MB freien Platz.
+
+Nach der Installation der Software sollte der StarTrack-Ordner in etwa so aussehen:
+
+/1STGUIDE     -  Hypertext-Software 1stGuide
+/STARHELP     -  Hypertext-System fÅr 1stGuide
+/ENGLISH      -  alle Texte Åbersetzt fÅr unsere englischsprachigen User
+   HARDWARE.TXT  -  hardware-features
+   README.TXT    -  Installation-reference and last modifications (read it first !!!)
+   SNDCHECK.TXT  -  Soundcheck
+   SOFT.TXT      -  software-features
+   SOFTFEAT.TXT  -  software-Features
+   STARTRAK.UPL  -  Upload-text for the publication in mailboxes
+/HADES           -  Cookie-Patch fÅr MagiC for Hades
+/STARMODE        -  Accessorie fÅr Moduswahl der Matrix und Audiohardware
+/STAR_CSB        -  Accessorie zum Auslesen des digitalen Channel-Statusblocks
+/TT_MMU          -  Autoordner-Programm fÅr den Atari TT zur DSP-Registerumlenkung 
+HARDWARE.TXT  -  Hardware-Features
+LANGUAGE.TXT  -  aktuelles Sprachfile
+LANG_D.TXT    -  deutsches Sprachfile
+LANG_E.TXT    -  englisches Sprachfile
+LANG_F.TXT    -  franzîsisches Sprachfile
+LIESMICH.TXT  -  Installationshinweise und letzte énderungen (vorher lesen !)
+NONSTOP.INF   -  Infofile fÅr NONSTOP.S16
+NONSTOP.PBF   -  Cachefile fÅr NONSTOP.S16
+NONSTOP.S16   -  Infofenster-Sample
+PAUSE.PRG     -  Tastendruck-Programm fÅr Auto-Ordner
+SOFT.TXT      -  Software-Beschreibung in Kurzform
+SOFTFEAT.TXT  -  Software-Features in tabellarischer Kurzform
+SOUND.PRG     -  Audio Hardware- und XBIOS-Treiber
+STARHIGH.RSC  -  Fenster-Dialoge fÅr hohe Auflîsung (ab 1024x768)
+STARLMON.RSC  -  monochrome Fenster-Dialoge fÅr niedrige Auflîsung im Sparmodus
+STARLOW.RSC   -  Fenster-Dialoge fÅr niedrige Auflîsung (bis 1024x768)
+STARTRAK.PRG  -  Sample-Editor-Programm
+STARTRAK.UPL  -  Upload-Text fÅr Mailbox-Verîffentlichungen
+UPDATE.TXT    -  Update-History
+XRSRC.OVL     -  Resource-Treiber fÅr 3D-Dialoge
+
+
+ErklÑrung zu den einzelnen Programmteilen
+-----------------------------------------
+Die Hades-Betaversion von MagiC lîscht den Hades-Cookie, der zur korrekten Hardwareerkennung
+von der Audiosoftware unbedingt benîtigt wird. DafÅr befindet sich ein Autoordner-Programm
+im Ordner "HADES" der diese Cookie nachtrÑglich wieder installiert. Dieses sollte in den
+Autoordner kopiert werden, und muû in der Startreihenfolge HINTER Magic und VOR dem Audiotreiber
+SOUND.PRG liegen. Der Patch ist nur fÅr die Arbeit mit der Betaversion von MagiC for Hades
+notwendig, und sollte ansonsten wieder entfernt werden.
+
+Im Ordner "STARMODE" befindet sich ein Accessorie fÅr die Modusauswahl der 
+Audiohardware. Dieses lÑuft auch als Programm (Endung von ACC in PRG umbenennen).
+Das Modewatch-Accessory ist nÅtzlich, um Falcon-Fremdsoftware auch in Verbindung
+mit der StarTrack-Audiohardware nutzen zu kînnen. Man kann hier durch diverse
+Einstellungen auch etwas "unsaubere" Programme zur Zusammenarbeit Åberreden.
+Details hierzu erfahren sie in den entsprechenden Textfiles (im Ordner "STARMODE").   
+
+Im Ordner "STAR_CSB" befindet sich ein weiteres Accessorie zum detaillierten Auslesen
+des digitalen Channel Status Block. Dieses lÑuft auch als Programm
+(Endung von ACC in PRG umbenennen). Der CSB (AbkÅrzung fÅr Channel Status Block)
+ist im digitalen SP/DIF und AES/EBU-Signal fÅr zusÑtzliche Informationen zum reinen
+Audiosignal definiert. Dort findet man detaillierte Infos zur Aufnahmequelle,
+Samplerate,Fehlerkorrektur etc. die vom Accessorie ausgewertet und in verstÑndlicher
+Form dargestellt werden.
+
+Im Ordner "TT_MMU" befindet sich ein Programm fÅr den Atari TT. Dieses gehîrt in den
+Autoordner, direkt hinter den Audiotreiber SOUND.PRG (Reihenfolge beachten).
+Dieses Programm benutzt die MMU des TT um die Register des DSPs in den Falcon-kompatiblen
+Bereich ab $FFFA200 einzublenden. Dadurch wird die Audiokarte auch kompatibel zu
+unsauberen Falcon-Programmen die den DSP direkt Åber die Register programmieren.
+Allerdings ist zu beachten, das es nur mit dem Original Single-TOS funktioniert und
+verwendet werden sollte. Multitasking-Betriebssysteme wie MagiC,NAES,MultiTOS etc. 
+nutzen bzw. programmieren die MMU fÅr eigene Zwecke. FÅr solche Betriebssysteme muû
+das Autoordner-Programm DSP_ROUT.PRG wieder entfernt werden !
+ZukÅnftige Versionen dieser Multitasking-Betriebssysteme werden die DSP-Umlenkung
+integrieren so das dann auch dort der DSP in den Falcon-Adressbereich eingeblendet
+wird.
+
+Wichtig: Die Accessories nutzen die Software-Bibliothek "XRSRC.OVL", die hierzu in
+das Bootverzeichnis (im Normalfall "C:\") kopiert werden mÅssen. Die entsprechenden
+Resourcefiles (Endung .RSC) mÅssen ebenfalls dorthin kopiert werden.
+Ebenfalls sollte der Audiotreiber "SOUND.PRG" installiert sein, da die Accessories
+darauf zurÅckgreifen.
+
+Die ProgrammoberflÑche und die Fehlermeldungen kînnen mit den Sprachfiles auf die
+entsprechenden Sprachgegebenheiten lokalisiert werden. HierfÅr gibt es Sprachfiles
+fÅr deutsch (LANG_D.TXT), englisch (LANG_E.TXT) und franzîsisch (LANG_F.TXT).
+Um eine der Sprachen auszuwÑhlen muû das entsprechende Sprachfile in
+LANGUAGE.TXT umbenannt werden. Diese Datei wird von der Audiosoftware nachgeladen.
+
+NONSTOP.S16 ist ein Sample, das quasi als Erkennungsmelodie oder Demo abgespielt wird,
+wenn das Info-Fenster geîffnet wird.
+
+PAUSE.PRG kann man bei Bedarf in den Autoordner kopieren und sollte sich direkt hinter
+dem Audiotreiber SOUND.PRG befinden.
+Es macht nichts anderes als auf einen Tastendruck zu warten. Dadurch hat man die
+Mîglichkeit, die Statusmeldungen des Audiotreibers in aller Ruhe zu verfolgen.
+
+XRSRC.OVL ist eine Software-Bibliothek fÅr Farbdialoge und wird von allen Programmen
+genutzt,die zum StarTrack-Paket gehîren.
+
+Die Fastload- und Fastmemflags des Audiotreibers (SOUND.PRG) sollten gesetzt sein.
+Die Flags des Hauptprogramms (STARTRAK.PRG) dÅrfen auf keinen Fall geÑndert werden !
+
+
+Einrichten von 1stGuide
+-----------------------
+1. Kopieren Sie die Datei 1STGUIDE.ACC in Ihr Boot-Verzeichnis.
+   Falls Sie Åber 1st Guide drucken mîchten, mu· GDOS installiert
+   sein.
+
+2. Starten Sie Ihren Computer neu
+
+Um 1stGuide mit der StarTrack-Software nutzen zu kînnen, muû der
+Suchpfad fÅr STARTRAK.IDX (im Ordner STARHELP) in 1stGuide definiert sein.
+Sie gelangen in den Setup-Dialog von 1stGuide, indem sie das
+Accessory mit gedrÅckter rechter Maustaste und Doppelklick mit der
+linken Maustaste auf den Accessoryeintrag, aufrufen.
+Dort tragen sie unter Indexdatei den Suchpfad ein.
+Anschlieûend drÅcken sie auf Sichern - fertig.
+
+Um weitere Benutzungsinformationen oder eine ausfÅhrliche EinfÅhrung
+in 1stGuide zu erhalten, klicken sie im Desk-MenÅ des Desktops
+den Punkt "1st Guide" an und wÑhlen in der darauf erscheinenden
+Datei-Auswahlbox die Datei "1STGUIDE.HLP" im entsprechenden
+1STGUIDE-Ordner aus. Dieser Hypertext ist allerdings aus
+PlatzgrÅnden nur in der Vollversion von 1stGuide enthalten.
+Besorgen sie sich hierfÅr gegebenenfalls bitte die Vollversion
+von 1stGuide (z.B. in Mailboxen oder auf Shareware CDs zu bekommen).
+
+
+Besonderheiten bei der Zusammenarbeit von 1stGuide und der StarTrack-Software
+-----------------------------------------------------------------------------
+Da 1stGuide von StarTrack nicht nur aus einem Fenster, sondern auch aus
+einer Dialogbox heraus aufgerufen werden kann (normalerweise nicht
+mîglich) wird in diesem Falle die aufrufende Dialogbox kurz entfernt,
+um 1stGuide aufrufen zu kînnen.
+Hat 1stGuide alle benîtigten Fenster geîffnet, erscheint wieder der
+Dialog und man kann seine Eingaben darin tÑtigen. Man muû dann zuerst
+die Dialogbox schlieûen, um Zugriff auf 1stGuide zu bekommen, da
+systembedingt (AES) beim Aufruf einer Dialogbox alle anderen Fenster
+gesperrt sind.
+Bei einem 1stGuide-Aufruf aus einem Fenster heraus, braucht man
+diesen "Trick" nicht anzuwenden.
+Die Entscheidung zugunsten 1stGuide liegt darin begrÅndet, das seinerzeit
+nur mit 1stGuide die Farbanzeige von Bildern und Zeichnungen in Hypertexten
+mîglich war.
+
+
+Einrichtung der StarTrack Mastering-Software
+--------------------------------------------
+Das Programm lÑuft ab einer Auflîsung von 640x400 monochrom und 4MB RAM, die volle Leistung entfaltet
+sich aber erst ab einer Auflîsung von 1024x768/256 Color,da dann die Resource-Datei fÅr groûe
+Auflîsungen (STARHIGH.RSC) geladen wird, die im Editor,Hyperfileselector und Tracker grîûere Fenster
+zur VerfÅgung stellt.
+Das Programm lÑuft auf allen TOS-Rechnern mit VME-Bus (MegaSTE,TT,Medusa mit VME-Karte,Hades)
+unter TOS,MultiTOS und MagiC. Das Programm wurde grîûtenteils auf einem Hades060 programmiert.
+
+-> Die Software lÑuft ohne Audiohardware automatisch im Demo-Modus und ebenfalls auf den genannten
+-> Rechnern und allen 68000er Ataris ab 4MB, dem TT und Falcon, und auf Apple-Rechnern unter MagiCMac.
+
+Das Programm sollte auf allen bekannten TOS-kompatiblen Systemen laufen.
+Erfolgreich getestet wurde bisher auf folgender Hardware:
+
+Hades (32MB RAM)                            : ok, auch mit MagiC (Hades-Version)
+Medusa (16MB RAM)                           : ok
+Atari TT (4MB ST,8MB TT RAM)                : ok
+Elrad ST (4MB RAM)                          : ok
+Falcon (4MB RAM)                            : ok
+Apple Powerbook 520 (68K,20MB RAM)          : ok,Vorraussetzung MagiCMac
+Power Mac 8200/120 (PowerPC601/120,48MB RAM): ok,Vorraussetzung MagiCMac 
+Gravis MT200 (PowerPC603/200,48MB RAM)      : ok,Vorraussetzung MagiCMac
+
+Unter MagiCMac kann es manchmal zu Problemen kommen, wenn die Speichereinstellungen nicht stimmen.
+FÅr den Mac sollten ca. 2MB frei bleiben, da der Soundtreiber des Mac verwendet wird, und durch
+die StarTrack-Software nachgeladen wird.
+Folgende Einstellung funktioniert auf einem PowerMac 8200/120 mit 48MB RAM:
+
+Minimum ST-RAM:      0 KB
+Minimum gesamt:   8192 KB
+Maximum gesamt:  31000 KB
+Minimum Mac frei: 2000 KB
+
+Sollte sich das Programm unter MagiCMac nicht korrekt starten lassen, empfiehlt es sich
+etwas mit den Speichereinstellungen zu spielen. Bei mehr als 32000 KB Maximum lief
+das Programm nicht mehr. Woran das liegt, konnte bisher nicht geklÑrt werden.
+Bei allen anderen Systemen gibt es hinsichtlich des Speicherausbaus keine Probleme.
+
+Die Accessorys sind speziell fÅr die StarTrack Audiokarte programmiert worden, und daher fÅr
+den Betrieb auf dem Falcon oder unter MagiCMac ÅberflÅssig.
+
+Im Demomodus ist sogar die Audioausgabe unter MagiCMac und Audio Ein- und Ausgabe auf dem Falcon mîglich.
+Allerdings bisher nur fÅr Samples im RAM. HD-Recording und DSP-Funktionen werden auf dem Falcon noch nicht
+unterstÅtzt. Dieser Teil der Software ist erst im Anfangsstadium. Am Ende wird eine Software-Version
+fÅr den Falcon stehen, die dann aber kostenpflichtig sein wird.
+
+Achtung ! Das Programm lÑuft auf allen TOS-kompatiblen Rechnern ab 4MB RAM und braucht mindestens ca 3.5 MB
+freien Speicher !!! Dabei wird allerdings ein Sparmodus (wenn weniger als 6MB freier Speicher vorhanden)
+gefahren, d.h. dann ist nur Monochrom-Darstellung (Fenstergrîûe max. 640x400) mîglich und es wird weniger
+Speicher fÅr Cache-Zwecke verwendet. Erst ab ca. 6MB freiem RAM lÑuft die Software im Farbmodus und mit
+grîûeren Fenstern. Empfohlen sind 8MB freies RAM um schnelles und zuverlÑssiges Arbeiten mit allen Funktionen
+zu gewÑhrleisten. Wichtig fÅr TT-Benutzer: Die Rede ist hier immer von zusammenhÑngendem RAM,
+empfohlen sind hier also 6-8 MB Fast-RAM.
+Wer mehr Speicher hat, kann das im Setup anpassen und gegebenenfalls mehr Speicher zuteilen. 
+Die Software lÑuft problemlos im Fast-RAM, und auch auf 68040er und 68060er CPUs (Hades,Medusa).
+
+Ansonsten braucht nichts installiert werden, ein Doppelklick auf STARTRAK.PRG
+genÅgt, um das Programm zu starten.
+Der Audio-Hardwaretreiber "SOUND.PRG" und die Library XRSRC.OVL wird automatisch von STARTRAK.PRG nachgeladen.
+Die beiden Dateien sollten sich im gleichen Ordner wie das Programm befinden.
+Der Audiotreiber "SOUND.PRG" ist auch aus dem Autoordner ladbar und gibt dann einige Statusmeldungen
+zur installierten Audiohardware aus. Wenn der Audiotreiber aus dem Autoordner geladen wird, sollte
+er sich mîglichst weit hinten in der Startreihenfolge der Autoordner-Programme befinden.
+Die Startreihenfolge lÑût sich z.B. mit XBOOT einstellen.
+
+Nach dem ersten Start zeigt das Programm nicht sofort alle seine Mîglichkeiten.
+Nach dem ersten Start sollte man zuerst den SETUP-Dialog aufrufen:
+Dieser verbirgt sich hinter dem Arztkoffer-Symbol in der oberen Buttonreihe des Edit-Fensters.
+Hier kînnen sie einige Einstellungen vornehmen, um das Programm den eigenen Erfordernissen anzupassen.
+Begrenzen sie wenn nîtig den vom Programm angeforderten Speicher im Setup.
+Wichtig ist hierbei, das der Tracker zum einwandfreien Arbeiten nach mindestens
+8 MB freiem RAM verlangt (fÅr 8MB : malloc=8192 und max-Feld angekreuzt).
+Speichern sie nun das Setup ab (auf SAVE-Button klicken). 
+Wichtig: Das Programm speichert auch die Fensterpositionen mit ab, und restauriert die Fenster beim nÑchsten Start.
+
+Es gibt (wie bereits erwÑhnt) eine ausfÅhrlich bebilderte Programmbeschreibung als Hypertext (Ordner /STARHELP).
+Dieser arbeitet mit 1stGuide zusammen,und kann im Programm Åber die HELP-Taste aufgerufen werden.
+Bei korrekter Installation bekommt man dann alle Funktionen des entsprechenden Fensters erklÑrt.
+
+Einige Falcon-Programme laufen bereits mit der Startrack Audiokarte zusammen.
+DafÅr muû jedoch der XBIOS-Treiber SOUND.PRG installiert sein (z.B. im Autoordner).
+Diesen kînnen sie aber natÅrlich auch manuell starten.
+
+
+Anforderungen fÅr Harddisk-Recording
+------------------------------------
+Harddiskrecording ist eine sehr anspruchsvolle Aufgabe fÅr ein Computersystem und stellt entsprechend
+hohe Anforderungen an das System. Je schneller der Rechner desto besser. Auch der Speicherausbau
+sollte nicht zu knapp bemessen sein. NatÅrlich hat auch die Festplatte einen maûgeblichen
+Einfluû auf die LeistungsfÑhigkeit. Auch hier gilt: Je schneller und grîûer, desto besser.
+Mit dem Hades060 sind momentan 16 Spuren Audiowiedergabe mîglich. Durch weitere Optimierungen
+am Treiber wird hier in Zukunft vielleicht sogar 24 Spuren Audiowiedergabe mîglich sein.
+Die nach heutigen MaûstÑben leider relativ langsame SCSI-Anbindung der TOS-Rechner begrenzt
+hier deutlich die Mîglichkeiten. Mit einer PCI Ultra-SCSI-Karte fÅr den Hades wÑre natÅrlich
+deutlich mehr mîglich (schÑtzungsweise 32Spuren oder mehr). Die Verwendung der Audiokarte
+am MegaSTE ist technisch kein Problem, HD-Recording ist hier nur unter besten Bedingungen
+mîglich, RAM-Sampling ist aber auch hier kein Problem.
+
+
+Wichtige Informationen fÅr Update-Installationen
+------------------------------------------------
+In der Version V1.09b fÅhrten einige Åble Fehler zu einem absturzfreudigen Fehlverhalten,
+insbesondere auf dem TT im Demomodus. Diese Fehler sind nun behoben.
+
+1. Falls das Programm nicht korrekt startet,bitte unbedingt das alte Setup-File (SMP16.SET) lîschen,
+   da sich das Format eventuell geÑndert hat !!!
+
+2. Der Audiotreiber SOUND.PRG kann aus dem Autoordner gestartet werden und sollte als eines der
+   letzten Programme im Autoordner stehen bzw. gestartet werden.
+   
+3. Die Accessorys setzen einen geladenen Audiotreiber vorraus. Das ist ja automatisch der Fall, wenn er
+   aus dem Autoordner geladen wird. Ist das jedoch nicht der Fall, muû er (SOUND.PRG) von Hand gestartet werden !
+   
+4. Die Masteringsoftware STARTRAK.PRG lÑdt einen eventuell noch nicht geladenen Treiber automatisch nach.
+   Daher sollte der Treibers immer im gleichen Ordner stehen wie STARTRAK.PRG und zusÑtzlich wenn gewÅnscht im
+   Autoordner. 
+
+5. Die Masteringsoftware startet am Anfang in einer Mindestkonfiguration. Dabei sollte man nach dem ersten
+   Start mîglichst den Samplespeicher im Setup (malloc) auf mindestens 8 MB erhîhen, da es sonst Probleme mit einigen
+   Programmteilen,insbesondere dem Tracker,geben kînnte.
+
+6. Kopieren sie bitte wirklich ALLE Programmteile in den Programmordner, da sich eventuell die Sprachfiles
+   (LANG_X.TXT und LANGUAGE.TXT) und die Resource-Files (*.RSC) geÑndert haben.
+
+
+
+Falls sie Fragen oder WÅnsche haben sind wir unter folgenden email-Adressen zu erreichen:
+
+Internet: stepwil@aol.com
+Mausnet:  Stephan Wilhelm @ K2
+
+Die neuste Version der Software ist im Internet unter http://members.aol.com/swenet/ddownld.html
+oder im Mailbox-Netz Maus @ K2 zu bekommen
+Meine Homepage ist unter http://members.aol.com/swenet zu erreichen.
+
+Anfragen richten sie bitte an : Stephan Wilhelm,EntwicklungsbÅro, Niehler Str. 312, 50735 Kîln,
+                                Tel: 0221-7127380, Fax: 0221-685184
+
+Entwickler kînnen auf Anfordeung eine kostenlose Entwicklerdoku bekommen.
+
+P.S.: Die Audiokarte ist derzeit zu einem besonders gÅnstigen EinfÅhrungspreis von 1498.- inkl.
+      DSP und Software erhÑltlich. Ob dieser Sonderpreis (ursprÅnglicher Preis 1950.-) auf Dauer
+      gehalten werden kann, kann nicht garantiert werden.
+
+MfG Stephan Wilhelm
+  

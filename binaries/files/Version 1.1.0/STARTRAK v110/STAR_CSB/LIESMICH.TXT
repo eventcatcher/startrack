@@ -1,0 +1,15 @@
+Das StarTrack CSB-Accessory dient zur Analyse der im digitalen
+SP/DIF-Signal enthaltenen Status-Informationen.
+
+Dort wird nÑmlich nicht nur die Samplerate, sondern auch so
+exotische Dinge wie z.B. Herkunftsland und Timing-Genauigkeit
+kodiert. Hiermit kann man diese Daten sichtbar machen.
+Allerdings ist dann solange keine Audioausgabe mîglich, da die
+Matrix fÅr die öbertragung der Daten im "Channel Status Block"
+benutzt wird.
+
+Achtung!
+--------
+Zum Betrieb des Startrack Modewatch-Accessorys und aller anderen
+StarTrack-Programme wird die Datei XRSRC.OVL im Bootverzeichnis
+C:\ vorausgesetzt !

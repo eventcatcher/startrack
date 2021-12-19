@@ -1,0 +1,10 @@
+Die Beta-Version von MagiC 5.13 fr den Hades hat momentan noch den Fehler, da es den
+Hades-Cookie l”scht. Dieser ist aber unbedingte Voraussetzung fr die Lauff„higkeit des
+Audiotreibers.
+
+Das Programm HADECOOK.PRG installiert einen solchen Cookie nachtr„glich. Falls sie die
+Betaversion einsetzen, kopieren sie HADECOOK.PRG bitte in den Autoordner unmittelbar vor
+den Audiotreiber SOUND.PRG.
+
+In der offiziellen MagiC-Version ist dieser Patch berflssig.
+

@@ -1,0 +1,6 @@
+Very Important !!!
+
+The Accessorys needs the File "XRSRC.OVL".
+Copy this File in the Bootdirectory (normally "C:\").
+The Accessorys don't work correctly without this file !
+

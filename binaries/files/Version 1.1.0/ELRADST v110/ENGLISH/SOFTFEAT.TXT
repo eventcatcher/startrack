@@ -1,0 +1,46 @@
+Software-Features:
+
+- XBIOS-Driver with all falcon compatible Sound- and DSP-Calls
+
+- editor with blockfunctions
+  (cut,insert,space,optimize,resample,stereo/mono,negate,change,copy,move)
+
+- 1000 markers for start,stop,intro & release
+
+- unmodal windows and dialogs
+
+- Hypertext-documentation (funktion-sensitive)
+
+- runs with TOS,Multitos and MagiC, in monochrome and color
+
+- many functions with drag & drop
+
+- virtual memory-manager
+
+- zoom- and scrollfunctions
+
+- editable fader-curves
+
+- automatic loop-point search
+
+- sampleformats: WAV,AIFF,AVR,SND,SD,AU,S16 & SMP
+
+- shows the errorcodes/samplerate/record-type from the digital inputs
+
+- recordlevel-peakmeter
+
+- MIDI-playlist (play samples with a MIDI-Keyboard)
+
+- DSP-effects (echo,flanger,hall,chorus,lowpass,pinknoise)
+
+- track-playlist (like a Musicbox)
+
+- multitrack-window for arrangement, mixing and playing from 16 of 99 virtual tracks
+
+- caching of the track-plotting
+
+- full MTC/SMPTE-Synchronize (slave,master)
+
+- Marker on the fly, scrubbing (what you hear is what you get)
+
+- saves the complete working-environment

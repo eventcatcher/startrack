@@ -1,0 +1,6 @@
+Achtung !!!
+
+Die Accessorys und die StarTrack-Software brauchen die Datei "XRSRC.OVL".
+Diese muž unbedingt in das Bootverzeichnis (normalerweise "C:\") kopiert werden,
+da die Programme sonst nicht korrekt funktionieren !
+

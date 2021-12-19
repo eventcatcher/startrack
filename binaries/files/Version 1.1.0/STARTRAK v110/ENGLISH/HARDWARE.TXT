@@ -1,0 +1,66 @@
+Features of the StarTrack-Harddisk-Recording-Card
+
+The StarTrack-Harddisk-Recording-Audiocard is a 4Layer-PCB with full
+separate analog and digital sections and own separate voltage-regulators
+for each audio-converter.
+The Audiocard have digital Inputs and Outputs with switchable Cinch (with 
+transformers) and Opto(TOSLINK)-connectors and supports the consumer-format
+SP/DIF, but also the studio-format AES/EBU.
+The Audiocard-Hardware recognize errors in the digital data-transmission and shows
+the type of the error in the StarTrack-Sample-Editor. 
+Also recognize the hardware the samplerate of the digital input and show (and use)
+it in the Editor. The copy-protection can you cleared from SCMS(serial copy
+management system)-protected digital-sources on the digital input.
+That's true even for all digital sources, also (i hope so) for all studio-formats.
+You can copy your own records with the digital-output without loss to your
+DAT/DCC/MD/CD-recorder. Thereby you can select if after the copy to the recorder
+is allowed: no copy, one another copy or full copy (without copy-protection)
+from your record.
+The digital inputs and outputs working with 32, 44.1 and 48 kHz samplerate.
+
+The Audiocard supports 16- and 24 Bit digital Mastering and full duplex transfer.
+It supports a matrix input datapath for 8 Channels input and 2 matrix output
+datapaths for 2 x 8 Channels = 16 Channels ! You can also use the digital- and
+analog parts in parallel for 4 Channel record- and playback without additional
+interfaces.
+
+The Audiocard have a Stereo 16Bit A/D-converter for analog sources and a
+18Bit D/A-converter for the analog output. The converters (no cheap CODECS
+as in the Falcon or the most PC-Soundcards) are 64x oversampled delta-sigma-
+converter from the highly reputed company Crystal and are firstclass-converter.
+The high quality from this converters are certified by many HIFI-newspapers.
+A de-emphasis-circuit is in the Audiocard integrated and can controlled by
+the editor-program. That is necessary, because a few CDs (e.g. from Heaven 17)
+for noise-reduction the treble highly lift up.
+The Audiocard have digital adjustable highend-volume-controller in the range
+-96dB to +32dB,channel-seperated adjustable in 256 steps for the
+A/D-converter-input (record) and optional additional for the
+D/A-converter-output (play).
+The A/D and D/A-converter can working with the standarts 32, 44.1 and 48 kHz,
+besides with 8/11/12/16/16.5/22.1/24 and 33.1 kHz and optional with an
+external clockmodule (RoboClock) with all samplerates between 0-70 kHz.
+Optional you can have a samplerate-clock-output (Coax-connector).
+With it you can connecting the Audiocard directly with a CD-mechanism.
+This is possible with a few High-End-CD-Players and prevent effectful jitter.
+The Audiocard is FIFO-buffered and can parallel play and record.
+The Audiocard is cabable for harddisk-recording without a DSP-processor !
+The DSP is good for mixing and effects and can parallel working to the
+Audiocard-Transfer. You can switch the DSP in the Input-section or in the
+Output-section with the Sample-editor.
+The DSP-extension were plug pick-a-back into the Audiocard.
+You can become the Audiocard mounted in a 5 1/4 inch plug in for a PC-case
+for easy use from the connectors on the front-panel.
+The Audiocard is cascadeable i.e. you can use several Audiocards parallel
+in your computer and by that you can the Soundsystem extend to (almost)
+any quantity of Input- and Output-Channels.
+
+The DSP-extension-card for the Startrack Audiocard have a Motorola DSP 56002-66
+with 128Kx24bit of static-fastram (12ns).
+It have also a enhanced Falcon-compatible DSP-Port for use of 1 or 2 Analog8 or
+JAM-Out interfaces for 8-16 separate Outputs. You can also use a ADAT-interface
+from Soundpool with the DSP-Port for 8 digital In- and Outputs.
+The DSP-Card has a ONCE-Debug-Port for use with a Motorola-EVM-compatible
+PC-Debugger. The Atari TT with this DSP is fast enough for transfer 8 Ch/48 kHz !
+A faster Hardware (Hades or Medusa) can transfer up to 16 Channels.
+
+The Audiocard and the DSP-Expansion are available since 9/97.

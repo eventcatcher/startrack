@@ -1,0 +1,47 @@
+
+- Editor mit Blockbearbeitungsfunktionen
+  (Cut,Insert,Space,Optimize,Resample,Stereo/Mono,Negate,Change,Copy,Move)
+
+- bis zu 1000 Marker z.B. fÅr umfangreiche Radioproduktionen 
+
+- unmodale Fenster-Dialoge, lÑuft mit TOS,Multitos und MagiC, ab 640x400
+  und 4MB in Monochrom & Farbe
+
+- Hypertext-Dokumentation
+
+  * funktionssensitiv d.h. bei Druck auf HELP-Taste werden die Funktionen des aktuellen
+    Fensters erklÑrt.
+
+- viele Funktionen per drag & drop bedienbar
+
+- virtuelle Speicherverwaltung (fÅr Samples > Arbeitsspeicher)
+
+- ausgefeilte Zoom- und Scrollfunktionen mit Memory-Option
+
+- editierbare Fader-Kurven, automatische Suche nach Loop-Punkten
+
+- Sampleformate: WAV,AIFF,AVR,SND,SD,AU,S16 & SMP
+
+- Anzeige von Fehlercodes/Samplerate/Aufnahmeart der digitalen EingÑnge
+
+- Aussteuerungs-Peakmeter
+
+- MIDI-playlist (abspielen von Samples Åber MIDI-Keyboard)
+
+- DSP-Effekte (Echo,Hall,Flanger,Chorus,Lowpass,Pinknoise)
+
+- Track-playlist (eine Art Musicbox)
+
+- Multitrack-Fenster zum Arrangieren, mischen und abspielen von 16 der bis zu 99 virtuellen Spuren
+
+  * Ansteuerung von externen DSP-Port-Erweiterungen (getestet: Analog8,Jam-Out,ADAT,Clockmodul)
+  * Caching der Track-Darstellung
+
+- Marker on the fly, Scrubbing (Mithîren wÑhrend Markersuche)
+
+- MTC/SMPTE-Synchronisation (Master/Slave)
+
+- XBIOS-Treiber: emuliert alle Sound- und DSP-Funktionen des Falcon-TOS.
+
+- Abspeichern der kompletten Arbeitsumgebung
+

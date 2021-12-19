@@ -1,0 +1,72 @@
+StarTrack Modewatch-Accessory : Die Soundaufruf-Analyse
+-------------------------------------------------------
+
+Hier haben sie eine einfache M”glichkeit die Soundaufrufe
+zu protokollieren und zu kontrollieren und dadurch fehlerhafte
+oder fr die StarTrack Audiokarte problematische Einstellungen
+zu finden und zu beseitigen.
+Dies ist sehr hilfreich um Falcon-Programme an die etwas andere
+Funktionsweise der StarTrack-Audiokarte anzupassen.
+Zur besseren Verst„ndnis sollte man das İBILDİSNDLIST.IMGİ der
+Soundaufruf-Liste zu Rate ziehen.
+
+1) Eintrag-Nummer
+-----------------
+Bis zu 500 Devconnect-Befehle k”nnen mitprotokolliert werden.
+Darber hinaus werden die alten Werte berschrieben.
+Hier wird die Eintrag-Nummer angezeigt. Mit den Slidern kann
+man sich frei in der Tabelle bewegen.
+
+2) Devconnect-Befehl
+--------------------
+Hier sieht man den ausgefhrten Soundbefehl und deren Parameter
+
+3) Slider
+---------
+Hiermit k”nnen sie sich frei im der max. 100 Eintr„ge umfassenden
+Tabelle bewegen.
+
+4) Clip
+-------
+Hiermit k”nnen sie die Liste unter dem Dateinamen STARSND.TXT
+im Clipboard sichern. Voraussetzung hierfr ist ein korrekt
+gesetzter Clipboard-Pfad im Environment.
+ 
+5) Devc
+-------
+Die Protokollierung der Devconnect-Einstellungen l„t sich hiermit
+ein- und ausschalten. Defaultm„ig ist die Protokollierung abgeschaltet.
+Hierfr gibt es einen eigenen Dialog den man ber das İMatrix-FensterİSTARDEVC.TXTİ
+(İShowİDEVLIST.TXTİ) aufrufen kann.
+
+6) Snd
+------
+Hiermit lassen sich die wichtigen Soundaufrufe mitprotokollieren.
+Die Protokollierung der Soundaufrufe l„t sich hiermit ein- und
+ausschalten. Defaultm„ig ist die Protokollierung abgeschaltet.
+Es werden fast alle Soundaufrufe bercksichtigt, auer buffptr
+und die Parameter-Abfrage von soundcmd. Diese wrden den Buffer
+sehr schnell berlaufen lassen, da diese Funktionen sehr
+h„ufig abgefragt werden.
+
+7) Dsp
+------
+Bei der Protokollierung der Soundaufrufe kann man die DSP-Aufrufe
+wahlweise mitprotokollieren lassen. 
+Die Protokollierung der DSP-Aufrufe l„t sich hiermit ein- und
+ausschalten. Defaultm„ig ist die Protokollierung abgeschaltet.
+Die zus„tzlichen DSP-Aufrufe werden dann zusammen mit den
+Soundaufrufen dargestellt.
+
+8) Clear
+-------- 
+Hiermit kann man die Liste wieder l”schen. Die Protokollierung beginnt dann
+wieder am Anfang der Liste.
+ 
+9) Help
+-------
+Hiermit rufen sie das Hilfssystem auf
+
+10) Exit
+--------
+Hiermit verlassen sie den Dialog.

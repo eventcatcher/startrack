@@ -1,0 +1,83 @@
+StarTrack Modewatch-Accessory : Die Devconnect-Analyse
+------------------------------------------------------
+
+Hier haben sie eine einfache Mîglichkeit die devconnect-Einstellungen
+zu protokollieren und zu kontrollieren und dadurch Fehler in der
+devconnect Matrix-Verbindung zu finden.
+Dies ist sehr hilfreich um Falcon-Programme an die etwas andere
+Funktionsweise der StarTrack-Audiokarte anzupassen.
+Zur besseren VerstÑndnis sollte man das ›BILD›DEVLIST.IMG› der
+Devconnect-Liste zu Rate ziehen.
+
+1) Eintrag-Nummer
+-----------------
+Bis zu 100 Devconnect-Befehle kînnen mitprotokolliert werden.
+DarÅber hinaus (>100) werden die alten Werte Åberschrieben.
+Hier wird die Eintrag-Nummer angezeigt. Mit den Slidern kann
+man sich frei in der Tabelle bewegen.
+
+2) Devconnect-Befehl
+--------------------
+Hier sieht man den ausgefÅhrten Devconnect-Befehl in der Form
+Ausgang -> Eingang1 (...Eingang2 Eingang3 Eingang4)
+Die Matrixverbindungen sind folgendermaûen gekennzeichnet: 
+
+StarTrack Matrix-Quelle
+--------------------------------------------------------------------
+DMAPLAY ~ Matrix-Wiedergabe
+DSPXMIT ~ DSP-Datenausgabe (transmit)
+EXTINP  ~ Daten vom DSP-Port (RDATA) 
+ADC     ~ StarTrack A/D Wandler 
+
+StarTrack Matrix-Ziel
+--------------------------------------------------------------------  
+DMAREC  ~ Matrix-Aufnahme
+DSPREC  ~ DSP-Dateneingang (receive)
+EXTOUT  ~ Daten zum DSP-Port (PDATA)
+DAC     ~ StarTrack D/A Wandler
+
+3) Slider
+---------
+Hiermit kînnen sie sich frei im der max. 100 EintrÑge umfassenden
+Tabelle bewegen.
+
+4) Clip
+-------
+Hiermit kînnen sie die Liste unter dem Dateinamen STARDEV.TXT
+im Clipboard sichern. Voraussetzung hierfÅr ist ein korrekt
+gesetzter Clipboard-Pfad im Environment.
+ 
+5) Devc
+-------
+Die Protokollierung der Devconnect-Einstellungen lÑût sich hiermit
+ein- und ausschalten. DefaultmÑûig ist die Protokollierung abgeschaltet.
+
+6) Snd
+------
+Ebenfalls lassen sich die wichtigen Soundaufrufe mitprotokollieren.
+HierfÅr gibt es einen eigenen Dialog den man Åber das ›Statusfenster›STARSTAT.TXT›
+(›Show›SNDLIST.TXT›) aufrufen kann.
+Die Protokollierung der Soundaufrufe lÑût sich hiermit ein- und
+ausschalten. DefaultmÑûig ist die Protokollierung abgeschaltet.
+
+7) Dsp
+------
+Bei der Protokollierung der Soundaufrufe kann man die DSP-Aufrufe
+wahlweise mitprotokollieren lassen. 
+Die Protokollierung der DSP-Aufrufe lÑût sich hiermit ein- und
+ausschalten. DefaultmÑûig ist die Protokollierung abgeschaltet.
+Die zusÑtzlichen DSP-Aufrufe werden dann zusammen mit den
+Soundaufrufen im Dialog fÅr die ›Soundaufruf-Liste›SNDLIST.TXT› dargestellt.
+
+8) Clear
+-------- 
+Hiermit kann man die Liste wieder lîschen. Die Protokollierung beginnt dann
+wieder am Anfang der Liste.
+ 
+9) Help
+-------
+Hiermit rufen sie das Hilfssystem auf
+
+10) Exit
+--------
+Hiermit verlassen sie den Dialog.

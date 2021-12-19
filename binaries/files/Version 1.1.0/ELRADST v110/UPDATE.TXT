@@ -1,0 +1,128 @@
+Bugfixex und nderungen V 1.07
+------------------------------
+
+- Copy-Block & Move-Block: Clipping eingebaut
+- Fehler,das beim Fenster verschieben Buttons "angeklickt" werden ist behoben
+- Fehler,das beim Fensterswitch das darunterliegende Fenster nicht vollst„ndig
+  verschwindet und Reste zurckbleiben ist behoben
+- Hackelige Buttons unter MagiC sollten nun der Vergangenheit angeh”ren.
+- Die Fensterinhalte von Editor,Tracker und Fader werden bei gengend Speicher
+  gecached, dadurch wesentlich schnellerer Bildaufbau.
+- Clipping fr Editor,Tracker und Fader released.
+- Fensterswitch-Fehler bei DSP-Fenster behoben.
+- Farbanpassungsfehler bei Workmode-Fenster in Monochrome behoben.
+- Dropdown pat sich nun automatisch der Breite der Meneintr„ge an
+  und Anpassung der Sprachfiles (LANG_D.TXT,LANG_F.TXT,LANG_E.TXT,LANGUAGE.TXT)
+  Dadurch ist nun eine individuelle Sprachanpassung relativ einfach ohne 
+  Sourcecode-Anpassung m”glich.
+- Editable-Objekt im Workmode-Fenster wird nun korrekt behandelt.
+- Redraw bei fehlender Blockmarkierung bei Move und Copy
+- Fehler bei blockplay im virtual-mode behoben
+- mehrere Fehler in der virtual-load und cache-verwaltung behoben, die zum nichtfunktionieren
+  der blockfunktionen im virtualmode fhrten.
+- Fehler in header-write behoben. Dadurch gab es bei HDR keine korrekten Dateiheader  
+- Fehler beim abspeichern im WAV-format bei HDR behoben
+- Jetzt korrektes abspeichern eines passenden dateiheaders im virtualmode
+  Dadurch nun auch als Dateikonverter fr Soundformate nutzbar !
+- Fehler in der PBF Cache-Berechnung fr WAV-Files behoben
+- versehentliche Umschaltung der Time/Sample-Darstellung bei virtual-load behoben
+- redraw-fehler bei virtual und blockload behoben
+- Fensterverwaltung der Blockfunktionen korrigiert
+- alle Blockfunktionen im virtualmode berarbeitet und entwanzt
+- Zeitanzeige im Resample-Dialog korrigiert, Samplerate-Anpassung im virtualmode
+- Fehlerhafte Fensterumschaltung im Blockbearbeitungsfenster behoben
+- Fehler im Trackplay behoben, der zum šberschreiben von geschtzten Speicherbereichen
+  fhrte und das ganze System durcheinanderbrachte
+  (ist passiert wegen doppelt groem L”schbereich als vorgesehen)
+
+Bugfixex und nderungen V 1.08
+------------------------------
+- Knackser bei Wiedergabe in der Musicbox zwischen den Samples behoben
+- Pfadl”schung nach abgebrochenem Record im virtualmode behoben
+- jetzt richtige cache-darstellung bei bergang von virtual nach memorymode und umgekehrt
+- Blockfunktionen Insert,Space und Resample berarbeitet und entwanzt
+- Scrolling jetzt feiner abgestuft bei extremen zoom-einstellungen
+- load-repeat bei pause im harddisk-mode im editor behoben
+- pausenstart jetzt auch im Musicbox-Dialog
+- keine knackser mehr bei insert durch ignorierten header
+- jetzt bis zu 999 Marker
+- Marker k”nnen jetzt auch direkt per Werteingabe ausgew„hlt werden -
+  kurz auf Markernummern-Button draufklicken
+- AIFF-Format lesen & schreiben
+- buttons fr markermode-auswahl implementiert
+- scrubbing implementiert, momentan aber noch NICHT fr virtual-mode !
+- auswahl von Emulationsmode Falcon-TOS implementiert
+- MTC-Funktionen (midi-timecode) implementiert
+- Eingabe von MTC-Startzeit,Frames/s,REC/PLAY-Steuerung ber MTC oder Space-Taste
+- setup-abspeichern um neu hinzugekommene Funktionen erweitert
+- button arrange-nr entfernt, da obsolet
+- Eintr„ge DSP-Hosttransfer und DSP-Effektmix im Men-Dropdown gesperrt,
+  da nur fr eigene Testzwecke
+- marker on the fly - eingabe bei play/record per Space-Taste implementiert.
+  Bei HDR werden die Marker in das INF-File bernommen.
+- Source,Kommentarfeld und Marker k”nnen nun nachtr„glich im Sampleinfo-Dialog
+  ge„ndert werden. Die Werte werden im INF-File abgespeichert.
+- Speicher wird nun gel”scht, nachdem ein virtuelles File gel”scht wurde. Vorher
+  blieb immer der Speichermll sichtbar.
+- Vertauschte Start- und Endmarker bei HDR geh”ren nun der Vergangenheit an
+- Verbesserte Bedienung und ver„nderte Oberfl„che von einigen Fenstern und Dialogen
+- Play im Blockmode nun auch ohne Endmarker (nur mit Startmarker) m”glich. Dann wird bis zum Ende
+  des Speichers oder des Files abgespielt.
+- Markermode jetzt komfortabel ber Buttons ausw„hlbar, nun auch als Block aufziehbar
+- Y-Zoom funktioniert jetzt korrekt
+- Anpassungen an MagiCs Window-shading
+- Alle DSP XBIOS-Aufrufe des Falcon-TOS eingebaut.
+  Damit laufen nun auch Falcon-Programme, allerdings mssen noch ein paar Kleinigkeiten
+  ge„ndert werden. Unsaubere Programme haben natrlich ein Problem.
+
+Bugfixes und nderungen V1.09
+-----------------------------
+- Untersttzung fr ROBOCLOCK, das programmierbare Clockmodul, eingebaut 
+- nur noch ein Programm fr Demo und Vollversion
+
+Bugfixes und nderungen V1.09b
+------------------------------
+- Soundausgabe unter MagicMac (bisher nur bei in den Editor geladenen Soundfiles m”glich)  
+- Treiber SOUND.PRG nun aus Autoordner ladbar, mit Statusmeldung
+- Treiber SOUND.PRG nun mit automatischer Erkennung der Audiohardware
+  Falls keine Audiohardware erkannt wird, l„uft die Software automatisch im Demomodus !!!
+- Probleme mit 68000er Ataris und TT im Demo-Modus (fehlerhafte Hardware-Erkennung) behoben
+- Bug in der Resourceverwaltung behoben, fhrte wahrscheinlich zu gelegentlichen
+  Abstrzen beim Programmstart.
+- Die Software l„uft derzeit NICHT auf Apple PowerMacs im Demo-Modus,aber auf Apple-Rechnern
+  mit 68K-CPUs l„uft's prima (unter MagiCMac).
+- Unter MagiCMac ist nun im Demomodus sogar Soundwiedergabe m”glich, allerdings nur fr
+  Samples im RAM.
+- Die Software l„uft im Demomodus jetzt auch auf dem Falcon und bietet ebenfalls
+  Soundwiedergabe- und Aufnahme, allerdings ebenfalls nur fr Samples im RAM.
+- Der Treiber fr Falcon-Rechner ist erst im Anfangsstadium, die Einbindung von
+  HD-Recording,HD-Wiedergabe,DSP-Nutzung etc. fr den Falcon ist in Arbeit.
+- Auf Rechnern mit weniger als 6MB freiem RAM war es bisher nicht m”glich, die Software
+  zu nutzen. Das wurde durch einige Sparmanahmen dahingehend ge„ndert, das die Software
+  nun auch auf Rechnern mit 4 MB RAM nutzbar ist. Die Software bietet in diesem Sparmodus
+  (bei weniger als 6MB freiem RAM) allerdings nur die Monochromdarstellung
+  (Fenstergr”e max. 640x400) und nutzt einen kleineren Track-Cache.
+  Dafr l„uft die Software nun auch auf 4MB-Falcons und 68000ern.
+
+Bugfixes und nderungen V1.10
+-----------------------------
+- Bug im Buttonhandling bei HD-Play/Record behoben.
+- Audiotreiber komplett berarbeitet und Support fr ADC im 128Bit-Modus eingebaut
+  Voraussetzung hierfr ist ein PLD-Update der Audiohardware. Der ADC arbeitet dann
+  auch im Falcon 128Bit-Modus einwandfrei.
+- Probleme durch fehlerhafte Hardwareerkennung im Audiotreiber behoben.
+  Es konnte vorher passieren, das der TT beim laden des Treibers abstrzte.
+- Die folgenden Programme laufen nun einwandfrei (mit PLD-Update):
+  Soundpool Analyser und Equalizer,VoXX,Winrec,Trackcom,Zero-X
+  Frak,Frakt-me (Fraktale mit DSP-Support)
+  Gemjing (spielt alle m”glichen Sampleformate ab und rechnet in Echtzeit die Sampleraten um)
+  AIFF-Player (spielt AIFF-Samples direkt von Festplatte)
+  Gem-Mpeg (MPEG Video-Decoder)
+  Aniplayer (sehr guter AVI und Quicktime Movie-Player mit DSP-Soundsupport,ben”tigt Clockmodul)
+- TT-MMU Programm DSP_ROUT.PRG fr den TT spiegelt die DSP-Register in den Falcon Adressbereich
+- komplett berarbeitetes und erweitertes StarTrack Modewatch-Accessory
+- Ab sofort automatische šbernahme der Startmarken von DAT am Digitaleingang m”glich
+  ( nur mit PLD Hardware-Update !) 
+- Fehler in der Speicherverwaltung fhrte zu Problemen unter MagiCMac
+- Zu frhe Fileabfrage in den Accessorys fhrte zu Problemen auf dem Falcon
+ 

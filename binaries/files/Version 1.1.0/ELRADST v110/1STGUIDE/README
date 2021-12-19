@@ -1,0 +1,111 @@
+Installation fr Atari ST(E)/TT:
+--------------------------------
+
+1. Kopieren Sie die Datei 1STGUIDE.ACC in Ihr Boot-Verzeichnis.
+   Falls Sie ber 1st Guide drucken m”chten, muá GDOS installiert
+   sein.
+
+2. Wenn Sie eine Festplatte bzw. bei groáem Arbeitsspeicher eine
+   gengend groáe RAM-Disk besitzen, legen Sie dort einen neuen
+   Ordner an (z.B. "1STGUIDE"), und kopieren Sie den gesamten
+   Disketteninhalt dort hinein (falls nicht schon beim Auspacken
+   geschehen).
+
+3. Starten Sie Ihren Computer neu, klicken im Desk-Men des Desktops
+   den Punkt "1st Guide" an und w„hlen in der darauf erscheinenden
+   Datei-Auswahlbox die Datei "1STGUIDE.HLP" im entsprechenden
+   Datentr„ger/Ordner aus. Dort erhalten Sie weitere Benutzungs-
+   Informationen.
+
+Zus„tzlich  kann  man  in  die [NEW]DESK[TOP].INF-Datei etwa folgende
+Zeile VOR allen anderen Anwendungen einfgen:
+
+#G 03 04 C:\1STGUIDE.ACC@ *.*@
+
+Man  erh„lt  dann  nie mehr die Meldung "Anzeigen/Drucken/Abbrechen".
+Fgt man danach noch die Zeile
+
+#G 03 FF *.AC*@ @
+
+ein,  so  kann	man 1STGUIDE (und bestimmte andere, auch inaktivierte
+Accessories)  direkt  als  Programm  starten.  Alternativ  dazu  kann
+1STGUIDE  auch	in  .PRG,  .APP oder .GTP umbenannt werden, um es als
+Programm zu benutzen.
+
+Auáerdem   finden   Sie   im   Ordner  \TOOLS\1STVIEW  das  Accessory
+1STVIEW.ACC.   Damit   k”nnen	Sie   wie   in	 1st   Guide  Dateien
+verschiedenster     Formate   betrachten,   es	 fehlt	 jedoch   die
+Hypertext-Verzweigungs-M”glichkeit.  Fr  interessierte Programmierer
+habe   ich   dazu  den	kompletten  Quelltext  beigelegt  (im  Ordner
+\TOOLS\QUELLEN).   1st	 Guide	 stellt   im   Grunde  genommen  eine
+Erweiterung dieses Programms dar.
+
+Andererseits   hat  1st  Guide	aber  einen  entscheidenden  Nachteil
+gegenber  1st	View:  Das  schlechte  Gewissen, das Sie plagen wird,
+wenn  Sie 1st Guide regelm„áig benutzen, ohne sich ordnungsgem„á beim
+Autor  registrieren  zu  lassen  (siehe  1STGUIDE.HLP). Bei 1st Guide
+handelt  es  sich n„mlich um Shareware, w„hrend 1st View als Freeware
+zu  betrachten	ist.  Der Inhalt des Ordners \TOOLS\1STVIEW darf auch
+unabh„ngig von 1st Guide weitergegeben werden.
+
+Wer  auf  eine	ansprechende  gedruckte  Anleitung  Wert legt, findet
+auáerdem   die	 Datei	 1STGUIDE.DVI,	 die   mit  einem  TeX-System
+ausgedruckt werden kann.
+
+Sie  k”nnen  1st  Guide  und 1st View auch unter MSDOS-GEM nutzen. Im
+Ordner	\TOOLS\MSDOS  finden Sie die entsprechenden Programme, welche
+aus  der  šbersetzung  der  Quellen mit der MSDOS-Version von Turbo-C
+entstanden     sind    (unter	Nutzung   der	hier   dokumentierten
+GEM-Einbindung).  Die  Installation  ist  „hnlich der ST-Version. Das
+jeweilige  Accessory  ist  in  den  Ordner  \GEMBOOT  (GEM  2.x) bzw.
+\GEMAPPS\GEMBOOT   (GEM   3.x)	 zu   kopieren	 und   man  kann  die
+DESKTOP.INF-Datei  etwa  um  folgende  BEIDEN  Zeilen  erweitern (VOR
+allen anderen Applikationen):
+
+#G0828 E:\PROGRAMM\1STGUIDE\1STGUIDE.APP@ *.*@
+#G0828 *.APP@ @
+
+Achtung!  Im  Gegensatz  zur  ST-Version  kann	das  Accessory	nicht
+einfach  umbenannt werden, um es als Programm zu starten. Man muá die
+jeweilige Programmversion benutzen.
+
+
+	Erkl„rung:
+	----------
+
+1st Guide ist ein Shareware-Programmpaket von:
+
+	Guido Vollbeding
+	Leitergasse 4 / 503
+	D-O-4020 Halle
+
+Fr  irgendwelche  Sch„den,  einschlieálich aber nicht beschr„nkt auf
+materielle  oder  finanzielle,	die  direkt  oder  indirekt durch die
+Benutzung  oder Nichtbenutzung der Programme und/oder Dokumentationen
+oder  Teilen  davon oder durch die Untauglichkeit derselben fr einen
+bestimmten  Zweck  entstehen,  kann  ich, Guido Vollbeding, keinerlei
+Haftung bernehmen.
+
+Eventuelle  hnlichkeiten der vorliegenden Software mit existierenden
+oder  geplanten  Produkten namhafter oder unbekannter Hersteller sind
+nicht beabsichtigt, sondern w„ren rein zuf„llig.
+
+Alle  Rechte  an  den  vorliegenden Programmen liegen beim Autor. Das
+Programmpaket  darf  ausschlieálich  FREI  weitergegeben werden, eine
+kommerzielle  Verbreitung in jeder Form (PD-Sammeldisketten o.„.) ist
+nur  mit meiner schriftlichen Genehmigung gestattet. Zur Zeit ist nur
+der  PD-Service des Atari-Journals von mir zur Weitergabe autorisiert
+(schlieálich  hat sich dieses Blatt auch in der Ausgabe 4/92 zu einem
+Testbericht ber 1st Guide herabgelassen).
+
+Es  mssen  immer ALLE Dateien zusammen und unver„ndert weitergegeben
+werden.  Unsachgem„áe  nderungen  oder Eingriffe sind nicht erlaubt.
+Daher merke:
+
+	Wer 1stGuide-Programme nachmacht oder verf„lscht oder
+	nachgemachte oder verf„lschte 1stGuide-Programme sich
+	verschafft und in Verkehr bringt, wird mit System-Ab-
+	strzen nicht unter 2 Bomben bestraft.
+
+Ansonsten  viel  Spaá  mit  1st  Guide,  und m”ge der Atari immer mit
+Ihnen sein!
