@@ -1,0 +1,124 @@
+                                 St}ckliste
+                                 ==========
+
+
+CAD-System:      Platon
+Platine:         XLR.PLT
+Datum:           17.03.1996
+
+
+Anzahl  Typ/Wert       Bezeichnung    Form                   
+--------------------------------------------------------------------------
+
+    8   22u            C100           SMD-Elektrolyt-Kondensator          
+                       C101                                               
+                       C102                                               
+                       C103                                               
+                       C105                                               
+                       C94                                                
+                       C95                                                
+                       C97                                                
+    4   47n            C104           IEC 1206                            
+                       C5                                                 
+                       C58                                                
+                       C96                                                
+    4   47u            C88            A, RM 16, L, DM 6 (14.5-16mm)       
+                       C89                                                
+                       C90                                                
+                       C91                                                
+    4   100p           C92            IEC 0805                            
+                       C93                                                
+                       C98                                                
+                       C99                                                
+   16   BAS85          D1             SOD 80 / Mini-MELF                  
+                       D2                                                 
+                       D3                                                 
+                       D4                                                 
+                       D5                                                 
+                       D6                                                 
+                       D7                                                 
+                       D8                                                 
+                       D80                                                
+                       D81                                                
+                       D82                                                
+                       D83                                                
+                       D84                                                
+                       D85                                                
+                       D86                                                
+                       D87                                                
+    4   NE5532         IC6                                                
+                       IC80                                               
+                       IC81                                               
+                       IC82                                               
+   10   75             R100           IEC 1206                            
+                       R105                                               
+                       R107                                               
+                       R114                                               
+                       R119                                               
+                       R83                                                
+                       R86                                                
+                       R87                                                
+                       R94                                                
+                       R97                                                
+    8   3K6            R101           IEC 1206                            
+                       R102                                               
+                       R103                                               
+                       R108                                               
+                       R111                                               
+                       R112                                               
+                       R116                                               
+                       R117                                               
+   20   10K            R104           IEC 1206                            
+                       R106                                               
+                       R109                                               
+                       R110                                               
+                       R113                                               
+                       R115                                               
+                       R118                                               
+                       R12                                                
+                       R120                                               
+                       R52                                                
+                       R54                                                
+                       R6                                                 
+                       R84                                                
+                       R85                                                
+                       R88                                                
+                       R89                                                
+                       R95                                                
+                       R96                                                
+                       R98                                                
+                       R99                                                
+   12   0              R11            IEC 1206                            
+                       R29                                                
+                       R30                                                
+                       R37                                                
+                       R38                                                
+                       R39                                                
+                       R40                                                
+                       R5                                                 
+                       R51                                                
+                       R53                                                
+                       R56                                                
+                       R57                                                
+    2   110            R36            IEC 1206                            
+                       R45                                                
+    4   15K            R79            IEC 1206                            
+                       R80                                                
+                       R90                                                
+                       R91                                                
+    4   2K2            R81            IEC 1206                            
+                       R82                                                
+                       R92                                                
+                       R93                                                
+    2   5K             RP1            Sonderbauform                       
+                       RP2                                                
+    4   L-1130 C       TR1            Line-šbertrager                     
+                       TR2                                                
+                       TR3                                                
+                       TR4                                                
+    2   67125450       TR5            Digital-šbertrager,Schott           
+                       TR6                                                
+
+
+--------------------------------------------------------------------------
+

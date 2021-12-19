@@ -1,0 +1,14 @@
+Stephan Wilhelm
+Niehler Str.312
+50735 Kîln
+
+                                                                                   Kîln, den 3.3.96
+
+
+Betreff: Aperture-Tabelle
+-------------------------
+
+Die Aperture-Tabelle gilt fÅr alle meine Platinen, ist aber ein Free-Gerber-Format.
+Daher muû diese Tabelle vorher auf das CAD-System angepaût werden.
+
+

@@ -1,0 +1,59 @@
+Stephan Wilhelm
+Niehler Str.312
+50735 Kîln
+Tel: 0221-7127380
+Fax: 0221-685184
+                
+                                                                                  Kîln,den 15.5.97
+                                                                                  
+                                                                                  
+Betreff: Auftrag DSP56002-Platine,4lagig durch Angebot Nr. 92/97
+----------------------------------------------------------------
+
+Hiermit bestelle ich 100 StÅck Multilayer,4 Lagen, elektrische PrÅfung
+FR4,1.5mm stark, 35u Cu, Lîtstoppmaske beidseitig, durchkontaktiert, rechteckig,
+LeiterbahnstÑrke 0.16mm, Abstand Leiterbahn-Leiterbahn 0.16mm, keine DurchbrÅche,
+471 Bohrungen mit 3 verschiedenen Bohrdurchmessern von 0.3-0.8mm,
+ca. 600 SMD-PrÅfpunkte auf BS, keine SMD-PrÅfpunkte auf LS
+Die Platine hat die Grîûe 60x100mm.
+Die CAD-Platinendaten sind im Gerber-Format im Ordner A:/DSP56002/GERBER
+Die Bohrdaten sind im Sieb&Meyer SM1000-Format im Ordner A:/DSP56002/BOHRDAT incl. der Bohrdaten-Legende.
+
+Die Aperture-Tabelle ist in der Datei STARTRAK.APT und ist die GLEICHE wie fÅr die STARTRACK-Platine.
+
+Ich habe leider das Problem nicht vollstÑndig kompatibler Gerber-Dateien (Programmfehler):
+Bei der Konvertierung meiner Daten fehlen auf den Versorgungs-Innenlagen immer die Leiterbahnen.
+Deshalb habe ich das Gerberfile fÅr die VCC-Innenlage gesplittet.
+Die Datei VCCLINES.DAT beinhaltet die fehlenden Leiterbahnen und Texte fÅr die VCC-Lage
+Diese muû von Hand in das entsprechende Gerberfile VCC_LAY3.DAT
+eingefÅgt werden (vor der Invertierung) !
+Die Lage GND_LAY2.DAT beinhaltet keine Leiterbahnen und sollte daher komplett sein.
+
+Bitte vorher mit den beigefÅgten Ausdrucken kontrollieren bzw. vergleichen !!! 
+
+Achtung! : Die Versorgungsspannungs-Layer GND_LAY2.DAT und VCC_LAY3.DAT mÅssen danach invertiert werden !
+           Eventuell auch die beiden Masken-Layer MASKBEST.DAT und MASKLOET.DAT !
+
+In dieser Reihenfolge von der BestÅckungsseite gesehen in Richtung Lîtseite sind die Layer zu setzen:
+
+
+
+
+Maske BestÅckungsseite: MASKBEST.DAT   normal oder invertieren ?        (CAD jetzt -> schwarz=frei, weiû=Lîtstopp)
+
+BestÅckungsseite:       BESTLAY1.DAT   normal                           (CAD jetzt -> schwarz=leitend, weiû=frei)
+GND-Lage:               GND_LAY2.DAT   invertieren !                    (CAD jetzt -> schwarz=frei, weiû=leitend)
+
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        <-Platine
+
+VCC-Lage:               VCC_LAY3.DAT   invertieren !                    (CAD jetzt -> schwarz=frei, weiû=leitend)
+Lîtseite:               LOETLAY4.DAT   normal                           (CAD jetzt -> schwarz=leitend, weiû=frei)
+
+Maske Lîtseite:         MASKLOET.DAT   normal oder invertieren ?        (CAD jetzt -> schwarz=frei, weiû=Lîtstopp)
+
+
+
+Falls noch RÅckfragen bestehen bitte ich sie, mich unter obiger Telefonnummer anzurufen oder
+auf den Anrufbeantworter zu sprechen. Ich rufe dann umgehend zurÅck.
+
+

@@ -1,0 +1,47 @@
+Stephan Wilhelm
+Niehler Str.312
+50735 Kîln
+                                                                                   Kîln, den 13.5.96
+
+
+Betreff: Auftrag Startrack-Platine,4lagig durch Angebot Nr.: 115/96
+-------------------------------------------------------------------
+
+Hiermit bestelle ich 7 StÅck Multilayer,4 Lagen, elektrische PrÅfung
+FR4,1.5mm stark, 35u Cu, Lîtstoppmaske beidseitig, durchkontaktiert, rechteckig,
+LeiterbahnstÑrke 0.16mm, Abstand Leiterbahn-Leiterbahn 0.16mm, keine DurchbrÅche,
+1057 Bohrungen mit 11 verschiedenen Bohrdurchmessern von 0.3-3mm,
+930 SMD-PrÅfpunkte auf BS, 28 SMD-PrÅfpunkte auf LS
+Die Platine hat die Grîûe 160x100mm.
+Die CAD-Platinendaten sind im Gerber-Format im Ordner A:/STARTRACK
+Die Bohrdaten sind im Sieb&Meyer SM1000-Format im Ordner A:/STARTRAK/BOHRDAT incl. der Bohrdaten-Legende
+
+ 
+
+Achtung! : Die Versorgungsspannungs-Layer GND_LAY2.DAT und VCC_LAY3.DAT mÅssen vorher invertiert werden !
+           Eventuell auch die beiden Masken-Layer MASKBEST.DAT und MASKLOET.DAT !
+
+In dieser Reihenfolge von der BestÅckungsseite gesehen in Richtung Lîtseite sind die Layer zu setzen:
+
+
+
+
+Maske BestÅckungsseite: MASKBEST.DAT   normal oder invertieren ?        (CAD jetzt -> schwarz=frei, weiû=Lîtstopp)
+
+BestÅckungsseite:       BESTLAY1.DAT   normal                           (CAD jetzt -> schwarz=leitend, weiû=frei)
+GND-Lage:               GND_LAY2.DAT   invertieren !                    (CAD jetzt -> schwarz=frei, weiû=leitend)
+
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        <-Platine
+
+VCC-Lage:               VCC_LAY3.DAT   invertieren !                    (CAD jetzt -> schwarz=frei, weiû=leitend)
+Lîtseite:               LOETLAY4.DAT   normal                           (CAD jetzt -> schwarz=leitend, weiû=frei)
+
+Maske Lîtseite:         MASKLOET.DAT   normal oder invertieren ?        (CAD jetzt -> schwarz=frei, weiû=Lîtstopp)
+
+
+
+Falls noch RÅckfragen bestehen bitte ich sie, mich unter obiger Telefonnummer anzurufen oder
+auf den Anrufbeantworter zu sprechen. Ich rufe dann umgehend zurÅck.
+In besonders dringenden FÑllen bin ich auch unter 0172/2977169 (nur DI-FR) zu erreichen.
+
+

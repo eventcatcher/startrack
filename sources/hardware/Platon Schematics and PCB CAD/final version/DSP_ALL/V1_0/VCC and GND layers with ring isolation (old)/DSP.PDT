@@ -1,0 +1,52 @@
+                                 St}ckliste
+                                 ==========
+
+
+CAD-System:      Platon
+Platine:         DSP.PLT
+Datum:           27.02.1996
+
+
+Anzahl  Typ/Wert       Bezeichnung    Form                   
+--------------------------------------------------------------------------
+
+    2   10u            C1             SMD-Elektrolyt-Kondensator          
+                       C7                                                 
+   13   100n           C10            IEC 1206                            
+                       C11                                                
+                       C13                                                
+                       C14                                                
+                       C15                                                
+                       C16                                                
+                       C17                                                
+                       C18                                                
+                       C19                                                
+                       C2                                                 
+                       C20                                                
+                       C3                                                 
+                       C4                                                 
+    1   470p           C12            IEC 0805                            
+    1   BAS85          D1             SOD 80 / Mini-MELF                  
+    3   MCM6206DJ25    IC2            28pol.FLP_N                         
+                       IC3                                                
+                       IC4                                                
+    1   DSP56001       IC6            132pol.PQFP                         
+    1   SMPDSP         IC7            20pol.PLCC                          
+    3   22u            L1             Sonderbauform                       
+                       L2                                                 
+                       L3                                                 
+    1   33MHz          OSC1           SG-636P                             
+    1   DSP-DATA       P1             Steckerleiste 15, einreihig         
+    1   DSP-SEL        P2             16pol. Steckerleiste                
+    3   10K            R1             IEC 1206                            
+                       R4                                                 
+                       R5                                                 
+    2   4K7            R2             IEC 1206                            
+                       R3                                                 
+    2   2K2            R6             IEC 1206                            
+                       R7                                                 
+    1   2K2            RN1            Leiste 7 Pins, 6 Widerst„nden       
+
+
+--------------------------------------------------------------------------
+

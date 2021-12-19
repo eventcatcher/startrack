@@ -1,0 +1,9 @@
+LINE_GND.DAT  -  nur die Leiterbahnen der GND-Lage
+LINE_VCC.DAT  -  nur die Leiterbahnen der VCC-Lage
+
+SMALLGND.DAT  - GND-Lage mit dnneren Leiterbahnen
+SMALLVCC.DAT  - VCC-Lage mit dnneren Leiterbahnen
+
+
+Bitte mit den neuen "STARTRACK"-Dateien zusammenfgen, da dort die Leiterbahnen aus irgendeinem
+merkwrdigen Grund fehlen.

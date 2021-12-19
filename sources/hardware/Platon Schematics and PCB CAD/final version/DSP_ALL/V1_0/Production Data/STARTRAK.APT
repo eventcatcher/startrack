@@ -1,0 +1,108 @@
+                             Aperture-Tabelle
+                             ================
+
+
+CAD-System:      Platon
+Platine:         GBRTRAK.PLT
+Koordinaten:     absolut
+Datum:           09.05.1997
+Code:            ASCII
+Ma~einheit:      1/1000 Zoll
+FÅhrende Nullen: nein
+
+
+D-Code       Typ                Form                   Grî~e (mill)
+--------------------------------------------------------------------------
+
+D10          trace/line         Kreis                  4 
+D11          trace/line         Kreis                  6 
+D12          trace/line         Kreis                  8 
+D13          trace/line         Kreis                  12
+D14          trace/line         Kreis                  20
+D15          trace/line         Kreis                  31
+D16          trace/line         Kreis                  39
+D17          trace/line         Kreis                  59
+D18          trace/line         Kreis                  79
+D19          trace/line         Kreis                  157
+D20          trace/line         Kreis                  197
+D21          flash/pad          Kreis                  20
+D22          flash/pad          Kreis                  24
+D23          flash/pad          Kreis                  28
+D24          flash/pad          Kreis                  31
+D25          flash/pad          Kreis                  35
+D26          flash/pad          Kreis                  39
+D27          flash/pad          Kreis                  43
+D28          flash/pad          Kreis                  47
+D29          flash/pad          Kreis                  50
+D30          flash/pad          Kreis                  55
+D31          flash/pad          Kreis                  59
+D32          flash/pad          Kreis                  63
+D33          flash/pad          Kreis                  67
+D34          flash/pad          Kreis                  71
+D35          flash/pad          Kreis                  75
+D36          flash/pad          Kreis                  79
+D37          flash/pad          Kreis                  87
+D38          flash/pad          Kreis                  94
+D39          flash/pad          Kreis                  102
+D40          flash/pad          Kreis                  110
+D41          flash/pad          Kreis                  118
+D42          flash/pad          Kreis                  157
+D43          flash/pad          Kreis                  197
+D44          flash/pad          Quadrat                20
+D45          flash/pad          Quadrat                24
+D46          flash/pad          Quadrat                28
+D47          flash/pad          Quadrat                31
+D48          flash/pad          Quadrat                35
+D49          flash/pad          Quadrat                39
+D50          flash/pad          Quadrat                43
+D51          flash/pad          Quadrat                47
+D52          flash/pad          Quadrat                50
+D53          flash/pad          Quadrat                55
+D54          flash/pad          Quadrat                59
+D55          flash/pad          Quadrat                63
+D56          flash/pad          Quadrat                67
+D57          flash/pad          Quadrat                71
+D58          flash/pad          Quadrat                75
+D59          flash/pad          Quadrat                79
+D60          flash/pad          Rechteck               16 x 98
+D61          flash/pad          Rechteck               20 x 31
+D62          flash/pad          Rechteck               24 x 79
+D63          flash/pad          Rechteck               39
+D64          flash/pad          Rechteck               39 x 59
+D65          flash/pad          Rechteck               39 x 78
+D66          flash/pad          Rechteck               55 x 71
+D67          flash/pad          Rechteck               55 x 118
+D68          flash/pad          Rechteck               59 x 79
+D69          flash/pad          Rechteck               59 x 102
+D70          flash/pad          Rechteck               59 x 110
+D71          flash/pad          Rechteck               67 x 98
+D72          flash/pad          Rechteck               97 x 312
+D73          flash/pad          Rechteck               98 x 16
+D74          flash/pad          Rechteck               31 x 20
+D75          flash/pad          Rechteck               79 x 24
+D76          flash/pad          Rechteck               59 x 39
+D77          flash/pad          Rechteck               78 x 39
+D78          flash/pad          Rechteck               71 x 55
+D79          flash/pad          Rechteck               118 x 55
+D80          flash/pad          Rechteck               79 x 59
+D81          flash/pad          Rechteck               102 x 59
+D82          flash/pad          Rechteck               110 x 59
+D83          flash/pad          Rechteck               98 x 67
+D84          flash/pad          Rechteck               312 x 97
+D85          flash/pad          Rechteck               20 x 102
+D86          flash/pad          Rechteck               102 x 20
+D87          flash/pad          Rechteck               28 x 83
+D88          flash/pad          Rechteck               83 x 28
+D89          flash/pad          Rechteck               43 x 63
+D90          flash/pad          Rechteck               63 x 43
+D91          flash/pad          Rechteck               62 x 82
+D92          flash/pad          Rechteck               82 x 62 
+D93          flash/pad          Rechteck               63 x 114
+D94          flash/pad          Rechteck               114 x 63
+D95          flash/pad          Rechteck               24 x 35
+D96          flash/pad          Rechteck               35 x 24
+D97          flash/pad          Rechteck               43 x 82
+D98          flash/pad          Rechteck               82 x 43
+
+--------------------------------------------------------------------------
+

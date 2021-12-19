@@ -1,0 +1,33 @@
+Firma Stephan Wilhelm
+Entwicklungsbro fr Hard- und Software
+Niehler Str.312
+50735 K”ln
+Tel & Fax: 0221-7127380
+                
+                                                                                  K”ln,den 8.4.97
+
+
+Betreff: Angebot DSP-Platine,4lagig 
+-----------------------------------
+
+Bitte machen sie mir ein Angebot fr:
+
+  4 Stck Multilayer
+ 60 Stck Multilayer
+100 Stck Multilayer
+
+4 Lagen, elektrische Prfung
+FR4,1.5mm stark, 35u Cu, L”tstoppmaske beidseitig, durchkontaktiert, rechteckig,
+Leiterbahnst„rke 0.16mm, Abstand Leiterbahn-Leiterbahn 0.16mm, keine Durchbrche,
+432 Bohrungen mit 4 verschiedenen Bohrdurchmessern von 0.3-0.8mm,
+573 SMD-Prfpunkte auf BS, keine SMD-Prfpunkte auf LS
+Die Platine hat die Gr”e 60x100mm.
+Die CAD-Platinendaten sind im Gerber-Format
+Die Bohrdaten sind im Sieb&Meyer SM1000-Format
+Die Aperture-Tabelle bleibt die gleiche wie bei der STARTRACK-Platine.
+
+
+Falls noch Rckfragen bestehen bitte ich sie, mich unter obiger Telefonnummer anzurufen oder
+auf den Anrufbeantworter zu sprechen. Ich rufe dann umgehend zurck.
+
+

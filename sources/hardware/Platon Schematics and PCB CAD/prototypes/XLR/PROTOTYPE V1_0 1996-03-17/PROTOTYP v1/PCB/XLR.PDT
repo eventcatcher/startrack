@@ -1,0 +1,90 @@
+                                 St}ckliste
+                                 ==========
+
+
+CAD-System:      Platon
+Platine:         XLR_OLD.PLT
+Datum:           17.03.1996
+
+
+Anzahl  Typ/Wert       Bezeichnung    Form                   
+--------------------------------------------------------------------------
+
+    4   47u            C1             A, RM 16, L, DM 6 (14.5-16mm)       
+                       C15                                                
+                       C16                                                
+                       C2                                                 
+   10   100n           C10            IEC 1206                            
+                       C11                                                
+                       C12                                                
+                       C3                                                 
+                       C4                                                 
+                       C5                                                 
+                       C6                                                 
+                       C7                                                 
+                       C8                                                 
+                       C9                                                 
+    2   12n            C13            IEC 0805                            
+                       C14                                                
+   16   BAS85          D1             SOD 80 / Mini-MELF                  
+                       D10                                                
+                       D11                                                
+                       D12                                                
+                       D13                                                
+                       D14                                                
+                       D15                                                
+                       D16                                                
+                       D2                                                 
+                       D3                                                 
+                       D4                                                 
+                       D5                                                 
+                       D6                                                 
+                       D7                                                 
+                       D8                                                 
+                       D9                                                 
+    1   1N4148         D17            SOD 80 / Mini-MELF                  
+    2   SSM2141        IC1                                                
+                       IC3                                                
+    1   NE5532         IC2                                                
+    2   SSM2142        IC4                                                
+                       IC5                                                
+    1   Emphasis XLR   K1             Takamisawa-Relais 2xUM              
+    2   4K7            R1             IEC 1206                            
+                       R7                                                 
+   12   0              R11            IEC 1206                            
+                       R17                                                
+                       R20                                                
+                       R24                                                
+                       R25                                                
+                       R27                                                
+                       R28                                                
+                       R29                                                
+                       R30                                                
+                       R31                                                
+                       R32                                                
+                       R5                                                 
+    4   10K            R12            IEC 1206                            
+                       R18                                                
+                       R21                                                
+                       R6                                                 
+    2   1K3            R13            IEC 1206                            
+                       R15                                                
+    2   3K3            R14            IEC 1206                            
+                       R16                                                
+    5   1K             R2             IEC 1206                            
+                       R33                                                
+                       R34                                                
+                       R35                                                
+                       R8                                                 
+    2   110            R23            IEC 1206                            
+                       R26                                                
+    4   L-1130 C       TR1            Line-šbertrager                     
+                       TR2                                                
+                       TR3                                                
+                       TR4                                                
+    2   67125450       TR5            Digital-šbertrager,Schott           
+                       TR6                                                
+
+
+--------------------------------------------------------------------------
+

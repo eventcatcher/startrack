@@ -1,0 +1,32 @@
+                                 St}ckliste
+                                 ==========
+
+
+CAD-System:      Platon
+Platine:         DSPTRAK.SPL
+Datum:           16.03.1996
+
+
+Anzahl  Typ/Wert       Bezeichnung    Form                   
+--------------------------------------------------------------------------
+
+    1   BAT85          D1             SCHOTTKY DIODE                      
+    3   MCM 6206_1     IC2                                                
+                       IC3                                                
+                       IC4                                                
+    1   DSP56001       IC6            88pol.PGA DSP56001                  
+    1   GAL 16V8_1     IC7                                                
+    1   Jumper         J1             Jumper 3pol.                        
+    3   10k            R1             Widerstand allg. 1/4 W              
+                       R4                                                 
+                       R5                                                 
+    2   4.7k           R2             Widerstand allg. 1/4 W              
+                       R3                                                 
+    1   2K2            RN1            R-NETZWERK PULLUP 5FACH             
+    1   2.2k           RN2            R-NETZWERK PULLUP 8FACH             
+    1   DSP-DATA       ST1            16pol.einreihige Steckleiste        
+    1   DSP-SEL        ST2            17pol.einreihige Steckleiste        
+
+
+--------------------------------------------------------------------------
+

@@ -1,0 +1,30 @@
+Stephan Wilhelm
+Niehler Str.312
+50735 Kîln
+
+                                                                                   Kîln, den 3.3.96
+
+
+Betreff: Auftrag XLR-Platine,2lagig
+-----------------------------------
+
+
+In dieser Reihenfolge von der BestÅckungsseite gesehen in Richtung Lîtseite sind die Layer zu setzen:
+
+
+Maske BestÅckungsseite: MASKBEST.DAT   normal
+
+BestÅckungsseite:       BESTLAY1.DAT   normal
+
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        <-Platine
+
+Lîtseite:               LOETLAY2.DAT   normal
+
+
+
+Die Platine hat die Grîûe 140x100mm.
+Die Bohrdaten sind im Wessel-CNC-Format.
+
+Falls noch RÅckfragen bestehen bitte ich sie, mich unter obiger Telefonnummer anrufen oder
+auf den Anrufbeantworter sprechen. Ich rufe dann umgehend zurÅck.
+

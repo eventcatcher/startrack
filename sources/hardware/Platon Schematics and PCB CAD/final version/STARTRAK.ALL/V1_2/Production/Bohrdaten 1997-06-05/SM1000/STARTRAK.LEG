@@ -1,0 +1,30 @@
+                             Legende zu Bohrdaten
+                             ====================
+
+
+CAD-System:      Platon
+Platine:         GBRTRAK.PLT
+Datum:           05.06.1997
+
+Koordinaten:     absolut
+Code:            ASCII
+Ma~einheit:      1/25400 Zoll
+FÅhrende Nullen: nein
+Folgende Nullen: nein
+
+
+Werkzeug-Nr.  Durchmesser  Anzahl Bohrungen
+--------------------------------------------------------------------------
+
+   T1          0.30          706                                          
+   T2          0.80          304                                          
+   T3          0.60           74                                          
+   T4          1.40            4                                          
+   T5          1.70           12                                          
+   T6          3.00            5                                          
+   T7          2.80            2                                          
+   T8          1.30            2                                          
+
+
+--------------------------------------------------------------------------
+

@@ -1,0 +1,315 @@
+E(1G                                 St}ckliste
+                                 ==========
+
+
+CAD-System:      Platon
+Platine:         STARTRAK.SPL
+Datum:           11.10.1996
+
+
+Anzahl  Typ/Wert       Bezeichnung    Form                   
+--------------------------------------------------------------------------
+
+    6   Cinch          B1             Cinch-Buchse                        
+                       B2                                                 
+                       B5                                                 
+                       B6                                                 
+                       B7                                                 
+                       B8                                                 
+   11   10n            C1             KONDENSATOR ALLGEMEIN               
+                       C19                                                
+                       C2                                                 
+                       C20                                                
+                       C29                                                
+                       C3                                                 
+                       C35                                                
+                       C37                                                
+                       C4                                                 
+                       C41                                                
+                       C88                                                
+   17   10u            C100           ELEKTROLYTH KONDENSATOR ALLG.       
+                       C102                                               
+                       C104                                               
+                       C11                                                
+                       C135                                               
+                       C137                                               
+                       C139                                               
+                       C141                                               
+                       C144                                               
+                       C145                                               
+                       C22                                                
+                       C28                                                
+                       C69                                                
+                       C70                                                
+                       C76                                                
+                       C77                                                
+                       C98                                                
+   52   47n            C101           KONDENSATOR ALLGEMEIN               
+                       C103                                               
+                       C105                                               
+                       C12                                                
+                       C134                                               
+                       C136                                               
+                       C138                                               
+                       C140                                               
+                       C142                                               
+                       C143                                               
+                       C146                                               
+                       C147                                               
+                       C148                                               
+                       C15                                                
+                       C23                                                
+                       C27                                                
+                       C30                                                
+                       C33                                                
+                       C38                                                
+                       C39                                                
+                       C40                                                
+                       C47                                                
+                       C49                                                
+                       C50                                                
+                       C51                                                
+                       C52                                                
+                       C53                                                
+                       C59                                                
+                       C60                                                
+                       C61                                                
+                       C62                                                
+                       C63                                                
+                       C64                                                
+                       C65                                                
+                       C67                                                
+                       C68                                                
+                       C74                                                
+                       C75                                                
+                       C79                                                
+                       C82                                                
+                       C83                                                
+                       C84                                                
+                       C89                                                
+                       C90                                                
+                       C91                                                
+                       C92                                                
+                       C93                                                
+                       C94                                                
+                       C95                                                
+                       C96                                                
+                       C97                                                
+                       C99                                                
+   25   47p            C106           KONDENSATOR ALLGEMEIN               
+                       C107                                               
+                       C108                                               
+                       C109                                               
+                       C110                                               
+                       C111                                               
+                       C112                                               
+                       C113                                               
+                       C114                                               
+                       C115                                               
+                       C116                                               
+                       C117                                               
+                       C118                                               
+                       C119                                               
+                       C120                                               
+                       C121                                               
+                       C122                                               
+                       C123                                               
+                       C124                                               
+                       C125                                               
+                       C126                                               
+                       C127                                               
+                       C128                                               
+                       C129                                               
+                       C130                                               
+    8   1u             C13            ELEKTROLYTH KONDENSATOR ALLG.       
+                       C14                                                
+                       C24                                                
+                       C26                                                
+                       C31                                                
+                       C32                                                
+                       C44                                                
+                       C48                                                
+    2   12n            C131           KONDENSATOR ALLGEMEIN               
+                       C132                                               
+    6   100n           C133           KONDENSATOR ALLGEMEIN               
+                       C16                                                
+                       C25                                                
+                       C34                                                
+                       C45                                                
+                       C46                                                
+    1   470p           C36            KONDENSATOR ALLGEMEIN               
+    1   39p            C6             KONDENSATOR ALLGEMEIN               
+    1   10p            C7             KONDENSATOR ALLGEMEIN               
+    2   100u           C71            ELEKTROLYTH KONDENSATOR ALLG.       
+                       C73                                                
+    8   BAS85          D1             SCHOTTKY DIODE                      
+                       D2                                                 
+                       D3                                                 
+                       D4                                                 
+                       D5                                                 
+                       D6                                                 
+                       D7                                                 
+                       D8                                                 
+    4   1N 4148_L      D12            Diode                               
+                       D17                                                
+                       D18                                                
+                       D9                                                 
+    4   5V6            D13            ZEHNER DIODE                        
+                       D14                                                
+                       D15                                                
+                       D16                                                
+    1   HCT_04_2       IC10           HEX INVERTER                        
+    1   F_863_1        IC16           9Bit BIDIR BUS TRANSCEIVER          
+    1   NE5532         IC2            Rauscharmer OP                      
+    4   IDT7206        IC21           16K*9-FIFO 32pol.PLCC               
+                       IC23                                               
+                       IC31                                               
+                       IC32                                               
+    2   78L05_X9       IC24           Spannungsregler +5V/100mA           
+                       IC25                                               
+    2   79L05_X9       IC26           Spannungsregler -5V/100mA           
+                       IC27                                               
+    2   ispLSI1016     IC28           44pol. TQFP                         
+                       IC29                                               
+    2   CS3310         IC3            Digital Volume Control              
+                       IC30                                               
+    1   LS_32_2        IC33           ODER-GATTER                         
+    3   TC4S71F        IC34           5pol.1 OR-Gatter-CMOS SMD           
+                       IC35                                               
+                       IC36                                               
+    1   HC_86_2        IC37           EXOR-Gatter                         
+    1   MACH445        IC4            100poliges PQFP                     
+    1   CS5339         IC6            16Bit Stereo A/D                    
+    1   CS4328         IC7            16Bit Stereo D/A                    
+    1   CS8412         IC8            Opto Receiver                       
+    1   CS8402A        IC9            Opto Transmitter                    
+    1   Jumper INT     J1             Jumper 3x2                          
+    1   EXINCLK        J10            Jumper 3pol.                        
+    1   VCC-DIGIN      J11            Jumper 3pol.                        
+    1   Jumper LHINT   J2             Jumper 3pol.                        
+    1   Jumper VOL2    J3             Jumper 2x2                          
+    1   DUALPLAY       J4             Jumper 3pol.                        
+    1   Jumper PHF     J5             Jumper 3pol.                        
+    1   Jumper PFF     J6             Jumper 3pol.                        
+    1   DUALREC        J7             Jumper 3pol.                        
+    1   Jumper RHF     J8             Jumper 3pol.                        
+    1   Jumper REF     J9             Jumper 3pol.                        
+    1   Relais 1xUM    K1             SMD-Relais 1xUM Siemens             
+    2   Relais 2xUM    K2             Takamisawa Relais 2xUM/5V           
+                       K3                                                 
+    2   15uH           L1             Spule, allgemein                    
+                       L4                                                 
+    6   D„mpfungsperle L10            Spule, allgemein                    
+                       L11                                                
+                       L12                                                
+                       L13                                                
+                       L14                                                
+                       L9                                                 
+    6   47uH           L2             Spule, allgemein                    
+                       L3                                                 
+                       L5                                                 
+                       L6                                                 
+                       L7                                                 
+                       L8                                                 
+    1   TOTX173        OC1            Optokoppler Sender                  
+    1   TORX173        OC2            Optokoppler Empf„nger               
+    1   40MHz          OSC1           SG636P-Quarzoszillator              
+    1   24.576MHz      OSC2           SG636P-Quarzoszillator              
+    1   16.9344MHz     OSC3           SG636P-Quarzoszillator              
+    1   isp-Prog       P1             8pol. einreihige Steckleiste        
+    1   DSP-DATA       P3             17pol.einreihige Steckleiste        
+    1   DSP-SEL        P4             17pol.einreihige Steckleiste        
+    1   VME-Bus        P5             96pol. male DIN41612                
+    1   JTAG           P6             JTAG-CONNECTOR 10pol.male           
+    1   DSPHDATA       P7             8pol.einreihige Steckleiste         
+    1   DSPHADR        P8             6pol.einreihige Steckleiste         
+    1   16.9344MHz     Q1             QK032-Quarzr”hrchen                 
+   12   0              R101           Widerstand allg. 1/4 W              
+                       R102                                               
+                       R103                                               
+                       R104                                               
+                       R105                                               
+                       R114                                               
+                       R115                                               
+                       R117                                               
+                       R118                                               
+                       R120                                               
+                       R122                                               
+                       R19                                                
+    3   100            R106           Widerstand allg. 1/4 W              
+                       R109                                               
+                       R25                                                
+    2   1K             R107           Metallfilm widerstand 1/4 W         
+                       R108                                               
+    2   75             R110           Widerstand allg. 1/4 W              
+                       R28                                                
+    1   270            R111           Widerstand allg. 1/4 W              
+    3   10             R112           Widerstand allg. 1/4 W              
+                       R113                                               
+                       R34                                                
+    9   1K             R119           Widerstand allg. 1/4 W              
+                       R121                                               
+                       R15                                                
+                       R29                                                
+                       R36                                                
+                       R67                                                
+                       R68                                                
+                       R69                                                
+                       R70                                                
+    1   4M7            R17            Widerstand allg. 1/4 W              
+    1   220            R18            Widerstand allg. 1/4 W              
+    7   51             R21            Metallfilm widerstand 1/4 W         
+                       R22                                                
+                       R23                                                
+                       R60                                                
+                       R61                                                
+                       R62                                                
+                       R63                                                
+    1   360            R24            Widerstand allg. 1/4 W              
+    1   8K2            R26            Widerstand allg. 1/4 W              
+    1   3K9            R27            Widerstand allg. 1/4 W              
+   25   47             R30            Widerstand allg. 1/4 W              
+                       R32                                                
+                       R33                                                
+                       R35                                                
+                       R74                                                
+                       R75                                                
+                       R76                                                
+                       R77                                                
+                       R78                                                
+                       R79                                                
+                       R80                                                
+                       R81                                                
+                       R82                                                
+                       R83                                                
+                       R84                                                
+                       R85                                                
+                       R86                                                
+                       R87                                                
+                       R88                                                
+                       R89                                                
+                       R90                                                
+                       R91                                                
+                       R92                                                
+                       R93                                                
+                       R94                                                
+    5   12K            R37            Widerstand allg. 1/4 W              
+                       R38                                                
+                       R39                                                
+                       R40                                                
+                       R66                                                
+    2   2K             R52            Metallfilm widerstand 1/4 W         
+                       R57                                                
+    2   3K3            R58            Metallfilm widerstand 1/4 W         
+                       R59                                                
+    2   100            R64            Metallfilm widerstand 1/4 W         
+                       R65                                                
+    1   1K*9           RN1            R-NETZWERK PULLUP 9FACH             
+    1   2K2*7          RN2            R-NETZWERK PULLUP 7FACH             
+    1   15/5 Wind.     TR1            Digital Clock-šbertrager            
+    2   Schott         TR2            šbertrager AES/EBU                  
+                       TR3                                                
+
+
+--------------------------------------------------------------------------
+E

@@ -1,0 +1,102 @@
+                                 StÅckliste
+                                 ==========
+
+
+CAD-System:      Platon
+Platine:         DSPBUILD.PLT
+Datum:           21.05.1997
+
+
+X = nicht bestÅcken
+
+
+Anzahl  Typ/Wert       Bezeichnung    Form                   
+--------------------------------------------------------------------------
+
+    6   68R            R19            IEC 0805                            
+                       R20                                                
+                       R21                                                
+                       R22                                                
+                       R23                                                
+                       R24                                                
+    1   470R           R2             IEC 1206                            
+   16   1K             R1             IEC 1206                            
+                       R11                                                
+                       R12                                                
+                       R13                                                
+                       R14                                                
+                       R15                                                
+                       R16                                                
+                       R17                                                
+                       R18                                                
+                       R26                                                
+                       R27                                                
+                       R3                                                 
+                       R5                                                 
+                       R6                                                 
+                       R7                                                 
+                       R8                                                 
+    1   12K            R25            IEC 1206                            
+    1   680K           R4             IEC 1206                            
+X   2   1K             RN1            Leiste 10 Pins, 9 WiderstÑnde       
+X                      RN2                                                
+    2   27p            C22            IEC 0805                            
+                       C23                                                
+    1   8.2n           C21            IEC 0805                            
+    1   10n            C60            IEC 0805                            
+   24   47n            C1             IEC 1206                            
+                       C10                                                
+                       C11                                                
+                       C12                                                
+                       C13                                                
+                       C14                                                
+                       C15                                                
+                       C16                                                
+                       C2                                                 
+                       C3                                                 
+                       C4                                                 
+                       C5                                                 
+                       C52                                                
+                       C53                                                
+                       C54                                                
+                       C55                                                
+                       C56                                                
+                       C57                                                
+                       C58                                                
+                       C59                                                
+                       C6                                                 
+                       C7                                                 
+                       C8                                                 
+                       C9                                                 
+    4   1u             C48            SMD-Elektrolyt-Kondensator          
+                       C49                                                
+                       C50                                                
+                       C51                                                
+X   1   rot            D1             LED,3mm                                    
+X   1   grÅn           D2             LED,3mm                                    
+    1   4066           IC10           14pol. SMT                                    
+    1   74HCT04        IC11           14pol. SMT                                    
+    1   74HCT14        IC12           14pol. SMT                                    
+    3   PDM41024LA12   IC13           32pol. SMT-Memory 300mil      
+                       IC14                                               
+                       IC15                                               
+    1   XC705K1CDW     IC17           16pol. SMT                     
+    1   MAX232         IC18           16pol. SMT                          
+    1   74F373         IC21           20pol. SMT                                    
+    1   74F245         IC22           20pol. SMT                                    
+    1   GAL16V8H       IC23           20pol. PLCC                                    
+    1   DSP56002FC66   IC6            132pol.PQFP                         
+    1   ISP1016-60LT   IC7            44pol.TQFP                          
+    1   ISP1016-60LT   IC8            44pol.TQFP                          
+X   1   66MHz          OSC1           SG-636P                             
+X   1   DSP-SEL        P2             18pol.einreihige Steckleiste        
+X   1   DSPHA          P3             6pol.Steckerleiste                  
+X   1   DSP-PORT       P4             26pol.Stecker,zweireihig            
+X   1   ONCE           P5             10pol. 2reihige Pfostenleiste       
+X   1   Steckerleiste  P6             8pol.Steckerleiste                  
+X   1   ISP-PROG       P7             8pol.Steckerleiste                  
+X   1   DSP-DATA       P8             17pol.Steckerleiste                 
+X   1   4.00 MHz       Q1             Quarzrîhrchen CA301                 
+
+
+--------------------------------------------------------------------------

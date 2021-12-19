@@ -1,0 +1,30 @@
+                             Legende zu Bohrdaten
+                             ====================
+
+
+CAD-System:      Platon
+Platine:         XLR.PLT
+Datum:           17.03.1996
+
+Koordinaten:     absolut
+Code:            ASCII
+Ma~einheit:      1/2540 Zoll
+FÅhrende Nullen: nein
+Folgende Nullen: nein
+
+
+Werkzeug-Nr.  Durchmesser  Anzahl Bohrungen
+--------------------------------------------------------------------------
+
+   T0          0.30           42                                          
+   T1          1.00           32                                          
+   T2          3.00            3                                          
+   T3          0.80           18                                          
+   T4          2.50            2                                          
+   T5          0.90           36                                          
+   T6          0.60           40                                          
+   T7          1.30            8                                          
+
+
+--------------------------------------------------------------------------
+

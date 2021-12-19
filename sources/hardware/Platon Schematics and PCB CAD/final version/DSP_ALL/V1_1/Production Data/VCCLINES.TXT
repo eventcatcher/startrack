@@ -1,0 +1,6 @@
+VCCLINES.DAT  -  nur die Leiterbahnen und Texte der VCC-Lage
+
+
+Geh”rt zur Gerber-Datei "VCC_LAY3.DAT". Bitte mit dieser zusammenfgen, und dann invertieren !
+Die Leiterbahnen dienen der Abgrenzung (Blockbildung) fr die verschiedenen
+Betriebsspannungen.

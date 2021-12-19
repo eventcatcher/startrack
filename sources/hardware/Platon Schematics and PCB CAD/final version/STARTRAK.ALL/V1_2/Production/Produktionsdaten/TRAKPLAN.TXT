@@ -1,0 +1,196 @@
+                                 StÅckliste
+                                 ==========
+
+
+CAD-System:      Platon
+Platine:         TRAKPLAN.DAT
+Datum:           19.06.1997
+
+
+
+
+Anzahl  Typ/Wert       Bezeichnung    Form                   
+--------------------------------------------------------------------------
+
+    6   0R             R101           IEC 1206,5% (gegurtet)                           
+                       R102                                               
+                       R103                                               
+                       R104                                               
+                       R105                                               
+                       R19                                                
+    3   10R            R112           IEC 1206,5%                            
+                       R113                                               
+                       R34                                                
+   13   47R            R30            IEC 1206,5% (gegurtet)                            
+                       R32                                                
+                       R33                                                
+                       R35                                                
+                       R74                                                
+                       R75                                                
+                       R76                                                
+                       R77                                                
+                       R78                                                
+                       R79                                                
+                       R80                                                
+                       R89                                                
+                       R91                                                
+    7   51R            R21            IEC 1206,1%                            
+                       R22                                                
+                       R23                                                
+                       R60                                                
+                       R61                                                
+                       R62                                                
+                       R63                                                
+    2   75R            R110           IEC 1206,1%                            
+                       R28                                                
+    6   100R           R106           IEC 1206,1%                            
+                       R109                                               
+                       R25                                                
+                       R29                                                
+                       R64                                                
+                       R65                                                
+    1   220R           R18            IEC 1206,5%                            
+    1   270R           R111           IEC 1206,1%                            
+    1   360R           R24            IEC 1206,1%                            
+    2   1K             R107           IEC 1206,1%                            
+                       R108                                               
+    7   1K             R121           IEC 1206,5% (gegurtet)                                    
+                       R15                                                
+                       R36                                                
+                       R67                                                
+                       R68                                                
+                       R69                                                
+                       R70                                                
+    2   2K             R52            IEC 1206,1%                            
+                       R57                                                
+    2   3K3            R58            IEC 1206,1%                            
+                       R59                                                
+    1   4K7            R27            IEC 1206,5%                            
+    1   8K2            R26            IEC 1206,1%                            
+    1   12K            R66            IEC 1206,5%                                    
+    1   4M7            R17            IEC 1206,5%                            
+    1   10p            C7             IEC 0805                            
+    1   39p            C6             IEC 0805                            
+   10   10n            C1             IEC 0805 (gegurtet)                           
+                       C19                                                
+                       C2                                                 
+                       C20                                                
+                       C29                                                
+                       C3                                                 
+                       C35                                                
+                       C37                                                
+                       C4                                                 
+                       C88                                                
+    2   12n            C131           IEC 0805                            
+                       C132                                               
+   50   47n            C101           IEC 1206 (gegurtet)                           
+                       C103                                               
+                       C105                                               
+                       C12                                                
+                       C134                                               
+                       C136                                               
+                       C138                                               
+                       C140                                               
+                       C142                                               
+                       C143                                               
+                       C148                                               
+                       C15                                                
+                       C23                                                
+                       C27                                                
+                       C30                                                
+                       C33                                                
+                       C38                                                
+                       C39                                                
+                       C40                                                
+                       C47                                                
+                       C49                                                
+                       C50                                                
+                       C51                                                
+                       C52                                                
+                       C53                                                
+                       C59                                                
+                       C60                                                
+                       C61                                                
+                       C62                                                
+                       C63                                                
+                       C64                                                
+                       C65                                                
+                       C67                                                
+                       C68                                                
+                       C74                                                
+                       C75                                                
+                       C79                                                
+                       C82                                                
+                       C83                                                
+                       C84                                                
+                       C89                                                
+                       C90                                                
+                       C91                                                
+                       C92                                                
+                       C93                                                
+                       C94                                                
+                       C95                                                
+                       C96                                                
+                       C97                                                
+                       C99                                                
+    6   100n           C133           IEC 1206                            
+                       C16                                                
+                       C25                                                
+                       C34                                                
+                       C45                                                
+                       C46                                                
+    8   1u             C13            SMD-Elektrolyt-Kondensator (gegurtet)         
+                       C14                                                
+                       C24                                                
+                       C26                                                
+                       C31                                                
+                       C32                                                
+                       C44                                                
+                       C48                                                
+    9   10u            C11            SMD-Elektrolyt-Kondensator (gegurtet)         
+                       C135                                               
+                       C137                                               
+                       C139                                               
+                       C141                                               
+                       C144                                               
+                       C145                                               
+                       C22                                                
+                       C28                                                
+   12   1N4148         D1             SOD 80 / Mini-MELF (gegurtet)                 
+                       D2                                                 
+                       D3                                                 
+                       D4                                                 
+                       D5                                                 
+                       D6                                                 
+                       D7                                                 
+                       D8                                                 
+                       D9                                                 
+                       D12                                                
+                       D17                                                
+                       D18                                                
+    4   5V6            D13            SOD 80 / Mini-MELF (gegurtet)                 
+                       D14                                                
+                       D15                                                
+                       D16                                                
+    4   TC4S71F        IC34           5pol.1 OR-Gatter-CMOS SMD (gegurtet)          
+                       IC35                                               
+                       IC36                                               
+                       IC38                                               
+    1   74HCT04        IC10           14pol.FLP_N                         
+    1   74HC86         IC37           14pol.FLP_N                         
+    2   IDT7206J       IC21           32pol.PLCC                          
+                       IC23                                               
+    2   ispLSI1016-60  IC28           44pol.TQFP                          
+                       IC29                                               
+    1   MACH445-15     IC4            TQFP100                             
+    1   CS3310,VOL1    IC3            16pol.FLP_W                         
+    1   CS3310,VOL2    IC30           16pol.FLP_W                         
+    1   CS5339         IC6            28pol.FLP_W                         
+    1   CS4328         IC7            28pol.FLP_W                         
+    1   CS8412         IC8            28pol.FLP_W                         
+    1   CS8402A        IC9            24pol.FLP_W                         
+    1   40MHz          OSC1           SG-636P (gegurtet)                            
+    1   24.576MHz      OSC2           SG-636P (gegurtet)                            
+    1   DIGIN          K1             Siemens SMD-Relais V23026           
+
+--------------------------------------------------------------------------

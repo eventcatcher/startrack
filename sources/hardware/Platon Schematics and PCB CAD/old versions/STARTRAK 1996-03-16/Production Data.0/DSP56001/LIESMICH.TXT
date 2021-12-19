@@ -1,0 +1,38 @@
+Stephan Wilhelm
+Niehler Str.312
+50735 Kîln
+
+                                                                                   Kîln, den 3.3.96
+
+
+Betreff: Auftrag DSP-Platine,4lagig
+-----------------------------------
+
+
+Die Versorgungsspannungs-Layer GND_LAY2.DAT und VCC_LAY3.DAT mÅssen vorher invertiert werden !
+
+In dieser Reihenfolge von der BestÅckungsseite gesehen in Richtung Lîtseite sind die Layer zu setzen:
+
+
+
+
+Maske BestÅckungsseite: MASKBEST.DAT   normal
+
+BestÅckungsseite:       BESTLAY1.DAT   normal
+GND-Lage:               GND_LAY2.DAT   invertieren !
+
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        <-Platine
+
+VCC-Lage:               VCC_LAY3.DAT   invertieren !
+Lîtseite:               LOETLAY4.DAT   normal
+
+Maske Lîtseite:         MASKLOET.DAT   normal
+
+
+
+Die Platine hat die Grîûe 50x100mm.
+Die Bohrdaten sind im Wessel-CNC-Format.
+
+Falls noch RÅckfragen bestehen bitte ich sie, mich unter obiger Telefonnummer anrufen oder
+auf den Anrufbeantworter sprechen. Ich rufe dann umgehend zurÅck.
+
