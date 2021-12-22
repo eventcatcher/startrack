@@ -1,0 +1,718 @@
+PALASM 4 v1.5 MACH FITR - MARKET RELEASE (7-24-92)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1990,91,92
+
+ 
+Reading User Design (TRE File)...
+ 
+Reading Device Database ...
+
+**********************************************************************************************
+     Mach PLD Fitter - v 1.67          SMPSEL.PDS - 16Bit-Soundsampler - Adressdekodierung
+**********************************************************************************************
+
+PAIR Analysis...
+
+Pre-Placement & Equation Usage Checks... 
+ 
+|> WARNING F210 - Design contains both floating & fixed placements.  
+
+
+|> WARNING F138 - Clock signal(s) connected by PT logic: 
+          TIME1          TIME2
+
+
+
+
+*** Timing Analysis for Signals
+
+ Parameter   Min   Max           Signal List (Those having Max delay.)
+      Tpd     1     2                 D3              D0              D2 
+                                      D1         TIMERST           DTACK 
+      Tsu     2     3              TIME2           TIME1 
+      Tco     0     1            TIMECLK           DTACK 
+      Tcr     1     2              TIME1 
+.
+
+ Key:
+ Tpd - Combinatorial propagation delay, input to output
+ Tsu - Combinatorial setup delay before clock
+ Tco - clock to output (register output to combinatorial output)
+ Tcr - Clock to register setup delay
+.......(Register output thru combinatorial logic to reg input)
+ All delay values are expressed in terms of array passes
+
+
+
+
+*** Device Resource Checks
+
+                Available        Used        Remaining
+        Clocks:     2              0              2
+          Pins:    38             38              0     ->   100%
+     I/O Macro:    32             12             20
+   Total Macro:    64             17             47
+ Product Terms:   128             24             60     ->    52%
+ 
+MACH-PLD Resource Checks OK!  
+
+
+
+Partitioning Design into Blocks...
+
+|> ERROR F740 - Resource violation in preplacement: (Array inputs) - Block A
+
+
+|> ERROR F740 - Resource violation in preplacement: (Product Terms) - Block A
+
+
+|> ERROR F740 - Resource violation in preplacement: (IO Pins) - Block A
+
+
+*** Last Equations Placed in Blocks
+
+Weakly -           TIME2           TIME1         TIMERST         TIMECLK 
+Assign - |> INFORMATION F085 - Intermediate Error Count: 3, Warning Count: 2
+|> INFORMATION F075 - Redo Partitioning with Max Packing Flag=True 
+
+*** Last Equations Placed in Blocks
+
+Weakly -           TIME2           TIME1         TIMERST         TIMECLK 
+Assign - 
+
+
+|> INFORMATION F050 - Device Utilization.............. *: 73 %
+
+
+
+*** Block Partitioning Results
+
+               Array   Product     # I/O    Buried    Signal    Macros
+              Inputs    Terms      Macro     Logic    Fanout    Remain
+   Block-> A    22*       32*        7         1         3         8
+   Block-> B     6        12         1         2         3        13
+   Block-> C    19        12         2         1         2        13
+   Block-> D    14        12         2         1         3        13
+
+
+
+*** Block Signal List
+
+Blk-> A         MACHCS 13          SMPWR 14        MACHCSH 14          SMPRD 14
+                DSPREG 14        MACHCSL 14             D2  7             D1  7
+
+Blk-> B        TIMECLK  3          TIME2  2          DTACK  3
+
+Blk-> C        TIMERST  1          DSPCS 12             D0  7
+
+Blk-> D          TIME1  1             D3  4          DRVCS 10
+
+
+
+*** Block Input List
+
+Blk-> A            A10  6            AM4  6            A11  6             A5  2
+                   DS0  8           IACK  6             RW  6            A15  6
+                    A9  6             A6  7          AESF0  1         AESEM1  1
+                AESEM2  1         AESC25  1            A12  6            A13  6
+                   A14  6        WRFFLAG  1             A8  6             A7  6
+               RDHFLAG  1         MACHCS  2
+
+Singular:          AESF0{             D2}         AESEM1{             D1}
+                  AESEM2{             D2}         AESC25{             D1}
+                 WRFFLAG{             D2}        RDHFLAG{             D1}
+         
+
+Blk-> B            DS0  1         SYSCLK  1          DRVCS  1        TIMERST  1
+                 TIME1  2          TIME2  2
+
+Singular:            DS0{          DTACK}         SYSCLK{        TIMECLK}
+                   DRVCS{          DTACK}        TIMERST{          TIME2}
+         
+
+Blk-> C            A10  1            AM4  1            A11  1             A5  1
+                   DS0  2           IACK  1            A15  1             A9  1
+                    A6  1         AESEM0  1         AESC24  1            A12  1
+                   A13  1            A14  1             A8  1             A7  1
+               RDEFLAG  1          DRVCS  1         MACHCS  1
+
+Singular:            A10{          DSPCS}            AM4{          DSPCS}
+                     A11{          DSPCS}             A5{             D0}
+                    IACK{          DSPCS}            A15{          DSPCS}
+                      A9{          DSPCS}             A6{             D0}
+                  AESEM0{             D0}         AESC24{             D0}
+                     A12{          DSPCS}            A13{          DSPCS}
+                     A14{          DSPCS}             A8{          DSPCS}
+                      A7{          DSPCS}        RDEFLAG{             D0}
+                   DRVCS{        TIMERST}         MACHCS{             D0}
+         
+
+Blk-> D        WRHFLAG  1            A10  1            AM4  1            A11  1
+                   DS0  2           IACK  1            A15  1             A9  1
+                    A6  1            A12  1            A13  1            A14  1
+                MACHCS  1        TIMERST  1
+
+Singular:        WRHFLAG{             D3}            A10{          DRVCS}
+                     AM4{          DRVCS}            A11{          DRVCS}
+                    IACK{          DRVCS}            A15{          DRVCS}
+                      A9{          DRVCS}             A6{             D3}
+                     A12{          DRVCS}            A13{          DRVCS}
+                     A14{          DRVCS}         MACHCS{             D3}
+                 TIMERST{          TIME1}
+
+
+|> INFORMATION F070 - Multiple Assignment Mode - Repeat Count: 4
+Assigning Resources...
+
+
+Flags Used:             Unplace=False        Max Packing=True 
+Flags Used:        Expand Small=False         Expand All=False
+
+
+
+*** Macro Block Inputs
+
+            A10 (I  0) -> (A  2) (C  2) (D  2)
+            AM4 (I  1) -> (A  0) (C  0) (D  0)
+            A11 (I  2) -> (A  1) (C  1) (D  1)
+            A12 (I  3) -> (A  3) (C  3) (D  3)
+            A13 (I  4) -> (A  4) (C  4) (D  4)
+            A14 (I  5) -> (A  5) (C  5) (D  5)
+
+
+
+*** Macro Block A
+
+             D1 (A  0)
+             D2 (A  2)
+        MACHCSL (A  4)
+         DSPREG (A  6)
+          SMPRD (A  8)
+        MACHCSH (A 10)
+          SMPWR (A 12)
+
+ Buried Logic>          MACHCS
+      Targets>  14( 9)
+
+         MACHCS (A 14) -> (A  8) (C  8) (D  8)
+
+
+
+*** Macro Block B
+
+          DTACK (B  0)
+
+ Buried Logic>           TIME2         TIMECLK
+      Targets>   2(20)   3(na)   5(na)   7(na)   9(na)  11(na)  13(na)
+
+
+|> ERROR F610 - Product Term distribution - No feasible solution! TIMECLK 4
+
+          TIME2 (B  2) -> (B  3)
+        TIMECLK (B  3) -> (B  7) (D  7)
+
+
+
+*** Macro Block D
+
+             D3 (D  0)
+          DRVCS (D  2) -> (B  8) (C 10)
+
+ Buried Logic>           TIME1
+      Targets>   4(41)   5(na)   7(na)   9(na)  11(na)  13(na)
+
+     * Retry Mapping
+
+|> ERROR F610 - Product Term distribution - No feasible solution! TIME1 4
+
+          TIME1 (D 13) -> (B  5)
+
+
+
+*** Macro Block C
+
+             D0 (C  0)
+          DSPCS (C  2)
+
+ Buried Logic>         TIMERST
+      Targets>   4(26)   5(na)   7(na)   9(na)  11(na)  13(na)
+
+        TIMERST (C  4) -> (B  0) (D 12)
+
+             A6 (B  2) -> (A 18) (C 18) (D 18)
+             A9 (B  4) -> (A 14) (C 14) (D 14)
+          AESF0 (C  4) -> (A 11)
+        RDEFLAG (D  4) -> (C 20)
+            A15 (B  6) -> (A  6) (C  6) (D  6)
+         AESEM0 (C  6) -> (C  9)
+        RDHFLAG (D  6) -> (A 21)
+             RW (B  8) -> (A  7)
+         AESEM1 (C  8) -> (A 10)
+         SYSCLK (D  8) -> (B  2)
+           IACK (B 10)?
+             A7 (D 10) -> (A 12) (C 12)
+         AESC24 (C 10) -> (C 17)
+            DS0 (B 12) -> (A  9) (B  9) (C 15) (D  9)
+             A8 (D 12) -> (A 13) (C 13)
+         AESEM2 (C 12) -> (A 20)
+             A5 (B 14)?
+         AESC25 (C 14) -> (A 19)
+        WRFFLAG (D 14) -> (A 17)
+        WRHFLAG (A 14) -> (D 21)
+           IACK (B 10) ->   Blocked -> Reshuffling SwMtrx
+         AESEM1 -> (A 16)    Moved. -> Reshuffling SwMtrx
+            A10 -> (A 10)    Moved. -> Reshuffling SwMtrx
+             A6 -> (A  2)    Moved. -> Reshuffling SwMtrx
+         AESEM2 -> (A 18)    Moved. -> Reshuffling SwMtrx
+            A15 -> (A 20)    Moved. -> Reshuffling SwMtrx
+            A12 -> (A  6)    Moved. -> Reshuffling SwMtrx
+             A7 -> (A  3)    Moved. -> Reshuffling SwMtrx
+            DS0 -> (A 12)    Moved. -> Reshuffling SwMtrx
+            A11 -> (A  9)    Moved. -> Reshuffling SwMtrx
+         MACHCS -> (A  1)    Moved.
+           IACK -> (A  8) (C 11) (D 11)
+             A5 (B 14) ->   Blocked -> Reshuffling SwMtrx
+            DS0 -> (A 15)    Moved. -> Reshuffling SwMtrx
+             A7 -> (A 12)    Moved. -> Reshuffling SwMtrx
+            A12 -> (A  3)    Moved. -> Reshuffling SwMtrx
+            A15 -> (A  6)    Moved. -> Reshuffling SwMtrx
+         AESEM2 -> (A 20)    Moved. -> Reshuffling SwMtrx
+             A6 -> (A 18)    Moved. -> Reshuffling SwMtrx
+            A10 -> (A  2)    Moved.
+             A5 -> (A 10)   Blocked -> Reshuffling SwMtrx
+            AM4 -> (C 16)    Moved. -> Reshuffling SwMtrx
+        RDEFLAG -> (C  0)    Moved. -> Reshuffling SwMtrx
+            A15 -> (C 20)    Moved. -> Reshuffling SwMtrx
+            A12 -> (C  6)    Moved. -> Reshuffling SwMtrx
+             A7 -> (C  3)    Moved. -> Reshuffling SwMtrx
+            DS0 -> (C 12)    Moved. -> Reshuffling SwMtrx
+         AESEM0 -> (C 15)    Moved. -> Reshuffling SwMtrx
+            A11 -> (C  9)    Moved. -> Reshuffling SwMtrx
+         MACHCS -> (C  1)    Moved. -> Reshuffling SwMtrx
+          DRVCS -> (C  8)    Moved.
+             A5 -> (C 10)
+
+
+
+
+
+Wiring Completion:   94% -> (  5 nc)
+
+*** Physical Signal Placements
+
+             D1  (A  0)              D2  (A  2)         MACHCSL  (A  4) 
+         DSPREG  (A  6)           SMPRD  (A  8)         MACHCSH  (A 10) 
+          SMPWR  (A 12)         WRHFLAG  (A 14)             A10  (I  0) 
+            AM4  (I  1)             A11  (I  2)              A5  (B 14) 
+            DS0  (B 12)            IACK  (B 10)              RW  (B  8) 
+            A15  (B  6)              A9  (B  4)              A6  (B  2) 
+          DTACK  (B  0)              D0  (C  0)           DSPCS  (C  2) 
+          AESF0  (C  4)          AESEM0  (C  6)          AESEM1  (C  8) 
+         AESC24  (C 10)          AESEM2  (C 12)          AESC25  (C 14) 
+            A12  (I  3)             A13  (I  4)             A14  (I  5) 
+        WRFFLAG  (D 14)              A8  (D 12)              A7  (D 10) 
+         SYSCLK  (D  8)         RDHFLAG  (D  6)         RDEFLAG  (D  4) 
+          DRVCS  (D  2)              D3  (D  0)          MACHCS  (A 14) 
+        TIMECLK  (B  3)         TIMERST  (C  4)           TIME1  (D 13) 
+          TIME2  (B  2) Assigning Resources...
+|> INFORMATION F085 - Intermediate Error Count: 2, Warning Count: 2
+
+
+Flags Used:             Unplace=False        Max Packing=True 
+Flags Used:        Expand Small=True          Expand All=False
+
+
+
+*** Macro Block Inputs
+
+            A10 (I  0) -> (A  2) (C  2) (D  2)
+            AM4 (I  1) -> (A  0) (C  0) (D  0)
+            A11 (I  2) -> (A  1) (C  1) (D  1)
+            A12 (I  3) -> (A  3) (C  3) (D  3)
+            A13 (I  4) -> (A  4) (C  4) (D  4)
+            A14 (I  5) -> (A  5) (C  5) (D  5)
+
+
+
+*** Macro Block A
+
+             D1 (A  0)
+             D2 (A  2)
+        MACHCSL (A  4)
+         DSPREG (A  6)
+          SMPRD (A  8)
+        MACHCSH (A 10)
+          SMPWR (A 12)
+
+ Buried Logic>          MACHCS
+      Targets>  14( 9)
+
+         MACHCS (A 14) -> (A  8) (C  8) (D  8)
+
+
+
+*** Macro Block B
+
+          DTACK (B  0)
+
+ Buried Logic>         TIMECLK           TIME2
+      Targets>   2(20)   4(19)   6(18)   8(17)  10(16)  12(15)  14(14)
+
+        TIMECLK (B  2) -> (B  3) (D  6)
+          TIME2 (B  4) -> (B  8)
+
+
+
+*** Macro Block D
+
+             D3 (D  0)
+          DRVCS (D  2) -> (B 10) (C 10)
+
+ Buried Logic>           TIME1
+      Targets>   4(41)   6(40)   8(39)  10(38)  12(37)  14(36)
+
+          TIME1 (D  4) -> (B 13)
+
+
+
+*** Macro Block C
+
+             D0 (C  0)
+          DSPCS (C  2)
+
+ Buried Logic>         TIMERST
+      Targets>   4(26)   6(27)   8(28)  10(29)  12(30)  14(31)
+
+        TIMERST (C  4) -> (B  0) (D 12)
+
+             A6 (B  2) -> (A 18) (C 18) (D 18)
+             A9 (B  4) -> (A 14) (C 14) (D 14)
+          AESF0 (C  4) -> (A 11)
+        RDEFLAG (D  4) -> (C 20)
+            A15 (B  6) -> (A  6) (C  6) (D 20)
+         AESEM0 (C  6) -> (C  9)
+        RDHFLAG (D  6) -> (A 21)
+             RW (B  8) -> (A  7)
+         AESEM1 (C  8) -> (A 10)
+         SYSCLK (D  8) -> (B  2)
+           IACK (B 10)?
+             A7 (D 10) -> (A 12) (C 12)
+         AESC24 (C 10) -> (C 17)
+            DS0 (B 12) -> (A  9) (B  9) (C 15) (D  9)
+             A8 (D 12) -> (A 13) (C 13)
+         AESEM2 (C 12) -> (A 20)
+             A5 (B 14)?
+        WRHFLAG (A 14) -> (D  7)
+         AESC25 (C 14) -> (A 19)
+        WRFFLAG (D 14) -> (A 17)
+           IACK (B 10) ->   Blocked -> Reshuffling SwMtrx
+         AESEM1 -> (A 16)    Moved. -> Reshuffling SwMtrx
+            A10 -> (A 10)    Moved. -> Reshuffling SwMtrx
+             A6 -> (A  2)    Moved. -> Reshuffling SwMtrx
+         AESEM2 -> (A 18)    Moved. -> Reshuffling SwMtrx
+            A15 -> (A 20)    Moved. -> Reshuffling SwMtrx
+            A12 -> (A  6)    Moved. -> Reshuffling SwMtrx
+             A7 -> (A  3)    Moved. -> Reshuffling SwMtrx
+            DS0 -> (A 12)    Moved. -> Reshuffling SwMtrx
+            A11 -> (A  9)    Moved. -> Reshuffling SwMtrx
+         MACHCS -> (A  1)    Moved.
+           IACK -> (A  8) (C 11) (D 11)
+             A5 (B 14) ->   Blocked -> Reshuffling SwMtrx
+            DS0 -> (A 15)    Moved. -> Reshuffling SwMtrx
+             A7 -> (A 12)    Moved. -> Reshuffling SwMtrx
+            A12 -> (A  3)    Moved. -> Reshuffling SwMtrx
+            A15 -> (A  6)    Moved. -> Reshuffling SwMtrx
+         AESEM2 -> (A 20)    Moved. -> Reshuffling SwMtrx
+             A6 -> (A 18)    Moved. -> Reshuffling SwMtrx
+            A10 -> (A  2)    Moved.
+             A5 -> (A 10)   Blocked -> Reshuffling SwMtrx
+            AM4 -> (C 16)    Moved. -> Reshuffling SwMtrx
+        RDEFLAG -> (C  0)    Moved. -> Reshuffling SwMtrx
+            A15 -> (C 20)    Moved. -> Reshuffling SwMtrx
+            A12 -> (C  6)    Moved. -> Reshuffling SwMtrx
+             A7 -> (C  3)    Moved. -> Reshuffling SwMtrx
+            DS0 -> (C 12)    Moved. -> Reshuffling SwMtrx
+         AESEM0 -> (C 15)    Moved. -> Reshuffling SwMtrx
+            A11 -> (C  9)    Moved. -> Reshuffling SwMtrx
+         MACHCS -> (C  1)    Moved. -> Reshuffling SwMtrx
+          DRVCS -> (C  8)    Moved.
+             A5 -> (C 10)
+
+
+
+
+
+Wiring Completion:  100% -> (  0 nc)
+
+|> INFORMATION F058 - Total Block Fanout (All Signals) *: 63 
+
+
+*** Signals - Tabular Information
+
+          Signal   #   P/N #   (Loc)      Type     Logic  # PT    Blocks
+             D1    1     2      A  0     i/o pin    comb     3    .....
+             D2    2     3      A  2     i/o pin    comb     3    .....
+        MACHCSL    3     4      A  4     i/o pin    comb     1    .....
+         DSPREG    4     5      A  6     i/o pin    comb     1    .....
+          SMPRD    5     6      A  8     i/o pin    comb     1    .....
+        MACHCSH    6     7      A 10     i/o pin    comb     1    .....
+          SMPWR    7     8      A 12     i/o pin    comb     1    .....
+        WRHFLAG    8     9      A 14       input       .     .    ....D
+            A10    9    10      I  0       input       .     .    .A.CD
+            AM4   10    11      I  1       input       .     .    .A.CD
+            A11   11    13      I  2       input       .     .    .A.CD
+             A5   12    14      B 14       input       .     .    .A.C.
+            DS0   13    15      B 12       input       .     .    .ABCD
+           IACK   14    16      B 10       input       .     .    .A.CD
+             RW   15    17      B  8       input       .     .    .A...
+            A15   16    18      B  6       input       .     .    .A.CD
+             A9   17    19      B  4       input       .     .    .A.CD
+             A6   18    20      B  2       input       .     .    .A.CD
+          DTACK   19    21      B  0     i/o pin    comb     1    .....
+             D0   20    24      C  0     i/o pin    comb     3    .....
+          DSPCS   21    25      C  2     i/o pin    comb     1    .....
+          AESF0   22    26      C  4       input       .     .    .A...
+         AESEM0   23    27      C  6       input       .     .    ...C.
+         AESEM1   24    28      C  8       input       .     .    .A...
+         AESC24   25    29      C 10       input       .     .    ...C.
+         AESEM2   26    30      C 12       input       .     .    .A...
+         AESC25   27    31      C 14       input       .     .    .A...
+            A12   28    32      I  3       input       .     .    .A.CD
+            A13   29    33      I  4       input       .     .    .A.CD
+            A14   30    35      I  5       input       .     .    .A.CD
+        WRFFLAG   31    36      D 14       input       .     .    .A...
+             A8   32    37      D 12       input       .     .    .A.C.
+             A7   33    38      D 10       input       .     .    .A.C.
+         SYSCLK   34    39      D  8       input       .     .    ..B..
+        RDHFLAG   35    40      D  6       input       .     .    .A...
+        RDEFLAG   36    41      D  4       input       .     .    ...C.
+          DRVCS   37    42      D  2     i/o pin    comb     1    ..BC.
+             D3   38    43      D  0     i/o pin    comb     1    .....
+         MACHCS   39    16      A 14      buried    comb     1    .A.CD
+        TIMECLK   40    20      B  2      buried    comb     2    ..B.D
+        TIMERST   41    38      C  4      buried    comb     1    ..B.D
+          TIME1   42    54      D  4      buried    t-ff     1    ..B..
+          TIME2   43    22      B  4      buried    t-ff     1    ..B..
+.
+
+ Key:
+ P/N # - Pin/Node Number
+ .?. - Signal Unplaced
+ (Loc) - Macrocell Location (Block & Cell)
+ # PT - Number of used product terms in logic
+ Blocks- Device blocks driven by signal
+ comb - Combinatorial logic function
+ d-ff - D-Type Flip-flop
+ t-ff - T-Type Flip-flop
+ Note: Registered input storage equations (MACH-2xx family)
+ ..... are realized with 0 array product terms.
+
+
+*** Signals - Equations Where Used
+
+   Signal Source                   Fanout List
+
+        WRHFLAG:             D3 
+               {D}
+            A10:         MACHCS           DRVCS           DSPCS           SMPWR 
+               :        MACHCSH           SMPRD          DSPREG         MACHCSL 
+               {ADCA AAAA}
+
+            AM4:         MACHCS           DRVCS           DSPCS           SMPWR 
+               :        MACHCSH           SMPRD          DSPREG         MACHCSL 
+               {ADCA AAAA}
+
+            A11:         MACHCS           DRVCS           DSPCS           SMPWR 
+               :        MACHCSH           SMPRD          DSPREG         MACHCSL 
+               {ADCA AAAA}
+
+             A5:             D0              D2              D1 
+               {CAA}
+            DS0:         MACHCS              D3           DRVCS           DSPCS 
+               :             D0           DTACK           SMPWR         MACHCSH 
+               :          SMPRD          DSPREG         MACHCSL              D2 
+               :             D1 
+               {ADDC CBAA AAAA A}
+
+           IACK:         MACHCS           DRVCS           DSPCS           SMPWR 
+               :        MACHCSH           SMPRD          DSPREG         MACHCSL 
+               {ADCA AAAA}
+
+             RW:         MACHCS           SMPWR         MACHCSH           SMPRD 
+               :         DSPREG         MACHCSL 
+               {AAAA AA}
+
+            A15:         MACHCS           DRVCS           DSPCS           SMPWR 
+               :        MACHCSH           SMPRD          DSPREG         MACHCSL 
+               {ADCA AAAA}
+
+             A9:         MACHCS           DRVCS           DSPCS           SMPWR 
+               :        MACHCSH           SMPRD          DSPREG         MACHCSL 
+               {ADCA AAAA}
+
+             A6:             D3              D0           SMPWR         MACHCSH 
+               :          SMPRD          DSPREG         MACHCSL              D2 
+               :             D1 
+               {DCAA AAAA A}
+
+          AESF0:             D2 
+               {A}
+         AESEM0:             D0 
+               {C}
+         AESEM1:             D1 
+               {A}
+         AESC24:             D0 
+               {C}
+         AESEM2:             D2 
+               {A}
+         AESC25:             D1 
+               {A}
+            A12:         MACHCS           DRVCS           DSPCS           SMPWR 
+               :        MACHCSH           SMPRD          DSPREG         MACHCSL 
+               {ADCA AAAA}
+
+            A13:         MACHCS           DRVCS           DSPCS           SMPWR 
+               :        MACHCSH           SMPRD          DSPREG         MACHCSL 
+               {ADCA AAAA}
+
+            A14:         MACHCS           DRVCS           DSPCS           SMPWR 
+               :        MACHCSH           SMPRD          DSPREG         MACHCSL 
+               {ADCA AAAA}
+
+        WRFFLAG:             D2 
+               {A}
+             A8:         MACHCS           DSPCS           SMPWR         MACHCSH 
+               :          SMPRD          DSPREG         MACHCSL 
+               {ACAA AAA}
+
+             A7:         MACHCS           DSPCS           SMPWR         MACHCSH 
+               :          SMPRD          DSPREG         MACHCSL 
+               {ACAA AAA}
+
+         SYSCLK:        TIMECLK 
+               {B}
+        RDHFLAG:             D1 
+               {A}
+        RDEFLAG:             D0 
+               {C}
+          DRVCS:        TIMERST           DTACK 
+               {CB}
+         MACHCS:             D3              D0              D2              D1 
+               {DCAA}
+        TIMECLK:          TIME1           TIME2 
+               {DB}
+        TIMERST:          TIME2           TIME1 
+               {BD}
+          TIME1:          TIME2         TIMECLK 
+               {BB}
+          TIME2:        TIMECLK           DTACK 
+               {BB}
+
+
+
+*** Outputs with no feedback
+
+               D1              D2         MACHCSL          DSPREG           SMPRD 
+          MACHCSH           SMPWR           DTACK              D0           DSPCS 
+               D3 
+
+
+*** Feedback Map - SMPSEL.PDS - 16Bit-Soundsampler - Adressdekodierung
+
+ Gbl Inp .--.     I/O  .--+--A--+--.  I/O           I/O  .--+--B--+--.  I/O   
+         | 0|      AM4 : 0|     |21| RDHFLAG     TIMERST : 0|     |21|        
+         | 1|   MACHCS : 1|     |20| AESEM2              | 1|     |20|        
+         | 2|      A10 : 2|     |19| AESC25       SYSCLK : 2|     |19|        
+         | 3|      A12 : 3|     |18| A6          TIMECLK : 3|     |18|        
+         | 4|      A13 : 4|     |17| WRFFLAG             | 4|     |17|        
+         | 5|      A14 : 5|     |16| AESEM1              | 5|     |16|        
+         '--'      A15 : 6|     |15: DS0                 | 6|     |15|        
+                    RW : 7|     |14: A9                  | 7|     |14|        
+                  IACK : 8|     |13: A8            TIME2 : 8|     |13: TIME1  
+                   A11 : 9|     |12: A7              DS0 : 9|     |12|        
+K:  * Used          A5 :10|     |11: AESF0         DRVCS :10|     |11|        
+    . Avail            '--+--C--+--'                     '--+--D--+--'        
+    # N/A      RDEFLAG : 0|     |21|                 AM4 : 0|     |21|        
+    0 RegIn     MACHCS : 1|     |20| A15             A11 : 1|     |20| A15    
+    - No.PT        A10 : 2|     |19|                 A10 : 2|     |19|        
+                    A7 : 3|     |18| A6              A12 : 3|     |18| A6     
+                   A13 : 4|     |17| AESC24          A13 : 4|     |17|        
+                   A14 : 5|     |16| AM4             A14 : 5|     |16|        
+                   A12 : 6|     |15: AESEM0      TIMECLK : 6|     |15|        
+                       | 7|     |14: A9          WRHFLAG : 7|     |14: A9     
+                 DRVCS : 8|     |13: A8           MACHCS : 8|     |13|        
+                   A11 : 9|     |12: DS0             DS0 : 9|     |12: TIMERST
+                    A5 :10|     |11: IACK                |10|     |11: IACK   
+                       '--+-u--u+--'                     '--+-u--u+--'        
+
+
+
+*** Logic Map - SMPSEL.PDS - 16Bit-Soundsampler - Adressdekodierung
+
+ Gbl Inp .--.     I/O  .--+--A--+--.  I/O           I/O  .--+--B--+--.  I/O
+         | 0|       D1 | 0| 3  #|21|               DTACK | 0| 1  #|21|     
+         | 1|          | 1| -  #|20|                     | 1| -  #|20|     
+         | 2|       D2 | 2| 3  #|19|             TIMECLK | 2| 2  #|19|     
+         | 3|          | 3| -  #|18|                     | 3| -  #|18|     
+         | 4|  MACHCSL | 4| 1  #|17|               TIME2 | 4| 1  #|17|     
+         | 5|          | 5| -  #|16|                     | 5| -  #|16|     
+         '--'   DSPREG | 6| 1  -|15|                     | 6| .  -|15|     
+                       | 7| -  1|14| MACHCS              | 7| -  .|14|     
+                 SMPRD | 8| 1  -|13|                     | 8| .  -|13|     
+                       | 9| -  1|12| SMPWR               | 9| -  .|12|     
+K:  * Used     MACHCSH |10| 1  -|11|                     |10| .  -|11|     
+    . Avail            '--+--C--+--'                     '--+--D--+--'     
+    # N/A           D0 | 0| 3  #|21|                  D3 | 0| 1  #|21|     
+    0 RegIn            | 1| -  #|20|                     | 1| -  #|20|     
+    - No.PT      DSPCS | 2| 1  #|19|               DRVCS | 2| 1  #|19|     
+                       | 3| -  #|18|                     | 3| -  #|18|     
+               TIMERST | 4| 1  #|17|               TIME1 | 4| 1  #|17|     
+                       | 5| -  #|16|                     | 5| -  #|16|     
+                       | 6| .  -|15|                     | 6| .  -|15|     
+                       | 7| -  .|14|                     | 7| -  .|14|     
+                       | 8| .  -|13|                     | 8| .  -|13|     
+                       | 9| -  .|12|                     | 9| -  .|12|     
+                       |10| .  -|11|                     |10| .  -|11|     
+                       '--+-u--u+--'                     '--+-u--u+--'     
+
+
+*** Pin Map - SMPSEL.PDS - 16Bit-Soundsampler - Adressdekodierung
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                     D1                             
+                                  D2  |        D3                   
+                          MACHCSL  |  |        |  DRVCS             
+                        DSPREG  |  |  |        |  |  RDEFLAG        
+                      SMPRD  |  |  |  |        |  |  |  RDHFLAG     
+                          |  |  |  |  |        |  |  |  |           
+                    .-----'--'--'--'--'--o-----'--'--'--'---.       
+                    |                       4  4  4  4  4   |       
+                    |     6  5  4  3  2  1  4  3  2  1  0   |       
+             MACHCSH| 7                                   39|SYSCLK 
+               SMPWR| 8                  G  V             38|A7     
+             WRHFLAG| 9                  n  c             37|A8     
+                 A10|10                  d  c             36|WRFFLAG
+                 AM4|11                                   35|A14    
+                Gnd |12            MACH-215               34| Gnd   
+                 A11|13                                   33|A13    
+                  A5|14             V  G                  32|A12    
+                 DS0|15             c  n                  31|AESC25 
+                IACK|16             c  d                  30|AESEM2 
+                  RW|17                                   29|AESC24 
+                    |   1  1  2  2  2  2  2  2  2  2  2     |       
+                    |   8  9  0  1  2  3  4  5  6  7  8     |       
+                    '---.--.--.--.--------.--.--.--.--.-----'       
+                        |  |  |  |        |  |  |  |  |             
+                      A15  |  |  |        |  |  |  |  AESEM1        
+                          A9  |  |        |  |  |  AESEM0           
+                             A6  |        |  |  AESF0               
+                             DTACK        |  DSPCS                  
+                                          D0                        
+The Jedec Data is  stored in ===> Smpsel.jed
+The Placements are stored in ===> Smpsel.plc
+The Design Doc is  stored in ===> Smpsel.rpt
+ 
+%% FITR %% Error Count: 0, Warning Count: 2
+%% FITR %% File Processed Successfully. - File: Smpsel.pds
+ 

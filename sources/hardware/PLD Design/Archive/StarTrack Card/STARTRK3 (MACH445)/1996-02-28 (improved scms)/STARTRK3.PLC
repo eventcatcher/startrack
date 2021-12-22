@@ -1,0 +1,182 @@
+MACHXL 2.0 R9 MACHFITR (10-12-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+; Source file Startrk3.pds
+; FITTER-generated Placements.
+; DEVICE   MACH445
+; DATE     Wed Feb 28 18:56:37 1996
+
+
+Pin   4  MCLK16
+Pin   5  RD6 ;  IPair 145
+Pin   6  RD5 ;  IPair 144
+Pin   7  RD4 ;  IPair 143
+Pin   8  PUFRD Comb ; S6=0  S9=1  Pair 26
+Pin   9  RD8 ;  IPair 141
+Pin   10  RD3 ;  IPair 140
+Pin   11  RD2 ;  IPair 139
+Pin   12  RD1 ;  IPair 138
+Pin   13  MCLK24
+Pin   18  EXTMCLK
+Pin   19  WD0 Comb ; S6=1  S9=1  Pair 37
+Pin   20  WD1 Comb ; S6=1  S9=1  Pair 36
+Pin   21  WD2 Comb ; S6=1  S9=1  Pair 38
+Pin   22  WD3 Comb ; S6=1  S9=1  Pair 40
+Pin   23  SH15 Reg  ; S6=0  S9=0  Pair 42
+Pin   24  WD4 Comb ; S6=1  S9=1  Pair 44
+Pin   25  WD5 Comb ; S6=1  S9=1  Pair 35
+Pin   26  WD6 Comb ; S6=1  S9=1  Pair 34
+Pin   31  WD7 Comb ; S6=1  S9=1  Pair 52
+Pin   32  RESRDFIFO Comb ; S6=0  S9=1  Pair 62
+Pin   33  PUFWR Comb ; S6=0  S9=1  Pair 50
+Pin   34  SMPCLK Comb ; S6=1  S9=1  Pair 58
+Pin   35  ADATAI
+Pin   36  ADCLK32 Reg  ; S6=1  S9=1  Pair 54
+Pin   37  ADLR Reg  ; S6=0  S9=1  Pair 53
+Pin   38  CKS Comb ; S6=1  S9=1  Pair 51
+Pin   43  SWPROT Reg  ; S6=1  S9=0  Pair 67
+Pin   44  AESCIN
+Pin   45  AESDATAI
+Pin   46  AESMCLKI
+Pin   47  SWSUBFR Reg  ; S6=1  S9=0  Pair 74
+Pin   48  CBL
+Pin   49  PREEMPH Reg  ; S6=0  S9=0  Pair 66
+Pin   50  AESCLKI
+Pin   54  AESSYNCI
+Pin   55  PLAYCLKO Comb ; S6=1  S9=1  Pair 82
+Pin   56  DA_FSYNC Comb ; S6=1  S9=1  Pair 84
+Pin   57  DA_SCLK Comb ; S6=1  S9=1  Pair 83
+Pin   58  DA_SDATA Comb ; S6=1  S9=1  Pair 90
+Pin   59  AESFC1 Comb ; S6=1  S9=1  Pair 88
+Pin   60  DSPSTD
+Pin   61  SWDIGIN Reg  ; S6=1  S9=0  Pair 86
+Pin   62  AESDATAO Comb ; S6=1  S9=1  Pair 85
+Pin   63  DA_ACKO
+Pin   68  PLAYCLKI
+Pin   69  RD0 ;  IPair 178
+Pin   70  AESFC0 Comb ; S6=1  S9=1  Pair 100
+Pin   71  AESPRO Comb ; S6=1  S9=1  Pair 102
+Pin   72  AESMCLKO Comb ; S6=1  S9=1  Pair 104
+Pin   73  DSPSRD Comb ; S6=1  S9=1  Pair 106
+Pin   74  DSPSCK Comb ; S6=1  S9=1  Pair 98
+Pin   75  VOLCLK Reg  ; S6=1  S9=0  Pair 101
+Pin   76  VOLDATAI Reg  ; S6=1  S9=0  Pair 99
+Pin   81  AESCOUT Comb ; S6=1  S9=1  Pair 114
+Pin   82  DSPSC2 Comb ; S6=1  S9=1  Pair 116
+Pin   83  DSPSC0 Comb ; S6=1  S9=1  Pair 115
+Pin   84  AESC25 Reg  ; S6=1  S9=0  Pair 122
+Pin   85  AESC24 Reg  ; S6=1  S9=0  Pair 120
+Pin   86  A6
+Pin   87  A7
+Pin   88  SMPREG
+Pin   93  RESET
+Pin   94  D4
+Pin   95  D3
+Pin   96  D2
+Pin   97  D1
+Pin   98  D0
+Pin   99  HCLKI
+Pin   100  RD7 ;  IPair 137
+Node  145  RP6 Reg ;
+Node  144  RP5 Reg ;
+Node  143  RP4 Reg ;
+Node  141  RP8 Reg ;
+Node  140  RP3 Reg ;
+Node  139  RP2 Reg ;
+Node  138  RP1 Reg ;
+Node  42  RN_SH15 Reg  ; S6=0  S9=0 
+Node  54  RN_ADCLK32 Reg  ; S6=1  S9=1 
+Node  53  RN_ADLR Reg  ; S6=0  S9=1 
+Node  67  RN_SWPROT Reg  ; S6=1  S9=0 
+Node  178  RP0 Reg ;
+Node  122  RN_AESC25 Reg  ; S6=1  S9=0 
+Node  120  RN_AESC24 Reg  ; S6=1  S9=0 
+Node  137  RP7 Reg ;
+Node  125  AESCLR Comb ; S6=1  S9=1 
+Node  10  FREQCLK0 Comb ; S6=1  S9=1 
+Node  126  FREQCLK1 Comb ; S6=1  S9=1 
+Node  3  CZCLK Comb ; S6=1  S9=1 
+Node  2  INPSCLK Comb ; S6=1  S9=1 
+Node  93  INPSDATA Comb ; S6=1  S9=1 
+Node  8  DATACLK Comb ; S6=1  S9=1 
+Node  20  DAHLP Comb ; S6=1  S9=1 
+Node  56  XGORES Comb ; S6=1  S9=1 
+Node  57  WRFERTIG Comb ; S6=1  S9=1 
+Node  68  SHCLK Comb ; S6=1  S9=1 
+Node  72  KICKSTART Comb ; S6=1  S9=1 
+Node  124  AESC0 Reg  ; S6=1  S9=0 
+Node  129  AESC8 Reg  ; S6=1  S9=0 
+Node  128  AESC9 Reg  ; S6=1  S9=0 
+Node  17  MCLK128 Reg  ; S6=1  S9=0 
+Node  55  ADCLK16 Reg  ; S6=1  S9=1 
+Node  65  HOLD Reg  ; S6=1  S9=1 
+Node  112  SHD15 Reg  ; S6=1  S9=0 
+Node  110  SHD14 Reg  ; S6=1  S9=0 
+Node  45  SHD13 Reg  ; S6=1  S9=0 
+Node  16  SHD12 Reg  ; S6=1  S9=0 
+Node  109  SHD11 Reg  ; S6=1  S9=0 
+Node  7  SHD10 Reg  ; S6=1  S9=0 
+Node  71  SHD9 Reg  ; S6=1  S9=0 
+Node  24  SHD8 Reg  ; S6=1  S9=0 
+Node  108  SHD7 Reg  ; S6=1  S9=0 
+Node  23  SHD6 Reg  ; S6=1  S9=0 
+Node  60  SHD5 Reg  ; S6=1  S9=0 
+Node  43  SHD4 Reg  ; S6=1  S9=0 
+Node  97  SHD3 Reg  ; S6=1  S9=0 
+Node  22  SHD2 Reg  ; S6=1  S9=0 
+Node  41  SHD1 Reg  ; S6=1  S9=0 
+Node  111  SHD0 Reg  ; S6=1  S9=0 
+Node  81  RP9 Reg  ; S6=1  S9=0 
+Node  9  SH0 Reg  ; S6=0  S9=0 
+Node  31  SH1 Reg  ; S6=1  S9=0 
+Node  15  SH2 Reg  ; S6=1  S9=0 
+Node  49  SH3 Reg  ; S6=1  S9=0 
+Node  14  SH4 Reg  ; S6=1  S9=0 
+Node  80  SH5 Reg  ; S6=1  S9=0 
+Node  48  SH6 Reg  ; S6=1  S9=0 
+Node  79  SH7 Reg  ; S6=1  S9=0 
+Node  78  SH8 Reg  ; S6=1  S9=0 
+Node  30  SH9 Reg  ; S6=1  S9=0 
+Node  29  SH10 Reg  ; S6=1  S9=0 
+Node  77  SH11 Reg  ; S6=0  S9=0 
+Node  47  SH12 Reg  ; S6=0  S9=0 
+Node  76  SH13 Reg  ; S6=1  S9=0 
+Node  75  SH14 Reg  ; S6=1  S9=0 
+Node  18  SH16 Reg  ; S6=0  S9=0 
+Node  6  TAKT5 Reg  ; S6=1  S9=1 
+Node  73  TAKT6 Reg  ; S6=1  S9=1 
+Node  64  TAKT7 Reg  ; S6=1  S9=1 
+Node  96  SWCOPY Reg  ; S6=1  S9=0 
+Node  87  SWAES Reg  ; S6=1  S9=0 
+Node  105  SWDIGOUT Reg  ; S6=1  S9=0 
+Node  92  SWONDSP Reg  ; S6=1  S9=0 
+Node  91  SWINDSP Reg  ; S6=1  S9=0 
+Node  95  SWRESFF Reg  ; S6=1  S9=0 
+Node  89  SWPROF Reg  ; S6=1  S9=0 
+Node  69  TAKTL Reg  ; S6=1  S9=0 
+Node  107  TAKTH Reg  ; S6=1  S9=0 
+Node  103  EXTAKT Reg  ; S6=1  S9=0 
+Node  39  WAIT Reg  ; S6=1  S9=0 
+Node  46  WAIT2 Reg  ; S6=1  S9=0 
+Node  59  WAIT3 Reg  ; S6=1  S9=0 
+Node  63  WAIT4 Reg  ; S6=1  S9=0 
+Node  61  WAIT5 Reg  ; S6=1  S9=0 
+Node  13  BWAIT Reg  ; S6=1  S9=0 
+Node  12  BWAIT2 Reg  ; S6=1  S9=0 
+Node  11  BWAIT3 Reg  ; S6=1  S9=0 
+Node  94  Z0 Reg  ; S6=1  S9=0 
+Node  28  Z1 Reg  ; S6=1  S9=0 
+Node  27  Z2 Reg  ; S6=1  S9=0 
+Node  25  Z3 Reg  ; S6=1  S9=0 
+Node  21  Z4 Reg  ; S6=1  S9=0 
+Node  19  Z5 Reg  ; S6=1  S9=0 
+Node  123  CZ0 Reg  ; S6=1  S9=0 
+Node  5  CZ1 Reg  ; S6=1  S9=0 
+Node  121  CZ2 Reg  ; S6=1  S9=0 
+Node  119  CZ3 Reg  ; S6=1  S9=0 
+Node  118  CZ4 Reg  ; S6=1  S9=0 
+Node  4  CZ5 Reg  ; S6=1  S9=0 
+Node  117  PGO Reg  ; S6=1  S9=0 
+Node  70  NGO Reg  ; S6=1  S9=0 
+Node  127  MCLK12 Reg  ; S6=1  S9=1 
+; Unused Pins & Nodes
+; -> None Found.

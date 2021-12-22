@@ -1,0 +1,116 @@
+
+
+Flags Used:             Unplace=False        Max Packing=True 
+Flags Used:        Expand Small=False         Expand All=False
+
+; FITR generated placements - smp8b
+
+Pin   65           HCLKI  ; Inp        ; I  4
+Pin   62        PLAYCLKI  ; Inp        ; I  3
+Pin   23         INPSCLK  ; Inp        ; I  1
+Pin   20           RESET  ; Inp        ; I  0
+Pin   46         DSPSTDB  ; Inp        ; C  1
+Pin   47         DSPSTDC  ; Inp        ; C  2
+Pin   48         DSPSTDD  ; Inp        ; C  3
+Pin   49        SWDIGOUT  ; Inp        ; C  4
+Pin   50         SWONDSP  ; Inp        ; C  5
+Pin   51         SWINDSP  ; Inp        ; C  6
+Pin   41            RDA0  ; Inp        ; I  2
+Pin   83            RDA1  ; Inp        ; I  5
+Pin   52            RDA2  ; Inp        ; C  7
+Pin   54            RDA3  ; Inp        ; C  8
+Pin   55            RDA4  ; Inp        ; C  9
+Pin   56            RDA5  ; Inp        ; C 10
+Pin   58            RDA6  ; Inp        ; C 12
+Pin   59            RDA7  ; Inp        ; C 13
+Pin   76            RDB0  ; Inp        ; D  6
+Pin   40            RDB1  ; Inp        ; B  0
+Pin   31            RDB2  ; Inp        ; B  8
+Pin   75            RDB3  ; Inp        ; D  7
+Pin   39            RDB4  ; Inp        ; B  1
+Pin   30            RDB5  ; Inp        ; B  9
+Pin   73            RDB6  ; Inp        ; D  8
+Pin   38            RDB7  ; Inp        ; B  2
+Pin   29            RDC0  ; Inp        ; B 10
+Pin   71            RDC1  ; Inp        ; D 10
+Pin   28            RDC2  ; Inp        ; B 11
+Pin   70            RDC3  ; Inp        ; D 11
+Pin   27            RDC4  ; Inp        ; B 12
+Pin   26            RDC5  ; Inp        ; B 13
+Pin   37            RDC6  ; Inp        ; B  3
+Pin   25            RDC7  ; Inp        ; B 14
+Pin   36            RDD0  ; Inp        ; B  4
+Pin   24            RDD1  ; Inp        ; B 15
+Pin   35            RDD2  ; Inp        ; B  5
+Pin   57            RDD3  ; Inp        ; C 11
+Pin   60            RDD4  ; Inp        ; C 14
+Pin   34            RDD5  ; Inp        ; B  6
+Pin   61            RDD6  ; Inp        ; C 15
+Pin   66            RDD7  ; Inp        ; D 15
+Pin   33             RD8  ; Inp        ; B  7
+Pin    3           PUFRD   Comb        ; A  0
+Pin   45        PLAYCLKO   Comb        ; C  0
+Pin    5          DAHLPA   Comb        ; A  2
+Pin   82        DA_SDATB   Comb        ; D  0
+Pin   81        DA_SDATC   Comb        ; D  1
+Pin   80        DA_SDATD   Comb        ; D  2
+Pin    6              Z4    Reg        ; A  3
+Pin    8              Z5    Reg        ; A  5
+Node   8          DAHLPB   Comb        ; A  6
+Node  18          DAHLPC   Comb        ; B  0
+Node  35          DAHLPD   Comb        ; C  1
+Node  14             RP9    Reg        ; A 12
+Node  42             RP8    Reg        ; C  8
+Node  53            RPA7    Reg        ; D  3
+Node  63            RPA6    Reg        ; D 13
+Node  62            RPA5    Reg        ; D 12
+Node  60            RPA4    Reg        ; D 10
+Node  57            RPA3    Reg        ; D  7
+Node  56            RPA2    Reg        ; D  6
+Node  55            RPA1    Reg        ; D  5
+Node  22            RPA0    Reg        ; B  4
+Node  41            RPB7    Reg        ; C  7
+Node  64            RPB6    Reg        ; D 14
+Node  29            RPB5    Reg        ; B 11
+Node  47            RPB4    Reg        ; C 13
+Node  59            RPB3    Reg        ; D  9
+Node  25            RPB2    Reg        ; B  7
+Node  40            RPB1    Reg        ; C  6
+Node  54            RPB0    Reg        ; D  4
+Node  21            RPC7    Reg        ; B  3
+Node  49            RPC6    Reg        ; C 15
+Node  31            RPC5    Reg        ; B 13
+Node  27            RPC4    Reg        ; B  9
+Node  61            RPC3    Reg        ; D 11
+Node  26            RPC2    Reg        ; B  8
+Node  58            RPC1    Reg        ; D  8
+Node  24            RPC0    Reg        ; B  6
+Node  65            RPD7    Reg        ; D 15
+Node  19            RPD6    Reg        ; B  1
+Node  44            RPD5    Reg        ; C 10
+Node  30            RPD4    Reg        ; B 12
+Node  28            RPD3    Reg        ; B 10
+Node  43            RPD2    Reg        ; C  9
+Node  23            RPD1    Reg        ; B  5
+Node  46            RPD0    Reg        ; C 12
+Node  45           BWAIT    Reg        ; C 11
+Node  36          BWAIT2    Reg        ; C  2
+Node  39          BWAIT3    Reg        ; C  5
+Node   9              Z0    Reg        ; A  7
+Node  11              Z1    Reg        ; A  9
+Node  12              Z2    Reg        ; A 10
+Node  13              Z3    Reg        ; A 11
+;
+; Unused Pins & Nodes
+;
+; -> None Found.
+;
+;-; Sequence
+;-; PUFRD DAHLPA Z4 Z5 DAHLPB Z0 Z1 Z2 Z3 RP9 DAHLPC RPD6 RPC7 RPA0 RPD1 RPC0 RPB2
+;-; RPC2 RPC4 RPD3 RPB5 RPD4 RPC5 DA_SDATB DA_SDATC DA_SDATD RPA7 RPA1 RPA2 RPA3
+;-; RPC1 RPB3 RPA4 RPC3 RPA5 RPA6 RPB6 RPD7 RPB0 PLAYCLKO DAHLPD BWAIT2 BWAIT3 RPB1
+;-; RPB7 RP8 RPD2 RPD5 BWAIT RPD0 RPB4 RPC6 RDA0 RDA1 RESET RDB4 RDB7 RDC6 RDD0
+;-; RDD2 RD8 RDB2 RDB5 RDC0 RDC2 RDC4 RDC5 RDC7 RDD1 RDB1 RDD5 DSPSTDC DSPSTDD SWDIGOUT
+;-; SWONDSP SWINDSP RDA2 RDA3 RDA4 RDA5 RDD3 RDA6 RDA7 RDD4 RDD6 DSPSTDB RDB0 RDB3
+;-; RDB6 RDC1 RDC3 RDD7
+;

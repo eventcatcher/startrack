@@ -1,0 +1,809 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    PCI2.PDS         - 16Bit-Soundsampler fuer PCI-Bus
+PATTERN  B                - Hauptsteuerung der Rec/Play-Funktionen
+REVISION 1.0              - Prototype-Version
+AUTHOR   Stephan Wilhelm  - insgesamt 128 KanÑle (64 In & 64 Out)
+COMPANY  Myself           - 128Bit-Play-Mode, 8xDMA-In, 8xDMA-Out
+DATE     1/9/96
+
+CHIP  _pcitrk2   MACH465
+
+;---------------------------------- PIN Declarations ---------------
+PIN  ?          IRDY       ; PCI-Initiator Ready
+PIN  ?          IACK       ; Interrupt Acknowledge von PCI1
+PIN  ?          DEVSEL     ; PCI-Device Select
+PIN  ?          STARWR     ; PCI-Write
+PIN  ?          HCLKI      ; 40MHz-Timingclock
+PIN  ?          MCLK16     ; 16.934 MHz-Takt
+PIN  ?          MCLK24     ; 24.576 MHz-Takt
+PIN  ?          RESET      ; PCI-RESET
+PIN  ?          EXTMCLK    ; Externer MCLKx256 fÅr externe Synchronisation
+PIN  ?          DMAOEF1    ; Empty-Flag vom ersten (low) DMA-Out-Fifo
+PIN  ?          RDMAOD8    ; vom Output des 4.DMA-Out-FIFO
+PIN  ?          SHIFTID1   ; serielle Daten von RDATA-Shifter1
+PIN  ?          SHIFTID2   ; serielle Daten von RDATA-Shifter2
+PIN  ?          SHIFTID3   ; serielle Daten von RDATA-Shifter3
+PIN  ?          SHIFTID4   ; serielle Daten von RDATA-Shifter4
+PIN  ?          SHIFTID5   ; serielle Daten von RDATA-Shifter5
+PIN  ?          SHIFTID6   ; serielle Daten von RDATA-Shifter6
+PIN  ?          SHIFTID7   ; serielle Daten von RDATA-Shifter7
+PIN  ?          SHIFTID8   ; serielle Daten von RDATA-Shifter8
+PIN  ?          SHIFTOD1   ; serielle Daten von PDATA-Shifter1
+PIN  ?          SHIFTOD2   ; serielle Daten von PDATA-Shifter2
+PIN  ?          SHIFTOD3   ; serielle Daten von PDATA-Shifter3
+PIN  ?          SHIFTOD4   ; serielle Daten von PDATA-Shifter4
+PIN  ?          SHIFTOD5   ; serielle Daten von PDATA-Shifter5
+PIN  ?          SHIFTOD6   ; serielle Daten von PDATA-Shifter6
+PIN  ?          SHIFTOD7   ; serielle Daten von PDATA-Shifter7
+PIN  ?          SHIFTOD8   ; serielle Daten von PDATA-Shifter8
+PIN  ?          DSPSTD1    ; Daten-Output an DSP1
+PIN  ?          DSPSTD2    ; Daten-Output an DSP2
+PIN  ?          DSPSTD3    ; Daten-Output an DSP3
+PIN  ?          DSPSTD4    ; Daten-Output an DSP4
+PIN  ?          DSPSTD5    ; Daten-Output an DSP5
+PIN  ?          DSPSTD6    ; Daten-Output an DSP6
+PIN  ?          DSPSTD7    ; Daten-Output an DSP7
+PIN  ?          DSPSTD8    ; Daten-Output an DSP8
+PIN  ?          WRHFLAG    ; PlayFIFO-Interruptflag
+PIN  ?          WRFFLAG    ; PlayFIFO-Flag
+PIN  ?          WREFLAG    ; PlayFIFO-Flag
+PIN  ?          RDHFLAG    ; RecordFIFO-Interruptflag
+PIN  ?          RDFFLAG    ; RecFIFO-Flag
+PIN  ?          RDEFLAG    ; RecFIFO-Flag
+PIN  ?          DSPINT     ; DSP-Interrupt
+PIN  ?          RA2        ; gepufferte PCI-Adressleitung
+PIN  ?          RA3        ; gepufferte PCI-Adressleitung
+PIN  ?          RA4        ; gepufferte PCI-Adressleitung
+PIN  ?          RA5        ; gepufferte PCI-Adressleitung
+PIN  ?          RA6        ; gepufferte PCI-Adressleitung
+PIN  ?          RA7        ; gepufferte PCI-Adressleitung
+PIN  ?          RA8        ; gepufferte PCI-Adressleitung
+PIN  ?          RD0        COMBINATORIAL ; gepufferte PCI-Datenleitung
+PIN  ?          RD1        COMBINATORIAL ; gepufferte PCI-Datenleitung
+PIN  ?          RD2        COMBINATORIAL ; gepufferte PCI-Datenleitung
+PIN  ?          RD3        COMBINATORIAL ; gepufferte PCI-Datenleitung
+PIN  ?          RD4        COMBINATORIAL ; gepufferte PCI-Datenleitung
+PIN  ?          RD5        COMBINATORIAL ; gepufferte PCI-Datenleitung
+PIN  ?          RD6        COMBINATORIAL ; gepufferte PCI-Datenleitung
+PIN  ?          RD7        COMBINATORIAL ; gepufferte PCI-Datenleitung
+PIN  ?          RESRDFIFO  COMBINATORIAL ; RESET des REC-FIFO
+PIN  ?          SCLK128    COMBINATORIAL ; 128facher SCLK-Takt
+PIN  ?          WRID8      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          WRDMAI1    COMBINATORIAL ; zum DMA-In-FIFO Write (low)
+PIN  ?          WRDMAI2    COMBINATORIAL ; zum DMA-In-FIFO Write (mid)
+PIN  ?          WRDMAI3    COMBINATORIAL ; zum DMA-In-FIFO Write (high)
+PIN  ?          WRDMAI4    COMBINATORIAL ; zum DMA-In-FIFO Write (highest)
+PIN  ?          SHLDMAI1   COMBINATORIAL ; Shift-Load fÅr DMA-In-Shiftreg1
+PIN  ?          SHLDMAI2   COMBINATORIAL ; Shift-Load fÅr DMA-In-Shiftreg2
+PIN  ?          SHLDMAI3   COMBINATORIAL ; Shift-Load fÅr DMA-In-Shiftreg3
+PIN  ?          SHLDMAI4   COMBINATORIAL ; Shift-Load fÅr DMA-In-Shiftreg4
+PIN  ?          SHLDMAI5   COMBINATORIAL ; Shift-Load fÅr DMA-In-Shiftreg5
+PIN  ?          SHLDMAI6   COMBINATORIAL ; Shift-Load fÅr DMA-In-Shiftreg6
+PIN  ?          SHLDMAI7   COMBINATORIAL ; Shift-Load fÅr DMA-In-Shiftreg7
+PIN  ?          SHLDMAI8   COMBINATORIAL ; Shift-Load fÅr DMA-In-Shiftreg8
+PIN  ?          SHLDMAO1   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg1
+PIN  ?          SHLDMAO2   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg2
+PIN  ?          SHLDMAO3   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg3
+PIN  ?          SHLDMAO4   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg4
+PIN  ?          SHLDMAO5   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg5
+PIN  ?          SHLDMAO6   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg6
+PIN  ?          SHLDMAO7   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg7
+PIN  ?          SHLDMAO8   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg8
+PIN  ?          DMAORD1    COMBINATORIAL ; zum DMA-Out-FIFO Read (low)
+PIN  ?          DMAORD2    COMBINATORIAL ; zum DMA-Out-FIFO Read (mid)
+PIN  ?          DMAORD3    COMBINATORIAL ; zum DMA-Out-FIFO Read (high)
+PIN  ?          DMAORD4    COMBINATORIAL ; zum DMA-Out-FIFO Read (highest)
+PIN  ?          DMAOSHCLK  COMBINATORIAL ; Output DMA-Shift-Clock
+PIN  ?          DMAIFSYNC1 COMBINATORIAL ; Output DMA-In-Fsync1
+PIN  ?          DMAIFSYNC2 COMBINATORIAL ; Output DMA-In-Fsync2
+PIN  ?          DMAIFSYNC3 COMBINATORIAL ; Output DMA-In-Fsync3
+PIN  ?          DMAIFSYNC4 COMBINATORIAL ; Output DMA-In-Fsync4
+PIN  ?          DMAIFSYNC5 COMBINATORIAL ; Output DMA-In-Fsync5
+PIN  ?          DMAIFSYNC6 COMBINATORIAL ; Output DMA-In-Fsync6
+PIN  ?          DMAIFSYNC7 COMBINATORIAL ; Output DMA-In-Fsync7
+PIN  ?          DMAIFSYNC8 COMBINATORIAL ; Output DMA-In-Fsync8
+PIN  ?          DMAOFSYNC1 COMBINATORIAL ; Output DMA-Out-Fsync1
+PIN  ?          DMAOFSYNC2 COMBINATORIAL ; Output DMA-Out-Fsync2
+PIN  ?          DMAOFSYNC3 COMBINATORIAL ; Output DMA-Out-Fsync3
+PIN  ?          DMAOFSYNC4 COMBINATORIAL ; Output DMA-Out-Fsync4
+PIN  ?          DMAOFSYNC5 COMBINATORIAL ; Output DMA-Out-Fsync5
+PIN  ?          DMAOFSYNC6 COMBINATORIAL ; Output DMA-Out-Fsync6
+PIN  ?          DMAOFSYNC7 COMBINATORIAL ; Output DMA-Out-Fsync7
+PIN  ?          DMAOFSYNC8 COMBINATORIAL ; Output DMA-Out-Fsync8
+PIN  ?          R_DATA1    COMBINATORIAL ; Output serieller RKanal1
+PIN  ?          R_DATA2    COMBINATORIAL ; Output serieller RKanal2
+PIN  ?          R_DATA3    COMBINATORIAL ; Output serieller RKanal3
+PIN  ?          R_DATA4    COMBINATORIAL ; Output serieller RKanal4
+PIN  ?          R_DATA5    COMBINATORIAL ; Output serieller RKanal5
+PIN  ?          R_DATA6    COMBINATORIAL ; Output serieller RKanal6
+PIN  ?          R_DATA7    COMBINATORIAL ; Output serieller RKanal7
+PIN  ?          R_DATA8    COMBINATORIAL ; Output serieller RKanal8
+PIN  ?          P_DATA1    COMBINATORIAL ; Output serieller PKanal1
+PIN  ?          P_DATA2    COMBINATORIAL ; Output serieller PKanal2
+PIN  ?          P_DATA3    COMBINATORIAL ; Output serieller PKanal3
+PIN  ?          P_DATA4    COMBINATORIAL ; Output serieller PKanal4
+PIN  ?          P_DATA5    COMBINATORIAL ; Output serieller PKanal5
+PIN  ?          P_DATA6    COMBINATORIAL ; Output serieller PKanal6
+PIN  ?          P_DATA7    COMBINATORIAL ; Output serieller PKanal7
+PIN  ?          P_DATA8    COMBINATORIAL ; Output serieller PKanal8
+PIN  ?          DSPSRD1    COMBINATORIAL ; Daten-Output an DSP1
+PIN  ?          DSPSRD2    COMBINATORIAL ; Daten-Output an DSP2
+PIN  ?          DSPSRD3    COMBINATORIAL ; Daten-Output an DSP3
+PIN  ?          DSPSRD4    COMBINATORIAL ; Daten-Output an DSP4
+PIN  ?          DSPSRD5    COMBINATORIAL ; Daten-Output an DSP5
+PIN  ?          DSPSRD6    COMBINATORIAL ; Daten-Output an DSP6
+PIN  ?          DSPSRD7    COMBINATORIAL ; Daten-Output an DSP7
+PIN  ?          DSPSRD8    COMBINATORIAL ; Daten-Output an DSP8
+PIN  ?          DSPCS      COMBINATORIAL ; ChipSelect fÅr die DSPs
+PIN  ?          SMPWR      COMBINATORIAL ; Write FIFOs
+PIN  ?          SMPRD      COMBINATORIAL ; Read FIFOs
+PIN  ?          DRVCS      COMBINATORIAL ; Datenbustreiber-Freigabe
+PIN  ?          INTA       COMBINATORIAL ; Interrupt-Auslîsung
+PIN  ?          DSPIACK    COMBINATORIAL ; Interruptantwortfreigabe fuer DSP
+PIN  ?          TRDY       COMBINATORIAL ; PCI-Target ready
+NODE ?          VCLK       COMBINATORIAL ;
+NODE ?          FCLK       COMBINATORIAL ;
+NODE ?          FRESET     COMBINATORIAL ;
+NODE ?          WRRIOK     COMBINATORIAL ; beendet DMA-In1-FIFO Write-Timing
+NODE ?          DMAORD     COMBINATORIAL ; DMA-Out-Read
+NODE ?          DMAORES    COMBINATORIAL ;
+NODE ?          SMPREG0    COMBINATORIAL ;
+NODE ?          SMPREG1    COMBINATORIAL ;
+NODE ?          SMPREG2    COMBINATORIAL ;
+NODE ?          SMPREG3    COMBINATORIAL ;
+NODE ?          STATCS     COMBINATORIAL ;
+NODE ?          TIMECLK    COMBINATORIAL ;
+NODE ?          INTACK     COMBINATORIAL ;
+NODE ?          INTACK2    COMBINATORIAL ;
+NODE ?          INTHLP     COMBINATORIAL ;
+NODE ?          BLOKATE       REGISTERED ;
+NODE ?          BLOKATE2      REGISTERED ;
+NODE ?          TIME1         REGISTERED ;
+NODE ?          TIME2         REGISTERED ;
+NODE ?          TIME3         REGISTERED ;
+NODE ?          ITIME1        REGISTERED ;
+NODE ?          ITIME2        REGISTERED ;
+NODE ?          ITIME3        REGISTERED ;
+NODE ?          DMARMOD0      REGISTERED ; DMA-Record-Mode Bit D0
+NODE ?          DMARMOD1      REGISTERED ; DMA-Record-Mode Bit D1
+NODE ?          DMARMOD2      REGISTERED ; DMA-Record-Mode Bit D2
+NODE ?          DMAPMOD0      REGISTERED ; DMA-Play-Mode Bit D4
+NODE ?          DMAPMOD1      REGISTERED ; DMA-Play-Mode Bit D5
+NODE ?          DMAPMOD2      REGISTERED ; DMA-Play-Mode Bit D6
+NODE ?          INTREC        REGISTERED ;
+NODE ?          INTPLAY       REGISTERED ;
+NODE ?          SWONDSP1      REGISTERED ; Zwischensp./Schalter DSP1 an/aus
+NODE ?          SWONDSP2      REGISTERED ; Zwischensp./Schalter DSP2 an/aus
+NODE ?          SWONDSP3      REGISTERED ; Zwischensp./Schalter DSP3 an/aus
+NODE ?          SWONDSP4      REGISTERED ; Zwischensp./Schalter DSP4 an/aus
+NODE ?          SWONDSP5      REGISTERED ; Zwischensp./Schalter DSP5 an/aus
+NODE ?          SWONDSP6      REGISTERED ; Zwischensp./Schalter DSP6 an/aus
+NODE ?          SWONDSP7      REGISTERED ; Zwischensp./Schalter DSP7 an/aus
+NODE ?          SWONDSP8      REGISTERED ; Zwischensp./Schalter DSP8 an/aus
+NODE ?          SWIODSP1      REGISTERED ; Zwischensp./Schalter DSP1 in/out
+NODE ?          SWIODSP2      REGISTERED ; Zwischensp./Schalter DSP2 in/out
+NODE ?          SWIODSP3      REGISTERED ; Zwischensp./Schalter DSP3 in/out
+NODE ?          SWIODSP4      REGISTERED ; Zwischensp./Schalter DSP4 in/out
+NODE ?          SWIODSP5      REGISTERED ; Zwischensp./Schalter DSP5 in/out
+NODE ?          SWIODSP6      REGISTERED ; Zwischensp./Schalter DSP6 in/out
+NODE ?          SWIODSP7      REGISTERED ; Zwischensp./Schalter DSP7 in/out
+NODE ?          SWIODSP8      REGISTERED ; Zwischensp./Schalter DSP8 in/out
+NODE ?          SWRESFF       REGISTERED ; Schalter/Auslîser Reset fÅr RecFIFO
+NODE ?          TAKTL         REGISTERED ; Zwischenspeicher/Schalter SMPrate
+NODE ?          TAKTH         REGISTERED ; Zwischenspeicher/Schalter SMPrate
+NODE ?          EXTAKT        REGISTERED ; Zwischenspeicher/Schalter ext.MCLK
+NODE ?          F0            REGISTERED ;
+NODE ?          F1            REGISTERED ;
+NODE ?          F2            REGISTERED ;
+NODE ?          F3            REGISTERED ;
+NODE ?          VCLKP         REGISTERED ;
+NODE ?          VCLKN         REGISTERED ;
+NODE ?          WTDMAI        REGISTERED ; DMA-In-FIFO-Write-Timing
+NODE ?          WTDMAI2       REGISTERED ; DMA-In-FIFO-Write-Timing
+NODE ?          WTDMAI3       REGISTERED ; DMA-In-FIFO-Write-Timing
+NODE ?          BDMAI0        REGISTERED ; DMA-In-SCLKzÑhler und Synchro
+NODE ?          BDMAI1        REGISTERED ; DMA-In-SCLKzÑhler und Synchro
+NODE ?          BDMAI2        REGISTERED ; DMA-In-SCLKzÑhler und Synchro
+NODE ?          WDMAI0        REGISTERED ; DMA-In-SWORDzÑhler und Synchro
+NODE ?          WDMAI1        REGISTERED ; DMa-In-SWORDzÑhler und Synchro
+NODE ?          WDMAI2        REGISTERED ; DMA-In-SWORDzÑhler und Synchro
+NODE ?          WDMAI3        REGISTERED ; DMA-In-SWORDzÑhler und Synchro
+NODE ?          WFRI          REGISTERED ; Word-Anfang-Flanken-Erkenner1
+NODE ?          WTDMAO        REGISTERED ; DMA-Out-FIFO-Write-Timing
+NODE ?          WTDMAO2       REGISTERED ; DMA-Out-FIFO-Write-Timing
+NODE ?          WTDMAO3       REGISTERED ; DMA-Out-FIFO-Write-Timing
+NODE ?          BDMAO0        REGISTERED ; DMA-Out-SCLKzÑhler und Synchro
+NODE ?          BDMAO1        REGISTERED ; DMA-Out-SCLKzÑhler und Synchro
+NODE ?          BDMAO2        REGISTERED ; DMA-Out-SCLKzÑhler und Synchro
+NODE ?          WDMAO0        REGISTERED ; DMA-Out-SWORDzÑhler und Synchro
+NODE ?          WDMAO1        REGISTERED ; DMA-Out-SWORDzÑhler und Synchro
+NODE ?          WDMAO2        REGISTERED ; DMA-Out-SWORDzÑhler und Synchro
+NODE ?          WDMAO3        REGISTERED ; DMA-Out-SWORDzÑhler und Synchro
+NODE ?          RDMAO8        REGISTERED ; Speicher fÅr Daten-DMAFifo-Output
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+; ---------------------Register,Decode & Timing
+
+TIME1 = VCC;
+TIME1.CLKF = TIMECLK;
+TIME1.RSTF = IRDY;
+
+TIME2 = TIME1;
+TIME2.CLKF = /TIMECLK;
+TIME2.RSTF = IRDY;
+
+TIME3 = TIME2 * TIME1;
+TIME3.CLKF = TIMECLK;
+TIME3.RSTF = IRDY;
+
+TIMECLK = HCLKI
+         + TIME3 * TIME2 * TIME1;
+
+/SMPREG0 = /DEVSEL * /RA8 * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2 * /STARWR
+         * /IRDY * TIME2 * TIME1;
+/SMPREG1 = /DEVSEL * /RA8 * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * RA2 * /STARWR
+         * /IRDY * TIME2 * TIME1;
+/SMPREG2 = /DEVSEL * /RA8 * /RA7 * /RA6 * /RA5 * /RA4 * RA3 * /RA2 * /STARWR
+         * /IRDY * TIME2 * TIME1;
+/SMPREG3 = /DEVSEL * /RA8 * /RA7 * /RA6 * /RA5 * /RA4 * RA3 * RA2 * /STARWR
+         * /IRDY * TIME2 * TIME1;
+
+/STATCS = /DEVSEL * /RA8 * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2 * STARWR
+        * /IRDY * TIME2 * TIME1 * IACK
+        + /IACK * /INTACK * BLOKATE;
+
+/SMPRD = /DEVSEL * /RA8 * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * STARWR
+         * /IRDY;
+/SMPWR = /DEVSEL * /RA8 * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /STARWR
+         * /IRDY * /TIME3 * /TIME2 * TIME1;
+
+; die einzelnen DSP-ChipSelects kommen von einem 1aus8-Dekoder LS138
+; der die Leitungen RA7,RA6 und RA5 dekodiert
+
+/DSPCS = /DEVSEL * RA8 * STARWR * /IRDY
+       + /DEVSEL * RA8 * /STARWR * /TIME3 * TIME2 * TIME1 * /IRDY;
+
+DMARMOD0 = RD0;
+DMARMOD0.CLKF = /SMPREG1;
+DMARMOD1 = RD1;
+DMARMOD1.CLKF = /SMPREG1;
+DMARMOD2 = RD2;
+DMARMOD2.CLKF = /SMPREG1;
+DMAPMOD0 = RD3;
+DMAPMOD0.CLKF = /SMPREG1;
+DMAPMOD1 = RD4;
+DMAPMOD1.CLKF = /SMPREG1;
+DMAPMOD2 = RD5;
+DMAPMOD2.CLKF = /SMPREG1;
+INTPLAY = RD6;
+INTPLAY.CLKF = /SMPREG1;
+INTREC = RD7;
+INTREC.CLKF = /SMPREG1;
+
+SWONDSP1 = RD0;
+SWONDSP1.CLKF = /SMPREG2;
+SWONDSP2 = RD1;
+SWONDSP2.CLKF = /SMPREG2;
+SWONDSP3 = RD2;
+SWONDSP3.CLKF = /SMPREG2;
+SWONDSP4 = RD3;
+SWONDSP4.CLKF = /SMPREG2;
+SWONDSP5 = RD4;
+SWONDSP5.CLKF = /SMPREG2;
+SWONDSP6 = RD5;
+SWONDSP6.CLKF = /SMPREG2;
+SWONDSP7 = RD6;
+SWONDSP7.CLKF = /SMPREG2;
+SWONDSP8 = RD7;
+SWONDSP8.CLKF = /SMPREG2;
+
+SWIODSP1 = RD0;
+SWIODSP1.CLKF = /SMPREG3;
+SWIODSP2 = RD1;
+SWIODSP2.CLKF = /SMPREG3;
+SWIODSP3 = RD2;
+SWIODSP3.CLKF = /SMPREG3;
+SWIODSP4 = RD3;
+SWIODSP4.CLKF = /SMPREG3;
+SWIODSP5 = RD4;
+SWIODSP5.CLKF = /SMPREG3;
+SWIODSP6 = RD5;
+SWIODSP6.CLKF = /SMPREG3;
+SWIODSP7 = RD6;
+SWIODSP7.CLKF = /SMPREG3;
+SWIODSP8 = RD7;
+SWIODSP8.CLKF = /SMPREG3;
+
+TAKTL = RD0;
+/TAKTL.CLKF = /SMPREG0;
+TAKTL.RSTF = /RESET;
+
+TAKTH = RD1;
+/TAKTH.CLKF = /SMPREG0;
+TAKTH.RSTF = /RESET;
+
+EXTAKT = RD2;
+/EXTAKT.CLKF = /SMPREG0;
+EXTAKT.RSTF = /RESET;
+
+SWRESFF = RD3;
+/SWRESFF.CLKF = /SMPREG0;
+SWRESFF.RSTF = /RESET;
+
+/DRVCS = /DEVSEL * IACK * /IRDY
+       + /IACK * /INTACK * BLOKATE
+       + /IACK * /INTACK2 * BLOKATE2;
+
+/TRDY = /DRVCS * /IRDY * TIME2 * SMPWR * DSPCS * /STARWR
+      + /DRVCS * /IRDY * TIME2 * STARWR
+      + /DRVCS * /IRDY * TIME3 * STARWR;
+TRDY.trst = /DRVCS * /IRDY;
+
+; ---------------------Interrupt-Decoding
+
+ITIME1 = /IACK;
+ITIME1.CLKF = HCLKI;
+ITIME1.RSTF = IACK;
+
+ITIME2 = ITIME1
+       + /INTPLAY * /INTREC;
+ITIME2.CLKF = HCLKI;
+ITIME2.RSTF = IACK;
+
+ITIME3 = ITIME2;
+ITIME3.CLKF = HCLKI;
+ITIME3.RSTF = IACK;
+
+/INTACK = /IACK * INTPLAY * WRHFLAG
+        + /IACK * INTREC * /RDHFLAG;
+
+/INTACK2 = /IACK * /DSPINT;
+
+BLOKATE = /INTACK;
+BLOKATE.CLKF = ITIME2;
+BLOKATE.RSTF = IACK;
+
+BLOKATE2 = /INTACK2 * /BLOKATE;
+BLOKATE2.CLKF = ITIME3;
+BLOKATE2.RSTF = IACK;
+
+/DSPIACK = /IACK * /INTACK2 * BLOKATE2;
+
+/INTHLP = /INTPLAY * WRHFLAG
+        + INTREC * /RDHFLAG
+        + /DSPINT;
+
+INTA = INTHLP;
+INTA.trst = /INTHLP;
+
+
+;  INT-Vektor Nummer #122 fuer Play, #123 fuer Record
+
+RD0 = WREFLAG * /STATCS * IACK
+   + /IACK * /RDHFLAG * INTREC;
+RD0.trst = /STATCS * /IRDY;
+
+RD1 = WRHFLAG * /STATCS
+   + /IACK;
+RD1.trst = /STATCS * /IRDY;
+
+RD2 = WRFFLAG * /STATCS * IACK;
+RD2.trst = /STATCS * /IRDY;
+
+RD3 = RDEFLAG * /STATCS
+   + /IACK;
+RD3.trst = /STATCS * /IRDY;
+
+RD4 = RDHFLAG * /STATCS
+   + /IACK;
+RD4.trst = /STATCS * /IRDY;
+
+RD5 = RDFFLAG * /STATCS
+   + /IACK;
+RD5.trst = /STATCS * /IRDY;
+
+RD6 = /IACK;
+RD6.trst = /STATCS * /IRDY;
+
+RD7 = IACK;
+RD7.trst = /STATCS * /IRDY;
+
+; ---------------------other
+
+/RESRDFIFO = /RESET + SWRESFF;
+
+F0.T = VCC;
+F0.CLKF = FCLK;
+F0.RSTF = /FRESET;
+F0.SETF = GND;
+
+F1.T = F0;
+F1.CLKF = FCLK;
+F1.RSTF = /FRESET;
+F1.SETF = GND;
+
+F2.T = F0 * F1;
+F2.CLKF = FCLK;
+F2.RSTF = /FRESET;
+F2.SETF = GND;
+
+F3.T = F0 * F1 * F2;
+F3.CLKF = FCLK;
+F3.RSTF = /FRESET;
+F3.SETF = GND;
+
+VCLK = /EXTAKT * /TAKTH * /TAKTL * MCLK24
+     + /EXTAKT * /TAKTH * TAKTL * MCLK16
+     + /EXTAKT * TAKTH * /TAKTL * MCLK24
+     + EXTAKT * /EXTMCLK;
+
+VCLKP = VCC;
+VCLKP.CLKF = VCLK;
+VCLKP.RSTF = VCLKP;
+
+VCLKN = VCC;
+VCLKN.CLKF = /VCLK;
+VCLKN.RSTF = VCLKN;
+
+FCLK = VCLKP + VCLKN;
+
+/FRESET = /EXTAKT * /TAKTH * /TAKTL * F3 * F2
+        + /EXTAKT * /TAKTH * TAKTL * F2 * F1
+        + /EXTAKT * TAKTH * /TAKTL * F3
+        + EXTAKT * /TAKTL * F2
+        + EXTAKT * TAKTL * F2 * F1;
+
+; SCLK128 fuer RCLK,PCLK,DSPSCK
+
+SCLK128 = /EXTAKT * /TAKTH * /TAKTL * F2 * F1
+        + /EXTAKT * /TAKTH * /TAKTL * F3
+        + /EXTAKT * /TAKTH * TAKTL * F1 * F0
+        + /EXTAKT * /TAKTH * TAKTL * F2
+        + /EXTAKT * TAKTH * /TAKTL * F2
+        + EXTAKT * /TAKTL * F1
+        + EXTAKT * TAKTL * F1 * F0
+        + EXTAKT * TAKTL * F2;
+
+; DMA-In
+
+; --Write-Signale generieren fÅr die 4 DMA-Record-FIFOs
+; --(bricht die 128Bit in je 8Bit-TeilstÅcke auf)
+
+BDMAI0.T = VCC;
+BDMAI0.CLKF = SCLK128;
+
+BDMAI1.T = BDMAI0;
+BDMAI1.CLKF = SCLK128;
+
+BDMAI2.T = BDMAI0 * BDMAI1;
+BDMAI2.CLKF = SCLK128;
+
+WDMAI0.T = BDMAI0 * BDMAI1 * BDMAI2;
+WDMAI0.CLKF = SCLK128;
+
+WDMAI1.T = BDMAI0 * BDMAI1 * BDMAI2 * WDMAI0;
+WDMAI1.CLKF = SCLK128;
+
+WDMAI2.T = BDMAI0 * BDMAI1 * BDMAI2 * WDMAI0 * WDMAI1;
+WDMAI2.CLKF = SCLK128;
+
+WDMAI3.T = BDMAI0 * BDMAI1 * BDMAI2 * WDMAI0 * WDMAI1 * WDMAI2;
+WDMAI3.CLKF = SCLK128;
+
+WTDMAI = WFRI;
+WTDMAI.CLKF = HCLKI;
+WTDMAI.RSTF = WRRIOK;
+WTDMAI.SETF = GND;
+
+WTDMAI2 = WTDMAI;
+WTDMAI2.CLKF = HCLKI;
+WTDMAI2.RSTF = WRRIOK;
+WTDMAI2.SETF = GND;
+
+WTDMAI3 = WTDMAI2;
+WTDMAI3.CLKF = HCLKI;
+WTDMAI3.RSTF = WRRIOK;
+WTDMAI3.SETF = GND;
+
+WFRI = BDMAI0 * BDMAI1 * BDMAI2
+     + /BDMAI0 * /BDMAI1 * /BDMAI2 * DMARMOD0
+     + /BDMAI0 * /BDMAI1 * /BDMAI2 * DMARMOD1
+     + /BDMAI0 * /BDMAI1 * /BDMAI2 * DMARMOD2
+     + /BDMAI0 * /BDMAI1 * BDMAI2 * DMARMOD1
+     + /BDMAI0 * /BDMAI1 * BDMAI2 * DMARMOD2
+     + /BDMAI0 * BDMAI1 * /BDMAI2 * DMARMOD1 * DMARMOD0
+     + /BDMAI0 * BDMAI1 * /BDMAI2 * DMARMOD2
+     + /BDMAI0 * BDMAI1 * BDMAI2 * DMARMOD2
+     + BDMAI0 * /BDMAI1 * /BDMAI2 * DMARMOD2 * DMARMOD0
+     + BDMAI0 * /BDMAI1 * /BDMAI2 * DMARMOD2 * DMARMOD1
+     + BDMAI0 * /BDMAI1 * BDMAI2 * DMARMOD2 * DMARMOD1
+     + BDMAI0 * BDMAI1 * /BDMAI2 * DMARMOD2 * DMARMOD1 * DMARMOD0;
+WFRI.CLKF = /SCLK128;
+WFRI.SETF = GND;
+WFRI.RSTF = WRRIOK;
+
+WRRIOK = WFRI * WTDMAI * WTDMAI2 * WTDMAI3 * WRDMAI1 * WRDMAI2
+       * WRDMAI3 * WRDMAI4
+       + /RESET;
+
+/WRDMAI4 = /WDMAI3 * /WDMAI2 * WFRI * WTDMAI * /WTDMAI2;
+/WRDMAI3 = /WDMAI3 * WDMAI2 * WFRI * WTDMAI * /WTDMAI2;
+/WRDMAI2 = WDMAI3 * /WDMAI2 * WFRI * WTDMAI * /WTDMAI2;
+/WRDMAI1 = WDMAI3 * WDMAI2 * WFRI * WTDMAI * /WTDMAI2;
+
+WRID8 = /WDMAI3 * /WDMAI2 * /WDMAI1 * /WDMAI0;
+
+; Shift-Load fÅr die einzelnen Shiftregister
+
+/SHLDMAI1 = /BDMAI2 * /BDMAI1 * /BDMAI0 * WTDMAI3;
+/SHLDMAI2 = /BDMAI2 * /BDMAI1 * BDMAI0 * WTDMAI3;
+/SHLDMAI3 = /BDMAI2 * BDMAI1 * /BDMAI0 * WTDMAI3;
+/SHLDMAI4 = /BDMAI2 * BDMAI1 * BDMAI0 * WTDMAI3;
+/SHLDMAI5 = BDMAI2 * /BDMAI1 * /BDMAI0 * WTDMAI3;
+/SHLDMAI6 = BDMAI2 * /BDMAI1 * BDMAI0 * WTDMAI3;
+/SHLDMAI7 = BDMAI2 * BDMAI1 * /BDMAI0 * WTDMAI3;
+/SHLDMAI8 = BDMAI2 * BDMAI1 * BDMAI0 * WTDMAI3;
+
+; --die einzelnen Fsyncs fÅr die 8 DMA-Ins
+
+/DMAIFSYNC8 = /WDMAI3 * /WDMAI2 * /WDMAI1;
+
+/DMAIFSYNC1 = /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI0
+            + /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI1
+            + /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI2
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * /BDMAI2 * /BDMAI1 * /BDMAI0;
+
+/DMAIFSYNC2 = /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI1
+            + /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI2
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * /BDMAI2 * /BDMAI1;
+
+/DMAIFSYNC3 = /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI1 * BDMAI0
+            + /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI2
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * /BDMAI2 * /BDMAI1
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * /BDMAI2 * BDMAI1 * /BDMAI0;
+
+/DMAIFSYNC4 = /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI2
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * /BDMAI2;
+
+/DMAIFSYNC5 = /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI2 * BDMAI0
+            + /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI2 * BDMAI1
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * /BDMAI2
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * BDMAI2 * /BDMAI1 * /BDMAI0;
+
+/DMAIFSYNC6 = /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI2 * BDMAI1
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * /BDMAI2
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * BDMAI2 * /BDMAI1;
+
+/DMAIFSYNC7 = /WDMAI3 * /WDMAI2 * /WDMAI1 * BDMAI2 * BDMAI1 * BDMAI0
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * /BDMAI2
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * /BDMAI2 * /BDMAI1
+            + /WDMAI3 * /WDMAI2 * WDMAI1 * BDMAI2 * BDMAI1 * /BDMAI0;
+
+
+
+; DMA-Out
+; --Read-Signale generieren fÅr die 4 DMA-Play-FIFOs
+; --(liest je FIFO 8Bit-TeilstÅcke aus und setzt sie zu 128Bit zusammen)
+
+BDMAO0.T = VCC;
+BDMAO0.CLKF = SCLK128;
+BDMAO0.RSTF = /DMAORES;
+BDMAO0.SETF = GND;
+
+BDMAO1.T = BDMAO0;
+BDMAO1.CLKF = SCLK128;
+BDMAO1.RSTF = /DMAORES;
+BDMAO1.SETF = GND;
+
+BDMAO2.T = BDMAO0 * BDMAO1;
+BDMAO2.CLKF = SCLK128;
+BDMAO2.RSTF = /DMAORES;
+BDMAO2.SETF = GND;
+
+WDMAO0.T = BDMAO0 * BDMAO1 * BDMAO2;
+WDMAO0.CLKF = SCLK128;
+WDMAO0.RSTF = /DMAORES;
+WDMAO0.SETF = GND;
+
+WDMAO1.T = BDMAO0 * BDMAO1 * BDMAO2 * WDMAO0;
+WDMAO1.CLKF = SCLK128;
+WDMAO1.RSTF = /DMAORES;
+WDMAO1.SETF = GND;
+
+WDMAO2.T = BDMAO0 * BDMAO1 * BDMAO2 * WDMAO0 * WDMAO1;
+WDMAO2.CLKF = SCLK128;
+WDMAO2.RSTF = /DMAORES;
+WDMAO2.SETF = GND;
+
+WDMAO3.T = BDMAO0 * BDMAO1 * BDMAO2 * WDMAO0 * WDMAO1 * WDMAO2;
+WDMAO3.CLKF = SCLK128;
+WDMAO3.RSTF = /DMAORES;
+WDMAO3.SETF = GND;
+
+; --WordzÑhler synchronisieren bzw. lîschen
+
+/DMAORES = /RDMAO8 * RDMAOD8 * SCLK128 * /BDMAO0
+         * WTDMAO * /WTDMAO2 * /DMAORD4
+         + /DMAOEF1;
+
+; --Zugriffstiming
+
+WTDMAO = VCC;
+WTDMAO.CLKF = HCLKI;
+WTDMAO.RSTF = DMAORD;
+WTDMAO.SETF = GND;
+
+WTDMAO2 = WTDMAO;
+WTDMAO2.CLKF = HCLKI;
+WTDMAO2.RSTF = DMAORD;
+WTDMAO2.SETF = GND;
+
+WTDMAO3 = WTDMAO2;
+WTDMAO3.CLKF = HCLKI;
+WTDMAO3.RSTF = DMAORD;
+WTDMAO3.SETF = GND;
+
+; --FIFO auslesen
+
+/DMAORD1 = SCLK128 * DMAOEF1 * /WDMAO1 * /WDMAO0 * /DMAORD;
+/DMAORD2 = SCLK128 * DMAOEF1 * /WDMAO1 * WDMAO0 * /DMAORD;
+/DMAORD3 = SCLK128 * DMAOEF1 * WDMAO1 * /WDMAO0 * /DMAORD;
+/DMAORD4 = SCLK128 * DMAOEF1 * WDMAO1 * WDMAO0 * /DMAORD;
+
+/DMAORD = SCLK128 * DMAOEF1 * /BDMAO2 * /BDMAO1 * /BDMAO0
+        + /DMAPMOD2 * /DMAPMOD1 * DMAPMOD0 * SCLK128 *
+          DMAOEF1 * /BDMAO2 * /BDMAO1 * BDMAO0
+        + /DMAPMOD2 * DMAPMOD1 * SCLK128 *
+          DMAOEF1 * /BDMAO2 * /BDMAO1 * BDMAO0
+        + DMAPMOD2 * SCLK128 *
+          DMAOEF1 * /BDMAO2 * /BDMAO1 * BDMAO0
+        + /DMAPMOD2 * DMAPMOD1 * SCLK128 *
+          DMAOEF1 * /BDMAO2 * BDMAO1 * /BDMAO0
+        + /DMAPMOD2 * SCLK128 *
+          DMAOEF1 * /BDMAO2 * BDMAO1 * /BDMAO0
+        + /DMAPMOD2 * DMAPMOD1 * DMAPMOD0 * SCLK128 *
+          DMAOEF1 * /BDMAO2 * BDMAO1 * BDMAO0
+        + /DMAPMOD2 * SCLK128 *
+          DMAOEF1 * /BDMAO2 * BDMAO1 * BDMAO0
+        + DMAPMOD2 * SCLK128 *
+          DMAOEF1 * BDMAO2 * /BDMAO1 * /BDMAO0
+        + DMAPMOD2 * /DMAPMOD1 * DMAPMOD0 * SCLK128 *
+          DMAOEF1 * BDMAO2 * /BDMAO1 * BDMAO0
+        + DMAPMOD2 * DMAPMOD1 * SCLK128 *
+          DMAOEF1 * BDMAO2 * /BDMAO1 * BDMAO0
+        + DMAPMOD2 * DMAPMOD1 * SCLK128 *
+          DMAOEF1 * BDMAO2 * BDMAO1 * /BDMAO0
+        + DMAPMOD2 * DMAPMOD1 * DMAPMOD0 * SCLK128 *
+          DMAOEF1 * BDMAO2 * BDMAO1 * BDMAO0;
+
+; Shift-Load fÅr die einzelnen Shiftregister
+
+/SHLDMAO1 = DMAOEF1 * /BDMAO2 * /BDMAO1 * /BDMAO0 * WTDMAO3;
+/SHLDMAO2 = DMAOEF1 * /BDMAO2 * /BDMAO1 * BDMAO0 * WTDMAO3;
+/SHLDMAO3 = DMAOEF1 * /BDMAO2 * BDMAO1 * /BDMAO0 * WTDMAO3;
+/SHLDMAO4 = DMAOEF1 * /BDMAO2 * BDMAO1 * BDMAO0 * WTDMAO3;
+/SHLDMAO5 = DMAOEF1 * BDMAO2 * /BDMAO1 * /BDMAO0 * WTDMAO3;
+/SHLDMAO6 = DMAOEF1 * BDMAO2 * /BDMAO1 * BDMAO0 * WTDMAO3;
+/SHLDMAO7 = DMAOEF1 * BDMAO2 * BDMAO1 * /BDMAO0 * WTDMAO3;
+/SHLDMAO8 = DMAOEF1 * BDMAO2 * BDMAO1 * BDMAO0 * WTDMAO3;
+
+; Shift-Clock fÅr die Shiftregister
+
+DMAOSHCLK = /SCLK128;
+
+; --Fsync-Synchro ermitteln
+
+RDMAO8 := RDMAOD8;
+RDMAO8.CLKF = WTDMAO3 * /DMAORD4;
+RDMAO8.RSTF = /DMAOEF1;
+RDMAO8.SETF = GND;
+
+; --die einzelnen Fsyncs fÅr die 8 DMA-Outs
+
+/DMAOFSYNC8 = /WDMAO3 * /WDMAO2 * /WDMAO1;
+
+/DMAOFSYNC1 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO0
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO1
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * /BDMAO1 * /BDMAO0;
+
+/DMAOFSYNC2 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO1
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * /BDMAO1;
+
+/DMAOFSYNC3 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO1 * BDMAO0
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * /BDMAO1
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * BDMAO1 * /BDMAO0;
+
+/DMAOFSYNC4 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2;
+
+/DMAOFSYNC5 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2 * BDMAO0
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2 * BDMAO1
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * BDMAO2 * /BDMAO1 * /BDMAO0;
+
+/DMAOFSYNC6 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2 * BDMAO1
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * BDMAO2 * /BDMAO1;
+
+/DMAOFSYNC7 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2 * BDMAO1 * BDMAO0
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * /BDMAO1
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * BDMAO2 * BDMAO1 * /BDMAO0;
+
+R_DATA1 = SHIFTID1 * /SWONDSP1
+        + SHIFTID1 * SWIODSP1
+        + DSPSTD1 * SWONDSP1 * /SWIODSP1;
+P_DATA1 = SHIFTOD1 * /SWONDSP1
+        + SHIFTOD1 * /SWIODSP1
+        + DSPSTD1 * SWONDSP1 * SWIODSP1;
+DSPSRD1 = SHIFTID1 * SWONDSP1 * /SWIODSP1
+        + SHIFTOD1 * SWONDSP1 * SWIODSP1;
+R_DATA2 = SHIFTID2 * /SWONDSP2
+        + SHIFTID2 * SWIODSP2
+        + DSPSTD2 * SWONDSP2 * /SWIODSP2;
+P_DATA2 = SHIFTOD2 * /SWONDSP2
+        + SHIFTOD2 * /SWIODSP2
+        + DSPSTD2 * SWONDSP2 * SWIODSP2;
+DSPSRD2 = SHIFTID2 * SWONDSP2 * /SWIODSP2
+        + SHIFTOD2 * SWONDSP2 * SWIODSP2;
+R_DATA3 = SHIFTID3 * /SWONDSP3
+        + SHIFTID3 * SWIODSP3
+        + DSPSTD3 * SWONDSP3 * /SWIODSP3;
+P_DATA3 = SHIFTOD3 * /SWONDSP3
+        + SHIFTOD3 * /SWIODSP3
+        + DSPSTD3 * SWONDSP3 * SWIODSP3;
+DSPSRD3 = SHIFTID3 * SWONDSP3 * /SWIODSP3
+        + SHIFTOD3 * SWONDSP3 * SWIODSP3;
+R_DATA4 = SHIFTID4 * /SWONDSP4
+        + SHIFTID4 * SWIODSP4
+        + DSPSTD4 * SWONDSP4 * /SWIODSP4;
+P_DATA4 = SHIFTOD4 * /SWONDSP4
+        + SHIFTOD4 * /SWIODSP4
+        + DSPSTD4 * SWONDSP4 * SWIODSP4;
+DSPSRD4 = SHIFTID4 * SWONDSP4 * /SWIODSP4
+        + SHIFTOD4 * SWONDSP4 * SWIODSP4;
+R_DATA5 = SHIFTID5 * /SWONDSP5
+        + SHIFTID5 * SWIODSP5
+        + DSPSTD5 * SWONDSP5 * /SWIODSP5;
+P_DATA5 = SHIFTOD5 * /SWONDSP5
+        + SHIFTOD5 * /SWIODSP5
+        + DSPSTD5 * SWONDSP5 * SWIODSP5;
+DSPSRD5 = SHIFTID5 * SWONDSP5 * /SWIODSP5
+        + SHIFTOD5 * SWONDSP5 * SWIODSP5;
+R_DATA6 = SHIFTID6 * /SWONDSP6
+        + SHIFTID6 * SWIODSP6
+        + DSPSTD6 * SWONDSP6 * /SWIODSP6;
+P_DATA6 = SHIFTOD6 * /SWONDSP6
+        + SHIFTOD6 * /SWIODSP6
+        + DSPSTD6 * SWONDSP6 * SWIODSP6;
+DSPSRD6 = SHIFTID6 * SWONDSP6 * /SWIODSP6
+        + SHIFTOD6 * SWONDSP6 * SWIODSP6;
+R_DATA7 = SHIFTID7 * /SWONDSP7
+        + SHIFTID7 * SWIODSP7
+        + DSPSTD7 * SWONDSP7 * /SWIODSP7;
+P_DATA7 = SHIFTOD7 * /SWONDSP7
+        + SHIFTOD7 * /SWIODSP7
+        + DSPSTD7 * SWONDSP7 * SWIODSP7;
+DSPSRD7 = SHIFTID7 * SWONDSP7 * /SWIODSP7
+        + SHIFTOD7 * SWONDSP7 * SWIODSP7;
+R_DATA8 = SHIFTID8 * /SWONDSP8
+        + SHIFTID8 * SWIODSP8
+        + DSPSTD8 * SWONDSP8 * /SWIODSP8;
+P_DATA8 = SHIFTOD8 * /SWONDSP8
+        + SHIFTOD8 * /SWIODSP8
+        + DSPSTD8 * SWONDSP8 * SWIODSP8;
+DSPSRD8 = SHIFTID8 * SWONDSP8 * /SWIODSP8
+        + SHIFTOD8 * SWONDSP8 * SWIODSP8;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

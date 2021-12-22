@@ -1,0 +1,507 @@
+// Di Jan 10 22:05:00 1996
+// DSP2Y.LDF
+// pcb-Version
+//
+// DSP-Reset und ChipSelect fuer DSP
+// DSP-Port und Signal-Switch-Controller
+// DSP-Clockout-Divider 2-15
+// Support fuer 24Bit Stereo-Specialmode (serial Channelswitch)
+//
+// fuer DSP-Karte
+//
+LDF 1.00.00 DESIGNLDF;
+DESIGN dsp2y;
+REVISION V1.0;
+AUTHOR Stephan Wilhelm;
+PROJECTNAME StarTrack;
+
+PART ispLSI1016-60LT;
+
+DECLARE
+END;  //DECLARE
+
+
+
+SYM GLB  A0  1  regs1;
+SIGTYPE REG1      Out ; // Node Register Nummer 1
+SIGTYPE REG2      Out ; // Node Register Nummer 2
+SIGTYPE REG5      Out ; // Node Register Nummer 1
+SIGTYPE REG6      Out ; // Node Register Nummer 2
+
+EQUATIONS
+
+REG1 = !(!HEN_IN & !A6 & A4 & !A2 & !A1 & !RW);
+
+REG2 = !(!HEN_IN & !A6 & A4 & !A2 & A1 & !RW);
+
+REG5 = !(!HEN_IN & !A6 & A4 & A2 & !A1 & !RW);
+
+REG6 = !(!HEN_IN & !A6 & A4 & A2 & A1 & !RW);
+
+END;
+END;
+
+
+SYM GLB  A1  1  regs2;
+SIGTYPE DIVCLR    Out ; // Reset fuer Clockdivider
+SIGTYPE HEN_OUT   Out ; // DSP-CS-Signal
+SIGTYPE DSPRESET  Out ; // DSP-Reset-Signal
+SIGTYPE DRDOE     OE  ; // VME-Data-Enable
+
+EQUATIONS
+
+DIVCLR = (DVREG3 !$ DIV4) & (DVREG2 !$ DIV3) & (DVREG1 !$ DIV2) & (DVREG0 !$ DIV1) & 
+         !(!DVREG3 & !DVREG2 & !DVREG1);
+
+HEN_OUT = !(!HEN_IN & !A6 & !A4 & RST);
+
+DSPRESET = !(!RST
+           # DRESREG);
+
+DRDOE = !HEN_IN & !A6 & A4 & A1 & RW;
+
+END;
+END;
+
+
+SYM GLB  A2  1  shiftdat;
+SIGTYPE GPIO0     Out ; // GPIO-Anschluss fuer DSP-Port
+SIGTYPE GPIO1     Out ; // GPIO-Anschluss fuer DSP-Port
+SIGTYPE GPIO2     Out ; // GPIO-Anschluss fuer DSP-Port
+SIGTYPE GPOE1     OE  ; // Enable GPIO-Anschluss fuer DSP-Port
+
+EQUATIONS
+
+GPIO0 = RGPIO0;
+
+GPIO1 = RGPIO1;
+
+GPIO2 = RGPIO2;
+
+GPOE1 = GPIODIR1;
+
+END;
+END;
+
+
+SYM GLB  A3  1  switch;
+SIGTYPE SC0REG    Reg ; // DSP-SC0 (mit SCLK) Analogschalter
+SIGTYPE SC1REG    Reg ; // DSP-SC1 (mit DSP) Analogschalter 
+SIGTYPE SC2REG    Reg ; // DSP-SC2 (mit DSP) Analogschalter 
+SIGTYPE DRESREG   Reg ; // DSP-MakeReset-Register
+
+EQUATIONS
+
+SC0REG = BDI0;
+SC0REG.PTCLK = REG1;
+SC0REG.RE = !RST;
+
+SC1REG = BDI1;
+SC1REG.PTCLK = REG1;
+SC1REG.RE = !RST;
+
+SC2REG = BDI2;
+SC2REG.PTCLK = REG1;
+SC2REG.RE = !RST;
+
+DRESREG = BD3;
+DRESREG.PTCLK = REG1;
+DRESREG.RE = !RST;
+
+END;
+END;
+
+
+SYM GLB  A4  1  gpin;
+SIGTYPE BDO0      Out ; // VME-Data0
+SIGTYPE BDO1      Out ; // VME-Data0
+SIGTYPE BDO2      Out ; // VME-Data0
+SIGTYPE GPOE2     OE  ; // Enable GPIO-Anschluss fuer DSP-Port
+
+EQUATIONS
+
+BDO0 = GPIN0;
+
+BDO1 = GPIN1;
+
+BDO2 = GPIN2;
+
+GPOE2 = GPIODIR2;
+
+END;
+END;
+
+
+SYM GLB  A5  1  gpreg;
+SIGTYPE RGPIO0    Reg ; // Node GPIO-Register fuer DSP-Port
+SIGTYPE RGPIO1    Reg ; // Node GPIO-Register fuer DSP-Port
+SIGTYPE RGPIO2    Reg ; // Node GPIO-Register fuer DSP-Port
+SIGTYPE GPIODIR0  Reg ; // Node GPIO-Richtungsflag fuer GPIO0
+
+EQUATIONS
+
+RGPIO0 = BDI0;
+RGPIO0.PTCLK = REG2;
+RGPIO0.RE = !RST;
+
+RGPIO1 = BDI1;
+RGPIO1.PTCLK = REG2;
+RGPIO1.RE = !RST;
+
+RGPIO2 = BDI2;
+RGPIO2.PTCLK = REG2;
+RGPIO2.RE = !RST;
+
+GPIODIR0 = BD3;
+GPIODIR0.PTCLK = REG2;
+GPIODIR0.RE = !RST;
+
+END;
+END;
+
+
+SYM GLB  A6  1  gpdir;
+SIGTYPE GPIODIR1  Reg ; // Node GPIO-Richtungsflag fuer GPIO1
+SIGTYPE GPIODIR2  Reg ; // Node GPIO-Richtungsflag fuer GPIO2
+SIGTYPE CHDAT     Out ; // Wahl des DA-Kanals
+SIGTYPE CHCLK     Out ; // Wahl des DA-Kanals
+
+EQUATIONS
+
+
+GPIODIR1 = BDI0;
+GPIODIR1.PTCLK = REG6;
+GPIODIR1.RE = !RST;
+
+GPIODIR2 = BDI1;
+GPIODIR2.PTCLK = REG6;
+GPIODIR2.RE = !RST;
+
+CHDAT = BDI2;
+
+CHCLK = REG6;
+
+END;
+END;
+
+SYM GLB  B0  1  datswitch;
+SIGTYPE SRDREG    Reg ; // Node Switch fuer SRD
+SIGTYPE STDREG0   Reg ; // Node Switch fuer STD
+SIGTYPE STDREG1   Reg ; // Node Switch fuer STD
+SIGTYPE CONVREG   Reg ; // Node Switch fuer Normal!Continuous
+
+EQUATIONS
+
+SRDREG = BDI0;
+SRDREG.PTCLK = REG5;
+SRDREG.RE = !RST;
+
+STDREG0 = BDI1;
+STDREG0.PTCLK = REG5;
+STDREG0.RE = !RST;
+
+STDREG1 = BDI2;
+STDREG1.PTCLK = REG5;
+STDREG1.RE = !RST;
+
+CONVREG = BD3;
+CONVREG.PTCLK = REG5;
+CONVREG.RE = !RST;
+
+END;
+END;
+
+
+SYM GLB  B1  1  pdatreg;
+SIGTYPE PDREG0    Reg ; // Wahl der P_DATA-Daten
+SIGTYPE PDREG1    Reg ; // Wahl der P_DATA-Daten
+SIGTYPE MEMREG    Reg ; // Wahl der Memorygroesse bzw. Memorymode
+SIGTYPE DSPIREG   Reg ; // Wahl der DSP_Input-Daten
+
+EQUATIONS
+
+PDREG0 = BDI0;
+PDREG0.PTCLK = !(!HEN_IN & A6 & !A4 & !A1 & !RW);
+PDREG0.RE = !RST;
+
+PDREG1 = BDI1;
+PDREG1.PTCLK = !(!HEN_IN & A6 & !A4 & !A1 & !RW);
+PDREG1.RE = !RST;
+
+MEMREG = BDI2;
+MEMREG.PTCLK = !(!HEN_IN & A6 & !A4 & !A1 & !RW);
+MEMREG.RE = !RST;
+
+DSPIREG = BD3;
+DSPIREG.PTCLK = !(!HEN_IN & A6 & !A4 & !A1 & !RW);
+DSPIREG.RE = !RST;
+
+END;
+END;
+
+
+SYM GLB  B2  1  count;
+SIGTYPE DIV1      Reg ; // Clock-Divider Stufe 1
+SIGTYPE DIV2      Reg ; // Clock-Divider Stufe 2
+SIGTYPE DIV3      Reg ; // Clock-Divider Stufe 3
+SIGTYPE DIV4      Reg ; // Clock-Divider Stufe 4
+CBU14 (DIV1,DIV2,DIV3,DIV4,CAO2,VCC,CKOUT,DIVCLR) // 4Bit-Zaehler
+END;
+
+
+SYM GLB  B3  1  pdatreg;
+SIGTYPE DVREG0    Reg ; // 
+SIGTYPE DVREG1    Reg ; // 
+SIGTYPE DVREG2    Reg ; // 
+SIGTYPE DVREG3    Reg ; // 
+
+EQUATIONS
+
+DVREG0 = BDI0;
+DVREG0.PTCLK = REG4;
+DVREG0.RE = !RST;
+
+DVREG1 = BDI1;
+DVREG1.PTCLK = REG4;
+DVREG1.RE = !RST;
+
+DVREG2 = BDI2;
+DVREG2.PTCLK = REG4;
+DVREG2.RE = !RST;
+
+DVREG3 = BD3;
+DVREG3.PTCLK = REG4;
+DVREG3.RE = !RST;
+
+END;
+END;
+
+
+SYM GLB  B4  1  regs1;
+SIGTYPE DIVCLK    Reg ; // Clock-Divider fuer gleichlange Flanken
+SIGTYPE REG4      Out ; // Node Register Nummer 4
+SIGTYPE ICLK      Out ; // Clock-Ausgang fuer ICLK-Anschluss
+SIGTYPE DSPDIN    Out ; // Datensignal fuer DSP
+
+EQUATIONS
+
+DIVCLK = !DIVCLK;
+DIVCLK.PTCLK = DIVCLR;
+
+ICLK = DIVCLR & DVREG3
+     # DIVCLR & DVREG2
+     # DIVCLR & DVREG1
+     # DIV1 & !DVREG3 & !DVREG2 & !DVREG1 & DVREG0
+     # CKOUT2 & !DVREG3 & !DVREG2 & !DVREG1 & !DVREG0;
+
+REG4 = !(!HEN_IN & A6 & !A4 & A1 & !RW);
+
+DSPDIN = SRD & !DSPIREG
+       # R_DATA & DSPIREG;
+
+END;
+END;
+
+
+SYM GLB  B5  1  shiftdat;
+SIGTYPE DSPSTD    Out ; // Matrix STD-Signal
+SIGTYPE SHFTDI    Out ; // zum Shifter-Data-Input
+SIGTYPE P_DATA    Out ; // P_DATA vom DSP-Port
+SIGTYPE GPOE0     OE  ; // Enable GPIO-Anschluss fuer DSP-Port
+
+EQUATIONS
+
+DSPSTD = !CONVREG & STD & !STDREG1 & !STDREG0
+       # !CONVREG & R_DATA & !STDREG1 & STDREG0
+       # !CONVREG & SRD & STDREG1
+       # CONVREG & SHFTDO;
+
+SHFTDI = STD & !STDREG1 & !STDREG0
+      # R_DATA & !STDREG1 & STDREG0
+      # SRD & STDREG1;
+
+P_DATA = SRD & !PDREG1 & !PDREG0
+       # STD & !PDREG1 & PDREG0
+       # R_DATA & PDREG1;
+
+GPOE0 = GPIODIR0;
+
+END;
+END;
+
+
+
+SYM IOC  I0  1 HEN_IN;
+XPIN I XHEN_IN LOCK 18;  // DSP-CS-Signal von STARTRK3
+IB11(HEN_IN,XHEN_IN)
+END;
+
+SYM IOC  I1  1 SHFTDO;
+XPIN I XSHFTDO LOCK 40;  // vom Shifter-Data-Output
+IB11(SHFTDO,XSHFTDO)
+END;
+
+SYM IOC  Y0  1 CKOUT;
+XPIN CLK XCKOUT LOCK 5;  // vom DSP-Clock-Output
+IB11(CKOUT,XCKOUT)
+END;
+
+SYM IOC  IO0  1 A6;
+XPIN IO XA6 LOCK 33;  // VME-A6
+IB11(A6,XA6)
+END;
+
+SYM IOC  IO1  1 SRD;
+XPIN IO XSRD LOCK 36;  // von Matrix-SRD
+IB11(SRD,XSRD)
+END;
+
+SYM IOC  IO2  1 RST;
+XPIN IO XRST LOCK 2;  // VME-RESET
+IB11(RST,XRST)
+END;
+
+SYM IOC  IO3  1 A4;
+XPIN IO XA4 LOCK 32;  // VME-A4
+IB11(A4,XA4)
+END;
+
+SYM IOC  IO4  1 P_DATA;
+XPIN IO XP_DATA LOCK 10;  // P_DATA von DSP-Port
+OB11(XP_DATA,P_DATA)
+END;
+
+SYM IOC  IO5  1 A1;
+XPIN IO XA1 LOCK 31;  // VME-A1
+IB11(A1,XA1)
+END;
+
+SYM IOC  IO6  1 RW;
+XPIN IO XRW LOCK 26;  // VME-Write
+IB11(RW,XRW)
+END;
+
+SYM IOC  IO7  1 BD1;
+XPIN IO XBD1 LOCK 21;  // VME-Data1
+BI11(BDI1,XBD1,BDO1,DRDOE)
+END;
+
+SYM IOC  IO8  1 BD2;
+XPIN IO XBD2 LOCK 16;  // VME-Data2
+BI11(BDI2,XBD2,BDO2,DRDOE)
+END;
+
+SYM IOC  IO9  1 BD3;
+XPIN IO XBD3 LOCK 20;  // VME-Data3
+IB11(BD3,XBD3)
+END;
+
+SYM IOC  IO10  1 A2;
+XPIN IO XA2 LOCK 44;  // VME-A2
+IB11(A2,XA2)
+END;
+
+SYM IOC  IO11  1 ICLK;
+XPIN IO XICLK LOCK 13;  // zum ICLK-Anschluss am PCB-Connector
+OB11(XICLK,ICLK)
+END;
+
+SYM IOC  IO12  1 CKOUT2;
+XPIN IO XCKOUT2 LOCK 15;  // vom DSP-Clock-Output
+IB11(CKOUT2,XCKOUT2)
+END;
+
+SYM IOC  IO13  1 BD0;
+XPIN IO XBD0 LOCK 19;  // VME-Data0
+BI11(BDI0,XBD0,BDO0,DRDOE)
+END;
+
+SYM IOC  IO14  1 GPIO0;
+XPIN IO XGPIO0 LOCK 9;  // GPIO-Anschluss fuer DSP-Port
+BI11(GPIN0,XGPIO0,GPIO0,GPOE0)
+END;
+
+SYM IOC  IO15  1 GPIO1;
+XPIN IO XGPIO1 LOCK 3;  // GPIO-Anschluss fuer DSP-Port
+BI11(GPIN1,XGPIO1,GPIO1,GPOE1)
+END;
+
+SYM IOC  IO16  1 GPIO2;
+XPIN IO XGPIO2 LOCK 4;  // GPIO-Anschluss fuer DSP-Port
+BI11(GPIN2,XGPIO2,GPIO2,GPOE2)
+END;
+
+SYM IOC  IO17  1 SHFTDI;
+XPIN IO XSHFTDI LOCK 34;  // zum Shifter-Data-Input
+OB11(XSHFTDI,SHFTDI)
+END;
+
+SYM IOC  IO18  1 DRESREG;
+XPIN IO XDRESREG LOCK 41;  // DSP-MakeReset-Register
+OB11(XDRESREG,DRESREG)
+END;
+
+SYM IOC  IO19  1 CHCLK;
+XPIN IO XCHCLK LOCK 23;  // Wahl des DA-Kanals,Clock (war DACH0)
+OB11(XCHCLK,CHCLK)
+END;
+
+SYM IOC  IO20  1 CHDAT;
+XPIN IO XCHDAT LOCK 24;  // Wahl des DA-Kanals,Data (war DACH1)
+OB11(XCHDAT,CHDAT)
+END;
+
+SYM IOC  IO21  1 SC0REG;
+XPIN IO XSC0REG LOCK 37;  // DSP-SC0 (mit SCLK) Analogschalter
+OB11(XSC0REG,SC0REG)
+END;
+
+SYM IOC  IO22  1 SC1REG;
+XPIN IO XSC1REG LOCK 43;  // DSP-SC1 (mit DSP) Analogschalter
+OB11(XSC1REG,SC1REG)
+END;
+
+SYM IOC  IO23  1 SC2REG;
+XPIN IO XSC2REG LOCK 38;  // DSP-SC2 (mit DSP) Analogschalter
+OB11(XSC2REG,SC2REG)
+END;
+
+SYM IOC  IO24  1 DSPSTD;
+XPIN IO XDSPSTD LOCK 35;  // Matrix STD-Signal
+OB11(XDSPSTD,DSPSTD)
+END;
+
+SYM IOC  IO25  1 SRDREG;
+XPIN IO XSRDREG LOCK 42;  // Tristate DSP-SRD-Signal (zum DSP)
+OB11(XSRDREG,SRDREG)
+END;
+
+SYM IOC  IO26  1 MEMREG;
+XPIN IO XMEMREG LOCK 25;  // Memory-Mode
+OB11(XMEMREG,MEMREG)
+END;
+
+SYM IOC  IO27  1 R_DATA;
+XPIN IO XR_DATA LOCK 1;  // von Dsp-Port R_DATA
+IB11(R_DATA,XR_DATA)
+END;
+
+SYM IOC  IO28  1 STD;
+XPIN IO XSTD LOCK 22;  // 22von DSP-STD
+IB11(STD,XSTD)
+END;
+
+SYM IOC  IO29  1 HEN_OUT;
+XPIN IO XHEN_OUT LOCK 11;  // DSP-CS-Signal
+OB11(XHEN_OUT,HEN_OUT)
+END;
+
+SYM IOC  IO30  1 DSPRESET;
+XPIN IO XDSPRESET LOCK 12;  // 44DSP-Reset-Signal
+OB11(XDSPRESET,DSPRESET)
+END;
+
+SYM IOC  IO31  1 DSPDIN;
+XPIN IO XDSPDIN LOCK 14;  // DSP-Eingang
+OB11(XDSPDIN,DSPDIN)      //zus.verbunden mit DSP1 Pin 12
+END;

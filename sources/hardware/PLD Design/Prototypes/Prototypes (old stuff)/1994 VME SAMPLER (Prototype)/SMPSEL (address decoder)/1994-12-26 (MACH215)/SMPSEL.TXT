@@ -1,0 +1,273 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    SMPSEL.PDS - 16Bit-Soundsampler - Adressdekodierung
+PATTERN  A
+REVISION 1.0
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself
+DATE     12/26/94
+
+CHIP  _sampler1  MACH215
+
+;---------------------------------- PIN Declarations ---------------
+PIN  14         A5                 ; VME-Adressleitung
+PIN  20         A6                 ; VME-Adressleitung
+PIN  38         A7                 ; VME-Adressleitung
+PIN  37         A8                 ; VME-Adressleitung
+PIN  19         A9                 ; VME-Adressleitung
+PIN  10         A10                ; VME-Adressleitung
+PIN  13         A11                ; VME-Adressleitung
+PIN  32         A12                ; VME-Adressleitung
+PIN  33         A13                ; VME-Adressleitung
+PIN  35         A14                ; VME-Adressleitung
+PIN  18         A15                ; VME-Adressleitung
+PIN  17         RW                 ; VME-Schreib/Leseleitung
+PIN  11         AM4                ; VME-Adressmodifier
+PIN  16         IACK               ; VME-Interrupt-Best„tigungsleitung
+PIN  39         SYSCLK             ; VME-Systemtakt 16MHz
+PIN  15         DS0                ; VME-Lower-Datastrobe
+PIN  41         RDEFLAG            ; Read-Empty-Flag des FIFO
+PIN  40         RDHFLAG            ; Read-Half-Flag des FIFO
+PIN  36         WRFFLAG            ; Write-Full-Flag des FIFO
+PIN  9          WRHFLAG            ; Write-Half-Flag des FIFO
+PIN  26         AESF0              ; Emphasis-Encoding (cc/F0) des CS8412
+PIN  27         AESEM0             ; Status/Error-Encoding (c0/E0) vom CS8412
+PIN  28         AESEM1             ; Status/Error-Encoding (ca/E1) vom CS8412
+PIN  30         AESEM2             ; Status/Error-Encoding (cb/E2) vom CS8412
+PIN  29         AESC24             ; Frequenz-Angabe durch CBL (von MACH1)
+PIN  31         AESC25             ; Frequenz-Angabe durch CBL (von MACH1)
+PIN  5          DSPREG     COMBINATORIAL ; Adressdekoder fr MACH2
+PIN  25         DSPCS      COMBINATORIAL ; Chip Select fr den DSP
+PIN  6          SMPRD      COMBINATORIAL ; zum REC-FIFO Read
+PIN  8          SMPWR      COMBINATORIAL ; zum PLAY-FIFO Write
+PIN  4          MACHCSL    COMBINATORIAL ; Adressdekoder fr MACH2
+PIN  7          MACHCSH    COMBINATORIAL ; Adressdekoder fr MACH2
+PIN  42         DRVCS      COMBINATORIAL ; von SMPSEL, Komplettdekoder 74X245 /CS
+PIN  21         DTACK      COMBINATORIAL ; VME-DTACK
+PIN  24         D0         COMBINATORIAL ; VME-Datenleitung
+PIN  2          D1         COMBINATORIAL ; VME-Datenleitung
+PIN  3          D2         COMBINATORIAL ; VME-Datenleitung
+PIN  43         D3         COMBINATORIAL ; VME-Datenleitung
+NODE ?          MACHCS     COMBINATORIAL ; Interner Adressdekoder
+NODE ?          TIMECLK    COMBINATORIAL ; CLK fr Timingz„hler
+NODE ?          TIMERST    COMBINATORIAL ; RESET fr Timingz„hler
+NODE ?          TIME1         REGISTERED ; Timingz„hler
+NODE ?          TIME2         REGISTERED ; Timingz„hler
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+; ---------------------Adressdekodierung
+TIMECLK = SYSCLK * /TIME1
+        + SYSCLK * /TIME2;
+
+TIMERST = DRVCS;
+
+TIME1.T = VCC;
+TIME1.CLKF= TIMECLK;
+TIME1.RSTF = TIMERST;
+TIME1.SETF = GND;
+
+TIME2.T = TIME1;
+TIME2.CLKF= TIMECLK;
+TIME2.RSTF = TIMERST;
+TIME2.SETF = GND;
+
+/DRVCS = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9
+       * IACK * /DS0;
+
+/MACHCS = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * /A7
+        * IACK * /DS0 * RW;
+
+/MACHCSL = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * /A7
+         * /A6 * IACK * /DS0 * /RW;
+
+/MACHCSH = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * /A7
+         * A6 * IACK * /DS0 * /RW;
+
+/SMPRD = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8
+       * A7 * A6 * RW * IACK * /DS0;
+
+/SMPWR =  /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8
+       * A7 * A6 * /RW * IACK * /DS0;
+
+/DSPREG = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * A7
+        * /A6 * /RW * IACK * /DS0;
+
+/DSPCS = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * A8 * /A7
+       * IACK * /DS0;
+
+/DTACK = /DRVCS * /DS0 * RW
+       + /DRVCS * /DS0 * /RW * TIME2;
+
+DTACK.trst = /DRVCS * /DS0;
+
+D0 = AESC24 * /MACHCS * /A6 * /A5 * /DS0
+   + AESEM0 * /MACHCS * /A6 * A5 * /DS0
+   + RDEFLAG * /MACHCS * A6 * /DS0;
+D0.trst = /MACHCS * /DS0;
+
+D1 = AESC25 * /MACHCS * /A6 * /A5 * /DS0
+   + AESEM1 * /MACHCS * /A6 * A5 * /DS0
+   + RDHFLAG * /MACHCS * A6 * /DS0;
+D1.trst = /MACHCS * /DS0;
+
+D2 = AESF0 * /MACHCS * /A6 * /A5 * /DS0
+   + AESEM2 * /MACHCS * /A6 * A5 * /DS0
+   + WRFFLAG * /MACHCS * A6 * /DS0;
+D2.trst = /MACHCS * /DS0;
+
+D3 = WRHFLAG * /MACHCS * A6 * /DS0;
+D3.trst = /MACHCS * /DS0;
+
+;----------------------------------- Simulation Segment ------------
+
+*** Timing Analysis for Signals
+
+ Parameter   Min   Max           Signal List (Those having Max delay.)
+      Tpd     1     2                 D3              D0              D2 
+                                      D1         TIMERST           DTACK 
+      Tsu     2     3              TIME2           TIME1 
+      Tco     0     1            TIMECLK           DTACK 
+      Tcr     1     2              TIME1 
+.
+
+ Key:
+ Tpd - Combinatorial propagation delay, input to output
+ Tsu - Combinatorial setup delay before clock
+ Tco - clock to output (register output to combinatorial output)
+ Tcr - Clock to register setup delay
+.......(Register output thru combinatorial logic to reg input)
+ All delay values are expressed in terms of array passes
+
+
+
+
+*** Device Resource Checks
+
+                Available        Used        Remaining
+        Clocks:     2              0              2
+          Pins:    38             38              0     ->   100%
+     I/O Macro:    32             12             20
+   Total Macro:    64             17             47
+ Product Terms:   128             25             60     ->    52%
+ 
+MACH-PLD Resource Checks OK!  
+
+
+
+
+*** Block Partitioning Results
+
+               Array   Product     # I/O    Buried    Signal    Macros
+              Inputs    Terms      Macro     Logic    Fanout    Remain
+   Block-> A    22*       32*        7         1         3         8
+   Block-> B     7        12         1         2         3        13
+   Block-> C    19        12         2         1         2        13
+   Block-> D    14        12         2         1         3        13
+
+
+*** Signals - Tabular Information
+
+          Signal   #   P/N #   (Loc)      Type     Logic  # PT    Blocks
+             D1    1     2      A  0     i/o pin    comb     3    .....
+             D2    2     3      A  2     i/o pin    comb     3    .....
+        MACHCSL    3     4      A  4     i/o pin    comb     1    .....
+         DSPREG    4     5      A  6     i/o pin    comb     1    .....
+          SMPRD    5     6      A  8     i/o pin    comb     1    .....
+        MACHCSH    6     7      A 10     i/o pin    comb     1    .....
+          SMPWR    7     8      A 12     i/o pin    comb     1    .....
+        WRHFLAG    8     9      A 14       input       .     .    ....D
+            A10    9    10      I  0       input       .     .    .A.CD
+            AM4   10    11      I  1       input       .     .    .A.CD
+            A11   11    13      I  2       input       .     .    .A.CD
+             A5   12    14      B 14       input       .     .    .A.C.
+            DS0   13    15      B 12       input       .     .    .ABCD
+           IACK   14    16      B 10       input       .     .    .A.CD
+             RW   15    17      B  8       input       .     .    .AB..
+            A15   16    18      B  6       input       .     .    .A.CD
+             A9   17    19      B  4       input       .     .    .A.CD
+             A6   18    20      B  2       input       .     .    .A.CD
+          DTACK   19    21      B  0     i/o pin    comb     2    .....
+             D0   20    24      C  0     i/o pin    comb     3    .....
+          DSPCS   21    25      C  2     i/o pin    comb     1    .....
+          AESF0   22    26      C  4       input       .     .    .A...
+         AESEM0   23    27      C  6       input       .     .    ...C.
+         AESEM1   24    28      C  8       input       .     .    .A...
+         AESC24   25    29      C 10       input       .     .    ...C.
+         AESEM2   26    30      C 12       input       .     .    .A...
+         AESC25   27    31      C 14       input       .     .    .A...
+            A12   28    32      I  3       input       .     .    .A.CD
+            A13   29    33      I  4       input       .     .    .A.CD
+            A14   30    35      I  5       input       .     .    .A.CD
+        WRFFLAG   31    36      D 14       input       .     .    .A...
+             A8   32    37      D 12       input       .     .    .A.C.
+             A7   33    38      D 10       input       .     .    .A.C.
+         SYSCLK   34    39      D  8       input       .     .    ..B..
+        RDHFLAG   35    40      D  6       input       .     .    .A...
+        RDEFLAG   36    41      D  4       input       .     .    ...C.
+          DRVCS   37    42      D  2     i/o pin    comb     1    ..BC.
+             D3   38    43      D  0     i/o pin    comb     1    .....
+         MACHCS   39    16      A 14      buried    comb     1    .A.CD
+        TIMECLK   40    20      B  2      buried    comb     2    ..B.D
+        TIMERST   41    38      C  4      buried    comb     1    ..B.D
+          TIME1   42    54      D  4      buried    t-ff     1    ..B..
+          TIME2   43    22      B  4      buried    t-ff     1    ..B..
+.
+
+ Key:
+ P/N # - Pin/Node Number
+ .?. - Signal Unplaced
+ (Loc) - Macrocell Location (Block & Cell)
+ # PT - Number of used product terms in logic
+ Blocks- Device blocks driven by signal
+ comb - Combinatorial logic function
+ d-ff - D-Type Flip-flop
+ t-ff - T-Type Flip-flop
+ Note: Registered input storage equations (MACH-2xx family)
+ ..... are realized with 0 array product terms.
+
+*** Pin Map - SMPSEL.PDS - 16Bit-Soundsampler - Adressdekodierung
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                     D1                             
+                                  D2  |        D3                   
+                          MACHCSL  |  |        |  DRVCS             
+                        DSPREG  |  |  |        |  |  RDEFLAG        
+                      SMPRD  |  |  |  |        |  |  |  RDHFLAG     
+                          |  |  |  |  |        |  |  |  |           
+                    .-----'--'--'--'--'--o-----'--'--'--'---.       
+                    |                       4  4  4  4  4   |       
+                    |     6  5  4  3  2  1  4  3  2  1  0   |       
+             MACHCSH| 7                                   39|SYSCLK 
+               SMPWR| 8                  G  V             38|A7     
+             WRHFLAG| 9                  n  c             37|A8     
+                 A10|10                  d  c             36|WRFFLAG
+                 AM4|11                                   35|A14    
+                Gnd |12            MACH-215               34| Gnd   
+                 A11|13                                   33|A13    
+                  A5|14             V  G                  32|A12    
+                 DS0|15             c  n                  31|AESC25 
+                IACK|16             c  d                  30|AESEM2 
+                  RW|17                                   29|AESC24 
+                    |   1  1  2  2  2  2  2  2  2  2  2     |       
+                    |   8  9  0  1  2  3  4  5  6  7  8     |       
+                    '---.--.--.--.--------.--.--.--.--.-----'       
+                        |  |  |  |        |  |  |  |  |             
+                      A15  |  |  |        |  |  |  |  AESEM1        
+                          A9  |  |        |  |  |  AESEM0           
+                             A6  |        |  |  AESF0               
+                             DTACK        |  DSPCS                  
+                                          D0                        
+
+
+
+The Jedec Data is  stored in ===> smpsel.jed
+The Placements are stored in ===> smpsel.plc
+The Design Doc is  stored in ===> smpsel.rpt
+ 
+%% FITR %% Error Count: 0, Warning Count: 2
+%% FITR %% File Processed Successfully. - File: smpsel.pds

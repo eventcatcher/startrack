@@ -1,0 +1,446 @@
+
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    INOUT128.PDS        128Bit -> 4xD/A
+PATTERN  B                   4xA/D  -> 128Bit
+REVISION 1.0
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself
+DATE     1/9/97
+
+CHIP  _inout128  MACH435
+
+;---------------------------------- PIN Declarations ---------------
+PIN  20         HCLKI      ; 40MHz-Timingclock
+PIN  83         RESET      ; VME-RESET
+PIN  9          FSYNCPI    ; DMA-Out-Framesync
+PIN  8          SCLKPI     ; DMA-Out-Takt
+PIN  28         PEF4       ; Empty-Flag vom letzten (vierten) DA-Fifo
+PIN  29         PHF4       ; Half-Flag vom letzten (vierten) DA-Fifo
+PIN  7          FSYNCRI    ; DMA-In-Framesync
+PIN  6          SCLKRI     ; DMA-In-Takt
+PIN  56         REF4       ; Empty-Flag des letzten AD-FIFOs
+PIN  57         RHF4       ; Half-Flag des letzten AD-FIFOs
+PIN  10         WPID8      COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  49         WRID8      COMBINATORIAL ; zum Inp des AD-Fifo
+PIN  24         PFIFOWR1   COMBINATORIAL ; zum Write des 1.DA-FIFO
+PIN  25         PFIFOWR2   COMBINATORIAL ; zum Write des 2.DA-FIFO
+PIN  26         PFIFOWR3   COMBINATORIAL ; zum Write des 3.DA-FIFO
+PIN  27         PFIFOWR4   COMBINATORIAL ; zum Write des 4.DA-FIFO
+PIN  30         RPID8      ;               vom Output des 1.DA-FIFO
+PIN  31         PFSYNC     COMBINATORIAL ; FSYNC fÅr D/A
+PIN  55         RFSYNC     COMBINATORIAL ; FSYNC fÅr A/D
+PIN  33         PSCLK      COMBINATORIAL ; SCLK fÅr D/A
+PIN  54         RSCLK      COMBINATORIAL ; SCLK fÅr A/D
+PIN  34         PFIFORD    COMBINATORIAL ; zum PLAY-FIFO Read
+PIN  35         SHLPO      COMBINATORIAL ; Shift-Load fÅr DA-Shiftregister
+PIN  52         RFIFOWR    COMBINATORIAL ; zu AD-In-FIFO Write
+PIN  61         RFIFORD1   COMBINATORIAL ; zu AD-Out-FIFO1 Read
+PIN  60         RFIFORD2   COMBINATORIAL ; zu AD-Out-FIFO2 Read    ,,,,,,,,
+PIN  59         RFIFORD3   COMBINATORIAL ; zu AD-Out-FIFO3 Read
+PIN  58         RFIFORD4   COMBINATORIAL ; zu AD-Out-FIFO4 Read
+PIN  51         SHLRO      COMBINATORIAL ; Shift-Load fÅr AD-Shiftregister
+PIN  36         PSHCLK     COMBINATORIAL ; invertierte PCLK fÅr Shifter
+PIN  50         RSHCLK     COMBINATORIAL ; invertierte RCLK fÅr Shifter
+NODE ?          PRDRDY     COMBINATORIAL ; Pread-Start denn Fifo ist halbvoll
+NODE ?          RRDRDY     COMBINATORIAL ; Rread-Start denn Fifo ist halbvoll
+NODE ?          WRPIOK     COMBINATORIAL ; beendet DA-FIFO Write-Timing
+NODE ?          WPORES     COMBINATORIAL ;
+NODE ?          BPIERR     COMBINATORIAL ; Word-Clear
+NODE ?          BPICLR     COMBINATORIAL ; Word-Clear
+NODE ?          RFIFORD    COMBINATORIAL ; AD-Out-FIFO Read
+NODE ?          WADIOK     COMBINATORIAL ; beendet AD-In-FIFO Write-Timing
+NODE ?          BROERR     COMBINATORIAL ; Word-Clear AD-Out
+NODE ?          BROCLR     COMBINATORIAL ; Word-Clear AD-Out
+NODE ?          DACLK32       REGISTERED ; 32BIT-CLK fÅr D/A
+NODE ?          ADCLK32       REGISTERED ; 32BIT-CLK fÅr A/D
+NODE ?          BPIERR2       REGISTERED ; Word-Clear
+NODE ?          WAITPI        REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPI2       REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPI3       REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPO        REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPO2       REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPO3       REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          BPI0          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          BPI1          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          BPI2          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          WPI0          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPI1          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPI2          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPI3          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          BPO0          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          BPO1          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          BPO2          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          WPO0          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPO1          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPO2          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WFPI          REGISTERED ; Word-Anfang-Flanken-Erkenner
+NODE ?          RPIFS         REGISTERED ; Fsync vor letztem Takt
+NODE ?          RPI8          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          BROERR2       REGISTERED ; Word-Clear AD-Out
+NODE ?          WAITRI        REGISTERED ; AD-In-FIFO-Write-Timing
+NODE ?          WAITRI2       REGISTERED ; AD-In-FIFO-Write-Timing
+NODE ?          WAITRI3       REGISTERED ; AD-In-FIFO-Write-Timing
+NODE ?          WAITRO        REGISTERED ; AD-Out-FIFO-Read-Timing
+NODE ?          WAITRO2       REGISTERED ; AD-Out-FIFO-Read-Timing
+NODE ?          BRI0          REGISTERED ; AD-In-SCLKzÑhler und Synchro
+NODE ?          BRI1          REGISTERED ; AD-In-SCLKzÑhler und Synchro
+NODE ?          BRI2          REGISTERED ; AD-In-SCLKzÑhler und Synchro
+NODE ?          WRI0          REGISTERED ; AD-In-SWORDzÑhler und Synchro
+NODE ?          WRI1          REGISTERED ; AD-In-SWORDzÑhler und Synchro
+NODE ?          WRI2          REGISTERED ; AD-In-SWORDzÑhler und Synchro
+NODE ?          BRO0          REGISTERED ; AD-Out-SCLKzÑhler und Synchro
+NODE ?          BRO1          REGISTERED ; AD-Out-SCLKzÑhler und Synchro
+NODE ?          BRO2          REGISTERED ; AD-Out-SCLKzÑhler und Synchro
+NODE ?          WRO0          REGISTERED ; AD-Out-SWORDzÑhler und Synchro
+NODE ?          WRO1          REGISTERED ; AD-Out-SWORDzÑhler und Synchro
+NODE ?          WRO2          REGISTERED ; AD-Out-SWORDzÑhler und Synchro
+NODE ?          WRO3          REGISTERED ; AD-Out-SWORDzÑhler und Synchro
+NODE ?          WADI          REGISTERED ; Word-Anfang-Flanken-Erkenner
+NODE ?          ADOFS         REGISTERED ; AD-Out-Fsync vor letztem Read
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+;OUT-DA8
+; ---------------------Frequenzerzeugung fÅr D/A-Clock
+
+DACLK32.T = VCC;
+DACLK32.CLKF = SCLKPI;
+DACLK32.RSTF = GND;
+DACLK32.SETF = GND;
+
+PSHCLK = /SCLKPI;
+
+; ---------------------D/A-WordzÑhler fÅr 8Bit-StÅcke (von128Bit)
+
+RPIFS := FSYNCPI;
+RPIFS.CLKF = /SCLKPI;
+
+BPIERR = /RPIFS * FSYNCPI * WPI3
+       + /RPIFS * FSYNCPI * WPI2
+       + /RPIFS * FSYNCPI * WPI1
+       + /RPIFS * FSYNCPI * WPI0
+       + /RPIFS * FSYNCPI * BPI2
+       + /RPIFS * FSYNCPI * BPI1
+       + /RPIFS * FSYNCPI * BPI0;
+
+BPIERR2 = VCC;
+BPIERR2.CLKF = BPIERR;
+BPIERR2.SETF = GND;
+BPIERR2.RSTF = BPICLR;
+
+BPICLR = BPIERR2 * /WPI3 * /WPI2 * /WPI1 * /WPI0 * /BPI2 * /BPI1 * /BPI0
+       + BPICLR * /RPIFS * /FSYNCPI
+       + BPICLR * RPIFS * FSYNCPI
+       + BPICLR * RPIFS * /FSYNCPI;
+
+BPI0.T = VCC;
+BPI0.CLKF = /SCLKPI;
+BPI0.RSTF = BPICLR;
+BPI0.SETF = GND;
+
+BPI1.T = BPI0;
+BPI1.CLKF = /SCLKPI;
+BPI1.RSTF = BPICLR;
+BPI1.SETF = GND;
+
+BPI2.T = BPI0 * BPI1;
+BPI2.CLKF = /SCLKPI;
+BPI2.RSTF = BPICLR;
+BPI2.SETF = GND;
+
+WPI0.T = BPI0 * BPI1 * BPI2;
+WPI0.CLKF = /SCLKPI;
+WPI0.RSTF = BPICLR;
+WPI0.SETF = GND;
+
+WPI1.T = BPI0 * BPI1 * BPI2 * BPI0;
+WPI1.CLKF = /SCLKPI;
+WPI1.RSTF = BPICLR;
+WPI1.SETF = GND;
+
+WPI2.T = BPI0 * BPI1 * BPI2 * BPI0 * BPI1;
+WPI2.CLKF = /SCLKPI;
+WPI2.RSTF = BPICLR;                                     ,
+WPI2.SETF = GND;
+
+WPI3.T = BPI0 * BPI1 * BPI2 * BPI0 * BPI1 * BPI2;
+WPI3.CLKF = /SCLKPI;
+WPI3.RSTF = BPICLR;
+WPI3.SETF = GND;
+
+; -------------je 32Bit(in 4x8Bit-TeilstÅcken) in die 4 DA-FIFOs schreiben
+
+WAITPI = WFPI;
+WAITPI.CLKF = HCLKI;
+WAITPI.RSTF = WRPIOK;
+WAITPI.SETF = GND;
+
+WAITPI2 = WAITPI;
+WAITPI2.CLKF = HCLKI;
+WAITPI2.RSTF = WRPIOK;
+WAITPI2.SETF = GND;
+
+WAITPI3 = WAITPI2;
+WAITPI3.CLKF = HCLKI;
+WAITPI3.RSTF = WRPIOK;
+WAITPI3.SETF = GND;
+
+WFPI = BPI0 * BPI1 * BPI2;
+WFPI.CLKF = /SCLKPI;
+WFPI.SETF = GND;
+WFPI.RSTF = WRPIOK;
+
+/PFIFOWR1 = /WPI3 * /WPI2 * WFPI * WAITPI * /WAITPI2;
+
+/PFIFOWR2 = /WPI3 * WPI2 * WFPI * WAITPI * /WAITPI2;
+
+/PFIFOWR3 = WPI3 * /WPI2 * WFPI * WAITPI * /WAITPI2;
+
+/PFIFOWR4 = WPI3 * WPI2 * WFPI * WAITPI * /WAITPI2;
+
+WRPIOK = WFPI * WAITPI * WAITPI2 * WAITPI3 * PFIFOWR1 * PFIFOWR2
+       * PFIFOWR3 * PFIFOWR4
+       + /RESET;
+
+WPID8 = /WPI3 * /WPI2 * /WPI1 * /WPI0;
+
+; --gemeinsames Read-Signal generieren fÅr externe Schieberegister
+; --(liest 8Bit-TeilstÅcke aus den 4 DA-FIFOs und shiftet sie zu den D/As)
+
+PRDRDY = /PHF4
+      + PRDRDY * PEF4;
+
+BPO0.T = VCC;
+BPO0.CLKF = DACLK32;
+BPO0.RSTF = /PRDRDY;
+BPO0.SETF = GND;
+
+BPO1.T = BPO0;
+BPO1.CLKF = DACLK32;
+BPO1.RSTF = /PRDRDY;
+BPO1.SETF = GND;
+
+BPO2.T = BPO0 * BPO1;
+BPO2.CLKF = DACLK32;
+BPO2.RSTF = /PRDRDY;
+BPO2.SETF = GND;
+
+WPO0.T = BPO0 * BPO1 * BPO2;
+WPO0.CLKF = DACLK32;
+WPO0.RSTF = /WPORES;
+WPO0.SETF = GND;
+
+WPO1.T = BPO0 * BPO1 * BPO2 * WPO0;
+WPO1.CLKF = DACLK32;
+WPO1.RSTF = /PRDRDY;
+WPO1.SETF = GND;
+
+WPO2.T = BPO0 * BPO1 * BPO2 * WPO0 * WPO1;
+WPO2.CLKF = DACLK32;
+WPO2.RSTF = /WPORES;
+WPO2.SETF = GND;
+
+/WPORES = /RPI8 * RPID8 * DACLK32 * /BPO0 * WAITPO2 * /WAITPO3 * /PFIFORD
+        + /PRDRDY;
+
+WAITPO = VCC;
+WAITPO.CLKF = HCLKI;
+WAITPO.RSTF = PFIFORD;
+WAITPO.SETF = GND;
+
+WAITPO2 = WAITPO;
+WAITPO2.CLKF = HCLKI;
+WAITPO2.RSTF = PFIFORD;
+WAITPO2.SETF = GND;
+
+WAITPO3 = WAITPO2;
+WAITPO3.CLKF = HCLKI;
+WAITPO3.RSTF = PFIFORD;
+WAITPO3.SETF = GND;
+
+/PFIFORD = PRDRDY * WPO1 * /BPO2 * /BPO1 * /BPO0;
+
+SHLPO = PRDRDY * WPO1 * /BPO2 * /BPO1 * /BPO0 * WAITPO3;
+
+RPI8 := RPID8;
+RPI8.CLKF = WAITPO3 * /PFIFORD;
+RPI8.RSTF = /PRDRDY;
+RPI8.SETF = GND;
+
+PSCLK = DACLK32;
+
+PFSYNC = WPO2 * WPO1
+       + WPO2 * WPO0
+       + WPO2 * BPO2
+       + WPO2 * BPO1
+       + WPO2 * BPO0
+       + /WPO2 * /WPO1 * /WPO0 * /BPO2 * /BPO1 * /BPO0;
+
+
+; IN-AD8
+; ---------------------Frequenzerzeugung fÅr A/D-Clock
+
+ADCLK32.T = VCC;
+ADCLK32.CLKF = SCLKRI;
+ADCLK32.RSTF = GND;
+ADCLK32.SETF = GND;
+
+RSHCLK = /SCLKRI;
+
+; --gemeinsames Write-Signal generieren fÅr die 4 A/D-Fifos
+; --(liest 8Bit-TeilstÅcke aus den 4 Shiftern und schreibt sie in die FIFOs)
+
+BRI0.T = VCC;
+BRI0.CLKF = ADCLK32;
+BRI0.RSTF = GND;
+BRI0.SETF = GND;
+
+BRI1.T = BRI0;
+BRI1.CLKF = ADCLK32;
+BRI1.RSTF = GND;
+BRI1.SETF = GND;
+
+BRI2.T = BRI0 * BRI1;
+BRI2.CLKF = ADCLK32;
+BRI2.RSTF = GND;
+BRI2.SETF = GND;
+
+WRI0.T = BRI0 * BRI1 * BRI2;
+WRI0.CLKF = ADCLK32;
+WRI0.RSTF = GND;
+WRI0.SETF = GND;
+
+WRI1.T = BRI0 * BRI1 * BRI2 * WRI0;
+WRI1.CLKF = ADCLK32;
+WRI1.RSTF = GND;
+WRI1.SETF = GND;
+
+WRI2.T = WRI1 * BRI0 * BRI1 * BRI2 * WRI0;
+WRI2.CLKF = ADCLK32;
+WRI2.RSTF = GND;
+WRI2.SETF = GND;
+
+WAITRI = WADI;
+WAITRI.CLKF = HCLKI;
+WAITRI.RSTF = WADIOK;
+WAITRI.SETF = GND;
+
+WAITRI2 = WAITRI;
+WAITRI2.CLKF = HCLKI;
+WAITRI2.RSTF = WADIOK;
+WAITRI2.SETF = GND;
+
+WAITRI3 = WAITRI2;
+WAITRI3.CLKF = HCLKI;
+WAITRI3.RSTF = WADIOK;
+WAITRI3.SETF = GND;
+
+WADI = BRI0 * BRI1 * BRI2;
+WADI.CLKF = ADCLK32;
+WADI.SETF = GND;
+WADI.RSTF = WADIOK;
+
+WADIOK = WADI * WAITRI * WAITRI2 * WAITRI3 * RFIFOWR
+       + /RESET;
+
+/RFIFOWR = WADI * WRI1 * WAITRI * /WAITRI2;
+
+WRID8 = /WRI2 * WRI1 * WRI0;
+
+; ---------------------A/D-WordzÑhler fÅr 8Bit-StÅcke (von128Bit)
+
+ADOFS := FSYNCRI;
+ADOFS.CLKF = /SCLKRI;
+
+BROERR = /ADOFS * FSYNCRI * WRO3
+       + /ADOFS * FSYNCRI * WRO2
+       + /ADOFS * FSYNCRI * WRO1
+       + /ADOFS * FSYNCRI * WRO0
+       + /ADOFS * FSYNCRI * BRO2
+       + /ADOFS * FSYNCRI * BRO1
+       + /ADOFS * FSYNCRI * /BRO0;
+
+BROERR2 = VCC;
+BROERR2.CLKF = BROERR;
+BROERR2.SETF = GND;
+BROERR2.RSTF = BROCLR;
+
+BROCLR = BROERR2 * /WRO3 * /WRO2 * /WRO1 * /WRO0 * /BRO2 * /BRO1 * BRO0
+       + BROCLR * /ADOFS * /FSYNCRI
+       + BROCLR * ADOFS * FSYNCRI
+       + BROCLR * ADOFS * /FSYNCRI;
+
+BRO0.T = VCC;
+BRO0.CLKF = SCLKRI;
+BRO0.RSTF = GND;
+BRO0.SETF = BROCLR;
+
+BRO1.T = BRO0;
+BRO1.CLKF = SCLKRI;
+BRO1.RSTF = BROCLR;
+BRO1.SETF = GND;
+
+BRO2.T = BRO0 * BRO1;
+BRO2.CLKF = SCLKRI;
+BRO2.RSTF = BROCLR;
+BRO2.SETF = GND;
+
+WRO0.T = BRO0 * BRO1 * BRO2;
+WRO0.CLKF = SCLKRI;
+WRO0.RSTF = BROCLR;
+WRO0.SETF = GND;
+
+WRO1.T = BRO0 * BRO1 * BRO2 * BRO0;
+WRO1.CLKF = SCLKRI;
+WRO1.RSTF = BROCLR;
+WRO1.SETF = GND;
+
+WRO2.T = BRO0 * BRO1 * BRO2 * BRO0 * BRO1;
+WRO2.CLKF = SCLKRI;
+WRO2.RSTF = BROCLR;
+WRO2.SETF = GND;
+
+WRO3.T = BRO0 * BRO1 * BRO2 * BRO0 * BRO1 * BRO2;
+WRO3.CLKF = SCLKRI;
+WRO3.RSTF = BROCLR;
+WRO3.SETF = GND;
+
+; -------------je 32Bit(in 4x8Bit-TeilstÅcken) aus den 4 AD-FIFOs lesen
+
+WAITRO = VCC;
+WAITRO.CLKF = HCLKI;
+WAITRO.RSTF = RFIFORD;
+WAITRO.SETF = GND;
+
+WAITRO2 = WAITRO;
+WAITRO2.CLKF = HCLKI;
+WAITRO2.RSTF = RFIFORD;
+WAITRO2.SETF = GND;
+
+/RFIFORD1 = /WRO3 * /WRO2 * /RFIFORD;
+
+/RFIFORD2 = /WRO3 * WRO2 * /RFIFORD;
+
+/RFIFORD3 = WRO3 * /WRO2 * /RFIFORD;
+
+/RFIFORD4 = WRO3 * WRO2 * /RFIFORD;
+
+/RFIFORD = RRDRDY * /BRO2 * /BRO1 * /BRO0;
+
+RRDRDY = /RHF4
+      + RRDRDY * REF4;
+
+SHLRO = /RFIFORD * WAITRO2;
+
+RSCLK = ADCLK32;
+
+RFSYNC = WRI2;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

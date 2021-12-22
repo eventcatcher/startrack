@@ -1,0 +1,301 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    MATRIX.PDS - konvertiert 32Bit in 128Bit und zurÅck
+PATTERN  B
+REVISION 1.0
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself
+DATE     1/9/97
+
+CHIP  _matrix    MACH435
+
+;---------------------------------- PIN Declarations ---------------
+PIN  ?          HCLKI      ; 40MHz-Timingclock
+PIN  ?          RESET      ; VME-RESET
+PIN  ?          EF4        ; Empty-Flag vom letzten (vierten) DA-Fifo
+PIN  ?          WD0        COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  ?          WD1        COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  ?          WD2        COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  ?          WD3        COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  ?          WD4        COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  ?          WD5        COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  ?          WD6        COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  ?          WD7        COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  ?          WD8        COMBINATORIAL ; zum Inp des DA-Fifo
+PIN  ?          PFIFOWR1   COMBINATORIAL ; zum Write des 1.DA-FIFO
+PIN  ?          PFIFOWR2   COMBINATORIAL ; zum Write des 2.DA-FIFO
+PIN  ?          PFIFOWR3   COMBINATORIAL ; zum Write des 3.DA-FIFO
+PIN  ?          PFIFOWR4   COMBINATORIAL ; zum Write des 4.DA-FIFO
+PIN  ?          RD8        ;               vom Output des 1.DA-FIFO
+PIN  ?          SCLKPI     COMBINATORIAL ; Eingangstakt
+PIN  ?          FSYNCPI    COMBINATORIAL ; Eingangs-Framesync
+PIN  ?          SDATAPI    COMBINATORIAL ; Eingangsdaten
+PIN  ?          ADCLK32       REGISTERED ; 32BIT-CLK
+PIN  ?          PFIFORD    COMBINATORIAL ; zum PLAY-FIFO Read
+PIN  ?          PSCLK      COMBINATORIAL ;
+PIN  ?          PFSYNC     COMBINATORIAL ;
+PIN  ?          PDATAOE    COMBINATORIAL ;
+NODE ?          WRFERTIG   COMBINATORIAL ; beendet DA-FIFO Write-Timing
+NODE ?          WPORES     COMBINATORIAL ;
+NODE ?          BPIERR     COMBINATORIAL ; Word-Clear
+NODE ?          BPICLR     COMBINATORIAL ; Word-Clear
+NODE ?          BPIERR2       REGISTERED ; Word-Clear
+NODE ?          SHPI0         REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHPI1         REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHPI2         REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHPI3         REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHPI4         REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHPI5         REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHPI6         REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHPI7         REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          WAITPI        REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPI2       REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPI3       REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPO        REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPO2       REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAITPO3       REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          BPI0          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          BPI1          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          BPI2          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          WPI0          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPI1          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPI2          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPI3          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          BPO0          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          BPO1          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          BPO2          REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          WPO0          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPO1          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WPO2          REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WFPI          REGISTERED ; Word-Anfang-Flanken-Erkenner
+NODE ?          RPIFS         REGISTERED ; Fsync vor letztem Takt
+NODE ?          RP8           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+; ---------------------Frequenzerzeugung fÅr A/D-Clock,Hold und L/R
+
+ADCLK32.T = VCC;
+ADCLK32.CLKF = SCLKPI;
+ADCLK32.RSTF = GND;
+ADCLK32.SETF = GND;
+
+; ---------------------Play-Eingangsdaten (128Bit) einshiften
+
+SHPI0 = SDATAPI;
+SHPI0.CLKF = SCLKPI;
+SHPI0.SETF = GND;
+SHPI0.RSTF = GND;
+
+SHPI1 = SHPI0;
+SHPI1.CLKF = SCLKPI;
+SHPI1.SETF = GND;
+SHPI1.RSTF = GND;
+
+SHPI2 = SHPI1;
+SHPI2.CLKF = SCLKPI;
+SHPI2.SETF = GND;
+SHPI2.RSTF = GND;
+
+SHPI3 = SHPI2;
+SHPI3.CLKF = SCLKPI;
+SHPI3.SETF = GND;
+SHPI3.RSTF = GND;
+
+SHPI4 = SHPI3;
+SHPI4.CLKF = SCLKPI;
+SHPI4.SETF = GND;
+SHPI4.RSTF = GND;
+
+SHPI5 = SHPI4;
+SHPI5.CLKF = SCLKPI;
+SHPI5.SETF = GND;
+SHPI5.RSTF = GND;
+
+SHPI6 = SHPI5;
+SHPI6.CLKF = SCLKPI;
+SHPI6.SETF = GND;
+SHPI6.RSTF = GND;
+
+SHPI7 = SHPI6;
+SHPI7.CLKF = SCLKPI;
+SHPI7.SETF = GND;
+SHPI7.RSTF = GND;
+
+; ---------------------Play-WordzÑhler fÅr 8Bit-StÅcke (von128Bit)
+
+RPIFS := FSYNCPI;
+RPIFS.CLKF = SCLKPI;
+
+BPIERR = /RPIFS * FSYNCPI * WPI3
+       + /RPIFS * FSYNCPI * WPI2
+       + /RPIFS * FSYNCPI * WPI1
+       + /RPIFS * FSYNCPI * WPI0
+       + /RPIFS * FSYNCPI * BPI2
+       + /RPIFS * FSYNCPI * BPI1
+       + /RPIFS * FSYNCPI * BPI0;
+
+BPIERR2 = VCC;
+BPIERR2.CLKF = BPIERR;
+BPIERR2.SETF = GND;
+BPIERR2.RSTF = BPICLR;
+
+BPICLR = BPIERR2 * /WPI3 * /WPI2 * /WPI1 * /WPI0 * /BPI2 * /BPI1 * /BPI0
+       + BPICLR * /RPIFS * /FSYNCPI
+       + BPICLR * RPIFS * FSYNCPI
+       + BPICLR * RPIFS * /FSYNCPI;
+
+BPI0.T = VCC;
+BPI0.CLKF = SCLKPI;
+BPI0.RSTF = BPICLR;
+BPI0.SETF = GND;
+
+BPI1.T = BPI0;
+BPI1.CLKF = SCLKPI;
+BPI1.RSTF = BPICLR;
+BPI1.SETF = GND;
+
+BPI2.T = BPI0 * BPI1;
+BPI2.CLKF = SCLKPI;
+BPI2.RSTF = BPICLR;
+BPI2.SETF = GND;
+
+WPI0.T = BPI0 * BPI1 * BPI2;
+WPI0.CLKF = SCLKPI;
+WPI0.RSTF = BPICLR;
+WPI0.SETF = GND;
+
+WPI1.T = BPI0 * BPI1 * BPI2 * BPI0;
+WPI1.CLKF = SCLKPI;
+WPI1.RSTF = BPICLR;
+WPI1.SETF = GND;
+
+WPI2.T = BPI0 * BPI1 * BPI2 * BPI0 * BPI1;
+WPI2.CLKF = SCLKPI;
+WPI2.RSTF = BPICLR;
+WPI2.SETF = GND;
+
+WPI3.T = BPI0 * BPI1 * BPI2 * BPI0 * BPI1 * BPI2;
+WPI3.CLKF = SCLKPI;
+WPI3.RSTF = BPICLR;
+WPI3.SETF = GND;
+
+; -------------je 32Bit(in 4x8Bit-TeilstÅcken) in die 4 DA-FIFOs schreiben
+
+WAITPI = WFPI;
+WAITPI.CLKF = HCLKI;
+WAITPI.RSTF = WRFERTIG;
+WAITPI.SETF = GND;
+
+WAITPI2 = WAITPI;
+WAITPI2.CLKF = HCLKI;
+WAITPI2.RSTF = WRFERTIG;
+WAITPI2.SETF = GND;
+
+WAITPI3 = WAITPI2;
+WAITPI3.CLKF = HCLKI;
+WAITPI3.RSTF = WRFERTIG;
+WAITPI3.SETF = GND;
+
+WFPI = BPI0 * BPI1 * BPI2;
+WFPI.CLKF = SCLKPI;
+WFPI.SETF = GND;
+WFPI.RSTF = WRFERTIG;
+
+/PFIFOWR1 = /WPI3 * /WPI2 * WFPI * WAITPI * /WAITPI2;
+
+/PFIFOWR2 = /WPI3 * WPI2 * WFPI * WAITPI * /WAITPI2;
+
+/PFIFOWR3 = WPI3 * /WPI2 * WFPI * WAITPI * /WAITPI2;
+
+/PFIFOWR4 = WPI3 * WPI2 * WFPI * WAITPI * /WAITPI2;
+
+WRFERTIG = WFPI * WAITPI * WAITPI2 * WAITPI3 * PFIFOWR1 * PFIFOWR2
+         * PFIFOWR3 * PFIFOWR4
+         + /RESET;
+
+WD0 = SHPI0 * WFPI * /WAITPI3;
+WD1 = SHPI1 * WFPI * /WAITPI3;
+WD2 = SHPI2 * WFPI * /WAITPI3;
+WD3 = SHPI3 * WFPI * /WAITPI3;
+WD4 = SHPI4 * WFPI * /WAITPI3;
+WD5 = SHPI5 * WFPI * /WAITPI3;
+WD6 = SHPI6 * WFPI * /WAITPI3;
+WD7 = SHPI7 * WFPI * /WAITPI3;
+WD8 = /WPI3 * /WPI2 * /WPI1 * /WPI0;
+
+
+
+; --Read-Signal generieren fÅr externe Schieberegister
+; --fÅr -> 8Bit-TeilstÅcke aus den 4 DA-FIFOs lesen
+; --und zu D/As shiften
+
+BPO0.T = VCC;
+BPO0.CLKF = ADCLK32;
+BPO0.RSTF = /EF4;
+BPO0.SETF = GND;
+
+BPO1.T = BPO0;
+BPO1.CLKF = ADCLK32;
+BPO1.RSTF = /EF4;
+BPO1.SETF = GND;
+
+BPO2.T = BPO0 * BPO1;
+BPO2.CLKF = ADCLK32;
+BPO2.RSTF = /EF4;
+BPO2.SETF = GND;
+
+WPO0.T = BPO0 * BPO1 * BPO2;
+WPO0.CLKF = ADCLK32;
+WPO0.RSTF = /WPORES;
+WPO0.SETF = GND;
+
+WPO1.T = BPO0 * BPO1 * BPO2 * WPO0;
+WPO1.CLKF = ADCLK32;
+WPO1.RSTF = /EF4;
+WPO1.SETF = GND;
+
+WPO2.T = BPO0 * BPO1 * BPO2 * WPO0 * WPO1;
+WPO2.CLKF = ADCLK32;
+WPO2.RSTF = /WPORES;
+WPO2.SETF = GND;
+
+/WPORES = /RP8 * RD8 * ADCLK32 * /BPO0 * WAITPO2 * /WAITPO3 * /PFIFORD
+        + /EF4;
+
+WAITPO = VCC;
+WAITPO.CLKF = HCLKI;
+WAITPO.RSTF = PFIFORD;
+WAITPO.SETF = GND;
+
+WAITPO2 = WAITPO;
+WAITPO2.CLKF = HCLKI;
+WAITPO2.RSTF = PFIFORD;
+WAITPO2.SETF = GND;
+
+WAITPO3 = WAITPO2;
+WAITPO3.CLKF = HCLKI;
+WAITPO3.RSTF = PFIFORD;
+WAITPO3.SETF = GND;
+
+/PFIFORD = EF4 * WPO1 * /BPO2 * /BPO1 * /BPO0;
+
+RP8 := RD8;
+RP8.CLKF = WAITPO3 * /PFIFORD;
+RP8.RSTF = /EF4;
+RP8.SETF = GND;
+
+PSCLK = ADCLK32;
+
+PFSYNC = WPO2;
+
+PDATAOE = WPO1;
+
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

@@ -1,0 +1,53 @@
+     Design Name:  extctrl
+ Targeted Device:  ispLSI1016-60LJ44
+
+Pre-Route Design Statistics
+---------------------------
+
+Number of GLBs:                 6
+Number of I/Os:                 17
+Number of Nets:                 34
+
+Number of Free Inputs:          0
+Number of Free Outputs:         0
+Number of Free Three-States:    0
+Number of Free Bidi's:          0
+
+Number of Locked Input IOCs:    13
+Number of Locked DIs:           0
+Number of Locked Outputs:       4
+Number of Locked Three-States:  0
+Number of Locked Bidi's:        0
+
+Number of CRIT Outputs:         0
+Number of Global OEs:           0
+Number of External Clocks:      0
+
+
+GLB Utilization (Out of 16):	37%
+I/O Utilization (Out of 36):	47%
+Net Utilization (Out of 100):	34%
+
+
+Nets with Fanout of  1:         31
+Nets with Fanout of  2:         3
+
+Average Fanout per Net:         1.09
+
+
+GLBs with  5 Input(s):          5
+GLBs with  8 Input(s):          1
+
+Average Inputs per GLB:         5.50
+
+
+GLBs with  1 Output(s):         1
+GLBs with  4 Output(s):         5
+
+Average Outputs per GLB:        3.50
+
+
+--  No. of GLBs after successful routing : 6
+
+****  Elapsed Time :  00:00:00
+

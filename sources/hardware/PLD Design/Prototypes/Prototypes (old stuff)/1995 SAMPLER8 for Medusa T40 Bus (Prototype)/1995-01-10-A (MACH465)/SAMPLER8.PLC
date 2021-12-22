@@ -1,0 +1,230 @@
+MACHXL 1.3 MACHFITR (05-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+; Source file SAMPLER8.PDS
+; FITTER-generated Placements.
+; DEVICE   MACH465
+; DATE     Tue Jan 10 17:24:07 1995
+
+
+Pin   187  HCLKI
+Pin   61  MCLK16
+Pin   57  MCLK24
+Pin   83  PLAYCLKI
+Pin   74  MACHCSL
+Pin   54  MACHCSH
+Pin   178  DSPREG
+Pin   21  RESET
+Pin   46  CBL
+Pin   45  AESDATAI
+Pin   44  AESCIN
+Pin   39  AESSYNCI
+Pin   60  AESCLKI
+Pin   31  AESMCLKI
+Pin   175  RDA0 ;  IPair 378
+Pin   143  RDA1 ;  IPair 361
+Pin   174  RDA2 ;  IPair 379
+Pin   93  RDA3 ;  IPair 329
+Pin   142  RDA4 ;  IPair 360
+Pin   20  RDA5 ;  IPair 282
+Pin   141  RDA6 ;  IPair 359
+Pin   92  RDA7 ;  IPair 328
+Pin   19  RDB0 ;  IPair 283
+Pin   91  RDB1 ;  IPair 327
+Pin   140  RDB2 ;  IPair 358
+Pin   18  RDB3 ;  IPair 284
+Pin   90  RDB4 ;  IPair 326
+Pin   89  RDB5 ;  IPair 325
+Pin   173  RDB6 ;  IPair 380
+Pin   139  RDB7 ;  IPair 357
+Pin   112  RDC0 ;  IPair 340
+Pin   172  RDC1 ;  IPair 381
+Pin   17  RDC2 ;  IPair 285
+Pin   171  RDC3 ;  IPair 382
+Pin   138  RDC4 ;  IPair 356
+Pin   16  RDC5 ;  IPair 286
+Pin   111  RDC6 ;  IPair 341
+Pin   137  RDC7 ;  IPair 355
+Pin   169  RDD0 ;  IPair 384
+Pin   88  RDD1 ;  IPair 324
+Pin   136  RDD2 ;  IPair 354
+Pin   168  RDD3 ;  IPair 385
+Pin   110  RDD4 ;  IPair 342
+Pin   14  RDD5 ;  IPair 288
+Pin   87  RDD6 ;  IPair 323
+Pin   13  RDD7 ;  IPair 289
+Pin   86  RD8 ;  IPair 322
+Pin   38  ADATAI
+Pin   22  DA_ACKO
+Pin   36  DSPSTD
+Pin   35  D0
+Pin   34  D1
+Pin   59  D2
+Pin   33  D3
+Pin   32  D4
+Pin   58  EXTMCLK
+Pin   9  DSPSC0 Comb ; S6=1  S9=1  Pair 38
+Pin   56  DSPSC2 Comb ; S6=1  S9=1  Pair 98
+Pin   108  DSPSCK Comb ; S6=1  S9=1  Pair 163
+Pin   109  DSPSRD Comb ; S6=1  S9=1  Pair 162
+Pin   64  CKS Comb ; S6=1  S9=1  Pair 116
+Pin   66  SMPCLK Comb ; S6=1  S9=1  Pair 114
+Pin   15  DA_SDATA Comb ; S6=1  S9=1  Pair 50
+Pin   10  DA_SDATB Comb ; S6=1  S9=1  Pair 37
+Pin   4  DA_SDATC Comb ; S6=1  S9=1  Pair 35
+Pin   5  DA_SDATD Comb ; S6=1  S9=1  Pair 34
+Pin   68  AESPRO Comb ; S6=1  S9=1  Pair 120
+Pin   70  AESFC0 Comb ; S6=1  S9=1  Pair 118
+Pin   65  AESFC1 Comb ; S6=1  S9=1  Pair 115
+Pin   170  AESMCLKO Comb ; S6=1  S9=1  Pair 242
+Pin   205  AESCOUT Comb ; S6=1  S9=1  Pair 18
+Pin   159  AESDATAO Comb ; S6=1  S9=1  Pair 227
+Pin   71  DA_SCLK Comb ; S6=1  S9=1  Pair 117
+Pin   8  DA_FSYNC Comb ; S6=1  S9=1  Pair 39
+Pin   107  WD0 Comb ; S6=1  S9=1  Pair 164
+Pin   197  WD1 Comb ; S6=1  S9=1  Pair 4
+Pin   43  WD2 Comb ; S6=1  S9=1  Pair 86
+Pin   42  WD3 Comb ; S6=1  S9=1  Pair 85
+Pin   196  WD4 Comb ; S6=1  S9=1  Pair 3
+Pin   195  WD5 Comb ; S6=1  S9=1  Pair 2
+Pin   49  WD6 Comb ; S6=1  S9=1  Pair 84
+Pin   48  WD7 Comb ; S6=1  S9=1  Pair 83
+Pin   47  PUFWR Comb ; S6=0  S9=1  Pair 82
+Pin   119  PUFRD Comb ; S6=0  S9=1  Pair 178
+Pin   96  RESRDFIFO Comb ; S6=0  S9=1  Pair 149
+Pin   69  AD_DPD Comb ; S6=1  S9=1  Pair 119
+Pin   37  SH15 Reg  ; S6=1  S9=0  Pair 66
+Pin   55  ADCLK32 Reg  ; S6=1  S9=0  Pair 99
+Pin   206  ADLR Reg  ; S6=0  S9=0  Pair 19
+Pin   103  AESFCK Reg  ; S6=1  S9=0  Pair 148
+Pin   6  SWDIGIN Reg  ; S6=1  S9=1  Pair 42
+Pin   102  SWSUBFR Reg  ; S6=1  S9=0  Pair 147
+Pin   7  SWPROT Reg  ; S6=1  S9=0  Pair 41
+Pin   101  VOLCS Reg  ; S6=1  S9=1  Pair 146
+Pin   3  VOLCLK Reg  ; S6=1  S9=1  Pair 36
+Pin   160  VOLDATAI Reg  ; S6=1  S9=1  Pair 226
+Pin   191  AESC24 Reg  ; S6=1  S9=0  Pair 6
+Pin   190  AESC25 Reg  ; S6=1  S9=0  Pair 5
+Pin   118  PLAYCLKO Comb ; S6=1  S9=1  Pair 179
+Node  378  RPA0 Reg ;
+Node  361  RPA1 Reg ;
+Node  379  RPA2 Reg ;
+Node  329  RPA3 Reg ;
+Node  360  RPA4 Reg ;
+Node  282  RPA5 Reg ;
+Node  359  RPA6 Reg ;
+Node  328  RPA7 Reg ;
+Node  283  RPB0 Reg ;
+Node  327  RPB1 Reg ;
+Node  358  RPB2 Reg ;
+Node  284  RPB3 Reg ;
+Node  326  RPB4 Reg ;
+Node  325  RPB5 Reg ;
+Node  380  RPB6 Reg ;
+Node  357  RPB7 Reg ;
+Node  340  RPC0 Reg ;
+Node  381  RPC1 Reg ;
+Node  285  RPC2 Reg ;
+Node  382  RPC3 Reg ;
+Node  356  RPC4 Reg ;
+Node  286  RPC5 Reg ;
+Node  341  RPC6 Reg ;
+Node  355  RPC7 Reg ;
+Node  384  RPD0 Reg ;
+Node  324  RPD1 Reg ;
+Node  354  RPD2 Reg ;
+Node  385  RPD3 Reg ;
+Node  342  RPD4 Reg ;
+Node  288  RPD5 Reg ;
+Node  323  RPD6 Reg ;
+Node  289  RPD7 Reg ;
+Node  322  RP8 Reg ;
+Node  66  RN_SH15 Reg  ; S6=1  S9=0 
+Node  99  RN_ADCLK32 Reg  ; S6=1  S9=0 
+Node  19  RN_ADLR Reg  ; S6=0  S9=0 
+Node  41  RN_SWPROT Reg  ; S6=1  S9=0 
+Node  226  RN_VOLDATAI Reg  ; S6=1  S9=1 
+Node  6  RN_AESC24 Reg  ; S6=1  S9=0 
+Node  5  RN_AESC25 Reg  ; S6=1  S9=0 
+Node  7  CZCLK Comb ; S6=1  S9=1 
+Node  67  INPSCLK Comb ; S6=1  S9=1 
+Node  44  INPSDATA Comb ; S6=1  S9=1 
+Node  154  DATACLK Comb ; S6=1  S9=1 
+Node  210  DAHLPA Comb ; S6=1  S9=1 
+Node  130  DAHLPB Comb ; S6=1  S9=1 
+Node  195  DAHLPC Comb ; S6=1  S9=1 
+Node  100  DAHLPD Comb ; S6=1  S9=1 
+Node  91  XGORES Comb ; S6=1  S9=1 
+Node  87  WRFERTIG Comb ; S6=1  S9=1 
+Node  68  SHCLK Comb ; S6=1  S9=1 
+Node  96  MCLK128 Reg  ; S6=1  S9=0 
+Node  81  ADCLK16 Reg  ; S6=1  S9=0 
+Node  26  HOLD Reg  ; S6=1  S9=0 
+Node  95  SHD15 Reg  ; S6=1  S9=0 
+Node  80  SHD14 Reg  ; S6=1  S9=0 
+Node  14  SHD13 Reg  ; S6=1  S9=0 
+Node  25  SHD12 Reg  ; S6=1  S9=0 
+Node  90  SHD11 Reg  ; S6=1  S9=0 
+Node  94  SHD10 Reg  ; S6=1  S9=0 
+Node  47  SHD9 Reg  ; S6=1  S9=0 
+Node  13  SHD8 Reg  ; S6=1  S9=0 
+Node  182  SHD7 Reg  ; S6=1  S9=0 
+Node  181  SHD6 Reg  ; S6=1  S9=0 
+Node  46  SHD5 Reg  ; S6=1  S9=0 
+Node  89  SHD4 Reg  ; S6=1  S9=0 
+Node  93  SHD3 Reg  ; S6=1  S9=0 
+Node  125  SHD2 Reg  ; S6=1  S9=0 
+Node  12  SHD1 Reg  ; S6=1  S9=0 
+Node  51  SHD0 Reg  ; S6=1  S9=0 
+Node  124  RP9 Reg  ; S6=1  S9=0 
+Node  155  SH0 Reg  ; S6=1  S9=0 
+Node  79  SH1 Reg  ; S6=1  S9=0 
+Node  78  SH2 Reg  ; S6=1  S9=0 
+Node  165  SH3 Reg  ; S6=1  S9=0 
+Node  161  SH4 Reg  ; S6=1  S9=0 
+Node  101  SH5 Reg  ; S6=1  S9=0 
+Node  77  SH6 Reg  ; S6=1  S9=0 
+Node  76  SH7 Reg  ; S6=1  S9=0 
+Node  160  SH8 Reg  ; S6=1  S9=0 
+Node  159  SH9 Reg  ; S6=1  S9=0 
+Node  158  SH10 Reg  ; S6=1  S9=0 
+Node  157  SH11 Reg  ; S6=1  S9=0 
+Node  156  SH12 Reg  ; S6=1  S9=0 
+Node  75  SH13 Reg  ; S6=1  S9=0 
+Node  74  SH14 Reg  ; S6=1  S9=0 
+Node  151  SH16 Reg  ; S6=1  S9=0 
+Node  24  TAKT5 Reg  ; S6=1  S9=0 
+Node  23  TAKT6 Reg  ; S6=1  S9=0 
+Node  22  TAKT7 Reg  ; S6=1  S9=0 
+Node  121  SWAES Reg  ; S6=1  S9=1 
+Node  150  SWDIGOUT Reg  ; S6=1  S9=0 
+Node  40  SWONDSP Reg  ; S6=1  S9=1 
+Node  123  SWINDSP Reg  ; S6=1  S9=1 
+Node  49  SWRESFF Reg  ; S6=1  S9=0 
+Node  153  TAKTL Reg  ; S6=0  S9=1 
+Node  45  TAKTH Reg  ; S6=1  S9=1 
+Node  152  EXTAKT Reg  ; S6=0  S9=1 
+Node  15  WAIT Reg  ; S6=1  S9=1 
+Node  88  WAIT2 Reg  ; S6=1  S9=1 
+Node  180  WAIT3 Reg  ; S6=1  S9=1 
+Node  183  WAIT4 Reg  ; S6=1  S9=1 
+Node  92  WAIT5 Reg  ; S6=1  S9=1 
+Node  48  BWAIT Reg  ; S6=1  S9=0 
+Node  73  BWAIT2 Reg  ; S6=1  S9=1 
+Node  72  BWAIT3 Reg  ; S6=1  S9=1 
+Node  43  Z0 Reg  ; S6=1  S9=0 
+Node  122  Z1 Reg  ; S6=1  S9=0 
+Node  229  Z2 Reg  ; S6=1  S9=0 
+Node  194  Z3 Reg  ; S6=1  S9=0 
+Node  228  Z4 Reg  ; S6=1  S9=0 
+Node  230  Z5 Reg  ; S6=1  S9=0 
+Node  21  CZ0 Reg  ; S6=1  S9=0 
+Node  11  CZ1 Reg  ; S6=1  S9=0 
+Node  20  CZ2 Reg  ; S6=1  S9=0 
+Node  10  CZ3 Reg  ; S6=1  S9=0 
+Node  9  CZ4 Reg  ; S6=1  S9=0 
+Node  8  CZ5 Reg  ; S6=1  S9=0 
+Node  70  PGO Reg  ; S6=1  S9=0 
+Node  69  NGO Reg  ; S6=1  S9=0 
+Node  71  MCLK12 Reg  ; S6=1  S9=0 
+; Unused Pins & Nodes
+; -> None Found.

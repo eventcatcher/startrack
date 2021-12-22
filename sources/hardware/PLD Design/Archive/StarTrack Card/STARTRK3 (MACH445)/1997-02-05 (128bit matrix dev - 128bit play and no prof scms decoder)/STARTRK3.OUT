@@ -1,0 +1,10 @@
+* Wed Feb 05 02:32:47 1997
+MACHPRO(tm)  Version 1.1 (c) 1994 Advanced Micro Devices, Inc.
+JTAG Design [startrak] Part [d:\work\machxl\exe\mach445.bsm]
+
+=> Verify fuse data in part against JEDEC map [star128.jed]
+Key: - = read  LOW/0 value from part, but JEDEC map specified a HIGH/1
+     + = read HIGH/1 value from part, but JEDEC map specified a  LOW/0
+
+* Wed Feb 05 02:32:49 1997
+ [machpro] No errors/warnings

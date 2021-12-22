@@ -1,0 +1,63 @@
+     Design Name:  dsp1z
+ Targeted Device:  ispLSI1016-60LT44
+
+Pre-Route Design Statistics
+---------------------------
+
+Number of GLBs:                 16
+Number of I/Os:                 19
+Number of Nets:                 70
+
+Number of Free Inputs:          0
+Number of Free Outputs:         0
+Number of Free Three-States:    0
+Number of Free Bidi's:          0
+
+Number of Locked Input IOCs:    10
+Number of Locked DIs:           1
+Number of Locked Outputs:       8
+Number of Locked Three-States:  0
+Number of Locked Bidi's:        0
+
+Number of CRIT Outputs:         0
+Number of Global OEs:           0
+Number of External Clocks:      1
+
+
+GLB Utilization (Out of 16):	100%
+I/O Utilization (Out of 36):	52%
+Net Utilization (Out of 100):	70%
+
+
+Nets with Fanout of  1:         47
+Nets with Fanout of  2:         6
+Nets with Fanout of  3:         6
+Nets with Fanout of  4:         8
+Nets with Fanout of  5:         2
+Nets with Fanout of  8:         1
+
+Average Fanout per Net:         1.81
+
+
+GLBs with  5 Input(s):          10
+GLBs with  6 Input(s):          1
+GLBs with  9 Input(s):          1
+GLBs with 10 Input(s):          1
+GLBs with 13 Input(s):          1
+GLBs with 15 Input(s):          1
+GLBs with 16 Input(s):          1
+
+Average Inputs per GLB:         7.44
+
+
+GLBs with  1 Output(s):         1
+GLBs with  3 Output(s):         2
+GLBs with  4 Output(s):         13
+
+Average Outputs per GLB:        3.69
+
+
+--  No. of GLBs after successful routing : 16
+
+****  Elapsed Time :  00:00:04
+

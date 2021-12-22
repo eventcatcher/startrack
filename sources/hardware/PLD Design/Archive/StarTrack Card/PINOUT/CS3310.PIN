@@ -1,0 +1,27 @@
+                                                                    
+                                                                    
+                                                                    
+                                                                  
+                                                                   
+                                                                   
+                                                                   
+                                                                   
+                                                                   
+                    .-------.-----.-------.       
+                    |       -------       |       
+                ZCEN| 1                 16|AINL   
+                  CS| 2                 15|AGNDL  
+              SDATAI| 3                 14|AOUTL  
+                 VD+| 4      CS3310     13|VA-    
+                DGND| 5                 12|VA+    
+                SCLK| 6                 11|AOUTR  
+              SDATAO| 7                 10|AGNDR  
+                MUTE| 8                  9|AINR   
+                    |                     |       
+                    '---------------------'       
+                                                                  
+                                                                  
+                                               
+                                                    
+                                                    
+                                                                    

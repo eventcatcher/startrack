@@ -1,0 +1,148 @@
+
+*****************************
+* Design Name = Sampler.pds *
+*****************************
+
+
+*******************
+* TIMING ANALYSIS *
+*******************
+
+Timing Analysis KEY:
+One unit of delay time is equivalent to one pass 
+     through the Central Switch Matrix.
+..   Delay ( in this column ) not applicable to the indicated signal.
+TSU, Set-Up Time ( 0 for input-paired signals ),
+     represents the number of switch matrix passes between
+     an input pin and a register setup before clock.
+     TSU is reported on the register.
+TCO, Clocked Output-to-Pin Time ( 0 for output-paired signals ),
+     represents the number of switch matrix passes between
+     a clocked register and an output pin.
+     TCO is reported on the register.
+TPD, Propagation Delay Time ( calculated only for combinatorial eqns.),
+     represents the number of switch matrix passes between
+     an input pin and an output pin.
+     TPD is reported on the output pin.
+TCR, Clocked Output-to-Register Time,
+     represents the number of switch matrix passes between
+     a clocked register and the register it drives ( before clock ).
+     TCR is reported on the driving register.
+
+                    TSU       TCO       TPD       TCR
+                  #passes   #passes   #passes   #passes
+SIGNAL NAME       min  max  min  max  min  max  min  max
+             RP7   1    1    2    3   ..   ..   ..   ..   
+             RP6   1    1    2    3   ..   ..   ..   ..   
+             RP5   1    1    2    3   ..   ..   ..   ..   
+             RP4   1    1    2    3   ..   ..   ..   ..   
+             RP3   1    1    2    3   ..   ..   ..   ..   
+             RP2   1    1    2    3   ..   ..   ..   ..   
+             RP1   1    1    2    3   ..   ..   ..   ..   
+             RP0   1    1    2    3   ..   ..   ..   ..   
+        SWDIGOUT   1    1    1    3   ..   ..   ..   ..   
+              Z0  ..   ..    2    3   ..   ..    1    1   
+              Z1  ..   ..    1    3   ..   ..    1    1   
+              Z2  ..   ..    1    3   ..   ..    1    1   
+              Z4  ..   ..    1    3   ..   ..    1    1   
+          DSPSCK  ..   ..   ..   ..    2    2   ..   ..   
+          DSPSRD  ..   ..   ..   ..    2    2   ..   ..   
+         DA_SCLK  ..   ..   ..   ..    2    2   ..   ..   
+          DSPSC2  ..   ..   ..   ..    2    2   ..   ..   
+        AESDATAO  ..   ..   ..   ..    2    2   ..   ..   
+         ADCLK32  ..   ..    0    2   ..   ..    1    1   
+      RN_ADCLK32  ..   ..    0    2   ..   ..    1    1   
+            ADLR  ..   ..    0    2   ..   ..    1    2   
+         RN_ADLR  ..   ..    0    2   ..   ..    1    2   
+            SHD0   1    2    1    1   ..   ..    1    1   
+            SH16  ..   ..    1    2   ..   ..    2    2   
+           SWAES   1    1    1    2   ..   ..    1    2   
+         SWONDSP   1    1    1    2   ..   ..    1    1   
+         SWINDSP   1    1    1    2   ..   ..    1    1   
+         AESCOUT  ..   ..   ..   ..    1    1   ..   ..   
+          AESC25   1    1    0    1   ..   ..   ..   ..   
+       RN_AESC25   1    1    0    1   ..   ..   ..   ..   
+          AESC24   1    1    0    1   ..   ..   ..   ..   
+       RN_AESC24   1    1    0    1   ..   ..   ..   ..   
+        AESMCLKO  ..   ..   ..   ..    1    1   ..   ..   
+          SMPCLK  ..   ..   ..   ..    1    1   ..   ..   
+          AD_DPD  ..   ..   ..   ..    1    1   ..   ..   
+         SWDIGIN   1    1    0    0   ..   ..   ..   ..   
+       RESRDFIFO  ..   ..   ..   ..    1    1   ..   ..   
+          SWPROT   1    1    0    1   ..   ..   ..   ..   
+       RN_SWPROT   1    1    0    1   ..   ..   ..   ..   
+         SWSUBFR   1    1    0    0   ..   ..   ..   ..   
+           VOLCS   1    1    0    0   ..   ..   ..   ..   
+          VOLCLK   1    1    0    0   ..   ..   ..   ..   
+        VOLDATAI   1    1    0    1   ..   ..   ..   ..   
+     RN_VOLDATAI   1    1    0    1   ..   ..   ..   ..   
+        DA_SDATA  ..   ..   ..   ..    1    1   ..   ..   
+            SH15  ..   ..    0    0   ..   ..    1    1   
+         RN_SH15  ..   ..    0    0   ..   ..    1    1   
+           CZCLK  ..   ..   ..   ..    1    1   ..   ..   
+         INPSCLK  ..   ..   ..   ..    1    1   ..   ..   
+        INPSDATA  ..   ..   ..   ..    1    1   ..   ..   
+         DATACLK  ..   ..   ..   ..    1    1   ..   ..   
+          XGORES  ..   ..   ..   ..    1    1   ..   ..   
+        WRFERTIG  ..   ..   ..   ..    1    1   ..   ..   
+           SHCLK  ..   ..   ..   ..    1    1   ..   ..   
+         MCLK128  ..   ..    1    1   ..   ..   ..   ..   
+         ADCLK16  ..   ..   ..   ..   ..   ..    1    1   
+            HOLD  ..   ..   ..   ..   ..   ..    1    1   
+           SHD15  ..   ..    1    1   ..   ..   ..   ..   
+           SHD14  ..   ..    1    1   ..   ..    1    1   
+           SHD13  ..   ..    1    1   ..   ..    1    1   
+           SHD12  ..   ..    1    1   ..   ..    1    1   
+           SHD11  ..   ..    1    1   ..   ..    1    1   
+           SHD10  ..   ..    1    1   ..   ..    1    1   
+            SHD9  ..   ..    1    1   ..   ..    1    1   
+            SHD8  ..   ..    1    1   ..   ..    1    1   
+            SHD7  ..   ..    1    1   ..   ..    1    1   
+            SHD6  ..   ..    1    1   ..   ..    1    1   
+            SHD5  ..   ..    1    1   ..   ..    1    1   
+            SHD4  ..   ..    1    1   ..   ..    1    1   
+            SHD3  ..   ..    1    1   ..   ..    1    1   
+            SHD2  ..   ..    1    1   ..   ..    1    1   
+            SHD1  ..   ..    1    1   ..   ..    1    1   
+             RP9  ..   ..    1    1   ..   ..   ..   ..   
+             RP8   1    1    1    1   ..   ..    1    1   
+             SH0   1    1   ..   ..   ..   ..    1    1   
+             SH1  ..   ..   ..   ..   ..   ..    1    1   
+             SH2  ..   ..   ..   ..   ..   ..    1    1   
+             SH3  ..   ..   ..   ..   ..   ..    1    1   
+             SH4  ..   ..   ..   ..   ..   ..    1    1   
+             SH5  ..   ..   ..   ..   ..   ..    1    1   
+             SH6  ..   ..   ..   ..   ..   ..    1    1   
+             SH7  ..   ..   ..   ..   ..   ..    1    1   
+             SH8  ..   ..   ..   ..   ..   ..    1    1   
+             SH9  ..   ..   ..   ..   ..   ..    1    1   
+            SH10  ..   ..   ..   ..   ..   ..    1    1   
+            SH11  ..   ..   ..   ..   ..   ..    1    1   
+            SH12  ..   ..   ..   ..   ..   ..    1    1   
+            SH13  ..   ..   ..   ..   ..   ..    1    1   
+            SH14  ..   ..   ..   ..   ..   ..    1    1   
+           TAKT5  ..   ..   ..   ..   ..   ..    1    1   
+           TAKT6  ..   ..   ..   ..   ..   ..    1    1   
+           TAKT7  ..   ..   ..   ..   ..   ..    1    1   
+         SWRESFF   1    1    1    1   ..   ..   ..   ..   
+           TAKTL   1    1    1    1   ..   ..   ..   ..   
+           TAKTH   1    1    1    1   ..   ..   ..   ..   
+          EXTAKT   1    1    1    1   ..   ..   ..   ..   
+            WAIT  ..   ..    1    1   ..   ..    1    1   
+           WAIT2  ..   ..    1    1   ..   ..    1    1   
+           WAIT3  ..   ..    1    1   ..   ..    1    1   
+           WAIT4  ..   ..    1    1   ..   ..    1    1   
+           WAIT5  ..   ..    1    1   ..   ..   ..   ..   
+           BWAIT  ..   ..   ..   ..   ..   ..    1    1   
+          BWAIT2  ..   ..   ..   ..   ..   ..    1    1   
+              Z3  ..   ..    1    1   ..   ..    1    1   
+              Z5  ..   ..    1    1   ..   ..   ..   ..   
+             CZ0   1    1    1    1   ..   ..    1    1   
+             CZ1   1    1    1    1   ..   ..    1    1   
+             CZ2   1    1    1    1   ..   ..    1    1   
+             CZ3   1    1    1    1   ..   ..    1    1   
+             CZ4   1    1    1    1   ..   ..    1    1   
+             CZ5   1    1    1    1   ..   ..   ..   ..   
+             PGO  ..   ..    1    1   ..   ..    1    1   
+             NGO  ..   ..    1    1   ..   ..    1    1   
+          MCLK12  ..   ..    1    1   ..   ..    1    1   

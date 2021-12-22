@@ -1,0 +1,521 @@
+; ***************************************************************************
+; MachXL Design Description
+; ***************************************************************************
+
+TITLE    PCITRAK MACH445 IC3
+PATTERN  ic3.pds
+REVISION 1.00
+AUTHOR   S.W.
+COMPANY  Stephan Wilhelm EntwicklungsbÅro
+DATE     01/16/97
+
+CHIP  syncfifo MACH435
+
+; PCITRAK
+
+; ***************************************************************************
+; Pinbelegung
+; ***************************************************************************
+
+PIN 17          reset      ; system-reset
+PIN 9           wr         ; write
+PIN 7           MCLK24     ; 24.576 MHz-Takt
+PIN 5           sysclk     ; system-clock
+PIN 3           IACK       ; int-ack
+PIN 4           IACKIN     ; int-erkennung
+PIN 81          ld0        ; vme data 0
+PIN 79          ld1        ; vme data 1
+PIN 13          ld2        ; vme data 2
+PIN 51          ld3        ; vme data 3
+PIN 25          ld4        ; vme data 4
+PIN 24          ld5        ; vme data 5
+PIN 30          ld6        ; vme data 6
+PIN 15          ld7        ; vme data 7
+PIN 77          la15       ; vme adress 15
+PIN 72          la14       ; vme adress 14
+PIN 82          la13       ; vme adress 13
+PIN 76          la1        ; vme adress 1
+PIN 78          la2        ; vme adress 2
+PIN 80          la3        ; vme adress 3
+PIN 75          AM4        ; vme adressdecode
+PIN 12          DS0        ; vme data low
+PIN 14          DS1        ; vme data high
+PIN 33          PAFFLAG3   ; PlayFIFO Allmost full von FIFO 3 (lowest)
+PIN 35          PAEFLAG3   ; PlayFIFO Allmost Empty von FIFO 3 (lowest)
+PIN 36          PEFLAG3    ; PlayFIFO Empty von FIFO 3 (lowest)
+PIN 16          RD8        ; Sync-Datenausgang des PLAY-FIFO
+PIN  37         PSYNC      COMBINATORIAL ; zum PSYNC des DSP-Port und 74F166
+PIN  58         smpwrite0  COMBINATORIAL ; playfifo write 0
+PIN  31         smpwrite1  COMBINATORIAL ; playfifo write 1
+PIN  52         smpwrite2  COMBINATORIAL ; playfifo write 2
+PIN  50         smpwrite3  COMBINATORIAL ; playfifo write 3
+PIN  56         DTACK      COMBINATORIAL ; data handshake
+PIN  18         DRVOE      COMBINATORIAL ; enable busdriver
+PIN  73         INT        COMBINATORIAL ; interrupt
+PIN  71         IACKOUT    COMBINATORIAL ; next interrupt
+PIN  27         freset     COMBINATORIAL ; local reset
+PIN  68         CLKPLAY       REGISTERED ; CLK fÅr PCLK,Shifter und internal
+PIN  48         fifoload      REGISTERED ; load fifoflags
+PIN  66         PRCLK0        REGISTERED ; playfifo readclk D0-D7
+PIN  8          PRCLK1        REGISTERED ; playfifo readclk D8-D15
+PIN  6          PRCLK2        REGISTERED ; playfifo readclk D16-D23
+PIN  38         PRCLK3        REGISTERED ; playfifo readclk D24-D31
+PIN  54         SHIFTLD0      REGISTERED ; zum LOAD des Shifters 0
+PIN  69         SHIFTLD1      REGISTERED ; zum LOAD des Shifters 1
+PIN  70         SHIFTLD2      REGISTERED ; zum LOAD des Shifters 2
+PIN  39         SHIFTLD3      REGISTERED ; zum LOAD des Shifters 3
+PIN  28         SHIFTLD4      REGISTERED ; zum LOAD des Shifters 4
+PIN  10         SHIFTLD5      REGISTERED ; zum LOAD des Shifters 5
+PIN  67         SHIFTLD6      REGISTERED ; zum LOAD des Shifters 6
+PIN  29         SHIFTLD7      REGISTERED ; zum LOAD des Shifters 7
+NODE ?          DRVCS      COMBINATORIAL ; my adress
+NODE ?          srange0    COMBINATORIAL ; helpcode for range
+NODE ?          srange1    COMBINATORIAL ; helpcode for range
+NODE ?          WSET       COMBINATORIAL ; set play streamsync
+NODE ?          WCLR       COMBINATORIAL ; reset play streamsync
+NODE ?          WRESHLP0   COMBINATORIAL ; reset helpterm for wordreset0
+NODE ?          WRESHLP1   COMBINATORIAL ; reset helpterm for wordreset1
+NODE ?          WRESHLP2   COMBINATORIAL ; reset helpterm for wordreset2
+NODE ?          WRESHLP3   COMBINATORIAL ; reset helpterm for wordreset3
+NODE ?          WTST1      COMBINATORIAL ; streamsync mode
+NODE ?          WTST0      COMBINATORIAL ; streamsync mode
+NODE ?          preset        REGISTERED ; programmable reset
+NODE ?          ZP0           REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          ZP1           REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          ZP2           REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          WP0           REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WP1           REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WP2           REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WP3           REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          PSYNC0        REGISTERED ; Erkennung PlaySync FIFO 0
+NODE ?          PSYNC1        REGISTERED ; Erkennung PlaySync FIFO 1
+NODE ?          PSYNC2        REGISTERED ; Erkennung PlaySync FIFO 2
+NODE ?          PSYNC3        REGISTERED ; Erkennung PlaySync FIFO 3
+NODE ?          VPSYNC0       REGISTERED ; Erkennung PlaySync FIFO 0
+NODE ?          VPSYNC1       REGISTERED ; Erkennung PlaySync FIFO 1
+NODE ?          VPSYNC2       REGISTERED ; Erkennung PlaySync FIFO 2
+NODE ?          VPSYNC3       REGISTERED ; Erkennung PlaySync FIFO 3
+NODE ?          DCLKPLAY      REGISTERED ; fÅr Frequenzerzeugung (double PCLK)
+NODE ?          WRESET0       REGISTERED ; play streamsync 0
+NODE ?          WRESET1       REGISTERED ; play streamsync 1
+NODE ?          WRESET2       REGISTERED ; play streamsync 2
+NODE ?          WRESET3       REGISTERED ; play streamsync 3
+NODE ?          TIME1         REGISTERED ; timingcounter 1
+NODE ?          TIME2         REGISTERED ; timingcounter 2
+NODE ?          TIME3         REGISTERED ; timingcounter 3
+NODE ?          TIME4         REGISTERED ; timingcounter 4
+NODE ?          ITIME1        REGISTERED ; interrupt timing 1
+NODE ?          ITIME2        REGISTERED ; interrupt timing 2
+NODE ?          ITIME3        REGISTERED ; interrupt timing 3
+NODE ?          BLOKATE       REGISTERED ; blokate interrupt-search
+NODE ?          shiftsel0     REGISTERED ; enable shifter 0
+NODE ?          shiftsel1     REGISTERED ; enable shifter 1
+NODE ?          shiftsel2     REGISTERED ; enable shifter 2
+NODE ?          shiftsel3     REGISTERED ; enable shifter 3
+NODE ?          shiftsel4     REGISTERED ; enable shifter 4
+NODE ?          shiftsel5     REGISTERED ; enable shifter 5
+NODE ?          shiftsel6     REGISTERED ; enable shifter 6
+NODE ?          shiftsel7     REGISTERED ; enable shifter 7
+NODE ?          range0        REGISTERED ; set fifowidth
+NODE ?          range1        REGISTERED ; set fifowidth
+NODE ?          intplay       REGISTERED ; enable play-interrupt
+NODE ?          intrec        REGISTERED ; enable rec-interrupt
+NODE ?          START         REGISTERED ; fifo is ready (not empty)
+
+; ***************************************************************************
+; ***************************************************************************
+
+EQUATIONS
+
+BLOKATE = la3 * /la2 * la1 * /IACKIN * intplay * /PAEFLAG3;
+BLOKATE.CLKF = ITIME2;
+BLOKATE.RSTF = IACK;
+
+/INT = intplay * /PAEFLAG3;
+INT.trst = intplay * /PAEFLAG3;
+
+/IACKOUT = /IACKIN * /BLOKATE * ITIME3;
+IACKOUT.trst = /IACKIN * /BLOKATE * ITIME3;
+
+ITIME1 = /IACKIN;
+ITIME1.CLKF = sysclk;
+ITIME1.RSTF = IACKIN;
+
+ITIME2 = ITIME1
+       + /intplay;
+ITIME2.CLKF = sysclk;
+ITIME2.RSTF = IACKIN;
+
+ITIME3 = ITIME2;
+ITIME3.CLKF = sysclk;
+ITIME3.RSTF = IACKIN;
+
+/DRVOE = /AM4 * /la15 * la14 * IACK * /DS0
+       + /AM4 * /la15 * la14 * IACK * /DS1
+       + BLOKATE * la3 * /la2 * la1 * /IACKIN * intplay * /PAEFLAG3 * /DS0;
+
+/DRVCS = /AM4 * /la15 * la14 * IACK * /DS0 * TIME3 * /wr
+       + /AM4 * /la15 * la14 * IACK * /DS0 * TIME4 * /wr
+       + /AM4 * /la15 * la14 * IACK * /DS1 * TIME3 * /wr
+       + /AM4 * /la15 * la14 * IACK * /DS1 * TIME4 * /wr
+       + /AM4 * /la15 * la14 * IACK * /DS0 * TIME4 * wr
+       + /AM4 * /la15 * la14 * IACK * /DS1 * TIME4 * wr
+       + BLOKATE * la3 * /la2 * la1 * /IACKIN * intplay * /PAEFLAG3 * /DS0;
+
+/DTACK = /DRVCS;
+
+DTACK.trst = /DRVCS;
+
+TIME1 = VCC;
+TIME1.CLKF = sysclk;
+TIME1.RSTF = DS0 * DS1;
+
+TIME3 = TIME2;
+TIME3.CLKF = sysclk;
+TIME3.RSTF = DS0 * DS1;
+
+TIME2 = TIME1;
+TIME2.CLKF = /sysclk;
+TIME2.RSTF = DS0 * DS1;
+
+TIME4 = TIME3;
+TIME4.CLKF = /sysclk;
+TIME4.RSTF = DS0 * DS1;
+
+; ---------------------Registers
+
+shiftsel0.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * /la1 * /wr * IACK * /DS0;
+shiftsel0 := ld0;
+shiftsel0.rstf = /reset;
+
+shiftsel1.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * /la1 * /wr * IACK * /DS0;
+shiftsel1 := ld1;
+shiftsel1.rstf = /reset;
+
+shiftsel2.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * /la1 * /wr * IACK * /DS0;
+shiftsel2 := ld2;
+shiftsel2.rstf = /reset;
+
+shiftsel3.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * /la1 * /wr * IACK * /DS0;
+shiftsel3 := ld3;
+shiftsel3.rstf = /reset;
+
+shiftsel4.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * /la1 * /wr * IACK * /DS0;
+shiftsel4 := ld4;
+shiftsel4.rstf = /reset;
+
+shiftsel5.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * /la1 * /wr * IACK * /DS0;
+shiftsel5 := ld5;
+shiftsel5.rstf = /reset;
+
+shiftsel6.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * /la1 * /wr * IACK * /DS0;
+shiftsel6 := ld6;
+shiftsel6.rstf = /reset;
+
+shiftsel7.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * /la1 * /wr * IACK * /DS0;
+shiftsel7 := ld7;
+shiftsel7.rstf = /reset;
+
+range0.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+range0 := ld0;
+range0.rstf = /reset;
+
+range1.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+range1 := ld1;
+range1.rstf = /reset;
+
+intrec.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+intrec := ld2;
+intrec.rstf = /reset;
+
+intplay.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+intplay := ld3;
+intplay.rstf = /reset;
+
+preset.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+preset := ld4;
+preset.rstf = /reset;
+
+fifoload.clkf = /TIME3 * TIME2 * /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+fifoload = ld7;
+fifoload.rstf = /reset
+
+smpwrite3 = /AM4 * /la15 * la14 * la13 * /la1 * /wr * IACK * /DS1 * /TIME3 * TIME2;
+
+smpwrite2 = /AM4 * /la15 * la14 * la13 * /la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+
+smpwrite1 = /AM4 * /la15 * la14 * la13 * la1 * /wr * IACK * /DS1 * /TIME3 * TIME2;
+
+smpwrite0 = /AM4 * /la15 * la14 * la13 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+
+; INT-Vektor Nummer #122 fuer Play
+
+ld0 = shiftsel0 * /la13 * /la3 * /la2 * /la1 * IACK
+    + range0 * /la13 * /la3 * /la2 * la1 * IACK
+    + PAEFLAG3 * /la13 * /la3 * la2 * /la1 * IACK;
+ld0.trst = /DRVOE * wr * /DS0;
+
+ld1 = shiftsel1 * /la13 * /la3 * /la2 * /la1 * IACK
+    + range1 * /la13 * /la3 * /la2 * la1 * IACK
+    + PAFFLAG3 * /la13 * /la3 * la2 * /la1 * IACK
+    + /IACK;
+ld1.trst = /DRVOE * wr * /DS0;
+
+ld2 = shiftsel2 * /la13 * /la3 * /la2 * /la1 * IACK
+    + intrec * /la13 * /la3 * /la2 * la1 * IACK
+    + PEFLAG3 * /la13 * /la3 * la2 * /la1 * IACK
+ld2.trst = /DRVOE * wr * /DS0;
+
+ld3 = shiftsel3 * /la13 * /la3 * /la2 * /la1 * IACK
+    + intplay * /la13 * /la3 * /la2 * la1 * IACK
+    + /IACK;
+ld3.trst = /DRVOE * wr * /DS0;
+
+ld4 = shiftsel4 * /la13 * /la3 * /la2 * /la1 * IACK
+    + preset * /la13 * /la3 * /la2 * la1 * IACK
+    + /IACK;
+ld4.trst = /DRVOE * wr * /DS0;
+
+ld5 = shiftsel5 * /la13 * /la3 * /la2 * /la1 * IACK
+    + /IACK;
+ld5.trst = /DRVOE * wr * /DS0;
+
+ld6 = shiftsel6 * /la13 * /la3 * /la2 * /la1 * IACK
+    + /IACK;
+ld6.trst = /DRVOE * wr * /DS0;
+
+ld7 = shiftsel7 * /la13 * /la3 * /la2 * /la1 * IACK
+    + fifoload * /la13 * /la3 * /la2 * la1 * IACK;
+ld7.trst = /DRVOE * wr * /DS0;
+
+; ---------------------Play-Clock 48 kHz
+
+DCLKPLAY.T = VCC;
+DCLKPLAY.CLKF = MCLK24;
+
+CLKPLAY.T = DCLKPLAY;       used for DSP-PCLK,Shift-Clock and internal-clk
+CLKPLAY.CLKF = MCLK24;
+
+ZP0.T = VCC;
+ZP0.CLKF = CLKPLAY;
+
+ZP1.T = ZP0;
+ZP1.CLKF = CLKPLAY;
+
+ZP2.T = ZP0 * ZP1;
+ZP2.CLKF = CLKPLAY;
+
+WP0.T = ZP0 * ZP1 * ZP2;
+WP0.CLKF = CLKPLAY;
+
+WP1.T = ZP0 * ZP1 * ZP2 * WP0;
+WP1.CLKF = CLKPLAY;
+
+WP2.T = ZP0 * ZP1 * ZP2 * WP0 * WP1;
+WP2.CLKF = CLKPLAY;
+
+WP3.T = ZP0 * ZP1 * ZP2 * WP0 * WP1 * WP2;
+WP3.CLKF = CLKPLAY;
+
+WRESHLP3 = /WP3 * /WP2 * /WP1 * /WP0 * WCLR * /CLKPLAY * /DCLKPLAY
+         + /START
+         + /freset;
+
+WRESHLP2 = /WP3 * /WP2 * WCLR * /CLKPLAY * /DCLKPLAY * /WP1 * /WP0 * /range0
+         + /WP3 * /WP2 * WCLR * /CLKPLAY * /DCLKPLAY * /WP1 * WP0 * range0
+         + /START
+         + /freset;
+
+WRESHLP1 = /WP3 * /WP2 * WCLR * /CLKPLAY * /DCLKPLAY * /WP1 * /WP0 * /range1
+         + /WP3 * /WP2 * WCLR * /CLKPLAY * /DCLKPLAY * /WP1 * WP0 * range1 * /range0
+         + /WP3 * /WP2 * WCLR * /CLKPLAY * /DCLKPLAY * WP1 * /WP0 * range1 * range0
+         + /START
+         + /freset;
+
+WRESHLP0 = /WP3 * /WP2 * WCLR * /CLKPLAY * /DCLKPLAY * /WP1 * /WP0 * /range1 * /range0
+         + /WP3 * /WP2 * WCLR * /CLKPLAY * /DCLKPLAY * /WP1 * WP0 * /range1 * range0
+         + /WP3 * /WP2 * WCLR * /CLKPLAY * /DCLKPLAY * WP1 * /WP0 * range1 * /range0
+         + /WP3 * /WP2 * WCLR * /CLKPLAY * /DCLKPLAY * WP1 * WP0 * range1 * range0
+         + /START
+         + /freset;
+
+WRESET3 := VCC;
+WRESET3.CLKF = START * /WP1 * /WP0 * VPSYNC3 * /PSYNC3 * WSET * CLKPLAY * DCLKPLAY;
+WRESET3.RSTF = WRESHLP3;
+
+WRESET2 := VCC;
+WRESET2.CLKF = START * /WP1 * WP0 * VPSYNC2 * /PSYNC2 * WSET * CLKPLAY * DCLKPLAY;
+WRESET2.RSTF = WRESHLP2;
+
+WRESET1 := VCC;
+WRESET1.CLKF = START * WTST1 * VPSYNC1 * /PSYNC1 * WSET * CLKPLAY * DCLKPLAY;
+WRESET1.RSTF = WRESHLP1;
+
+WRESET0 := VCC;
+WRESET0.CLKF = START * WTST0 * VPSYNC0 * /PSYNC0 * WSET * CLKPLAY * DCLKPLAY;
+WRESET0.RSTF = WRESHLP0;
+
+WTST1 = WP1 * /WP0 * range1
+      + /WP0 * /range1;
+
+WTST0 = WP1 * WP0 * range1
+      + WP0 * /range1 * range0
+      + /range1 * /range0;
+
+WSET = /ZP2 * /ZP1 * /ZP0 * shiftsel0
+     + /ZP2 * /ZP1 * ZP0 * shiftsel1
+     + /ZP2 * ZP1 * /ZP0 * shiftsel2
+     + /ZP2 * ZP1 * ZP0 * shiftsel3
+     + ZP2 * /ZP1 * /ZP0 * shiftsel4
+     + ZP2 * /ZP1 * ZP0 * shiftsel5
+     + ZP2 * ZP1 * /ZP0 * shiftsel6
+     + ZP2 * ZP1 * ZP0 * shiftsel7;
+
+WCLR = /ZP2 * /ZP1 * /ZP0 * shiftsel0
+     + /ZP2 * /ZP1 * ZP0 * /shiftsel0 * shiftsel1
+     + /ZP2 * ZP1 * /ZP0 * /shiftsel0 * /shiftsel1 * shiftsel2
+     + /ZP2 * ZP1 * ZP0 * /shiftsel0 * /shiftsel1 * /shiftsel2
+     * shiftsel3
+     + ZP2 * /ZP1 * /ZP0 * /shiftsel0 * /shiftsel1 * /shiftsel2
+     * /shiftsel3 * shiftsel4
+     + ZP2 * /ZP1 * ZP0 * /shiftsel0 * /shiftsel1 * /shiftsel2
+     * /shiftsel3 * /shiftsel4 * shiftsel5
+     + ZP2 * ZP1 * /ZP0 * /shiftsel0 * /shiftsel1 * /shiftsel2
+     * /shiftsel3 * /shiftsel4 * /shiftsel5 * shiftsel6
+     + ZP2 * ZP1 * ZP0 * /shiftsel0 * /shiftsel1 * /shiftsel2
+     * /shiftsel3 * /shiftsel4 * /shiftsel5 * /shiftsel6 * shiftsel7;
+
+SHIFTLD0.CLKF = /CLKPLAY * shiftsel0;
+/SHIFTLD0 := ZP2 * ZP1 * ZP0;
+SHIFTLD0.SETF = /START;
+
+SHIFTLD1.CLKF = /CLKPLAY * shiftsel1;
+/SHIFTLD1 = /ZP2 * /ZP1 * /ZP0;
+SHIFTLD1.SETF = /START;
+
+SHIFTLD2.CLKF = /CLKPLAY * shiftsel2;
+/SHIFTLD2 = /ZP2 * /ZP1 * ZP0;
+SHIFTLD2.SETF = /START;
+
+SHIFTLD3.CLKF = /CLKPLAY * shiftsel3;
+/SHIFTLD3 = /ZP2 * ZP1 * /ZP0;
+SHIFTLD3.SETF = /START;
+
+SHIFTLD4.CLKF = /CLKPLAY * shiftsel4;
+/SHIFTLD4 = /ZP2 * ZP1 * ZP0;
+SHIFTLD4.SETF = /START;
+
+SHIFTLD5.CLKF = /CLKPLAY * shiftsel5;
+/SHIFTLD5 = ZP2 * /ZP1 * /ZP0;
+SHIFTLD5.SETF = /START;
+
+SHIFTLD6.CLKF = /CLKPLAY * shiftsel6;
+/SHIFTLD6 = ZP2 * /ZP1 * ZP0;
+SHIFTLD6.SETF = /START;
+
+SHIFTLD7.CLKF = /CLKPLAY * shiftsel7;
+/SHIFTLD7 = ZP2 * ZP1 * /ZP0;
+SHIFTLD7.SETF = /START;
+
+/srange1 = WP1 * /WP0 * range1
+         + /WP1 * /WP0 * /range1 * range0
+         + WP1 * /WP0 * /range1 * range0;
+
+/srange0 = WP1 * WP0 * range1
+         + /WP1 * WP0 * /range1 * range0
+         + WP1 * WP0 * /range1 * range0
+         + /range1 * /range0;
+
+START := VCC;
+START.CLKF = /PAFFLAG3 * WP3 * WP2 * WP1 * WP0 * ZP2 * ZP1 * ZP0
+           * CLKPLAY * DCLKPLAY;
+START.RSTF = /intplay * WP3 * WP2 * WP1 * WP0 * ZP2 * ZP1 * ZP0
+             * CLKPLAY * DCLKPLAY * /PEFLAG3;
+
+PRCLK3.CLKF = /CLKPLAY * DCLKPLAY * START;
+PRCLK3 := ZP2 * ZP1 * ZP0 * /WRESET3 * shiftsel0 * WP1 * WP0 * range1 * range0
+       + /ZP2 * /ZP1 * /ZP0 * /WRESET3 * shiftsel1 * /WP1 * /WP0 * range1 * range0
+       + /ZP2 * /ZP1 * ZP0 * /WRESET3 * shiftsel2 * /WP1 * /WP0 * range1 * range0
+       + /ZP2 * ZP1 * /ZP0 * /WRESET3 * shiftsel3 * /WP1 * /WP0 * range1 * range0
+       + /ZP2 * ZP1 * ZP0 * /WRESET3 * shiftsel4 * /WP1 * /WP0 * range1 * range0
+       + ZP2 * /ZP1 * /ZP0 * /WRESET3 * shiftsel5 * /WP1 * /WP0 * range1 * range0
+       + ZP2 * /ZP1 * ZP0 * /WRESET3 * shiftsel6 * /WP1 * /WP0 * range1 * range0
+       + ZP2 * ZP1 * /ZP0 * /WRESET3 * shiftsel7 * /WP1 * /WP0 * range1 * range0;
+PRCLK3.RSTF = CLKPLAY * DCLKPLAY;
+
+PRCLK2.CLKF = /CLKPLAY * DCLKPLAY * START;
+PRCLK2 := ZP2 * ZP1 * ZP0 * /WRESET2 * shiftsel0 * /WP1 * /WP0 * range1
+       + /ZP2 * /ZP1 * /ZP0 * /WRESET2 * shiftsel1 * /WP1 * WP0 * range1
+       + /ZP2 * /ZP1 * ZP0 * /WRESET2 * shiftsel2 * /WP1 * WP0 * range1
+       + /ZP2 * ZP1 * /ZP0 * /WRESET2 * shiftsel3 * /WP1 * WP0 * range1
+       + /ZP2 * ZP1 * ZP0 * /WRESET2 * shiftsel4 * /WP1 * WP0 * range1
+       + ZP2 * /ZP1 * /ZP0 * /WRESET2 * shiftsel5 * /WP1 * WP0 * range1
+       + ZP2 * /ZP1 * ZP0 * /WRESET2 * shiftsel6 * /WP1 * WP0 * range1
+       + ZP2 * ZP1 * /ZP0 * /WRESET2 * shiftsel7 * /WP1 * WP0 * range1;
+PRCLK2.RSTF = CLKPLAY * DCLKPLAY;
+
+PRCLK1.CLKF = /CLKPLAY * DCLKPLAY * START;
+PRCLK1 := ZP2 * ZP1 * ZP0 * /WRESET1 * shiftsel0 * /WP1 * WP0 * range1
+       + ZP2 * ZP1 * ZP0 * /WRESET1 * shiftsel0 * WP0 * /range1 * range0
+       + /ZP2 * /ZP1 * /ZP0 * /WRESET1 * shiftsel1 * /srange1
+       + /ZP2 * /ZP1 * ZP0 * /WRESET1 * shiftsel2 * /srange1
+       + /ZP2 * ZP1 * /ZP0 * /WRESET1 * shiftsel3 * /srange1
+       + /ZP2 * ZP1 * ZP0 * /WRESET1 * shiftsel4 * /srange1
+       + ZP2 * /ZP1 * /ZP0 * /WRESET1 * shiftsel5 * /srange1
+       + ZP2 * /ZP1 * ZP0 * /WRESET1 * shiftsel6 * /srange1
+       + ZP2 * ZP1 * /ZP0 * /WRESET1 * shiftsel7 * /srange1;
+PRCLK1.RSTF = CLKPLAY * DCLKPLAY;
+
+PRCLK0.CLKF = /CLKPLAY * DCLKPLAY * START;
+PRCLK0 := ZP2 * ZP1 * ZP0 * /WRESET0 * shiftsel0 * WP1 * /WP0 * range1
+       + ZP2 * ZP1 * ZP0 * /WRESET0 * shiftsel0 * /WP0 * /range1 * range0
+       + ZP2 * ZP1 * ZP0 * /WRESET0 * shiftsel0 * /range1 * /range0
+       + /ZP2 * /ZP1 * /ZP0 * /WRESET0 * shiftsel1 * /srange0
+       + /ZP2 * /ZP1 * ZP0 * /WRESET0 * shiftsel2 * /srange0
+       + /ZP2 * ZP1 * /ZP0 * /WRESET0 * shiftsel3 * /srange0
+       + /ZP2 * ZP1 * ZP0 * /WRESET0 * shiftsel4 * /srange0
+       + ZP2 * /ZP1 * /ZP0 * /WRESET0 * shiftsel5 * /srange0
+       + ZP2 * /ZP1 * ZP0 * /WRESET0 * shiftsel6 * /srange0
+       + ZP2 * ZP1 * /ZP0 * /WRESET0 * shiftsel7 * /srange0;
+PRCLK0.RSTF = CLKPLAY * DCLKPLAY;
+
+VPSYNC0 := RD8;
+VPSYNC0.CLKF = PRCLK0 * CLKPLAY;
+VPSYNC0.RSTF = /START;
+
+PSYNC0 := VPSYNC0;
+PSYNC0.CLKF = PRCLK0 * CLKPLAY;
+PSYNC0.RSTF = /START;
+
+VPSYNC1 := RD8;
+VPSYNC1.CLKF = PRCLK1 * CLKPLAY;
+VPSYNC1.RSTF = /START;
+
+PSYNC1 := VPSYNC1;
+PSYNC1.CLKF = PRCLK1 * CLKPLAY;
+PSYNC1.RSTF = /START;
+
+VPSYNC2 := RD8;
+VPSYNC2.CLKF = PRCLK2 * CLKPLAY;
+VPSYNC2.RSTF = /START;
+
+PSYNC2 := VPSYNC2;
+PSYNC2.CLKF = PRCLK2 * CLKPLAY;
+PSYNC2.RSTF = /START;
+
+VPSYNC3 := RD8;
+VPSYNC3.CLKF = PRCLK3 * CLKPLAY;
+VPSYNC3.RSTF = /START;
+
+PSYNC3 := VPSYNC3;
+PSYNC3.CLKF = PRCLK3 * CLKPLAY;
+PSYNC3.RSTF = /START;
+
+/freset = /reset + preset;
+
+; ---------------------PSYNC fÅr DSP-Port (einzelne PSYNC0..7 Åber 74F166)
+
+PSYNC = /WP3 * /WP2 * /WP1;
+
+
+

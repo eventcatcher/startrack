@@ -1,0 +1,1398 @@
+MACHXL 2.0 R9 MACHFITR (10-12-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+
+**********************************************************************
+* Design Name = STARTRK3.PDS, Device = MACH445, Feb 05 01:19:22 1996 *
+**********************************************************************
+
+***********************
+* MACH FITTER OPTIONS *
+***********************
+SIGNAL PLACEMENT:
+  Handling of Preplacements                      No Change
+  Use placement data from                        Design file
+
+FITTING OPTIONS:
+  Global clocks routable as PT clocks?           N
+  Zero hold time for input register?             N
+  22V10/MACH1XX/2XX S/R Compatibility?           Y
+  SET/RESET treated as DONT_CARE?                Y
+  Reduce Unforced Global Clocks?                 N 
+  Iterate between partitioning and place/route?  Y
+  Balanced partitioning?                         Y
+  Reduce Routes Per Placement?                   N
+  Maximun Run Time                               run until completion
+
+***************************
+* DEVICE RESOURCE SUMMARY *
+***************************
+                                 Total
+                               Available  Used  Available  Utilization
+Dedicated Pins
+  Input-Only Pins                 2        2      0    -->   100%
+  Clock/Input Pins                4        3      1    -->    75%
+I/O Pins                         64       63      1    -->    98%
+Input Registers                  64        0     64    -->     0%
+Central Switch Matrix Outputs   264      250     14    -->    94%
+Product Term Clusters           128      116     12    -->    90%
+Logical Product Terms           640      210    430    -->    32%
+Logic Macrocells                128      127      1    -->    99%
+  > 1 PT Macrocells              ..       35      1
+  1 PT Macrocells                ..       92      0
+  Unusable Macrocells            ..        0     ..
+
+******************************
+* BLOCK PARTITIONING SUMMARY *
+******************************
+                                                      Macrocells  # of PT  
+                  Logic   I/O    Inp    Macrocells    available   clusters 
+          Fanin    PTs    Pins   Reg   Used Unusable  1PT   >1PT  available
+|---------------------------------------------------------------------------|
+Maximum     33     80      8      8     ..     ..         16        16
+|---------------------------------------------------------------------------|
+Block A     33     24      8      0     16      0      0      0     12
+Block B     31     24      8      0     16      0      0      0     12
+Block C     29     30      8      0     16      0      0      0      9
+Block D     31     29      8      0     16      0      0      0     10
+Block E     32     17      8      0     16      0      0      0     15
+Block F     32     33      7      0     15      0      0      1      7
+Block G     31     30      8      0     16      0      0      0     10
+Block H     31     23      8      0     16      0      0      0     13
+
+> Four rightmost columns above reflect last status of the placement process.
+
+******************
+* SIGNAL SUMMARY *
+******************
+                                 Pin/Node Logic
+       Signals Block Loc PTs XOR   Type   Type    Fanout
+|---------------------------------------------------------------------------|
+            A6   H    86  .   .    input   ...   ----EFGH
+            A7   H    87  .   .    input   ...   ----EFGH
+        ADATAI   D    35  .   .    input   ...   -----F--
+       ADCLK32   D    36  1   .   output   ...   --------
+          ADLR   D    37  1   .   output   ...   --------
+        AESC24   H    85  1   .   output   ...   --------
+        AESC25   H    84  1   .   output   ...   --------
+        AESCIN   E    44  .   .    input   ...   -------H
+       AESCLKI   E    50  .   .    input   ...   -B------
+       AESCOUT   H    81  2   .   output   ...   --------
+      AESDATAI   E    45  .   .    input   ...   -----F--
+      AESDATAO   F    62  1   .   output   ...   --------
+        AESFC0   G    70  3   .   output   ...   --------
+        AESFC1   F    59  3   .   output   ...   --------
+      AESMCLKI   E    46  .   .    input   ...   -B-D--G-
+      AESMCLKO   G    72  6   .   output   ...   --------
+        AESPRO   G    71  2   .   output   ...   --------
+           CBL   E    48  .   .    input   ...   A---E--H
+           CKS   D    38  3   .   output   ...   --------
+            D0   A    98  .   .    input   ...   ----E--H
+            D1   A    97  .   .    input   ...   -----F-H
+            D2   A    96  .   .    input   ...   -------H
+            D3   A    95  .   .    input   ...   ----E-G-
+            D4   A    94  .   .    input   ...   ----E-G-
+      DA_FSYNC   F    56  2   .   output   ...   --------
+       DA_SCLK   F    57  2   .   output   ...   --------
+      DA_SDATA   F    58  7   .   output   ...   -----F--
+        DSPSC0   H    83  4   .   output   ...   --------
+        DSPSC2   H    82  4   .   output   ...   --------
+        DSPSCK   G    74  4   .   output   ...   --------
+        DSPSRD   G    73  4   .   output   ...   --------
+        DSPSTD   F    60  .   .    input   ...   -----F--
+         HCLKI   A    99  .   .    input   ...   -BC-E-G-
+       PREEMPH   E    49  1   .   output   ...   --------
+         PUFRD   B     8  6   .   output   ...   -B----G-
+         PUFWR   D    33  4   .   output   ...   ---D----
+           RD0   G    69  .   .    input   ...   -------H
+           RD1   B    12  .   .    input   ...   -------H
+           RD2   B    11  .   .    input   ...   -------H
+           RD3   B    10  .   .    input   ...   -------H
+           RD4   B     7  .   .    input   ...   A-------
+           RD5   B     6  .   .    input   ...   -B------
+           RD6   B     5  .   .    input   ...   A-------
+           RD7   A   100  .   .    input   ...   A-------
+           RD8   B     9  .   .    input   ...   --C-----
+         RESET   A    93  .   .    input   ...   ABCDEFGH
+     RESRDFIFO   D    32  1   .   output   ...   --------
+          SH15   C    23  1   .   output   ...   --------
+        SMPCLK   D    34  4   .   output   ...   --------
+        SMPREG   H    88  .   .    input   ...   ----EFGH
+       SWDIGIN   F    61  1   .   output   ...   --------
+        SWPROT   E    43  1   .   output   ...   --------
+       SWSUBFR   E    47  1   .   output   ...   --------
+        VOLCLK   G    75  1   .   output   ...   --------
+      VOLDATAI   G    76  1   .   output   ...   --------
+           WD0   C    19  3   .   output   ...   --------
+           WD1   C    20  3   .   output   ...   --------
+           WD2   C    21  3   .   output   ...   --------
+           WD3   C    22  3   .   output   ...   --------
+           WD4   C    24  3   .   output   ...   --------
+           WD5   C    25  3   .   output   ...   --------
+           WD6   C    26  3   .   output   ...   --------
+           WD7   D    31  3   .   output   ...   --------
+       ADCLK16   B    B4  1   P   buried   T/S   -B-D-F--
+       AESCOUT   H    H2  2   G  implied   C/.   --------
+      AESDATAO   F    F2  1   P  implied   C/.   --------
+        AESFC0   G    G2  3   G  implied   C/.   --------
+        AESFC1   F    F6  3   G  implied   C/.   --------
+      AESMCLKO   G    G6  6   G  implied   C/.   --------
+        AESPRO   G    G4  2   G  implied   C/.   --------
+         BWAIT   G   G15  1   P   buried   D/A   ------G-
+        BWAIT2   G   G14  1   P   buried   D/A   ------G-
+        BWAIT3   G   G13  1   P   buried   D/A   -B------
+           CKS   D    D1  3   G  implied   C/.   --------
+           CZ0   E    E2  1   P   buried   T/A   A---E--H
+           CZ1   A    A2  1   P   buried   T/A   A---E--H
+           CZ2   A    A1  1   P   buried   T/A   A---E--H
+           CZ3   A    A0  1   P   buried   T/A   A---E--H
+           CZ4   A    A6  1   P   buried   T/A   ----E--H
+           CZ5   E    E6  1   P   buried   T/A   ----E--H
+         CZCLK   E    E4  2   G   buried   C/.   A---E---
+         DAHLP   A    A5  8   G   buried   C/.   -----FG-
+       DATACLK   F   F11  4   G   buried   C/.   -------H
+      DA_FSYNC   F    F1  2   G  implied   C/.   --------
+       DA_SCLK   F    F0  2   G  implied   C/.   --------
+      DA_SDATA   F    F8  7   G  implied   C/.   -----F--
+        DSPSC0   H    H0  4   G  implied   C/.   --------
+        DSPSC2   H    H1  4   G  implied   C/.   --------
+        DSPSCK   G    G0  4   G  implied   C/.   --------
+        DSPSRD   G    G8  4   G  implied   C/.   --------
+        EXTAKT   G    G5  1   P   buried   D/A   ---D-FGH
+          HOLD   D   D15  1   P   buried   T/S   ---D----
+       INPSCLK   B    B0  2   G   buried   C/.   ABCDEFG-
+      INPSDATA   F    F5  3   G   buried   C/.   -----FG-
+     KICKSTART   A    A7  2   G   buried   C/.   AB------
+        MCLK12   A    A9  1   P   buried   T/S   ---D----
+       MCLK128   B   B15  1   P   buried   T/A   ------G-
+           NGO   E    E5  1   P   buried   D/A   --CD----
+           PGO   H   H10  1   P   buried   D/A   --CD----
+      PLAYCLKO   B    B2  1   P   buried   C/.   ABC-E--H
+       PREEMPH   E    E0  1   P  implied   D/A   --------
+         PUFRD   B    B8  6   G  implied   C/.   -B----G-
+         PUFWR   D    D0  4   G  implied   C/.   ---D----
+     RESRDFIFO   D   D12  1   P  implied   C/.   --------
+    RN_ADCLK32   D    D4  1   P  implied   T/S   -B-D-F--
+       RN_ADLR   D    D3  1   P  implied   T/S   -----F--
+     RN_AESC24   H    H6  1   P  implied   D/A   -----FG-
+     RN_AESC25   H    H8  1   P  implied   D/A   -----FG-
+       RN_SH15   C    C8  1   P  implied   D/A   A-------
+     RN_SWPROT   E    E1  1   P  implied   D/A   -------H
+           RP0   H   H12  1   P   buried   D/A   A-------
+           RP1   H   H13  1   P   buried   D/A   A-------
+           RP2   H   H14  1   P   buried   D/A   A-------
+           RP3   H   H15  1   P   buried   D/A   A-------
+           RP4   A   A12  1   P   buried   D/A   A-------
+           RP5   B   B13  1   P   buried   D/A   A-------
+           RP6   A   A13  1   P   buried   D/A   A-------
+           RP7   A   A14  1   P   buried   D/A   A-------
+           RP8   C    C7  1   P   buried   D/A   -B--E---
+           RP9   E   E14  1   P   buried   D/A   -B------
+           SH0   F   F12  2   G   buried   D/A   ----E---
+           SH1   E   E13  1   P   buried   D/A   ----E---
+          SH10   C   C14  1   P   buried   D/A   -B------
+          SH11   B   B11  1   P   buried   D/A   A-------
+          SH12   A   A10  1   P   buried   D/A   --C-----
+          SH13   C   C13  1   P   buried   D/A   ---D----
+          SH14   D   D11  1   P   buried   D/A   --C-----
+          SH16   A    A3  1   P   buried   D/A   ----EF-H
+           SH2   E   E12  1   P   buried   D/A   -B------
+           SH3   B   B12  1   P   buried   D/A   A-------
+           SH4   A   A11  1   P   buried   D/A   -----F--
+           SH5   F   F14  1   P   buried   D/A   ---D----
+           SH6   D   D14  1   P   buried   D/A   A-------
+           SH7   A    A4  1   P   buried   D/A   ABC-----
+           SH8   C   C15  1   P   buried   D/A   ---D----
+           SH9   D   D13  1   P   buried   D/A   --C-----
+         SHCLK   B    B1  3   G   buried   C/.   ABCDEF--
+          SHD0   F    F4  3   G   buried   D/A   --C--F--
+          SHD1   F    F9  1   P   buried   D/A   --C-E---
+         SHD10   E   E10  1   P   buried   D/A   --C--F--
+         SHD11   F   F10  1   P   buried   D/A   --C-E---
+         SHD12   E   E11  1   P   buried   D/A   -BC-----
+         SHD13   B   B14  1   P   buried   D/A   --C-----
+         SHD14   C   C11  1   P   buried   D/A   --C-E---
+         SHD15   E   E15  1   P   buried   D/A   ---D----
+          SHD2   E    E7  1   P   buried   D/A   --C---G-
+          SHD3   G   G11  1   P   buried   D/A   -BC-----
+          SHD4   B    B7  1   P   buried   D/A   --C---G-
+          SHD5   G   G12  1   P   buried   D/A   A-C-----
+          SHD6   A   A15  1   P   buried   D/A   --C-----
+          SHD7   C    C9  1   P   buried   D/A   ---DE---
+          SHD8   E    E9  1   P   buried   D/A   --CD----
+          SHD9   D    D9  1   P   buried   D/A   --C-E---
+        SMPCLK   D    D8  4   G  implied   C/.   --------
+         SWAES   H    H4  1   P   buried   D/A   -B---FGH
+       SWDIGIN   F    F3  1   P  implied   D/A   --------
+      SWDIGOUT   H    H3  1   P   buried   D/A   A----FGH
+       SWINDSP   H    H7  1   P   buried   D/A   -----FGH
+       SWONDSP   H    H9  1   P   buried   D/A   -----FGH
+        SWPROF   H   H11  1   P   buried   D/A   -----FG-
+       SWRESFF   F   F13  1   P   buried   D/A   ---D----
+       SWSUBFR   E    E8  1   P  implied   D/A   --------
+         TAKT5   F    F7  1   P   buried   T/S   -B-D----
+         TAKT6   B   B10  1   P   buried   T/S   ---D----
+         TAKT7   D   D10  1   P   buried   T/S   ---D----
+         TAKTH   G    G7  1   P   buried   D/A   ---D-FG-
+         TAKTL   H    H5  1   P   buried   D/A   ---D-FG-
+        VOLCLK   G    G3  1   P  implied   D/A   --------
+      VOLDATAI   G    G1  1   P  implied   D/A   --------
+          WAIT   C    C5  1   P   buried   D/A   ---D--G-
+         WAIT2   G   G10  1   P   buried   D/A   ---DE---
+         WAIT3   E    E3  1   P   buried   D/A   -BCD----
+         WAIT4   B    B6  1   P   buried   D/A   --CD----
+         WAIT5   C   C12  1   P   buried   D/A   ---D----
+           WD0   C    C3  3   G  implied   C/.   --------
+           WD1   C    C2  3   G  implied   C/.   --------
+           WD2   C    C4  3   G  implied   C/.   --------
+           WD3   C    C6  3   G  implied   C/.   --------
+           WD4   C   C10  3   G  implied   C/.   --------
+           WD5   C    C1  3   G  implied   C/.   --------
+           WD6   C    C0  3   G  implied   C/.   --------
+           WD7   D    D2  3   G  implied   C/.   --------
+      WRFERTIG   D    D5  2   G   buried   C/.   -BC-E-G-
+        XGORES   D    D7  3   G   buried   C/.   ----E--H
+            Z0   D    D6  1   P   buried   T/A   AB----G-
+            Z1   G    G9  1   P   buried   T/A   AB------
+            Z2   A    A8  1   P   buried   T/A   AB------
+            Z3   B    B9  1   P   buried   T/A   -B------
+            Z4   B    B5  1   P   buried   T/A   AB-----H
+            Z5   B    B3  1   P   buried   T/A   -B---F-H
+
+***********************
+* TABULAR INFORMATION *
+***********************
+
+DEDICATED PINS
+                                             Logic             Clock
+Pin              Signal        Type          Fanout            Fanout
+|------------------------------------------------------------------------|
+  4              MCLK16       input          -B-D----          --------
+ 13              MCLK24     clk/inp          --------          A-------
+ 18             EXTMCLK       input          ---D----          --------
+ 54            AESSYNCI       input          ----EF--          --------
+ 63             DA_ACKO     clk/inp          ------G-          -B-D-F--
+ 68      ..............          ..          ........          ........
+
+**********************************
+* Signals - Equations Where Used *
+**********************************
+Signal Source :    Fanout List
+|---------------------------------------------------------------------------|
+        MCLK16:         SMPCLK{D}          SHCLK{B}
+              {DB}
+           RD6:            RP6{A}
+              {A}
+           RD5:            RP5{B}
+              {B}
+           RD4:            RP4{A}
+              {A}
+         PUFRD:          PUFRD{B}       PLAYCLKO{B}          BWAIT{G}
+              :         BWAIT2{G}         BWAIT3{G}
+              {BBG GG}
+           RD8:            RP8{C}
+              {C}
+           RD3:            RP3{H}
+              {H}
+           RD2:            RP2{H}
+              {H}
+           RD1:            RP1{H}
+              {H}
+       EXTMCLK:         SMPCLK{D}
+              {D}
+       RN_SH15:           SH16{A}
+              {A}
+         PUFWR:         XGORES{D}       WRFERTIG{D}
+              {DD}
+        ADATAI:       DA_SDATA{F}       INPSDATA{F}
+              {FF}
+    RN_ADCLK32:           ADLR{D}        INPSCLK{B}          SHCLK{B}
+              :        ADCLK16{B}           HOLD{D}          TAKT5{F}
+              :          TAKT6{B}          TAKT7{D}
+              {DBB BDF BD}
+       RN_ADLR:       DA_SDATA{F}       INPSDATA{F}        DATACLK{F}
+              :            SH0{F}
+              {FFF F}
+     RN_SWPROT:        AESCOUT{H}
+              {H}
+        AESCIN:        AESCOUT{H}         AESC25{H}         AESC24{H}
+              {HHH}
+      AESDATAI:       DA_SDATA{F}       INPSDATA{F}
+              {FF}
+      AESMCLKI:         SMPCLK{D}       AESMCLKO{G}        MCLK128{B}
+              {DGB}
+           CBL:        AESCOUT{H}         AESC25{H}         AESC24{H}
+              :          CZCLK{E}            CZ0{E}            CZ1{A}
+              :            CZ2{A}            CZ3{A}            CZ4{A}
+              :            CZ5{E}
+              {HHH EEA AAA E}
+       AESCLKI:        INPSCLK{B}          SHCLK{B}
+              {BB}
+      AESSYNCI:          CZCLK{E}        DATACLK{F}            SH0{F}
+              {EFF}
+      DA_SDATA:       AESDATAO{F}
+              {F}
+        DSPSTD:       DA_SDATA{F}           SHD0{F}
+              {FF}
+       DA_ACKO:       AESMCLKO{G}
+              {G}
+           RD0:            RP0{H}
+              {H}
+     RN_AESC25:         AESFC1{F}         AESFC0{G}
+              {FG}
+     RN_AESC24:         AESFC1{F}         AESFC0{G}
+              {FG}
+            A6:         SWPROT{E}        SWSUBFR{E}        PREEMPH{E}
+              :        SWDIGIN{F}         VOLCLK{G}       VOLDATAI{G}
+              :          SWAES{H}       SWDIGOUT{H}        SWONDSP{H}
+              :        SWINDSP{H}        SWRESFF{F}         SWPROF{H}
+              :          TAKTL{H}          TAKTH{G}         EXTAKT{G}
+              {EEE FGG HHH HFH HGG}
+            A7:         SWPROT{E}        SWSUBFR{E}        PREEMPH{E}
+              :        SWDIGIN{F}         VOLCLK{G}       VOLDATAI{G}
+              :          SWAES{H}       SWDIGOUT{H}        SWONDSP{H}
+              :        SWINDSP{H}        SWRESFF{F}         SWPROF{H}
+              :          TAKTL{H}          TAKTH{G}         EXTAKT{G}
+              {EEE FGG HHH HFH HGG}
+        SMPREG:         SWPROT{E}        SWSUBFR{E}        PREEMPH{E}
+              :        SWDIGIN{F}         VOLCLK{G}       VOLDATAI{G}
+              :          SWAES{H}       SWDIGOUT{H}        SWONDSP{H}
+              :        SWINDSP{H}        SWRESFF{F}         SWPROF{H}
+              :          TAKTL{H}          TAKTH{G}         EXTAKT{G}
+              {EEE FGG HHH HFH HGG}
+         RESET:           SH15{C}      RESRDFIFO{D}         SWPROT{E}
+              :        SWSUBFR{E}        PREEMPH{E}        SWDIGIN{F}
+              :         VOLCLK{G}       VOLDATAI{G}         XGORES{D}
+              :       WRFERTIG{D}          SHCLK{B}      KICKSTART{A}
+              :            SH0{F}            SH1{E}            SH2{E}
+              :            SH3{B}            SH4{A}            SH5{F}
+              :            SH6{D}            SH7{A}           SH11{B}
+              :           SH12{A}           SH13{C}           SH14{D}
+              :           SH16{A}          SWAES{H}       SWDIGOUT{H}
+              :        SWONDSP{H}        SWINDSP{H}        SWRESFF{F}
+              :         SWPROF{H}          TAKTL{H}          TAKTH{G}
+              :         EXTAKT{G}             Z0{D}             Z1{G}
+              :             Z2{A}             Z3{B}             Z4{B}
+              :             Z5{B}
+              {CDE EEF GGD DBA FEE BAF DAB ACD AHH HHF HHG GDG ABB B}
+            D4:        PREEMPH{E}       VOLDATAI{G}         EXTAKT{G}
+              {EGG}
+            D3:        SWSUBFR{E}         VOLCLK{G}          TAKTH{G}
+              {EGG}
+            D2:       SWDIGOUT{H}          TAKTL{H}
+              {HH}
+            D1:        SWDIGIN{F}        SWINDSP{H}        SWRESFF{F}
+              {FHF}
+            D0:         SWPROT{E}          SWAES{H}        SWONDSP{H}
+              :         SWPROF{H}
+              {EHH H}
+         HCLKI:           WAIT{C}          WAIT2{G}          WAIT3{E}
+              :          WAIT4{B}          WAIT5{C}          BWAIT{G}
+              :         BWAIT2{G}         BWAIT3{G}
+              {CGE BCG GG}
+           RD7:            RP7{A}
+              {A}
+      PLAYCLKO:            RP9{E}            RP8{C}            RP7{A}
+              :            RP6{A}            RP5{B}            RP4{A}
+              :            RP3{H}            RP2{H}            RP1{H}
+              :            RP0{H}
+              {ECA ABA HHH H}
+         CZCLK:          CZCLK{E}            CZ0{E}            CZ1{A}
+              :            CZ2{A}            CZ3{A}            CZ4{A}
+              :            CZ5{E}
+              {EEA AAA E}
+       INPSCLK:        DA_SCLK{F}         DSPSCK{G}          SHD15{E}
+              :          SHD14{C}          SHD13{B}          SHD12{E}
+              :          SHD11{F}          SHD10{E}           SHD9{D}
+              :           SHD8{E}           SHD7{C}           SHD6{A}
+              :           SHD5{G}           SHD4{B}           SHD3{G}
+              :           SHD2{E}           SHD1{F}           SHD0{F}
+              :             Z0{D}             Z1{G}             Z2{A}
+              :             Z3{B}             Z4{B}             Z5{B}
+              {FGE CBE FED ECA GBG EFF DGA BBB}
+      INPSDATA:         DSPSRD{G}           SHD0{F}
+              {GF}
+       DATACLK:         DSPSC2{H}
+              {H}
+         DAHLP:       DA_SDATA{F}         DSPSRD{G}
+              {FG}
+        XGORES:            PGO{H}            NGO{E}
+              {HE}
+      WRFERTIG:           WAIT{C}          WAIT2{G}          WAIT3{E}
+              :          WAIT4{B}          WAIT5{C}
+              {CGE BC}
+         SHCLK:           SH15{C}            SH0{F}            SH1{E}
+              :            SH2{E}            SH3{B}            SH4{A}
+              :            SH5{F}            SH6{D}            SH7{A}
+              :            SH8{C}            SH9{D}           SH10{C}
+              :           SH11{B}           SH12{A}           SH13{C}
+              :           SH14{D}           SH16{A}
+              {CFE EBA FDA CDC BAC DA}
+     KICKSTART:          SHCLK{B}      KICKSTART{A}
+              {BA}
+       MCLK128:       AESMCLKO{G}
+              {G}
+       ADCLK16:           ADLR{D}           HOLD{D}          TAKT5{F}
+              :          TAKT6{B}          TAKT7{D}
+              {DDF BD}
+          HOLD:           ADLR{D}
+              {D}
+         SHD15:            WD7{D}
+              {D}
+         SHD14:            WD6{C}          SHD15{E}
+              {CE}
+         SHD13:            WD5{C}          SHD14{C}
+              {CC}
+         SHD12:            WD4{C}          SHD13{B}
+              {CB}
+         SHD11:            WD3{C}          SHD12{E}
+              {CE}
+         SHD10:            WD2{C}          SHD11{F}
+              {CF}
+          SHD9:            WD1{C}          SHD10{E}
+              {CE}
+          SHD8:            WD0{C}           SHD9{D}
+              {CD}
+          SHD7:            WD7{D}           SHD8{E}
+              {DE}
+          SHD6:            WD6{C}           SHD7{C}
+              {CC}
+          SHD5:            WD5{C}           SHD6{A}
+              {CA}
+          SHD4:            WD4{C}           SHD5{G}
+              {CG}
+          SHD3:            WD3{C}           SHD4{B}
+              {CB}
+          SHD2:            WD2{C}           SHD3{G}
+              {CG}
+          SHD1:            WD1{C}           SHD2{E}
+              {CE}
+          SHD0:            WD0{C}           SHD1{F}
+              {CF}
+           RP9:          PUFRD{B}
+              {B}
+           RP8:          PUFRD{B}            RP9{E}
+              {BE}
+           RP7:          DAHLP{A}
+              {A}
+           RP6:          DAHLP{A}
+              {A}
+           RP5:          DAHLP{A}
+              {A}
+           RP4:          DAHLP{A}
+              {A}
+           RP3:          DAHLP{A}
+              {A}
+           RP2:          DAHLP{A}
+              {A}
+           RP1:          DAHLP{A}
+              {A}
+           RP0:          DAHLP{A}
+              {A}
+           SH0:            SH1{E}
+              {E}
+           SH1:            SH2{E}
+              {E}
+           SH2:            SH3{B}
+              {B}
+           SH3:            SH4{A}
+              {A}
+           SH4:            SH5{F}
+              {F}
+           SH5:            SH6{D}
+              {D}
+           SH6:            SH7{A}
+              {A}
+           SH7:          SHCLK{B}      KICKSTART{A}            SH8{C}
+              {BAC}
+           SH8:            SH9{D}
+              {D}
+           SH9:           SH10{C}
+              {C}
+          SH10:           SH11{B}
+              {B}
+          SH11:           SH12{A}
+              {A}
+          SH12:           SH13{C}
+              {C}
+          SH13:           SH14{D}
+              {D}
+          SH14:           SH15{C}
+              {C}
+          SH16:       DA_FSYNC{F}       DA_SDATA{F}         DSPSC0{H}
+              :       INPSDATA{F}        DATACLK{F}            PGO{H}
+              :            NGO{E}
+              {FFH FFH E}
+         TAKT5:           ADLR{D}           HOLD{D}          TAKT6{B}
+              :          TAKT7{D}
+              {DDB D}
+         TAKT6:           ADLR{D}           HOLD{D}          TAKT7{D}
+              {DDD}
+         TAKT7:           ADLR{D}           HOLD{D}
+              {DD}
+         SWAES:       DA_SDATA{F}         AESFC1{F}         AESPRO{G}
+              :       AESMCLKO{G}        AESCOUT{H}        INPSCLK{B}
+              :       INPSDATA{F}        DATACLK{F}          SHCLK{B}
+              :            SH0{F}
+              {FFG GHB FFB F}
+      SWDIGOUT:       DA_FSYNC{F}        DA_SCLK{F}       DA_SDATA{F}
+              :         AESFC1{F}         AESPRO{G}       AESMCLKO{G}
+              :         DSPSRD{G}         DSPSCK{G}        AESCOUT{H}
+              :         DSPSC2{H}         DSPSC0{H}          DAHLP{A}
+              {FFF FGG GGH HHA}
+       SWONDSP:       DA_SDATA{F}         DSPSRD{G}         DSPSCK{G}
+              :         DSPSC2{H}         DSPSC0{H}           SHD0{F}
+              {FGG HHF}
+       SWINDSP:       DA_SDATA{F}         DSPSRD{G}         DSPSCK{G}
+              :         DSPSC2{H}         DSPSC0{H}           SHD0{F}
+              {FGG HHF}
+       SWRESFF:      RESRDFIFO{D}
+              {D}
+        SWPROF:         AESFC1{F}         AESFC0{G}         AESPRO{G}
+              {FGG}
+         TAKTL:         SMPCLK{D}            CKS{D}         AESFC1{F}
+              :         AESFC0{G}       AESMCLKO{G}
+              {DDF GG}
+         TAKTH:         SMPCLK{D}            CKS{D}         AESFC1{F}
+              :         AESFC0{G}       AESMCLKO{G}
+              {DDF GG}
+        EXTAKT:         SMPCLK{D}            CKS{D}         AESFC1{F}
+              :         AESPRO{G}       AESMCLKO{G}        AESCOUT{H}
+              {DDF GGH}
+          WAIT:          PUFWR{D}         XGORES{D}       WRFERTIG{D}
+              :          WAIT2{G}
+              {DDD G}
+         WAIT2:          PUFWR{D}         XGORES{D}       WRFERTIG{D}
+              :          WAIT3{E}
+              {DDD E}
+         WAIT3:            WD0{C}            WD1{C}            WD2{C}
+              :            WD3{C}            WD4{C}            WD5{C}
+              :            WD6{C}            WD7{D}          PUFWR{D}
+              :         XGORES{D}       WRFERTIG{D}          WAIT4{B}
+              {CCC CCC CDD DDB}
+         WAIT4:          PUFWR{D}         XGORES{D}       WRFERTIG{D}
+              :          WAIT5{C}
+              {DDD C}
+         WAIT5:          PUFWR{D}         XGORES{D}       WRFERTIG{D}
+              {DDD}
+         BWAIT:         BWAIT2{G}
+              {G}
+        BWAIT2:         BWAIT3{G}
+              {G}
+        BWAIT3:       PLAYCLKO{B}
+              {B}
+            Z0:          DAHLP{A}             Z1{G}             Z2{A}
+              :             Z3{B}             Z4{B}             Z5{B}
+              {AGA BBB}
+            Z1:          PUFRD{B}          DAHLP{A}             Z2{A}
+              :             Z3{B}             Z4{B}             Z5{B}
+              {BAA BBB}
+            Z2:          PUFRD{B}          DAHLP{A}             Z3{B}
+              :             Z4{B}             Z5{B}
+              {BAB BB}
+            Z3:          PUFRD{B}             Z4{B}             Z5{B}
+              {BBB}
+            Z4:          PUFRD{B}         DSPSC2{H}          DAHLP{A}
+              :             Z5{B}
+              {BHA B}
+            Z5:          PUFRD{B}       DA_FSYNC{F}         DSPSC0{H}
+              {BFH}
+           CZ0:        AESCOUT{H}         AESC25{H}         AESC24{H}
+              :          CZCLK{E}            CZ1{A}            CZ2{A}
+              :            CZ3{A}            CZ4{A}            CZ5{E}
+              {HHH EAA AAE}
+           CZ1:        AESCOUT{H}         AESC25{H}         AESC24{H}
+              :          CZCLK{E}            CZ2{A}            CZ3{A}
+              :            CZ4{A}            CZ5{E}
+              {HHH EAA AE}
+           CZ2:        AESCOUT{H}         AESC25{H}         AESC24{H}
+              :          CZCLK{E}            CZ3{A}            CZ4{A}
+              :            CZ5{E}
+              {HHH EAA E}
+           CZ3:        AESCOUT{H}         AESC25{H}         AESC24{H}
+              :          CZCLK{E}            CZ4{A}            CZ5{E}
+              {HHH EAE}
+           CZ4:        AESCOUT{H}         AESC25{H}         AESC24{H}
+              :          CZCLK{E}            CZ5{E}
+              {HHH EE}
+           CZ5:        AESCOUT{H}         AESC25{H}         AESC24{H}
+              :          CZCLK{E}
+              {HHH E}
+           PGO:            WD0{C}            WD1{C}            WD2{C}
+              :            WD3{C}            WD4{C}            WD5{C}
+              :            WD6{C}            WD7{D}          PUFWR{D}
+              :         XGORES{D}       WRFERTIG{D}           WAIT{C}
+              {CCC CCC CDD DDC}
+           NGO:            WD0{C}            WD1{C}            WD2{C}
+              :            WD3{C}            WD4{C}            WD5{C}
+              :            WD6{C}            WD7{D}          PUFWR{D}
+              :         XGORES{D}       WRFERTIG{D}           WAIT{C}
+              {CCC CCC CDD DDC}
+        MCLK12:         SMPCLK{D}
+              {D}
+
+Block A singular list (Input drives only one logic equation)
+           RD6:            RP6
+           RD4:            RP4
+       RN_SH15:           SH16
+           RD7:            RP7
+     KICKSTART:      KICKSTART
+          SHD5:           SHD6
+           RP7:          DAHLP
+           RP6:          DAHLP
+           RP5:          DAHLP
+           RP4:          DAHLP
+           RP3:          DAHLP
+           RP2:          DAHLP
+           RP1:          DAHLP
+           RP0:          DAHLP
+           SH3:            SH4
+           SH6:            SH7
+           SH7:      KICKSTART
+          SH11:           SH12
+      SWDIGOUT:          DAHLP
+            Z2:          DAHLP
+            Z4:          DAHLP
+           CZ3:            CZ4
+
+Block B singular list (Input drives only one logic equation)
+        MCLK16:          SHCLK
+           RD5:            RP5
+      AESMCLKI:        MCLK128
+         HCLKI:          WAIT4
+      PLAYCLKO:            RP5
+      WRFERTIG:          WAIT4
+     KICKSTART:          SHCLK
+       ADCLK16:          TAKT6
+         SHD12:          SHD13
+          SHD3:           SHD4
+           RP9:          PUFRD
+           RP8:          PUFRD
+           SH2:            SH3
+           SH7:          SHCLK
+          SH10:           SH11
+         TAKT5:          TAKT6
+         WAIT3:          WAIT4
+        BWAIT3:       PLAYCLKO
+            Z5:          PUFRD
+
+Block C singular list (Input drives only one logic equation)
+           RD8:            RP8
+      PLAYCLKO:            RP8
+         SHD14:            WD6
+         SHD12:            WD4
+         SHD11:            WD3
+         SHD10:            WD2
+          SHD9:            WD1
+          SHD8:            WD0
+          SHD5:            WD5
+          SHD4:            WD4
+          SHD3:            WD3
+          SHD2:            WD2
+          SHD1:            WD1
+          SHD0:            WD0
+           SH7:            SH8
+           SH9:           SH10
+          SH12:           SH13
+          SH14:           SH15
+         WAIT4:          WAIT5
+
+Block D singular list (Input drives only one logic equation)
+        MCLK16:         SMPCLK
+       EXTMCLK:         SMPCLK
+      AESMCLKI:         SMPCLK
+          HOLD:           ADLR
+         SHD15:            WD7
+          SHD8:           SHD9
+          SHD7:            WD7
+           SH5:            SH6
+           SH8:            SH9
+          SH13:           SH14
+       SWRESFF:      RESRDFIFO
+        MCLK12:         SMPCLK
+
+Block E singular list (Input drives only one logic equation)
+      AESSYNCI:          CZCLK
+            D4:        PREEMPH
+            D3:        SWSUBFR
+            D0:         SWPROT
+         HCLKI:          WAIT3
+      PLAYCLKO:            RP9
+        XGORES:            NGO
+      WRFERTIG:          WAIT3
+         SHD14:          SHD15
+         SHD11:          SHD12
+          SHD9:          SHD10
+          SHD7:           SHD8
+          SHD1:           SHD2
+           RP8:            RP9
+           SH0:            SH1
+           SH1:            SH2
+          SH16:            NGO
+         WAIT2:          WAIT3
+           CZ5:          CZCLK
+
+Block F singular list (Input drives only one logic equation)
+    RN_ADCLK32:          TAKT5
+      DA_SDATA:       AESDATAO
+     RN_AESC25:         AESFC1
+     RN_AESC24:         AESFC1
+      INPSDATA:           SHD0
+         DAHLP:       DA_SDATA
+       ADCLK16:          TAKT5
+         SHD10:          SHD11
+          SHD0:           SHD1
+           SH4:            SH5
+        SWPROF:         AESFC1
+         TAKTL:         AESFC1
+         TAKTH:         AESFC1
+        EXTAKT:         AESFC1
+            Z5:       DA_FSYNC
+
+Block G singular list (Input drives only one logic equation)
+      AESMCLKI:       AESMCLKO
+       DA_ACKO:       AESMCLKO
+     RN_AESC25:         AESFC0
+     RN_AESC24:         AESFC0
+      INPSDATA:         DSPSRD
+         DAHLP:         DSPSRD
+      WRFERTIG:          WAIT2
+       MCLK128:       AESMCLKO
+          SHD4:           SHD5
+          SHD2:           SHD3
+          WAIT:          WAIT2
+         BWAIT:         BWAIT2
+        BWAIT2:         BWAIT3
+            Z0:             Z1
+
+Block H singular list (Input drives only one logic equation)
+           RD3:            RP3
+           RD2:            RP2
+           RD1:            RP1
+     RN_SWPROT:        AESCOUT
+           RD0:            RP0
+            D1:        SWINDSP
+       DATACLK:         DSPSC2
+        XGORES:            PGO
+         SWAES:        AESCOUT
+        EXTAKT:        AESCOUT
+            Z4:         DSPSC2
+            Z5:         DSPSC0
+
+BLOCK A CLOCK MUX 
+Block Clocks     Signal    Pin   Pol
+|-----------------------------------|
+Ck0              MCLK24     13    H
+Ck1                 ...     ..    .
+Ck2                 ...     ..    .
+Ck3                 ...     ..    .
+
+
+BLOCK A LOGIC MACROCELLS & INPUT REGISTERS
+                                  PTS 
+                             T   U   A
+L                            Y   S   V  X  P   C  S  R   P
+O                            P   E   A  O  O   L  E  E   I
+C     Node          Signal   E   D   L  R  L   K  T  S   N   Fanout
+|---------------------------------------------------------------------------|
+A0      2              CZ3  T/A  1   6  P  H   P  G  P  ..  A---E--H
+A1      3              CZ2  T/A  1   8  P  H   P  G  P  ..  A---E--H
+A2      4              CZ1  T/A  1   8  P  H   P  G  P  ..  A---E--H
+A3      5             SH16  D/A  1   6  P  H   P  P  G  ..  ----EF-H
+A4      6              SH7  D/A  1   4  P  H   P  G  P  ..  ABC-----
+A5      7            DAHLP  C/.  8   6  G  H   .  .  .  ..  -----FG-
+A6      8              CZ4  T/A  1   0  P  H   P  G  P  ..  ----E--H
+A7      9        KICKSTART  C/.  2   4  G  H   .  .  .  ..  AB------
+A8     10               Z2  T/A  1   6  P  H   P  G  P  ..  AB------
+A9     11           MCLK12  T/S  1   8  P  H Ck0  G  G  ..  ---D----
+A10    12             SH12  D/A  1  10  P  H   P  P  G  ..  --C-----
+A11    13              SH4  D/A  1   8  P  H   P  G  P  ..  -----F--
+A12    14              RP4  D/A  1   8  P  H   P  G  G  ..  A-------
+A13    15              RP6  D/A  1   8  P  H   P  G  G  ..  A-------
+A14    16              RP7  D/A  1   6  P  H   P  G  G  ..  A-------
+A15    17             SHD6  D/A  1   4  P  H   P  G  G  ..  --C-----
+Air-0 130 ................  ...  .   .  .  .   .  .  .  ..  ........
+Air-1 131 ................  ...  .   .  .  .   .  .  .  ..  ........
+Air-2 132 ................  ...  .   .  .  .   .  .  .  ..  ........
+Air-3 133 ................  ...  .   .  .  .   .  .  .  ..  ........
+Air-4 134 ................  ...  .   .  .  .   .  .  .  ..  ........
+Air-5 135 ................  ...  .   .  .  .   .  .  .  ..  ........
+Air-6 136 ................  ...  .   .  .  .   .  .  .  ..  ........
+Air-7 137 ................  ...  .   .  .  .   .  .  .  ..  ........
+
+BLOCK A I/O PINS
+Pin onode inode           Signal     Type    Fanout
+|----------------------------------------------------------------|
+ 93  ...   ...             RESET     input  ABCDEFGH
+ 94  ...   ...                D4     input  ----E-G-
+ 95  ...   ...                D3     input  ----E-G-
+ 96  ...   ...                D2     input  -------H
+ 97  ...   ...                D1     input  -----F-H
+ 98  ...   ...                D0     input  ----E--H
+ 99  ...   ...             HCLKI     input  -BC-E-G-
+100  ...   ...               RD7     input  A-------
+
+
+BLOCK A LOGIC ARRAY FANIN
+CSM             Signal    Source        CSM             Signal    Source
+|----------------------------------|    |----------------------------------|
+mxA0          INPSCLK     mcell B-0     mxA17            SH11    mcell B-11
+mxA1              CBL        pin 48     mxA18              Z2     mcell A-8
+mxA2              RP2    mcell H-14     mxA19             RD4         pin 7
+mxA3              CZ0     mcell E-2     mxA20       KICKSTART     mcell A-7
+mxA4              CZ3     mcell A-0     mxA21             RP5    mcell B-13
+mxA5              RD7       pin 100     mxA22             CZ1     mcell A-2
+mxA6            CZCLK     mcell E-4     mxA23           SHCLK     mcell B-1
+mxA7              RP3    mcell H-15     mxA24             SH6    mcell D-14
+mxA8            RESET        pin 93     mxA25             RP6    mcell A-13
+mxA9              CZ2     mcell A-1     mxA26             SH3    mcell B-12
+mxA10        PLAYCLKO     mcell B-2     mxA27             SH7     mcell A-4
+mxA11        SWDIGOUT     mcell H-3     mxA28             RP1    mcell H-13
+mxA12              Z1     mcell G-9     mxA29             RP0    mcell H-12
+mxA13             RD6         pin 5     mxA30              Z0     mcell D-6
+mxA14            SHD5    mcell G-12     mxA31              Z4     mcell B-5
+mxA15             RP4    mcell A-12     mxA32             RP7    mcell A-14
+mxA16         RN_SH15     mcell C-8
+
+BLOCK B CLOCK MUX 
+Block Clocks     Signal    Pin   Pol
+|-----------------------------------|
+Ck0                 ...     ..    .
+Ck1                 ...     ..    .
+Ck2             DA_ACKO     63    H
+Ck3                 ...     ..    .
+
+
+BLOCK B LOGIC MACROCELLS & INPUT REGISTERS
+                                  PTS 
+                             T   U   A
+L                            Y   S   V  X  P   C  S  R   P
+O                            P   E   A  O  O   L  E  E   I
+C     Node          Signal   E   D   L  R  L   K  T  S   N   Fanout
+|---------------------------------------------------------------------------|
+B0     18          INPSCLK  C/.  2   7  G  H   .  .  .  ..  ABCDEFG-
+B1     19            SHCLK  C/.  3   8  G  H   .  .  .  ..  ABCDEF--
+B2     20         PLAYCLKO  C/.  1  10  P  H   .  .  .  ..  ABC-E--H
+B3     21               Z5  T/A  1  12  P  H   P  G  P  ..  -B---F-H
+B4     22          ADCLK16  T/S  1  10  P  H Ck2  G  G  ..  -B-D-F--
+B5     23               Z4  T/A  1  10  P  H   P  G  P  ..  AB-----H
+B6     24            WAIT4  D/A  1   6  P  H   P  G  P  ..  --CD----
+B7     25             SHD4  D/A  1   4  P  H   P  G  G  ..  --C---G-
+B8     26            PUFRD  C/.  6   7  G  L   .  .  .   8  -B----G-
+B9     27               Z3  T/A  1   6  P  H   P  G  P  ..  -B------
+B10    28            TAKT6  T/S  1   8  P  H Ck2  G  G  ..  ---D----
+B11    29             SH11  D/A  1  10  P  H   P  P  G  ..  A-------
+B12    30              SH3  D/A  1   8  P  H   P  G  P  ..  A-------
+B13    31              RP5  D/A  1   8  P  H   P  G  G  ..  A-------
+B14    32            SHD13  D/A  1   6  P  H   P  G  G  ..  --C-----
+B15    33          MCLK128  T/A  1   4  P  H   P  G  G  ..  ------G-
+Bir-0 138 ................  ...  .   .  .  .   .  .  .  ..  ........
+Bir-1 139 ................  ...  .   .  .  .   .  .  .  ..  ........
+Bir-2 140 ................  ...  .   .  .  .   .  .  .  ..  ........
+Bir-3 141 ................  ...  .   .  .  .   .  .  .  ..  ........
+Bir-4 142 ................  ...  .   .  .  .   .  .  .  ..  ........
+Bir-5 143 ................  ...  .   .  .  .   .  .  .  ..  ........
+Bir-6 144 ................  ...  .   .  .  .   .  .  .  ..  ........
+Bir-7 145 ................  ...  .   .  .  .   .  .  .  ..  ........
+
+BLOCK B I/O PINS
+Pin onode inode           Signal     Type    Fanout
+|----------------------------------------------------------------|
+  5  ...   ...               RD6     input  A-------
+  6  ...   ...               RD5     input  -B------
+  7  ...   ...               RD4     input  A-------
+  8   26   ...             PUFRD    output  -B----G-
+  9  ...   ...               RD8     input  --C-----
+ 10  ...   ...               RD3     input  -------H
+ 11  ...   ...               RD2     input  -------H
+ 12  ...   ...               RD1     input  -------H
+
+
+BLOCK B LOGIC ARRAY FANIN
+CSM             Signal    Source        CSM             Signal    Source
+|----------------------------------|    |----------------------------------|
+mxB0               Z4     mcell B-5     mxB17           WAIT3     mcell E-3
+mxB1              RD5         pin 6     mxB18        PLAYCLKO     mcell B-2
+mxB2              ...           ...     mxB19             SH7     mcell A-4
+mxB3               Z2     mcell A-8     mxB20       KICKSTART     mcell A-7
+mxB4            PUFRD         pin 8     mxB21          MCLK16         pin 4
+mxB5               Z5     mcell B-3     mxB22             ...           ...
+mxB6              RP9    mcell E-14     mxB23           SWAES     mcell H-4
+mxB7             SH10    mcell C-14     mxB24        WRFERTIG     mcell D-5
+mxB8            SHCLK     mcell B-1     mxB25           TAKT5     mcell F-7
+mxB9           BWAIT3    mcell G-13     mxB26         INPSCLK     mcell B-0
+mxB10             SH2    mcell E-12     mxB27              Z1     mcell G-9
+mxB11           RESET        pin 93     mxB28        AESMCLKI        pin 46
+mxB12           HCLKI        pin 99     mxB29         AESCLKI        pin 50
+mxB13            SHD3    mcell G-11     mxB30         ADCLK16     mcell B-4
+mxB14      RN_ADCLK32     mcell D-4     mxB31              Z3     mcell B-9
+mxB15             RP8     mcell C-7     mxB32           SHD12    mcell E-11
+mxB16              Z0     mcell D-6
+
+
+BLOCK C LOGIC MACROCELLS & INPUT REGISTERS
+                                  PTS 
+                             T   U   A
+L                            Y   S   V  X  P   C  S  R   P
+O                            P   E   A  O  O   L  E  E   I
+C     Node          Signal   E   D   L  R  L   K  T  S   N   Fanout
+|---------------------------------------------------------------------------|
+C0     34              WD6  C/.  3   2  G  H   .  .  .  26  --------
+C1     35              WD5  C/.  3   2  G  H   .  .  .  25  --------
+C2     36              WD1  C/.  3   2  G  H   .  .  .  20  --------
+C3     37              WD0  C/.  3   4  G  H   .  .  .  19  --------
+C4     38              WD2  C/.  3   4  G  H   .  .  .  21  --------
+C5     39             WAIT  D/A  1   4  P  H   P  G  P  ..  ---D--G-
+C6     40              WD3  C/.  3   8  G  H   .  .  .  22  --------
+C7     41              RP8  D/A  1   6  P  H   P  G  G  ..  -B--E---
+C8     42          RN_SH15  D/A  1   6  P  H   P  P  G  23  A-------
+C9     43             SHD7  D/A  1   6  P  H   P  G  G  ..  ---DE---
+C10    44              WD4  C/.  3   8  G  H   .  .  .  24  --------
+C11    45            SHD14  D/A  1   6  P  H   P  G  G  ..  --C-E---
+C12    46            WAIT5  D/A  1   8  P  H   P  G  P  ..  ---D----
+C13    47             SH13  D/A  1   8  P  H   P  G  P  ..  ---D----
+C14    48             SH10  D/A  1   6  P  H   P  G  G  ..  -B------
+C15    49              SH8  D/A  1   4  P  H   P  G  G  ..  ---D----
+Cir-0 146 ................  ...  .   .  .  .   .  .  .  ..  ........
+Cir-1 147 ................  ...  .   .  .  .   .  .  .  ..  ........
+Cir-2 148 ................  ...  .   .  .  .   .  .  .  ..  ........
+Cir-3 149 ................  ...  .   .  .  .   .  .  .  ..  ........
+Cir-4 150 ................  ...  .   .  .  .   .  .  .  ..  ........
+Cir-5 151 ................  ...  .   .  .  .   .  .  .  ..  ........
+Cir-6 152 ................  ...  .   .  .  .   .  .  .  ..  ........
+Cir-7 153 ................  ...  .   .  .  .   .  .  .  ..  ........
+
+BLOCK C I/O PINS
+Pin onode inode           Signal     Type    Fanout
+|----------------------------------------------------------------|
+ 19   37   ...               WD0    output  --------
+ 20   36   ...               WD1    output  --------
+ 21   38   ...               WD2    output  --------
+ 22   40   ...               WD3    output  --------
+ 23   42   ...              SH15    output  --------
+ 24   44   ...               WD4    output  --------
+ 25   35   ...               WD5    output  --------
+ 26   34   ...               WD6    output  --------
+
+
+BLOCK C LOGIC ARRAY FANIN
+CSM             Signal    Source        CSM             Signal    Source
+|----------------------------------|    |----------------------------------|
+mxC0          INPSCLK     mcell B-0     mxC17           WAIT3     mcell E-3
+mxC1             SHD1     mcell F-9     mxC18             PGO    mcell H-10
+mxC2            SHD11    mcell F-10     mxC19             SH7     mcell A-4
+mxC3            SHD10    mcell E-10     mxC20           SHD13    mcell B-14
+mxC4             SHD2     mcell E-7     mxC21             SH9    mcell D-13
+mxC5            SHD12    mcell E-11     mxC22            SH12    mcell A-10
+mxC6            HCLKI        pin 99     mxC23            SHD5    mcell G-12
+mxC7         WRFERTIG     mcell D-5     mxC24            SHD8     mcell E-9
+mxC8            RESET        pin 93     mxC25        PLAYCLKO     mcell B-2
+mxC9             SHD3    mcell G-11     mxC26             RD8         pin 9
+mxC10            SHD0     mcell F-4     mxC27             ...           ...
+mxC11           WAIT4     mcell B-6     mxC28             ...           ...
+mxC12            SHD9     mcell D-9     mxC29           SHD14    mcell C-11
+mxC13            SHD6    mcell A-15     mxC30             ...           ...
+mxC14             NGO     mcell E-5     mxC31            SH14    mcell D-11
+mxC15           SHCLK     mcell B-1     mxC32            SHD4     mcell B-7
+mxC16             ...           ...
+
+BLOCK D CLOCK MUX 
+Block Clocks     Signal    Pin   Pol
+|-----------------------------------|
+Ck0                 ...     ..    .
+Ck1                 ...     ..    .
+Ck2             DA_ACKO     63    H
+Ck3                 ...     ..    .
+
+
+BLOCK D LOGIC MACROCELLS & INPUT REGISTERS
+                                  PTS 
+                             T   U   A
+L                            Y   S   V  X  P   C  S  R   P
+O                            P   E   A  O  O   L  E  E   I
+C     Node          Signal   E   D   L  R  L   K  T  S   N   Fanout
+|---------------------------------------------------------------------------|
+D0     50            PUFWR  C/.  4   1  G  L   .  .  .  33  ---D----
+D1     51              CKS  C/.  3   6  G  H   .  .  .  38  --------
+D2     52              WD7  C/.  3  10  G  H   .  .  .  31  --------
+D3     53          RN_ADLR  T/S  1   8  P  L Ck2  G  G  37  -----F--
+D4     54       RN_ADCLK32  T/S  1  10  P  H Ck2  G  G  36  -B-D-F--
+D5     55         WRFERTIG  C/.  2   9  G  H   .  .  .  ..  -BC-E-G-
+D6     56               Z0  T/A  1   2  P  H   P  G  P  ..  AB----G-
+D7     57           XGORES  C/.  3   6  G  H   .  .  .  ..  ----E--H
+D8     58           SMPCLK  C/.  4   7  G  H   .  .  .  34  --------
+D9     59             SHD9  D/A  1   8  P  H   P  G  G  ..  --C-E---
+D10    60            TAKT7  T/S  1  12  P  H Ck2  G  G  ..  ---D----
+D11    61             SH14  D/A  1  12  P  H   P  G  P  ..  --C-----
+D12    62        RESRDFIFO  C/.  1  10  P  L   .  .  .  32  --------
+D13    63              SH9  D/A  1  12  P  H   P  G  G  ..  --C-----
+D14    64              SH6  D/A  1   8  P  H   P  G  P  ..  A-------
+D15    65             HOLD  T/S  1   6  P  H Ck2  G  G  ..  ---D----
+Dir-0 154 ................  ...  .   .  .  .   .  .  .  ..  ........
+Dir-1 155 ................  ...  .   .  .  .   .  .  .  ..  ........
+Dir-2 156 ................  ...  .   .  .  .   .  .  .  ..  ........
+Dir-3 157 ................  ...  .   .  .  .   .  .  .  ..  ........
+Dir-4 158 ................  ...  .   .  .  .   .  .  .  ..  ........
+Dir-5 159 ................  ...  .   .  .  .   .  .  .  ..  ........
+Dir-6 160 ................  ...  .   .  .  .   .  .  .  ..  ........
+Dir-7 161 ................  ...  .   .  .  .   .  .  .  ..  ........
+
+BLOCK D I/O PINS
+Pin onode inode           Signal     Type    Fanout
+|----------------------------------------------------------------|
+ 31   52   ...               WD7    output  --------
+ 32   62   ...         RESRDFIFO    output  --------
+ 33   50   ...             PUFWR    output  ---D----
+ 34   58   ...            SMPCLK    output  --------
+ 35  ...   ...            ADATAI     input  -----F--
+ 36   54   ...           ADCLK32    output  --------
+ 37   53   ...              ADLR    output  --------
+ 38   51   ...               CKS    output  --------
+
+
+BLOCK D LOGIC ARRAY FANIN
+CSM             Signal    Source        CSM             Signal    Source
+|----------------------------------|    |----------------------------------|
+mxD0           MCLK16         pin 4     mxD17           WAIT3     mcell E-3
+mxD1              ...           ...     mxD18             PGO    mcell H-10
+mxD2           MCLK12     mcell A-9     mxD19           RESET        pin 93
+mxD3           EXTAKT     mcell G-5     mxD20           TAKT7    mcell D-10
+mxD4            WAIT5    mcell C-12     mxD21         EXTMCLK        pin 18
+mxD5         AESMCLKI        pin 46     mxD22           WAIT2    mcell G-10
+mxD6          SWRESFF    mcell F-13     mxD23           WAIT4     mcell B-6
+mxD7            TAKT5     mcell F-7     mxD24           TAKT6    mcell B-10
+mxD8            SHCLK     mcell B-1     mxD25             ...           ...
+mxD9            PUFWR        pin 33     mxD26             NGO     mcell E-5
+mxD10      RN_ADCLK32     mcell D-4     mxD27           TAKTL     mcell H-5
+mxD11            SH13    mcell C-13     mxD28           SHD15    mcell E-15
+mxD12           TAKTH     mcell G-7     mxD29         INPSCLK     mcell B-0
+mxD13            SHD7     mcell C-9     mxD30         ADCLK16     mcell B-4
+mxD14            SHD8     mcell E-9     mxD31            HOLD    mcell D-15
+mxD15            WAIT     mcell C-5     mxD32             SH5    mcell F-14
+mxD16             SH8    mcell C-15
+
+
+BLOCK E LOGIC MACROCELLS & INPUT REGISTERS
+                                  PTS 
+                             T   U   A
+L                            Y   S   V  X  P   C  S  R   P
+O                            P   E   A  O  O   L  E  E   I
+C     Node          Signal   E   D   L  R  L   K  T  S   N   Fanout
+|---------------------------------------------------------------------------|
+E0     66          PREEMPH  D/A  1   6  P  H   P  P  G  49  --------
+E1     67        RN_SWPROT  D/A  1   8  P  H   P  G  P  43  -------H
+E2     68              CZ0  T/A  1   6  P  H   P  G  P  ..  A---E--H
+E3     69            WAIT3  D/A  1   6  P  H   P  G  P  ..  -BCD----
+E4     70            CZCLK  C/.  2   9  G  H   .  .  .  ..  A---E---
+E5     71              NGO  D/A  1   6  P  H   P  G  P  ..  --CD----
+E6     72              CZ5  T/A  1   8  P  H   P  G  P  ..  ----E--H
+E7     73             SHD2  D/A  1   8  P  H   P  G  G  ..  --C---G-
+E8     74          SWSUBFR  D/A  1   8  P  H   P  G  P  47  --------
+E9     75             SHD8  D/A  1   8  P  H   P  G  G  ..  --CD----
+E10    76            SHD10  D/A  1   8  P  H   P  G  G  ..  --C--F--
+E11    77            SHD12  D/A  1   8  P  H   P  G  G  ..  -BC-----
+E12    78              SH2  D/A  1   8  P  H   P  G  P  ..  -B------
+E13    79              SH1  D/A  1   8  P  H   P  G  P  ..  ----E---
+E14    80              RP9  D/A  1   6  P  H   P  G  G  ..  -B------
+E15    81            SHD15  D/A  1   4  P  H   P  G  G  ..  ---D----
+Eir-0 162 ................  ...  .   .  .  .   .  .  .  ..  ........
+Eir-1 163 ................  ...  .   .  .  .   .  .  .  ..  ........
+Eir-2 164 ................  ...  .   .  .  .   .  .  .  ..  ........
+Eir-3 165 ................  ...  .   .  .  .   .  .  .  ..  ........
+Eir-4 166 ................  ...  .   .  .  .   .  .  .  ..  ........
+Eir-5 167 ................  ...  .   .  .  .   .  .  .  ..  ........
+Eir-6 168 ................  ...  .   .  .  .   .  .  .  ..  ........
+Eir-7 169 ................  ...  .   .  .  .   .  .  .  ..  ........
+
+BLOCK E I/O PINS
+Pin onode inode           Signal     Type    Fanout
+|----------------------------------------------------------------|
+ 43   67   ...            SWPROT    output  --------
+ 44  ...   ...            AESCIN     input  -------H
+ 45  ...   ...          AESDATAI     input  -----F--
+ 46  ...   ...          AESMCLKI     input  -B-D--G-
+ 47   74   ...           SWSUBFR    output  --------
+ 48  ...   ...               CBL     input  A---E--H
+ 49   66   ...           PREEMPH    output  --------
+ 50  ...   ...           AESCLKI     input  -B------
+
+
+BLOCK E LOGIC ARRAY FANIN
+CSM             Signal    Source        CSM             Signal    Source
+|----------------------------------|    |----------------------------------|
+mxE0              CZ5     mcell E-6     mxE17              D3        pin 95
+mxE1             SHD1     mcell F-9     mxE18          SMPREG        pin 88
+mxE2               A6        pin 86     mxE19           SHD11    mcell F-10
+mxE3             SHD7     mcell C-9     mxE20        AESSYNCI        pin 54
+mxE4              CZ3     mcell A-0     mxE21          XGORES     mcell D-7
+mxE5            WAIT2    mcell G-10     mxE22           CZCLK     mcell E-4
+mxE6               D0        pin 98     mxE23             CBL        pin 48
+mxE7             SHD9     mcell D-9     mxE24        WRFERTIG     mcell D-5
+mxE8            SHCLK     mcell B-1     mxE25             CZ1     mcell A-2
+mxE9              CZ2     mcell A-1     mxE26         INPSCLK     mcell B-0
+mxE10        PLAYCLKO     mcell B-2     mxE27             CZ0     mcell E-2
+mxE11           RESET        pin 93     mxE28              A7        pin 87
+mxE12           HCLKI        pin 99     mxE29           SHD14    mcell C-11
+mxE13             SH1    mcell E-13     mxE30             RP8     mcell C-7
+mxE14              D4        pin 94     mxE31             SH0    mcell F-12
+mxE15             CZ4     mcell A-6     mxE32            SH16     mcell A-3
+mxE16             ...           ...
+
+BLOCK F CLOCK MUX 
+Block Clocks     Signal    Pin   Pol
+|-----------------------------------|
+Ck0                 ...     ..    .
+Ck1                 ...     ..    .
+Ck2             DA_ACKO     63    H
+Ck3                 ...     ..    .
+
+
+BLOCK F LOGIC MACROCELLS & INPUT REGISTERS
+                                  PTS 
+                             T   U   A
+L                            Y   S   V  X  P   C  S  R   P
+O                            P   E   A  O  O   L  E  E   I
+C     Node          Signal   E   D   L  R  L   K  T  S   N   Fanout
+|---------------------------------------------------------------------------|
+F0     82          DA_SCLK  C/.  2   7  G  H   .  .  .  57  --------
+F1     83         DA_FSYNC  C/.  2   9  G  H   .  .  .  56  --------
+F2     84         AESDATAO  C/.  1   6  P  H   .  .  .  62  --------
+F3     85          SWDIGIN  D/A  1   6  P  H   P  G  P  61  --------
+F4     86             SHD0  D/A  3   2  G  H   P  G  G  ..  --C--F--
+F5     87         INPSDATA  C/.  3   6  G  H   .  .  .  ..  -----FG-
+F6     88           AESFC1  C/.  3   6  G  H   .  .  .  59  --------
+F7     89            TAKT5  T/S  1   4  P  H Ck2  G  G  ..  -B-D----
+F8     90         DA_SDATA  C/.  7   6  G  H   .  .  .  58  -----F--
+F9     91             SHD1  D/A  1   2  P  H   P  G  G  ..  --C-E---
+F10    92            SHD11  D/A  1   2  P  H   P  G  G  ..  --C-E---
+F11    93          DATACLK  C/.  4   5  G  H   .  .  .  ..  -------H
+F12    94              SH0  D/A  2   5  G  H   P  P  G  ..  ----E---
+F13    95          SWRESFF  D/A  1   9  P  H   P  G  P  ..  ---D----
+F14    96              SH5  D/A  1   9  P  H   P  G  P  ..  ---D----
+F15    97 ................  ...  .   7  .  .   .  .  .  ..  ........
+Fir-0 170 ................  ...  .   .  .  .   .  .  .  ..  ........
+Fir-1 171 ................  ...  .   .  .  .   .  .  .  ..  ........
+Fir-2 172 ................  ...  .   .  .  .   .  .  .  ..  ........
+Fir-3 173 ................  ...  .   .  .  .   .  .  .  ..  ........
+Fir-4 174 ................  ...  .   .  .  .   .  .  .  ..  ........
+Fir-5 175 ................  ...  .   .  .  .   .  .  .  ..  ........
+Fir-6 176 ................  ...  .   .  .  .   .  .  .  ..  ........
+Fir-7 177 ................  ...  .   .  .  .   .  .  .  ..  ........
+
+BLOCK F I/O PINS
+Pin onode inode           Signal     Type    Fanout
+|----------------------------------------------------------------|
+ 55  ...   ...  ................        ..  ........
+ 56   83   ...          DA_FSYNC    output  --------
+ 57   82   ...           DA_SCLK    output  --------
+ 58   90   ...          DA_SDATA    output  -----F--
+ 59   88   ...            AESFC1    output  --------
+ 60  ...   ...            DSPSTD     input  -----F--
+ 61   85   ...           SWDIGIN    output  --------
+ 62   84   ...          AESDATAO    output  --------
+
+
+BLOCK F LOGIC ARRAY FANIN
+CSM             Signal    Source        CSM             Signal    Source
+|----------------------------------|    |----------------------------------|
+mxF0          INPSCLK     mcell B-0     mxF17              D1        pin 97
+mxF1           DSPSTD        pin 60     mxF18        SWDIGOUT     mcell H-3
+mxF2               A6        pin 86     mxF19              Z5     mcell B-3
+mxF3           EXTAKT     mcell G-5     mxF20        AESSYNCI        pin 54
+mxF4            TAKTL     mcell H-5     mxF21       RN_AESC24     mcell H-6
+mxF5          SWONDSP     mcell H-9     mxF22          SWPROF    mcell H-11
+mxF6             SH16     mcell A-3     mxF23           SWAES     mcell H-4
+mxF7          SWINDSP     mcell H-7     mxF24           SHD10    mcell E-10
+mxF8            TAKTH     mcell G-7     mxF25       RN_AESC25     mcell H-8
+mxF9         INPSDATA     mcell F-5     mxF26             SH4    mcell A-11
+mxF10      RN_ADCLK32     mcell D-4     mxF27         ADCLK16     mcell B-4
+mxF11           RESET        pin 93     mxF28           DAHLP     mcell A-5
+mxF12          ADATAI        pin 35     mxF29            SHD0     mcell F-4
+mxF13         RN_ADLR     mcell D-3     mxF30             ...           ...
+mxF14              A7        pin 87     mxF31        DA_SDATA        pin 58
+mxF15           SHCLK     mcell B-1     mxF32          SMPREG        pin 88
+mxF16        AESDATAI        pin 45
+
+
+BLOCK G LOGIC MACROCELLS & INPUT REGISTERS
+                                  PTS 
+                             T   U   A
+L                            Y   S   V  X  P   C  S  R   P
+O                            P   E   A  O  O   L  E  E   I
+C     Node          Signal   E   D   L  R  L   K  T  S   N   Fanout
+|---------------------------------------------------------------------------|
+G0     98           DSPSCK  C/.  4   3  G  H   .  .  .  74  --------
+G1     99         VOLDATAI  D/A  1   4  P  H   P  G  P  76  --------
+G2    100           AESFC0  C/.  3   6  G  H   .  .  .  70  --------
+G3    101           VOLCLK  D/A  1   4  P  H   P  G  P  75  --------
+G4    102           AESPRO  C/.  2   7  G  H   .  .  .  71  --------
+G5    103           EXTAKT  D/A  1   2  P  H   P  G  P  ..  ---D-FGH
+G6    104         AESMCLKO  C/.  6   3  G  H   .  .  .  72  --------
+G7    105            TAKTH  D/A  1   2  P  H   P  G  P  ..  ---D-FG-
+G8    106           DSPSRD  C/.  4   5  G  H   .  .  .  73  --------
+G9    107               Z1  T/A  1   6  P  H   P  G  P  ..  AB------
+G10   108            WAIT2  D/A  1   8  P  H   P  G  P  ..  ---DE---
+G11   109             SHD3  D/A  1   8  P  H   P  G  G  ..  -BC-----
+G12   110             SHD5  D/A  1   8  P  H   P  G  G  ..  A-C-----
+G13   111           BWAIT3  D/A  1   8  P  H   P  G  P  ..  -B------
+G14   112           BWAIT2  D/A  1   6  P  H   P  G  P  ..  ------G-
+G15   113            BWAIT  D/A  1   4  P  H   P  G  P  ..  ------G-
+Gir-0 178 ................  ...  .   .  .  .   .  .  .  ..  ........
+Gir-1 179 ................  ...  .   .  .  .   .  .  .  ..  ........
+Gir-2 180 ................  ...  .   .  .  .   .  .  .  ..  ........
+Gir-3 181 ................  ...  .   .  .  .   .  .  .  ..  ........
+Gir-4 182 ................  ...  .   .  .  .   .  .  .  ..  ........
+Gir-5 183 ................  ...  .   .  .  .   .  .  .  ..  ........
+Gir-6 184 ................  ...  .   .  .  .   .  .  .  ..  ........
+Gir-7 185 ................  ...  .   .  .  .   .  .  .  ..  ........
+
+BLOCK G I/O PINS
+Pin onode inode           Signal     Type    Fanout
+|----------------------------------------------------------------|
+ 69  ...   ...               RD0     input  -------H
+ 70  100   ...            AESFC0    output  --------
+ 71  102   ...            AESPRO    output  --------
+ 72  104   ...          AESMCLKO    output  --------
+ 73  106   ...            DSPSRD    output  --------
+ 74   98   ...            DSPSCK    output  --------
+ 75  101   ...            VOLCLK    output  --------
+ 76   99   ...          VOLDATAI    output  --------
+
+
+BLOCK G LOGIC ARRAY FANIN
+CSM             Signal    Source        CSM             Signal    Source
+|----------------------------------|    |----------------------------------|
+mxG0          INPSCLK     mcell B-0     mxG17              D3        pin 95
+mxG1             SHD4     mcell B-7     mxG18        SWDIGOUT     mcell H-3
+mxG2            BWAIT    mcell G-15     mxG19         MCLK128    mcell B-15
+mxG3           EXTAKT     mcell G-5     mxG20         SWINDSP     mcell H-7
+mxG4            PUFRD         pin 8     mxG21       RN_AESC24     mcell H-6
+mxG5               D4        pin 94     mxG22          SWPROF    mcell H-11
+mxG6            HCLKI        pin 99     mxG23           SWAES     mcell H-4
+mxG7             WAIT     mcell C-5     mxG24        WRFERTIG     mcell D-5
+mxG8            TAKTH     mcell G-7     mxG25       RN_AESC25     mcell H-8
+mxG9         INPSDATA     mcell F-5     mxG26            SHD2     mcell E-7
+mxG10          BWAIT2    mcell G-14     mxG27         SWONDSP     mcell H-9
+mxG11           RESET        pin 93     mxG28           DAHLP     mcell A-5
+mxG12        AESMCLKI        pin 46     mxG29         DA_ACKO        pin 63
+mxG13           TAKTL     mcell H-5     mxG30             ...           ...
+mxG14              A7        pin 87     mxG31             ...           ...
+mxG15              A6        pin 86     mxG32          SMPREG        pin 88
+mxG16              Z0     mcell D-6
+
+
+BLOCK H LOGIC MACROCELLS & INPUT REGISTERS
+                                  PTS 
+                             T   U   A
+L                            Y   S   V  X  P   C  S  R   P
+O                            P   E   A  O  O   L  E  E   I
+C     Node          Signal   E   D   L  R  L   K  T  S   N   Fanout
+|---------------------------------------------------------------------------|
+H0    114           DSPSC0  C/.  4   1  G  H   .  .  .  83  --------
+H1    115           DSPSC2  C/.  4   3  G  H   .  .  .  82  --------
+H2    116          AESCOUT  C/.  2   7  G  H   .  .  .  81  --------
+H3    117         SWDIGOUT  D/A  1   6  P  H   P  G  P  ..  A----FGH
+H4    118            SWAES  D/A  1   8  P  H   P  G  P  ..  -B---FGH
+H5    119            TAKTL  D/A  1   8  P  H   P  G  P  ..  ---D-FG-
+H6    120        RN_AESC24  D/A  1   8  P  H   P  G  G  85  -----FG-
+H7    121          SWINDSP  D/A  1   8  P  H   P  G  P  ..  -----FGH
+H8    122        RN_AESC25  D/A  1   8  P  H   P  G  G  84  -----FG-
+H9    123          SWONDSP  D/A  1   8  P  H   P  G  P  ..  -----FGH
+H10   124              PGO  D/A  1   8  P  H   P  G  P  ..  --CD----
+H11   125           SWPROF  D/A  1   8  P  H   P  G  P  ..  -----FG-
+H12   126              RP0  D/A  1   8  P  H   P  G  G  ..  A-------
+H13   127              RP1  D/A  1   8  P  H   P  G  G  ..  A-------
+H14   128              RP2  D/A  1   6  P  H   P  G  G  ..  A-------
+H15   129              RP3  D/A  1   4  P  H   P  G  G  ..  A-------
+Hir-0 186 ................  ...  .   .  .  .   .  .  .  ..  ........
+Hir-1 187 ................  ...  .   .  .  .   .  .  .  ..  ........
+Hir-2 188 ................  ...  .   .  .  .   .  .  .  ..  ........
+Hir-3 189 ................  ...  .   .  .  .   .  .  .  ..  ........
+Hir-4 190 ................  ...  .   .  .  .   .  .  .  ..  ........
+Hir-5 191 ................  ...  .   .  .  .   .  .  .  ..  ........
+Hir-6 192 ................  ...  .   .  .  .   .  .  .  ..  ........
+Hir-7 193 ................  ...  .   .  .  .   .  .  .  ..  ........
+
+BLOCK H I/O PINS
+Pin onode inode           Signal     Type    Fanout
+|----------------------------------------------------------------|
+ 81  116   ...           AESCOUT    output  --------
+ 82  115   ...            DSPSC2    output  --------
+ 83  114   ...            DSPSC0    output  --------
+ 84  122   ...            AESC25    output  --------
+ 85  120   ...            AESC24    output  --------
+ 86  ...   ...                A6     input  ----EFGH
+ 87  ...   ...                A7     input  ----EFGH
+ 88  ...   ...            SMPREG     input  ----EFGH
+
+
+BLOCK H LOGIC ARRAY FANIN
+CSM             Signal    Source        CSM             Signal    Source
+|----------------------------------|    |----------------------------------|
+mxH0              CZ1     mcell A-2     mxH17              D1        pin 97
+mxH1              RD3        pin 10     mxH18        SWDIGOUT     mcell H-3
+mxH2           AESCIN        pin 44     mxH19             CZ5     mcell E-6
+mxH3              CZ0     mcell E-2     mxH20           SWAES     mcell H-4
+mxH4              RD1        pin 12     mxH21             RD0        pin 69
+mxH5               Z5     mcell B-3     mxH22          EXTAKT     mcell G-5
+mxH6             SH16     mcell A-3     mxH23             CBL        pin 48
+mxH7          SWINDSP     mcell H-7     mxH24             ...           ...
+mxH8           XGORES     mcell D-7     mxH25              A6        pin 86
+mxH9              CZ2     mcell A-1     mxH26              D0        pin 98
+mxH10        PLAYCLKO     mcell B-2     mxH27         SWONDSP     mcell H-9
+mxH11           RESET        pin 93     mxH28              Z4     mcell B-5
+mxH12             ...           ...     mxH29             CZ3     mcell A-0
+mxH13       RN_SWPROT     mcell E-1     mxH30         DATACLK    mcell F-11
+mxH14              A7        pin 87     mxH31              D2        pin 96
+mxH15             CZ4     mcell A-6     mxH32          SMPREG        pin 88
+mxH16             RD2        pin 11
+
+
+MACH445 report file key:
+
+A             - Asynchronous mode
+AVAL          - Additional product terms available within the current
+                steering allocation, plus those potentially available
+                through resteering of free clusters.
+B0            - Block Asynchronous Reset/Preset product term 0
+B1            - Block Asynchronous Reset/Preset product term 1
+C             - Combinatorial
+Ck0           - Block clock generated from pin 13 or pin 18
+Ck1           - Block clock generated from pin 13 or pin 18
+Ck2           - Block clock generated from pin 63 or pin 68
+Ck3           - Block clock generated from pin 63 or pin 68
+clk           - Clock
+CSM           - Central Switch Matrix
+D             - D-type flip flop
+G             - Ground
+H             - High
+implied       - Node occupying the macrocell drives the output pin
+                but not defined in the design file.
+inode         - Input node
+Inp           - Input
+ipair         - Input paired node
+I/O           - Input or Output
+L             - Low
+L             - Latch
+LOC           - Location
+mcell <X>     - Source is macrocell from block <X>
+Mux           - Multiplexer
+mx            - Block Array input multiplexer
+onode         - Output node
+opair         - Output paired node
+P             - Product Term
+Pol           - Polarity
+PT(s)         - Product term(s)
+Reg           - Register
+Res           - Reset control
+RN_<pin_name> - Output node paired with <pin_name> created by Fitter.
+S             - Synchronous mode
+Set           - Preset control
+T             - T-type flip flop
+XOR           - Exclusive OR gate
+<X>ir         - Input register in block <X>
+.             - Not available or Not applicable
+
+Partitioning 100% - Completed
+Placement    100% - Completed
+Routing      100% - Completed
+%%% Fitting process is successful %%%

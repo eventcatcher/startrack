@@ -1,0 +1,28 @@
+*** Pin Map - DSPMEM.PDS - DSP-Memory-Ansteuerung fÅr DSP-Extension (Startrack)
+*** used with AMD PALCE 16V8-5ns                                       
+                                                                    
+                                                                    
+                                                                    
+                                                              
+                                                          
+                             NC                        
+                          NC  | VCC               
+                   MEMART  |  |  |  MEM_CS     
+                        |  |  |  |  |                
+                    .---'--'--o--'--'---.       
+                    |                   |       
+                    |   3  2  1 20 19   |       
+                  NC| 4               18|NC     
+                  NC| 5               17|RAM_A15
+              MEM_DS| 6               16|NC     
+             MEM_A15| 7               15|MEM_PS 
+              MEM_XY| 8               14|RAM_HIGH
+                    |      1  1  1  1   |       
+                    |   9  0  1  2  3   |       
+                    '---.--.--.--.--.---'       
+                        |  |  |  |  |                  
+                  MEM_A14  |  |  |  NC            
+                         GND  |  NC                  
+                             NC                          
+                                                           
+                                                                    

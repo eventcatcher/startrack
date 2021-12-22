@@ -1,0 +1,62 @@
+     Design Name:  ext24out
+ Targeted Device:  ispLSI1016-60LJ44
+
+Pre-Route Design Statistics
+---------------------------
+
+Number of GLBs:                 15
+Number of I/Os:                 23
+Number of Nets:                 65
+
+Number of Free Inputs:          0
+Number of Free Outputs:         0
+Number of Free Three-States:    0
+Number of Free Bidi's:          0
+
+Number of Locked Input IOCs:    7
+Number of Locked DIs:           0
+Number of Locked Outputs:       16
+Number of Locked Three-States:  0
+Number of Locked Bidi's:        0
+
+Number of CRIT Outputs:         0
+Number of Global OEs:           0
+Number of External Clocks:      1
+
+
+GLB Utilization (Out of 16):	93%
+I/O Utilization (Out of 36):	63%
+Net Utilization (Out of 100):	65%
+
+
+Nets with Fanout of  1:         44
+Nets with Fanout of  2:         7
+Nets with Fanout of  3:         3
+Nets with Fanout of  4:         3
+Nets with Fanout of  5:         4
+Nets with Fanout of  6:         3
+Nets with Fanout of  7:         1
+
+Average Fanout per Net:         1.91
+
+
+GLBs with  4 Input(s):          8
+GLBs with  5 Input(s):          1
+GLBs with  9 Input(s):          1
+GLBs with 10 Input(s):          2
+GLBs with 11 Input(s):          1
+GLBs with 16 Input(s):          1
+GLBs with 17 Input(s):          1
+
+Average Inputs per GLB:         7.33
+
+
+GLBs with  4 Output(s):         15
+
+Average Outputs per GLB:        4.00
+
+
+--  No. of GLBs after successful routing : 16
+
+****  Elapsed Time :  00:00:02
+

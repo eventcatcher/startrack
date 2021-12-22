@@ -1,0 +1,405 @@
+// Sa Jul 03 22:04:00 1999
+// EXT24OUT.LDF
+// pcb-Version
+// 256Bit->2 x 128Bit Umsetzung fuer Startrack DSP-Port (Play)
+// mit 24Bit-Unterstuetzung
+//
+// fuer Startrack-DSP-Karte
+//
+LDF 1.00.00 DESIGNLDF;
+DESIGN ext24out;
+REVISION V1.0;
+AUTHOR Stephan Wilhelm;
+PROJECTNAME StarTrack;
+
+PART ispLSI1016-60LJ;
+
+DECLARE
+END;  //DECLARE
+
+SYM GLB  A0  1  pclk;
+SIGTYPE PACLK      Out ; // Clock fuer Shiftregister A
+SIGTYPE PBCLK      Out ; // Clock fuer Shiftregister B
+SIGTYPE WPI2       Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE WPI3       Reg ; // Synchronize-Counter
+
+EQUATIONS
+
+PACLK = !WPI1 & !INCLK2 & BIT24
+      # WPI1 & BPI0 & BIT24
+      # !WPI2 & !INCLK2 & !BIT24
+      # WPI2 & BPI0 & !BIT24;
+
+PBCLK = !WPI1 & BPI0 & BIT24
+      # WPI1 & !INCLK2 & BIT24
+      # !WPI2 & BPI0 & !BIT24
+      # WPI2 & !INCLK2 & !BIT24;
+
+WPI2 = !WPI2 & WPI1 & WPI0 & BPI2 & BPI1 & BPI0 & BIT24
+     # !WPI2 & WPI1 & BPI2 & BPI1 & BPI0 & !BIT24
+     # WPI2 & !WPI1
+     # WPI2 & !WPI0
+     # WPI2 & !BPI2
+     # WPI2 & !BPI1
+     # WPI2 & !BPI0;
+WPI2.CLK = INCLK;
+WPI2.RE = PCNTCLR;
+
+WPI3 = WPI3 $$ (WPI2 & WPI1 & WPI0 & BPI2 & BPI1 & BPI0);
+WPI3.CLK = INCLK;
+WPI3.RE = PCNTCLR;
+
+END;
+END;
+
+SYM GLB  A1  1  data;
+SIGTYPE PCNTCLR   Reg ; // CounterClear durch pos FsyncImpuls
+SIGTYPE ADATA     Out ; // Datenausgang fuer DSP-Port A
+SIGTYPE SYNCB     Out ; // Fsync fuer DSP-Port B
+SIGTYPE INDATB    Out ; // Shiftdata-Input B
+
+EQUATIONS
+
+PCNTCLR = VCC;
+PCNTCLR.PTCLK = DFSYNC;
+PCNTCLR.RE = !WPI5 & !WPI4 & !WPI3 & !WPI2 & !WPI1 & !WPI0 & !BPI2 & !BPI1 & !BPI0;
+
+ADATA = WPI1 & SHAQ15 & BIT24
+      # !WPI1 & SHCQ7 & BIT24
+      # WPI2 & SHAQ15 & !BIT24
+      # !WPI2 & SHQDATC & !BIT24;
+
+
+SYNCB = !WPI4 & !WPI3 & WPI2 & BIT24
+      # !WPI5 & !WPI4 & WPI3 & !BIT24;
+
+INDATB = PDATA & BIT24
+       # SHQDATB & !BIT24;
+
+END;
+END;
+
+SYM GLB  A2  1  sync;
+SIGTYPE SYNCA     Out ; // Fsync fuer DSP-Port A
+SIGTYPE WPI4      Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE BPI2      Reg ; // Play-SCLKzaehler und Synchro
+SIGTYPE BPI1      Reg ; // Play-SCLKzaehler und Synchro
+
+EQUATIONS
+
+SYNCA = !WPI4 & !WPI3 & !WPI2 & WPI1 & BIT24
+      # !WPI4 & !WPI3 & WPI2 & !WPI1 & BIT24
+      # !WPI5 & !WPI4 & !WPI3 & WPI2 & !BIT24
+      # !WPI5 & !WPI4 & WPI3 & !WPI2 & !BIT24;
+
+WPI4 = WPI4 $$ (WPI3 & WPI2 & WPI1 & WPI0 & BPI2 & BPI1 & BPI0);
+WPI4.CLK = INCLK;
+WPI4.RE = PCNTCLR;
+
+BPI1 = BPI1 $$ BPI0;
+BPI1.CLK = INCLK;
+BPI1.RE = PCNTCLR;
+
+BPI2 = BPI2 $$ (BPI1 & BPI0);
+BPI2.CLK = INCLK;
+BPI2.RE = PCNTCLR;
+
+END;
+END;
+
+
+SYM GLB  A3  1  counter;
+SIGTYPE DFSYNC    Out ; // Counter-Framestart
+SIGTYPE OUTCLK    Out ; // Clock fuer DSP-Port A & B
+SIGTYPE BDATA     Out ; // Datenausgang fuer DSP-Port B
+SIGTYPE WPI5      Reg ; // Play-SWORDzaehler und Synchro
+
+EQUATIONS
+
+DFSYNC = INSYNC & INCLK2
+       # INSYNC & DFSYNC.pin;
+
+OUTCLK = BPI0;
+
+BDATA = !WPI1 & SHBQ15 & BIT24
+      # WPI1 & SHCQ7 & BIT24
+      # !WPI2 & SHBQ15 & !BIT24
+      # WPI2 & SHQDATC & !BIT24;
+
+WPI5 = WPI5 $$ (WPI4 & WPI3 & WPI2 & WPI1 & WPI0 & BPI2 & BPI1 & BPI0);
+WPI5.CLK = INCLK;
+WPI5.RE = PCNTCLR;
+
+END;
+END;
+
+
+SYM GLB  A4  1  counter;
+SIGTYPE INDATA    Out ; // Shiftdata-Input A
+SIGTYPE WPI0      Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE WPI1      Reg ; // Play-SCLKzaehler und Synchro
+SIGTYPE BPI0      Reg ; // Play-SWORDzaehler und Synchro
+
+EQUATIONS
+
+INDATA = PDATA & BIT24
+       # SHQDATA & !BIT24;
+
+WPI0 = !WPI0 & BPI2 & BPI1 & BPI0 & BIT24
+     # !WPI1 & !WPI0 & BPI2 & BPI1 & BPI0 & !BIT24
+     # WPI0 & !BPI2
+     # WPI0 & !BPI1
+     # WPI0 & !BPI0;
+WPI0.CLK = INCLK;
+WPI0.RE = PCNTCLR;
+
+WPI1 = !WPI1 & WPI0 & BPI2 & BPI1 & BPI0
+     # WPI1 & !WPI0 & BIT24
+     # WPI1 & !BPI2
+     # WPI1 & !BPI1
+     # WPI1 & !BPI0;
+WPI1.CLK = INCLK;
+WPI1.RE = PCNTCLR;
+
+BPI0 = !BPI0;
+BPI0.CLK = INCLK;
+BPI0.RE = PCNTCLR;
+
+END;
+END;
+
+SYM GLB  A5  1  shiftc1;
+SIGTYPE SHCQ0      Reg ; // 
+SIGTYPE SHCQ1      Reg ; // 
+SIGTYPE SHCQ2      Reg ; // 
+SIGTYPE SHCQ3      Reg ; // 
+
+EQUATIONS
+
+SHCQ0 = SHBQ7 & !WPI1 & BIT24
+      # SHAQ7 & WPI1 & BIT24
+      # SHBQ3 & !WPI1 & !BIT24
+      # SHAQ3 & WPI1 & !BIT24;
+SHCQ0.PTCLK = OUTCLK;
+
+SHCQ1 = SHCQ0;
+SHCQ1.PTCLK = OUTCLK;
+
+SHCQ2 = SHCQ1;
+SHCQ2.PTCLK = OUTCLK;
+
+SHCQ3 = SHCQ2;
+SHCQ3.PTCLK = OUTCLK;
+
+END;
+END;
+
+SYM GLB  A6  1  shiftc2;
+SIGTYPE SHCQ4      Reg ; // 
+SIGTYPE SHCQ5      Reg ; // 
+SIGTYPE SHCQ6      Reg ; // 
+SIGTYPE SHCQ7      Reg ; // 
+
+EQUATIONS
+
+SHCQ4 = SHCQ3;
+SHCQ4.PTCLK = OUTCLK;
+
+SHCQ5 = SHCQ4;
+SHCQ5.PTCLK = OUTCLK;
+
+SHCQ6 = SHCQ5;
+SHCQ6.PTCLK = OUTCLK;
+
+SHCQ7 = SHCQ6;
+SHCQ7.PTCLK = OUTCLK;
+
+END;
+END;
+
+
+SYM GLB  B0  1  shifta1;
+SIGTYPE SHAQ0      Reg ; // 
+SIGTYPE SHAQ1      Reg ; // 
+SIGTYPE SHAQ2      Reg ; // 
+SIGTYPE SHAQ3      Reg ; // 
+SRR14 ([SHAQ0..SHAQ3],INDATA,PACLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B1  1  shifta2;
+SIGTYPE SHAQ4      Reg ; // 
+SIGTYPE SHAQ5      Reg ; // 
+SIGTYPE SHAQ6      Reg ; // 
+SIGTYPE SHAQ7      Reg ; // 
+SRR14 ([SHAQ4..SHAQ7],SHAQ3,PACLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B2  1  shifta3;
+SIGTYPE SHAQ8      Reg ; // 
+SIGTYPE SHAQ9      Reg ; // 
+SIGTYPE SHAQ10     Reg ; // 
+SIGTYPE SHAQ11     Reg ; // 
+SRR14 ([SHAQ8..SHAQ11],SHAQ7,PACLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B3  1  shifta4;
+SIGTYPE SHAQ12     Reg ; // 
+SIGTYPE SHAQ13     Reg ; // 
+SIGTYPE SHAQ14     Reg ; // 
+SIGTYPE SHAQ15     Reg ; // 
+SRR14 ([SHAQ12..SHAQ15],SHAQ11,PACLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B4  1  shiftb1;
+SIGTYPE SHBQ0      Reg ; // 
+SIGTYPE SHBQ1      Reg ; // 
+SIGTYPE SHBQ2      Reg ; // 
+SIGTYPE SHBQ3      Reg ; // 
+SRR14 ([SHBQ0..SHBQ3],INDATB,PBCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B5  1  shiftb2;
+SIGTYPE SHBQ4      Reg ; // 
+SIGTYPE SHBQ5      Reg ; // 
+SIGTYPE SHBQ6      Reg ; // 
+SIGTYPE SHBQ7      Reg ; // 
+SRR14 ([SHBQ4..SHBQ7],SHBQ3,PBCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B6  1  shiftb3;
+SIGTYPE SHBQ8      Reg ; // 
+SIGTYPE SHBQ9      Reg ; // 
+SIGTYPE SHBQ10     Reg ; // 
+SIGTYPE SHBQ11     Reg ; // 
+SRR14 ([SHBQ8..SHBQ11],SHBQ7,PBCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B7  1  shiftb4;
+SIGTYPE SHBQ12     Reg ; // 
+SIGTYPE SHBQ13     Reg ; // 
+SIGTYPE SHBQ14     Reg ; // 
+SIGTYPE SHBQ15     Reg ; // 
+SRR14 ([SHBQ12..SHBQ15],SHBQ11,PBCLK,GND) // 4Bit-Shifter
+END;
+
+
+
+SYM IOC  Y0  1 INCLK;
+XPIN CLK XINCLK LOCK 11;  // DSP-Port Clock-Source (CH 1-16)
+IB11(INCLK,XINCLK)
+END;
+
+SYM IOC  IO0  1 INCLK2;
+XPIN IO XINCLK2 LOCK 10;  // DSP-Port Clock-Source (CH 1-16)
+IB11(INCLK2,XINCLK2)
+END;
+
+SYM IOC  IO1  1 PDATA;
+XPIN IO XPDATA LOCK 43;  // DSP-Port Data-Source (CH 1-16)
+IB11(PDATA,XPDATA)
+END;
+
+SYM IOC  IO2  1 INSYNC;
+XPIN IO XINSYNC LOCK 42;  // DSP-Port Framesync-Source (CH 1-16)
+IB11(INSYNC,XINSYNC)
+END;
+
+SYM IOC  IO3  1 ADATA;
+XPIN IO XADATA LOCK 41;  // OutData Port A (CH 1-8)
+OB11(XADATA,ADATA)
+END;
+
+SYM IOC  IO4  1 SYNCA;
+XPIN IO XSYNCA LOCK 40;  // Framesync DSP-Port A
+OB11(XSYNCA,SYNCA)
+END;
+
+SYM IOC  IO5  1 OUTCLK;
+XPIN IO XOUTCLK LOCK 39;  // OutClk Port A & B (und fuer PLD extctrl)
+OB11(XOUTCLK,OUTCLK)
+END;
+
+SYM IOC  IO6  1 BDATA;
+XPIN IO XBDATA LOCK 38;  // OutData Port B (CH 9-16)
+OB11(XBDATA,BDATA)
+END;
+
+SYM IOC  IO7  1 SYNCB;
+XPIN IO XSYNCB LOCK 37;  // Framesync DSP-Port B
+OB11(XSYNCB,SYNCB)
+END;
+
+SYM IOC  IO8  1 BIT24;
+XPIN IO XBIT24 LOCK 16;  // Flag fuer 24Bit-Playback
+IB11(BIT24,XBIT24)
+END;
+
+SYM IOC  IO9  1 PACLK;
+XPIN IO XPACLK LOCK 4;  // Clock fuer PortA-Shifter (in PLD extctrl)
+OB11(XPACLK,PACLK)
+END;
+
+SYM IOC  IO10  1 PBCLK;
+XPIN IO XPBCLK LOCK 3;  // Clock fuer PortB-Shifter (in PLD extctrl)
+OB11(XPBCLK,PBCLK)
+END;
+
+SYM IOC  IO11  1 SHCQ7;
+XPIN IO XSHCQ7 LOCK 25;  // Data fuer PortC-Shifter (in PLD extctrl)
+OB11(XSHCQ7,SHCQ7)
+END;
+
+SYM IOC  IO12  1 SHQDATA;
+XPIN IO XSHQDATA LOCK 17;  // Shiftdata fuer Shiftreg A (von PLD extctrl)
+IB11(SHQDATA,XSHQDATA)
+END;
+
+SYM IOC  IO13  1 SHQDATB;
+XPIN IO XSHQDATB LOCK 27;  // Shiftdata fuer Shiftreg B (von PLD extctrl)
+IB11(SHQDATB,XSHQDATB)
+END;
+
+SYM IOC  IO14  1 SHQDATC;
+XPIN IO XSHQDATC LOCK 26;  // Shiftdata fuer Shiftreg C (von PLD extctrl)
+IB11(SHQDATC,XSHQDATC)
+END;
+
+SYM IOC  IO15  1 DFSYNC;
+XPIN IO XDFSYNC LOCK 44;  // Counter-Clear
+OB11(XDFSYNC,DFSYNC)
+END;
+
+SYM IOC  IO16  1 WPI5;
+XPIN IO XWPI5 LOCK 7;  // Counter (fuer PLD extctrl)
+OB11(XWPI5,WPI5)
+END;
+
+SYM IOC  IO17  1 WPI4;
+XPIN IO XWPI4 LOCK 5;  // Counter (fuer PLD extctrl)
+OB11(XWPI4,WPI4)
+END;
+
+SYM IOC  IO18  1 WPI3;
+XPIN IO XWPI3 LOCK 9;  // Counter (fuer PLD extctrl)
+OB11(XWPI3,WPI3)
+END;
+
+SYM IOC  IO19  1 WPI2;
+XPIN IO XWPI2 LOCK 6;  // Counter (fuer PLD extctrl)
+OB11(XWPI2,WPI2)
+END;
+
+SYM IOC  IO20  1 WPI1;
+XPIN IO XWPI1 LOCK 19;  // Counter (fuer PLD extctrl)
+OB11(XWPI1,WPI1)
+END;
+
+SYM IOC  IO21  1 WPI0;
+XPIN IO XWPI0 LOCK 18;  // Counter (fuer PLD extctrl)
+OB11(XWPI0,WPI0)
+END;
+
+SYM IOC  IO22  1 BPI2;
+XPIN IO XBPI2 LOCK 8;  // Counter (fuer PLD extctrl)
+OB11(XBPI2,BPI2)
+END;

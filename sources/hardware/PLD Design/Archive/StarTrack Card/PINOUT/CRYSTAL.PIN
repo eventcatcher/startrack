@@ -1,0 +1,92 @@
+                    .-------.-----.-------.       
+                    |       -------       |       
+                AGND| 1                 28|VREF  
+                AINL| 2                 27|AINR   
+               ZEROL| 3                 26|ZEROR  
+                 VA+| 4                 25|VL+    
+                 VA-| 5                 24|LGND   
+                 APD| 6                 23|ICLKA  
+                ACAL| 7      CS5339     22|NC     
+                  NC| 8                 21|OCLKD  
+                DCAL| 9                 20|ICLKD  
+                 DPD|10                 19|DGND   
+                 TST|11                 18|VD+    
+               CMODE|12                 17|FSYNC  
+               SMODE|13                 16|SDATA  
+                 L/R|14                 15|SCLK   
+                    |                     |       
+                    '---------------------'       
+                                                                  
+                    .-------.-----.-------.       
+                    |       -------       |       
+               AGND1| 1                 28|VREF-  
+               AOUTL| 2                 27|CALI   
+                 VA+| 3                 26|AOUTR  
+               AGND2| 4                 25|AGND3  
+                 VA-| 5                 24|ACKI   
+                CMPO| 6                 23|NC     
+                  NC| 7      CS4328     22|ACKO   
+                CMPI| 8                 21|CALO   
+                 RST| 9                 20|LRCK   
+                 TST|10                 19|BICK   
+                 CKS|11                 18|SDATAI 
+                DIF1|12                 17|DGND   
+                DIF0|13                 16|VD+    
+                 XTI|14                 15|XTO    
+                    |                     |       
+                    '---------------------'       
+                                                                   
+                    .-------.-----.-------.       
+                    |       -------       |       
+                   C| 1                 28|VERF   
+                  F1| 2                 27|F2     
+                  F0| 3                 26|SDATA  
+                  E2| 4                 25|ERF    
+                  E1| 5                 24|M1     
+                  E0| 6                 23|M0     
+                 VD+| 7      CS8412     22|VA+    
+                DGND| 8                 21|AGND   
+                 RXP| 9                 20|FILT   
+                 RXN|10                 19|MCK    
+               FSYNC|11                 18|M2     
+                 SCK|12                 17|M3     
+                 FCK|13                 16|SEL    
+                   U|14                 15|CBL    
+                    |                     |       
+                    '---------------------'       
+                                                                   
+                    .-------.-----.-------.       
+                    |       -------       |       
+               C7/C3| 1                 24|TRNPT/FC1
+                 PRO| 2                 23|M2     
+              C1/FC0| 3                 22|M1     
+               C6/C2| 4                 21|M0     
+                 MCK| 5                 20|TXP    
+                 SCK| 6                 19|VD+    
+               FSYNC| 7     CS8402A     18|GND    
+               SDATA| 8                 17|TXN    
+                   V| 9                 16|RST    
+               C/SBF|10                 15|CBL/SBC
+                   U|11                 14|EM0/C9 
+              C9/C15|12                 13|EM1/C8 
+                    |                     |       
+                    '---------------------'       
+                                                                  
+                    .-------.-----.-------.       
+                    |       -------       |       
+                ZCEN| 1                 16|AINL   
+                  CS| 2                 15|AGNDL  
+              SDATAI| 3                 14|AOUTL  
+                 VD+| 4      CS3310     13|VA-    
+                DGND| 5                 12|VA+    
+                SCLK| 6                 11|AOUTR  
+              SDATAO| 7                 10|AGNDR  
+                MUTE| 8                  9|AINR   
+                    |                     |       
+                    '---------------------'       
+                                                                  
+                                                                  
+                                               
+                                                    
+                                                    
+                                                                    

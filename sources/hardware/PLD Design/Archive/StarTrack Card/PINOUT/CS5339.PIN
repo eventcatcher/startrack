@@ -1,0 +1,33 @@
+                                                                    
+                                                                    
+                                                                    
+                                                                  
+                                                                   
+                                                                   
+                                                                   
+                                                                   
+                                                                   
+                    .-------.-----.-------.       
+                    |       -------       |       
+                AGND| 1                 28|VREF  
+                AINL| 2                 27|AINR   
+               ZEROL| 3                 26|ZEROR  
+                 VA+| 4                 25|VL+    
+                 VA-| 5                 24|LGND   
+                 APD| 6                 23|ICLKA  
+                ACAL| 7      CS5339     22|NC     
+                  NC| 8                 21|OCLKD  
+                DCAL| 9                 20|ICLKD  
+                 DPD|10                 19|DGND   
+                 TST|11                 18|VD+    
+               CMODE|12                 17|FSYNC  
+               SMODE|13                 16|SDATA  
+                 L/R|14                 15|SCLK   
+                    |                     |       
+                    '---------------------'       
+                                                                  
+                                                                  
+                                               
+                                                    
+                                                    
+                                                                    

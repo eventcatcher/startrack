@@ -1,0 +1,465 @@
+// Di Jan 10 22:05:00 1996
+// STARTRK2.LDF  16Bit-Soundsampler fuer VME-Bus-Atari - Adressdekodierung & Interrupts
+// final PCB-Version
+//           - Adressdecoder, Interrupts & VME-Bus-Timing, FIFO-select
+//           - Fluppt gut, getrennte INT-Vektoren fuer Rec & Play
+//           - verbessertes SMPWR-Timing (Abstand zu DTACK)
+//           - Magics fuer unterschiedliche Hardware-Konfiguration
+LDF 1.00.00 DESIGNLDF;
+DESIGN startrk2;
+REVISION V1.0;
+AUTHOR Stephan Wilhelm;
+PROJECTNAME StarTrack;
+
+PART ispLSI1016-60LT;
+
+DECLARE
+END;  //DECLARE
+
+SYM GLB  A0  1  intreg;
+SIGTYPE INTHLP    Out ; // Node Interrupt ohne Tristate
+SIGTYPE INTACK    Out ; // Node Erkennung der IACK-Datenanforderung der FIFOs
+SIGTYPE TIME2     Reg ; // Timingzaehler 2
+SIGTYPE TIME4     Reg ; // Timingzaehler 4
+
+EQUATIONS
+
+INTHLP = !(INTPLAY & WRHFLAG
+        # INTREC & !RDHFLAG
+        # !DSPINT);
+
+INTACK = !(!IADR & !IACKIN & INTPLAY & WRHFLAG
+         # !IADR & !IACKIN & INTREC & !RDHFLAG);
+
+
+TIME2 = TIME1;
+TIME2.PTCLK = !TIMECLK;
+TIME2.RE = DS0;
+
+TIME4 = TIME3 & TIME2 & TIME1;
+TIME4.PTCLK = !TIMECLK;
+TIME4.RE = DS0;
+
+END;
+END;
+
+
+SYM GLB  A1  1  blokate;
+SIGTYPE BLOKATE   Reg ; // Node INT-Ack-Verriegelung fuer FIFOs
+
+EQUATIONS
+BLOKATE = !INTACK;
+BLOKATE.PTCLK = ITIME2;
+BLOKATE.RE = IACK;
+
+END;
+END;
+
+
+SYM GLB  A2  1  timehlp;
+SIGTYPE BLOKATE2  Reg ; // Node INT-Ack-Verriegelung fuer DSP
+SIGTYPE TIMECLK   Out ; // Node CLK fuer Timingzaehler
+SIGTYPE INTACK2   Out ; // Node Erkennung der IACK-Datenanforderung des DSP
+
+EQUATIONS
+
+BLOKATE2 = !INTACK2 & !BLOKATE;
+BLOKATE2.PTCLK = ITIME3;
+BLOKATE2.RE = IACK;
+
+TIMECLK = (SYSCLK
+         # TIME3 & TIME2 & TIME1);
+
+INTACK2 = !(!IADR & !IACKIN & !DSPINT);
+
+END;
+END;
+
+
+SYM GLB  A3  1  timing;
+SIGTYPE TIME1     Reg ; // Timingzaehler 1
+SIGTYPE TIME3     Reg ; // Timingzaehler 3
+
+EQUATIONS
+
+TIME1 = VCC;
+TIME1.PTCLK = TIMECLK;
+TIME1.RE = DS0;
+
+TIME3 = TIME2 & TIME1;
+TIME3.PTCLK = TIMECLK;
+TIME3.RE = DS0;
+
+END;
+END;
+
+SYM GLB  A4  1  adrdecode&VolCS1;
+SIGTYPE DRVCS     Out ; // Komplettdekoder 74F863 /CS
+SIGTYPE STATCS    Out ; // Node Interner Adressdekoder
+SIGTYPE VOLCS1    Reg ; // Schalter CS fuer Volume-Control A/D
+
+EQUATIONS
+
+VOLCS1 = DI2;
+VOLCS1.PTCLK = (!ADR & !A9 & !A8 & A7 & !A6 & IACK & !DS0 & !RW & !TIME3 & TIME2 & TIME1);
+
+DRVCS = !(!ADR & IACK & !DS0
+       # !IACKIN & !INTACK & BLOKATE
+       # !IACKIN & !INTACK2 & BLOKATE2);
+
+STATCS = !(!ADR & !A9 & !A8 & !A7 & IACK & !DS0 & RW
+       # !ADR & !A9 & A8 & A7 & IACK & !DS0 & RW
+       # !IACKIN & !INTACK & BLOKATE);
+
+END;
+END;
+
+
+SYM GLB  A5  1  fifo&dsp;
+SIGTYPE SMPRD     Out ; // zum REC-FIFO Read (512Byte linear)
+SIGTYPE SMPWR     Out ; // zum PLAY-FIFO Write (512Byte linear)
+SIGTYPE DSPCS     Out ; // Chip Select fuer den DSP
+
+EQUATIONS
+
+SMPRD = !(!ADR & A9 & !A8 & RW & IACK & !DS0);
+
+SMPWR =  !(!ADR & A9 & !A8 & !RW & IACK & !DS0 & !TIME3 & !TIME2 & TIME1);
+
+DSPCS = !(!ADR & A9 & A8 & IACK & !DS0 & RW
+        # !ADR & A9 & A8 & IACK & !DS0 & !RW & !TIME3 & TIME2 & TIME1);
+
+END;
+END;
+
+
+SYM GLB  A6  1  dtack;
+SIGTYPE DTACK     Out ; // VME-DTACK,tristate
+SIGTYPE DTACKOE   OE  ; // DTACK Output-Enable
+SIGTYPE DSPIACK   Out ; // Interruptantwortfreigabe fuer DSP
+
+EQUATIONS
+
+DTACK = !(!DRVCS & !DS0 & TIME3 & SMPWR & DSPCS & !RW
+        # !DRVCS & !DS0 & TIME3 & RW
+        # !DRVCS & !DS0 & TIME2 & TIME1 & SMPWR & DSPCS & !RW & !A9);
+
+DTACKOE = !DRVCS & !DS0;
+
+DSPIACK = !(!IACKIN & !INTACK2 & BLOKATE2);
+
+END;
+END;
+
+
+SYM GLB  A7  1  data1;
+SIGTYPE DO2       Out ; // VME-Datenleitung,tristate,bidir
+SIGTYPE DO7       Out ; // VME-Datenleitung,tristate
+SIGTYPE DATAOE    OE  ; // Daten-Output-Enable - auch bei /INT
+
+EQUATIONS
+
+DO2 = AESEM2 & !STATCS & !A8 & !A7 & !A6 & A5 & IACK
+   # WRFFLAG & !STATCS & !A8 & !A7 & A6 & !A5 & IACK
+   # RDFFLAG & !STATCS & !A8 & !A7 & A6 & A5 & IACK
+   # !STATCS & !A8 & !A7 & !A6 & !A5 & IACK & MAGICDIGI;
+
+DO7 = AESF0 & !STATCS & !A8 & !A7 & !A6 & A5 & IACK
+   # !STATCS & !A8 & !A7 & !A6 & !A5 & IACK & MAGICADDA;
+
+DATAOE = !STATCS & !DS0;
+
+// INT-Vektor Nummer #122 fuer Play, #123 fuer Record
+END;
+END;
+
+
+SYM GLB  B0  1  data2;
+SIGTYPE DO0       Out ; // VME-Datenleitung,tristate,bidir
+SIGTYPE DO1       Out ; // VME-Datenleitung,tristate,bidir
+
+EQUATIONS
+
+DO0 = AESEM0 & !STATCS & !A8 & !A7 & !A6 & A5 & IACK
+   # WREFLAG & !STATCS & !A8 & !A7 & A6 & !A5 & IACK
+   # RDEFLAG & !STATCS & !A8 & !A7 & A6 & A5 & IACK
+   # INTPLAY & !STATCS & A8 & A7 & IACK
+   # !STATCS & !A8 & !A7 & !A6 & !A5 & IACK & MAGICVOL
+   # !IACK & !RDHFLAG & INTREC;
+
+DO1 = AESEM1 & !STATCS & !A8 & !A7 & !A6 & A5 & IACK
+   # WRHFLAG & !STATCS & !A8 & !A7 & A6 & !A5 & IACK
+   # RDHFLAG & !STATCS & !A8 & !A7 & A6 & A5 & IACK
+   # INTREC & !STATCS & A8 & A7 & IACK
+   # !STATCS & !A8 & !A7 & !A6 & !A5 & IACK & MAGICXLR
+   # !IACK;
+
+// INT-Vektor Nummer #122 fuer Play, #123 fuer Record
+END;
+END;
+
+
+SYM GLB  B1  1  timeint;
+SIGTYPE ITIME1    Reg ; // Node INT-Timingzaehler
+SIGTYPE ITIME2    Reg ; // Node INT-Timingzaehler
+SIGTYPE ITIME3    Reg ; // Node INT-Timingzaehler
+SIGTYPE ITIME4    Reg ; // Node INT-Timingzaehler
+
+EQUATIONS
+
+ITIME1 = !IACKIN;
+ITIME1.PTCLK= SYSCLK;
+ITIME1.RE = IACKIN;
+
+ITIME2 = ITIME1
+       # !INTPLAY & !INTREC;
+ITIME2.PTCLK= SYSCLK;
+ITIME2.RE = IACKIN;
+
+ITIME3 = ITIME2;
+ITIME3.PTCLK= SYSCLK;
+ITIME3.RE = IACKIN;
+
+ITIME4 = ITIME3;
+ITIME4.PTCLK= SYSCLK;
+ITIME4.RE = IACKIN;
+
+END;
+END;
+
+
+SYM GLB  B2  1  int;
+SIGTYPE INT       Out ; // INT-Leitung des VME-Bus (normalerweise /INT5),tristate
+SIGTYPE INTOE     OE  ; // INT Output-Enable
+SIGTYPE MAGICDIGI Out ; // Node Magic fuer installierte Digitalschnittstellen
+SIGTYPE MAGICADDA Out ; // Node Magic fuer installierte A/D und D/A-Wandler
+
+EQUATIONS
+
+INT = INTHLP;
+
+INTOE = !INTHLP;
+
+MAGICDIGI = VCC;
+MAGICADDA = VCC;
+
+END;
+END;
+
+
+SYM GLB  B3  1  iackout;
+SIGTYPE IACKOUT   Out ; // IACKOUT des VME-Bus,tristate
+SIGTYPE IACKOUTOE OE  ; // IACKOUT Output-Enable
+SIGTYPE MAGICVOL  Out ; // Node Magic fuer installierten 2ten Volume-Output-Controller
+SIGTYPE MAGICXLR  Out ; // Node Magic fuer installierte XLR-Erweiterung
+
+EQUATIONS
+
+IACKOUT = !(!IACKIN & !BLOKATE & !BLOKATE2 & ITIME4);
+
+IACKOUTOE = !IACKIN & !BLOKATE & !BLOKATE2 & ITIME4;
+
+MAGICVOL = GND;
+MAGICXLR = GND;
+
+END;
+END;
+
+
+SYM GLB  B4  1  playrec;
+SIGTYPE INTPLAY   Reg ; // Node INTerruptfreigabe fuer PLAY
+SIGTYPE INTREC    Reg ; // Node INTerruptfreigabe fuer REC
+
+EQUATIONS
+
+INTPLAY = DI0;
+INTPLAY.PTCLK = (!ADR & !A9 & A8 & A7 & IACK & !DS0 & !RW & TIME2 & TIME1);
+
+INTREC = DI1;
+INTREC.PTCLK = (!ADR & !A9 & A8 & A7 & IACK & !DS0 & !RW & TIME2 & TIME1);
+
+END;
+END;
+
+
+
+SYM IOC  I0  1 A5;
+XPIN I XA5 LOCK 18 ;  // VME-Adressleitung
+IB11(A5,XA5)
+END;
+
+SYM IOC  I1  1 A8;
+XPIN I XA8 LOCK 8;  // VME-Adressleitung
+IB11(A8,XA8)
+END;
+
+SYM IOC  I2  1 SYSCLK;
+XPIN I XSYSCLK LOCK 30;  // VME-Systemtakt 16MHz
+IB11(SYSCLK,XSYSCLK)
+END;
+
+SYM IOC  I3  1 IADR;
+XPIN I XIADR LOCK 40;  // Interrupt-Adresse (A1-A3) von STARTRK1
+IB11(IADR,XIADR)
+END;
+
+SYM IOC  IO0  1 A6;
+XPIN IO XA6 LOCK 33 ;  // VME-Adressleitung
+IB11(A6,XA6)
+END;
+
+SYM IOC  IO1  1 A7;
+XPIN IO XA7 LOCK 34;  // VME-Adressleitung
+IB11(A7,XA7)
+END;
+
+SYM IOC  IO2  1 A9;
+XPIN IO XA9 LOCK 31;  // VME-Adressleitung
+IB11(A9,XA9)
+END;
+
+SYM IOC  IO3  1 RW;
+XPIN IO XRW LOCK 38;  // VME-Schreib/Leseleitung
+IB11(RW,XRW)
+END;
+
+SYM IOC  IO4  1 DS0;
+XPIN IO XDS0 LOCK 41;  // VME-Lower-Datastrobe
+IB11(DS0,XDS0)
+END;
+
+SYM IOC  IO5  1 IACK;
+XPIN IO XIACK LOCK 36;  // VME-Interrupt-Bestaetigungsleitung
+IB11(IACK,XIACK)
+END;
+
+SYM IOC  IO6  1 IACKIN;
+XPIN IO XIACKIN LOCK 35;  // IACK-Datenanforderung vom VME-Bus
+IB11(IACKIN,XIACKIN)
+END;
+
+SYM IOC  IO7  1 ADR;
+XPIN IO XADR LOCK 4;  // Adressdekoder von STARTRK1
+IB11(ADR,XADR)
+END;
+
+SYM IOC  IO8  1 RDE;
+XPIN IO XRDEFLAG LOCK 44;  // Read-Empty-Flag des REC-FIFO
+IB11(RDEFLAG,XRDEFLAG)
+END;
+
+SYM IOC  IO9  1 RDH;
+XPIN IO XRDHFLAG LOCK 16;  // Read-Half-Flag des REC-FIFO
+IB11(RDHFLAG,XRDHFLAG)
+END;
+
+SYM IOC  IO10  1 RDF;
+XPIN IO XRDFFLAG LOCK 43;  // Read-Full-Flag des REC-FIFO
+IB11(RDFFLAG,XRDFFLAG)
+END;
+
+SYM IOC  IO11  1 WRE;
+XPIN IO XWREFLAG LOCK 3;  // Write-Empty-Flag des PLAY-FIFO
+IB11(WREFLAG,XWREFLAG)
+END;
+
+SYM IOC  IO12  1 WRH;
+XPIN IO XWRHFLAG LOCK 1;  // Write-Half-Flag des PLAY-FIFO
+IB11(WRHFLAG,XWRHFLAG)
+END;
+
+SYM IOC  IO13  1 WRF;
+XPIN IO XWRFFLAG LOCK 2;  // Write-Full-Flag des PLAY-FIFO
+IB11(WRFFLAG,XWRFFLAG)
+END;
+
+SYM IOC  IO14  1 DSPINT;
+XPIN IO XDSPINT LOCK 20;  // DSP hat Interrupt ausgeloest
+IB11(DSPINT,XDSPINT)
+END;
+
+SYM IOC  IO15  1 DSPIACK;
+XPIN IO XDSPIACK LOCK 21;  // Interruptantwortfreigabe fuer DSP
+OB11(XDSPIACK,DSPIACK)
+END;
+
+SYM IOC  IO16  1 F0;
+XPIN IO XAESF0 LOCK 26;  // Emphasis-Encoding (cc/F0) des CS8412
+IB11(AESF0,XAESF0)
+END;
+
+SYM IOC  IO17  1 EM0;
+XPIN IO XAESEM0 LOCK 23;  // Status/Error-Encoding (c0/E0) vom CS8412
+IB11(AESEM0,XAESEM0)
+END;
+
+SYM IOC  IO18  1 EM1;
+XPIN IO XAESEM1 LOCK 24;  // Status/Error-Encoding (ca/E1) vom CS8412
+IB11(AESEM1,XAESEM1)
+END;
+
+SYM IOC  IO19  1 EM2;
+XPIN IO XAESEM2 LOCK 25;  // Status/Error-Encoding (cb/E2) vom CS8412
+IB11(AESEM2,XAESEM2)
+END;
+
+SYM IOC  IO20  1 SMPRD;
+XPIN IO XSMPRD LOCK 14;  // zum REC-FIFO Read
+OB11(XSMPRD,SMPRD)
+END;
+
+SYM IOC  IO21  1 SMPWR;
+XPIN IO XSMPWR LOCK 15;  // zum PLAY-FIFO Write
+OB11(XSMPWR,SMPWR)
+END;
+
+SYM IOC  IO22  1 DSPCS;
+XPIN IO XDSPCS LOCK 22;  // Chip Select fuer den DSP
+OB11(XDSPCS,DSPCS)
+END;
+
+SYM IOC  IO23  1 VOLCS1;
+XPIN IO XVOLCS1 LOCK 12;  // Chip Select fuer den A/D-Volume-Controller
+OB11(XVOLCS1,VOLCS1)
+END;
+
+SYM IOC  IO24  1 INT;
+XPIN IO XINT LOCK 32;  // INT-Leitung des VME-Bus (normalerweise /INT5),tristate
+OT11(XINT,INT,INTOE)
+END;
+
+SYM IOC  IO25  1 IACKOUT;
+XPIN IO XIACKOUT LOCK 19;  // IACKOUT des VME-Bus,tristate
+OT11(XIACKOUT,IACKOUT,IACKOUTOE)
+END;
+
+SYM IOC  IO26  1 D0;
+XPIN IO XD0 LOCK 13;  // VME-Datenleitung,tristate,bidir
+BI11(DI0,XD0,DO0,DATAOE)
+END;
+
+SYM IOC  IO27  1 D1;
+XPIN IO XD1 LOCK 11;  // VME-Datenleitung,tristate,bidir
+BI11(DI1,XD1,DO1,DATAOE)
+END;
+
+SYM IOC  IO28  1 D2;
+XPIN IO XD2 LOCK 10;  // VME-Datenleitung,tristate,bidir
+BI11(DI2,XD2,DO2,DATAOE)
+END;
+
+SYM IOC  IO29  1 D7;
+XPIN IO XD7 LOCK 9;  // VME-Datenleitung,tristate
+OT11(XD7,DO7,DATAOE)
+END;
+
+SYM IOC  IO30  1 DRVCS;
+XPIN IO XDRVCS LOCK 42;  // Komplettdekoder 74F863 /CS
+OB11(XDRVCS,DRVCS)
+END;
+
+SYM IOC  IO31  1 DTACK;
+XPIN IO XDTACK LOCK 37;  // VME-DTACK,tristate
+OT11(XDTACK,DTACK,DTACKOE)
+END;
+

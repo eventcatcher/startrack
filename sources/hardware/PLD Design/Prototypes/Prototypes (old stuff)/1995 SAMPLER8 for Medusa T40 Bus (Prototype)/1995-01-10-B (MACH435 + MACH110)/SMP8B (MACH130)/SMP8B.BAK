@@ -1,0 +1,327 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    SAMPLER8.PDS - 16Bit-Soundsampler mit 8 AusgÑngen fuer Medusa-Bus
+PATTERN  A
+REVISION 1.0
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself
+DATE     01/10/95
+
+CHIP  _smp8b  MACH130
+
+;---------------------------------- PIN Declarations ---------------
+PIN  ?          HCLKI      ; 40MHz-Timingclock
+PIN  ?          PLAYCLKI   ; CLK fÅr PLAY-Register
+PIN  ?          INPSCLK    ; Eingangstakt (von MACH smp8a)
+PIN  ?          RESET      ; VME-RESET
+PIN  ?          DSPSTDB    ; SERIAL-DATA-Ausgang des DSP
+PIN  ?          DSPSTDC    ; SERIAL-DATA-Ausgang des DSP
+PIN  ?          DSPSTDD    ; SERIAL-DATA-Ausgang des DSP
+PIN  ?          SWDIGOUT   ; Zwischensp./Schalter Ausg.IN/PLAY (von smp8a)
+PIN  ?          SWONDSP    ; Zwischensp./Schalter DSP an/aus
+PIN  ?          SWINDSP    ; Zwischensp./Schalter DSP in/out
+PIN  ?          RDA0       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDA1       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDA2       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDA3       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDA4       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDA5       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDA6       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDA7       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDB0       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDB1       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDB2       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDB3       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDB4       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDB5       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDB6       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDB7       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDC0       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDC1       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDC2       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDC3       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDC4       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDC5       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDC6       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDC7       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDD0       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDD1       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDD2       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDD3       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDD4       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDD5       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDD6       ; Datenausgang des PLAY-FIFO
+PIN  ?          RDD7       ; Datenausgang des PLAY-FIFO
+PIN  ?          RD8        ; Datenausgang des PLAY-FIFO
+PIN  ?          PUFRD      COMBINATORIAL ; zum PLAY-FIFO Read
+PIN  ?          PLAYCLKO   COMBINATORIAL ; CLK fÅr PLAY-Register
+PIN  ?          DAHLPA     COMBINATORIAL ; SDATA-PLAY-Erzeugung (zu smp8a)
+PIN  ?          DAHLPB     COMBINATORIAL ; SDATA-PLAY-Erzeugung (zu smp8a)
+PIN  ?          DAHLPC     COMBINATORIAL ; SDATA-PLAY-Erzeugung (zu smp8a)
+PIN  ?          DAHLPD     COMBINATORIAL ; SDATA-PLAY-Erzeugung (zu smp8a)
+PIN  ?          DA_SDATB   COMBINATORIAL ; zum SDATAI des 2.CS4328
+PIN  ?          DA_SDATC   COMBINATORIAL ; zum SDATAI des 3.CS4328
+PIN  ?          DA_SDATD   COMBINATORIAL ; zum SDATAI des 4.CS4328
+PIN  ?          Z4            REGISTERED ; Play-SDATAzÑhler/Synchro (zu smp8a)
+PIN  ?          Z5            REGISTERED ; Play-SDATAzÑhler/4ynchro (zu smp8a)
+NODE ?          RP9           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RP8           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPA7          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPA6          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPA5          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPA4          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPA3          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPA2          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPA1          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPA0          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPB7          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPB6          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPB5          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPB4          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPB3          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPB2          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPB1          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPB0          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPC7          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPC6          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPC5          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPC4          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPC3          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPC2          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPC1          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPC0          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPD7          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPD6          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPD5          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPD4          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPD3          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPD2          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPD1          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RPD0          REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          BWAIT         REGISTERED ; Play-FIFO-Read-Timing
+NODE ?          BWAIT2        REGISTERED ; Play-FIFO-Read-Timing
+NODE ?          BWAIT3        REGISTERED ; Play-FIFO-Read-Timing
+NODE ?          Z0            REGISTERED ; Play-SDATAzÑhler und Synchro
+NODE ?          Z1            REGISTERED ; Play-SDATAzÑhler und Synchro
+NODE ?          Z2            REGISTERED ; Play-SDATAzÑhler und Synchro
+NODE ?          Z3            REGISTERED ; Play-SDATAzÑhler und Synchro
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+; ---------------------Play
+
+Z0.T = VCC;
+Z0.CLKF = INPSCLK;    Normalerweise statt INPSCLK -> ADCLK32 wegen getrennter
+Z0.RSTF = /RESET;                                    Wiedergabe
+Z0.SETF = GND;
+
+Z1.T = Z0;
+Z1.CLKF = INPSCLK;
+Z1.RSTF = /RESET;
+Z1.SETF = GND;
+
+Z2.T = Z0 * Z1;
+Z2.CLKF = INPSCLK;
+Z2.RSTF = /RESET;
+Z2.SETF = GND;
+
+Z3.T = Z0 * Z1 * Z2;
+Z3.CLKF = INPSCLK;
+Z3.RSTF = /RESET;
+Z3.SETF = GND;
+
+Z4.T = Z0 * Z1 * Z2 * Z3;
+Z4.CLKF = INPSCLK;
+Z4.RSTF = /RESET;
+Z4.SETF = GND;
+
+Z5.T = Z0 * Z1 * Z2 * Z3 * Z4;
+Z5.CLKF = INPSCLK;
+Z5.RSTF = /RESET;
+Z5.SETF = GND;
+
+BWAIT = VCC;
+BWAIT.CLKF = HCLKI;
+BWAIT.RSTF = PUFRD;
+BWAIT.SETF = GND;
+
+BWAIT2 = BWAIT;
+BWAIT2.CLKF = HCLKI;
+BWAIT2.RSTF = PUFRD;
+BWAIT2.SETF = GND;
+
+BWAIT3 = BWAIT2;
+BWAIT3.CLKF = HCLKI;
+BWAIT3.RSTF = PUFRD;
+BWAIT3.SETF = GND;
+
+/PUFRD = /Z4 * Z3 * Z2 * /Z1 * /RP8 * /RP9 * /Z5
+       + /Z4 * Z3 * Z2 * /Z1 * RP8 * RP9 * Z5
+       + Z4 * Z3 * /Z2 * /Z1 * RP8 * /RP9 * /Z5
+       + Z4 * Z3 * /Z2 * /Z1 * /RP8 * RP9 * Z5
+       + /PUFRD * /Z4 * Z3 * Z2 * /Z1
+       + /PUFRD * Z4 * Z3 * /Z2 * /Z1;
+
+; RP8 ist Eingang fÅr Parity
+
+PLAYCLKO = BWAIT3 * /PUFRD;
+
+RP9 = RP8;
+RP9.CLKF = PLAYCLKI;
+
+RP8 = RD8;
+RP8.CLKF = PLAYCLKI;
+
+RPA7 = RDA7;
+RPA7.CLKF = PLAYCLKI;
+
+RPA6 = RDA6;
+RPA6.CLKF = PLAYCLKI;
+
+RPA5 = RDA5;
+RPA5.CLKF = PLAYCLKI;
+
+RPA4 = RDA4;
+RPA4.CLKF = PLAYCLKI;
+
+RPA3 = RDA3;
+RPA3.CLKF = PLAYCLKI;
+
+RPA2 = RDA2;
+RPA2.CLKF = PLAYCLKI;
+
+RPA1 = RDA1;
+RPA1.CLKF = PLAYCLKI;
+
+RPA0 = RDA0;
+RPA0.CLKF = PLAYCLKI;
+
+RPB7 = RDB7;
+RPB7.CLKF = PLAYCLKI;
+
+RPB6 = RDB6;
+RPB6.CLKF = PLAYCLKI;
+
+RPB5 = RDB5;
+RPB5.CLKF = PLAYCLKI;
+
+RPB4 = RDB4;
+RPB4.CLKF = PLAYCLKI;
+
+RPB3 = RDB3;
+RPB3.CLKF = PLAYCLKI;
+
+RPB2 = RDB2;
+RPB2.CLKF = PLAYCLKI;
+
+RPB1 = RDB1;
+RPB1.CLKF = PLAYCLKI;
+
+RPB0 = RDB0;
+RPB0.CLKF = PLAYCLKI;
+
+RPC7 = RDC7;
+RPC7.CLKF = PLAYCLKI;
+
+RPC6 = RDC6;
+RPC6.CLKF = PLAYCLKI;
+
+RPC5 = RDC5;
+RPC5.CLKF = PLAYCLKI;
+
+RPC4 = RDC4;
+RPC4.CLKF = PLAYCLKI;
+
+RPC3 = RDC3;
+RPC3.CLKF = PLAYCLKI;
+
+RPC2 = RDC2;
+RPC2.CLKF = PLAYCLKI;
+
+RPC1 = RDC1;
+RPC1.CLKF = PLAYCLKI;
+
+RPC0 = RDC0;
+RPC0.CLKF = PLAYCLKI;
+
+RPD7 = RDD7;
+RPD7.CLKF = PLAYCLKI;
+
+RPD6 = RDD6;
+RPD6.CLKF = PLAYCLKI;
+
+RPD5 = RDD5;
+RPD5.CLKF = PLAYCLKI;
+
+RPD4 = RDD4;
+RPD4.CLKF = PLAYCLKI;
+
+RPD3 = RDD3;
+RPD3.CLKF = PLAYCLKI;
+
+RPD2 = RDD2;
+RPD2.CLKF = PLAYCLKI;
+
+RPD1 = RDD1;
+RPD1.CLKF = PLAYCLKI;
+
+RPD0 = RDD0;
+RPD0.CLKF = PLAYCLKI;
+
+; ---------------------SDATA fÅr D/A und Digital-Ausgang
+
+DAHLPA = RPA7 * Z4 * /Z2 * /Z1 * /Z0
+       + RPA6 * Z4 * /Z2 * /Z1 * Z0
+       + RPA5 * Z4 * /Z2 * Z1 * /Z0
+       + RPA4 * Z4 * /Z2 * Z1 * Z0
+       + RPA3 * Z4 * Z2 * /Z1 * /Z0
+       + RPA2 * Z4 * Z2 * /Z1 * Z0
+       + RPA1 * Z4 * Z2 * Z1 * /Z0
+       + RPA0 * Z4 * Z2 * Z1 * Z0;
+
+DAHLPB = RPB7 * Z4 * /Z2 * /Z1 * /Z0
+       + RPB6 * Z4 * /Z2 * /Z1 * Z0
+       + RPB5 * Z4 * /Z2 * Z1 * /Z0
+       + RPB4 * Z4 * /Z2 * Z1 * Z0
+       + RPB3 * Z4 * Z2 * /Z1 * /Z0
+       + RPB2 * Z4 * Z2 * /Z1 * Z0
+       + RPB1 * Z4 * Z2 * Z1 * /Z0
+       + RPB0 * Z4 * Z2 * Z1 * Z0;
+
+DAHLPC = RPC7 * Z4 * /Z2 * /Z1 * /Z0
+       + RPC6 * Z4 * /Z2 * /Z1 * Z0
+       + RPC5 * Z4 * /Z2 * Z1 * /Z0
+       + RPC4 * Z4 * /Z2 * Z1 * Z0
+       + RPC3 * Z4 * Z2 * /Z1 * /Z0
+       + RPC2 * Z4 * Z2 * /Z1 * Z0
+       + RPC1 * Z4 * Z2 * Z1 * /Z0
+       + RPC0 * Z4 * Z2 * Z1 * Z0;
+
+DAHLPD = RPD7 * Z4 * /Z2 * /Z1 * /Z0
+       + RPD6 * Z4 * /Z2 * /Z1 * Z0
+       + RPD5 * Z4 * /Z2 * Z1 * /Z0
+       + RPD4 * Z4 * /Z2 * Z1 * Z0
+       + RPD3 * Z4 * Z2 * /Z1 * /Z0
+       + RPD2 * Z4 * Z2 * /Z1 * Z0
+       + RPD1 * Z4 * Z2 * Z1 * /Z0
+       + RPD0 * Z4 * Z2 * Z1 * Z0;
+
+DA_SDATB = DAHLPB * /SWINDSP * SWDIGOUT
+         + DAHLPB * /SWONDSP * SWDIGOUT
+         + DSPSTDB * SWONDSP * SWINDSP * SWDIGOUT;
+
+DA_SDATC = DAHLPC * /SWINDSP * SWDIGOUT
+         + DAHLPC * /SWONDSP * SWDIGOUT
+         + DSPSTDC * SWONDSP * SWINDSP * SWDIGOUT;
+
+DA_SDATD = DAHLPD * /SWINDSP * SWDIGOUT
+         + DAHLPD * /SWONDSP * SWDIGOUT
+         + DSPSTDD * SWONDSP * SWINDSP * SWDIGOUT;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

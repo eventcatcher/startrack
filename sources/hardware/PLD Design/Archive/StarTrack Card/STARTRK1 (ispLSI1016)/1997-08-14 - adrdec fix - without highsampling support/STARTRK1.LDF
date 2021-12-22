@@ -1,0 +1,363 @@
+// Di Jan 09 22:02:00 1996
+// STARTRK1.LDF 16Bit-Soundsampler fuer VME-Atari ohne Highsampling-Support
+//
+// Adressdekodierung & ext.CLKdivider & Volume2 CS & zusaetzliche digital out-bits
+// - erweitert das System um einen zweiten Volume-Controller fuer D/A-Ausgang
+// - zusaetzliche digital-out-bits,vor allem fuer Professional-Mode wichtig
+// - Teilung um Faktor 2 und 4 fuer interne bzw. Faktor 1 und 2 fuer externe MCLKs
+//
+// final PCB-Version for ISP1016
+
+LDF 1.00.00 DESIGNLDF;
+DESIGN startrk1;
+REVISION V1.0;
+AUTHOR Stephan Wilhelm;
+PROJECTNAME StarTrack;
+
+PART ispLSI1016-60LT;
+
+DECLARE
+END;  //DECLARE
+
+SYM GLB  A0  1  takte;
+SIGTYPE LOWCLK     Out; // Takt Register bei Offset $400
+SIGTYPE HIGHCLK    Out; // Takt Register bei Offset $440
+SIGTYPE DSPCLK     Out; // Takt DSP-Config-Register bei Offset $480
+SIGTYPE EBUCLK     Out; // Takt EBU-Register bei Offset $4C0
+
+EQUATIONS
+
+LOWCLK = !ADR & !A9 & !A8 & !A7 & !A6 & !A5 & IACK & !DS0;
+HIGHCLK = !ADR & !A9 & !A8 & !A7 & A6 & !A5 & IACK & !DS0 & !RW;
+DSPCLK = !ADR & !A9 & !A8 & A7 & !A6 & IACK & !DS0;
+EBUCLK = !ADR & !A9 & !A8 & A7 & A6 & IACK & !DS0 & !RW;
+
+END;
+END;
+
+
+SYM GLB  A1  1  Vol2;
+SIGTYPE VOLCS2     Reg; // CS fuer zweiten Volume-Controller
+SIGTYPE DO6        Out; // Frequenzerkennung von STARTRK3
+SIGTYPE DO7        Out; // Frequenzerkennung von STARTRK3
+SIGTYPE DATAOE      OE; // Data-output-enable
+
+EQUATIONS
+
+VOLCS2 = D5;
+VOLCS2.PTCLK = !(DSPCLK & !RW);
+
+DO6 = AESC24 & DSPCLK & RW
+    # MAGICHS96 & LOWCLK & RW;
+
+DO7 = AESC25;
+
+DATAOE = DSPCLK & RW;
+
+END;
+END;
+
+
+SYM GLB  A2  1  teiler1;
+SIGTYPE EXTTEIL1   Reg; // Node-erster Vorteiler fuer EXTMCLK
+SIGTYPE MAGICHS96  Out; // Node-Magic fuer HighSampling 96KHz
+SIGTYPE DATAOE2     OE; // Data-output-enable
+
+EQUATIONS
+
+EXTTEIL1 = !EXTTEIL1;
+EXTTEIL1.PTCLK = INCLK;
+
+MAGICHS96 = VCC;
+
+DATAOE2 = !ADR & !A9 & !A8 & !A6 & !A5 & IACK & !DS0 & RW
+
+END;
+END;
+
+
+SYM GLB  A3  1  adrdecode;
+SIGTYPE ADR        Out; // Adressdekoder fuer STARTRK2 - Groesse 1KByte R/W
+SIGTYPE SMPREG     Out; // Adressdekoder fuer STARTRK3 - untere 256Byte Write
+SIGTYPE SPEBU      Reg; // Register Wahl SP oder EBU-Ein und Ausgaenge
+
+EQUATIONS
+
+ADR = !(!AM4 & !A15 & !A14 & !A13 & !A12 & !A11 & A10
+      # !AM4 & !A15 & !A14 & A13 & !A12 & !A11 & !A10);
+
+SMPREG = !(!ADR & !A9 & !A8 & IACK & !DS0 & !RW);
+
+SPEBU = DI7;
+SPEBU.PTCLK = !EBUCLK;
+
+END;
+END;
+
+
+SYM GLB  A4  1  int&extmclk;  // Interrupt-decoding,alternative Clock
+SIGTYPE IADR       Out; // Interrupt-Adresse(A1-A3) fuer STARTRK2
+SIGTYPE EXTMCLK    Out; // ext.alternativ-Takt fuer STARTRK3
+SIGTYPE MCLK12     Reg; // Node fuer Frequenzerzeugung
+
+EQUATIONS
+//---------------------Auswahl der INT-Prioritaet
+
+IADR = !(A3 & !A2 & A1 & LHINT
+        # !A3 & A2 & A1 & !LHINT);
+
+//---------------------EXTMCLK-Erzeugung
+
+EXTMCLK = EXTTEIL1 & !EXTTF & !EXTEX
+        # EXTTEIL2 & EXTTF & !EXTEX
+        # EXTCLKIN & !EXTTF & EXTEX
+        # EXTTEIL1 & EXTTF & EXTEX;
+
+MCLK12 = !MCLK12;
+MCLK12.CLK = MCLK24;
+
+END;
+END;
+
+
+SYM GLB  A5  1  extmclk;
+SIGTYPE EXTTW      Reg; // Node-Taktwahl fuer Taktteiler von EXTMCLK
+SIGTYPE EXTTF      Reg; // Node-Teilungsfaktor von EXTMCLK
+SIGTYPE EXTEX      Reg; // Node-interne oder externe EXTMCLK nutzen
+
+EQUATIONS
+
+EXTTW = DI7;
+EXTTW.PTCLK = !(LOWCLK & !RW);
+
+EXTTF = DI6;
+EXTTF.PTCLK = !(LOWCLK & !RW);
+
+EXTEX = D5;
+EXTEX.PTCLK = !(LOWCLK & !RW);
+
+END;
+END;
+
+
+SYM GLB  A6  1  digbits;
+SIGTYPE GENERA     Reg; // Schaltet Generationsbit(C15)CS8402A
+SIGTYPE CATEG0     Reg; // Schaltet Categorycode(C8)CS8402A
+SIGTYPE CATEG1     Reg; // Schaltet Categorycode(C9)CS8402A
+
+EQUATIONS
+//---------------------Generations-Steuerung bei digitalen Eigenaufnahmen
+
+GENERA = !D5;
+GENERA.PTCLK = !HIGHCLK;
+
+//---------------------Categorycode(C8!C9) oder Emphasis im Professional-Mode
+
+CATEG0 = !DI6;
+CATEG0.PTCLK = !HIGHCLK;
+
+CATEG1 = !DI7;
+CATEG1.PTCLK = !HIGHCLK;
+
+END;
+END;
+
+
+SYM GLB  A7  1  inclk&teiler2;
+SIGTYPE INCLK      Out; // Node-Auswahl Taktquelle fuer Vorteiler
+SIGTYPE EXTTEIL2   Reg; // Node-zweiter Vorteiler fuer EXTMCLK
+
+EQUATIONS
+
+INCLK = MCLK16 & !EXTTW & !EXTEX
+      # MCLK12 & EXTTW & !EXTEX
+      # EXTCLKIN & EXTEX;
+
+EXTTEIL2 = !EXTTEIL2;
+EXTTEIL2.PTCLK = EXTTEIL1;
+
+END;
+END;
+
+
+
+SYM IOC  I0  1 A8;
+XPIN I XA8 LOCK 18;  // VME-Adressleitung
+IB11(A8,XA8)
+END;
+
+SYM IOC  I1  1 D5;
+XPIN I XD5 LOCK 8;  // VME-Datenleitung
+IB11(D5,XD5)
+END;
+
+SYM IOC  I3  1 AESC25;
+XPIN I XAESC25 LOCK 40;  // Frequenzerkennungs-Eingang von STARTRK3
+IB11(AESC25,XAESC25)
+END;
+
+SYM IOC  IO0  1 A1;
+XPIN IO XA1 LOCK 26;  // VME-Adressleitung
+IB11(A1,XA1)
+END;
+
+SYM IOC  IO1  1 A2;
+XPIN IO XA2 LOCK 31;  // VME-Adressleitung
+IB11(A2,XA2)
+END;
+
+SYM IOC  IO2  1 A3;
+XPIN IO XA3 LOCK 33;  // VME-Adressleitung
+IB11(A3,XA3)
+END;
+
+SYM IOC  IO3  1 A5;
+XPIN IO XA5 LOCK 36;  // VME-Adressleitung
+IB11(A5,XA5)
+END;
+
+SYM IOC  IO4  1 A6;
+XPIN IO XA6 LOCK 38;  // VME-Adressleitung
+IB11(A6,XA6)
+END;
+
+SYM IOC  IO5  1 A7;
+XPIN IO XA7 LOCK 41;  // VME-Adressleitung
+IB11(A7,XA7)
+END;
+
+SYM IOC  IO6  1 A9;
+XPIN IO XA9 LOCK 32;  // VME-Adressleitung
+IB11(A9,XA9)
+END;
+
+SYM IOC  IO7  1 A10;
+XPIN IO XA10 LOCK 34;  // VME-Adressleitung
+IB11(A10,XA10)
+END;
+
+SYM IOC  IO8  1 A11;
+XPIN IO XA11 LOCK 35;  // VME-Adressleitung
+IB11(A11,XA11)
+END;
+
+SYM IOC  IO9  1 A12;
+XPIN IO XA12 LOCK 37;  // VME-Adressleitung
+IB11(A12,XA12)
+END;
+
+SYM IOC  IO10  1 A13;
+XPIN IO XA13 LOCK 14;  // VME-Adressleitung
+IB11(A13,XA13)
+END;
+
+SYM IOC  IO11  1 A14;
+XPIN IO XA14 LOCK 42;  // VME-Adressleitung
+IB11(A14,XA14)
+END;
+
+SYM IOC  IO12  1 A15;
+XPIN IO XA15 LOCK 44;  // VME-Adressleitung
+IB11(A15,XA15)
+END;
+
+SYM IOC  IO13  1 AM4;
+XPIN IO XAM4 LOCK 43;  // VME-Adressmodifier Short-Adressing
+IB11(AM4,XAM4)
+END;
+
+SYM IOC  IO14  1 AESC24;
+XPIN IO XAESC24 LOCK 9;  // Frequenzerkennungs-Eingang von STARTRK3
+IB11(AESC24,XAESC24)
+END;
+
+SYM IOC  IO15  1 D7;
+XPIN IO XD7 LOCK 4;  // VME-Datenleitung,tristate
+BI11(DI7,XD7,DO7,DATAOE)
+END;
+
+SYM IOC  IO16  1 RW;
+XPIN IO XRW LOCK 2;  // VME-Schreib&Leseleitung
+IB11(RW,XRW)
+END;
+
+SYM IOC  IO17  1 DS0;
+XPIN IO XDS0 LOCK 3;  // VME-Lower-Datastrobe
+IB11(DS0,XDS0)
+END;
+
+SYM IOC  IO18  1 IACK;
+XPIN IO XIACK LOCK 1;  // VME-Interrupt-Bestaetigung  
+IB11(IACK,XIACK)
+END;
+
+SYM IOC  IO19  1 ExtinClk;
+XPIN IO XEXTCLKIN LOCK 24;  // extern zugefuehrter beliebiger MCLK-Takt
+IB11(EXTCLKIN,XEXTCLKIN)
+END;
+
+SYM IOC  IO20  1 LHint;
+XPIN IO XLHINT LOCK 23;  // Auswahl ob INT3 oder INT5 benutzt wird
+IB11(LHINT,XLHINT)
+END;
+
+SYM IOC  IO21  1 Adr;
+XPIN IO XADR LOCK 13;  // Adressdekoder fuer STARTRK2
+OB11(XADR,ADR)
+END;
+
+SYM IOC  IO22  1 Iadr;
+XPIN IO XIADR LOCK 25;  // Interrupt-Adresse(A1-A3) fuer STARTRK2
+OB11(XIADR,IADR)
+END;
+
+SYM IOC  IO23  1 SPEBU;
+XPIN IO XSPEBU LOCK 15;  // Register Wahl SP oder EBU Ein- und Ausgaenge
+OB11(XSPEBU,SPEBU)
+END;
+
+SYM IOC  IO24  1 SMPreg;
+XPIN IO XSMPREG LOCK 16;  // Adressdekoder fuer STARTRK3
+OB11(XSMPREG,SMPREG)
+END;
+
+SYM IOC  IO25  1 VCS2;
+XPIN IO XVOLCS2 LOCK 11;  // CS fuer zweiten Volume-Controller
+OB11(XVOLCS2,VOLCS2)
+END;
+
+SYM IOC  IO26  1 Ctg0;
+XPIN IO XCATEG0 LOCK 21;  // Schaltet Categorycode(C8) des CS8402A
+OB11(XCATEG0,CATEG0)
+END;
+
+SYM IOC  IO27  1 Ctg1;
+XPIN IO XCATEG1 LOCK 20;  // Schaltet Categorycode(C9) des CS8402A
+OB11(XCATEG1,CATEG1)
+END;
+
+SYM IOC  IO28  1 Genera;
+XPIN IO XGENERA LOCK 22;  // Schaltet Generationsbit(C15) des CS8402A
+OB11(XGENERA,GENERA)
+END;
+
+SYM IOC  IO29  1 EXTclk;
+XPIN IO XEXTMCLK LOCK 12;  // ext.alternativ-Takt fuer STARTRK3
+OB11(XEXTMCLK,EXTMCLK)
+END;
+
+SYM IOC  IO30  1 M16;
+XPIN IO XMCLK16 LOCK 10;  // 16.9344 MHz-Takt
+IB11(MCLK16,XMCLK16)
+END;
+
+SYM IOC  IO31  1 D6;
+XPIN IO XD6 LOCK 19;  // VME-Datenleitung,tristate
+BI11(DI6,XD6,DO6,DATAOE2)
+END;
+
+SYM IOC  Y0  1 M24;
+XPIN CLK XMCLK24 LOCK 5;  // 24.576 MHz-Takt
+IB11(MCLK24,XMCLK24)
+END;
+

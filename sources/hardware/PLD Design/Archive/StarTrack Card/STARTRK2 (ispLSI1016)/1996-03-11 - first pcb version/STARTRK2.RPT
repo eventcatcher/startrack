@@ -1,0 +1,90 @@
+ Mon Mar 11 15:01:48 1996
+ STARTRK2.rpt generated using Lattice pDS Version 2.7.1
+
+
+ Global Resource Utilization Summary
+
+
+            Part:  ispLSI1016-60LT44
+     Design Name:  startrk2
+ Design Revision:  V1.0
+          Author: Stephan Wilhelm
+    Project Name:  StarTrack
+     Description:  
+   Verify Status:  Complete
+    Route Status:  Complete
+       Data Used:  Post-Route
+  Global Options:  PULLUP ON
+
+
+ Number of GLB cells used:         16
+ Number of IO cells used:          32
+ Number of dedicated inputs used:  4
+ Number of external nets used:     37
+ Number of GLB clocks used:        1
+ Number of IO clocks used:         0
+
+ Mon Mar 11 15:01:48 1996
+ STARTRK2.rpt generated using Lattice pDS Version 2.7.1
+
+
+ External I/O Pin Report
+
+
+            Part:  ispLSI1016-60LT44
+     Design Name:  startrk2
+ Design Revision:  V1.0
+          Author: Stephan Wilhelm
+    Project Name:  StarTrack
+     Description:  
+   Verify Status:  Complete
+    Route Status:  Complete
+       Data Used:  Post-Route
+  Global Options:  PULLUP ON
+
+
+                                    Fixed
+                                    Before
+ Pin Number    Pad Name             Route    Pin Type    Pullup
+
+ 1             XWRHFLAG             Yes      Input       On
+ 2             XWRFFLAG             Yes      Input       On
+ 3             XWREFLAG             Yes      Input       On
+ 4             XADR                 Yes      Input       On
+ 6             VCC                  Yes      Vcc
+ 8             XA8                  Yes      Input       On
+ 9             XD7                  Yes      Output      On
+ 10            XD2                  Yes      Bidi        On
+ 11            XD1                  Yes      Bidi        On
+ 12            XVOLCS1              Yes      Output      On
+ 13            XD0                  Yes      Bidi        On
+ 14            XSMPRD               Yes      Output      On
+ 15            XSMPWR               Yes      Output      On
+ 16            XRDHFLAG             Yes      Input       On
+ 17            GND                  Yes      Gnd
+ 18            XA5                  Yes      Input       On
+ 19            XIACKOUT             Yes      Output      On
+ 20            XDSPINT              Yes      Input       On
+ 21            XDSPIACK             Yes      Output      On
+ 22            XDSPCS               Yes      Output      On
+ 23            XAESEM0              Yes      Input       On
+ 24            XAESEM1              Yes      Input       On
+ 25            XAESEM2              Yes      Input       On
+ 26            XAESF0               Yes      Input       On
+ 28            VCC                  Yes      Vcc
+ 29            XRESET               No       Input       On
+ 30            XSYSCLK              Yes      Input       On
+ 31            XA9                  Yes      Input       On
+ 32            XINT                 Yes      Output      On
+ 33            XA6                  Yes      Input       On
+ 34            XA7                  Yes      Input       On
+ 35            XIACKIN              Yes      Input       On
+ 36            XIACK                Yes      Input       On
+ 37            XDTACK               Yes      Output      On
+ 38            XRW                  Yes      Input       On
+ 39            GND                  Yes      Gnd
+ 40            XIADR                Yes      Input       On
+ 41            XDS0                 Yes      Input       On
+ 42            XDRVCS               Yes      Output      On
+ 43            XRDFFLAG             Yes      Input       On
+ 44            XRDEFLAG             Yes      Input       On

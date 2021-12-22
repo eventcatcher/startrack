@@ -1,0 +1,55 @@
+*** Pin Map - STARTRK3.PDS - 16Bit-Soundsampler - Adressdekodierung & Interrupts - Achtung,Prototyp-Version !
+*** used with MACH-435                               
+                                                                    
+                                                       GND
+                                                   VCC  |  VCC
+                                             DSPSC0  |  |  |  D4
+                                         AESCOUT  |  |  |  |  |  RD1
+                                       AESC25  |  |  |  |  |  |  |  RD3
+                                    AESC24  |  |  |  |  |  |  |  |  |  RD5
+                                  RESET  |  |  |  |  |  |  |  |  |  |  |  RD7
+                              AESFC0  |  |  |  |  |  |  |  |  |  |  |  |  |  RD8
+                           DSPSCK  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ADLR
+                        DSPSRD  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  D1
+                        GND  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  D3
+                          |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+                    .-----'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'---.       
+                    | o   1  1                             8  8  8  8  8  7  7  7  7  7   |       
+                    |     1  0  9  8  7  6  5  4  3  2  1  4  3  2  1  0  9  8  7  6  5   |       
+                    |                                                                     |       
+            AESMCLKO|12                                                                 74|GND    
+                 WD5|13                                                                 73|WD2    
+                 WD7|14                                                                 72|WD3    
+                  D2|15                                                                 71|WD6    
+                  D0|16                                                                 70|AESFC1 
+                 RD6|17                                                                 69|SH15   
+                 RD4|18                                                                 68|A7     
+                 RD2|19                                                                 67|DA_SDATA
+               HCLKI|20                                                                 66|WD0    
+                 VCC|21                                                                 65|PLAYCLKI        
+                 GND|22                           MACH 435                              64|GND    
+             EXTMCLK|23                                                                 63|VCC    
+                 RD0|24                                                                 62|A6     
+             DA_ACKO|25                                                                 61|ADCLK32
+            AESSYNCI|26                                                                 60|AESDATAO
+            AESMCLKI|27                                                                 59|VOLDATAI
+             AESCLKI|28                                                                 58|VOLCLK 
+              AESPRO|29                                                                 57|SMPREG 
+             DA_SCLK|30                                                                 56|PUFWR   
+                 CBL|31                                                                 55|WD4    
+                 GND|32                                                                 54|WD1
+                    |   3  3  3  3  3  3  3  4  4  4  4  4  4  4  4  4  4  5  5  5  5     |       
+                    |   3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3     |       
+                    '---.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.-----'       
+                        |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+                      CKS  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  GND
+                      SMPCLK  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  SWSUBFR
+                          PUFRD  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DA_FSYNC
+                            MCLK24  |  |  |  |  |  |  |  |  |  |  |  |  |  DSPSC2
+                               DSPSTD  |  |  |  |  |  |  |  |  |  |  |  SWPROT
+                                  ADATAI  |  |  |  |  |  |  |  |  |  SWDIGIN
+                                     MCLK16  |  |  |  |  |  |  |  AESDATAI
+                                      PLAYCLKO  |  |  |  |  |  RESRDFIFO
+                                           AESCIN  |  |  |  PREEMPH
+                                                 VCC  |  VCC
+                                                     GND 

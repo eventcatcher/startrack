@@ -1,0 +1,103 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    SMPSEL.PDS - 16Bit-Soundsampler - Adressdekodierung
+PATTERN  A
+REVISION 1.0
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself
+DATE     11/19/94
+
+CHIP  _sampler  MACH435
+
+;---------------------------------- PIN Declarations ---------------
+PIN  ?          A5                 ; VME-Adressleitung
+PIN  ?          A6                 ; VME-Adressleitung
+PIN  ?          A7                 ; VME-Adressleitung
+PIN  ?          A8                 ; VME-Adressleitung
+PIN  ?          A9                 ; VME-Adressleitung
+PIN  ?          A10                ; VME-Adressleitung
+PIN  ?          A11                ; VME-Adressleitung
+PIN  ?          A12                ; VME-Adressleitung
+PIN  ?          A13                ; VME-Adressleitung
+PIN  ?          A14                ; VME-Adressleitung
+PIN  ?          A15                ; VME-Adressleitung
+PIN  ?          RW                 ; VME-Schreib/Leseleitung
+PIN  ?          AM4                ; VME-Adressmodifier
+PIN  ?          IACK               ; VME-Interrupt-BestÑtigungsleitung
+PIN  ?          DS0                ; VME-Lower-Datastrobe
+PIN  ?          RDEFLAG            ; Read-Empty-Flag des FIFO
+PIN  ?          RDHFLAG            ; Read-Half-Flag des FIFO
+PIN  ?          WRFFLAG            ; Write-Full-Flag des FIFO
+PIN  ?          WRHFLAG            ; Write-Half-Flag des FIFO
+PIN  ?          AESF0              ; Emphasis-Encoding (cc/F0) des CS8412
+PIN  ?          AESEM0             ; Status/Error-Encoding (c0/E0) vom CS8412
+PIN  ?          AESEM1             ; Status/Error-Encoding (ca/E1) vom CS8412
+PIN  ?          AESEM2             ; Status/Error-Encoding (cb/E2) vom CS8412
+PIN  ?          AESC24        REGISTERED ; Frequenz-Angabe durch CBL
+PIN  ?          AESC25        REGISTERED ; Frequenz-Angabe durch CBL
+PIN  ?          DSPREG     COMBINATORIAL ; /CS fÅr den DSP
+PIN  ?          DSPHEN     COMBINATORIAL ; Host-Enable fÅr den DSP
+PIN  ?          SMPRD      COMBINATORIAL ; zum REC-FIFO Read
+PIN  ?          SMPWR      COMBINATORIAL ; zum PLAY-FIFO Write
+PIN  ?          MACHCSL    COMBINATORIAL ; Adressdekoder fÅr MACH435
+PIN  ?          MACHCSH    COMBINATORIAL ; Adressdekoder fÅr MACH435
+PIN  ?          DRVCS      COMBINATORIAL ; von SMPSEL, Komplettdekoder 74X245 /CS
+PIN  ?          DTACK      COMBINATORIAL ; VME-DTACK
+PIN  ?          D0         COMBINATORIAL ; VME-Datenleitung
+PIN  ?          D1         COMBINATORIAL ; VME-Datenleitung
+PIN  ?          D2         COMBINATORIAL ; VME-Datenleitung
+PIN  ?          D3         COMBINATORIAL ; VME-Datenleitung
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+; ---------------------Adressdekodierung
+
+/DRVCS = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9
+       * IACK * /DS0;
+
+/MACHCSL = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * /A7
+         * /A6 * IACK * /DS0 * /RW;
+
+/MACHCSH = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * /A7
+         * A6 * IACK * /DS0 * /RW;
+
+/SMPRD = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8
+       * A7 * A6 * RW * IACK * /DS0;
+
+/SMPWR =  /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8
+       * A7 * A6 * /RW * IACK * /DS0;
+
+/DSPREG = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * A8 * /A7
+        * IACK * /DS0;
+
+DSPHEN = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * A8 * A7
+        * IACK * /DS0;
+
+/DTACK = /DRVCS * /DS0;
+DTACK.trst = /DRVCS * /DS0;
+
+D0 = AESC24 * /MACHCS * /A6 * /A5 * RW
+   + AESEM0 * /MACHCS * /A6 * A5 * RW
+   + RDEFLAG * /MACHCS * A6 * RW;
+D0.trst = /MACHCS * RW;
+
+D1 = AESC25 * /MACHCS * /A6 * /A5 * RW
+   + AESEM1 * /MACHCS * /A6 * A5 * RW
+   + RDHFLAG * /MACHCS * A6 * RW;
+D1.trst = /MACHCS * RW;
+
+D2 = AESF0 * /MACHCS * /A6 * /A5 * RW
+   + AESEM2 * /MACHCS * /A6 * A5 * RW
+   + WRFFLAG * /MACHCS * A6 * RW;
+D2.trst = /MACHCS * RW;
+
+D3 = WRHFLAG * /MACHCS * A6 * RW;
+D3.trst = /MACHCS * RW;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

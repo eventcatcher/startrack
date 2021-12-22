@@ -1,0 +1,2237 @@
+ษออออออออออออออออออออCOMPILATION OPTIONSอออออออออออออออออออออป
+บ  Log file name:    sampler8.log                            บ
+บ  Run mode:         Run All Programs                        บ
+บ                                                            บ
+บ  Format:  Text     File:  sampler8.pds                     บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+ษอออออออออออออออออออออออออออMACH FITTING OPTIONSอออออออออออออออออออออออออออป
+บ SIGNAL PLACEMENT:                                                        บ
+บ   Handling of Preplacements                 No Change                    บ
+บ   Use placement data from                   Design file                  บ
+บ   Save last successful placement            <F3>                         บ
+บ   Press <F9> to edit file containing        Last successful placement    บ
+บ                                                                          บ
+บ FITTING OPTIONS:                                                         บ
+บ   22V10/MACH1XX/2XX S/R Compatibility?      Y                            บ
+บ   SET/RESET treated as DONT_CARE?           Y                            บ
+บ   Run Time Upper Bound in 15 minutes        0                            บ
+บ   Iterate between partition & place/route?  Y                            บ
+บ   Reduce Non-forced Global Clocks?          N  .. if 'Y', Number = 1     บ
+บ   Reduce Routes Per Placement?              N                            บ
+บ   Zero Hold Time For Input Registers?       N                            บ
+บ                                                                          บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+ษออออออออออออออออออออออออLOGIC SYNTHESIS OPTIONSออออออออออออออออออออออออป
+บ Use automatic pin/node input pairing?  Y                              บ
+บ Use automatic gate splitting?          N  .. if 'Y', Threshold = 20   บ
+บ Gate split max num. pterms per eqn     20                             บ
+บ Optimize registers for D/T-type        D,T As specified. JK,RS to D   บ
+บ Ensure polarity after minimization is  As specified in design file    บ
+บ Use 'IF-THEN-ELSE','CASE' default as   Off                            บ
+บ Use fast minimization?                 N                              บ
+บ                                                                       บ
+ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+sampler8.pds
+
+MACHXL 1.3 PARSER (05-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+
+
+                    ***********************************
+                    *     MACHXL PARSER LISTING       *
+                    ***********************************
+
+LINE #   |----+----1----+----2----+----3----+----4----+----5----+----6----+
+   1     |;PALASM Design Description
+   2     |
+   3     |;---------------------------------- Declaration Segment ------------
+   4     |TITLE    SAMPLER8.PDS - 16Bit-Soundsampler mit 8 Ausgngen fuer Medusa-Bus
+   5     |PATTERN  A
+   6     |REVISION 1.0
+   7     |AUTHOR   Stephan Wilhelm
+   8     |COMPANY  Myself
+   9     |DATE     01/10/94
+  10     |
+  11     |CHIP  _sampler8  MACH465
+  12     |
+  13     |;---------------------------------- PIN Declarations ---------------
+  14     |PIN  ?          HCLKI      ; 40MHz-Timingclock
+  15     |PIN  ?          MCLK16     ; 16.934 MHz-Takt
+  16     |PIN  ?          MCLK24     ; 24.576 MHz-Takt
+  17     |PIN  ?          PLAYCLKI   ; CLK fr PLAY-Register
+  18     |PIN  ?          MACHCSL    ; VME-Adressdekoder von SMPSEL
+  19     |PIN  ?          MACHCSH    ; VME-Adressdekoder von SMPSEL
+  20     |PIN  ?          DSPREG     ; VME-Adressdekoder von SMPSEL
+  21     |PIN  ?          RESET      ; VME-RESET
+  22     |PIN  ?          CBL        ; Channel Status Block des CS8412
+  23     |PIN  ?          AESDATAI   ; SDATA des CS8412
+  24     |PIN  ?          AESCIN     ; C des CS8412
+  25     |PIN  ?          AESSYNCI   ; FSYNC des CS8412
+  26     |PIN  ?          AESCLKI    ; SCK des 8412
+  27     |PIN  ?          AESMCLKI   ; MCK des 8412
+  28     |PIN  ?          RDA0       ; Datenausgang des PLAY-FIFO
+  29     |PIN  ?          RDA1       ; Datenausgang des PLAY-FIFO
+  30     |PIN  ?          RDA2       ; Datenausgang des PLAY-FIFO
+  31     |PIN  ?          RDA3       ; Datenausgang des PLAY-FIFO
+  32     |PIN  ?          RDA4       ; Datenausgang des PLAY-FIFO
+  33     |PIN  ?          RDA5       ; Datenausgang des PLAY-FIFO
+  34     |PIN  ?          RDA6       ; Datenausgang des PLAY-FIFO
+  35     |PIN  ?          RDA7       ; Datenausgang des PLAY-FIFO
+  36     |PIN  ?          RDB0       ; Datenausgang des PLAY-FIFO
+  37     |PIN  ?          RDB1       ; Datenausgang des PLAY-FIFO
+  38     |PIN  ?          RDB2       ; Datenausgang des PLAY-FIFO
+  39     |PIN  ?          RDB3       ; Datenausgang des PLAY-FIFO
+  40     |PIN  ?          RDB4       ; Datenausgang des PLAY-FIFO
+  41     |PIN  ?          RDB5       ; Datenausgang des PLAY-FIFO
+  42     |PIN  ?          RDB6       ; Datenausgang des PLAY-FIFO
+  43     |PIN  ?          RDB7       ; Datenausgang des PLAY-FIFO
+  44     |PIN  ?          RDC0       ; Datenausgang des PLAY-FIFO
+  45     |PIN  ?          RDC1       ; Datenausgang des PLAY-FIFO
+  46     |PIN  ?          RDC2       ; Datenausgang des PLAY-FIFO
+  47     |PIN  ?          RDC3       ; Datenausgang des PLAY-FIFO
+  48     |PIN  ?          RDC4       ; Datenausgang des PLAY-FIFO
+  49     |PIN  ?          RDC5       ; Datenausgang des PLAY-FIFO
+  50     |PIN  ?          RDC6       ; Datenausgang des PLAY-FIFO
+  51     |PIN  ?          RDC7       ; Datenausgang des PLAY-FIFO
+  52     |PIN  ?          RDD0       ; Datenausgang des PLAY-FIFO
+  53     |PIN  ?          RDD1       ; Datenausgang des PLAY-FIFO
+  54     |PIN  ?          RDD2       ; Datenausgang des PLAY-FIFO
+  55     |PIN  ?          RDD3       ; Datenausgang des PLAY-FIFO
+  56     |PIN  ?          RDD4       ; Datenausgang des PLAY-FIFO
+  57     |PIN  ?          RDD5       ; Datenausgang des PLAY-FIFO
+  58     |PIN  ?          RDD6       ; Datenausgang des PLAY-FIFO
+  59     |PIN  ?          RDD7       ; Datenausgang des PLAY-FIFO
+  60     |PIN  ?          RD8        ; Datenausgang des PLAY-FIFO
+  61     |PIN  ?          ADATAI     ; SDATA des A/D-Wandlers CS5339
+  62     |PIN  ?          DA_ACKO    ; ACKO des D/A-Wandlers (128x L/R-CLK)
+  63     |PIN  ?          DSPSTD     ; SERIAL-DATA-Ausgang des DSP
+  64     |PIN  ?          D0         ; VME-Datenleitung
+  65     |PIN  ?          D1         ; VME-Datenleitung
+  66     |PIN  ?          D2         ; VME-Datenleitung
+  67     |PIN  ?          D3         ; VME-Datenleitung
+  68     |PIN  ?          D4         ; VME-Datenleitung
+  69     |PIN  ?          EXTMCLK    ; Externer MCLKx256 fr externe Synchronisation
+  70     |PIN  ?          DSPSC0     COMBINATORIAL ; zum SC0-Eingang des DSP (FSYNC-32)
+  71     |PIN  ?          DSPSC2     COMBINATORIAL ; zum SC2-Eingang des DSP (L/R-16)
+  72     |PIN  ?          DSPSCK     COMBINATORIAL ; zum Clock-Eingang des DSP
+  73     |PIN  ?          DSPSRD     COMBINATORIAL ; zum SERIAL-Read-Eingang des DSP
+  74     |PIN  ?          CKS        COMBINATORIAL ; Master-Clock-SW CS4328,CMODE CS5339
+  75     |PIN  ?          SMPCLK     COMBINATORIAL ; zum XTI CS4328, ICLKD CS5339
+  76     |PIN  ?          DA_SDATA   COMBINATORIAL ; zum SDATAI des CS4328
+  77     |PIN  ?          DA_SDATB   COMBINATORIAL ; zum SDATAI des CS4328
+  78     |PIN  ?          DA_SDATC   COMBINATORIAL ; zum SDATAI des CS4328
+  79     |PIN  ?          DA_SDATD   COMBINATORIAL ; zum SDATAI des CS4328
+  80     |PIN  ?          AESPRO     COMBINATORIAL ; zum PRO des CS8402A
+  81     |PIN  ?          AESFC0     COMBINATORIAL ; zum FC0 des CS8402A
+  82     |PIN  ?          AESFC1     COMBINATORIAL ; zum FC1 des CS8402A
+  83     |PIN  ?          AESMCLKO   COMBINATORIAL ; zum MCK des CS8402A
+  84     |PIN  ?          AESCOUT    COMBINATORIAL ; zum C/SBF des CS8402A
+  85     |PIN  ?          AESDATAO   COMBINATORIAL ; SDATA fr CS8402A (Delayed)
+  86     |PIN  ?          DA_SCLK    COMBINATORIAL ; zum SCLK CS8402A und D/A
+  87     |PIN  ?          DA_FSYNC   COMBINATORIAL ; zum FSYNC des CS8402A und CS4328
+  88     |PIN  ?          WD0        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+  89     |PIN  ?          WD1        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+  90     |PIN  ?          WD2        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+  91     |PIN  ?          WD3        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+  92     |PIN  ?          WD4        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+  93     |PIN  ?          WD5        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+  94     |PIN  ?          WD6        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+  95     |PIN  ?          WD7        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+  96     |PIN  ?          PUFWR      COMBINATORIAL ; zum REC-FIFO Write
+  97     |PIN  ?          PUFRD      COMBINATORIAL ; zum PLAY-FIFO Read
+  98     |PIN  ?          RESRDFIFO  COMBINATORIAL ; RESET des REC-FIFO
+  99     |PIN  ?          AD_DPD     COMBINATORIAL ; Quasi-RESET-Leitung des CS5339
+ 100     |PIN  ?          SH15          REGISTERED ; Shift von FSYNC (REC-FIFO WD8)
+ 101     |PIN  ?          ADCLK32       REGISTERED ; 32BIT-CLK fr den CS5339
+ 102     |PIN  ?          ADLR          REGISTERED ; L/R fr den CS5339
+ 103     |PIN  ?          AESFCK        REGISTERED ; FCK fr den CS8412
+ 104     |PIN  ?          SWDIGIN       REGISTERED ; zum Relais OPTO/CINCH
+ 105     |PIN  ?          SWSUBFR       REGISTERED ; SEL fr den CS8412
+ 106     |PIN  ?          SWPROT        REGISTERED ; Schalter SCMS fr Digitalkopie
+ 107     |PIN  ?          VOLCS         REGISTERED ; Schalter /CS fr Volume Control
+ 108     |PIN  ?          VOLCLK        REGISTERED ; Schalter CLK fr Volume Control
+ 109     |PIN  ?          VOLDATAI      REGISTERED ; Schalter DATAI fr Volume Control
+ 110     |PIN  ?          AESC24        REGISTERED ; Frequenz-Angabe durch CBL
+ 111     |PIN  ?          AESC25        REGISTERED ; Frequenz-Angabe durch CBL
+ 112     |PIN  ?          PLAYCLKO   COMBINATORIAL ; CLK fr PLAY-Register
+ 113     |NODE ?          CZCLK      COMBINATORIAL ; Clock fr AESCIN-Zhler
+ 114     |NODE ?          INPSCLK    COMBINATORIAL ; Eingangstakt
+ 115     |NODE ?          INPSDATA   COMBINATORIAL ; Eingangsdaten
+ 116     |NODE ?          DATACLK    COMBINATORIAL ; Word-Erzeugung fr DSP
+ 117     |NODE ?          DAHLPA     COMBINATORIAL ; SDATA-PLAY-Erzeugung
+ 118     |NODE ?          DAHLPB     COMBINATORIAL ; SDATA-PLAY-Erzeugung
+ 119     |NODE ?          DAHLPC     COMBINATORIAL ; SDATA-PLAY-Erzeugung
+ 120     |NODE ?          DAHLPD     COMBINATORIAL ; SDATA-PLAY-Erzeugung
+ 121     |NODE ?          XGORES     COMBINATORIAL ; vorEnd RECFIFO-Write,del.Flankenreg
+ 122     |NODE ?          WRFERTIG   COMBINATORIAL ; beendet REC_FIFO Write-Timing
+ 123     |NODE ?          SHCLK      COMBINATORIAL ; Eingangstakt fr Shift-FSYNC
+ 124     |NODE ?          MCLK128       REGISTERED ; 128x MCLK fr CS8402 Consumer-Mode
+ 125     |NODE ?          ADCLK16       REGISTERED ; 16BIT-CLK fr einen A/D-Wandler
+ 126     |NODE ?          HOLD          REGISTERED ; HOLD fr einen A/D-Wandler
+ 127     |NODE ?          SHD15         REGISTERED ; Shift der seriellen Record-Daten
+ 128     |NODE ?          SHD14         REGISTERED ; Shift der seriellen Record-Daten
+ 129     |NODE ?          SHD13         REGISTERED ; Shift der seriellen Record-Daten
+ 130     |NODE ?          SHD12         REGISTERED ; Shift der seriellen Record-Daten
+ 131     |NODE ?          SHD11         REGISTERED ; Shift der seriellen Record-Daten
+ 132     |NODE ?          SHD10         REGISTERED ; Shift der seriellen Record-Daten
+ 133     |NODE ?          SHD9          REGISTERED ; Shift der seriellen Record-Daten
+ 134     |NODE ?          SHD8          REGISTERED ; Shift der seriellen Record-Daten
+ 135     |NODE ?          SHD7          REGISTERED ; Shift der seriellen Record-Daten
+ 136     |NODE ?          SHD6          REGISTERED ; Shift der seriellen Record-Daten
+ 137     |NODE ?          SHD5          REGISTERED ; Shift der seriellen Record-Daten
+ 138     |NODE ?          SHD4          REGISTERED ; Shift der seriellen Record-Daten
+ 139     |NODE ?          SHD3          REGISTERED ; Shift der seriellen Record-Daten
+ 140     |NODE ?          SHD2          REGISTERED ; Shift der seriellen Record-Daten
+ 141     |NODE ?          SHD1          REGISTERED ; Shift der seriellen Record-Daten
+ 142     |NODE ?          SHD0          REGISTERED ; Shift der seriellen Record-Daten
+ 143     |NODE ?          RP9           REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 144     |NODE ?          RP8           REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 145     |NODE ?          RPA7          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 146     |NODE ?          RPA6          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 147     |NODE ?          RPA5          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 148     |NODE ?          RPA4          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 149     |NODE ?          RPA3          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 150     |NODE ?          RPA2          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 151     |NODE ?          RPA1          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 152     |NODE ?          RPA0          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 153     |NODE ?          RPB7          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 154     |NODE ?          RPB6          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 155     |NODE ?          RPB5          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 156     |NODE ?          RPB4          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 157     |NODE ?          RPB3          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 158     |NODE ?          RPB2          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 159     |NODE ?          RPB1          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 160     |NODE ?          RPB0          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 161     |NODE ?          RPC7          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 162     |NODE ?          RPC6          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 163     |NODE ?          RPC5          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 164     |NODE ?          RPC4          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 165     |NODE ?          RPC3          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 166     |NODE ?          RPC2          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 167     |NODE ?          RPC1          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 168     |NODE ?          RPC0          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 169     |NODE ?          RPD7          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 170     |NODE ?          RPD6          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 171     |NODE ?          RPD5          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 172     |NODE ?          RPD4          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 173     |NODE ?          RPD3          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 174     |NODE ?          RPD2          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 175     |NODE ?          RPD1          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 176     |NODE ?          RPD0          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+ 177     |NODE ?          SH0           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 178     |NODE ?          SH1           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 179     |NODE ?          SH2           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 180     |NODE ?          SH3           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 181     |NODE ?          SH4           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 182     |NODE ?          SH5           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 183     |NODE ?          SH6           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 184     |NODE ?          SH7           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 185     |NODE ?          SH8           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 186     |NODE ?          SH9           REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 187     |NODE ?          SH10          REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 188     |NODE ?          SH11          REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 189     |NODE ?          SH12          REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 190     |NODE ?          SH13          REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 191     |NODE ?          SH14          REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 192     |NODE ?          SH16          REGISTERED ; Shift von FSYNC-Input um 16Bit
+ 193     |NODE ?          TAKT5         REGISTERED ; Frequenz-Zwischenteiler fr A/D
+ 194     |NODE ?          TAKT6         REGISTERED ; Frequenz-Zwischenteiler fr A/D
+ 195     |NODE ?          TAKT7         REGISTERED ; Frequenz-Zwischenteiler fr A/D
+ 196     |NODE ?          SWAES         REGISTERED ; Zwischenspeicher/Schalter DIGI/ANA
+ 197     |NODE ?          SWDIGOUT      REGISTERED ; Zwischensp./Schalter Ausg.IN/PLAY
+ 198     |NODE ?          SWONDSP       REGISTERED ; Zwischensp./Schalter DSP an/aus
+ 199     |NODE ?          SWINDSP       REGISTERED ; Zwischensp./Schalter DSP in/out
+ 200     |NODE ?          SWRESFF       REGISTERED ; Schalter/Ausl”ser Reset fr RecFIFO
+ 201     |NODE ?          TAKTL         REGISTERED ; Zwischenspeicher/Schalter SMPrate
+ 202     |NODE ?          TAKTH         REGISTERED ; Zwischenspeicher/Schalter SMPrate
+ 203     |NODE ?          EXTAKT        REGISTERED ; Zwischenspeicher/Schalter ext.MCLK
+ 204     |NODE ?          WAIT          REGISTERED ; Record-FIFO-Write-Timing
+ 205     |NODE ?          WAIT2         REGISTERED ; Record-FIFO-Write-Timing
+ 206     |NODE ?          WAIT3         REGISTERED ; Record-FIFO-Write-Timing
+ 207     |NODE ?          WAIT4         REGISTERED ; Record-FIFO-Write-Timing
+ 208     |NODE ?          WAIT5         REGISTERED ; Record-FIFO-Write-Timing
+ 209     |NODE ?          BWAIT         REGISTERED ; Play-FIFO-Read-Timing
+ 210     |NODE ?          BWAIT2        REGISTERED ; Play-FIFO-Read-Timing
+ 211     |NODE ?          BWAIT3        REGISTERED ; Play-FIFO-Read-Timing
+ 212     |NODE ?          Z0            REGISTERED ; Play-SDATAzhler und Synchro
+ 213     |NODE ?          Z1            REGISTERED ; Play-SDATAzhler und Synchro
+ 214     |NODE ?          Z2            REGISTERED ; Play-SDATAzhler und Synchro
+ 215     |NODE ?          Z3            REGISTERED ; Play-SDATAzhler und Synchro
+ 216     |NODE ?          Z4            REGISTERED ; Play-SDATAzhler und Synchro
+ 217     |NODE ?          Z5            REGISTERED ; Play-SDATAzhler und Synchro
+ 218     |NODE ?          CZ0           REGISTERED ; Channel-Status Datenzhler
+ 219     |NODE ?          CZ1           REGISTERED ; Channel-Status Datenzhler
+ 220     |NODE ?          CZ2           REGISTERED ; Channel-Status Datenzhler
+ 221     |NODE ?          CZ3           REGISTERED ; Channel-Status Datenzhler
+ 222     |NODE ?          CZ4           REGISTERED ; Channel-Status Datenzhler
+ 223     |NODE ?          CZ5           REGISTERED ; Channel-Status Datenzhler
+ 224     |NODE ?          PGO           REGISTERED ; Flanken-Erkenner fr pos.Flanke
+ 225     |NODE ?          NGO           REGISTERED ; Flanken-Erkenner fr neg.Flanke
+ 226     |NODE ?          MCLK12        REGISTERED ; fr Frequenzerzeugung
+ 227     |
+ 228     |;----------------------------------- Boolean Equation Segment ------
+ 229     |EQUATIONS
+ 230     |
+ 231     |; ---------------------Register
+ 232     |
+ 233     |SWONDSP = D0;
+ 234     |/SWONDSP.CLKF = /DSPREG;
+ 235     |SWONDSP.RSTF = /RESET;
+ 236     |SWONDSP.SETF = GND;
+ 237     |
+ 238     |SWINDSP = D1;
+ 239     |/SWINDSP.CLKF = /DSPREG;
+ 240     |SWINDSP.RSTF = /RESET;
+ 241     |SWINDSP.SETF = GND;
+ 242     |
+ 243     |VOLCS = D2;
+ 244     |/VOLCS.CLKF = /DSPREG;
+ 245     |VOLCS.RSTF = GND;
+ 246     |VOLCS.SETF = /RESET;
+ 247     |
+ 248     |VOLCLK = D3;
+ 249     |/VOLCLK.CLKF = /DSPREG;
+ 250     |VOLCLK.RSTF = /RESET;
+ 251     |VOLCLK.SETF = GND;
+ 252     |
+ 253     |VOLDATAI = D4;
+ 254     |/VOLDATAI.CLKF = /DSPREG;
+ 255     |VOLDATAI.RSTF = /RESET;
+ 256     |VOLDATAI.SETF = GND;
+ 257     |
+ 258     |SWAES = D0;
+ 259     |/SWAES.CLKF = /MACHCSL;
+ 260     |SWAES.RSTF = /RESET;
+ 261     |SWAES.SETF = GND;
+ 262     |
+ 263     |SWDIGIN = D1;
+ 264     |/SWDIGIN.CLKF = /MACHCSL;
+ 265     |SWDIGIN.RSTF = /RESET;
+ 266     |SWDIGIN.SETF = GND;
+ 267     |
+ 268     |TAKTL = D2;
+ 269     |/TAKTL.CLKF = /MACHCSL;
+ 270     |TAKTL.RSTF = /RESET;
+ 271     |TAKTL.SETF = GND;
+ 272     |
+ 273     |TAKTH = D3;
+ 274     |/TAKTH.CLKF = /MACHCSL;
+ 275     |TAKTH.RSTF = /RESET;
+ 276     |TAKTH.SETF = GND;
+ 277     |
+ 278     |EXTAKT = D4;
+ 279     |/EXTAKT.CLKF = /MACHCSL;
+ 280     |EXTAKT.RSTF = /RESET;
+ 281     |EXTAKT.SETF = GND;
+ 282     |
+ 283     |SWPROT = D0;
+ 284     |/SWPROT.CLKF = /MACHCSH;
+ 285     |SWPROT.RSTF = /RESET;
+ 286     |SWPROT.SETF = GND;
+ 287     |
+ 288     |SWRESFF = D1;
+ 289     |/SWRESFF.CLKF = /MACHCSH;
+ 290     |SWRESFF.RSTF = /RESET;
+ 291     |SWRESFF.SETF = GND;
+ 292     |
+ 293     |SWDIGOUT = D2;
+ 294     |/SWDIGOUT.CLKF = /MACHCSH;
+ 295     |SWDIGOUT.RSTF = /RESET;
+ 296     |SWDIGOUT.SETF = GND;
+ 297     |
+ 298     |SWSUBFR = D3;
+ 299     |/SWSUBFR.CLKF = /MACHCSH;
+ 300     |SWSUBFR.RSTF = /RESET;
+ 301     |SWSUBFR.SETF = GND;
+ 302     |
+ 303     |; ---------------------Frequenzerkennung von CD und DAT
+ 304     |
+ 305     |CZCLK = AESSYNCI
+ 306     |      + CZCLK * CZ5 * CZ4 * CZ3 * CZ2 * CZ1 * CZ0 * CBL;
+ 307     |
+ 308     |CZ0.T = CBL;
+ 309     |CZ0.CLKF = CZCLK;
+ 310     |CZ0.RSTF = /CBL;
+ 311     |CZ0.SETF = GND;
+ 312     |
+ 313     |CZ1.T = CZ0 * CBL;
+ 314     |CZ1.CLKF = CZCLK;
+ 315     |CZ1.RSTF = /CBL;
+ 316     |CZ1.SETF = GND;
+ 317     |
+ 318     |CZ2.T = CZ0 * CZ1 * CBL
+ 319     |CZ2.CLKF = CZCLK;
+ 320     |CZ2.RSTF = /CBL;
+ 321     |CZ2.SETF = GND;
+ 322     |
+ 323     |CZ3.T = CZ0 * CZ1 * CZ2 * CBL
+ 324     |CZ3.CLKF = CZCLK;
+ 325     |CZ3.RSTF = /CBL;
+ 326     |CZ3.SETF = GND;
+ 327     |
+ 328     |CZ4.T = CZ0 * CZ1 * CZ2 * CZ3 * CBL
+ 329     |CZ4.CLKF = CZCLK;
+ 330     |CZ4.RSTF = /CBL;
+ 331     |CZ4.SETF = GND;
+ 332     |
+ 333     |CZ5.T = CZ0 * CZ1 * CZ2 * CZ3 * CZ4 * CBL
+ 334     |CZ5.CLKF = CZCLK;
+ 335     |CZ5.RSTF = /CBL;
+ 336     |CZ5.SETF = GND;
+ 337     |
+ 338     |AESC24 = AESCIN;
+ 339     |AESC24.CLKF = /CZ5 * CZ4 * CZ3 * /CZ2 * /CZ1 * CZ0 * CBL;
+ 340     |AESC24.RSTF = GND;
+ 341     |AESC24.SETF = GND;
+ 342     |
+ 343     |AESC25 = AESCIN;
+ 344     |AESC25.CLKF = /CZ5 * CZ4 * CZ3 * /CZ2 * CZ1 * /CZ0 * CBL;
+ 345     |AESC25.RSTF = GND;
+ 346     |AESC25.SETF = GND;
+ 347     |
+ 348     |; ---------------------Reseterzeugung
+ 349     |
+ 350     |AD_DPD = /RESET;
+ 351     |
+ 352     |/RESRDFIFO = /RESET + SWRESFF;
+ 353     |
+ 354     |; ---------------------Frequenzerzeugung 6.144 MHz fr CS8402
+ 355     |
+ 356     |MCLK12.T = VCC;
+ 357     |MCLK12.CLKF = MCLK24;
+ 358     |MCLK12.SETF = GND;
+ 359     |MCLK12.RSTF = GND;
+ 360     |
+ 361     |AESFCK.T = MCLK12;
+ 362     |AESFCK.CLKF = MCLK24;
+ 363     |AESFCK.SETF = GND;
+ 364     |AESFCK.RSTF = GND;
+ 365     |
+ 366     |; ---------------------Frequenzerzeugung XTI/ICLKD fr D/A und A/D
+ 367     |
+ 368     |SMPCLK = /EXTAKT * /TAKTH * /TAKTL * AESMCLKI
+ 369     |       + /EXTAKT * /TAKTH * TAKTL * MCLK12
+ 370     |       + /EXTAKT * TAKTH * /TAKTL * MCLK16
+ 371     |       + /EXTAKT * TAKTH * TAKTL * MCLK12
+ 372     |       + EXTAKT * /EXTMCLK;
+ 373     |
+ 374     |; ---------------------Taktumschaltung fr A/D und D/A-Samplerate
+ 375     |; ---bei ext. Takt kann ber VOLDATAI zw. 256/384fach CLK gewhlt werden
+ 376     |
+ 377     |CKS = /EXTAKT * /TAKTH * TAKTL
+ 378     |    + /EXTAKT * TAKTH * /TAKTL
+ 379     |    + EXTAKT * VOLDATAI;
+ 380     |
+ 381     |; ---------------------Frequenzerzeugung fr A/D-Clock,Hold und L/R
+ 382     |
+ 383     |ADCLK32.T = VCC;
+ 384     |ADCLK32.CLKF = DA_ACKO;
+ 385     |ADCLK32.RSTF = GND;
+ 386     |ADCLK32.SETF = GND;
+ 387     |
+ 388     |ADCLK16.T = ADCLK32;
+ 389     |ADCLK16.CLKF = DA_ACKO;
+ 390     |ADCLK16.RSTF = GND;
+ 391     |ADCLK16.SETF = GND;
+ 392     |
+ 393     |TAKT5.T = ADCLK32 * ADCLK16;
+ 394     |TAKT5.CLKF = DA_ACKO;
+ 395     |TAKT5.RSTF = GND;
+ 396     |TAKT5.SETF = GND;
+ 397     |
+ 398     |TAKT6.T = ADCLK32 * ADCLK16 * TAKT5;
+ 399     |TAKT6.CLKF = DA_ACKO;
+ 400     |TAKT6.RSTF = GND;
+ 401     |TAKT6.SETF = GND;
+ 402     |
+ 403     |TAKT7.T = ADCLK32 * ADCLK16 * TAKT5 * TAKT6;
+ 404     |TAKT7.CLKF = DA_ACKO;
+ 405     |TAKT7.RSTF = GND;
+ 406     |TAKT7.SETF = GND;
+ 407     |
+ 408     |HOLD.T = ADCLK32 * ADCLK16 * TAKT5 * TAKT6 * TAKT7;
+ 409     |HOLD.CLKF = DA_ACKO;
+ 410     |HOLD.RSTF = GND;
+ 411     |HOLD.SETF = GND;
+ 412     |
+ 413     |/ADLR.T = ADCLK32 * ADCLK16 * TAKT5 * TAKT6 * TAKT7 * HOLD;
+ 414     |ADLR.CLKF = DA_ACKO;
+ 415     |ADLR.RSTF = GND;
+ 416     |ADLR.SETF = GND;
+ 417     |
+ 418     |; ---------------------Eingangsdaten und Eingangstakt
+ 419     |
+ 420     |INPSCLK = /AESCLKI * /SWAES
+ 421     |        + ADCLK32 * SWAES;
+ 422     |
+ 423     |INPSDATA = AESDATAI * /SWAES
+ 424     |         + ADATAI * ADLR * SH16 * SWAES
+ 425     |         + ADATAI * /ADLR * /SH16 * SWAES;
+ 426     |
+ 427     |; ---------------------Shift der FSYNC-Flanken(und dadurch der Daten)um 16Bit
+ 428     |
+ 429     |SHCLK = AESCLKI * /SWAES
+ 430     |      + /ADCLK32 * SWAES;
+ 431     |
+ 432     |SH0 = /AESSYNCI * /SWAES
+ 433     |    + /ADLR * SWAES;
+ 434     |SH0.CLKF = SHCLK;
+ 435     |SH0.SETF = GND;
+ 436     |SH0.RSTF = GND;
+ 437     |
+ 438     |SH1 = SH0;
+ 439     |SH1.CLKF = SHCLK;
+ 440     |SH1.SETF = GND;
+ 441     |SH1.RSTF = GND;
+ 442     |
+ 443     |SH2 = SH1;
+ 444     |SH2.CLKF = SHCLK;
+ 445     |SH2.SETF = GND;
+ 446     |SH2.RSTF = GND;
+ 447     |
+ 448     |SH3 = SH2;
+ 449     |SH3.CLKF = SHCLK;
+ 450     |SH3.SETF = GND;
+ 451     |SH3.RSTF = GND;
+ 452     |
+ 453     |SH4 = SH3;
+ 454     |SH4.CLKF = SHCLK;
+ 455     |SH4.SETF = GND;
+ 456     |SH4.RSTF = GND;
+ 457     |
+ 458     |SH5 = SH4;
+ 459     |SH5.CLKF = SHCLK;
+ 460     |SH5.SETF = GND;
+ 461     |SH5.RSTF = GND;
+ 462     |
+ 463     |SH6 = SH5;
+ 464     |SH6.CLKF = SHCLK;
+ 465     |SH6.SETF = GND;
+ 466     |SH6.RSTF = GND;
+ 467     |
+ 468     |SH7 = SH6;
+ 469     |SH7.CLKF = SHCLK;
+ 470     |SH7.SETF = GND;
+ 471     |SH7.RSTF = GND;
+ 472     |
+ 473     |SH8 = SH7;
+ 474     |SH8.CLKF = SHCLK;
+ 475     |SH8.SETF = GND;
+ 476     |SH8.RSTF = GND;
+ 477     |
+ 478     |SH9 = SH8;
+ 479     |SH9.CLKF = SHCLK;
+ 480     |SH9.SETF = GND;
+ 481     |SH9.RSTF = GND;
+ 482     |
+ 483     |SH10 = SH9;
+ 484     |SH10.CLKF = SHCLK;
+ 485     |SH10.SETF = GND;
+ 486     |SH10.RSTF = GND;
+ 487     |
+ 488     |SH11 = SH10;
+ 489     |SH11.CLKF = SHCLK;
+ 490     |SH11.SETF = GND;
+ 491     |SH11.RSTF = GND;
+ 492     |
+ 493     |SH12 = SH11;
+ 494     |SH12.CLKF = SHCLK;
+ 495     |SH12.SETF = GND;
+ 496     |SH12.RSTF = GND;
+ 497     |
+ 498     |SH13 = SH12;
+ 499     |SH13.CLKF = SHCLK;
+ 500     |SH13.SETF = GND;
+ 501     |SH13.RSTF = GND;
+ 502     |
+ 503     |SH14 = SH13;
+ 504     |SH14.CLKF = SHCLK;
+ 505     |SH14.SETF = GND;
+ 506     |SH14.RSTF = GND;
+ 507     |
+ 508     |SH15 = SH14;
+ 509     |SH15.CLKF = SHCLK;
+ 510     |SH15.SETF = GND;
+ 511     |SH15.RSTF = GND;
+ 512     |
+ 513     |SH16 = SH15;
+ 514     |SH16.CLKF = SHCLK;
+ 515     |SH16.SETF = GND;
+ 516     |SH16.RSTF = GND;
+ 517     |
+ 518     |; ---------------------Fsync-Flankenerkennung (erzeugt positive Sprnge)
+ 519     |
+ 520     |PGO = VCC;
+ 521     |PGO.CLKF = SH16;
+ 522     |PGO.SETF = GND;
+ 523     |PGO.RSTF = /XGORES;
+ 524     |
+ 525     |NGO = VCC;
+ 526     |/NGO.CLKF = SH16;
+ 527     |NGO.SETF = GND;
+ 528     |NGO.RSTF = /XGORES;
+ 529     |
+ 530     |; ---------------------Record
+ 531     |
+ 532     |SHD0 = INPSDATA * /SWONDSP
+ 533     |     + INPSDATA * SWINDSP
+ 534     |     + DSPSTD * SWONDSP * /SWINDSP;
+ 535     |SHD0.CLKF = INPSCLK;
+ 536     |SHD0.SETF = GND;
+ 537     |SHD0.RSTF = GND;
+ 538     |
+ 539     |SHD1 = SHD0;
+ 540     |SHD1.CLKF = INPSCLK;
+ 541     |SHD1.SETF = GND;
+ 542     |SHD1.RSTF = GND;
+ 543     |
+ 544     |SHD2 = SHD1;
+ 545     |SHD2.CLKF = INPSCLK;
+ 546     |SHD2.SETF = GND;
+ 547     |SHD2.RSTF = GND;
+ 548     |
+ 549     |SHD3 = SHD2;
+ 550     |SHD3.CLKF = INPSCLK;
+ 551     |SHD3.SETF = GND;
+ 552     |SHD3.RSTF = GND;
+ 553     |
+ 554     |SHD4 = SHD3;
+ 555     |SHD4.CLKF = INPSCLK;
+ 556     |SHD4.SETF = GND;
+ 557     |SHD4.RSTF = GND;
+ 558     |
+ 559     |SHD5 = SHD4;
+ 560     |SHD5.CLKF = INPSCLK;
+ 561     |SHD5.SETF = GND;
+ 562     |SHD5.RSTF = GND;
+ 563     |
+ 564     |SHD6 = SHD5;
+ 565     |SHD6.CLKF = INPSCLK;
+ 566     |SHD6.SETF = GND;
+ 567     |SHD6.RSTF = GND;
+ 568     |
+ 569     |SHD7 = SHD6;
+ 570     |SHD7.CLKF = INPSCLK;
+ 571     |SHD7.SETF = GND;
+ 572     |SHD7.RSTF = GND;
+ 573     |
+ 574     |SHD8 = SHD7;
+ 575     |SHD8.CLKF = INPSCLK;
+ 576     |SHD8.SETF = GND;
+ 577     |SHD8.RSTF = GND;
+ 578     |
+ 579     |SHD9 = SHD8;
+ 580     |SHD9.CLKF = INPSCLK;
+ 581     |SHD9.SETF = GND;
+ 582     |SHD9.RSTF = GND;
+ 583     |
+ 584     |SHD10 = SHD9;
+ 585     |SHD10.CLKF = INPSCLK;
+ 586     |SHD10.SETF = GND;
+ 587     |SHD10.RSTF = GND;
+ 588     |
+ 589     |SHD11 = SHD10;
+ 590     |SHD11.CLKF = INPSCLK;
+ 591     |SHD11.SETF = GND;
+ 592     |SHD11.RSTF = GND;
+ 593     |
+ 594     |SHD12 = SHD11;
+ 595     |SHD12.CLKF = INPSCLK;
+ 596     |SHD12.SETF = GND;
+ 597     |SHD12.RSTF = GND;
+ 598     |
+ 599     |SHD13 = SHD12;
+ 600     |SHD13.CLKF = INPSCLK;
+ 601     |SHD13.SETF = GND;
+ 602     |SHD13.RSTF = GND;
+ 603     |
+ 604     |SHD14 = SHD13;
+ 605     |SHD14.CLKF = INPSCLK;
+ 606     |SHD14.SETF = GND;
+ 607     |SHD14.RSTF = GND;
+ 608     |
+ 609     |SHD15 = SHD14;
+ 610     |SHD15.CLKF = INPSCLK;
+ 611     |SHD15.SETF = GND;
+ 612     |SHD15.RSTF = GND;
+ 613     |
+ 614     |WAIT = PGO + NGO;
+ 615     |WAIT.CLKF = HCLKI;
+ 616     |WAIT.RSTF = WRFERTIG;
+ 617     |WAIT.SETF = GND;
+ 618     |
+ 619     |WAIT2 = WAIT;
+ 620     |WAIT2.CLKF = HCLKI;
+ 621     |WAIT2.RSTF = WRFERTIG;
+ 622     |WAIT2.SETF = GND;
+ 623     |
+ 624     |WAIT3 = WAIT2;
+ 625     |WAIT3.CLKF = HCLKI;
+ 626     |WAIT3.RSTF = WRFERTIG;
+ 627     |WAIT3.SETF = GND;
+ 628     |
+ 629     |WAIT4 = WAIT3;
+ 630     |WAIT4.CLKF = HCLKI;
+ 631     |WAIT4.RSTF = WRFERTIG;
+ 632     |WAIT4.SETF = GND;
+ 633     |
+ 634     |WAIT5 = WAIT4;
+ 635     |WAIT5.CLKF = HCLKI;
+ 636     |WAIT5.RSTF = WRFERTIG;
+ 637     |WAIT5.SETF = GND;
+ 638     |
+ 639     |WRFERTIG = /PGO * /NGO * WAIT * WAIT2 * WAIT3 * WAIT4 * WAIT5 * PUFWR
+ 640     |        + /RESET;
+ 641     |
+ 642     |/PUFWR = PGO * WAIT * /WAIT2
+ 643     |       + NGO * WAIT * /WAIT2
+ 644     |       + PGO * WAIT * WAIT2 * WAIT3 * WAIT4 * /WAIT5
+ 645     |       + NGO * WAIT * WAIT2 * WAIT3 * WAIT4 * /WAIT5;
+ 646     |
+ 647     |/XGORES = PGO * WAIT * WAIT2 * WAIT3 * WAIT4 * WAIT5 * PUFWR
+ 648     |        + NGO * WAIT * WAIT2 * WAIT3 * WAIT4 * WAIT5 * PUFWR
+ 649     |        + /RESET;
+ 650     |
+ 651     |WD0 = SHD8 * PGO * /WAIT3
+ 652     |    + SHD8 * NGO * /WAIT3
+ 653     |    + SHD0 * PGO * WAIT3
+ 654     |    + SHD0 * NGO * WAIT3;
+ 655     |
+ 656     |WD1 = SHD9 * PGO * /WAIT3
+ 657     |    + SHD9 * NGO * /WAIT3
+ 658     |    + SHD1 * PGO * WAIT3
+ 659     |    + SHD1 * NGO * WAIT3;
+ 660     |
+ 661     |WD2 = SHD10 * PGO * /WAIT3
+ 662     |    + SHD10 * NGO * /WAIT3
+ 663     |    + SHD2 * PGO * WAIT3
+ 664     |    + SHD2 * NGO * WAIT3;
+ 665     |
+ 666     |WD3 = SHD11 * PGO * /WAIT3
+ 667     |    + SHD11 * NGO * /WAIT3
+ 668     |    + SHD3 * PGO * WAIT3
+ 669     |    + SHD3 * NGO * WAIT3;
+ 670     |
+ 671     |WD4 = SHD12 * PGO * /WAIT3
+ 672     |    + SHD12 * NGO * /WAIT3
+ 673     |    + SHD4 * PGO * WAIT3
+ 674     |    + SHD4 * NGO * WAIT3;
+ 675     |
+ 676     |WD5 = SHD13 * PGO * /WAIT3
+ 677     |    + SHD13 * NGO * /WAIT3
+ 678     |    + SHD5 * PGO * WAIT3
+ 679     |    + SHD5 * NGO * WAIT3;
+ 680     |
+ 681     |WD6 = SHD14 * PGO * /WAIT3
+ 682     |    + SHD14 * NGO * /WAIT3
+ 683     |    + SHD6 * PGO * WAIT3
+ 684     |    + SHD6 * NGO * WAIT3;
+ 685     |
+ 686     |WD7 = SHD15 * PGO * /WAIT3
+ 687     |    + SHD15 * NGO * /WAIT3
+ 688     |    + SHD7 * PGO * WAIT3
+ 689     |    + SHD7 * NGO * WAIT3;
+ 690     |
+ 691     |;      WD8 verbunden mit SH15 (Ausgang), ist doch logisch;
+ 692     |
+ 693     |; ---------------------Play
+ 694     |
+ 695     |Z0.T = VCC;
+ 696     |Z0.CLKF = INPSCLK;    Normalerweise statt INPSCLK -> ADCLK32 wegen getrennter
+ 697     |Z0.RSTF = /RESET;                                    Wiedergabe
+ 698     |Z0.SETF = GND;
+ 699     |
+ 700     |Z1.T = Z0;
+ 701     |Z1.CLKF = INPSCLK;
+ 702     |Z1.RSTF = /RESET;
+ 703     |Z1.SETF = GND;
+ 704     |
+ 705     |Z2.T = Z0 * Z1;
+ 706     |Z2.CLKF = INPSCLK;
+ 707     |Z2.RSTF = /RESET;
+ 708     |Z2.SETF = GND;
+ 709     |
+ 710     |Z3.T = Z0 * Z1 * Z2;
+ 711     |Z3.CLKF = INPSCLK;
+ 712     |Z3.RSTF = /RESET;
+ 713     |Z3.SETF = GND;
+ 714     |
+ 715     |Z4.T = Z0 * Z1 * Z2 * Z3;
+ 716     |Z4.CLKF = INPSCLK;
+ 717     |Z4.RSTF = /RESET;
+ 718     |Z4.SETF = GND;
+ 719     |
+ 720     |Z5.T = Z0 * Z1 * Z2 * Z3 * Z4;
+ 721     |Z5.CLKF = INPSCLK;
+ 722     |Z5.RSTF = /RESET;
+ 723     |Z5.SETF = GND;
+ 724     |
+ 725     |BWAIT = VCC;
+ 726     |BWAIT.CLKF = HCLKI;
+ 727     |BWAIT.RSTF = PUFRD;
+ 728     |BWAIT.SETF = GND;
+ 729     |
+ 730     |BWAIT2 = BWAIT;
+ 731     |BWAIT2.CLKF = HCLKI;
+ 732     |BWAIT2.RSTF = PUFRD;
+ 733     |BWAIT2.SETF = GND;
+ 734     |
+ 735     |BWAIT3 = BWAIT2;
+ 736     |BWAIT3.CLKF = HCLKI;
+ 737     |BWAIT3.RSTF = PUFRD;
+ 738     |BWAIT3.SETF = GND;
+ 739     |
+ 740     |/PUFRD = /Z4 * Z3 * Z2 * /Z1 * /RP8 * /RP9 * /Z5
+ 741     |       + /Z4 * Z3 * Z2 * /Z1 * RP8 * RP9 * Z5
+ 742     |       + Z4 * Z3 * /Z2 * /Z1 * RP8 * /RP9 * /Z5
+ 743     |       + Z4 * Z3 * /Z2 * /Z1 * /RP8 * RP9 * Z5
+ 744     |       + /PUFRD * /Z4 * Z3 * Z2 * /Z1
+ 745     |       + /PUFRD * Z4 * Z3 * /Z2 * /Z1;
+ 746     |
+ 747     |; RP8 ist Eingang fr Parity
+ 748     |
+ 749     |PLAYCLKO = BWAIT3 * /PUFRD;
+ 750     |
+ 751     |RP9 = RP8;
+ 752     |RP9.CLKF = PLAYCLKO;
+ 753     |RP9.SETF = GND;
+ 754     |RP9.RSTF = GND;
+ 755     |
+ 756     |RP8 = RD8;
+ 757     |RP8.CLKF = PLAYCLKI;
+ 758     |
+ 759     |RPA7 = RDA7;
+ 760     |RPA7.CLKF = PLAYCLKI;
+ 761     |
+ 762     |RPA6 = RDA6;
+ 763     |RPA6.CLKF = PLAYCLKI;
+ 764     |
+ 765     |RPA5 = RDA5;
+ 766     |RPA5.CLKF = PLAYCLKI;
+ 767     |
+ 768     |RPA4 = RDA4;
+ 769     |RPA4.CLKF = PLAYCLKI;
+ 770     |
+ 771     |RPA3 = RDA3;
+ 772     |RPA3.CLKF = PLAYCLKI;
+ 773     |
+ 774     |RPA2 = RDA2;
+ 775     |RPA2.CLKF = PLAYCLKI;
+ 776     |
+ 777     |RPA1 = RDA1;
+ 778     |RPA1.CLKF = PLAYCLKI;
+ 779     |
+ 780     |RPA0 = RDA0;
+ 781     |RPA0.CLKF = PLAYCLKI;
+ 782     |
+ 783     |RPB7 = RDB7;
+ 784     |RPB7.CLKF = PLAYCLKI;
+ 785     |
+ 786     |RPB6 = RDB6;
+ 787     |RPB6.CLKF = PLAYCLKI;
+ 788     |
+ 789     |RPB5 = RDB5;
+ 790     |RPB5.CLKF = PLAYCLKI;
+ 791     |
+ 792     |RPB4 = RDB4;
+ 793     |RPB4.CLKF = PLAYCLKI;
+ 794     |
+ 795     |RPB3 = RDB3;
+ 796     |RPB3.CLKF = PLAYCLKI;
+ 797     |
+ 798     |RPB2 = RDB2;
+ 799     |RPB2.CLKF = PLAYCLKI;
+ 800     |
+ 801     |RPB1 = RDB1;
+ 802     |RPB1.CLKF = PLAYCLKI;
+ 803     |
+ 804     |RPB0 = RDB0;
+ 805     |RPB0.CLKF = PLAYCLKI;
+ 806     |
+ 807     |RPC7 = RDC7;
+ 808     |RPC7.CLKF = PLAYCLKI;
+ 809     |
+ 810     |RPC6 = RDC6;
+ 811     |RPC6.CLKF = PLAYCLKI;
+ 812     |
+ 813     |RPC5 = RDC5;
+ 814     |RPC5.CLKF = PLAYCLKI;
+ 815     |
+ 816     |RPC4 = RDC4;
+ 817     |RPC4.CLKF = PLAYCLKI;
+ 818     |
+ 819     |RPC3 = RDC3;
+ 820     |RPC3.CLKF = PLAYCLKI;
+ 821     |
+ 822     |RPC2 = RDC2;
+ 823     |RPC2.CLKF = PLAYCLKI;
+ 824     |
+ 825     |RPC1 = RDC1;
+ 826     |RPC1.CLKF = PLAYCLKI;
+ 827     |
+ 828     |RPC0 = RDC0;
+ 829     |RPC0.CLKF = PLAYCLKI;
+ 830     |
+ 831     |RPD7 = RDD7;
+ 832     |RPD7.CLKF = PLAYCLKI;
+ 833     |
+ 834     |RPD6 = RDD6;
+ 835     |RPD6.CLKF = PLAYCLKI;
+ 836     |
+ 837     |RPD5 = RDD5;
+ 838     |RPD5.CLKF = PLAYCLKI;
+ 839     |
+ 840     |RPD4 = RDD4;
+ 841     |RPD4.CLKF = PLAYCLKI;
+ 842     |
+ 843     |RPD3 = RDD3;
+ 844     |RPD3.CLKF = PLAYCLKI;
+ 845     |
+ 846     |RPD2 = RDD2;
+ 847     |RPD2.CLKF = PLAYCLKI;
+ 848     |
+ 849     |RPD1 = RDD1;
+ 850     |RPD1.CLKF = PLAYCLKI;
+ 851     |
+ 852     |RPD0 = RDD0;
+ 853     |RPD0.CLKF = PLAYCLKI;
+ 854     |
+ 855     |; ---------------------SCLK fr D/A und Digital-Ausgang
+ 856     |
+ 857     |DA_SCLK = INPSCLK * /SWDIGOUT
+ 858     |       + /INPSCLK * SWDIGOUT;
+ 859     |
+ 860     |; ---------------------SDATA fr D/A und Digital-Ausgang
+ 861     |
+ 862     |DAHLPA = RPA7 * Z4 * /Z2 * /Z1 * /Z0 * SWDIGOUT
+ 863     |       + RPA6 * Z4 * /Z2 * /Z1 * Z0 * SWDIGOUT
+ 864     |       + RPA5 * Z4 * /Z2 * Z1 * /Z0 * SWDIGOUT
+ 865     |       + RPA4 * Z4 * /Z2 * Z1 * Z0 * SWDIGOUT
+ 866     |       + RPA3 * Z4 * Z2 * /Z1 * /Z0 * SWDIGOUT
+ 867     |       + RPA2 * Z4 * Z2 * /Z1 * Z0 * SWDIGOUT
+ 868     |       + RPA1 * Z4 * Z2 * Z1 * /Z0 * SWDIGOUT
+ 869     |       + RPA0 * Z4 * Z2 * Z1 * Z0 * SWDIGOUT;
+ 870     |
+ 871     |DA_SDATA = AESDATAI * /SWAES * /SWDIGOUT * /SWONDSP
+ 872     |         + ADATAI * ADLR * SH16 * SWAES * /SWDIGOUT * /SWONDSP
+ 873     |         + ADATAI * /ADLR * /SH16 * SWAES * /SWDIGOUT * /SWONDSP
+ 874     |         + DAHLPA * /SWINDSP
+ 875     |         + DAHLPA * /SWONDSP
+ 876     |         + DSPSTD * SWONDSP * /SWDIGOUT
+ 877     |         + DSPSTD * SWONDSP * SWINDSP * SWDIGOUT;
+ 878     |
+ 879     |DAHLPB = RPB7 * Z4 * /Z2 * /Z1 * /Z0 * SWDIGOUT
+ 880     |       + RPB6 * Z4 * /Z2 * /Z1 * Z0 * SWDIGOUT
+ 881     |       + RPB5 * Z4 * /Z2 * Z1 * /Z0 * SWDIGOUT
+ 882     |       + RPB4 * Z4 * /Z2 * Z1 * Z0 * SWDIGOUT
+ 883     |       + RPB3 * Z4 * Z2 * /Z1 * /Z0 * SWDIGOUT
+ 884     |       + RPB2 * Z4 * Z2 * /Z1 * Z0 * SWDIGOUT
+ 885     |       + RPB1 * Z4 * Z2 * Z1 * /Z0 * SWDIGOUT
+ 886     |       + RPB0 * Z4 * Z2 * Z1 * Z0 * SWDIGOUT;
+ 887     |
+ 888     |DA_SDATB = AESDATAI * /SWAES * /SWDIGOUT * /SWONDSP
+ 889     |         + ADATAI * ADLR * SH16 * SWAES * /SWDIGOUT * /SWONDSP
+ 890     |         + ADATAI * /ADLR * /SH16 * SWAES * /SWDIGOUT * /SWONDSP
+ 891     |         + DAHLPB * /SWINDSP
+ 892     |         + DAHLPB * /SWONDSP
+ 893     |         + DSPSTD * SWONDSP * /SWDIGOUT
+ 894     |         + DSPSTD * SWONDSP * SWINDSP * SWDIGOUT;
+ 895     |
+ 896     |DAHLPC = RPC7 * Z4 * /Z2 * /Z1 * /Z0 * SWDIGOUT
+ 897     |       + RPC6 * Z4 * /Z2 * /Z1 * Z0 * SWDIGOUT
+ 898     |       + RPC5 * Z4 * /Z2 * Z1 * /Z0 * SWDIGOUT
+ 899     |       + RPC4 * Z4 * /Z2 * Z1 * Z0 * SWDIGOUT
+ 900     |       + RPC3 * Z4 * Z2 * /Z1 * /Z0 * SWDIGOUT
+ 901     |       + RPC2 * Z4 * Z2 * /Z1 * Z0 * SWDIGOUT
+ 902     |       + RPC1 * Z4 * Z2 * Z1 * /Z0 * SWDIGOUT
+ 903     |       + RPC0 * Z4 * Z2 * Z1 * Z0 * SWDIGOUT;
+ 904     |
+ 905     |DA_SDATC = AESDATAI * /SWAES * /SWDIGOUT * /SWONDSP
+ 906     |         + ADATAI * ADLR * SH16 * SWAES * /SWDIGOUT * /SWONDSP
+ 907     |         + ADATAI * /ADLR * /SH16 * SWAES * /SWDIGOUT * /SWONDSP
+ 908     |         + DAHLPC * /SWINDSP
+ 909     |         + DAHLPC * /SWONDSP
+ 910     |         + DSPSTD * SWONDSP * /SWDIGOUT
+ 911     |         + DSPSTD * SWONDSP * SWINDSP * SWDIGOUT;
+ 912     |
+ 913     |DAHLPD = RPD7 * Z4 * /Z2 * /Z1 * /Z0 * SWDIGOUT
+ 914     |       + RPD6 * Z4 * /Z2 * /Z1 * Z0 * SWDIGOUT
+ 915     |       + RPD5 * Z4 * /Z2 * Z1 * /Z0 * SWDIGOUT
+ 916     |       + RPD4 * Z4 * /Z2 * Z1 * Z0 * SWDIGOUT
+ 917     |       + RPD3 * Z4 * Z2 * /Z1 * /Z0 * SWDIGOUT
+ 918     |       + RPD2 * Z4 * Z2 * /Z1 * Z0 * SWDIGOUT
+ 919     |       + RPD1 * Z4 * Z2 * Z1 * /Z0 * SWDIGOUT
+ 920     |       + RPD0 * Z4 * Z2 * Z1 * Z0 * SWDIGOUT;
+ 921     |
+ 922     |DA_SDATD = AESDATAI * /SWAES * /SWDIGOUT * /SWONDSP
+ 923     |         + ADATAI * ADLR * SH16 * SWAES * /SWDIGOUT * /SWONDSP
+ 924     |         + ADATAI * /ADLR * /SH16 * SWAES * /SWDIGOUT * /SWONDSP
+ 925     |         + DAHLPD * /SWINDSP
+ 926     |         + DAHLPD * /SWONDSP
+ 927     |         + DSPSTD * SWONDSP * /SWDIGOUT
+ 928     |         + DSPSTD * SWONDSP * SWINDSP * SWDIGOUT;
+ 929     |
+ 930     |; ---------------------FSYNC fr D/A und Digital-Ausgang
+ 931     |
+ 932     |DA_FSYNC = SH16 * /SWDIGOUT
+ 933     |         + Z5 * SWDIGOUT;
+ 934     |
+ 935     |; ---------------------Digital-Ausgang CS8402
+ 936     |
+ 937     |AESCOUT = /CZ5 * /CZ4 * /CZ3 * /CZ2 * CZ1 * CZ0
+ 938     |         * CBL * /SWAES * /SWDIGOUT * SWPROT * /EXTAKT
+ 939     |         + AESCIN * /SWAES * /SWDIGOUT * /EXTAKT;
+ 940     |
+ 941     |MCLK128.T = VCC;
+ 942     |MCLK128.CLKF = AESMCLKI;
+ 943     |MCLK128.SETF = GND;
+ 944     |MCLK128.RSTF = GND;
+ 945     |
+ 946     |AESMCLKO = AESMCLKI * /SWAES * /SWDIGOUT * /EXTAKT
+ 947     |         + DA_ACKO * /SWAES * /SWDIGOUT * EXTAKT
+ 948     |         + DA_ACKO * SWAES * /SWDIGOUT
+ 949     |         + DA_ACKO * SWDIGOUT * TAKTH
+ 950     |         + DA_ACKO * SWDIGOUT * TAKTL
+ 951     |         + DA_ACKO * SWDIGOUT * /TAKTH * /TAKTL * EXTAKT
+ 952     |         + MCLK128 * SWDIGOUT * /TAKTH * /TAKTL * /EXTAKT;
+ 953     |
+ 954     |AESDATAO = DA_SDATA;
+ 955     |
+ 956     |; ---------------------Umschaltung in Consumer-Mode fr A/D und PLAY
+ 957     |
+ 958     |AESPRO = SWAES * /SWDIGOUT
+ 959     |       + SWDIGOUT
+ 960     |       + EXTAKT;
+ 961     |
+ 962     |AESFC0 = TAKTH * TAKTL
+ 963     |       + /TAKTH * /TAKTL * /AESC24 * AESC25;
+ 964     |
+ 965     |AESFC1 = /TAKTH * TAKTL
+ 966     |       + /TAKTH * /TAKTL * AESC24 * AESC25
+ 967     |       + /SWAES * /SWDIGOUT * /EXTAKT;
+ 968     |
+ 969     |; ---------------------Word-Erzeugung fr DSP-Eingang
+ 970     |
+ 971     |DATACLK = AESSYNCI * SH16 * /SWAES
+ 972     |        + /AESSYNCI * /SH16 * /SWAES
+ 973     |        + ADLR * SH16 * SWAES
+ 974     |        + /ADLR * /SH16 * SWAES;
+ 975     |
+ 976     |; ---------------------DSP-Serial-Port
+ 977     |
+ 978     |DSPSC0 = SH16 * /SWDIGOUT
+ 979     |       + SH16 * /SWONDSP
+ 980     |       + SH16 * /SWINDSP
+ 981     |       + Z5 * SWDIGOUT * SWONDSP * SWINDSP;
+ 982     |
+ 983     |DSPSC2 = DATACLK * /SWDIGOUT
+ 984     |       + DATACLK * /SWONDSP
+ 985     |       + DATACLK * /SWINDSP
+ 986     |       + Z4 * SWDIGOUT * SWONDSP * SWINDSP;
+ 987     |
+ 988     |DSPSCK = /INPSCLK * /SWDIGOUT
+ 989     |       + /INPSCLK * /SWONDSP
+ 990     |       + /INPSCLK * /SWINDSP
+ 991     |       + INPSCLK * SWDIGOUT * SWONDSP * SWINDSP
+ 992     |
+ 993     |DSPSRD = INPSDATA * /SWDIGOUT
+ 994     |       + INPSDATA * /SWONDSP
+ 995     |       + INPSDATA * /SWINDSP
+ 996     |       + DAHLPA * SWDIGOUT * SWONDSP * SWINDSP;
+ 997     |
+ 998     |;----------------------------------- Simulation Segment ------------
+ 999     |SIMULATION
+1000     |
+1001     |;-------------------------------------------------------------------
+
+ %% MACHPAR %%    ERROR count:  0      WARNING count:  0
+
+ %% MACHPAR %%    File processed successfully.    File:  sampler8.pds
+
+*** Start MACHBPP 17:19:22 
+MACHXL 1.3 MACHBPP (05-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+
+EQUATIONS SEGMENT
+Processing equation for ====>SWONDSP
+Processing equation for ====>/SWONDSP.CLKF
+Processing equation for ====>SWONDSP.RSTF
+Processing equation for ====>SWONDSP.SETF
+Processing equation for ====>SWINDSP
+Processing equation for ====>/SWINDSP.CLKF
+Processing equation for ====>SWINDSP.RSTF
+Processing equation for ====>SWINDSP.SETF
+Processing equation for ====>VOLCS
+Processing equation for ====>/VOLCS.CLKF
+Processing equation for ====>VOLCS.RSTF
+Processing equation for ====>VOLCS.SETF
+Processing equation for ====>VOLCLK
+Processing equation for ====>/VOLCLK.CLKF
+Processing equation for ====>VOLCLK.RSTF
+Processing equation for ====>VOLCLK.SETF
+Processing equation for ====>VOLDATAI
+Processing equation for ====>/VOLDATAI.CLKF
+Processing equation for ====>VOLDATAI.RSTF
+Processing equation for ====>VOLDATAI.SETF
+Processing equation for ====>SWAES
+Processing equation for ====>/SWAES.CLKF
+Processing equation for ====>SWAES.RSTF
+Processing equation for ====>SWAES.SETF
+Processing equation for ====>SWDIGIN
+Processing equation for ====>/SWDIGIN.CLKF
+Processing equation for ====>SWDIGIN.RSTF
+Processing equation for ====>SWDIGIN.SETF
+Processing equation for ====>TAKTL
+Processing equation for ====>/TAKTL.CLKF
+Processing equation for ====>TAKTL.RSTF
+Processing equation for ====>TAKTL.SETF
+Processing equation for ====>TAKTH
+Processing equation for ====>/TAKTH.CLKF
+Processing equation for ====>TAKTH.RSTF
+Processing equation for ====>TAKTH.SETF
+Processing equation for ====>EXTAKT
+Processing equation for ====>/EXTAKT.CLKF
+Processing equation for ====>EXTAKT.RSTF
+Processing equation for ====>EXTAKT.SETF
+Processing equation for ====>SWPROT
+Processing equation for ====>/SWPROT.CLKF
+Processing equation for ====>SWPROT.RSTF
+Processing equation for ====>SWPROT.SETF
+Processing equation for ====>SWRESFF
+Processing equation for ====>/SWRESFF.CLKF
+Processing equation for ====>SWRESFF.RSTF
+Processing equation for ====>SWRESFF.SETF
+Processing equation for ====>SWDIGOUT
+Processing equation for ====>/SWDIGOUT.CLKF
+Processing equation for ====>SWDIGOUT.RSTF
+Processing equation for ====>SWDIGOUT.SETF
+Processing equation for ====>SWSUBFR
+Processing equation for ====>/SWSUBFR.CLKF
+Processing equation for ====>SWSUBFR.RSTF
+Processing equation for ====>SWSUBFR.SETF
+Processing equation for ====>CZCLK
+Processing equation for ====>CZ0.T
+Processing equation for ====>CZ0.CLKF
+Processing equation for ====>CZ0.RSTF
+Processing equation for ====>CZ0.SETF
+Processing equation for ====>CZ1.T
+Processing equation for ====>CZ1.CLKF
+Processing equation for ====>CZ1.RSTF
+Processing equation for ====>CZ1.SETF
+Processing equation for ====>CZ2.T
+Processing equation for ====>CZ2.CLKF
+Processing equation for ====>CZ2.RSTF
+Processing equation for ====>CZ2.SETF
+Processing equation for ====>CZ3.T
+Processing equation for ====>CZ3.CLKF
+Processing equation for ====>CZ3.RSTF
+Processing equation for ====>CZ3.SETF
+Processing equation for ====>CZ4.T
+Processing equation for ====>CZ4.CLKF
+Processing equation for ====>CZ4.RSTF
+Processing equation for ====>CZ4.SETF
+Processing equation for ====>CZ5.T
+Processing equation for ====>CZ5.CLKF
+Processing equation for ====>CZ5.RSTF
+Processing equation for ====>CZ5.SETF
+Processing equation for ====>AESC24
+Processing equation for ====>AESC24.CLKF
+Processing equation for ====>AESC24.RSTF
+Processing equation for ====>AESC24.SETF
+Processing equation for ====>AESC25
+Processing equation for ====>AESC25.CLKF
+Processing equation for ====>AESC25.RSTF
+Processing equation for ====>AESC25.SETF
+Processing equation for ====>AD_DPD
+Processing equation for ====>/RESRDFIFO
+Processing equation for ====>MCLK12.T
+Processing equation for ====>MCLK12.CLKF
+Processing equation for ====>MCLK12.SETF
+Processing equation for ====>MCLK12.RSTF
+Processing equation for ====>AESFCK.T
+Processing equation for ====>AESFCK.CLKF
+Processing equation for ====>AESFCK.SETF
+Processing equation for ====>AESFCK.RSTF
+Processing equation for ====>SMPCLK
+Processing equation for ====>CKS
+Processing equation for ====>ADCLK32.T
+Processing equation for ====>ADCLK32.CLKF
+Processing equation for ====>ADCLK32.RSTF
+Processing equation for ====>ADCLK32.SETF
+Processing equation for ====>ADCLK16.T
+Processing equation for ====>ADCLK16.CLKF
+Processing equation for ====>ADCLK16.RSTF
+Processing equation for ====>ADCLK16.SETF
+Processing equation for ====>TAKT5.T
+Processing equation for ====>TAKT5.CLKF
+Processing equation for ====>TAKT5.RSTF
+Processing equation for ====>TAKT5.SETF
+Processing equation for ====>TAKT6.T
+Processing equation for ====>TAKT6.CLKF
+Processing equation for ====>TAKT6.RSTF
+Processing equation for ====>TAKT6.SETF
+Processing equation for ====>TAKT7.T
+Processing equation for ====>TAKT7.CLKF
+Processing equation for ====>TAKT7.RSTF
+Processing equation for ====>TAKT7.SETF
+Processing equation for ====>HOLD.T
+Processing equation for ====>HOLD.CLKF
+Processing equation for ====>HOLD.RSTF
+Processing equation for ====>HOLD.SETF
+Processing equation for ====>/ADLR.T
+Processing equation for ====>ADLR.CLKF
+Processing equation for ====>ADLR.RSTF
+Processing equation for ====>ADLR.SETF
+Processing equation for ====>INPSCLK
+Processing equation for ====>INPSDATA
+Processing equation for ====>SHCLK
+Processing equation for ====>SH0
+Processing equation for ====>SH0.CLKF
+Processing equation for ====>SH0.SETF
+Processing equation for ====>SH0.RSTF
+Processing equation for ====>SH1
+Processing equation for ====>SH1.CLKF
+Processing equation for ====>SH1.SETF
+Processing equation for ====>SH1.RSTF
+Processing equation for ====>SH2
+Processing equation for ====>SH2.CLKF
+Processing equation for ====>SH2.SETF
+Processing equation for ====>SH2.RSTF
+Processing equation for ====>SH3
+Processing equation for ====>SH3.CLKF
+Processing equation for ====>SH3.SETF
+Processing equation for ====>SH3.RSTF
+Processing equation for ====>SH4
+Processing equation for ====>SH4.CLKF
+Processing equation for ====>SH4.SETF
+Processing equation for ====>SH4.RSTF
+Processing equation for ====>SH5
+Processing equation for ====>SH5.CLKF
+Processing equation for ====>SH5.SETF
+Processing equation for ====>SH5.RSTF
+Processing equation for ====>SH6
+Processing equation for ====>SH6.CLKF
+Processing equation for ====>SH6.SETF
+Processing equation for ====>SH6.RSTF
+Processing equation for ====>SH7
+Processing equation for ====>SH7.CLKF
+Processing equation for ====>SH7.SETF
+Processing equation for ====>SH7.RSTF
+Processing equation for ====>SH8
+Processing equation for ====>SH8.CLKF
+Processing equation for ====>SH8.SETF
+Processing equation for ====>SH8.RSTF
+Processing equation for ====>SH9
+Processing equation for ====>SH9.CLKF
+Processing equation for ====>SH9.SETF
+Processing equation for ====>SH9.RSTF
+Processing equation for ====>SH10
+Processing equation for ====>SH10.CLKF
+Processing equation for ====>SH10.SETF
+Processing equation for ====>SH10.RSTF
+Processing equation for ====>SH11
+Processing equation for ====>SH11.CLKF
+Processing equation for ====>SH11.SETF
+Processing equation for ====>SH11.RSTF
+Processing equation for ====>SH12
+Processing equation for ====>SH12.CLKF
+Processing equation for ====>SH12.SETF
+Processing equation for ====>SH12.RSTF
+Processing equation for ====>SH13
+Processing equation for ====>SH13.CLKF
+Processing equation for ====>SH13.SETF
+Processing equation for ====>SH13.RSTF
+Processing equation for ====>SH14
+Processing equation for ====>SH14.CLKF
+Processing equation for ====>SH14.SETF
+Processing equation for ====>SH14.RSTF
+Processing equation for ====>SH15
+Processing equation for ====>SH15.CLKF
+Processing equation for ====>SH15.SETF
+Processing equation for ====>SH15.RSTF
+Processing equation for ====>SH16
+Processing equation for ====>SH16.CLKF
+Processing equation for ====>SH16.SETF
+Processing equation for ====>SH16.RSTF
+Processing equation for ====>PGO
+Processing equation for ====>PGO.CLKF
+Processing equation for ====>PGO.SETF
+Processing equation for ====>PGO.RSTF
+Processing equation for ====>NGO
+Processing equation for ====>/NGO.CLKF
+Processing equation for ====>NGO.SETF
+Processing equation for ====>NGO.RSTF
+Processing equation for ====>SHD0
+Processing equation for ====>SHD0.CLKF
+Processing equation for ====>SHD0.SETF
+Processing equation for ====>SHD0.RSTF
+Processing equation for ====>SHD1
+Processing equation for ====>SHD1.CLKF
+Processing equation for ====>SHD1.SETF
+Processing equation for ====>SHD1.RSTF
+Processing equation for ====>SHD2
+Processing equation for ====>SHD2.CLKF
+Processing equation for ====>SHD2.SETF
+Processing equation for ====>SHD2.RSTF
+Processing equation for ====>SHD3
+Processing equation for ====>SHD3.CLKF
+Processing equation for ====>SHD3.SETF
+Processing equation for ====>SHD3.RSTF
+Processing equation for ====>SHD4
+Processing equation for ====>SHD4.CLKF
+Processing equation for ====>SHD4.SETF
+Processing equation for ====>SHD4.RSTF
+Processing equation for ====>SHD5
+Processing equation for ====>SHD5.CLKF
+Processing equation for ====>SHD5.SETF
+Processing equation for ====>SHD5.RSTF
+Processing equation for ====>SHD6
+Processing equation for ====>SHD6.CLKF
+Processing equation for ====>SHD6.SETF
+Processing equation for ====>SHD6.RSTF
+Processing equation for ====>SHD7
+Processing equation for ====>SHD7.CLKF
+Processing equation for ====>SHD7.SETF
+Processing equation for ====>SHD7.RSTF
+Processing equation for ====>SHD8
+Processing equation for ====>SHD8.CLKF
+Processing equation for ====>SHD8.SETF
+Processing equation for ====>SHD8.RSTF
+Processing equation for ====>SHD9
+Processing equation for ====>SHD9.CLKF
+Processing equation for ====>SHD9.SETF
+Processing equation for ====>SHD9.RSTF
+Processing equation for ====>SHD10
+Processing equation for ====>SHD10.CLKF
+Processing equation for ====>SHD10.SETF
+Processing equation for ====>SHD10.RSTF
+Processing equation for ====>SHD11
+Processing equation for ====>SHD11.CLKF
+Processing equation for ====>SHD11.SETF
+Processing equation for ====>SHD11.RSTF
+Processing equation for ====>SHD12
+Processing equation for ====>SHD12.CLKF
+Processing equation for ====>SHD12.SETF
+Processing equation for ====>SHD12.RSTF
+Processing equation for ====>SHD13
+Processing equation for ====>SHD13.CLKF
+Processing equation for ====>SHD13.SETF
+Processing equation for ====>SHD13.RSTF
+Processing equation for ====>SHD14
+Processing equation for ====>SHD14.CLKF
+Processing equation for ====>SHD14.SETF
+Processing equation for ====>SHD14.RSTF
+Processing equation for ====>SHD15
+Processing equation for ====>SHD15.CLKF
+Processing equation for ====>SHD15.SETF
+Processing equation for ====>SHD15.RSTF
+Processing equation for ====>WAIT
+Processing equation for ====>WAIT.CLKF
+Processing equation for ====>WAIT.RSTF
+Processing equation for ====>WAIT.SETF
+Processing equation for ====>WAIT2
+Processing equation for ====>WAIT2.CLKF
+Processing equation for ====>WAIT2.RSTF
+Processing equation for ====>WAIT2.SETF
+Processing equation for ====>WAIT3
+Processing equation for ====>WAIT3.CLKF
+Processing equation for ====>WAIT3.RSTF
+Processing equation for ====>WAIT3.SETF
+Processing equation for ====>WAIT4
+Processing equation for ====>WAIT4.CLKF
+Processing equation for ====>WAIT4.RSTF
+Processing equation for ====>WAIT4.SETF
+Processing equation for ====>WAIT5
+Processing equation for ====>WAIT5.CLKF
+Processing equation for ====>WAIT5.RSTF
+Processing equation for ====>WAIT5.SETF
+Processing equation for ====>WRFERTIG
+Processing equation for ====>/PUFWR
+Processing equation for ====>/XGORES
+Processing equation for ====>WD0
+Processing equation for ====>WD1
+Processing equation for ====>WD2
+Processing equation for ====>WD3
+Processing equation for ====>WD4
+Processing equation for ====>WD5
+Processing equation for ====>WD6
+Processing equation for ====>WD7
+Processing equation for ====>Z0.T
+Processing equation for ====>Z0.CLKF
+Processing equation for ====>Z0.RSTF
+Processing equation for ====>Z0.SETF
+Processing equation for ====>Z1.T
+Processing equation for ====>Z1.CLKF
+Processing equation for ====>Z1.RSTF
+Processing equation for ====>Z1.SETF
+Processing equation for ====>Z2.T
+Processing equation for ====>Z2.CLKF
+Processing equation for ====>Z2.RSTF
+Processing equation for ====>Z2.SETF
+Processing equation for ====>Z3.T
+Processing equation for ====>Z3.CLKF
+Processing equation for ====>Z3.RSTF
+Processing equation for ====>Z3.SETF
+Processing equation for ====>Z4.T
+Processing equation for ====>Z4.CLKF
+Processing equation for ====>Z4.RSTF
+Processing equation for ====>Z4.SETF
+Processing equation for ====>Z5.T
+Processing equation for ====>Z5.CLKF
+Processing equation for ====>Z5.RSTF
+Processing equation for ====>Z5.SETF
+Processing equation for ====>BWAIT
+Processing equation for ====>BWAIT.CLKF
+Processing equation for ====>BWAIT.RSTF
+Processing equation for ====>BWAIT.SETF
+Processing equation for ====>BWAIT2
+Processing equation for ====>BWAIT2.CLKF
+Processing equation for ====>BWAIT2.RSTF
+Processing equation for ====>BWAIT2.SETF
+Processing equation for ====>BWAIT3
+Processing equation for ====>BWAIT3.CLKF
+Processing equation for ====>BWAIT3.RSTF
+Processing equation for ====>BWAIT3.SETF
+Processing equation for ====>/PUFRD
+Processing equation for ====>PLAYCLKO
+Processing equation for ====>RP9
+Processing equation for ====>RP9.CLKF
+Processing equation for ====>RP9.SETF
+Processing equation for ====>RP9.RSTF
+Processing equation for ====>RP8
+Processing equation for ====>RP8.CLKF
+Processing equation for ====>RPA7
+Processing equation for ====>RPA7.CLKF
+Processing equation for ====>RPA6
+Processing equation for ====>RPA6.CLKF
+Processing equation for ====>RPA5
+Processing equation for ====>RPA5.CLKF
+Processing equation for ====>RPA4
+Processing equation for ====>RPA4.CLKF
+Processing equation for ====>RPA3
+Processing equation for ====>RPA3.CLKF
+Processing equation for ====>RPA2
+Processing equation for ====>RPA2.CLKF
+Processing equation for ====>RPA1
+Processing equation for ====>RPA1.CLKF
+Processing equation for ====>RPA0
+Processing equation for ====>RPA0.CLKF
+Processing equation for ====>RPB7
+Processing equation for ====>RPB7.CLKF
+Processing equation for ====>RPB6
+Processing equation for ====>RPB6.CLKF
+Processing equation for ====>RPB5
+Processing equation for ====>RPB5.CLKF
+Processing equation for ====>RPB4
+Processing equation for ====>RPB4.CLKF
+Processing equation for ====>RPB3
+Processing equation for ====>RPB3.CLKF
+Processing equation for ====>RPB2
+Processing equation for ====>RPB2.CLKF
+Processing equation for ====>RPB1
+Processing equation for ====>RPB1.CLKF
+Processing equation for ====>RPB0
+Processing equation for ====>RPB0.CLKF
+Processing equation for ====>RPC7
+Processing equation for ====>RPC7.CLKF
+Processing equation for ====>RPC6
+Processing equation for ====>RPC6.CLKF
+Processing equation for ====>RPC5
+Processing equation for ====>RPC5.CLKF
+Processing equation for ====>RPC4
+Processing equation for ====>RPC4.CLKF
+Processing equation for ====>RPC3
+Processing equation for ====>RPC3.CLKF
+Processing equation for ====>RPC2
+Processing equation for ====>RPC2.CLKF
+Processing equation for ====>RPC1
+Processing equation for ====>RPC1.CLKF
+Processing equation for ====>RPC0
+Processing equation for ====>RPC0.CLKF
+Processing equation for ====>RPD7
+Processing equation for ====>RPD7.CLKF
+Processing equation for ====>RPD6
+Processing equation for ====>RPD6.CLKF
+Processing equation for ====>RPD5
+Processing equation for ====>RPD5.CLKF
+Processing equation for ====>RPD4
+Processing equation for ====>RPD4.CLKF
+Processing equation for ====>RPD3
+Processing equation for ====>RPD3.CLKF
+Processing equation for ====>RPD2
+Processing equation for ====>RPD2.CLKF
+Processing equation for ====>RPD1
+Processing equation for ====>RPD1.CLKF
+Processing equation for ====>RPD0
+Processing equation for ====>RPD0.CLKF
+Processing equation for ====>DA_SCLK
+Processing equation for ====>DAHLPA
+Processing equation for ====>DA_SDATA
+Processing equation for ====>DAHLPB
+Processing equation for ====>DA_SDATB
+Processing equation for ====>DAHLPC
+Processing equation for ====>DA_SDATC
+Processing equation for ====>DAHLPD
+Processing equation for ====>DA_SDATD
+Processing equation for ====>DA_FSYNC
+Processing equation for ====>AESCOUT
+Processing equation for ====>MCLK128.T
+Processing equation for ====>MCLK128.CLKF
+Processing equation for ====>MCLK128.SETF
+Processing equation for ====>MCLK128.RSTF
+Processing equation for ====>AESMCLKO
+Processing equation for ====>AESDATAO
+Processing equation for ====>AESPRO
+Processing equation for ====>AESFC0
+Processing equation for ====>AESFC1
+Processing equation for ====>DATACLK
+Processing equation for ====>DSPSC0
+Processing equation for ====>DSPSC2
+Processing equation for ====>DSPSCK
+Processing equation for ====>DSPSRD
+SIMULATION SEGMENT
+
+ %%  MACHBPP  %% Maximum memory allocated was: 171832 bytes.
+
+ %%  MACHBPP  %% File Processed Successfully.  File: sampler8.pds.
+ %%  MACHBPP  %% ERROR count: 0  WARNING count: 0
+
+*** End MACHBPP 17:21:52; (MACHBPP= 2.5 min.) elapsed time= 2.5 min.
+Accumulated Disk space used = 20480 bytes
+Free Disk space = 205336576 bytes
+
+*** Start MACHMIN 17:21:52 
+MACHXL 1.3 MACHMIN   - (5-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1994
+
+
+Processing equation(s) for node MCLK12...
+====> MCLK12.T           MIN_ON (1 + pt)
+====> MCLK12.CLKF        MIN_ON (1 + pt)
+====> MCLK12.SETF        MIN_ON (1 + pt)
+====> MCLK12.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for node NGO...
+====> NGO                MIN_ON (1 + pt)
+====> /NGO.CLKF          MIN_ON (1 - pt)
+====> NGO.SETF           MIN_ON (1 + pt)
+====> NGO.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node PGO...
+====> PGO                MIN_ON (1 + pt)
+====> PGO.CLKF           MIN_ON (1 + pt)
+====> PGO.SETF           MIN_ON (1 + pt)
+====> PGO.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node CZ5...
+====> CZ5.T              MIN_ON (1 + pt)
+====> CZ5.CLKF           MIN_ON (1 + pt)
+====> CZ5.SETF           MIN_ON (1 + pt)
+====> CZ5.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node CZ4...
+====> CZ4.T              MIN_ON (1 + pt)
+====> CZ4.CLKF           MIN_ON (1 + pt)
+====> CZ4.SETF           MIN_ON (1 + pt)
+====> CZ4.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node CZ3...
+====> CZ3.T              MIN_ON (1 + pt)
+====> CZ3.CLKF           MIN_ON (1 + pt)
+====> CZ3.SETF           MIN_ON (1 + pt)
+====> CZ3.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node CZ2...
+====> CZ2.T              MIN_ON (1 + pt)
+====> CZ2.CLKF           MIN_ON (1 + pt)
+====> CZ2.SETF           MIN_ON (1 + pt)
+====> CZ2.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node CZ1...
+====> CZ1.T              MIN_ON (1 + pt)
+====> CZ1.CLKF           MIN_ON (1 + pt)
+====> CZ1.SETF           MIN_ON (1 + pt)
+====> CZ1.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node CZ0...
+====> CZ0.T              MIN_ON (1 + pt)
+====> CZ0.CLKF           MIN_ON (1 + pt)
+====> CZ0.SETF           MIN_ON (1 + pt)
+====> CZ0.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node Z5...
+====> Z5.T               MIN_ON (1 + pt)
+====> Z5.CLKF            MIN_ON (1 + pt)
+====> Z5.SETF            MIN_ON (1 + pt)
+====> Z5.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node Z4...
+====> Z4.T               MIN_ON (1 + pt)
+====> Z4.CLKF            MIN_ON (1 + pt)
+====> Z4.SETF            MIN_ON (1 + pt)
+====> Z4.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node Z3...
+====> Z3.T               MIN_ON (1 + pt)
+====> Z3.CLKF            MIN_ON (1 + pt)
+====> Z3.SETF            MIN_ON (1 + pt)
+====> Z3.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node Z2...
+====> Z2.T               MIN_ON (1 + pt)
+====> Z2.CLKF            MIN_ON (1 + pt)
+====> Z2.SETF            MIN_ON (1 + pt)
+====> Z2.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node Z1...
+====> Z1.T               MIN_ON (1 + pt)
+====> Z1.CLKF            MIN_ON (1 + pt)
+====> Z1.SETF            MIN_ON (1 + pt)
+====> Z1.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node Z0...
+====> Z0.T               MIN_ON (1 + pt)
+====> Z0.CLKF            MIN_ON (1 + pt)
+====> Z0.SETF            MIN_ON (1 + pt)
+====> Z0.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node BWAIT3...
+====> BWAIT3             MIN_ON (1 + pt)
+====> BWAIT3.CLKF        MIN_ON (1 + pt)
+====> BWAIT3.SETF        MIN_ON (1 + pt)
+====> BWAIT3.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for node BWAIT2...
+====> BWAIT2             MIN_ON (1 + pt)
+====> BWAIT2.CLKF        MIN_ON (1 + pt)
+====> BWAIT2.SETF        MIN_ON (1 + pt)
+====> BWAIT2.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for node BWAIT...
+====> BWAIT              MIN_ON (1 + pt)
+====> BWAIT.CLKF         MIN_ON (1 + pt)
+====> BWAIT.SETF         MIN_ON (1 + pt)
+====> BWAIT.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node WAIT5...
+====> WAIT5              MIN_ON (1 + pt)
+====> WAIT5.CLKF         MIN_ON (1 + pt)
+====> WAIT5.SETF         MIN_ON (1 + pt)
+====> WAIT5.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node WAIT4...
+====> WAIT4              MIN_ON (1 + pt)
+====> WAIT4.CLKF         MIN_ON (1 + pt)
+====> WAIT4.SETF         MIN_ON (1 + pt)
+====> WAIT4.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node WAIT3...
+====> WAIT3              MIN_ON (1 + pt)
+====> WAIT3.CLKF         MIN_ON (1 + pt)
+====> WAIT3.SETF         MIN_ON (1 + pt)
+====> WAIT3.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node WAIT2...
+====> WAIT2              MIN_ON (1 + pt)
+====> WAIT2.CLKF         MIN_ON (1 + pt)
+====> WAIT2.SETF         MIN_ON (1 + pt)
+====> WAIT2.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node WAIT...
+====> WAIT               MIN_ON (2 + pt --> 1 + pt)
+====> WAIT.CLKF          MIN_ON (1 + pt)
+====> WAIT.SETF          MIN_ON (1 + pt)
+====> WAIT.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node EXTAKT...
+====> EXTAKT             MIN_ON (1 + pt)
+====> /EXTAKT.CLKF       MIN_ON (1 - pt)
+====> EXTAKT.SETF        MIN_ON (1 + pt)
+====> EXTAKT.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for node TAKTH...
+====> TAKTH              MIN_ON (1 + pt)
+====> /TAKTH.CLKF        MIN_ON (1 - pt)
+====> TAKTH.SETF         MIN_ON (1 + pt)
+====> TAKTH.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node TAKTL...
+====> TAKTL              MIN_ON (1 + pt)
+====> /TAKTL.CLKF        MIN_ON (1 - pt)
+====> TAKTL.SETF         MIN_ON (1 + pt)
+====> TAKTL.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node SWRESFF...
+====> SWRESFF            MIN_ON (1 + pt)
+====> /SWRESFF.CLKF      MIN_ON (1 - pt)
+====> SWRESFF.SETF       MIN_ON (1 + pt)
+====> SWRESFF.RSTF       MIN_ON (1 + pt)
+Processing equation(s) for node SWINDSP...
+====> SWINDSP            MIN_ON (1 + pt)
+====> /SWINDSP.CLKF      MIN_ON (1 - pt)
+====> SWINDSP.SETF       MIN_ON (1 + pt)
+====> SWINDSP.RSTF       MIN_ON (1 + pt)
+Processing equation(s) for node SWONDSP...
+====> SWONDSP            MIN_ON (1 + pt)
+====> /SWONDSP.CLKF      MIN_ON (1 - pt)
+====> SWONDSP.SETF       MIN_ON (1 + pt)
+====> SWONDSP.RSTF       MIN_ON (1 + pt)
+Processing equation(s) for node SWDIGOUT...
+====> SWDIGOUT           MIN_ON (1 + pt)
+====> /SWDIGOUT.CLKF     MIN_ON (1 - pt)
+====> SWDIGOUT.SETF      MIN_ON (1 + pt)
+====> SWDIGOUT.RSTF      MIN_ON (1 + pt)
+Processing equation(s) for node SWAES...
+====> SWAES              MIN_ON (1 + pt)
+====> /SWAES.CLKF        MIN_ON (1 - pt)
+====> SWAES.SETF         MIN_ON (1 + pt)
+====> SWAES.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node TAKT7...
+====> TAKT7.T            MIN_ON (1 + pt)
+====> TAKT7.CLKF         MIN_ON (1 + pt)
+====> TAKT7.SETF         MIN_ON (1 + pt)
+====> TAKT7.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node TAKT6...
+====> TAKT6.T            MIN_ON (1 + pt)
+====> TAKT6.CLKF         MIN_ON (1 + pt)
+====> TAKT6.SETF         MIN_ON (1 + pt)
+====> TAKT6.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node TAKT5...
+====> TAKT5.T            MIN_ON (1 + pt)
+====> TAKT5.CLKF         MIN_ON (1 + pt)
+====> TAKT5.SETF         MIN_ON (1 + pt)
+====> TAKT5.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node SH16...
+====> SH16               MIN_ON (1 + pt)
+====> SH16.CLKF          MIN_ON (1 + pt)
+====> SH16.SETF          MIN_ON (1 + pt)
+====> SH16.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SH14...
+====> SH14               MIN_ON (1 + pt)
+====> SH14.CLKF          MIN_ON (1 + pt)
+====> SH14.SETF          MIN_ON (1 + pt)
+====> SH14.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SH13...
+====> SH13               MIN_ON (1 + pt)
+====> SH13.CLKF          MIN_ON (1 + pt)
+====> SH13.SETF          MIN_ON (1 + pt)
+====> SH13.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SH12...
+====> SH12               MIN_ON (1 + pt)
+====> SH12.CLKF          MIN_ON (1 + pt)
+====> SH12.SETF          MIN_ON (1 + pt)
+====> SH12.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SH11...
+====> SH11               MIN_ON (1 + pt)
+====> SH11.CLKF          MIN_ON (1 + pt)
+====> SH11.SETF          MIN_ON (1 + pt)
+====> SH11.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SH10...
+====> SH10               MIN_ON (1 + pt)
+====> SH10.CLKF          MIN_ON (1 + pt)
+====> SH10.SETF          MIN_ON (1 + pt)
+====> SH10.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SH9...
+====> SH9                MIN_ON (1 + pt)
+====> SH9.CLKF           MIN_ON (1 + pt)
+====> SH9.SETF           MIN_ON (1 + pt)
+====> SH9.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SH8...
+====> SH8                MIN_ON (1 + pt)
+====> SH8.CLKF           MIN_ON (1 + pt)
+====> SH8.SETF           MIN_ON (1 + pt)
+====> SH8.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SH7...
+====> SH7                MIN_ON (1 + pt)
+====> SH7.CLKF           MIN_ON (1 + pt)
+====> SH7.SETF           MIN_ON (1 + pt)
+====> SH7.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SH6...
+====> SH6                MIN_ON (1 + pt)
+====> SH6.CLKF           MIN_ON (1 + pt)
+====> SH6.SETF           MIN_ON (1 + pt)
+====> SH6.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SH5...
+====> SH5                MIN_ON (1 + pt)
+====> SH5.CLKF           MIN_ON (1 + pt)
+====> SH5.SETF           MIN_ON (1 + pt)
+====> SH5.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SH4...
+====> SH4                MIN_ON (1 + pt)
+====> SH4.CLKF           MIN_ON (1 + pt)
+====> SH4.SETF           MIN_ON (1 + pt)
+====> SH4.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SH3...
+====> SH3                MIN_ON (1 + pt)
+====> SH3.CLKF           MIN_ON (1 + pt)
+====> SH3.SETF           MIN_ON (1 + pt)
+====> SH3.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SH2...
+====> SH2                MIN_ON (1 + pt)
+====> SH2.CLKF           MIN_ON (1 + pt)
+====> SH2.SETF           MIN_ON (1 + pt)
+====> SH2.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SH1...
+====> SH1                MIN_ON (1 + pt)
+====> SH1.CLKF           MIN_ON (1 + pt)
+====> SH1.SETF           MIN_ON (1 + pt)
+====> SH1.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SH0...
+====> SH0                MIN_ON (2 + pt)
+====> SH0.CLKF           MIN_ON (1 + pt)
+====> SH0.SETF           MIN_ON (1 + pt)
+====> SH0.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node RPD0...
+====> RPD0               MIN_ON (1 + pt)
+====> RPD0.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD1...
+====> RPD1               MIN_ON (1 + pt)
+====> RPD1.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD2...
+====> RPD2               MIN_ON (1 + pt)
+====> RPD2.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD3...
+====> RPD3               MIN_ON (1 + pt)
+====> RPD3.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD4...
+====> RPD4               MIN_ON (1 + pt)
+====> RPD4.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD5...
+====> RPD5               MIN_ON (1 + pt)
+====> RPD5.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD6...
+====> RPD6               MIN_ON (1 + pt)
+====> RPD6.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD7...
+====> RPD7               MIN_ON (1 + pt)
+====> RPD7.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC0...
+====> RPC0               MIN_ON (1 + pt)
+====> RPC0.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC1...
+====> RPC1               MIN_ON (1 + pt)
+====> RPC1.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC2...
+====> RPC2               MIN_ON (1 + pt)
+====> RPC2.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC3...
+====> RPC3               MIN_ON (1 + pt)
+====> RPC3.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC4...
+====> RPC4               MIN_ON (1 + pt)
+====> RPC4.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC5...
+====> RPC5               MIN_ON (1 + pt)
+====> RPC5.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC6...
+====> RPC6               MIN_ON (1 + pt)
+====> RPC6.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC7...
+====> RPC7               MIN_ON (1 + pt)
+====> RPC7.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB0...
+====> RPB0               MIN_ON (1 + pt)
+====> RPB0.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB1...
+====> RPB1               MIN_ON (1 + pt)
+====> RPB1.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB2...
+====> RPB2               MIN_ON (1 + pt)
+====> RPB2.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB3...
+====> RPB3               MIN_ON (1 + pt)
+====> RPB3.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB4...
+====> RPB4               MIN_ON (1 + pt)
+====> RPB4.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB5...
+====> RPB5               MIN_ON (1 + pt)
+====> RPB5.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB6...
+====> RPB6               MIN_ON (1 + pt)
+====> RPB6.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB7...
+====> RPB7               MIN_ON (1 + pt)
+====> RPB7.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA0...
+====> RPA0               MIN_ON (1 + pt)
+====> RPA0.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA1...
+====> RPA1               MIN_ON (1 + pt)
+====> RPA1.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA2...
+====> RPA2               MIN_ON (1 + pt)
+====> RPA2.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA3...
+====> RPA3               MIN_ON (1 + pt)
+====> RPA3.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA4...
+====> RPA4               MIN_ON (1 + pt)
+====> RPA4.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA5...
+====> RPA5               MIN_ON (1 + pt)
+====> RPA5.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA6...
+====> RPA6               MIN_ON (1 + pt)
+====> RPA6.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA7...
+====> RPA7               MIN_ON (1 + pt)
+====> RPA7.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RP8...
+====> RP8                MIN_ON (1 + pt)
+====> RP8.CLKF           MIN_ON (1 + pt)
+Processing equation(s) for node RP9...
+====> RP9                MIN_ON (1 + pt)
+====> RP9.CLKF           MIN_ON (1 + pt)
+====> RP9.SETF           MIN_ON (1 + pt)
+====> RP9.RSTF           MIN_ON (1 + pt)
+Processing equation(s) for node SHD0...
+====> SHD0               MIN_ON (3 + pt)
+====> SHD0.CLKF          MIN_ON (1 + pt)
+====> SHD0.SETF          MIN_ON (1 + pt)
+====> SHD0.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD1...
+====> SHD1               MIN_ON (1 + pt)
+====> SHD1.CLKF          MIN_ON (1 + pt)
+====> SHD1.SETF          MIN_ON (1 + pt)
+====> SHD1.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD2...
+====> SHD2               MIN_ON (1 + pt)
+====> SHD2.CLKF          MIN_ON (1 + pt)
+====> SHD2.SETF          MIN_ON (1 + pt)
+====> SHD2.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD3...
+====> SHD3               MIN_ON (1 + pt)
+====> SHD3.CLKF          MIN_ON (1 + pt)
+====> SHD3.SETF          MIN_ON (1 + pt)
+====> SHD3.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD4...
+====> SHD4               MIN_ON (1 + pt)
+====> SHD4.CLKF          MIN_ON (1 + pt)
+====> SHD4.SETF          MIN_ON (1 + pt)
+====> SHD4.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD5...
+====> SHD5               MIN_ON (1 + pt)
+====> SHD5.CLKF          MIN_ON (1 + pt)
+====> SHD5.SETF          MIN_ON (1 + pt)
+====> SHD5.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD6...
+====> SHD6               MIN_ON (1 + pt)
+====> SHD6.CLKF          MIN_ON (1 + pt)
+====> SHD6.SETF          MIN_ON (1 + pt)
+====> SHD6.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD7...
+====> SHD7               MIN_ON (1 + pt)
+====> SHD7.CLKF          MIN_ON (1 + pt)
+====> SHD7.SETF          MIN_ON (1 + pt)
+====> SHD7.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD8...
+====> SHD8               MIN_ON (1 + pt)
+====> SHD8.CLKF          MIN_ON (1 + pt)
+====> SHD8.SETF          MIN_ON (1 + pt)
+====> SHD8.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD9...
+====> SHD9               MIN_ON (1 + pt)
+====> SHD9.CLKF          MIN_ON (1 + pt)
+====> SHD9.SETF          MIN_ON (1 + pt)
+====> SHD9.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node SHD10...
+====> SHD10              MIN_ON (1 + pt)
+====> SHD10.CLKF         MIN_ON (1 + pt)
+====> SHD10.SETF         MIN_ON (1 + pt)
+====> SHD10.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node SHD11...
+====> SHD11              MIN_ON (1 + pt)
+====> SHD11.CLKF         MIN_ON (1 + pt)
+====> SHD11.SETF         MIN_ON (1 + pt)
+====> SHD11.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node SHD12...
+====> SHD12              MIN_ON (1 + pt)
+====> SHD12.CLKF         MIN_ON (1 + pt)
+====> SHD12.SETF         MIN_ON (1 + pt)
+====> SHD12.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node SHD13...
+====> SHD13              MIN_ON (1 + pt)
+====> SHD13.CLKF         MIN_ON (1 + pt)
+====> SHD13.SETF         MIN_ON (1 + pt)
+====> SHD13.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node SHD14...
+====> SHD14              MIN_ON (1 + pt)
+====> SHD14.CLKF         MIN_ON (1 + pt)
+====> SHD14.SETF         MIN_ON (1 + pt)
+====> SHD14.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node SHD15...
+====> SHD15              MIN_ON (1 + pt)
+====> SHD15.CLKF         MIN_ON (1 + pt)
+====> SHD15.SETF         MIN_ON (1 + pt)
+====> SHD15.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node HOLD...
+====> HOLD.T             MIN_ON (1 + pt)
+====> HOLD.CLKF          MIN_ON (1 + pt)
+====> HOLD.SETF          MIN_ON (1 + pt)
+====> HOLD.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for node ADCLK16...
+====> ADCLK16.T          MIN_ON (1 + pt)
+====> ADCLK16.CLKF       MIN_ON (1 + pt)
+====> ADCLK16.SETF       MIN_ON (1 + pt)
+====> ADCLK16.RSTF       MIN_ON (1 + pt)
+Processing equation(s) for node MCLK128...
+====> MCLK128.T          MIN_ON (1 + pt)
+====> MCLK128.CLKF       MIN_ON (1 + pt)
+====> MCLK128.SETF       MIN_ON (1 + pt)
+====> MCLK128.RSTF       MIN_ON (1 + pt)
+Processing equation(s) for node SHCLK...
+====> SHCLK              MIN_ON (2 + pt)
+Processing equation(s) for node WRFERTIG...
+====> WRFERTIG           MIN_ON (2 + pt)
+Processing equation(s) for node XGORES...
+====> /XGORES            MIN_ON (3 - pt)
+Processing equation(s) for node DAHLPD...
+====> DAHLPD             MIN_ON (8 + pt)
+Processing equation(s) for node DAHLPC...
+====> DAHLPC             MIN_ON (8 + pt)
+Processing equation(s) for node DAHLPB...
+====> DAHLPB             MIN_ON (8 + pt)
+Processing equation(s) for node DAHLPA...
+====> DAHLPA             MIN_ON (8 + pt)
+Processing equation(s) for node DATACLK...
+====> DATACLK            MIN_ON (4 + pt)
+Processing equation(s) for node INPSDATA...
+====> INPSDATA           MIN_ON (3 + pt)
+Processing equation(s) for node INPSCLK...
+====> INPSCLK            MIN_ON (2 + pt)
+Processing equation(s) for node CZCLK...
+====> CZCLK              MIN_ON (2 + pt)
+Processing equation(s) for pin PLAYCLKO...
+====> PLAYCLKO           MIN_ON (1 + pt)
+Processing equation(s) for pin AESC25...
+====> AESC25             MIN_ON (1 + pt)
+====> AESC25.CLKF        MIN_ON (1 + pt)
+====> AESC25.SETF        MIN_ON (1 + pt)
+====> AESC25.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for pin AESC24...
+====> AESC24             MIN_ON (1 + pt)
+====> AESC24.CLKF        MIN_ON (1 + pt)
+====> AESC24.SETF        MIN_ON (1 + pt)
+====> AESC24.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for pin VOLDATAI...
+====> VOLDATAI           MIN_ON (1 + pt)
+====> /VOLDATAI.CLKF     MIN_ON (1 - pt)
+====> VOLDATAI.SETF      MIN_ON (1 + pt)
+====> VOLDATAI.RSTF      MIN_ON (1 + pt)
+Processing equation(s) for pin VOLCLK...
+====> VOLCLK             MIN_ON (1 + pt)
+====> /VOLCLK.CLKF       MIN_ON (1 - pt)
+====> VOLCLK.SETF        MIN_ON (1 + pt)
+====> VOLCLK.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for pin VOLCS...
+====> VOLCS              MIN_ON (1 + pt)
+====> /VOLCS.CLKF        MIN_ON (1 - pt)
+====> VOLCS.SETF         MIN_ON (1 + pt)
+====> VOLCS.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for pin SWPROT...
+====> SWPROT             MIN_ON (1 + pt)
+====> /SWPROT.CLKF       MIN_ON (1 - pt)
+====> SWPROT.SETF        MIN_ON (1 + pt)
+====> SWPROT.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for pin SWSUBFR...
+====> SWSUBFR            MIN_ON (1 + pt)
+====> /SWSUBFR.CLKF      MIN_ON (1 - pt)
+====> SWSUBFR.SETF       MIN_ON (1 + pt)
+====> SWSUBFR.RSTF       MIN_ON (1 + pt)
+Processing equation(s) for pin SWDIGIN...
+====> SWDIGIN            MIN_ON (1 + pt)
+====> /SWDIGIN.CLKF      MIN_ON (1 - pt)
+====> SWDIGIN.SETF       MIN_ON (1 + pt)
+====> SWDIGIN.RSTF       MIN_ON (1 + pt)
+Processing equation(s) for pin AESFCK...
+====> AESFCK.T           MIN_ON (1 + pt)
+====> AESFCK.CLKF        MIN_ON (1 + pt)
+====> AESFCK.SETF        MIN_ON (1 + pt)
+====> AESFCK.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for pin ADLR...
+====> /ADLR.T            MIN_ON (1 - pt)
+====> ADLR.CLKF          MIN_ON (1 + pt)
+====> ADLR.SETF          MIN_ON (1 + pt)
+====> ADLR.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for pin ADCLK32...
+====> ADCLK32.T          MIN_ON (1 + pt)
+====> ADCLK32.CLKF       MIN_ON (1 + pt)
+====> ADCLK32.SETF       MIN_ON (1 + pt)
+====> ADCLK32.RSTF       MIN_ON (1 + pt)
+Processing equation(s) for pin SH15...
+====> SH15               MIN_ON (1 + pt)
+====> SH15.CLKF          MIN_ON (1 + pt)
+====> SH15.SETF          MIN_ON (1 + pt)
+====> SH15.RSTF          MIN_ON (1 + pt)
+Processing equation(s) for pin AD_DPD...
+====> AD_DPD             MIN_ON (1 + pt)
+Processing equation(s) for pin RESRDFIFO...
+====> /RESRDFIFO         MIN_ON (2 - pt --> 1 - pt)
+Processing equation(s) for pin PUFRD...
+====> /PUFRD             MIN_ON (6 - pt)
+Processing equation(s) for pin PUFWR...
+====> /PUFWR             MIN_ON (4 - pt)
+Processing equation(s) for pin WD7...
+====> WD7                MIN_ON (4 + pt --> 3 + pt)
+Processing equation(s) for pin WD6...
+====> WD6                MIN_ON (4 + pt --> 3 + pt)
+Processing equation(s) for pin WD5...
+====> WD5                MIN_ON (4 + pt --> 3 + pt)
+Processing equation(s) for pin WD4...
+====> WD4                MIN_ON (4 + pt --> 3 + pt)
+Processing equation(s) for pin WD3...
+====> WD3                MIN_ON (4 + pt --> 3 + pt)
+Processing equation(s) for pin WD2...
+====> WD2                MIN_ON (4 + pt --> 3 + pt)
+Processing equation(s) for pin WD1...
+====> WD1                MIN_ON (4 + pt --> 3 + pt)
+Processing equation(s) for pin WD0...
+====> WD0                MIN_ON (4 + pt --> 3 + pt)
+Processing equation(s) for pin DA_FSYNC...
+====> DA_FSYNC           MIN_ON (2 + pt)
+Processing equation(s) for pin DA_SCLK...
+====> DA_SCLK            MIN_ON (2 + pt)
+Processing equation(s) for pin AESDATAO...
+====> AESDATAO           MIN_ON (1 + pt)
+Processing equation(s) for pin AESCOUT...
+====> AESCOUT            MIN_ON (2 + pt)
+Processing equation(s) for pin AESMCLKO...
+====> AESMCLKO           MIN_ON (6 + pt)
+Processing equation(s) for pin AESFC1...
+====> AESFC1             MIN_ON (3 + pt)
+Processing equation(s) for pin AESFC0...
+====> AESFC0             MIN_ON (2 + pt)
+Processing equation(s) for pin AESPRO...
+====> AESPRO             MIN_ON (3 + pt --> 1 + pt)
+Processing equation(s) for pin DA_SDATD...
+====> DA_SDATD           MIN_ON (7 + pt)
+Processing equation(s) for pin DA_SDATC...
+====> DA_SDATC           MIN_ON (7 + pt)
+Processing equation(s) for pin DA_SDATB...
+====> DA_SDATB           MIN_ON (7 + pt)
+Processing equation(s) for pin DA_SDATA...
+====> DA_SDATA           MIN_ON (7 + pt)
+Processing equation(s) for pin SMPCLK...
+====> SMPCLK             MIN_ON (4 + pt)
+Processing equation(s) for pin CKS...
+====> CKS                MIN_ON (3 + pt)
+Processing equation(s) for pin DSPSRD...
+====> DSPSRD             MIN_ON (4 + pt)
+Processing equation(s) for pin DSPSCK...
+====> DSPSCK             MIN_ON (4 + pt)
+Processing equation(s) for pin DSPSC2...
+====> DSPSC2             MIN_ON (4 + pt)
+Processing equation(s) for pin DSPSC0...
+====> DSPSC0             MIN_ON (4 + pt)
+
+ %%  MACHMIN  %% Maximum memory allocated was: 72936 bytes.
+
+ %%  MACHMIN  %% File Processed Successfully.  File: SAMPLER8.PDS.
+ %%  MACHMIN  %% ERROR count: 0  WARNING count: 0
+
+
+*** End MACHMIN 17:22:25; (MACHMIN= 0.6 min.) elapsed time= 3.0 min.
+Accumulated Disk space used = 49152 bytes
+Free Disk space = 205307904 bytes
+
+*** Start MACHMIN 17:22:25 
+MACHXL 1.3 MACHTPLA   - (5-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1994
+
+
+Converting TRE file sampler8.tre to PLA file sampler8.pla...
+
+.......................................................................
+.......................................................................
+...............
+.......................................................................
+.......................................................................
+...............
+
+ %%  MACHTPLA  %% Maximum memory allocated was: 160958 bytes.
+
+ %%  MACHTPLA  %% File Processed Successfully.  File: SAMPLER8.PDS.
+ %%  MACHTPLA  %% ERROR count: 0  WARNING count: 0
+
+
+*** End MACHMIN 17:22:55; (MACHMIN= 0.5 min.) elapsed time= 3.5 min.
+Accumulated Disk space used = 49152 bytes
+Free Disk space = 205307904 bytes
+
+*** Start MACHFITR 17:22:55 
+MACHXL 1.3 MACHFITR (05-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+*** Source file is SAMPLER8.PDS . Device is MACH465 .
+|> INFO z5065 - For outputs, implicit output enables will be set to VCC.
+
+*** End of Pla2db. 
+Check preplaced pins/nodes
+Check preplaced blocks
+Check unreferenced pins/nodes
+Check clock rules
+
+List of global clocks:
+   HCLKI:
+...... Is not forced to be global.
+   PLAYCLKI:
+...... Controls a floating input register/latch.
+   MACHCSL:
+...... Is not forced to be global.
+   DSPREG:
+...... Is not forced to be global.
+
+List of non-global clocks:
+   MCLK24:
+...... Global clock capacity exceeded.
+   MACHCSH:
+...... Global clock capacity exceeded.
+   CBL:
+...... is part of a multiple-literal clock.
+   AESMCLKI:
+...... also used as an Input.
+   DA_ACKO:
+...... also used as an Input.
+   PLAYCLKO:
+...... has a primary equation.
+   CZCLK:
+...... is a Node.
+   INPSCLK:
+...... is a Node.
+   SHCLK:
+...... is a Node.
+   SH16:
+...... is a Node.
+   CZ0:
+...... is a Node.
+   CZ1:
+...... is a Node.
+   CZ2:
+...... is a Node.
+   CZ3:
+...... is a Node.
+   CZ4:
+...... is a Node.
+   CZ5:
+...... is a Node.
+
+*** End of Normalization.
+
+*** End of DRC. 
+
+*** Start Partitioning
+ 
+*** Partitioning successful.
+
+*** Routing successful. Assembler invoked.
+|> INFO z5088 - Single-literal clock signal used as product term clock in
+                block B. Clock is DA_ACKO (Pin 22).
+|> INFO z5088 - Single-literal clock signal used as product term clock in
+                block C. Clock is MACHCSH (Pin 54).
+|> INFO z5088 - Single-literal clock signal used as product term clock in
+                block E. Clock is DA_ACKO (Pin 22).
+|> INFO z5088 - Single-literal clock signal used as product term clock in
+                block E. Clock is MCLK24 (Pin 57).
+|> INFO z5088 - Single-literal clock signal used as product term clock in
+                block F. Clock is AESMCLKI (Pin 31).
+|> INFO z5088 - Single-literal clock signal used as product term clock in
+                block G. Clock is DA_ACKO (Pin 22).
+|> INFO z5088 - Single-literal clock signal used as product term clock in
+                block H. Clock is PLAYCLKO (Pin 118).
+|> INFO z5088 - Single-literal clock signal used as product term clock in
+                block J. Clock is MCLK24 (Pin 57).
+|> INFO z5088 - Single-literal clock signal used as product term clock in
+                block J. Clock is MACHCSH (Pin 54).
+...... Zero Hold Time For Input Registers? N
+*** The JEDEC file generated is SAMPLER8.JED .
+*** The custom BSDL file generated is SAMPLER8.BSD .
+*** Report Generator invoked.
+
+Partitioning 100% - Completed
+Placement    100% - Completed
+Routing      100% - Completed
+%%% Fitting process is successful %%%
+*** Report Generator end.
+
+%%%% MACHFITR %%%% Fitting successful. File SAMPLER8.PDS .
+%%%% MACHFITR %%%% ERROR count 0 WARNING count 0 .
+
+*** End MACHFITR 17:24:20; (MACHFITR= 1.4 min.) elapsed time= 5.0 min.
+Accumulated Disk space used = 53248 bytes
+Free Disk space = 205303808 bytes

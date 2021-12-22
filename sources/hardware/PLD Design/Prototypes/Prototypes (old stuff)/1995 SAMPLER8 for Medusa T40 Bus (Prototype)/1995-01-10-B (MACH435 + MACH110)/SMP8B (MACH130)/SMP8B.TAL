@@ -1,0 +1,79 @@
+
+***************************
+* Design Name = smp8b.pds *
+***************************
+
+
+*******************
+* TIMING ANALYSIS *
+*******************
+
+Timing Analysis KEY:
+One unit of delay time is equivalent to one pass 
+     through the Central Switch Matrix.
+..   Delay ( in this column ) not applicable to the indicated signal.
+TSU, Set-Up Time ( 0 for input-paired signals ),
+     represents the number of switch matrix passes between
+     an input pin and a register setup before clock.
+     TSU is reported on the register.
+TCO, Clocked Output-to-Pin Time ( 0 for output-paired signals ),
+     represents the number of switch matrix passes between
+     a clocked register and an output pin.
+     TCO is reported on the register.
+TPD, Propagation Delay Time ( calculated only for combinatorial eqns.),
+     represents the number of switch matrix passes between
+     an input pin and an output pin.
+     TPD is reported on the output pin.
+TCR, Clocked Output-to-Register Time,
+     represents the number of switch matrix passes between
+     a clocked register and the register it drives ( before clock ).
+     TCR is reported on the driving register.
+
+                    TSU       TCO       TPD       TCR
+                  #passes   #passes   #passes   #passes
+SIGNAL NAME       min  max  min  max  min  max  min  max
+              Z4  ..   ..    0    2   ..   ..    1    1   
+           RN_Z4  ..   ..    0    2   ..   ..    1    1   
+              Z5  ..   ..    0    2   ..   ..   ..   ..   
+           RN_Z5  ..   ..    0    2   ..   ..   ..   ..   
+             RP9  ..   ..    1    2   ..   ..   ..   ..   
+             RP8   1    1    1    2   ..   ..    1    1   
+              Z1  ..   ..    1    2   ..   ..    1    1   
+              Z2  ..   ..    1    2   ..   ..    1    1   
+              Z3  ..   ..    1    2   ..   ..    1    1   
+            RPA7   1    1    1    1   ..   ..   ..   ..   
+            RPA6   1    1    1    1   ..   ..   ..   ..   
+            RPA5   1    1    1    1   ..   ..   ..   ..   
+            RPA4   1    1    1    1   ..   ..   ..   ..   
+            RPA3   1    1    1    1   ..   ..   ..   ..   
+            RPA2   1    1    1    1   ..   ..   ..   ..   
+            RPA1   1    1    1    1   ..   ..   ..   ..   
+            RPA0   1    1    1    1   ..   ..   ..   ..   
+            RPB7   1    1    1    1   ..   ..   ..   ..   
+            RPB6   1    1    1    1   ..   ..   ..   ..   
+            RPB5   1    1    1    1   ..   ..   ..   ..   
+            RPB4   1    1    1    1   ..   ..   ..   ..   
+            RPB3   1    1    1    1   ..   ..   ..   ..   
+            RPB2   1    1    1    1   ..   ..   ..   ..   
+            RPB1   1    1    1    1   ..   ..   ..   ..   
+            RPB0   1    1    1    1   ..   ..   ..   ..   
+            RPC7   1    1    1    1   ..   ..   ..   ..   
+            RPC6   1    1    1    1   ..   ..   ..   ..   
+            RPC5   1    1    1    1   ..   ..   ..   ..   
+            RPC4   1    1    1    1   ..   ..   ..   ..   
+            RPC3   1    1    1    1   ..   ..   ..   ..   
+            RPC2   1    1    1    1   ..   ..   ..   ..   
+            RPC1   1    1    1    1   ..   ..   ..   ..   
+            RPC0   1    1    1    1   ..   ..   ..   ..   
+            RPD7   1    1    1    1   ..   ..   ..   ..   
+            RPD6   1    1    1    1   ..   ..   ..   ..   
+            RPD5   1    1    1    1   ..   ..   ..   ..   
+            RPD4   1    1    1    1   ..   ..   ..   ..   
+            RPD3   1    1    1    1   ..   ..   ..   ..   
+            RPD2   1    1    1    1   ..   ..   ..   ..   
+            RPD1   1    1    1    1   ..   ..   ..   ..   
+            RPD0   1    1    1    1   ..   ..   ..   ..   
+           BWAIT  ..   ..   ..   ..   ..   ..    1    1   
+          BWAIT2  ..   ..   ..   ..   ..   ..    1    1   
+          BWAIT3  ..   ..    1    1   ..   ..   ..   ..   
+              Z0  ..   ..    1    1   ..   ..    1    1   

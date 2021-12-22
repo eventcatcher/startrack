@@ -1,0 +1,49 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    SMPDSP - Speicherinterface fuer DSP auf SAMPLER-Karte
+PATTERN  A      - mit DSP-Reset-Register
+REVISION 1.0
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself
+DATE     11/05/96
+
+CHIP  _SMPDSP  PALCE16V8
+
+;---------------------------------- PIN Declarations ---------------
+PIN  2          RD                                               ;       
+PIN  3          WR                                               ;       
+PIN  4          XY                                               ;       
+PIN  5          PS                                               ;
+PIN  6          RESET                                            ;
+PIN  7          A14                                              ;
+PIN  8          A15                                              ;
+PIN  9          HEN_IN                                           ;
+PIN  12         CS                                    COMBINATORIAL ;
+PIN  13         RAM14                                 COMBINATORIAL ;
+PIN  14         HEN                                   COMBINATORIAL ;
+PIN  15         DSPRESET                              COMBINATORIAL ;
+PIN  16         A6                                               ;
+PIN  17         DS                                               ;
+PIN  18         D0                                               ;
+PIN  19         DSPREG                                REGISTERED ;
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+/CS = /A15 * /DS * RESET
+    + /A15 * /PS * RESET;
+
+RAM14 = XY * PS
+      + A14 * /PS;
+
+/HEN = /HEN_IN * /A6 * RESET;
+
+/DSPRESET = /RESET + /DSPREG;
+
+/DSPREG = A6 * /D0 * RESET;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

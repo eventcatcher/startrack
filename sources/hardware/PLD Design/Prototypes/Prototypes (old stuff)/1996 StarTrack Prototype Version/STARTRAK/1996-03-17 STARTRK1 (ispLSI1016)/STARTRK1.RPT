@@ -1,0 +1,90 @@
+ Sun Mar 17 18:43:10 1996
+ STARTRK1.rpt generated using Lattice pDS Version 2.7.1
+
+
+ Global Resource Utilization Summary
+
+
+            Part:  ispLSI1016-60LJ44
+     Design Name:  startrk1
+ Design Revision:  V1.0
+          Author: Stephan Wilhelm
+    Project Name:  StarTrack
+     Description:  
+   Verify Status:  Complete
+    Route Status:  Complete
+       Data Used:  Post-Route
+  Global Options:  PULLUP ON
+
+
+ Number of GLB cells used:         10
+ Number of IO cells used:          32
+ Number of dedicated inputs used:  3
+ Number of external nets used:     37
+ Number of GLB clocks used:        1
+ Number of IO clocks used:         0
+
+ Sun Mar 17 18:43:10 1996
+ STARTRK1.rpt generated using Lattice pDS Version 2.7.1
+
+
+ External I/O Pin Report
+
+
+            Part:  ispLSI1016-60LJ44
+     Design Name:  startrk1
+ Design Revision:  V1.0
+          Author: Stephan Wilhelm
+    Project Name:  StarTrack
+     Description:  
+   Verify Status:  Complete
+    Route Status:  Complete
+       Data Used:  Post-Route
+  Global Options:  PULLUP ON
+
+
+                                    Fixed
+                                    Before
+ Pin Number    Pad Name             Route    Pin Type    Pullup
+
+ 1             GND                  Yes      Gnd
+ 2             XAESC25              Yes      Input       On
+ 3             XA7                  Yes      Input       On
+ 4             XA14                 Yes      Input       On
+ 5             XAM4                 Yes      Input       On
+ 6             XA15                 Yes      Input       On
+ 7             XIACK                Yes      Input       On
+ 8             XRW                  Yes      Input       On
+ 9             XDS0                 Yes      Input       On
+ 10            XD7                  Yes      Bidi        On
+ 11            XMCLK24              Yes      Input       On
+ 12            VCC                  Yes      Vcc
+ 14            XD5                  Yes      Input       On
+ 15            XAESC24              Yes      Input       On
+ 16            XMCLK16              Yes      Input       On
+ 17            XVOLCS2              Yes      Output      On
+ 18            XEXTMCLK             Yes      Output      On
+ 19            XADR                 Yes      Output      On
+ 20            XA13                 Yes      Input       On
+ 21            XSPEBU               Yes      Output      On
+ 22            XSMPREG              Yes      Output      On
+ 23            GND                  Yes      Gnd
+ 24            XA8                  Yes      Input       On
+ 25            XD6                  Yes      Bidi        On
+ 26            XCATEG1              Yes      Output      On
+ 27            XCATEG0              Yes      Output      On
+ 28            XGENERA              Yes      Output      On
+ 29            XLHINT               Yes      Input       On
+ 30            XEXTCLKIN            Yes      Input       On
+ 31            XIADR                Yes      Output      On
+ 32            XA1                  Yes      Input       On
+ 34            VCC                  Yes      Vcc
+ 35            XRESET               No       Input       On
+ 37            XA2                  Yes      Input       On
+ 38            XA9                  Yes      Input       On
+ 39            XA3                  Yes      Input       On
+ 40            XA10                 Yes      Input       On
+ 41            XA11                 Yes      Input       On
+ 42            XA5                  Yes      Input       On
+ 43            XA12                 Yes      Input       On
+ 44            XA6                  Yes      Input       On

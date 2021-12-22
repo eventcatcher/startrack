@@ -1,0 +1,230 @@
+; ***************************************************************************
+; MachXL Design Description
+; ***************************************************************************
+
+TITLE    PCITRAK MACH445 IC3
+PATTERN  ic3.pds
+REVISION 1.00
+AUTHOR   S.W.
+COMPANY  Stephan Wilhelm EntwicklungsbÅro
+DATE     01/16/97
+
+CHIP  star64a MACH435
+
+; STARTRACK 64  - auf mîglichst langsames MCLK optimiert,
+;                 Timing korrekt mit DCLKPLAY, dafÅr etwas langsam
+
+; ***************************************************************************
+; Pinbelegung
+; ***************************************************************************
+
+PIN ?           reset      ; system-reset
+PIN ?           wr         ; write
+PIN ?           sysclk     ; system-clock
+PIN ?           IACK       ; int-ack
+PIN ?           IACKIN     ; int-erkennung
+PIN ?           ld0        ; vme data 0
+PIN ?           ld1        ; vme data 1
+PIN ?           ld2        ; vme data 2
+PIN ?           ld7        ; vme data 7
+PIN ?           la15       ; vme adress 15
+PIN ?           la14       ; vme adress 14
+PIN ?           la13       ; vme adress 13
+PIN ?           la12       ; vme adress 12
+PIN ?           la11       ; vme adress 11
+PIN ?           la10       ; vme adress 10
+PIN ?           la1        ; vme adress 1
+PIN ?           la2        ; vme adress 2
+PIN ?           la3        ; vme adress 3
+PIN ?           AM4        ; vme adressdecode
+PIN ?           DS0        ; vme data low
+PIN ?           DS1        ; vme data high
+PIN ?           RAFFLAG3   ; RecFIFO Allmost-Full
+PIN ?           PAEFLAG3   ; PlayFIFO Allmost Empty von FIFO 3 (lowest)
+PIN  ?          smpwrite0  COMBINATORIAL ; playfifo write 0
+PIN  ?          smpwrite1  COMBINATORIAL ; playfifo write 1
+PIN  ?          smpwrite2  COMBINATORIAL ; playfifo write 2
+PIN  ?          smpwrite3  COMBINATORIAL ; playfifo write 3
+PIN  ?          DTACK      COMBINATORIAL ; data handshake
+PIN  ?          DRVOE      COMBINATORIAL ; enable busdriver
+PIN  ?          INT        COMBINATORIAL ; interrupt
+PIN  ?          IACKOUT    COMBINATORIAL ; next interrupt
+PIN  ?          freset     COMBINATORIAL ; local reset
+PIN  ?          DSPCS0     COMBINATORIAL ; dsp selects
+PIN  ?          DSPCS1     COMBINATORIAL ; dsp selects
+PIN  ?          DSPCS2     COMBINATORIAL ; dsp selects
+PIN  ?          DSPCS3     COMBINATORIAL ; dsp selects
+PIN  ?          GPIOCS3    COMBINATORIAL ; gp i/o selects
+PIN  ?          GPIOCS2    COMBINATORIAL ; gp i/o selects
+PIN  ?          GPIOCS1    COMBINATORIAL ; gp i/o selects
+PIN  ?          GPIOCS0    COMBINATORIAL ; gp i/o selects
+PIN  ?          fifoload      REGISTERED ; load fifoflags
+NODE ?          DRVCS      COMBINATORIAL ; my adress
+NODE ?          INTHLP     COMBINATORIAL ; helpterm for Interrupt
+NODE ?          preset        REGISTERED ; programmable reset
+NODE ?          TIME1         REGISTERED ; timingcounter 1
+NODE ?          TIME2         REGISTERED ; timingcounter 2
+NODE ?          TIME3         REGISTERED ; timingcounter 3
+NODE ?          TIME4         REGISTERED ; timingcounter 4
+NODE ?          ITIME1        REGISTERED ; interrupt timing 1
+NODE ?          ITIME2        REGISTERED ; interrupt timing 2
+NODE ?          ITIME3        REGISTERED ; interrupt timing 3
+NODE ?          BLOKATE       REGISTERED ; blokate interrupt-search
+NODE ?          intplay       REGISTERED ; enable play-interrupt
+NODE ?          intrec        REGISTERED ; enable rec-interrupt
+
+; ***************************************************************************
+; ***************************************************************************
+
+EQUATIONS
+
+INTHLP = intplay * /PAEFLAG3
+       + intrec * /RAFFLAG3;
+
+/INT = INTHLP;
+INT.trst = INTHLP;
+
+BLOKATE = la3 * /la2 * la1 * /IACKIN * INTHLP;
+BLOKATE.CLKF = ITIME2;
+BLOKATE.RSTF = IACK;
+
+/IACKOUT = /IACKIN * /BLOKATE * ITIME3;
+IACKOUT.trst = /IACKIN * /BLOKATE * ITIME3;
+
+ITIME1 = /IACKIN;
+ITIME1.CLKF = sysclk;
+ITIME1.RSTF = IACKIN;
+
+ITIME2 = ITIME1
+       + /intplay * /intrec;
+ITIME2.CLKF = sysclk;
+ITIME2.RSTF = IACKIN;
+
+ITIME3 = ITIME2;
+ITIME3.CLKF = sysclk;
+ITIME3.RSTF = IACKIN;
+
+/DSPCS0 = (/AM4 * la15 * /la14 * /la13 * la12 * /la11 * /la10 * IACK * /DS0 * wr * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * /la10 * IACK * /DS1 * wr * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * /la10 * IACK * /DS0 * wr * TIME3
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * /la10 * IACK * /DS1 * wr * TIME3
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * /la10 * IACK * /DS0 * wr * TIME4
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * /la10 * IACK * /DS1 * wr * TIME4
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * /la10 * IACK * /DS0 * /wr * /TIME3 * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * /la10 * IACK * /DS1 * /wr * /TIME3 * TIME2);
+
+/DSPCS1 = (/AM4 * la15 * /la14 * /la13 * la12 * /la11 * la10 * IACK * /DS0 * wr * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * la10 * IACK * /DS1 * wr * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * la10 * IACK * /DS0 * wr * TIME3
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * la10 * IACK * /DS1 * wr * TIME3
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * la10 * IACK * /DS0 * wr * TIME4
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * la10 * IACK * /DS1 * wr * TIME4
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * la10 * IACK * /DS0 * /wr * /TIME3 * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * /la11 * la10 * IACK * /DS1 * /wr * /TIME3 * TIME2);
+
+/DSPCS2 = (/AM4 * la15 * /la14 * /la13 * la12 * la11 * /la10 * IACK * /DS0 * wr * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * /la10 * IACK * /DS1 * wr * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * /la10 * IACK * /DS0 * wr * TIME3
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * /la10 * IACK * /DS1 * wr * TIME3
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * /la10 * IACK * /DS0 * wr * TIME4
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * /la10 * IACK * /DS1 * wr * TIME4
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * /la10 * IACK * /DS0 * /wr * /TIME3 * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * /la10 * IACK * /DS1 * /wr * /TIME3 * TIME2);
+
+/DSPCS3 = (/AM4 * la15 * /la14 * /la13 * la12 * la11 * la10 * IACK * /DS0 * wr * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * la10 * IACK * /DS1 * wr * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * la10 * IACK * /DS0 * wr * TIME3
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * la10 * IACK * /DS1 * wr * TIME3
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * la10 * IACK * /DS0 * wr * TIME4
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * la10 * IACK * /DS1 * wr * TIME4
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * la10 * IACK * /DS0 * /wr * /TIME3 * TIME2
+        + /AM4 * la15 * /la14 * /la13 * la12 * la11 * la10 * IACK * /DS1 * /wr * /TIME3 * TIME2);
+
+/DRVOE = /AM4 * la15 * /la14 * IACK * /DS0
+       + /AM4 * la15 * /la14 * IACK * /DS1
+       + BLOKATE * la3 * /la2 * la1 * /IACKIN * INTHLP * /DS0;
+
+/DRVCS = /AM4 * la15 * /la14 * IACK * /DS0 * TIME3 * /wr
+       + /AM4 * la15 * /la14 * IACK * /DS0 * TIME4 * /wr
+       + /AM4 * la15 * /la14 * IACK * /DS1 * TIME3 * /wr
+       + /AM4 * la15 * /la14 * IACK * /DS1 * TIME4 * /wr
+       + /AM4 * la15 * /la14 * IACK * /DS0 * TIME4 * wr
+       + /AM4 * la15 * /la14 * IACK * /DS1 * TIME4 * wr
+       + BLOKATE * la3 * /la2 * la1 * /IACKIN * INTHLP * /DS0;
+
+/DTACK = /DRVCS;
+
+DTACK.trst = /DRVCS;
+
+TIME1 = VCC;
+TIME1.CLKF = sysclk;
+TIME1.RSTF = DS0 * DS1;
+
+TIME3 = TIME2;
+TIME3.CLKF = sysclk;
+TIME3.RSTF = DS0 * DS1;
+
+TIME2 = TIME1;
+TIME2.CLKF = /sysclk;
+TIME2.RSTF = DS0 * DS1;
+
+TIME4 = TIME3;
+TIME4.CLKF = /sysclk;
+TIME4.RSTF = DS0 * DS1;
+
+; ---------------------Registers
+
+intrec.clkf = /TIME3 * TIME2 * /AM4 * la15 * /la14 * /la13 * /la12
+            * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+intrec := ld0;
+intrec.rstf = /reset;
+
+intplay.clkf = /TIME3 * TIME2 * /AM4 * la15 * /la14 * /la13 * /la12
+             * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+intplay := ld1;
+intplay.rstf = /reset;
+
+preset.clkf = /TIME3 * TIME2 * /AM4 * la15 * /la14 * /la13 * /la12
+            * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+preset := ld2;
+preset.rstf = /reset;
+
+fifoload.clkf = /TIME3 * TIME2 * /AM4 * la15 * /la14 * /la13 * /la12              * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+              * /la3 * /la2 * la1 * /wr * IACK * /DS0;
+fifoload = ld7;
+fifoload.rstf = /reset
+
+GPIOCS3= /AM4 * la15 * /la14 * /la13 * /la12 * /la3 * la2 * /la1 *
+         IACK * /DS1 * /wr * /TIME3 * TIME2;
+
+GPIOCS2= /AM4 * la15 * /la14 * /la13 * /la12 * /la3 * la2 * /la1 *
+         IACK * /DS0 * /wr * /TIME3 * TIME2;
+
+GPIOCS1= /AM4 * la15 * /la14 * /la13 * /la12 * /la3 * la2 * la1 *
+         IACK * /DS1 * /wr * /TIME3 * TIME2;
+
+GPIOCS0= /AM4 * la15 * /la14 * /la13 * /la12 * /la3 * la2 * la1 *
+         IACK * /DS0 * /wr * /TIME3 * TIME2;
+
+smpwrite3 = /AM4 * la15 * /la14 * la13 * /la12 * /la1 * /wr * IACK * /DS1 * /TIME3 * TIME2;
+
+smpwrite2 = /AM4 * la15 * /la14 * la13 * /la12 * /la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+
+smpwrite1 = /AM4 * la15 * /la14 * la13 * /la12 * la1 * /wr * IACK * /DS1 * /TIME3 * TIME2;
+
+smpwrite0 = /AM4 * la15 * /la14 * la13 * /la12 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+
+; INT-Vektor Nummer #122 fuer Play
+
+ld0 = /IACK * /RAFFLAG3 * intrec;
+ld0.trst = /DRVOE * wr * /DS0;
+
+ld2 = IACK;
+ld2.trst = /DRVOE * wr * /DS0;
+
+ld7 = IACK;
+ld7.trst = /DRVOE * wr * /DS0;
+
+/freset = /reset + preset;
+
+

@@ -1,0 +1,44 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    DSP-Memory-Ansteuerung
+PATTERN  A
+REVISION 1.0
+AUTHOR   Stephan Wilhelm
+COMPANY  dito
+DATE     04/15/97
+
+CHIP  _dspmem  PALCE16V8
+
+;---------------------------------- PIN Declarations ---------------
+PIN  3          MEMART                                           ;
+PIN  4          MEMART2                                          ;
+PIN  6          MEM_DS                                           ;       
+PIN  7          MEM_A15                                          ;
+PIN  8          MEM_XY                                           ;
+PIN  9          MEM_A14                                          ;       
+PIN  14         RAM_HIGH                              COMBINATORIAL ;
+PIN  15         MEM_PS                                           ;
+PIN  16         RAM_A16                               COMBINATORIAL ;
+PIN  17         RAM_A15                               COMBINATORIAL ;
+PIN  19         MEM_CS                                COMBINATORIAL ;
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+/MEM_CS = /MEM_DS
+        + /MEM_PS;
+
+RAM_HIGH = MEM_XY * MEM_PS
+         + MEM_A14 * /MEM_PS * /MEMART
+         + MEM_A15 * /MEM_PS * MEMART;
+
+RAM_A15 = MEM_A15 * MEM_PS * MEMART;
+
+RAM_A16 = MEM_PS;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

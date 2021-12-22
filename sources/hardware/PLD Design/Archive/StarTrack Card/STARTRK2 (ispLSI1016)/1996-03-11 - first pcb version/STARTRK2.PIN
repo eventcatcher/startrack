@@ -1,0 +1,34 @@
+*** Pin Map - STARTRK2.LDF - 16Bit-Soundsampler - Adressdekodierung & Interrupts - final PCB-Version
+*** used with Lattice ISP-1016-60                                       
+                                                                    
+                                                                    
+                                                                    
+                                   IADR     RW                    
+                                 DS0  |     |  DTACK                
+                            DRVCS  |  |     |  |  IACK              
+                       RDFFLAG  |  |  |     |  |  |  IACKIN         
+                    RDEFLAG  |  |  |  |     |  |  |  |  A7          
+                          |  |  |  |  |     |  |  |  |  |           
+                    .-----'--'--'--'--'--o--'--'--'--'--'---.       
+                    |     4  4  4  4  4  3  3  3  3  3  3   |       
+                    |     4  3  2  1  0  9  8  7  6  5  4   |       
+             WRHFLAG| 1                                   33|A6     
+             WRFFLAG| 2               I  G                32|INT    
+             WREFLAG| 3               N  N                31|A9     
+                 ADR| 4               3  D       MODE/IN2 30|SYSCLK 
+                    | 5 Y0                       RESET/Y1 29|RESET  
+                    | 6 VCC         ISP-1016          VCC 28|       
+                    | 7 /ISPEN                    SCLK/Y2 27|       
+                  A8| 8 SDI/IN0        G  SI              26|AESF0  
+                  D7| 9                N  DN              25|AESEM2 
+                  D2|10                D  O1              24|AESEM1  
+                  D1|11                                   23|AESEM0 
+                    |   1  1  1  1  1  1  1  1  2  2  2     |       
+                    |   2  3  4  5  6  7  8  9  0  1  2     |       
+                    '---.--.--.--.--.-----.--.--.--.--.-----'       
+                        |  |  |  |  |     |  |  |  |  |             
+                   VOLCS1  |  |  |  |     |  |  |  |  DSPCS         
+                          D0  |  |  |     |  |  |  DSPIACK          
+                          SMPRD  |  |     |  |  DSPINT              
+                             SMPWR  |     |  IACKOUT                
+                              RDHFLAG     A5                        

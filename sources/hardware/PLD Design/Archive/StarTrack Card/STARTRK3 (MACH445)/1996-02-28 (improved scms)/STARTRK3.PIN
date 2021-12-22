@@ -1,0 +1,59 @@
+                                              GND  GND
+                                           VCC  |  |  VCC
+                                      RESET  |  |  |  |  SMPREG
+                                      D4  |  |  |  |  |  |  A7 
+                                   D3  |  |  |  |  |  |  |  |  A6
+                                D2  |  |  |  |  |  |  |  |  |  |  AESC24      
+                             D1  |  |  |  |  |  |  |  |  |  |  |  |  AESC25      
+                          D0  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DSPSC0
+                    HCLKI  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DSPSC2
+                   RD7  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AESCOUT
+                     |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+               .-----'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'--'---.       
+               | o   1                                                            |       
+               |     0  9  9  9  9  9  9  9  9  9  9  8  8  8  8  8  8  8  8  8   |       
+               |     0  9  8  7  6  5  4  3  2  1  0  9  8  7  6  5  4  3  2  1   |       
+            GND| 1                                                              80|GND    
+            GND| 2                                                              79|GND    
+            TDI| 3                                                              78|TDO    
+         MCLK16| 4  I5                                                          77|TRST   
+            RD6| 5                                                              76|VOLDATAI
+            RD5| 6                                                              75|VOLCLK 
+            RD4| 7                                                              74|DSPSCK 
+          PUFRD| 8                                                              73|DSPSRD 
+            RD8| 9                                                              72|AESMCLKO
+            RD3|10                                                              71|AESPRO  
+            RD2|11                                                              70|AESFC0 
+            RD1|12                          STARTRK3                            69|RD0    
+         MCLK24|13  I0/CLK0                                            I4/CLK3  68|PLAYCLKI
+            VCC|14                          MACH-445                            67|GND    
+            VCC|15                                                              66|GND    
+            GND|16                                                              65|VCC    
+            GND|17                                                              64|VCC    
+        EXTMCLK|18  I1/CLK1                                            I3/CLK2  63|DA_ACKO
+            WD0|19                                                              62|AESDATAO
+            WD1|20                                                              61|SWDIGIN 
+            WD2|21                                                              60|DSPSTD 
+            WD3|22                                                              59|AESFC1 
+      (SH15)WD8|23                                                              58|DA_SDATA
+            WD4|24                                                              57|DA_SCLK
+            WD5|25                                                              56|DA_FSYNC
+            WD6|26                                                              55|PLAYCLKO
+            TMS|27                                                          I2  54|AESSYNCI
+            TCK|28                                                              53|ENABLE 
+            GND|29                                                              52|GND     
+            GND|30                                                              51|GND    
+               |   3  3  3  3  3  3  3  3  3  4  4  4  4  4  4  4  4  4  4  5     |       
+               |   1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0     |       
+               '---.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.--.-----'       
+                   |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+                 WD7  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AESCLKI
+              RESRDFIFO  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  PREEMPH
+                     PUFWR  |  |  |  |  |  |  |  |  |  |  |  |  |  |  CBL
+                       SMPCLK  |  |  |  |  |  |  |  |  |  |  |  |  SWSUBFR
+                          ADATAI  |  |  |  |  |  |  |  |  |  |  AESMCLKI
+                            ADCLK32  |  |  |  |  |  |  |  |  AESDATAI
+                                  ADLR  |  |  |  |  |  |  AESCIN
+                                      CKS  |  |  |  |  SWPROT
+                                         VCC  |  |  VCC
+                                            GND  GND

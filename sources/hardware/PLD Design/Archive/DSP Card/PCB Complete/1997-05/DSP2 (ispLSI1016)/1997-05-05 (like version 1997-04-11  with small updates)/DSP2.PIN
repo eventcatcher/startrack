@@ -1,0 +1,37 @@
+*** Pin Map - DSP2.LDF - 16Bit-Soundsampler - DSP-Extension                  
+*** used with Lattice ISP-1016-60LT                                     
+                                                                    
+// DSP-Reset und ChipSelect fuer DSP
+// DSP-Port und Signal-Switch-Controller
+// DSP-Clockout-Divider 2-15
+                                                                    
+                                                                    
+                                 SHFTDO     SC2REG                
+                             DRESREG  |     |  SC0REG               
+                           SRDREG  |  |     |  |  SRD               
+                        SC1REG  |  |  |     |  |  |  DSPSTD         
+                          A2 |  |  |  |     |  |  |  |  SHFTDI      
+                          |  |  |  |  |     |  |  |  |  |           
+                    .-----'--'--'--'--'--o--'--'--'--'--'---.       
+                    |     4  4  4  4  4  3  3  3  3  3  3   |       
+                    |     4  3  2  1  0  9  8  7  6  5  4   |       
+              R_DATA| 1                                   33|A6     
+                 RST| 2               I  G                32|A4     
+               GPIO2| 3               N  N                31|A1     
+               GPIO1| 4               3  D       MODE/IN2 30|       
+               CKOUT| 5 Y0                       RESET/Y1 29|       
+                    | 6 VCC         ISP-1016          VCC 28|       
+                    | 7 /ISPEN                    SCLK/Y2 27|       
+                    | 8 SDI/IN0        G  SI              26|RW     
+               GPIO0| 9                N  DN              25|MEMREG 
+              P_DATA|10                D  O1              24|DACH1   
+             HEN_OUT|11                                   23|DACH0  
+                    |   1  1  1  1  1  1  1  1  2  2  2     |       
+                    |   2  3  4  5  6  7  8  9  0  1  2     |       
+                    '---.--.--.--.--.-----.--.--.--.--.-----'       
+                        |  |  |  |  |     |  |  |  |  |             
+                 DSPRESET  |  |  |  |     |  |  |  |  STD           
+                        ICLK  |  |  |     |  |  |  BD1              
+                                 |  |     |  |  BD3                 
+                            CKOUT2  |     |  BD0                    
+                                    BD2   HEN_IN                    

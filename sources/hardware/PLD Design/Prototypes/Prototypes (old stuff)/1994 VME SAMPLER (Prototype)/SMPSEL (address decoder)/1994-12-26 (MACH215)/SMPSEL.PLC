@@ -1,0 +1,61 @@
+
+
+Flags Used:             Unplace=False        Max Packing=True 
+Flags Used:        Expand Small=True          Expand All=False
+
+; FITR generated placements - Smpsel
+
+Pin    2              D1   Comb        ; A  0
+Pin    3              D2   Comb        ; A  2
+Pin    4         MACHCSL   Comb        ; A  4
+Pin    5          DSPREG   Comb        ; A  6
+Pin    6           SMPRD   Comb        ; A  8
+Pin    7         MACHCSH   Comb        ; A 10
+Pin    8           SMPWR   Comb        ; A 12
+Pin    9         WRHFLAG  ; Inp        ; A 14
+Pin   10             A10  ; Inp        ; I  0
+Pin   11             AM4  ; Inp        ; I  1
+Pin   13             A11  ; Inp        ; I  2
+Pin   14              A5  ; Inp        ; B 14
+Pin   15             DS0  ; Inp        ; B 12
+Pin   16            IACK  ; Inp        ; B 10
+Pin   17              RW  ; Inp        ; B  8
+Pin   18             A15  ; Inp        ; B  6
+Pin   19              A9  ; Inp        ; B  4
+Pin   20              A6  ; Inp        ; B  2
+Pin   21           DTACK   Comb        ; B  0
+Pin   24              D0   Comb        ; C  0
+Pin   25           DSPCS   Comb        ; C  2
+Pin   26           AESF0  ; Inp        ; C  4
+Pin   27          AESEM0  ; Inp        ; C  6
+Pin   28          AESEM1  ; Inp        ; C  8
+Pin   29          AESC24  ; Inp        ; C 10
+Pin   30          AESEM2  ; Inp        ; C 12
+Pin   31          AESC25  ; Inp        ; C 14
+Pin   32             A12  ; Inp        ; I  3
+Pin   33             A13  ; Inp        ; I  4
+Pin   35             A14  ; Inp        ; I  5
+Pin   36         WRFFLAG  ; Inp        ; D 14
+Pin   37              A8  ; Inp        ; D 12
+Pin   38              A7  ; Inp        ; D 10
+Pin   39          SYSCLK  ; Inp        ; D  8
+Pin   40         RDHFLAG  ; Inp        ; D  6
+Pin   41         RDEFLAG  ; Inp        ; D  4
+Pin   42           DRVCS   Comb        ; D  2
+Pin   43              D3   Comb        ; D  0
+Node  16          MACHCS   Comb        ; A 14
+Node  20         TIMECLK   Comb        ; B  2
+Node  38         TIMERST   Comb        ; C  4
+Node  54           TIME1    Reg        ; D  4
+Node  22           TIME2    Reg        ; B  4
+;
+; Unused Pins & Nodes
+;
+; -> None Found.
+;
+;-; Sequence
+;-; A10 AM4 A11 A12 A13 A14 D1 D2 MACHCSL DSPREG SMPRD MACHCSH SMPWR MACHCS DTACK
+;-; TIMECLK TIME2 D3 DRVCS TIME1 D0 DSPCS TIMERST A6 A9 AESF0 RDEFLAG A15 AESEM0
+;-; RDHFLAG RW AESEM1 SYSCLK IACK A7 AESC24 DS0 A8 AESEM2 A5 WRHFLAG AESC25 WRFFLAG
+;-;
+;

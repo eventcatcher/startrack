@@ -1,0 +1,823 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    STARTRK3.PDS - 16Bit-Soundsampler fuer VME-Bus Atari
+PATTERN  B            - Hauptsteuerung der Rec/Play-Funktionen
+REVISION 1.0          - Final PCB-Version
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself           - 128Bit-Play und Record-Mode
+DATE     1/9/96           - Matrix-Connector, external & DSP gemeinsam
+
+CHIP  _startrk3  MACH445
+
+;---------------------------------- PIN Declarations ---------------
+PIN  99         HCLKI      ; 40MHz-Timingclock
+PIN  4          MCLK16     ; 16.934 MHz-Takt
+PIN  13         MCLK24     ; 24.576 MHz-Takt
+PIN  88         SMPREG     ; VME-Adressdekoder von STARTRK1
+PIN  87         A7         ; VME-Adressleitung
+PIN  86         A6         ; VME-Adressleitung
+PIN  93         RESET      ; VME-RESET
+PIN  48         CBL        ; Channel Status Block des CS8412
+PIN  45         AESDATAI   ; SDATA des CS8412
+PIN  44         AESCIN     ; C des CS8412
+PIN  54         AESSYNCI   ; FSYNC des CS8412
+PIN  50         AESCLKI    ; SCK des 8412
+PIN  46         AESMCLKI   ; MCK des 8412
+PIN  69         RD0        PAIR RP0 ; Datenausgang des PLAY-FIFO
+PIN  12         RD1        PAIR RP1 ; Datenausgang des PLAY-FIFO
+PIN  11         RD2        PAIR RP2 ; Datenausgang des PLAY-FIFO
+PIN  10         RD3        PAIR RP3 ; Datenausgang des PLAY-FIFO
+PIN  7          RD4        PAIR RP4 ; Datenausgang des PLAY-FIFO
+PIN  6          RD5        PAIR RP5 ; Datenausgang des PLAY-FIFO
+PIN  5          RD6        PAIR RP6 ; Datenausgang des PLAY-FIFO
+PIN  100        RD7        PAIR RP7 ; Datenausgang des PLAY-FIFO
+PIN  9          RD8        ; Datenausgang des PLAY-FIFO
+PIN  35         ADATAI     ; SDATA des A/D-Wandlers CS5339
+PIN  63         DA_ACKO    ; ACKO des D/A-Wandlers CS4328 (128x L/R-CLK)
+PIN  60         DSPSTD     ; SERIAL-DATA-Ausgang des DSP
+PIN  98         D0         ; VME-Datenleitung
+PIN  97         D1         ; VME-Datenleitung
+PIN  96         D2         ; VME-Datenleitung
+PIN  95         D3         ; VME-Datenleitung
+PIN  94         D4         ; VME-Datenleitung
+PIN  18         EXTMCLK    ; Externer MCLKx256 fÅr externe Synchronisation
+PIN  68         PLAYCLKI   ; CLK-Input fÅr PLAY-Register
+PIN  83         DSPSC1     COMBINATORIAL ; zum SC1-Eingang des DSP (FSYNC-32)
+PIN  82         DSPSC2     COMBINATORIAL ; zum SC2-Eingang des DSP (L/R-16)
+PIN  74         DSPSCK     COMBINATORIAL ; zum Clock-Eingang des DSP
+PIN  73         DSPSRD     COMBINATORIAL ; zum SERIAL-Read-Eingang des DSP
+PIN  38         CKS        COMBINATORIAL ; Master-Clock-SW CS4328,CMODE CS5339
+PIN  34         SMPCLK     COMBINATORIAL ; zum XTI CS4328, ICLKD CS5339
+PIN  58         DA_SDATA   COMBINATORIAL ; zum SDATAI des CS4328
+PIN  71         AESPRO     COMBINATORIAL ; zum PRO des CS8402A
+PIN  70         AESFC0     COMBINATORIAL ; zum FC0 des CS8402A
+PIN  59         AESFC1     COMBINATORIAL ; zum FC1 des CS8402A
+PIN  72         AESMCLKO   COMBINATORIAL ; zum MCK des CS8402A
+PIN  81         AESCOUT    COMBINATORIAL ; zum C/SBF des CS8402A
+PIN  62         AESDATAO   COMBINATORIAL ; SDATA fÅr CS8402A (Delayed)
+PIN  57         DA_SCLK    COMBINATORIAL ; zum SCLK CS8402A und BICK des D/A
+PIN  56         DA_FSYNC   COMBINATORIAL ; zum FSYNC des CS8402A und CS4328
+PIN  19         WD0        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+PIN  20         WD1        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+PIN  21         WD2        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+PIN  22         WD3        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+PIN  24         WD4        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+PIN  25         WD5        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+PIN  26         WD6        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+PIN  31         WD7        COMBINATORIAL ; zum Dateneingang des REC-FIFO
+PIN  23         WD8        COMBINATORIAL ; zum Dateneingang des Rec-FIFO
+PIN  33         PUFWR      COMBINATORIAL ; zum REC-FIFO Write
+PIN  8          PUFRD      COMBINATORIAL ; zum PLAY-FIFO Read
+PIN  32         RESRDFIFO  COMBINATORIAL ; RESET des REC-FIFO
+PIN  36         ADCLK32       REGISTERED ; 32BIT-CLK fÅr den CS5339
+PIN  37         ADLR          REGISTERED ; L/R fÅr den CS5339
+PIN  61         SWDIGIN       REGISTERED ; zum Relais OPTO/CINCH
+PIN  47         SWSUBFR       REGISTERED ; SEL fÅr den CS8412
+PIN  43         SWPROT        REGISTERED ; Schalter SCMS fÅr Digitalkopie
+PIN  75         VOLCLK        REGISTERED ; Schalter CLK fÅr Volume Control
+PIN  76         VOLDATAI      REGISTERED ; Schalter DATAI fÅr Volume Control
+PIN  85         AESC24        REGISTERED ; Frequenz-Angabe durch CBL
+PIN  84         AESC25        REGISTERED ; Frequenz-Angabe durch CBL
+PIN  49         PREEMPH       REGISTERED ; Schaltet Preemphasis bei CS8402A
+PIN  55         PLAYCLKO   COMBINATORIAL ; CLK-Term fÅr PLAY-Register
+NODE ?          AESCLR     COMBINATORIAL ; Bits(0+1)die gelîscht werden sollen
+NODE ?          CZCLK      COMBINATORIAL ; Clock fÅr AESCIN-ZÑhler
+NODE ?          CLKPLAY    COMBINATORIAL ; Takt fÅr Play
+NODE ?          CLKREC     COMBINATORIAL ; Takt fÅr Record
+NODE ?          INPSDATA   COMBINATORIAL ; Eingangsdaten
+NODE ?          DAHLP      COMBINATORIAL ; SDATA-PLAY-Erzeugung
+NODE ?          FSREC      COMBINATORIAL ; synchr. zur pos.Rec-FSYNC-Flanke
+NODE ?          WRFERTIG   COMBINATORIAL ; beendet REC_FIFO Write-Timing
+NODE ?          WRESET     COMBINATORIAL ; RESET fÅr Play-WORD-ZÑhler
+NODE ?          RRCLR      COMBINATORIAL ; CLR fÅr RRESET
+NODE ?          FREQCLK0   COMBINATORIAL ; CLK fÅr Anzeige der Samplefrequenz
+NODE ?          FREQCLK1   COMBINATORIAL ; CLK fÅr Anzeige der Samplefrequenz
+NODE ?          AESC0         REGISTERED ; Status CS8412 Consumer/Professional
+NODE ?          AESC8         REGISTERED ; Status CS8412 Category Bit C8
+NODE ?          AESC9         REGISTERED ; Status CS8412 Category Bit C9
+NODE ?          CHANNEL0      REGISTERED ; Kanalauswahl fÅr 8Channel-Play
+NODE ?          CHANNEL1      REGISTERED ; Kanalauswahl fÅr 8Channel-Play
+NODE ?          RRESET        REGISTERED ; RESET fÅr Rec-WORD-ZÑhler
+NODE ?          MCLK128       REGISTERED ; 128x MCLK fÅr CS8402 Consumer-Mode
+NODE ?          ADCLK16       REGISTERED ; 16BIT-CLK fÅr einen A/D-Wandler
+NODE ?          HOLD          REGISTERED ; HOLD fÅr einen A/D-Wandler
+NODE ?          SHD7          REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHD6          REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHD5          REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHD4          REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHD3          REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHD2          REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHD1          REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          SHD0          REGISTERED ; Shift der seriellen Record-Daten
+NODE ?          RP8           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RP7           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RP6           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RP5           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RP4           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RP3           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RP2           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RP1           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          RP0           REGISTERED ; Speicher fÅr Daten-PlayFifo-Input
+NODE ?          TAKT5         REGISTERED ; Frequenz-Zwischenteiler fÅr A/D
+NODE ?          TAKT6         REGISTERED ; Frequenz-Zwischenteiler fÅr A/D
+NODE ?          TAKT7         REGISTERED ; Frequenz-Zwischenteiler fÅr A/D
+NODE ?          SWCOPY        REGISTERED ; Schalter Full-Copy/1st Generation
+NODE ?          PSWM128       REGISTERED ; Schalter 2Channel/8Channel Play
+NODE ?          RSWM128       REGISTERED ; Schalter 2Channel/8Channel Record
+NODE ?          SWAES         REGISTERED ; Zwischenspeicher/Schalter DIGI/ANA
+NODE ?          REGMATA       REGISTERED ; Matrix-EmpfÑnger-Register auswÑhlen
+NODE ?          REGMATZ0      REGISTERED ; Matrix-EmpfÑnger-Register zÑhlen
+NODE ?          REGMATZ1      REGISTERED ; Matrix-EmpfÑnger-Register zÑhlen
+NODE ?          DMAREC0       REGISTERED ; Quelle von Record
+NODE ?          DMAREC1       REGISTERED ; Quelle von Record
+NODE ?          DA0           REGISTERED ; Quelle von D/A
+NODE ?          DA1           REGISTERED ; Quelle von D/A
+NODE ?          DSPIN0        REGISTERED ; Quelle von DSP-Input
+NODE ?          DSPIN1        REGISTERED ; Quelle von DSP-Input
+NODE ?          SWRESFF       REGISTERED ; Schalter/Auslîser Reset fÅr RecFIFO
+NODE ?          SWPROF        REGISTERED ; Schalter Consumer/Prof-Mode
+NODE ?          TAKTL         REGISTERED ; Zwischenspeicher/Schalter SMPrate
+NODE ?          TAKTH         REGISTERED ; Zwischenspeicher/Schalter SMPrate
+NODE ?          EXTAKT        REGISTERED ; Zwischenspeicher/Schalter ext.MCLK
+NODE ?          WAIT          REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAIT2         REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          WAIT3         REGISTERED ; Record-FIFO-Write-Timing
+NODE ?          BWAIT         REGISTERED ; Play-FIFO-Read-Timing
+NODE ?          BWAIT2        REGISTERED ; Play-FIFO-Read-Timing
+NODE ?          ZP0           REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          ZP1           REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          ZP2           REGISTERED ; Play-SCLKzÑhler und Synchro
+NODE ?          WP0           REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WP1           REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WP2           REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          WP3           REGISTERED ; Play-SWORDzÑhler und Synchro
+NODE ?          ZR0           REGISTERED ; Rec-SCLKzÑhler und Synchro
+NODE ?          ZR1           REGISTERED ; Rec-SCLKzÑhler und Synchro
+NODE ?          ZR2           REGISTERED ; Rec-SCLKzÑhler und Synchro
+NODE ?          WR0           REGISTERED ; Rec-SWORDzÑhler und Synchro
+NODE ?          WR1           REGISTERED ; Rec-SWORDzÑhler und Synchro
+NODE ?          WR2           REGISTERED ; Rec-SWORDzÑhler und Synchro
+NODE ?          WR3           REGISTERED ; Rec-SWORDzÑhler und Synchro
+NODE ?          CZ0           REGISTERED ; Channel-Status DatenzÑhler
+NODE ?          CZ1           REGISTERED ; Channel-Status DatenzÑhler
+NODE ?          CZ2           REGISTERED ; Channel-Status DatenzÑhler
+NODE ?          CZ3           REGISTERED ; Channel-Status DatenzÑhler
+NODE ?          CZ4           REGISTERED ; Channel-Status DatenzÑhler
+NODE ?          CZ5           REGISTERED ; Channel-Status DatenzÑhler
+NODE ?          MCLK12        REGISTERED ; fÅr Frequenzerzeugung
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+; ---------------------Register
+
+SWAES = D0;
+/SWAES.CLKF = /SMPREG * /A7 * /A6;
+SWAES.RSTF = /RESET;
+SWAES.SETF = GND;
+
+SWDIGIN = D1;
+/SWDIGIN.CLKF = /SMPREG * /A7 * /A6;
+SWDIGIN.RSTF = /RESET;
+SWDIGIN.SETF = GND;
+
+TAKTL = D2;
+/TAKTL.CLKF = /SMPREG * /A7 * /A6;
+TAKTL.RSTF = /RESET;
+TAKTL.SETF = GND;
+
+TAKTH = D3;
+/TAKTH.CLKF = /SMPREG * /A7 * /A6;
+TAKTH.RSTF = /RESET;
+TAKTH.SETF = GND;
+
+EXTAKT = D4;
+/EXTAKT.CLKF = /SMPREG * /A7 * /A6;
+EXTAKT.RSTF = /RESET;
+EXTAKT.SETF = GND;
+
+SWPROT = /D0;
+/SWPROT.CLKF = /SMPREG * /A7 * A6;
+SWPROT.RSTF = /RESET;
+SWPROT.SETF = GND;
+
+SWRESFF = D1;
+/SWRESFF.CLKF = /SMPREG * /A7 * A6;
+SWRESFF.RSTF = /RESET;
+SWRESFF.SETF = GND;
+
+;  REGMATZ: 00 = DMA-Record, 01 = D/A, 10 = DSP-Input
+
+REGMATA = D2;
+/REGMATA.CLKF = /SMPREG * /A7 * A6;
+REGMATA.RSTF = /RESET;
+REGMATA.SETF = GND;
+
+REGMATZ0.T = REGMATA;
+REGMATZ0.CLKF = /SMPREG * /A7 * A6;
+REGMATZ0.RSTF = /REGMATA;
+REGMATZ0.SETF = GND;
+
+REGMATZ1.T = REGMATZ0;
+REGMATZ1.CLKF = /SMPREG * /A7 * A6;
+REGMATZ1.RSTF = /REGMATA;
+REGMATZ1.SETF = GND;
+
+SWSUBFR = D3;
+/SWSUBFR.CLKF = /SMPREG * /A7 * A6;
+SWSUBFR.RSTF = /RESET;
+SWSUBFR.SETF = GND;
+
+PREEMPH = /D4;
+/PREEMPH.CLKF = /SMPREG * /A7 * A6;
+PREEMPH.RSTF = GND;
+PREEMPH.SETF = /RESET;
+
+;  Quelle 00 = NC, 01 = DMA-Play, 10 = A/D, 11 = DSP-Output
+
+DMAREC0 = D0;
+/DMAREC0.CLKF = /SMPREG * A7 * /A6 * /REGMATZ1 * /REGMATZ0;
+DMAREC0.RSTF = /RESET;
+DMAREC0.SETF = GND;
+
+DMAREC1 = D1;
+/DMAREC1.CLKF = /SMPREG * A7 * /A6 * /REGMATZ1 * /REGMATZ0;
+DMAREC1.RSTF = /RESET;
+DMAREC1.SETF = GND;
+
+DA0 = D0;
+/DA0.CLKF = /SMPREG * A7 * /A6 * /REGMATZ1 * REGMATZ0;
+DA0.RSTF = /RESET;
+DA0.SETF = GND;
+
+DA1 = D1;
+/DA1.CLKF = /SMPREG * A7 * /A6 * /REGMATZ1 * REGMATZ0;
+DA1.RSTF = /RESET;
+DA1.SETF = GND;
+
+DSPIN0 = D0;
+/DSPIN0.CLKF = /SMPREG * A7 * /A6 * REGMATZ1 * /REGMATZ0;
+DSPIN0.RSTF = /RESET;
+DSPIN0.SETF = GND;
+
+DSPIN1 = D1;
+/DSPIN1.CLKF = /SMPREG * A7 * /A6 * REGMATZ1 * /REGMATZ0;
+DSPIN1.RSTF = /RESET;
+DSPIN1.SETF = GND;
+
+VOLCLK = D3;
+/VOLCLK.CLKF = /SMPREG * A7 * /A6;
+VOLCLK.RSTF = /RESET;
+VOLCLK.SETF = GND;
+
+VOLDATAI = D4;
+/VOLDATAI.CLKF = /SMPREG * A7 * /A6;
+VOLDATAI.RSTF = /RESET;
+VOLDATAI.SETF = GND;
+
+SWPROF = D0;
+/SWPROF.CLKF = /SMPREG * A7 * A6;
+SWPROF.RSTF = /RESET;
+SWPROF.SETF = GND;
+
+SWCOPY = D1;
+/SWCOPY.CLKF = /SMPREG * A7 * A6;
+SWCOPY.RSTF = /RESET;
+SWCOPY.SETF = GND;
+
+PSWM128 = D3;
+/PSWM128.CLKF = /SMPREG * A7 * A6;
+PSWM128.RSTF = /RESET;
+PSWM128.SETF = GND;
+
+RSWM128 = D4;
+/RSWM128.CLKF = /SMPREG * A7 * A6;
+RSWM128.RSTF = /RESET;
+RSWM128.SETF = GND;
+
+CHANNEL0.T = PSWM128;
+CHANNEL0.CLKF = /SMPREG * A7 * A6;
+CHANNEL0.RSTF = /PSWM128;
+CHANNEL0.SETF = GND;
+
+CHANNEL1.T = CHANNEL0;
+CHANNEL1.CLKF = /SMPREG * A7 * A6;
+CHANNEL1.RSTF = /PSWM128;
+CHANNEL1.SETF = GND;
+
+; ----Erkennung Category-Code und Prof/Consumermode fuer Digitalausgang
+; ----Sample-Frequenzerkennung fÅr Status-Anzeige
+
+CZCLK = AESSYNCI
+      + CZCLK * CZ5 * CZ4 * CZ3 * CZ2 * CZ1 * CZ0 * CBL;
+
+CZ0.T = CBL;
+CZ0.CLKF = CZCLK;
+CZ0.RSTF = /CBL;
+CZ0.SETF = GND;
+
+CZ1.T = CZ0 * CBL;
+CZ1.CLKF = CZCLK;
+CZ1.RSTF = /CBL;
+CZ1.SETF = GND;
+
+CZ2.T = CZ0 * CZ1 * CBL
+CZ2.CLKF = CZCLK;
+CZ2.RSTF = /CBL;
+CZ2.SETF = GND;
+
+CZ3.T = CZ0 * CZ1 * CZ2 * CBL
+CZ3.CLKF = CZCLK;
+CZ3.RSTF = /CBL;
+CZ3.SETF = GND;
+
+CZ4.T = CZ0 * CZ1 * CZ2 * CZ3 * CBL
+CZ4.CLKF = CZCLK;
+CZ4.RSTF = /CBL;
+CZ4.SETF = GND;
+
+CZ5.T = CZ0 * CZ1 * CZ2 * CZ3 * CZ4 * CBL
+CZ5.CLKF = CZCLK;
+CZ5.RSTF = /CBL;
+CZ5.SETF = GND;
+
+AESC0 = AESCIN;
+AESC0.CLKF = /CZ5 * /CZ4 * /CZ3 * /CZ2 * /CZ1 * /CZ0 * CBL;
+AESC0.RSTF = GND;
+AESC0.SETF = GND;
+
+AESC8 = AESCIN;
+AESC8.CLKF = /CZ5 * /CZ4 * CZ3 * /CZ2 * /CZ1 * CZ0 * CBL;
+AESC8.RSTF = GND;
+AESC8.SETF = GND;
+
+AESC9 = AESCIN;
+AESC9.CLKF = /CZ5 * /CZ4 * CZ3 * /CZ2 * CZ1 * /CZ0 * CBL;
+AESC9.RSTF = GND;
+AESC9.SETF = GND;
+
+AESC24 = AESCIN;
+AESC24.CLKF = FREQCLK0;
+AESC24.RSTF = GND;
+AESC24.SETF = GND;
+
+AESC25 = AESCIN;
+AESC25.CLKF = FREQCLK1;
+AESC25.RSTF = GND;
+AESC25.SETF = GND;
+
+FREQCLK0 = /CZ5 * CZ4 * CZ3 * /CZ2 * /CZ1 * CZ0 * CBL * /AESC0
+         + /CZ5 * /CZ4 * /CZ3 * CZ2 * CZ1 * CZ0 * CBL * AESC0;
+
+FREQCLK1 = /CZ5 * CZ4 * CZ3 * /CZ2 * CZ1 * /CZ0 * CBL * /AESC0
+         + /CZ5 * /CZ4 * CZ3 * /CZ2 * /CZ1 * /CZ0 * CBL * AESC0;
+
+; ---------------------Reseterzeugung
+
+/RESRDFIFO = /RESET + SWRESFF;
+
+; ---------------------Frequenzerzeugung 12.288 MHz fÅr A/D & D/A
+
+MCLK12.T = VCC;
+MCLK12.CLKF = MCLK24;
+MCLK12.SETF = GND;
+MCLK12.RSTF = GND;
+
+; ---------------------Frequenzerzeugung XTI/ICLKD fÅr D/A und A/D
+
+SMPCLK = /EXTAKT * /TAKTH * /TAKTL * AESMCLKI
+       + /EXTAKT * /TAKTH * TAKTL * MCLK12
+       + /EXTAKT * TAKTH * /TAKTL * MCLK16
+       + /EXTAKT * TAKTH * TAKTL * MCLK12
+       + EXTAKT * /EXTMCLK;
+
+; ---------------------Taktumschaltung fÅr A/D und D/A-Samplerate
+; ---bei ext. Takt kann Åber TAKTL zw. 256/384fach CLK gewÑhlt werden
+
+CKS = /EXTAKT * /TAKTH * TAKTL
+    + /EXTAKT * TAKTH * /TAKTL
+    + EXTAKT * TAKTL;
+
+; ---------------------Frequenzerzeugung fÅr A/D-Clock,Hold und L/R
+
+ADCLK32.T = VCC;
+ADCLK32.CLKF = DA_ACKO;
+ADCLK32.RSTF = GND;
+ADCLK32.SETF = GND;
+
+ADCLK16.T = ADCLK32;
+ADCLK16.CLKF = DA_ACKO;
+ADCLK16.RSTF = GND;
+ADCLK16.SETF = GND;
+
+TAKT5.T = ADCLK32 * ADCLK16;
+TAKT5.CLKF = DA_ACKO;
+TAKT5.RSTF = GND;
+TAKT5.SETF = GND;
+
+TAKT6.T = ADCLK32 * ADCLK16 * TAKT5;
+TAKT6.CLKF = DA_ACKO;
+TAKT6.RSTF = GND;
+TAKT6.SETF = GND;
+
+TAKT7.T = ADCLK32 * ADCLK16 * TAKT5 * TAKT6;
+TAKT7.CLKF = DA_ACKO;
+TAKT7.RSTF = GND;
+TAKT7.SETF = GND;
+
+HOLD.T = ADCLK32 * ADCLK16 * TAKT5 * TAKT6 * TAKT7;
+HOLD.CLKF = DA_ACKO;
+HOLD.RSTF = GND;
+HOLD.SETF = GND;
+
+/ADLR.T = ADCLK32 * ADCLK16 * TAKT5 * TAKT6 * TAKT7 * HOLD;
+ADLR.CLKF = DA_ACKO;
+ADLR.RSTF = GND;
+ADLR.SETF = GND;
+
+; ---------------------Eingangsdaten und Eingangstakt
+
+CLKPLAY = /AESCLKI * /SWAES * /PSWM128
+        + ADCLK32 * SWAES * /PSWM128
+        + DA_ACKO * PSWM128;
+
+CLKREC =  ADCLK32 * /PSWM128 * /DMAREC1 * DMAREC0
+        + DA_ACKO * PSWM128 * /DMAREC1 * DMAREC0
+        + /AESCLKI * /SWAES * DMAREC1 * /DMAREC0
+        + ADCLK32 * SWAES * DMAREC1 * /DMAREC0
+        + /AESCLKI * /SWAES * /RSWM128 * DMAREC1 * DMAREC0 * DSPIN1 * /DSPIN0
+        + ADCLK32 * SWAES * /RSWM128 * DMAREC1 * DMAREC0 * DSPIN1 * /DSPIN0
+        + ADCLK32 * /RSWM128 * DMAREC1 * DMAREC0 * DSPIN0
+        + DA_ACKO * RSWM128 * DMAREC1 * DMAREC0 * DSPIN0;
+
+INPSDATA = AESDATAI * /SWAES
+         + ADATAI * SWAES;
+
+; ---------------------Shift der FSYNC-Flanken(und dadurch der Daten)um 16Bit
+
+;KICKSTART = RESET * SH7
+;          + RESET * KICKSTART;
+
+; ---------------------Record
+
+ZR0.T = VCC;
+ZR0.CLKF = /CLKREC;
+ZR0.RSTF = RRESET;
+ZR0.SETF = GND;
+
+ZR1.T = ZR0;
+ZR1.CLKF = /CLKREC;
+ZR1.RSTF = RRESET;
+ZR1.SETF = GND;
+
+ZR2.T = ZR0 * ZR1;
+ZR2.CLKF = /CLKREC;
+ZR2.RSTF = RRESET;
+ZR2.SETF = GND;
+
+WR0.T = ZR0 * ZR1 * ZR2;
+WR0.CLKF = /CLKREC;
+WR0.RSTF = RRESET;
+WR0.SETF = GND;
+
+WR1.T = ZR0 * ZR1 * ZR2 * WR0;
+WR1.CLKF = /CLKREC;
+WR1.RSTF = RRESET;
+WR1.SETF = GND;
+
+WR2.T = ZR0 * ZR1 * ZR2 * WR0 * WR1;
+WR2.CLKF = /CLKREC;
+WR2.RSTF = RRESET;
+WR2.SETF = GND;
+
+WR3.T = ZR0 * ZR1 * ZR2 * WR0 * WR1 * WR2;
+WR3.CLKF = /CLKREC;
+WR3.RSTF = RRESET;
+WR3.SETF = GND;
+
+FSREC =  WP2 * /PSWM128 * /DMAREC1 * DMAREC0
+       + /WP3 * /WP2 * /WP1 * PSWM128 * /DMAREC1 * DMAREC0
+       + AESSYNCI * /SWAES * DMAREC1 * /DMAREC0
+       + ADLR * SWAES * DMAREC1 * /DMAREC0
+       + AESSYNCI * /SWAES * /RSWM128 * DMAREC1 * DMAREC0 * DSPIN1 * /DSPIN0
+       + ADLR * SWAES * /RSWM128 * DMAREC1 * DMAREC0 * DSPIN1 * /DSPIN0
+       + DA_FSYNC * /RSWM128 * DMAREC1 * DMAREC0 * DSPIN0
+       + /WP3 * /WP2 * /WP1 * RSWM128 * DMAREC1 * DMAREC0 * DSPIN0;
+
+RRCLR = /WR3 * /WR2 * /WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0;
+
+RRESET = VCC;
+RRESET.CLKF = FSREC;
+RRESET.RSTF = RRCLR;
+
+SHD0 =  DAHLP * /DMAREC1 * DMAREC0
+      + INPSDATA * DMAREC1 * /DMAREC0
+      + DSPSTD * DMAREC1 * DMAREC0;
+SHD0.CLKF = /CLKREC;
+SHD0.SETF = GND;
+SHD0.RSTF = GND;
+
+SHD1 = SHD0;
+SHD1.CLKF = /CLKREC;
+SHD1.SETF = GND;
+SHD1.RSTF = GND;
+
+SHD2 = SHD1;
+SHD2.CLKF = /CLKREC;
+SHD2.SETF = GND;
+SHD2.RSTF = GND;
+
+SHD3 = SHD2;
+SHD3.CLKF = /CLKREC;
+SHD3.SETF = GND;
+SHD3.RSTF = GND;
+
+SHD4 = SHD3;
+SHD4.CLKF = /CLKREC;
+SHD4.SETF = GND;
+SHD4.RSTF = GND;
+
+SHD5 = SHD4;
+SHD5.CLKF = /CLKREC;
+SHD5.SETF = GND;
+SHD5.RSTF = GND;
+
+SHD6 = SHD5;
+SHD6.CLKF = /CLKREC;
+SHD6.SETF = GND;
+SHD6.RSTF = GND;
+
+SHD7 = SHD6;
+SHD7.CLKF = /CLKREC;
+SHD7.SETF = GND;
+SHD7.RSTF = GND;
+
+WAIT = /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * /RSWM128
+     + WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * /RSWM128
+     + /ZR2 * /ZR1 * /ZR0 * RSWM128;
+WAIT.CLKF = HCLKI;
+WAIT.RSTF = WRFERTIG;
+WAIT.SETF = GND;
+
+WAIT2 = WAIT;
+WAIT2.CLKF = HCLKI;
+WAIT2.RSTF = WRFERTIG;
+WAIT2.SETF = GND;
+
+WAIT3 = WAIT2;
+WAIT3.CLKF = HCLKI;
+WAIT3.RSTF = WRFERTIG;
+WAIT3.SETF = GND;
+
+WRFERTIG = PUFWR * /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0
+         * WAIT * WAIT2 * WAIT3 * /RSWM128
+         + PUFWR * WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0
+         * WAIT * WAIT2 * WAIT3 * /RSWM128
+         + PUFWR * /ZR2 * /ZR1 * /ZR0 * WAIT * WAIT2 * WAIT3 * RSWM128
+         + WRFERTIG * RESET * /ZR2
+         + /RESET;
+
+/PUFWR = /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * WAIT * /WAIT2 * /RSWM128
+     + WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * WAIT * /WAIT2 * /RSWM128
+     + /ZR2 * /ZR1 * /ZR0 * WAIT * /WAIT2 * RSWM128;
+
+WD0 = SHD0 * /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD0 * WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * RSWM128;
+WD1 = SHD1 * /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD1 * WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD1 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * RSWM128;
+WD2 = SHD2 * /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD2 * WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD2 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * RSWM128;
+WD3 = SHD3 * /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD3 * WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD3 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * RSWM128;
+WD4 = SHD4 * /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD4 * WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD4 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * RSWM128;
+WD5 = SHD5 * /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD5 * WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD5 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * RSWM128;
+WD6 = SHD6 * /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD6 * WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD6 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * RSWM128;
+WD7 = SHD7 * /WR1 * WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD7 * WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * /RSWM128
+    + SHD7 * /ZR2 * /ZR1 * /ZR0 * /WAIT3 * RSWM128;
+
+WD8 = WR2 * /RSWM128
+    + /WR3 * /WR2 * /WR1 * RSWM128;
+
+; ---------------------Play
+
+ZP0.T = VCC;
+ZP0.CLKF = CLKPLAY;    Normalerweise statt CLKPLAY -> ADCLK32 wegen getrennter
+ZP0.RSTF = /RESET;                                    Wiedergabe
+ZP0.SETF = GND;
+
+ZP1.T = ZP0;
+ZP1.CLKF = CLKPLAY;
+ZP1.RSTF = /RESET;
+ZP1.SETF = GND;
+
+ZP2.T = ZP0 * ZP1;
+ZP2.CLKF = CLKPLAY;
+ZP2.RSTF = /RESET;
+ZP2.SETF = GND;
+
+WP0.T = ZP0 * ZP1 * ZP2;
+WP0.CLKF = CLKPLAY;
+WP0.RSTF = /WRESET;
+WP0.SETF = GND;
+
+WP1.T = ZP0 * ZP1 * ZP2 * WP0;
+WP1.CLKF = CLKPLAY;
+WP1.RSTF = /WRESET * PSWM128;
+WP1.SETF = GND;
+
+WP2.T = ZP0 * ZP1 * ZP2 * WP0 * WP1;
+WP2.CLKF = CLKPLAY;
+WP2.RSTF = /WRESET;
+WP2.SETF = GND;
+
+WP3.T = ZP0 * ZP1 * ZP2 * WP0 * WP1 * WP2;
+WP3.CLKF = CLKPLAY;
+WP3.RSTF = /WRESET;
+WP3.SETF = GND;
+
+/WRESET = /RP8 * RD8 * CLKPLAY * /ZP0 * BWAIT * /BWAIT2 * /PUFRD;
+
+BWAIT = VCC;
+BWAIT.CLKF = HCLKI;
+BWAIT.RSTF = PUFRD;
+BWAIT.SETF = GND;
+
+BWAIT2 = BWAIT;
+BWAIT2.CLKF = HCLKI;
+BWAIT2.RSTF = PUFRD;
+BWAIT2.SETF = GND;
+
+/PUFRD = WP1 * /ZP2 * /ZP1 * /ZP0 * /PSWM128
+       + /ZP2 * /ZP1 * /ZP0 * PSWM128;
+
+; RP8 ist Eingang fÅr Parity
+
+PLAYCLKO = BWAIT * /PUFRD;
+
+RP8 := RD8;
+RP8.CLKF = PLAYCLKI;
+
+RP7 := RD7;
+RP7.CLKF = PLAYCLKI;
+
+RP6 := RD6;
+RP6.CLKF = PLAYCLKI;
+
+RP5 := RD5;
+RP5.CLKF = PLAYCLKI;
+
+RP4 := RD4;
+RP4.CLKF = PLAYCLKI;
+
+RP3 := RD3;
+RP3.CLKF = PLAYCLKI;
+
+RP2 := RD2;
+RP2.CLKF = PLAYCLKI;
+
+RP1 := RD1;
+RP1.CLKF = PLAYCLKI;
+
+RP0 := RD0;
+RP0.CLKF = PLAYCLKI;
+
+; ---------------------SCLK fÅr D/A und Digital-Ausgang
+
+DA_SCLK = CLKPLAY * DA1 * /DA0
+        + CLKPLAY * DA1 * DA0 * DSPIN1 * /DSPIN0
+        + /CLKPLAY * DA1 * DA0 * DSPIN0 * /PSWM128
+        + /CLKPLAY * /PSWM128 * /DA1 * DA0
+        + ZP0 * PSWM128 * /RSWM128 * DA0;
+
+; ---------------------SDATA fÅr D/A und Digital-Ausgang
+
+DAHLP = RP7 * WP1 * /ZP2 * /ZP1 * /ZP0 * /PSWM128
+      + RP6 * WP1 * /ZP2 * /ZP1 * ZP0 * /PSWM128
+      + RP5 * WP1 * /ZP2 * ZP1 * /ZP0 * /PSWM128
+      + RP4 * WP1 * /ZP2 * ZP1 * ZP0 * /PSWM128
+      + RP3 * WP1 * ZP2 * /ZP1 * /ZP0 * /PSWM128
+      + RP2 * WP1 * ZP2 * /ZP1 * ZP0 * /PSWM128
+      + RP1 * WP1 * ZP2 * ZP1 * /ZP0 * /PSWM128
+      + RP0 * WP1 * ZP2 * ZP1 * ZP0 * /PSWM128
+      + RP7 * /ZP2 * /ZP1 * /ZP0 * PSWM128
+      + RP6 * /ZP2 * /ZP1 * ZP0  * PSWM128
+      + RP5 * /ZP2 * ZP1 * /ZP0  * PSWM128
+      + RP4 * /ZP2 * ZP1 * ZP0 * PSWM128
+      + RP3 * ZP2 * /ZP1 * /ZP0 * PSWM128
+      + RP2 * ZP2 * /ZP1 * ZP0 * PSWM128
+      + RP1 * ZP2 * ZP1 * /ZP0 * PSWM128
+      + RP0 * ZP2 * ZP1 * ZP0  * PSWM128;
+
+DA_SDATA = AESDATAI * /WR1 * /SWAES * DA1 * /DA0
+         + ADATAI * /WR1 * SWAES * DA1 * /DA0
+         + DAHLP * /DA1 * DA0
+         + DSPSTD * DA1 * DA0 * DSPIN0
+         + DSPSTD * /WR1 * DA1 * DA0 * DSPIN1 * /DSPIN0;
+
+; ---------------------FSYNC fÅr D/A und Digital-Ausgang
+
+DA_FSYNC = WR2 * WR1 * DA1 * /DA0
+         + /WR2 * /WR1 * DA1 * /DA0
+         + WP2 * /DA1 * DA0 * /PSWM128
+         + WP2 * DA1 * DA0 * /PSWM128 * DSPIN0
+         + WR2 * WR1 * DA1 * DA0 * /PSWM128 * DSPIN1 * /DSPIN0
+         + /WR2 * /WR1 * DA1 * DA0 * /PSWM128 * DSPIN1 * /DSPIN0
+         + WP3 * DA1 * DA0 * PSWM128 * /CHANNEL1 * /CHANNEL0
+         + WP3 * WP2 * DA1 * DA0 * PSWM128 * /CHANNEL1 * CHANNEL0
+         + /WP3 * /WP2 * DA1 * DA0 * PSWM128 * /CHANNEL1 * CHANNEL0
+         + /WP3 * DA1 * DA0 * PSWM128 * CHANNEL1 * /CHANNEL0
+         + /WP3 * WP2 * DA1 * DA0 * PSWM128 * CHANNEL1 * CHANNEL0
+         + WP3 * /WP2 * DA1 * DA0 * PSWM128 * CHANNEL1 * CHANNEL0;
+
+; ---------------------Digital-Ausgang CS8402
+
+AESCLR = /CZ5 * /CZ4 * /CZ3 * /CZ2 * /CZ1 * CZ0 * CBL * /SWPROT * /SWPROF
+       + /CZ5 * /CZ4 * /CZ3 * /CZ2 * CZ1 * /CZ0 * CBL * /SWPROT * /SWPROF
+       + /CZ5 * CZ4 * /CZ3 * /CZ2 * /CZ1 * /CZ0 * CBL * /AESC0 * SWCOPY
+        * /SWPROT
+       + /CZ5 * /CZ4 * CZ3 * /CZ2 * CZ1 * CZ0 * CBL * /AESC0 * /SWCOPY
+       + /CZ5 * /CZ4 * CZ3 * CZ2 * CBL * /AESC0 * /SWCOPY
+       + /CZ5 * /CZ4 * CZ3 * CBL * /AESC0 * SWCOPY * /SWPROT
+       + /CZ5 * /CZ4 * /CZ3 * /CZ2 * CZ1 * CZ0 * CBL * SWPROT * /AESC0
+       * /SWCOPY
+       + /CZ5 * CZ4 * /CZ3 * /CZ2 * /CZ1 * /CZ0 * CBL * SWPROT * /AESC0
+       * /AESC8 * /SWCOPY
+       + /CZ5 * CZ4 * /CZ3 * /CZ2 * /CZ1 * /CZ0 * CBL * SWPROT * /AESC0
+       * /AESC9 * /SWCOPY;
+
+AESCOUT = /CZ5 * /CZ4 * /CZ3 * /CZ2 * CZ1 * CZ0
+         * CBL * /SWAES * DA1 * /DA0 * /SWPROT * /EXTAKT * /AESC0
+        + /CZ5 * /CZ4 * CZ3 * /CZ2 * /CZ1 * CZ0
+         * CBL * /SWAES * DA1 * /DA0 * /EXTAKT * /AESC0 * /SWCOPY
+        + /CZ5 * /CZ4 * CZ3 * /CZ2 * CZ1 * /CZ0
+         * CBL * /SWAES * DA1 * /DA0 * /EXTAKT * /AESC0 * /SWCOPY
+         * AESC8 * AESC9
+        + /CZ5 * CZ4 * /CZ3 * /CZ2 * /CZ1 * /CZ0 * CBL * SWPROT * /AESC0
+         * AESC8 * AESC9 * /SWCOPY * /SWAES * DA1 * /DA0 * /EXTAKT
+        + AESCIN * /SWAES * DA1 * /DA0 * /EXTAKT * /AESCLR;
+
+MCLK128.T = VCC;
+MCLK128.CLKF = AESMCLKI;
+MCLK128.SETF = GND;
+MCLK128.RSTF = GND;
+
+AESMCLKO = AESMCLKI * /SWAES * DA1 * /DA0 * /EXTAKT
+         + DA_ACKO * /SWAES * DA1 * /DA0 * EXTAKT
+         + DA_ACKO * SWAES * DA1 * /DA0
+         + DA_ACKO * DA0 * TAKTH
+         + DA_ACKO * DA0 * TAKTL
+         + DA_ACKO * DA0 * /TAKTH * /TAKTL * EXTAKT
+         + MCLK128 * DA0 * /TAKTH * /TAKTL * /EXTAKT;
+
+AESDATAO = DA_SDATA;
+
+; ---------------------Umschaltung in Consumer-Mode fÅr A/D und PLAY
+
+AESPRO = SWAES * DA1 * /DA0 * /SWPROF
+       + DA0 * /SWPROF
+       + EXTAKT * /SWPROF;
+
+AESFC0 = TAKTH * TAKTL
+       + /TAKTH * /TAKTL * /AESC24 * AESC25
+       + SWPROF;
+
+AESFC1 = /TAKTH * TAKTL * /SWPROF
+       + /TAKTH * /TAKTL * AESC24 * AESC25 * /SWPROF
+       + /SWAES * DA1 * /DA0 * /EXTAKT;
+
+; ---------------------DSP-Serial-Port
+
+DSPSC1 = WR2 * WR1 * DSPIN1 * /DSPIN0
+       + /WR2 * /WR1 * DSPIN1 * /DSPIN0
+       + WP2 * DSPIN0 * /PSWM128
+       + /WP3 * /WP2 * /WP1 * DSPIN0 * PSWM128;
+
+DSPSC2 = /WR1 * DSPIN1 * /DSPIN0
+       + WP1 * DSPIN0 * /PSWM128
+       + /WP3 * /WP2 * /WP1 * DSPIN0 * PSWM128;
+
+DSPSCK = /CLKPLAY * DSPIN1 * /DSPIN0
+       + CLKPLAY * DSPIN0 * /PSWM128
+       + CLKPLAY * DSPIN0 * PSWM128;
+
+DSPSRD = INPSDATA * DSPIN1 * /DSPIN0
+       + DAHLP * /DSPIN1 * DSPIN0
+       + DSPSTD * DSPIN1 * DSPIN0;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

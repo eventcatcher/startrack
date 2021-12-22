@@ -1,0 +1,732 @@
+ษออออออออออออออออออออCOMPILATION OPTIONSอออออออออออออออออออออป
+บ  Log file name:    smp8b.log                               บ
+บ  Run mode:         Run All Programs                        บ
+บ                                                            บ
+บ  Format:  Text     File:  smp8b.pds                        บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+ษอออออออออออออออออออออออออออMACH FITTING OPTIONSอออออออออออออออออออออออออออป
+บ SIGNAL PLACEMENT:                                                        บ
+บ   Handling of Preplacements                 No Change                    บ
+บ   Use placement data from                   Design file                  บ
+บ   Save last successful placement            <F3>                         บ
+บ   Press <F9> to edit file containing        Last successful placement    บ
+บ                                                                          บ
+บ FITTING OPTIONS:                                                         บ
+บ   Global Clocks routable as Pterm Clocks?   N                            บ
+บ   22V10/MACH1XX/2XX S/R Compatibility?      Y                            บ
+บ   SET/RESET treated as DONT_CARE?           Y                            บ
+บ   Run Time Upper Bound in 15 minutes        0                            บ
+บ   Iterate between partition & place/route?  Y                            บ
+บ   Reduce Non-forced Global Clocks?          N  .. if 'Y', Number = 1     บ
+บ   Reduce Routes Per Placement?              N                            บ
+บ                                                                          บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+ษออออออออออออออออออออออออLOGIC SYNTHESIS OPTIONSออออออออออออออออออออออออป
+บ Use automatic gate splitting?          N  .. if 'Y', Threshold = 20   บ
+บ Gate split max num. pterms per eqn     20                             บ
+บ Optimize registers for D/T-type        D,T As specified. JK,RS to D   บ
+บ Ensure polarity after minimization is  As specified in design file    บ
+บ Use 'IF-THEN-ELSE','CASE' default as   Off                            บ
+บ Use fast minimization?                 N                              บ
+บ                                                                       บ
+บ                                                                       บ
+ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+smp8b.pds
+
+MACHXL 1.3 PARSER (05-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+
+
+                    ***********************************
+                    *     MACHXL PARSER LISTING       *
+                    ***********************************
+
+LINE #   |----+----1----+----2----+----3----+----4----+----5----+----6----+
+   1     |;PALASM Design Description
+   2     |
+   3     |;---------------------------------- Declaration Segment ------------
+   4     |TITLE    SAMPLER8.PDS - 16Bit-Soundsampler mit 8 Ausgngen fuer Medusa-Bus
+   5     |PATTERN  A
+   6     |REVISION 1.0
+   7     |AUTHOR   Stephan Wilhelm
+   8     |COMPANY  Myself
+   9     |DATE     01/10/94
+  10     |
+  11     |CHIP  _sampler8  MACH355
+  12     |
+  13     |;---------------------------------- PIN Declarations ---------------
+  14     |PIN  ?          HCLKI      ; 40MHz-Timingclock
+  15     |PIN  ?          PLAYCLKI   ; CLK fr PLAY-Register
+  16     |PIN  ?          INPSCLK    ; Eingangstakt (von MACH smp8a)
+  17     |PIN  ?          RESET      ; VME-RESET
+  18     |PIN  ?          RDA0       ; Datenausgang des PLAY-FIFO
+  19     |PIN  ?          RDA1       ; Datenausgang des PLAY-FIFO
+  20     |PIN  ?          RDA2       ; Datenausgang des PLAY-FIFO
+  21     |PIN  ?          RDA3       ; Datenausgang des PLAY-FIFO
+  22     |PIN  ?          RDA4       ; Datenausgang des PLAY-FIFO
+  23     |PIN  ?          RDA5       ; Datenausgang des PLAY-FIFO
+  24     |PIN  ?          RDA6       ; Datenausgang des PLAY-FIFO
+  25     |PIN  ?          RDA7       ; Datenausgang des PLAY-FIFO
+  26     |PIN  ?          RDB0       ; Datenausgang des PLAY-FIFO
+  27     |PIN  ?          RDB1       ; Datenausgang des PLAY-FIFO
+  28     |PIN  ?          RDB2       ; Datenausgang des PLAY-FIFO
+  29     |PIN  ?          RDB3       ; Datenausgang des PLAY-FIFO
+  30     |PIN  ?          RDB4       ; Datenausgang des PLAY-FIFO
+  31     |PIN  ?          RDB5       ; Datenausgang des PLAY-FIFO
+  32     |PIN  ?          RDB6       ; Datenausgang des PLAY-FIFO
+  33     |PIN  ?          RDB7       ; Datenausgang des PLAY-FIFO
+  34     |PIN  ?          RDC0       ; Datenausgang des PLAY-FIFO
+  35     |PIN  ?          RDC1       ; Datenausgang des PLAY-FIFO
+  36     |PIN  ?          RDC2       ; Datenausgang des PLAY-FIFO
+  37     |PIN  ?          RDC3       ; Datenausgang des PLAY-FIFO
+  38     |PIN  ?          RDC4       ; Datenausgang des PLAY-FIFO
+  39     |PIN  ?          RDC5       ; Datenausgang des PLAY-FIFO
+  40     |PIN  ?          RDC6       ; Datenausgang des PLAY-FIFO
+  41     |PIN  ?          RDC7       ; Datenausgang des PLAY-FIFO
+  42     |PIN  ?          RDD0       ; Datenausgang des PLAY-FIFO
+  43     |PIN  ?          RDD1       ; Datenausgang des PLAY-FIFO
+  44     |PIN  ?          RDD2       ; Datenausgang des PLAY-FIFO
+  45     |PIN  ?          RDD3       ; Datenausgang des PLAY-FIFO
+  46     |PIN  ?          RDD4       ; Datenausgang des PLAY-FIFO
+  47     |PIN  ?          RDD5       ; Datenausgang des PLAY-FIFO
+  48     |PIN  ?          RDD6       ; Datenausgang des PLAY-FIFO
+  49     |PIN  ?          RDD7       ; Datenausgang des PLAY-FIFO
+  50     |PIN  ?          RD8        ; Datenausgang des PLAY-FIFO
+  51     |PIN  ?          PUFRD      COMBINATORIAL ; zum PLAY-FIFO Read
+  52     |PIN  ?          PLAYCLKO   COMBINATORIAL ; CLK fr PLAY-Register
+  53     |PIN  ?          DAHLPA     COMBINATORIAL ; SDATA-PLAY-Erzeugung (zu smp8a)
+  54     |PIN  ?          DAHLPB     COMBINATORIAL ; SDATA-PLAY-Erzeugung (zu smp8a)
+  55     |PIN  ?          DAHLPC     COMBINATORIAL ; SDATA-PLAY-Erzeugung (zu smp8a)
+  56     |PIN  ?          DAHLPD     COMBINATORIAL ; SDATA-PLAY-Erzeugung (zu smp8a)
+  57     |PIN  ?          Z4            REGISTERED ; Play-SDATAzhler/Synchro (zu smp8a)
+  58     |PIN  ?          Z5            REGISTERED ; Play-SDATAzhler/4ynchro (zu smp8a)
+  59     |NODE ?          RP9           REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  60     |NODE ?          RP8           REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  61     |NODE ?          RPA7          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  62     |NODE ?          RPA6          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  63     |NODE ?          RPA5          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  64     |NODE ?          RPA4          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  65     |NODE ?          RPA3          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  66     |NODE ?          RPA2          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  67     |NODE ?          RPA1          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  68     |NODE ?          RPA0          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  69     |NODE ?          RPB7          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  70     |NODE ?          RPB6          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  71     |NODE ?          RPB5          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  72     |NODE ?          RPB4          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  73     |NODE ?          RPB3          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  74     |NODE ?          RPB2          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  75     |NODE ?          RPB1          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  76     |NODE ?          RPB0          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  77     |NODE ?          RPC7          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  78     |NODE ?          RPC6          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  79     |NODE ?          RPC5          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  80     |NODE ?          RPC4          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  81     |NODE ?          RPC3          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  82     |NODE ?          RPC2          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  83     |NODE ?          RPC1          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  84     |NODE ?          RPC0          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  85     |NODE ?          RPD7          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  86     |NODE ?          RPD6          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  87     |NODE ?          RPD5          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  88     |NODE ?          RPD4          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  89     |NODE ?          RPD3          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  90     |NODE ?          RPD2          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  91     |NODE ?          RPD1          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  92     |NODE ?          RPD0          REGISTERED ; Speicher fr Daten-PlayFifo-Input
+  93     |NODE ?          BWAIT         REGISTERED ; Play-FIFO-Read-Timing
+  94     |NODE ?          BWAIT2        REGISTERED ; Play-FIFO-Read-Timing
+  95     |NODE ?          BWAIT3        REGISTERED ; Play-FIFO-Read-Timing
+  96     |NODE ?          Z0            REGISTERED ; Play-SDATAzhler und Synchro
+  97     |NODE ?          Z1            REGISTERED ; Play-SDATAzhler und Synchro
+  98     |NODE ?          Z2            REGISTERED ; Play-SDATAzhler und Synchro
+  99     |NODE ?          Z3            REGISTERED ; Play-SDATAzhler und Synchro
+ 100     |
+ 101     |;----------------------------------- Boolean Equation Segment ------
+ 102     |EQUATIONS
+ 103     |
+ 104     |; ---------------------Play
+ 105     |
+ 106     |Z0.T = VCC;
+ 107     |Z0.CLKF = INPSCLK;    Normalerweise statt INPSCLK -> ADCLK32 wegen getrennter
+ 108     |Z0.RSTF = /RESET;                                    Wiedergabe
+ 109     |Z0.SETF = GND;
+ 110     |
+ 111     |Z1.T = Z0;
+ 112     |Z1.CLKF = INPSCLK;
+ 113     |Z1.RSTF = /RESET;
+ 114     |Z1.SETF = GND;
+ 115     |
+ 116     |Z2.T = Z0 * Z1;
+ 117     |Z2.CLKF = INPSCLK;
+ 118     |Z2.RSTF = /RESET;
+ 119     |Z2.SETF = GND;
+ 120     |
+ 121     |Z3.T = Z0 * Z1 * Z2;
+ 122     |Z3.CLKF = INPSCLK;
+ 123     |Z3.RSTF = /RESET;
+ 124     |Z3.SETF = GND;
+ 125     |
+ 126     |Z4.T = Z0 * Z1 * Z2 * Z3;
+ 127     |Z4.CLKF = INPSCLK;
+ 128     |Z4.RSTF = /RESET;
+ 129     |Z4.SETF = GND;
+ 130     |
+ 131     |Z5.T = Z0 * Z1 * Z2 * Z3 * Z4;
+ 132     |Z5.CLKF = INPSCLK;
+ 133     |Z5.RSTF = /RESET;
+ 134     |Z5.SETF = GND;
+ 135     |
+ 136     |BWAIT = VCC;
+ 137     |BWAIT.CLKF = HCLKI;
+ 138     |BWAIT.RSTF = PUFRD;
+ 139     |BWAIT.SETF = GND;
+ 140     |
+ 141     |BWAIT2 = BWAIT;
+ 142     |BWAIT2.CLKF = HCLKI;
+ 143     |BWAIT2.RSTF = PUFRD;
+ 144     |BWAIT2.SETF = GND;
+ 145     |
+ 146     |BWAIT3 = BWAIT2;
+ 147     |BWAIT3.CLKF = HCLKI;
+ 148     |BWAIT3.RSTF = PUFRD;
+ 149     |BWAIT3.SETF = GND;
+ 150     |
+ 151     |/PUFRD = /Z4 * Z3 * Z2 * /Z1 * /RP8 * /RP9 * /Z5
+ 152     |       + /Z4 * Z3 * Z2 * /Z1 * RP8 * RP9 * Z5
+ 153     |       + Z4 * Z3 * /Z2 * /Z1 * RP8 * /RP9 * /Z5
+ 154     |       + Z4 * Z3 * /Z2 * /Z1 * /RP8 * RP9 * Z5
+ 155     |       + /PUFRD * /Z4 * Z3 * Z2 * /Z1
+ 156     |       + /PUFRD * Z4 * Z3 * /Z2 * /Z1;
+ 157     |
+ 158     |; RP8 ist Eingang fr Parity
+ 159     |
+ 160     |PLAYCLKO = BWAIT3 * /PUFRD;
+ 161     |
+ 162     |RP9 = RP8;
+ 163     |RP9.CLKF = PLAYCLKI;
+ 164     |
+ 165     |RP8 = RD8;
+ 166     |RP8.CLKF = PLAYCLKI;
+ 167     |
+ 168     |RPA7 = RDA7;
+ 169     |RPA7.CLKF = PLAYCLKI;
+ 170     |
+ 171     |RPA6 = RDA6;
+ 172     |RPA6.CLKF = PLAYCLKI;
+ 173     |
+ 174     |RPA5 = RDA5;
+ 175     |RPA5.CLKF = PLAYCLKI;
+ 176     |
+ 177     |RPA4 = RDA4;
+ 178     |RPA4.CLKF = PLAYCLKI;
+ 179     |
+ 180     |RPA3 = RDA3;
+ 181     |RPA3.CLKF = PLAYCLKI;
+ 182     |
+ 183     |RPA2 = RDA2;
+ 184     |RPA2.CLKF = PLAYCLKI;
+ 185     |
+ 186     |RPA1 = RDA1;
+ 187     |RPA1.CLKF = PLAYCLKI;
+ 188     |
+ 189     |RPA0 = RDA0;
+ 190     |RPA0.CLKF = PLAYCLKI;
+ 191     |
+ 192     |RPB7 = RDB7;
+ 193     |RPB7.CLKF = PLAYCLKI;
+ 194     |
+ 195     |RPB6 = RDB6;
+ 196     |RPB6.CLKF = PLAYCLKI;
+ 197     |
+ 198     |RPB5 = RDB5;
+ 199     |RPB5.CLKF = PLAYCLKI;
+ 200     |
+ 201     |RPB4 = RDB4;
+ 202     |RPB4.CLKF = PLAYCLKI;
+ 203     |
+ 204     |RPB3 = RDB3;
+ 205     |RPB3.CLKF = PLAYCLKI;
+ 206     |
+ 207     |RPB2 = RDB2;
+ 208     |RPB2.CLKF = PLAYCLKI;
+ 209     |
+ 210     |RPB1 = RDB1;
+ 211     |RPB1.CLKF = PLAYCLKI;
+ 212     |
+ 213     |RPB0 = RDB0;
+ 214     |RPB0.CLKF = PLAYCLKI;
+ 215     |
+ 216     |RPC7 = RDC7;
+ 217     |RPC7.CLKF = PLAYCLKI;
+ 218     |
+ 219     |RPC6 = RDC6;
+ 220     |RPC6.CLKF = PLAYCLKI;
+ 221     |
+ 222     |RPC5 = RDC5;
+ 223     |RPC5.CLKF = PLAYCLKI;
+ 224     |
+ 225     |RPC4 = RDC4;
+ 226     |RPC4.CLKF = PLAYCLKI;
+ 227     |
+ 228     |RPC3 = RDC3;
+ 229     |RPC3.CLKF = PLAYCLKI;
+ 230     |
+ 231     |RPC2 = RDC2;
+ 232     |RPC2.CLKF = PLAYCLKI;
+ 233     |
+ 234     |RPC1 = RDC1;
+ 235     |RPC1.CLKF = PLAYCLKI;
+ 236     |
+ 237     |RPC0 = RDC0;
+ 238     |RPC0.CLKF = PLAYCLKI;
+ 239     |
+ 240     |RPD7 = RDD7;
+ 241     |RPD7.CLKF = PLAYCLKI;
+ 242     |
+ 243     |RPD6 = RDD6;
+ 244     |RPD6.CLKF = PLAYCLKI;
+ 245     |
+ 246     |RPD5 = RDD5;
+ 247     |RPD5.CLKF = PLAYCLKI;
+ 248     |
+ 249     |RPD4 = RDD4;
+ 250     |RPD4.CLKF = PLAYCLKI;
+ 251     |
+ 252     |RPD3 = RDD3;
+ 253     |RPD3.CLKF = PLAYCLKI;
+ 254     |
+ 255     |RPD2 = RDD2;
+ 256     |RPD2.CLKF = PLAYCLKI;
+ 257     |
+ 258     |RPD1 = RDD1;
+ 259     |RPD1.CLKF = PLAYCLKI;
+ 260     |
+ 261     |RPD0 = RDD0;
+ 262     |RPD0.CLKF = PLAYCLKI;
+ 263     |
+ 264     |; ---------------------SDATA fr D/A und Digital-Ausgang
+ 265     |
+ 266     |DAHLPA = RPA7 * Z4 * /Z2 * /Z1 * /Z0
+ 267     |       + RPA6 * Z4 * /Z2 * /Z1 * Z0
+ 268     |       + RPA5 * Z4 * /Z2 * Z1 * /Z0
+ 269     |       + RPA4 * Z4 * /Z2 * Z1 * Z0
+ 270     |       + RPA3 * Z4 * Z2 * /Z1 * /Z0
+ 271     |       + RPA2 * Z4 * Z2 * /Z1 * Z0
+ 272     |       + RPA1 * Z4 * Z2 * Z1 * /Z0
+ 273     |       + RPA0 * Z4 * Z2 * Z1 * Z0;
+ 274     |
+ 275     |DAHLPB = RPB7 * Z4 * /Z2 * /Z1 * /Z0
+ 276     |       + RPB6 * Z4 * /Z2 * /Z1 * Z0
+ 277     |       + RPB5 * Z4 * /Z2 * Z1 * /Z0
+ 278     |       + RPB4 * Z4 * /Z2 * Z1 * Z0
+ 279     |       + RPB3 * Z4 * Z2 * /Z1 * /Z0
+ 280     |       + RPB2 * Z4 * Z2 * /Z1 * Z0
+ 281     |       + RPB1 * Z4 * Z2 * Z1 * /Z0
+ 282     |       + RPB0 * Z4 * Z2 * Z1 * Z0;
+ 283     |
+ 284     |DAHLPC = RPC7 * Z4 * /Z2 * /Z1 * /Z0
+ 285     |       + RPC6 * Z4 * /Z2 * /Z1 * Z0
+ 286     |       + RPC5 * Z4 * /Z2 * Z1 * /Z0
+ 287     |       + RPC4 * Z4 * /Z2 * Z1 * Z0
+ 288     |       + RPC3 * Z4 * Z2 * /Z1 * /Z0
+ 289     |       + RPC2 * Z4 * Z2 * /Z1 * Z0
+ 290     |       + RPC1 * Z4 * Z2 * Z1 * /Z0
+ 291     |       + RPC0 * Z4 * Z2 * Z1 * Z0;
+ 292     |
+ 293     |DAHLPD = RPD7 * Z4 * /Z2 * /Z1 * /Z0
+ 294     |       + RPD6 * Z4 * /Z2 * /Z1 * Z0
+ 295     |       + RPD5 * Z4 * /Z2 * Z1 * /Z0
+ 296     |       + RPD4 * Z4 * /Z2 * Z1 * Z0
+ 297     |       + RPD3 * Z4 * Z2 * /Z1 * /Z0
+ 298     |       + RPD2 * Z4 * Z2 * /Z1 * Z0
+ 299     |       + RPD1 * Z4 * Z2 * Z1 * /Z0
+ 300     |       + RPD0 * Z4 * Z2 * Z1 * Z0;
+ 301     |
+ 302     |;----------------------------------- Simulation Segment ------------
+ 303     |SIMULATION
+ 304     |
+ 305     |;-------------------------------------------------------------------
+
+ %% MACHPAR %%    ERROR count:  0      WARNING count:  0
+
+ %% MACHPAR %%    File processed successfully.    File:  smp8b.pds
+
+*** Start MACHBPP 17:32:21 
+MACHXL 1.3 MACHBPP (05-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+
+EQUATIONS SEGMENT
+Processing equation for ====>Z0.T
+Processing equation for ====>Z0.CLKF
+Processing equation for ====>Z0.RSTF
+Processing equation for ====>Z0.SETF
+Processing equation for ====>Z1.T
+Processing equation for ====>Z1.CLKF
+Processing equation for ====>Z1.RSTF
+Processing equation for ====>Z1.SETF
+Processing equation for ====>Z2.T
+Processing equation for ====>Z2.CLKF
+Processing equation for ====>Z2.RSTF
+Processing equation for ====>Z2.SETF
+Processing equation for ====>Z3.T
+Processing equation for ====>Z3.CLKF
+Processing equation for ====>Z3.RSTF
+Processing equation for ====>Z3.SETF
+Processing equation for ====>Z4.T
+Processing equation for ====>Z4.CLKF
+Processing equation for ====>Z4.RSTF
+Processing equation for ====>Z4.SETF
+Processing equation for ====>Z5.T
+Processing equation for ====>Z5.CLKF
+Processing equation for ====>Z5.RSTF
+Processing equation for ====>Z5.SETF
+Processing equation for ====>BWAIT
+Processing equation for ====>BWAIT.CLKF
+Processing equation for ====>BWAIT.RSTF
+Processing equation for ====>BWAIT.SETF
+Processing equation for ====>BWAIT2
+Processing equation for ====>BWAIT2.CLKF
+Processing equation for ====>BWAIT2.RSTF
+Processing equation for ====>BWAIT2.SETF
+Processing equation for ====>BWAIT3
+Processing equation for ====>BWAIT3.CLKF
+Processing equation for ====>BWAIT3.RSTF
+Processing equation for ====>BWAIT3.SETF
+Processing equation for ====>/PUFRD
+Processing equation for ====>PLAYCLKO
+Processing equation for ====>RP9
+Processing equation for ====>RP9.CLKF
+Processing equation for ====>RP8
+Processing equation for ====>RP8.CLKF
+Processing equation for ====>RPA7
+Processing equation for ====>RPA7.CLKF
+Processing equation for ====>RPA6
+Processing equation for ====>RPA6.CLKF
+Processing equation for ====>RPA5
+Processing equation for ====>RPA5.CLKF
+Processing equation for ====>RPA4
+Processing equation for ====>RPA4.CLKF
+Processing equation for ====>RPA3
+Processing equation for ====>RPA3.CLKF
+Processing equation for ====>RPA2
+Processing equation for ====>RPA2.CLKF
+Processing equation for ====>RPA1
+Processing equation for ====>RPA1.CLKF
+Processing equation for ====>RPA0
+Processing equation for ====>RPA0.CLKF
+Processing equation for ====>RPB7
+Processing equation for ====>RPB7.CLKF
+Processing equation for ====>RPB6
+Processing equation for ====>RPB6.CLKF
+Processing equation for ====>RPB5
+Processing equation for ====>RPB5.CLKF
+Processing equation for ====>RPB4
+Processing equation for ====>RPB4.CLKF
+Processing equation for ====>RPB3
+Processing equation for ====>RPB3.CLKF
+Processing equation for ====>RPB2
+Processing equation for ====>RPB2.CLKF
+Processing equation for ====>RPB1
+Processing equation for ====>RPB1.CLKF
+Processing equation for ====>RPB0
+Processing equation for ====>RPB0.CLKF
+Processing equation for ====>RPC7
+Processing equation for ====>RPC7.CLKF
+Processing equation for ====>RPC6
+Processing equation for ====>RPC6.CLKF
+Processing equation for ====>RPC5
+Processing equation for ====>RPC5.CLKF
+Processing equation for ====>RPC4
+Processing equation for ====>RPC4.CLKF
+Processing equation for ====>RPC3
+Processing equation for ====>RPC3.CLKF
+Processing equation for ====>RPC2
+Processing equation for ====>RPC2.CLKF
+Processing equation for ====>RPC1
+Processing equation for ====>RPC1.CLKF
+Processing equation for ====>RPC0
+Processing equation for ====>RPC0.CLKF
+Processing equation for ====>RPD7
+Processing equation for ====>RPD7.CLKF
+Processing equation for ====>RPD6
+Processing equation for ====>RPD6.CLKF
+Processing equation for ====>RPD5
+Processing equation for ====>RPD5.CLKF
+Processing equation for ====>RPD4
+Processing equation for ====>RPD4.CLKF
+Processing equation for ====>RPD3
+Processing equation for ====>RPD3.CLKF
+Processing equation for ====>RPD2
+Processing equation for ====>RPD2.CLKF
+Processing equation for ====>RPD1
+Processing equation for ====>RPD1.CLKF
+Processing equation for ====>RPD0
+Processing equation for ====>RPD0.CLKF
+Processing equation for ====>DAHLPA
+Processing equation for ====>DAHLPB
+Processing equation for ====>DAHLPC
+Processing equation for ====>DAHLPD
+SIMULATION SEGMENT
+
+ %%  MACHBPP  %% Maximum memory allocated was: 89110 bytes.
+
+ %%  MACHBPP  %% File Processed Successfully.  File: smp8b.pds.
+ %%  MACHBPP  %% ERROR count: 0  WARNING count: 0
+
+*** End MACHBPP 17:32:25; (MACHBPP= 4 sec.) elapsed time= 4 sec.
+Accumulated Disk space used = 4096 bytes
+Free Disk space = 204881920 bytes
+
+*** Start MACHMIN 17:32:25 
+MACHXL 1.3 MACHMIN   - (5-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1994
+
+
+Processing equation(s) for node Z3...
+====> Z3.T               MIN_ON (1 + pt)
+====> Z3.CLKF            MIN_ON (1 + pt)
+====> Z3.SETF            MIN_ON (1 + pt)
+====> Z3.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node Z2...
+====> Z2.T               MIN_ON (1 + pt)
+====> Z2.CLKF            MIN_ON (1 + pt)
+====> Z2.SETF            MIN_ON (1 + pt)
+====> Z2.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node Z1...
+====> Z1.T               MIN_ON (1 + pt)
+====> Z1.CLKF            MIN_ON (1 + pt)
+====> Z1.SETF            MIN_ON (1 + pt)
+====> Z1.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node Z0...
+====> Z0.T               MIN_ON (1 + pt)
+====> Z0.CLKF            MIN_ON (1 + pt)
+====> Z0.SETF            MIN_ON (1 + pt)
+====> Z0.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for node BWAIT3...
+====> BWAIT3             MIN_ON (1 + pt)
+====> BWAIT3.CLKF        MIN_ON (1 + pt)
+====> BWAIT3.SETF        MIN_ON (1 + pt)
+====> BWAIT3.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for node BWAIT2...
+====> BWAIT2             MIN_ON (1 + pt)
+====> BWAIT2.CLKF        MIN_ON (1 + pt)
+====> BWAIT2.SETF        MIN_ON (1 + pt)
+====> BWAIT2.RSTF        MIN_ON (1 + pt)
+Processing equation(s) for node BWAIT...
+====> BWAIT              MIN_ON (1 + pt)
+====> BWAIT.CLKF         MIN_ON (1 + pt)
+====> BWAIT.SETF         MIN_ON (1 + pt)
+====> BWAIT.RSTF         MIN_ON (1 + pt)
+Processing equation(s) for node RPD0...
+====> RPD0               MIN_ON (1 + pt)
+====> RPD0.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD1...
+====> RPD1               MIN_ON (1 + pt)
+====> RPD1.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD2...
+====> RPD2               MIN_ON (1 + pt)
+====> RPD2.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD3...
+====> RPD3               MIN_ON (1 + pt)
+====> RPD3.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD4...
+====> RPD4               MIN_ON (1 + pt)
+====> RPD4.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD5...
+====> RPD5               MIN_ON (1 + pt)
+====> RPD5.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD6...
+====> RPD6               MIN_ON (1 + pt)
+====> RPD6.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPD7...
+====> RPD7               MIN_ON (1 + pt)
+====> RPD7.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC0...
+====> RPC0               MIN_ON (1 + pt)
+====> RPC0.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC1...
+====> RPC1               MIN_ON (1 + pt)
+====> RPC1.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC2...
+====> RPC2               MIN_ON (1 + pt)
+====> RPC2.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC3...
+====> RPC3               MIN_ON (1 + pt)
+====> RPC3.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC4...
+====> RPC4               MIN_ON (1 + pt)
+====> RPC4.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC5...
+====> RPC5               MIN_ON (1 + pt)
+====> RPC5.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC6...
+====> RPC6               MIN_ON (1 + pt)
+====> RPC6.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPC7...
+====> RPC7               MIN_ON (1 + pt)
+====> RPC7.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB0...
+====> RPB0               MIN_ON (1 + pt)
+====> RPB0.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB1...
+====> RPB1               MIN_ON (1 + pt)
+====> RPB1.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB2...
+====> RPB2               MIN_ON (1 + pt)
+====> RPB2.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB3...
+====> RPB3               MIN_ON (1 + pt)
+====> RPB3.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB4...
+====> RPB4               MIN_ON (1 + pt)
+====> RPB4.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB5...
+====> RPB5               MIN_ON (1 + pt)
+====> RPB5.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB6...
+====> RPB6               MIN_ON (1 + pt)
+====> RPB6.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPB7...
+====> RPB7               MIN_ON (1 + pt)
+====> RPB7.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA0...
+====> RPA0               MIN_ON (1 + pt)
+====> RPA0.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA1...
+====> RPA1               MIN_ON (1 + pt)
+====> RPA1.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA2...
+====> RPA2               MIN_ON (1 + pt)
+====> RPA2.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA3...
+====> RPA3               MIN_ON (1 + pt)
+====> RPA3.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA4...
+====> RPA4               MIN_ON (1 + pt)
+====> RPA4.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA5...
+====> RPA5               MIN_ON (1 + pt)
+====> RPA5.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA6...
+====> RPA6               MIN_ON (1 + pt)
+====> RPA6.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RPA7...
+====> RPA7               MIN_ON (1 + pt)
+====> RPA7.CLKF          MIN_ON (1 + pt)
+Processing equation(s) for node RP8...
+====> RP8                MIN_ON (1 + pt)
+====> RP8.CLKF           MIN_ON (1 + pt)
+Processing equation(s) for node RP9...
+====> RP9                MIN_ON (1 + pt)
+====> RP9.CLKF           MIN_ON (1 + pt)
+Processing equation(s) for pin Z5...
+====> Z5.T               MIN_ON (1 + pt)
+====> Z5.CLKF            MIN_ON (1 + pt)
+====> Z5.SETF            MIN_ON (1 + pt)
+====> Z5.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for pin Z4...
+====> Z4.T               MIN_ON (1 + pt)
+====> Z4.CLKF            MIN_ON (1 + pt)
+====> Z4.SETF            MIN_ON (1 + pt)
+====> Z4.RSTF            MIN_ON (1 + pt)
+Processing equation(s) for pin DAHLPD...
+====> DAHLPD             MIN_ON (8 + pt)
+Processing equation(s) for pin DAHLPC...
+====> DAHLPC             MIN_ON (8 + pt)
+Processing equation(s) for pin DAHLPB...
+====> DAHLPB             MIN_ON (8 + pt)
+Processing equation(s) for pin DAHLPA...
+====> DAHLPA             MIN_ON (8 + pt)
+Processing equation(s) for pin PLAYCLKO...
+====> PLAYCLKO           MIN_ON (1 + pt)
+Processing equation(s) for pin PUFRD...
+====> /PUFRD             MIN_ON (6 - pt)
+
+ %%  MACHMIN  %% Maximum memory allocated was: 7906 bytes.
+
+ %%  MACHMIN  %% File Processed Successfully.  File: smp8b.pds.
+ %%  MACHMIN  %% ERROR count: 0  WARNING count: 0
+
+
+*** End MACHMIN 17:32:33; (MACHMIN= 8 sec.) elapsed time=12 sec.
+Accumulated Disk space used = 12288 bytes
+Free Disk space = 204873728 bytes
+
+*** Start MACHMIN 17:32:33 
+MACHXL 1.3 MACHTPLA   - (5-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1994
+
+
+Converting TRE file smp8b.tre to PLA file smp8b.pla...
+
+.................................................
+.................................................
+
+ %%  MACHTPLA  %% Maximum memory allocated was: 23706 bytes.
+
+ %%  MACHTPLA  %% File Processed Successfully.  File: smp8b.pds.
+ %%  MACHTPLA  %% ERROR count: 0  WARNING count: 0
+
+
+*** End MACHMIN 17:32:39; (MACHMIN= 6 sec.) elapsed time=18 sec.
+Accumulated Disk space used = 12288 bytes
+Free Disk space = 204873728 bytes
+
+*** Start MACHFITR 17:32:39 
+MACHXL 1.3 MACHFITR (05-15-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+*** Source file is smp8b.pds . Device is MACH355 .
+|> INFO z5109 - For this device, all input pairing is ignored since input
+                registers or latches do not exist. All signals must pass
+                through the central switch matrix before being latched or
+                registered.
+|> INFO z5065 - For outputs, implicit output enables will be set to VCC.
+|> INFO z5070 - Implicit set/reset equations will be set to "DON'T CARE".
+                Simulation results may be unexpected for any uninitialized
+                register having an unspecified set or reset.
+
+*** End of Pla2db. 
+Check preplaced pins/nodes
+Check preplaced blocks
+Check unreferenced pins/nodes
+Check clock rules
+
+List of global clocks:
+   HCLKI:
+...... Is not forced to be global.
+   PLAYCLKI:
+...... Is not forced to be global.
+   INPSCLK:
+...... Is not forced to be global.
+
+List of non-global clocks:
+   None.
+
+*** End of Normalization.
+
+*** End of DRC. 
+
+*** Start Partitioning
+ 
+*** Partitioning successful.
+
+*** Routing successful. Assembler invoked.
+*** The JEDEC file generated is smp8b.JED .
+*** The custom BSDL file generated is smp8b.BSD .
+*** Report Generator invoked.
+
+Partitioning 100% - Completed
+Placement    100% - Completed
+Routing      100% - Completed
+%%% Fitting process is successful %%%
+*** Report Generator end.
+
+%%%% MACHFITR %%%% Fitting successful. File smp8b.pds .
+%%%% MACHFITR %%%% ERROR count 0 WARNING count 0 .
+
+*** End MACHFITR 17:32:54; (MACHFITR=15 sec.) elapsed time=33 sec.
+Accumulated Disk space used = 16384 bytes
+Free Disk space = 204869632 bytes

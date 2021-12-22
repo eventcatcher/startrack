@@ -1,0 +1,77 @@
+     Design Name:  startrk2
+ Targeted Device:  ispLSI1016-60LT44
+
+Pre-Route Design Statistics
+---------------------------
+
+Number of GLBs:                 13
+Number of I/Os:                 36
+Number of Nets:                 60
+
+Number of Free Inputs:          0
+Number of Free Outputs:         0
+Number of Free Three-States:    0
+Number of Free Bidi's:          0
+
+Number of Locked Input IOCs:    19
+Number of Locked DIs:           4
+Number of Locked Outputs:       6
+Number of Locked Three-States:  4
+Number of Locked Bidi's:        3
+
+Number of CRIT Outputs:         0
+Number of Global OEs:           0
+Number of External Clocks:      1
+
+
+GLB Utilization (Out of 16):	81%
+I/O Utilization (Out of 36):	100%
+Net Utilization (Out of 100):	60%
+
+
+Nets with Fanout of  1:         29
+Nets with Fanout of  2:         15
+Nets with Fanout of  3:         6
+Nets with Fanout of  4:         5
+Nets with Fanout of  5:         2
+Nets with Fanout of  6:         1
+Nets with Fanout of  7:         1
+Nets with Fanout of  8:         1
+
+Average Fanout per Net:         2.13
+
+
+GLBs with  1 Input(s):          1
+GLBs with  3 Input(s):          2
+GLBs with  4 Input(s):          1
+GLBs with  6 Input(s):          2
+GLBs with 11 Input(s):          3
+GLBs with 13 Input(s):          1
+GLBs with 14 Input(s):          1
+GLBs with 16 Input(s):          2
+
+Average Inputs per GLB:         8.85
+
+
+GLBs with  1 Output(s):         1
+GLBs with  2 Output(s):         5
+GLBs with  3 Output(s):         5
+GLBs with  4 Output(s):         2
+
+Average Outputs per GLB:        2.62
+
+
+Output Enable Nets
+
+    Net Name                Net Fanout
+
+        DTACKOE                 1
+        DATAOE                  4
+        IACKOUTOE               1
+        INTOE                   1
+
+
+--  No. of GLBs after successful routing : 16
+
+****  Elapsed Time :  00:00:01
+

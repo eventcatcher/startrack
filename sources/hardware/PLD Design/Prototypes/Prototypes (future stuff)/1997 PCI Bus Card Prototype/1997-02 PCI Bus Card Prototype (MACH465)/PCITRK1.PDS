@@ -1,0 +1,591 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    PCI.PDS      - PCI-Bus-Steuerung fÅr Startrack128
+PATTERN  B
+REVISION 1.0
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself
+DATE     1/9/96
+
+CHIP  _pcitrk1   MACH465
+
+;---------------------------------- PIN Declarations ---------------
+PIN  ?          PCICLK     ; PCI-Clock
+PIN  ?          IRDY       ; PCI-Initiator Ready
+PIN  ?          TRDY       ; PCI-Target Ready (von PCI2)
+PIN  ?          FRAME      ; PCI-Cycle Frame
+PIN  ?          IDSEL      ; PCI-Initialization Device Select
+PIN  ?          CBE0       ; PCI-Command
+PIN  ?          CBE1       ; PCI-Command
+PIN  ?          CBE2       ; PCI-Command
+PIN  ?          CBE3       ; PCI-Command
+PIN  ?          HCLKI      ; 40MHz-Timingclock
+PIN  ?          RESET      ; PCI-RESET
+PIN  ?          AD0        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD1        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD2        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD3        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD4        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD5        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD6        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD7        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD8        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD9        COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD10       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD11       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD12       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD13       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD14       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD15       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD16       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD17       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD18       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD19       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD20       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD21       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD22       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD23       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD24       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD25       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD26       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD27       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD28       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD29       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD30       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          AD31       COMBINATORIAL ; PCI-Datenleitung
+PIN  ?          STARWR     COMBINATORIAL ;
+PIN  ?          DEVSEL     COMBINATORIAL ; PCI-Device Select
+PIN  ?          RD0           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD1           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD2           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD3           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD4           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD5           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD6           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD7           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD8           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD9           REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD10          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD11          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD12          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD13          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD14          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD15          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD16          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD17          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD18          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD19          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD20          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD21          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD22          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD23          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD24          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD25          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD26          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD27          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD28          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD29          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD30          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RD31          REGISTERED ; gepufferte PCI-Datenleitung
+PIN  ?          RA0           REGISTERED ; gepufferte PCI-Adressleitung
+PIN  ?          RA1           REGISTERED ; gepufferte PCI-Adressleitung
+PIN  ?          RA2           REGISTERED ; gepufferte PCI-Adressleitung
+PIN  ?          RA3           REGISTERED ; gepufferte PCI-Adressleitung
+PIN  ?          RA4           REGISTERED ; gepufferte PCI-Adressleitung
+PIN  ?          RA5           REGISTERED ; gepufferte PCI-Adressleitung
+PIN  ?          RA6           REGISTERED ; gepufferte PCI-Adressleitung
+PIN  ?          RA7           REGISTERED ; gepufferte PCI-Adressleitung
+NODE ?          AS1        COMBINATORIAL ;
+NODE ?          AS2        COMBINATORIAL ;
+NODE ?          ADTRI      COMBINATORIAL ;
+NODE ?          ILCLK      COMBINATORIAL ;
+NODE ?          RDSEL      COMBINATORIAL ;
+NODE ?          SMPREG        REGISTERED ; PCI-Teil-Adressdekoder
+NODE ?          IL0           REGISTERED ;
+NODE ?          IL1           REGISTERED ;
+NODE ?          IL2           REGISTERED ;
+NODE ?          IL3           REGISTERED ;
+NODE ?          IL4           REGISTERED ;
+NODE ?          IL5           REGISTERED ;
+NODE ?          IL6           REGISTERED ;
+NODE ?          IL7           REGISTERED ;
+NODE ?          CA31          REGISTERED ;
+NODE ?          CA30          REGISTERED ;
+NODE ?          CA29          REGISTERED ;
+NODE ?          CA28          REGISTERED ;
+NODE ?          CA27          REGISTERED ;
+NODE ?          CA26          REGISTERED ;
+NODE ?          CA25          REGISTERED ;
+NODE ?          CA24          REGISTERED ;
+NODE ?          CA23          REGISTERED ;
+NODE ?          CA22          REGISTERED ;
+NODE ?          CA21          REGISTERED ;
+NODE ?          CA20          REGISTERED ;
+NODE ?          CA19          REGISTERED ;
+NODE ?          CA18          REGISTERED ;
+NODE ?          CA17          REGISTERED ;
+NODE ?          CA16          REGISTERED ;
+NODE ?          RA31          REGISTERED ;
+NODE ?          RA30          REGISTERED ;
+NODE ?          RA29          REGISTERED ;
+NODE ?          RA28          REGISTERED ;
+NODE ?          RA27          REGISTERED ;
+NODE ?          RA26          REGISTERED ;
+NODE ?          RA25          REGISTERED ;
+NODE ?          RA24          REGISTERED ;
+NODE ?          RA23          REGISTERED ;
+NODE ?          RA22          REGISTERED ;
+NODE ?          RA21          REGISTERED ;
+NODE ?          RA20          REGISTERED ;
+NODE ?          RA19          REGISTERED ;
+NODE ?          RA18          REGISTERED ;
+NODE ?          RA17          REGISTERED ;
+NODE ?          RA16          REGISTERED ;
+NODE ?          RCBE3         REGISTERED ;
+NODE ?          RCBE2         REGISTERED ;
+NODE ?          RCBE1         REGISTERED ;
+NODE ?          RCBE0         REGISTERED ;
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+RCBE3 = CBE3;
+RCBE3.CLKF = /FRAME * PCICLK;
+RCBE2 = CBE2;
+RCBE2.CLKF = /FRAME * PCICLK;
+RCBE1 = CBE1;
+RCBE1.CLKF = /FRAME * PCICLK;
+RCBE0 = CBE0;
+RCBE0.CLKF = /FRAME * PCICLK;
+
+ILCLK = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+      * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+
+IL0 = AD0;
+IL0.CLKF = ILCLK;
+IL1 = AD1;
+IL1.CLKF = ILCLK;
+IL2 = AD2;
+IL2.CLKF = ILCLK;
+IL3 = AD3;
+IL3.CLKF = ILCLK;
+IL4 = AD4;
+IL4.CLKF = ILCLK;
+IL5 = AD5;
+IL5.CLKF = ILCLK;
+IL6 = AD6;
+IL6.CLKF = ILCLK;
+IL7 = AD7;
+IL7.CLKF = ILCLK;
+
+
+ADTRI = /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+        + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0;
+
+AD0 = RD0 * /IRDY * /TRDY * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+    + IL0 * /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+AD0.trst = ADTRI;
+AD1 = RD1 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * RA2
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+    + IL1 * /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+AD1.trst = ADTRI;
+AD2 = RD2 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+    + IL2 * /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+AD2.trst = ADTRI;
+AD3 = RD3 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+    + IL3 * /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+AD3.trst = ADTRI;
+AD4 = RD4 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+    + IL4 * /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+AD4.trst = ADTRI;
+AD5 = RD5 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+    + IL5 * /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+AD5.trst = ADTRI;
+AD6 = RD6 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+    + IL6 * /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+AD6.trst = ADTRI;
+AD7 = RD7 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+    + IL7 * /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+AD7.trst = ADTRI;
+AD8 = RD8 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * RA5 * RA4 * RA3 * RA2;
+AD8.trst = ADTRI;
+AD9 = RD9 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD9.trst = ADTRI;
+AD10 = RD10 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD10.trst = ADTRI;
+AD11 = RD11 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD11.trst = ADTRI;
+AD12 = RD12 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD12.trst = ADTRI;
+AD13 = RD13 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD13.trst = ADTRI;
+AD14 = RD14 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD14.trst = ADTRI;
+AD15 = RD15 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+    + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+    * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD15.trst = ADTRI;
+AD16 = RD16 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * RA3 * /RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD16.trst = ADTRI;
+AD17 = RD17 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD17.trst = ADTRI;
+AD18 = RD18 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD18.trst = ADTRI;
+AD19 = RD19 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD19.trst = ADTRI;
+AD20 = RD20 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD20.trst = ADTRI;
+AD21 = RD21 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD21.trst = ADTRI;
+AD22 = RD22 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD22.trst = ADTRI;
+AD23 = RD23 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD23.trst = ADTRI;
+AD24 = RD24 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD24.trst = ADTRI;
+AD25 = RD25 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD25.trst = ADTRI;
+AD26 = RD26 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * RA3 * /RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD26.trst = ADTRI;
+AD27 = RD27 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD27.trst = ADTRI;
+AD28 = RD28 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD28.trst = ADTRI;
+AD29 = RD29 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD29.trst = ADTRI;
+AD30 = RD30 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * /RA4 * /RA3 * /RA2
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD30.trst = ADTRI;
+AD31 = RD31 * /IRDY * /TRDY * PCICLK * /RCBE3 * RCBE2 * RCBE1 * /RCBE0
+     + /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * /RCBE0
+     * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+AD31.trst = ADTRI;
+
+RDSEL = /IRDY * /TRDY * /RCBE3 * RCBE2 * RCBE1 * RCBE0;
+
+RD0 = AD0;
+RD0.CLKF = RDSEL * PCICLK;
+RD0.trst = RDSEL;
+RD1 = AD1;
+RD1.CLKF = RDSEL * PCICLK;
+RD1.trst = RDSEL;
+RD2 = AD2;
+RD2.CLKF = RDSEL * PCICLK;
+RD2.trst = RDSEL;
+RD3 = AD3;
+RD3.CLKF = RDSEL * PCICLK;
+RD3.trst = RDSEL;
+RD4 = AD4;
+RD4.CLKF = RDSEL * PCICLK;
+RD4.trst = RDSEL;
+RD5 = AD5;
+RD5.CLKF = RDSEL * PCICLK;
+RD5.trst = RDSEL;
+RD6 = AD6;
+RD6.CLKF = RDSEL * PCICLK;
+RD6.trst = RDSEL;
+RD7 = AD7;
+RD7.CLKF = RDSEL * PCICLK;
+RD7.trst = RDSEL;
+RD8 = AD8;
+RD8.CLKF = RDSEL * PCICLK;
+RD8.trst = RDSEL;
+RD9 = AD9;
+RD9.CLKF = RDSEL * PCICLK;
+RD9.trst = RDSEL;
+RD10 = AD10;
+RD10.CLKF = RDSEL * PCICLK;
+RD10.trst = RDSEL;
+RD11 = AD11;
+RD11.CLKF = RDSEL * PCICLK;
+RD11.trst = RDSEL;
+RD12 = AD12;
+RD12.CLKF = RDSEL * PCICLK;
+RD12.trst = RDSEL;
+RD13 = AD13;
+RD13.CLKF = RDSEL * PCICLK;
+RD13.trst = RDSEL;
+RD14 = AD14;
+RD14.CLKF = RDSEL * PCICLK;
+RD14.trst = RDSEL;
+RD15 = AD15;
+RD15.CLKF = RDSEL * PCICLK;
+RD15.trst = RDSEL;
+RD16 = AD16;
+RD16.CLKF = RDSEL * PCICLK;
+RD16.trst = RDSEL;
+RD17 = AD17;
+RD17.CLKF = RDSEL * PCICLK;
+RD17.trst = RDSEL;
+RD18 = AD18;
+RD18.CLKF = RDSEL * PCICLK;
+RD18.trst = RDSEL;
+RD19 = AD19;
+RD19.CLKF = RDSEL * PCICLK;
+RD19.trst = RDSEL;
+RD20 = AD20;
+RD20.CLKF = RDSEL * PCICLK;
+RD20.trst = RDSEL;
+RD21 = AD21;
+RD21.CLKF = RDSEL * PCICLK;
+RD21.trst = RDSEL;
+RD22 = AD22;
+RD22.CLKF = RDSEL * PCICLK;
+RD22.trst = RDSEL;
+RD23 = AD23;
+RD23.CLKF = RDSEL * PCICLK;
+RD23.trst = RDSEL;
+RD24 = AD24;
+RD24.CLKF = RDSEL * PCICLK;
+RD24.trst = RDSEL;
+RD25 = AD25;
+RD25.CLKF = RDSEL * PCICLK;
+RD25.trst = RDSEL;
+RD26 = AD26;
+RD26.CLKF = RDSEL * PCICLK;
+RD26.trst = RDSEL;
+RD27 = AD27;
+RD27.CLKF = RDSEL * PCICLK;
+RD27.trst = RDSEL;
+RD28 = AD28;
+RD28.CLKF = RDSEL * PCICLK;
+RD28.trst = RDSEL;
+RD29 = AD29;
+RD29.CLKF = RDSEL * PCICLK;
+RD29.trst = RDSEL;
+RD30 = AD30;
+RD30.CLKF = RDSEL * PCICLK;
+RD30.trst = RDSEL;
+RD31 = AD31;
+RD31.CLKF = RDSEL * PCICLK;
+RD31.trst = RDSEL;
+
+SMPREG = /AD11 * /AD10 * /AD9 * /AD8;
+SMPREG.CLKF = /FRAME * PCICLK;
+
+; DEVSEL ist gleichzeitig ChipSelect fÅr STARTRAK
+
+/DEVSEL = /IRDY * SMPREG * /RCBE3 * RCBE2 * RCBE1 * /AS1 * /AS2;
+
+/STARWR = /IRDY * /RCBE3 * RCBE2 * RCBE1 * RCBE0;
+
+RA0 = AD0;
+RA0.CLKF = /FRAME * PCICLK;
+RA1 = AD1;
+RA1.CLKF = /FRAME * PCICLK;
+RA2 = AD2;
+RA2.CLKF = /FRAME * PCICLK;
+RA3 = AD3;
+RA3.CLKF = /FRAME * PCICLK;
+RA4 = AD4;
+RA4.CLKF = /FRAME * PCICLK;
+RA5 = AD5;
+RA5.CLKF = /FRAME * PCICLK;
+RA6 = AD6;
+RA6.CLKF = /FRAME * PCICLK;
+RA7 = AD7;
+RA7.CLKF = /FRAME * PCICLK;
+
+RA31 = AD31 * CA31
+     + /AD31 * /CA31;
+RA31.CLKF = /FRAME * PCICLK;
+RA30 = AD30 * CA30
+     + /AD30 * /CA30;
+RA30.CLKF = /FRAME * PCICLK;
+RA29 = AD29 * CA29
+     + /AD29 * /CA29;
+RA29.CLKF = /FRAME * PCICLK;
+RA28 = AD28 * CA28
+     + /AD28 * /CA28;
+RA28.CLKF = /FRAME * PCICLK;
+RA27 = AD27 * CA27
+     + /AD27 * /CA27;
+RA27.CLKF = /FRAME * PCICLK;
+RA26 = AD26 * CA26
+     + /AD26 * /CA26;
+RA26.CLKF = /FRAME * PCICLK;
+RA25 = AD25 * CA25
+     + /AD25 * /CA25;
+RA25.CLKF = /FRAME * PCICLK;
+RA24 = AD24 * CA24
+     + /AD24 * /CA24;
+RA24.CLKF = /FRAME * PCICLK;
+RA23 = AD23 * CA23
+     + /AD23 * /CA23;
+RA23.CLKF = /FRAME * PCICLK;
+RA22 = AD22 * CA22
+     + /AD22 * /CA22;
+RA22.CLKF = /FRAME * PCICLK;
+RA21 = AD21 * CA21
+     + /AD21 * /CA21;
+RA21.CLKF = /FRAME * PCICLK;
+RA20 = AD20 * CA20
+     + /AD20 * /CA20;
+RA20.CLKF = /FRAME * PCICLK;
+RA19 = AD19 * CA19
+     + /AD19 * /CA19;
+RA19.CLKF = /FRAME * PCICLK;
+RA18 = AD18 * CA18
+     + /AD18 * /CA18;
+RA18.CLKF = /FRAME * PCICLK;
+RA17 = AD17 * CA17
+     + /AD17 * /CA17;
+RA17.CLKF = /FRAME * PCICLK;
+RA16 = AD16 * CA16
+     + /AD16 * /CA16;
+RA16.CLKF = /FRAME * PCICLK;
+
+CA31 = AD31;
+CA31.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA30 = AD30;
+CA30.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA29 = AD29;
+CA29.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA28 = AD28;
+CA28.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA27 = AD27;
+CA27.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA26 = AD26;
+CA26.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA25 = AD25;
+CA25.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA24 = AD24;
+CA24.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA23 = AD23;
+CA23.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA22 = AD22;
+CA22.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA21 = AD21;
+CA21.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA20 = AD20;
+CA20.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA19 = AD19;
+CA19.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA18 = AD18;
+CA18.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA17 = AD17;
+CA17.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+CA16 = AD16;
+CA16.CLKF = /IDSEL * /RA1 * /RA0 * RCBE3 * /RCBE2 * RCBE1 * RCBE0
+          * /RA7 * /RA6 * /RA5 * RA4 * /RA3 * /RA2
+
+/AS1 = RA31 * RA30 * RA29 * RA28 * RA27 * RA26 * RA25 * RA24;
+/AS2 = RA23 * RA22 * RA21 * RA20 * RA19 * RA18 * RA17 * RA16;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

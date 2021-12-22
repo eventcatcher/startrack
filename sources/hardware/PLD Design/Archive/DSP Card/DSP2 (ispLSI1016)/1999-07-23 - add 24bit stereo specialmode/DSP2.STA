@@ -1,0 +1,72 @@
+     Design Name:  dsp2y
+ Targeted Device:  ispLSI1016-60LT44
+
+Pre-Route Design Statistics
+---------------------------
+
+Number of GLBs:                 13
+Number of I/Os:                 34
+Number of Nets:                 67
+
+Number of Free Inputs:          0
+Number of Free Outputs:         0
+Number of Free Three-States:    0
+Number of Free Bidi's:          0
+
+Number of Locked Input IOCs:    11
+Number of Locked DIs:           2
+Number of Locked Outputs:       15
+Number of Locked Three-States:  0
+Number of Locked Bidi's:        6
+
+Number of CRIT Outputs:         0
+Number of Global OEs:           0
+Number of External Clocks:      1
+
+
+GLB Utilization (Out of 16):	81%
+I/O Utilization (Out of 36):	94%
+Net Utilization (Out of 100):	67%
+
+
+Nets with Fanout of  1:         45
+Nets with Fanout of  2:         11
+Nets with Fanout of  3:         1
+Nets with Fanout of  4:         5
+Nets with Fanout of  5:         1
+Nets with Fanout of  6:         3
+Nets with Fanout of  7:         1
+
+Average Fanout per Net:         1.79
+
+
+GLBs with  4 Input(s):          2
+GLBs with  5 Input(s):          2
+GLBs with  6 Input(s):          5
+GLBs with 10 Input(s):          2
+GLBs with 15 Input(s):          1
+GLBs with 16 Input(s):          1
+
+Average Inputs per GLB:         7.62
+
+
+GLBs with  3 Output(s):         4
+GLBs with  4 Output(s):         9
+
+Average Outputs per GLB:        3.69
+
+
+Output Enable Nets
+
+    Net Name                Net Fanout
+
+        GPOE2                   1
+        GPOE1                   1
+        GPOE0                   1
+        DRDOE                   3
+
+
+--  No. of GLBs after successful routing : 16
+
+****  Elapsed Time :  00:00:13
+

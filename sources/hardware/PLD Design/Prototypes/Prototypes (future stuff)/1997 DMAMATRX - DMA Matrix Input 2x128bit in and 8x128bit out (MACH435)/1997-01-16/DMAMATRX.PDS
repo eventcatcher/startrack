@@ -1,0 +1,482 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    MATRIX.PDS        DMA-Matrix Input
+PATTERN  B                 2 x 128Bit serial-In
+REVISION 1.0               8 x 128Bit serial-out
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself
+DATE     1/9/97
+
+CHIP  _matrix    MACH435
+
+;---------------------------------- PIN Declarations ---------------
+PIN  ?          HCLKI      ; 40MHz-Timingclock
+PIN  ?          RESET      ; VME-RESET
+PIN  ?          SCLKRI     ; DMA-In-Eingangstakt
+PIN  ?          DMADI      ; DMA-In-Eingangsdaten Kanal1
+PIN  ?          DMBDI      ; DMA-In-Eingangsdaten Kanal2
+PIN  ?          FSYNCRI    ; DMA-In-Framesync
+PIN  ?          DMARMOD0   ; DMA-Record-Mode Bit D0
+PIN  ?          DMAOEF1    ; Empty-Flag vom ersten (low) DMA-Out-Fifo
+PIN  ?          DMAPMOD0   ; DMA-Play-Mode Bit D0
+PIN  ?          DMAPMOD1   ; DMA-Play-Mode Bit D1
+PIN  ?          DMAPMOD2   ; DMA-Play-Mode Bit D2
+PIN  ?          RDMAOD8    ; vom Output des 4.DMA-Out-FIFO
+PIN  ?          WRID0      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          FSYNCB     COMBINATORIAL ; FSYNC fÅr 2ten 128Bit-Kanal
+PIN  ?          WRID1      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          WRID2      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          WRID3      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          WRID4      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          WRID5      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          WRID6      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          WRID7      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          WRID8      COMBINATORIAL ; zum Inp des DMA-In-Fifo
+PIN  ?          WRDMAI1    COMBINATORIAL ; zum DMA-In-FIFO Write (low)
+PIN  ?          WRDMAI2    COMBINATORIAL ; zum DMA-In-FIFO Write (mid)
+PIN  ?          WRDMAI3    COMBINATORIAL ; zum DMA-In-FIFO Write (high)
+PIN  ?          WRDMAI4    COMBINATORIAL ; zum DMA-In-FIFO Write (highest)
+PIN  ?          SCLKPI     COMBINATORIAL ; Eingangstakt
+PIN  ?          SHLDMAO1   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg1
+PIN  ?          SHLDMAO2   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg2
+PIN  ?          SHLDMAO3   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg3
+PIN  ?          SHLDMAO4   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg4
+PIN  ?          SHLDMAO5   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg5
+PIN  ?          SHLDMAO6   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg6
+PIN  ?          SHLDMAO7   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg7
+PIN  ?          SHLDMAO8   COMBINATORIAL ; Shift-Load fÅr DMA-Out-Shiftreg8
+PIN  ?          DMAORD1    COMBINATORIAL ; zum DMA-Out-FIFO Read (low)
+PIN  ?          DMAORD2    COMBINATORIAL ; zum DMA-Out-FIFO Read (mid)
+PIN  ?          DMAORD3    COMBINATORIAL ; zum DMA-Out-FIFO Read (high)
+PIN  ?          DMAORD4    COMBINATORIAL ; zum DMA-Out-FIFO Read (highest)
+PIN  ?          DMAOSHCLK  COMBINATORIAL ; Output DMA-Shift-Clock
+PIN  ?          DMAOFSYNC1 COMBINATORIAL ; Output DMA-Out-Fsync1
+PIN  ?          DMAOFSYNC2 COMBINATORIAL ; Output DMA-Out-Fsync2
+PIN  ?          DMAOFSYNC3 COMBINATORIAL ; Output DMA-Out-Fsync3
+PIN  ?          DMAOFSYNC4 COMBINATORIAL ; Output DMA-Out-Fsync4
+PIN  ?          DMAOFSYNC5 COMBINATORIAL ; Output DMA-Out-Fsync5
+PIN  ?          DMAOFSYNC6 COMBINATORIAL ; Output DMA-Out-Fsync6
+PIN  ?          DMAOFSYNC7 COMBINATORIAL ; Output DMA-Out-Fsync7
+PIN  ?          DMAOFSYNC8 COMBINATORIAL ; Output DMA-Out-Fsync8
+NODE ?          WRRIOK     COMBINATORIAL ; beendet DMA-In1-FIFO Write-Timing
+NODE ?          WRRIOKB    COMBINATORIAL ; beendet DMA-In2-FIFO Write-Timing
+NODE ?          BRIERR     COMBINATORIAL ; Word-Clear DMA-In
+NODE ?          BRICLR     COMBINATORIAL ; Word-Clear DMA-In
+NODE ?          DMAORD     COMBINATORIAL ; DMA-Out-Read
+NODE ?          DMAORES    COMBINATORIAL ;
+NODE ?          BRIERR2       REGISTERED ; Word-Clear DMA-In
+NODE ?          SHDMAI0       REGISTERED ; Shift der DMA-In-Daten A
+NODE ?          SHDMAI1       REGISTERED ; Shift der DMA-In-Daten A
+NODE ?          SHDMAI2       REGISTERED ; Shift der DMA-In-Daten A
+NODE ?          SHDMAI3       REGISTERED ; Shift der DMA-In-Daten A
+NODE ?          SHDMAI4       REGISTERED ; Shift der DMA-In-Daten A
+NODE ?          SHDMAI5       REGISTERED ; Shift der DMA-In-Daten A
+NODE ?          SHDMAI6       REGISTERED ; Shift der DMA-In-Daten A
+NODE ?          SHDMAI7       REGISTERED ; Shift der DMA-In-Daten A
+NODE ?          SHDMBI0       REGISTERED ; Shift der DMA-In-Daten B
+NODE ?          SHDMBI1       REGISTERED ; Shift der DMA-In-Daten B
+NODE ?          SHDMBI2       REGISTERED ; Shift der DMA-In-Daten B
+NODE ?          SHDMBI3       REGISTERED ; Shift der DMA-In-Daten B
+NODE ?          SHDMBI4       REGISTERED ; Shift der DMA-In-Daten B
+NODE ?          SHDMBI5       REGISTERED ; Shift der DMA-In-Daten B
+NODE ?          SHDMBI6       REGISTERED ; Shift der DMA-In-Daten B
+NODE ?          SHDMBI7       REGISTERED ; Shift der DMA-In-Daten B
+NODE ?          WTDMAI        REGISTERED ; DMA-In-FIFO-Write-Timing
+NODE ?          WTDMAI2       REGISTERED ; DMA-In-FIFO-Write-Timing
+NODE ?          WTDMAI3       REGISTERED ; DMA-In-FIFO-Write-Timing
+NODE ?          BDMAI0        REGISTERED ; DMA-In-SCLKzÑhler und Synchro
+NODE ?          BDMAI1        REGISTERED ; DMA-In-SCLKzÑhler und Synchro
+NODE ?          BDMAI2        REGISTERED ; DMA-In-SCLKzÑhler und Synchro
+NODE ?          WDMAI0        REGISTERED ; DMA-In-SWORDzÑhler und Synchro
+NODE ?          WDMAI1        REGISTERED ; DMa-In-SWORDzÑhler und Synchro
+NODE ?          WDMAI2        REGISTERED ; DMA-In-SWORDzÑhler und Synchro
+NODE ?          WDMAI3        REGISTERED ; DMA-In-SWORDzÑhler und Synchro
+NODE ?          WFRI          REGISTERED ; Word-Anfang-Flanken-Erkenner1
+NODE ?          WFRIB         REGISTERED ; Word-Anfang-Flanken-Erkenner2
+NODE ?          RRIFS         REGISTERED ; DMA-In-Fsync vor letztem Takt
+NODE ?          WTDMAO        REGISTERED ; DMA-Out-FIFO-Write-Timing
+NODE ?          WTDMAO2       REGISTERED ; DMA-Out-FIFO-Write-Timing
+NODE ?          WTDMAO3       REGISTERED ; DMA-Out-FIFO-Write-Timing
+NODE ?          BDMAO0        REGISTERED ; DMA-Out-SCLKzÑhler und Synchro
+NODE ?          BDMAO1        REGISTERED ; DMA-Out-SCLKzÑhler und Synchro
+NODE ?          BDMAO2        REGISTERED ; DMA-Out-SCLKzÑhler und Synchro
+NODE ?          WDMAO0        REGISTERED ; DMA-Out-SWORDzÑhler und Synchro
+NODE ?          WDMAO1        REGISTERED ; DMA-Out-SWORDzÑhler und Synchro
+NODE ?          WDMAO2        REGISTERED ; DMA-Out-SWORDzÑhler und Synchro
+NODE ?          WDMAO3        REGISTERED ; DMA-Out-SWORDzÑhler und Synchro
+NODE ?          RDMAO8        REGISTERED ; Speicher fÅr Daten-DMAFifo-Output
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+; ---------------------DMA-Eingangsdaten (128Bit) einshiften
+
+SHDMAI0 = DMADI;
+SHDMAI0.CLKF = /SCLKRI;
+SHDMAI0.SETF = GND;
+SHDMAI0.RSTF = GND;
+
+SHDMAI1 = SHDMAI0;
+SHDMAI1.CLKF = /SCLKRI;
+SHDMAI1.SETF = GND;
+SHDMAI1.RSTF = GND;
+
+SHDMAI2 = SHDMAI1;
+SHDMAI2.CLKF = /SCLKRI;
+SHDMAI2.SETF = GND;
+SHDMAI2.RSTF = GND;
+
+SHDMAI3 = SHDMAI2;
+SHDMAI3.CLKF = /SCLKRI;
+SHDMAI3.SETF = GND;
+SHDMAI3.RSTF = GND;
+
+SHDMAI4 = SHDMAI3;
+SHDMAI4.CLKF = /SCLKRI;
+SHDMAI4.SETF = GND;
+SHDMAI4.RSTF = GND;
+
+SHDMAI5 = SHDMAI4;
+SHDMAI5.CLKF = /SCLKRI;
+SHDMAI5.SETF = GND;
+SHDMAI5.RSTF = GND;
+
+SHDMAI6 = SHDMAI5;
+SHDMAI6.CLKF = /SCLKRI;
+SHDMAI6.SETF = GND;
+SHDMAI6.RSTF = GND;
+
+SHDMAI7 = SHDMAI6;
+SHDMAI7.CLKF = /SCLKRI;
+SHDMAI7.SETF = GND;
+SHDMAI7.RSTF = GND;
+
+; --Write-Signale generieren fÅr die 4 DMA-Record-FIFOs
+; --(bricht die 128Bit in je 8Bit-TeilstÅcke auf)
+
+BDMAI0.T = VCC;
+BDMAI0.CLKF = SCLKRI;
+BDMAI0.RSTF = BRICLR;
+BDMAI0.SETF = GND;
+
+BDMAI1.T = BDMAI0;
+BDMAI1.CLKF = SCLKRI;
+BDMAI1.RSTF = BRICLR;
+BDMAI1.SETF = GND;
+
+BDMAI2.T = BDMAI0 * BDMAI1;
+BDMAI2.CLKF = SCLKRI;
+BDMAI2.RSTF = BRICLR;
+BDMAI2.SETF = GND;
+
+WDMAI0.T = BDMAI0 * BDMAI1 * BDMAI2;
+WDMAI0.CLKF = SCLKRI;
+WDMAI0.RSTF = BRICLR;
+WDMAI0.SETF = GND;
+
+WDMAI1.T = BDMAI0 * BDMAI1 * BDMAI2 * WDMAI0;
+WDMAI1.CLKF = SCLKRI;
+WDMAI1.RSTF = BRICLR;
+WDMAI1.SETF = GND;
+
+WDMAI2.T = BDMAI0 * BDMAI1 * BDMAI2 * WDMAI0 * WDMAI1;
+WDMAI2.CLKF = SCLKRI;
+WDMAI2.RSTF = BRICLR;
+WDMAI2.SETF = GND;
+
+WDMAI3.T = BDMAI0 * BDMAI1 * BDMAI2 * WDMAI0 * WDMAI1 * WDMAI2;
+WDMAI3.CLKF = SCLKRI;
+WDMAI3.RSTF = BRICLR;
+WDMAI3.SETF = GND;
+
+; --WordzÑhler synchronisieren bzw. lîschen
+
+RRIFS := FSYNCRI;
+RRIFS.CLKF = SCLKRI;
+
+BRIERR = /RRIFS * FSYNCRI * WDMAI3
+       + /RRIFS * FSYNCRI * WDMAI2
+       + /RRIFS * FSYNCRI * WDMAI1
+       + /RRIFS * FSYNCRI * WDMAI0
+       + /RRIFS * FSYNCRI * BDMAI2
+       + /RRIFS * FSYNCRI * BDMAI1
+       + /RRIFS * FSYNCRI * BDMAI0;
+
+BRIERR2 = VCC;
+BRIERR2.CLKF = BRIERR;
+BRIERR2.SETF = GND;
+BRIERR2.RSTF = BRICLR;
+
+BRICLR = BRIERR2 * /WDMAI3 * /WDMAI2 * /WDMAI1 * /WDMAI0
+       * /BDMAI2 * /BDMAI1 * /BDMAI0
+       + BRICLR * /RRIFS * /FSYNCRI
+       + BRICLR * RRIFS * FSYNCRI
+       + BRICLR * RRIFS * /FSYNCRI;
+
+WTDMAI = WFRI;
+WTDMAI.CLKF = HCLKI;
+WTDMAI.RSTF = WRRIOK;
+WTDMAI.SETF = GND;
+
+WTDMAI2 = WTDMAI;
+WTDMAI2.CLKF = HCLKI;
+WTDMAI2.RSTF = WRRIOK;
+WTDMAI2.SETF = GND;
+
+WTDMAI3 = WTDMAI2;
+WTDMAI3.CLKF = HCLKI;
+WTDMAI3.RSTF = WRRIOK;
+WTDMAI3.SETF = GND;
+
+WFRI = BDMAI0 * BDMAI1 * BDMAI2;
+WFRI.CLKF = /SCLKRI;
+WFRI.SETF = GND;
+WFRI.RSTF = WRRIOKB;
+
+/WRDMAI4 = /WDMAI3 * /WDMAI2 * WFRI * WTDMAI * /WTDMAI2
+         + /WDMAI3 * /WDMAI2 * WFRIB * WTDMAI * /WTDMAI2 * DMARMOD0;
+
+/WRDMAI3 = /WDMAI3 * WDMAI2 * WFRI * WTDMAI * /WTDMAI2
+         + /WDMAI3 * WDMAI2 * WFRIB * WTDMAI * /WTDMAI2 * DMARMOD0;
+
+/WRDMAI2 = WDMAI3 * /WDMAI2 * WFRI * WTDMAI * /WTDMAI2
+         + WDMAI3 * /WDMAI2 * WFRIB * WTDMAI * /WTDMAI2 * DMARMOD0;
+
+/WRDMAI1 = WDMAI3 * WDMAI2 * WFRI * WTDMAI * /WTDMAI2
+         + WDMAI3 * WDMAI2 * WFRIB * WTDMAI * /WTDMAI2 * DMARMOD0;
+
+WRRIOK = WFRI * WTDMAI * WTDMAI2 * WTDMAI3 * WRDMAI1 * WRDMAI2
+       * WRDMAI3 * WRDMAI4
+       + /RESET;
+
+WRID0 = SHDMAI0 * WFRI * /WTDMAI3
+      + SHDMBI0 * WFRIB * /WTDMAI3 * DMARMOD0;
+WRID1 = SHDMAI1 * WFRI * /WTDMAI3
+      + SHDMBI1 * WFRIB * /WTDMAI3 * DMARMOD0;
+WRID2 = SHDMAI2 * WFRI * /WTDMAI3
+      + SHDMBI2 * WFRIB * /WTDMAI3 * DMARMOD0;
+WRID3 = SHDMAI3 * WFRI * /WTDMAI3
+      + SHDMBI3 * WFRIB * /WTDMAI3 * DMARMOD0;
+WRID4 = SHDMAI4 * WFRI * /WTDMAI3
+      + SHDMBI4 * WFRIB * /WTDMAI3 * DMARMOD0;
+WRID5 = SHDMAI5 * WFRI * /WTDMAI3
+      + SHDMBI5 * WFRIB * /WTDMAI3 * DMARMOD0;
+WRID6 = SHDMAI6 * WFRI * /WTDMAI3
+      + SHDMBI6 * WFRIB * /WTDMAI3 * DMARMOD0;
+WRID7 = SHDMAI7 * WFRI * /WTDMAI3
+      + SHDMBI7 * WFRIB * /WTDMAI3 * DMARMOD0;
+WRID8 = /WDMAI3 * /WDMAI2 * /WDMAI1 * /WDMAI0;
+
+; ---------------------DMA-Eingangsdaten Kanal 2 (128Bit) einshiften
+SHDMBI0 = DMBDI;
+SHDMBI0.CLKF = /SCLKRI;
+SHDMBI0.SETF = GND;
+SHDMBI0.RSTF = GND;
+
+SHDMBI1 = SHDMBI0;
+SHDMBI1.CLKF = /SCLKRI;
+SHDMBI1.SETF = GND;
+SHDMBI1.RSTF = GND;
+
+SHDMBI2 = SHDMBI1;
+SHDMBI2.CLKF = /SCLKRI;
+SHDMBI2.SETF = GND;
+SHDMBI2.RSTF = GND;
+
+SHDMBI3 = SHDMBI2;
+SHDMBI3.CLKF = /SCLKRI;
+SHDMBI3.SETF = GND;
+SHDMBI3.RSTF = GND;
+
+SHDMBI4 = SHDMBI3;
+SHDMBI4.CLKF = /SCLKRI;
+SHDMBI4.SETF = GND;
+SHDMBI4.RSTF = GND;
+
+SHDMBI5 = SHDMBI4;
+SHDMBI5.CLKF = /SCLKRI;
+SHDMBI5.SETF = GND;
+SHDMBI5.RSTF = GND;
+
+SHDMBI6 = SHDMBI5;
+SHDMBI6.CLKF = /SCLKRI;
+SHDMBI6.SETF = GND;
+SHDMBI6.RSTF = GND;
+
+SHDMBI7 = SHDMBI6;
+SHDMBI7.CLKF = /SCLKRI;
+SHDMBI7.SETF = GND;
+SHDMBI7.RSTF = GND;
+
+WFRIB  = WFRI * /BDMAI0 * /BDMAI1 * /BDMAI2;
+WFRIB.CLKF = /SCLKRI;
+WFRIB.SETF = GND;
+WFRIB.RSTF = WRRIOKB;
+
+WRRIOKB = WFRIB * WTDMAI * WTDMAI2 * WTDMAI3 * WRDMAI1 * WRDMAI2
+       * WRDMAI3 * WRDMAI4
+       + /RESET;
+
+FSYNCB = /WDMAI2 * /WDMAI1 * BDMAI0
+       + /WDMAI2 * /WDMAI1 * BDMAI1
+       + /WDMAI2 * /WDMAI1 * BDMAI2
+       + /WDMAI2 * WDMAI1 * /BDMAI2 * /BDMAI1 * /BDMAI0;
+
+
+; DMA-Out
+; --Read-Signale generieren fÅr die 4 DMA-Play-FIFOs
+; --(liest je FIFO 8Bit-TeilstÅcke aus und setzt sie zu 128Bit zusammen)
+
+BDMAO0.T = VCC;
+BDMAO0.CLKF = SCLKPI;
+BDMAO0.RSTF = /DMAORES;
+BDMAO0.SETF = GND;
+
+BDMAO1.T = BDMAO0;
+BDMAO1.CLKF = SCLKPI;
+BDMAO1.RSTF = /DMAORES;
+BDMAO1.SETF = GND;
+
+BDMAO2.T = BDMAO0 * BDMAO1;
+BDMAO2.CLKF = SCLKPI;
+BDMAO2.RSTF = /DMAORES;
+BDMAO2.SETF = GND;
+
+WDMAO0.T = BDMAO0 * BDMAO1 * BDMAO2;
+WDMAO0.CLKF = SCLKPI;
+WDMAO0.RSTF = /DMAORES;
+WDMAO0.SETF = GND;
+
+WDMAO1.T = BDMAO0 * BDMAO1 * BDMAO2 * WDMAO0;
+WDMAO1.CLKF = SCLKPI;
+WDMAO1.RSTF = /DMAORES;
+WDMAO1.SETF = GND;
+
+WDMAO2.T = BDMAO0 * BDMAO1 * BDMAO2 * WDMAO0 * WDMAO1;
+WDMAO2.CLKF = SCLKPI;
+WDMAO2.RSTF = /DMAORES;
+WDMAO2.SETF = GND;
+
+WDMAO3.T = BDMAO0 * BDMAO1 * BDMAO2 * WDMAO0 * WDMAO1 * WDMAO2;
+WDMAO3.CLKF = SCLKPI;
+WDMAO3.RSTF = /DMAORES;
+WDMAO3.SETF = GND;
+
+; --WordzÑhler synchronisieren bzw. lîschen
+
+/DMAORES = /RDMAO8 * RDMAOD8 * SCLKPI * WTDMAO2 * /WTDMAO3 * /DMAORD4
+         + /DMAOEF1;
+
+; --Zugriffstiming
+
+WTDMAO = VCC;
+WTDMAO.CLKF = HCLKI;
+WTDMAO.RSTF = DMAORD;
+WTDMAO.SETF = GND;
+
+WTDMAO2 = WTDMAO;
+WTDMAO2.CLKF = HCLKI;
+WTDMAO2.RSTF = DMAORD;
+WTDMAO2.SETF = GND;
+
+WTDMAO3 = WTDMAO2;
+WTDMAO3.CLKF = HCLKI;
+WTDMAO3.RSTF = DMAORD;
+WTDMAO3.SETF = GND;
+
+; --FIFO auslesen
+
+/DMAORD1 = SCLKPI * DMAOEF1 * /WDMAO1 * /WDMAO0 * /DMAORD;
+/DMAORD2 = SCLKPI * DMAOEF1 * /WDMAO1 * WDMAO0 * /DMAORD;
+/DMAORD3 = SCLKPI * DMAOEF1 * WDMAO1 * /WDMAO0 * /DMAORD;
+/DMAORD4 = SCLKPI * DMAOEF1 * WDMAO1 * WDMAO0 * /DMAORD;
+
+/DMAORD = SCLKPI * DMAOEF1 * /BDMAO2 * /BDMAO1 * /BDMAO0
+        + /DMAPMOD2 * /DMAPMOD1 * DMAPMOD0 * SCLKPI *
+          DMAOEF1 * /BDMAO2 * /BDMAO1 * BDMAO0
+        + /DMAPMOD2 * DMAPMOD1 * SCLKPI *
+          DMAOEF1 * /BDMAO2 * /BDMAO1 * BDMAO0
+        + DMAPMOD2 * SCLKPI *
+          DMAOEF1 * /BDMAO2 * /BDMAO1 * BDMAO0
+        + /DMAPMOD2 * DMAPMOD1 * SCLKPI *
+          DMAOEF1 * /BDMAO2 * BDMAO1 * /BDMAO0
+        + /DMAPMOD2 * SCLKPI *
+          DMAOEF1 * /BDMAO2 * BDMAO1 * /BDMAO0
+        + /DMAPMOD2 * DMAPMOD1 * DMAPMOD0 * SCLKPI *
+          DMAOEF1 * /BDMAO2 * BDMAO1 * BDMAO0
+        + /DMAPMOD2 * SCLKPI *
+          DMAOEF1 * /BDMAO2 * BDMAO1 * BDMAO0
+        + DMAPMOD2 * SCLKPI *
+          DMAOEF1 * BDMAO2 * /BDMAO1 * /BDMAO0
+        + DMAPMOD2 * /DMAPMOD1 * DMAPMOD0 * SCLKPI *
+          DMAOEF1 * BDMAO2 * /BDMAO1 * BDMAO0
+        + DMAPMOD2 * DMAPMOD1 * SCLKPI *
+          DMAOEF1 * BDMAO2 * /BDMAO1 * BDMAO0
+        + DMAPMOD2 * DMAPMOD1 * SCLKPI *
+          DMAOEF1 * BDMAO2 * BDMAO1 * /BDMAO0
+        + DMAPMOD2 * DMAPMOD1 * DMAPMOD0 * SCLKPI *
+          DMAOEF1 * BDMAO2 * BDMAO1 * BDMAO0;
+
+; Shift-Load fÅr die einzelnen Shiftregister
+
+/SHLDMAO1 = DMAOEF1 * /BDMAO2 * /BDMAO1 * /BDMAO0 * WTDMAO3;
+/SHLDMAO2 = DMAOEF1 * /BDMAO2 * /BDMAO1 * BDMAO0 * WTDMAO3;
+/SHLDMAO3 = DMAOEF1 * /BDMAO2 * BDMAO1 * /BDMAO0 * WTDMAO3;
+/SHLDMAO4 = DMAOEF1 * /BDMAO2 * BDMAO1 * BDMAO0 * WTDMAO3;
+/SHLDMAO5 = DMAOEF1 * BDMAO2 * /BDMAO1 * /BDMAO0 * WTDMAO3;
+/SHLDMAO6 = DMAOEF1 * BDMAO2 * /BDMAO1 * BDMAO0 * WTDMAO3;
+/SHLDMAO7 = DMAOEF1 * BDMAO2 * BDMAO1 * /BDMAO0 * WTDMAO3;
+/SHLDMAO8 = DMAOEF1 * BDMAO2 * BDMAO1 * BDMAO0 * WTDMAO3;
+
+; Shift-Clock fÅr die Shiftregister
+
+DMAOSHCLK = /SCLKPI;
+
+; --Fsync-Synchro ermitteln
+
+RDMAO8 := RDMAOD8;
+RDMAO8.CLKF = WTDMAO3 * /DMAORD4;
+RDMAO8.RSTF = /DMAOEF1;
+RDMAO8.SETF = GND;
+
+; --die einzelnen Fsyncs fÅr die 8 DMA-Outs
+
+/DMAOFSYNC8 = /WDMAO3 * /WDMAO2 * /WDMAO1;
+
+/DMAOFSYNC1 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO0
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO1
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * /BDMAO1 * /BDMAO0;
+
+/DMAOFSYNC2 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO1
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * /BDMAO1;
+
+/DMAOFSYNC3 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO1 * BDMAO0
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * /BDMAO1
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * BDMAO1 * /BDMAO0;
+
+/DMAOFSYNC4 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2;
+
+/DMAOFSYNC5 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2 * BDMAO0
+            + /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2 * BDMAO1
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * BDMAO2 * /BDMAO1 * /BDMAO0;
+
+/DMAOFSYNC6 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2 * BDMAO1
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * BDMAO2 * /BDMAO1;
+
+/DMAOFSYNC7 = /WDMAO3 * /WDMAO2 * /WDMAO1 * BDMAO2 * BDMAO1 * BDMAO0
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * /BDMAO2 * /BDMAO1
+            + /WDMAO3 * /WDMAO2 * WDMAO1 * BDMAO2 * BDMAO1 * /BDMAO0;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

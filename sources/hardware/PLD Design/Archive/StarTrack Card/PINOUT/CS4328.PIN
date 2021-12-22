@@ -1,0 +1,33 @@
+                                                                    
+                                                                    
+                                                                    
+                                                                  
+                                                                   
+                                                                   
+                                                                   
+                                                                   
+                                                                   
+                    .-------.-----.-------.       
+                    |       -------       |       
+               AGND1| 1                 28|VREF-  
+               AOUTL| 2                 27|CALI   
+                 VA+| 3                 26|AOUTR  
+               AGND2| 4                 25|AGND3  
+                 VA-| 5                 24|ACKI   
+                CMPO| 6                 23|NC     
+                  NC| 7      CS4328     22|ACKO   
+                CMPI| 8                 21|CALO   
+                 RST| 9                 20|LRCK   
+                 TST|10                 19|BICK   
+                 CKS|11                 18|SDATAI 
+                DIF1|12                 17|DGND   
+                DIF0|13                 16|VD+    
+                 XTI|14                 15|XTO    
+                    |                     |       
+                    '---------------------'       
+                                                                  
+                                                                  
+                                               
+                                                    
+                                                    
+                                                                    

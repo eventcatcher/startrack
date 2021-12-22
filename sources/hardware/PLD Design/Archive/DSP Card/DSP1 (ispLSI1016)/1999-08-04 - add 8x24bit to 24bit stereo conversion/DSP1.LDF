@@ -1,0 +1,557 @@
+// Di Jan 10 22:05:00 1996
+// DSP1Z.LDF
+// pcb-Version
+//
+// 128Bit->64Bit Umsetzung fuer Startrack DA & DigitalOut (64Bit)
+// 256Bit->64Bit Umsetzung fuer StarTrack DA & DigitalOut (64Bit)
+// 128Bit (8x16b) ->24Bit-Stereo Specialmode (16bit/ch1,msb8bit/ch2 16bit/ch5,msb8bit/ch6)
+// 256Bit (16x16b)->24Bit Stereo Specialmode (16bit/ch1+2, 16bit/ch9+10)
+// 256Bit (8x24b) ->24Bit Stereo (24bit/ch1, 24bit/ch5)
+//
+// fuer Startrack-DSP-Karte
+//
+LDF 1.00.00 DESIGNLDF;
+DESIGN dsp1z;
+REVISION V1.0;
+AUTHOR Stephan Wilhelm;
+PROJECTNAME StarTrack;
+
+PART ispLSI1016-60LT;
+
+DECLARE
+END;  //DECLARE
+
+
+
+SYM GLB  A0  1  pclk;
+SIGTYPE PCLK      Out ; // Clock fuer Shiftregister1
+
+EQUATIONS
+
+PCLK = !CH16 & !BIT24 & PCLKH
+     # !CH16 & BIT24 & !DACH2 & !WPI2 & !WPI1 & !SCLKPN
+     # !CH16 & BIT24 & !DACH2 & !WPI2 & WPI1 & BPI0
+     # !CH16 & BIT24 & !DACH2 & WPI2 & !WPI1 & BPI0
+     # BIT24 & DACH2 & !WPI3 & !WPI2 & SCLKPN
+     # BIT24 & DACH2 & !WPI3 & WPI2 & BPI1
+     # BIT24 & DACH2 & WPI3 & BPI1
+     # CH16 & !BIT24 & !WPI4 & !WPI3 & !WPI1 & !SCLKPN & !DACH2 & !DACH1 & !DACH0
+     # CH16 & !BIT24 & WPI3 & BPI1 & !DACH2 & !DACH1 & !DACH0
+     # CH16 & !BIT24 & !WPI4 & WPI3 & !WPI1 & !SCLKPN & !DACH2 & !DACH1 & DACH0
+     # CH16 & !BIT24 & !WPI3 & BPI1 & !DACH2 & !DACH1 & DACH0
+     # CH16 & !BIT24 & WPI4 & !WPI3 & !WPI1 & !SCLKPN & !DACH2 & DACH1 & !DACH0
+     # CH16 & !BIT24 & WPI3 & BPI1 & !DACH2 & DACH1 & !DACH0
+     # CH16 & !BIT24 & WPI4 & WPI3 & !WPI1 & !SCLKPN & !DACH2 & DACH1 & DACH0
+     # CH16 & !BIT24 & !WPI3 & BPI1 & !DACH2 & DACH1 & DACH0
+     # CH16 & !BIT24 & !WPI4 & !WPI3 & WPI1 & !SCLKPN & DACH2 & !DACH1 & !DACH0
+     # CH16 & !BIT24 & WPI3 & BPI1 & DACH2 & !DACH1 & !DACH0
+     # CH16 & !BIT24 & !WPI4 & WPI3 & WPI1 & !SCLKPN & DACH2 & !DACH1 & DACH0
+     # CH16 & !BIT24 & !WPI3 & BPI1 & DACH2 & !DACH1 & DACH0
+     # CH16 & !BIT24 & WPI4 & !WPI3 & WPI1 & !SCLKPN & DACH2 & DACH1 & !DACH0
+     # CH16 & !BIT24 & WPI3 & BPI1 & DACH2 & DACH1 & !DACH0
+     # CH16 & !BIT24 & WPI4 & WPI3 & WPI1 & !SCLKPN & DACH2 & DACH1 & DACH0
+     # CH16 & !BIT24 & !WPI3 & BPI1 & DACH2 & DACH1 & DACH0
+     # CH16 & BIT24 & !DACH2 & !WPI3 & !WPI2 & !SCLKPN
+     # CH16 & BIT24 & !DACH2 & !WPI3 & WPI2 & BPI1
+     # CH16 & BIT24 & !DACH2 & WPI3 & !WPI2 & BPI1;
+
+END;
+END;
+
+
+SYM GLB  A1  1  adrdecode&clk;
+SIGTYPE BPX       Out ; // Hilfsterm
+SIGTYPE PCLKH     Out ; // Hilfsterm fuer Shiftregister1
+SIGTYPE PCLK2     Out ; // Clock fuer Shiftregister2
+SIGTYPE VCH16     Reg ; // Erkennung Kanalformat 8/16
+
+EQUATIONS
+
+BPX = !BPI2 & !BPI1 & !BPI0;
+
+PCLKH = !WPI3 & !WPI2 & !SCLKPN & !DACH1 & !DACH0
+      # WPI2 & BPI0 & !DACH1 & !DACH0
+      # !WPI3 & WPI2 & !SCLKPN & !DACH1 & DACH0
+      # !WPI2 & BPI0 & !DACH1 & DACH0
+      # WPI3 & !WPI2 & !SCLKPN & DACH1 & !DACH0
+      # WPI2 & BPI0 & DACH1 & !DACH0
+      # WPI3 & WPI2 & !SCLKPN & DACH1 & DACH0
+      # !WPI2 & BPI0 & DACH1 & DACH0;    
+
+PCLK2 = !CH16 & !BIT24 & PCLKH.pin
+      # !CH16 & BIT24 & !DACH2 & !WPI2 & WPI1 & !WPI0 & !SCLKPN
+      # !CH16 & BIT24 & !DACH2 & WPI2 & WPI1 & BPI0
+      # BIT24 & DACH2 & !WPI3 & !WPI2 & SCLKPN
+      # BIT24 & DACH2 & !WPI3 & WPI2 & BPI1
+      # BIT24 & DACH2 & WPI3 & BPI1
+      # CH16 & !BIT24 & PCLK
+      # CH16 & !DACH2 & PCLK;
+
+VCH16 = !FSYNCPI;
+VCH16.PTCLK = !WPI3 & !WPI2 & !WPI1 & !WPI0 & BPI2;
+
+END;
+END;
+
+
+SYM GLB  A2  1  count2;
+SIGTYPE BPI0      Reg ; // Play-SCLKzaehler und Synchro
+SIGTYPE BPI1      Reg ; // Play-SCLKzaehler und Synchro
+SIGTYPE BPI2      Reg ; // Play-SCLKzaehler und Synchro
+SIGTYPE WPI0      Reg ; // Play-SWORDzaehler und Synchro
+EQUATIONS
+
+BPI0 = !BPI0;
+BPI0.PTCLK = SCLKPN;
+BPI0.RE = PCNTCLR;
+
+BPI1 = BPI1 $$ BPI0;
+BPI1.PTCLK = SCLKPN;
+BPI1.RE = PCNTCLR;
+
+BPI2 = BPI2 $$ (BPI1 & BPI0);
+BPI2.PTCLK = SCLKPN;
+BPI2.RE = PCNTCLR;
+
+WPI0 = WPI0 $$ (BPI2 & BPI1 & BPI0);
+WPI0.PTCLK = SCLKPN;
+WPI0.RE = PCNTCLR;
+
+END;
+END;
+
+
+SYM GLB  A3  1  count2b;
+SIGTYPE WPI1      Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE WPI2      Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE WPI3      Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE WPI4      Reg ; // Play-SWORDzaehler und Synchro
+EQUATIONS
+
+WPI1 = WPI1 $$ (WPI0 & BPI2 & BPI1 & BPI0);
+WPI1.PTCLK = SCLKPN;
+WPI1.RE = PCNTCLR;
+
+WPI2 = WPI2 $$ (WPI1 & WPI0 & BPI2 & BPI1 & BPI0);
+WPI2.PTCLK = SCLKPN;
+WPI2.RE = PCNTCLR;
+
+WPI3 = WPI3 $$ (WPI2 & WPI1 & WPI0 & BPI2 & BPI1 & BPI0);
+WPI3.PTCLK = SCLKPN;
+WPI3.RE = PCNTCLR;
+
+WPI4 = WPI4 $$ (WPI3 & WPI2 & WPI1 & WPI0 & BPI2 & BPI1 & BPI0);
+WPI4.PTCLK = SCLKPN;
+WPI4.RE = PCNTCLR;
+
+END;
+END;
+
+
+SYM GLB  A4  1  frameclr;
+SIGTYPE PCNTCLR   Reg ; // CounterClear durch pos FsyncImpuls
+SIGTYPE DATAPO    Out ; // Daten-Ausgang fuer DA-Wandler
+SIGTYPE MCUACK    Out ; // Signal fuer XC68HC705K1CDW
+EQUATIONS
+
+PCNTCLR = VCC;
+PCNTCLR.PTCLK = DFSYNC;
+PCNTCLR.RE = !WPI4 & !WPI3 & !WPI2 & !WPI1 & !WPI0 & BPX;
+
+DATAPO = SHQ31 & !CH16 & !BIT24
+       # SHQ15 & !CH16 & BIT24 & !DACH2 & !WPI2 & WPI1
+       # SHQ15 & !CH16 & BIT24 & !DACH2 & WPI2 & !WPI1
+       # SHQ31 & !CH16 & BIT24 & !DACH2 & WPI2 & WPI1
+       # SHQ31 & BIT24 & DACH2
+       # SHQ31 & CH16;
+
+MCUACK = !(MCUDSO & (!MCURSTA # !MCUACK.pin)); 
+
+END;
+END;
+
+
+SYM GLB  A5  1  framestrt;
+SIGTYPE FSYNCPO   Reg ; // Sync fuer DSP-Port Psync
+SIGTYPE FSYNCRO   Reg ; // Sync fuer DSP-Port Rsync
+SIGTYPE UDSOE     Out ; // Upper-Strobe
+SIGTYPE DATAPI2   Out ; // Data Shiftregister2
+
+EQUATIONS
+
+UDSOE = !(!DS1 & DS0 & !HEN_IN);
+
+FSYNCRO = FSYNCPI;
+FSYNCRO.CLK = SCLKPI2;
+
+FSYNCPO = FSYNCPI;
+FSYNCPO.CLK = SCLKPI2;
+
+DATAPI2 = SHQ23 & !CH16 & !BIT24
+        # DATAPI & !CH16 & BIT24 & !DACH2
+        # SHQ23 & BIT24 & DACH2
+        # SHQ23 & CH16;
+
+END;
+END;
+
+
+SYM GLB  A6  1  sclkpo;
+SIGTYPE DACH0     Reg ; // Monitor-Channel
+SIGTYPE DACH1     Reg ; // Monitor-Channel
+SIGTYPE DACH2     Reg ; // Monitor-Channel/Summe 24Bit
+SIGTYPE BIT24     Reg ; // Umschaltung 16/24 Bit
+
+EQUATIONS
+
+
+DACH0 = CHDAT;
+DACH0.PTCLK = CHCLK;
+
+DACH1 = DACH0;
+DACH1.PTCLK = CHCLK;
+
+DACH2 = DACH1;
+DACH2.PTCLK = CHCLK;
+
+BIT24 = DACH2;
+BIT24.PTCLK = CHCLK;
+
+END;
+END;
+
+
+SYM GLB  A7  1  pclk;
+SIGTYPE SCLKPO    Out ; // Takt fuer DSP-Port
+SIGTYPE CH16      Reg ; // Erkennung Kanalformat 8/16
+SIGTYPE DFSYNC    Out ; // Counter-Framestart
+
+EQUATIONS
+
+SCLKPO = SCLKPI;
+
+CH16 = VCH16;
+CH16.PTCLK = DFSYNC.pin;
+
+DFSYNC = FSYNCPI & SCLKPN
+       # FSYNCPI & DFSYNC.pin;
+
+END;
+END;
+
+
+SYM GLB  B0  1  shift1;
+SIGTYPE SHQ0      Reg ; // 
+SIGTYPE SHQ1      Reg ; // 
+SIGTYPE SHQ2      Reg ; // 
+SIGTYPE SHQ3      Reg ; // 
+EQUATIONS
+
+SHQ0 = DATAPI;
+SHQ0.PTCLK = PCLK;
+
+SHQ1 = SHQ0;
+SHQ1.PTCLK = PCLK;
+
+SHQ2 = SHQ1;
+SHQ2.PTCLK = PCLK;
+
+SHQ3 = SHQ2;
+SHQ3.PTCLK = PCLK;
+
+END;
+END;
+
+
+SYM GLB  B1  1  shift2;
+SIGTYPE SHQ4      Reg ; // 
+SIGTYPE SHQ5      Reg ; // 
+SIGTYPE SHQ6      Reg ; // 
+SIGTYPE SHQ7      Reg ; // 
+EQUATIONS
+
+SHQ4 = SHQ3;
+SHQ4.PTCLK = PCLK;
+
+SHQ5 = SHQ4;
+SHQ5.PTCLK = PCLK;
+
+SHQ6 = SHQ5;
+SHQ6.PTCLK = PCLK;
+
+SHQ7 = SHQ6;
+SHQ7.PTCLK = PCLK;
+
+END;
+END;
+
+
+SYM GLB  B2  1  shift3;
+SIGTYPE SHQ8      Reg ; // 
+SIGTYPE SHQ9      Reg ; // 
+SIGTYPE SHQ10     Reg ; // 
+SIGTYPE SHQ11     Reg ; // 
+EQUATIONS
+
+SHQ8 = SHQ7;
+SHQ8.PTCLK = PCLK;
+
+SHQ9 = SHQ8;
+SHQ9.PTCLK = PCLK;
+
+SHQ10 = SHQ9;
+SHQ10.PTCLK = PCLK;
+
+SHQ11 = SHQ10;
+SHQ11.PTCLK = PCLK;
+
+END;
+END;
+
+
+SYM GLB  B3  1  shift4;
+SIGTYPE SHQ12     Reg ; // 
+SIGTYPE SHQ13     Reg ; // 
+SIGTYPE SHQ14     Reg ; // 
+SIGTYPE SHQ15     Reg ; // 
+EQUATIONS
+
+SHQ12 = SHQ11;
+SHQ12.PTCLK = PCLK;
+
+SHQ13 = SHQ12;
+SHQ13.PTCLK = PCLK;
+
+SHQ14 = SHQ13;
+SHQ14.PTCLK = PCLK;
+
+SHQ15 = SHQ14;
+SHQ15.PTCLK = PCLK;
+
+END;
+END;
+
+
+SYM GLB  B4  1  shift5;
+SIGTYPE SHQ16     Reg ; // 
+SIGTYPE SHQ17     Reg ; // 
+SIGTYPE SHQ18     Reg ; // 
+SIGTYPE SHQ19     Reg ; // 
+EQUATIONS
+
+SHQ16 = SHQ15;
+SHQ16.PTCLK = PCLK;
+
+SHQ17 = SHQ16;
+SHQ17.PTCLK = PCLK;
+
+SHQ18 = SHQ17;
+SHQ18.PTCLK = PCLK;
+
+SHQ19 = SHQ18;
+SHQ19.PTCLK = PCLK;
+
+END;
+END;
+
+
+SYM GLB  B5  1  shift6;
+SIGTYPE SHQ20     Reg ; // 
+SIGTYPE SHQ21     Reg ; // 
+SIGTYPE SHQ22     Reg ; // 
+SIGTYPE SHQ23     Reg ; // 
+EQUATIONS
+
+SHQ20 = SHQ19;
+SHQ20.PTCLK = PCLK;
+
+SHQ21 = SHQ20;
+SHQ21.PTCLK = PCLK;
+
+SHQ22 = SHQ21;
+SHQ22.PTCLK = PCLK;
+
+SHQ23 = SHQ22;
+SHQ23.PTCLK = PCLK;
+
+END;
+END;
+
+
+SYM GLB  B6  1  shift7;
+SIGTYPE SHQ24     Reg ; // 
+SIGTYPE SHQ25     Reg ; // 
+SIGTYPE SHQ26     Reg ; // 
+SIGTYPE SHQ27     Reg ; // 
+EQUATIONS
+
+SHQ24 = DATAPI2;
+SHQ24.PTCLK = PCLK2;
+
+SHQ25 = SHQ24;
+SHQ25.PTCLK = PCLK2;
+
+SHQ26 = SHQ25;
+SHQ26.PTCLK = PCLK2;
+
+SHQ27 = SHQ26;
+SHQ27.PTCLK = PCLK2;
+
+END;
+END;
+
+
+SYM GLB  B7  1  shift8;
+SIGTYPE SHQ28     Reg ; // 
+SIGTYPE SHQ29     Reg ; // 
+SIGTYPE SHQ30     Reg ; // 
+SIGTYPE SHQ31     Reg ; // 
+EQUATIONS
+
+SHQ28 = SHQ27;
+SHQ28.PTCLK = PCLK2;
+
+SHQ29 = SHQ28;
+SHQ29.PTCLK = PCLK2;
+
+SHQ30 = SHQ29;
+SHQ30.PTCLK = PCLK2;
+
+SHQ31 = SHQ30;
+SHQ31.PTCLK = PCLK2;
+
+END;
+END;
+
+
+
+SYM IOC  I0  1 DS0;
+XPIN I XDS0 LOCK 40;  // Host-Enable low
+IB11(DS0,XDS0)
+END;
+
+SYM IOC  IO0  1 FSYNCPI;
+XPIN IO XFSYNCPI LOCK 21;  // DMA-Out-Framesync
+IB11(FSYNCPI,XFSYNCPI)
+END;
+
+SYM IOC  IO1  1 SCLKPI;
+XPIN IO XSCLKPI LOCK 23;  // DMA-Out-Takt
+IB11(SCLKPI,XSCLKPI)
+END;
+
+SYM IOC  IO2  1 DATAPI;
+XPIN IO XDATAPI LOCK 44;  // DMA-Out-Data
+IB11(DATAPI,XDATAPI)
+END;
+
+SYM IOC  IO3  1 DATAPO;
+XPIN IO XDATAPO LOCK 9;  // DA-Out-Data
+OB11(XDATAPO,DATAPO)
+END;
+
+SYM IOC  IO4  1 PCLK;
+XPIN IO XPCLK LOCK 36;  // DA-Out-Data
+OB11(XPCLK,PCLK)
+END;
+
+SYM IOC  IO7  1 CHCLK;
+XPIN IO XCHCLK LOCK 11;  // DA-Kanal-Auswahl
+IB11(CHCLK,XCHCLK)
+END;
+
+SYM IOC  IO8  1 CHDAT;
+XPIN IO XCHDAT LOCK 10;  // DA-Kanal-Auswahl
+IB11(CHDAT,XCHDAT)
+END;
+
+SYM IOC  IO10  1 DFSYNC;
+XPIN IO XDFSYNC LOCK 31;  // Counter-Clear
+OB11(XDFSYNC,DFSYNC)
+END;
+
+SYM IOC  IO11  1 SCLKPO;
+XPIN IO XSCLKPO LOCK 3;  // Takt fuer DSP-Port
+OB11(XSCLKPO,SCLKPO)
+END;
+
+SYM IOC  IO12  1 FSYNCPO;
+XPIN IO XFSYNCPO LOCK 2;  // Framesync fuer DSP-Port Psync
+OB11(XFSYNCPO,FSYNCPO)
+END;
+
+SYM IOC  IO13  1 MCUDSO;
+XPIN IO XMCUDSO LOCK 24;  // Signal von XC68HC705K1CDW
+IB11(MCUDSO,XMCUDSO)
+END;
+
+SYM IOC  IO14  1 MCURSTA;
+XPIN IO XMCURSTA LOCK 25;  // Signal von XC68HC705K1CDW
+IB11(MCURSTA,XMCURSTA)
+END;
+
+SYM IOC  IO15  1 MCUACK;
+XPIN IO XMCUACK LOCK 26;  // Signal fuer XC68HC705K1CDW
+OB11(XMCUACK,MCUACK)
+END;
+
+SYM IOC  IO16  1 HEN_IN;
+XPIN IO XHEN_IN LOCK 4;  // Host-Enable
+IB11(HEN_IN,XHEN_IN)
+END;
+
+SYM IOC  IO17  1 DS1;
+XPIN IO XDS1 LOCK 37;  // Host-Enable high
+IB11(DS1,XDS1)
+END;
+
+SYM IOC  IO18  1 UDSOE;
+XPIN IO XUDSOE LOCK 38;  // Signal fuer XC68HC705K1CDW
+OB11(XUDSOE,UDSOE)
+END;
+
+SYM IOC  IO19  1 FSYNCRO;
+XPIN IO XFSYNCRO LOCK 1;  // Framesync fuer DSP-Port Rsync
+OB11(XFSYNCRO,FSYNCRO)
+END;
+
+SYM IOC  IO20  1 SCLKPH;
+XPIN IO XSCLKPH LOCK 43;  // additional Clk (von startrk3)
+IB11(SCLKPH,XSCLKPH)
+END;
+
+SYM IOC  IO21  1 PDATA2;
+XPIN IO XPDATA2 LOCK 13;  // extended DSP-Port-Pdata2 (CH 8-16)
+IB11(PDATA2,XPDATA2)
+END;
+
+SYM IOC  IO22  1 PSYNC2;
+XPIN IO XPSYNC2 LOCK 15;  // extended DSP-Port-Pfsync2 (CH 8-16)
+IB11(PSYNC2,XPSYNC2)
+END;
+
+SYM IOC  Y0  1 SCLKPI2;
+XPIN CLK XSCLKPI2 LOCK 5;  // DMA-Out-Takt (CH 8-16)
+IB11(SCLKPI2,XSCLKPI2)
+END;
+
+SYM IOC  IO23  1 AESC25;
+XPIN IO XAESC25 LOCK 41;  // DSP-Port Pin 15 (not used)
+IB11(AESC25,XAESC25)
+END;
+
+SYM IOC  IO24  1 SCLKPN;
+XPIN IO XSCLKPN LOCK 42;  // DSP-Port Pin 13 (used for additional CLK,mit Pin 43 verbinden)
+IB11(SCLKPN,XSCLKPN)
+END;
+
+SYM IOC  IO25  1 NC14;
+XPIN IO XNC14 LOCK 12;  // verbunden mit DSP2 Pin 14 (not used)
+IB11(NC14,XNC14)
+END;
+
+SYM IOC  IO26  1 TIO;
+XPIN IO XTIO LOCK 14;  // verbunden mit DSP-Timer (not used)
+IB11(TIO,XTIO)
+END;
+

@@ -1,0 +1,335 @@
+// Di Jan 10 22:05:00 1996
+// DSP1.LDF
+// pcb-Version
+// 128Bit->64Bit Umsetzung fuer Startrack DA & DigitalOut (64Bit)
+//
+// fuer Startrack-DSP-Karte
+//
+LDF 1.00.00 DESIGNLDF;
+DESIGN dsp1;
+REVISION V1.0;
+AUTHOR Stephan Wilhelm;
+PROJECTNAME StarTrack;
+
+PART ispLSI1016-60LT;
+
+DECLARE
+END;  //DECLARE
+
+SYM GLB  A0  1  pclk;
+SIGTYPE SCLKPO    Out ; // Takt fuer DSP-Port
+SIGTYPE PCLK      Out ; // Clock fuer Shiftregister1
+SIGTYPE PSCLK     Out ; // invertiertes SCLKPI
+SIGTYPE POSFO     Reg ; // positiver SCLK-Taktimpuls
+
+EQUATIONS
+
+SCLKPO = SCLKPI;
+
+POSFO = VCC;
+POSFO.PTCLK = !NEGFO & SCLKPI;
+POSFO.RE = POSFO & !SCLKPI;
+
+PSCLK = POSFO
+      # NEGFO
+      # WORT & BPI2 & BPI1 & BPI0;
+
+
+PCLK = !WPI4 & !WPI3 & BPI0 & !DACH1 & !DACH0
+       # WPI3 & BPI1 & !DACH1 & !DACH0
+       # !WPI4 & WPI3 & BPI0 & !DACH1 & DACH0
+       # !WPI3 & BPI1 & !DACH1 & DACH0
+       # WPI4 & !WPI3 & BPI0 & DACH1 & !DACH0
+       # WPI3 & BPI1 & DACH1 & !DACH0
+       # WPI4 & WPI3 & BPI0 & DACH1 & DACH0
+       # !WPI3 & BPI1 & DACH1 & DACH0;
+
+END;
+END;
+
+
+SYM GLB  A1  1  adrdecode&clk;
+SIGTYPE NEGFO     Reg ; // negativer SCLK-Taktimpuls
+SIGTYPE FSYNCRO   Out ; // Sync fuer DSP-Port Rsync
+SIGTYPE PDATA2     Out ; // Data2 fuer zweiten Playport
+SIGTYPE PSYNC2     Out ; // Fsync2 fuer zweiten Playport
+
+EQUATIONS
+
+NEGFO = VCC;
+NEGFO.PTCLK = !POSFO & !SCLKPI;
+NEGFO.RE = NEGFO & SCLKPI;
+
+FSYNCRO = FSYNCPI;
+
+PDATA2 = DATAPI2;
+
+PSYNC2 = PSQ4;
+
+END;
+END;
+
+
+SYM GLB  A2  1  count2;
+SIGTYPE BPI0      Reg ; // Play-SCLKzaehler und Synchro
+SIGTYPE BPI1      Reg ; // Play-SCLKzaehler und Synchro
+SIGTYPE BPI2      Reg ; // Play-SCLKzaehler und Synchro
+SIGTYPE WPI0      Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE WPI1      Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE WPI2      Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE WPI3      Reg ; // Play-SWORDzaehler und Synchro
+SIGTYPE WPI4      Reg ; // Play-SWORDzaehler und Synchro
+CBU18 (BPI0,BPI1,BPI2,WPI0,WPI1,WPI2,WPI3,WPI4,CAO1,VCC,PSCLK,PCNTCLR) // 8Bit-Zaehler
+END;
+
+
+SYM GLB  A4  1  frameclr;
+SIGTYPE PCNTCLR   Reg ; // CounterClear durch pos FsyncImpuls
+SIGTYPE DATAPO    Out ; // Daten-Ausgang fuer DA-Wandler
+SIGTYPE WORT      Out ; // Node fuer Clockbegrenzung von PSCLK
+SIGTYPE MCUACK    Out ; // Signal fuer XC68HC705K1CDW
+EQUATIONS
+
+PCNTCLR = VCC;
+PCNTCLR.PTCLK = DFSYNC;
+PCNTCLR.RE = !WPI4 & !WPI3 & !WPI2 & !WPI1 & !WPI0 & !BPI2 & !BPI1 & !BPI0;
+
+DATAPO = SHQ31 & WPI3 & !DACH0
+       # SHQ31 & !WPI3 & DACH0;
+
+
+WORT = WPI4 & WPI3 & WPI2 & WPI1 & WPI0;
+
+MCUACK = !(MCUDSO & (!MCURSTA # !MCUACK.pin)); 
+
+END;
+END;
+
+
+SYM GLB  A5  1  framestrt;
+SIGTYPE DFSYNC    Out ; // Counter-Framestart
+SIGTYPE UDSOE     Out ; // Upper-Strobe
+SIGTYPE FSYNCPO   Out ; // Sync fuer DSP-Port Psync
+SIGTYPE PSQ4      Reg ; // Shifter fuer zweiten Psync
+
+EQUATIONS
+
+DFSYNC = FSYNCPI & SCLKPI
+       # FSYNCPI & DFSYNC.pin;
+
+
+UDSOE = !(!DS1 & DS0 & !HEN_IN);
+
+FSYNCPO = FSYNCPI;
+
+PSQ4 = PSQ3;
+PSQ4.CLK = SCLKPI2;
+
+END;
+END;
+
+
+SYM GLB  A6  1  shsync2;
+SIGTYPE PSQ0      Reg ; // 
+SIGTYPE PSQ1      Reg ; // 
+SIGTYPE PSQ2      Reg ; // 
+SIGTYPE PSQ3      Reg ; // 
+SRR14 ([PSQ0..PSQ3],FSYNCPI,SCLKPI2,GND) // 4Bit-Shifter
+END;
+
+
+SYM GLB  B0  1  shift1;
+SIGTYPE SHQ0      Reg ; // 
+SIGTYPE SHQ1      Reg ; // 
+SIGTYPE SHQ2      Reg ; // 
+SIGTYPE SHQ3      Reg ; // 
+SRR14 ([SHQ0..SHQ3],DATAPI,PCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B1  1  shift2;
+SIGTYPE SHQ4      Reg ; // 
+SIGTYPE SHQ5      Reg ; // 
+SIGTYPE SHQ6      Reg ; // 
+SIGTYPE SHQ7      Reg ; // 
+SRR14 ([SHQ4..SHQ7],SHQ3,PCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B2  1  shift3;
+SIGTYPE SHQ8      Reg ; // 
+SIGTYPE SHQ9      Reg ; // 
+SIGTYPE SHQ10     Reg ; // 
+SIGTYPE SHQ11     Reg ; // 
+SRR14 ([SHQ8..SHQ11],SHQ7,PCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B3  1  shift4;
+SIGTYPE SHQ12     Reg ; // 
+SIGTYPE SHQ13     Reg ; // 
+SIGTYPE SHQ14     Reg ; // 
+SIGTYPE SHQ15     Reg ; // 
+SRR14 ([SHQ12..SHQ15],SHQ11,PCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B4  1  shift5;
+SIGTYPE SHQ16     Reg ; // 
+SIGTYPE SHQ17     Reg ; // 
+SIGTYPE SHQ18     Reg ; // 
+SIGTYPE SHQ19     Reg ; // 
+SRR14 ([SHQ16..SHQ19],SHQ15,PCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B5  1  shift6;
+SIGTYPE SHQ20     Reg ; // 
+SIGTYPE SHQ21     Reg ; // 
+SIGTYPE SHQ22     Reg ; // 
+SIGTYPE SHQ23     Reg ; // 
+SRR14 ([SHQ20..SHQ23],SHQ19,PCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B6  1  shift7;
+SIGTYPE SHQ24     Reg ; // 
+SIGTYPE SHQ25     Reg ; // 
+SIGTYPE SHQ26     Reg ; // 
+SIGTYPE SHQ27     Reg ; // 
+SRR14 ([SHQ24..SHQ27],SHQ23,PCLK,GND) // 4Bit-Shifter
+END;
+
+SYM GLB  B7  1  shift8;
+SIGTYPE SHQ28     Reg ; // 
+SIGTYPE SHQ29     Reg ; // 
+SIGTYPE SHQ30     Reg ; // 
+SIGTYPE SHQ31     Reg ; // 
+SRR14 ([SHQ28..SHQ31],SHQ27,PCLK,GND) // 4Bit-Shifter
+END;
+
+
+
+SYM IOC  I0  1 DS0;
+XPIN I XDS0 LOCK 40;  // Host-Enable low
+IB11(DS0,XDS0)
+END;
+
+SYM IOC  IO0  1 FSYNCPI;
+XPIN IO XFSYNCPI LOCK 21;  // DMA-Out-Framesync
+IB11(FSYNCPI,XFSYNCPI)
+END;
+
+SYM IOC  IO1  1 SCLKPI;
+XPIN IO XSCLKPI LOCK 23;  // DMA-Out-Takt
+IB11(SCLKPI,XSCLKPI)
+END;
+
+SYM IOC  IO2  1 DATAPI;
+XPIN IO XDATAPI LOCK 44;  // DMA-Out-Data
+IB11(DATAPI,XDATAPI)
+END;
+
+SYM IOC  IO3  1 DATAPO;
+XPIN IO XDATAPO LOCK 9;  // DA-Out-Data
+OB11(XDATAPO,DATAPO)
+END;
+
+SYM IOC  IO4  1 PCLK;
+XPIN IO XPCLK LOCK 36;  // DA-Out-Data
+OB11(XPCLK,PCLK)
+END;
+
+SYM IOC  IO7  1 DACH0;
+XPIN IO XDACH0 LOCK 11;  // DA-Kanal-Auswahl
+IB11(DACH0,XDACH0)
+END;
+
+SYM IOC  IO8  1 DACH1;
+XPIN IO XDACH1 LOCK 10;  // DA-Kanal-Auswahl
+IB11(DACH1,XDACH1)
+END;
+
+SYM IOC  IO10  1 DFSYNC;
+XPIN IO XDFSYNC LOCK 31;  // Counter-Clear
+OB11(XDFSYNC,DFSYNC)
+END;
+
+SYM IOC  IO11  1 SCLKPO;
+XPIN IO XSCLKPO LOCK 3;  // Takt fuer DSP-Port
+OB11(XSCLKPO,SCLKPO)
+END;
+
+SYM IOC  IO12  1 FSYNCPO;
+XPIN IO XFSYNCPO LOCK 2;  // Framesync fuer DSP-Port Psync
+OB11(XFSYNCPO,FSYNCPO)
+END;
+
+SYM IOC  IO13  1 MCUDSO;
+XPIN IO XMCUDSO LOCK 24;  // Signal von XC68HC705K1CDW
+IB11(MCUDSO,XMCUDSO)
+END;
+
+SYM IOC  IO14  1 MCURSTA;
+XPIN IO XMCURSTA LOCK 25;  // Signal von XC68HC705K1CDW
+IB11(MCURSTA,XMCURSTA)
+END;
+
+SYM IOC  IO15  1 MCUACK;
+XPIN IO XMCUACK LOCK 26;  // Signal fuer XC68HC705K1CDW
+OB11(XMCUACK,MCUACK)
+END;
+
+SYM IOC  IO16  1 HEN_IN;
+XPIN IO XHEN_IN LOCK 4;  // Host-Enable
+IB11(HEN_IN,XHEN_IN)
+END;
+
+SYM IOC  IO17  1 DS1;
+XPIN IO XDS1 LOCK 37;  // Host-Enable high
+IB11(DS1,XDS1)
+END;
+
+SYM IOC  IO18  1 UDSOE;
+XPIN IO XUDSOE LOCK 38;  // Signal fuer XC68HC705K1CDW
+OB11(XUDSOE,UDSOE)
+END;
+
+SYM IOC  IO19  1 FSYNCRO;
+XPIN IO XFSYNCRO LOCK 1;  // Framesync fuer DSP-Port Rsync
+OB11(XFSYNCRO,FSYNCRO)
+END;
+
+SYM IOC  IO20  1 DATAPI2;
+XPIN IO XDATAPI2 LOCK 43;  // DMA-Out-Data (CH 8-16)
+IB11(DATAPI2,XDATAPI2)
+END;
+
+SYM IOC  IO21  1 PDATA2;
+XPIN IO XPDATA2 LOCK 13;  // extended DSP-Port-Pdata2 (CH 8-16)
+OB11(XPDATA2,PDATA2)
+END;
+
+SYM IOC  IO22  1 PSYNC2;
+XPIN IO XPSYNC2 LOCK 15;  // extended DSP-Port-Pfsync2 (CH 8-16)
+OB11(XPSYNC2,PSYNC2)
+END;
+
+SYM IOC  Y0  1 SCLKPI2;
+XPIN CLK XSCLKPI2 LOCK 5;  // DMA-Out-Takt (CH 8-16)
+IB11(SCLKPI2,XSCLKPI2)
+END;
+
+SYM IOC  IO23  1 AESC25;
+XPIN IO XAESC25 LOCK 41;  // DSP-Port Pin 15 (not used)
+IB11(AESC25,XAESC25)
+END;
+
+SYM IOC  IO24  1 DSPNC;
+XPIN IO XDSPNC LOCK 42;  // DSP-Port Pin 13 (not used)
+IB11(DSPNC,XDSPNC)
+END;
+
+SYM IOC  IO25  1 NC14;
+XPIN IO XNC14 LOCK 12;  // verbunden mit DSP2 Pin 14 (not used)
+IB11(NC14,XNC14)
+END;
+
+SYM IOC  IO26  1 TIO;
+XPIN IO XTIO LOCK 14;  // verbunden mit DSP-Timer (not used)
+IB11(TIO,XTIO)
+END;

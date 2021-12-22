@@ -1,0 +1,128 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE    SMPSEL.PDS - 16Bit-Soundsampler - Adressdekodierung
+PATTERN  A
+REVISION 1.0
+AUTHOR   Stephan Wilhelm
+COMPANY  Myself
+DATE     12/26/94
+
+CHIP  _sampler1  MACH215
+
+;---------------------------------- PIN Declarations ---------------
+PIN  14         A5                 ; VME-Adressleitung
+PIN  20         A6                 ; VME-Adressleitung
+PIN  38         A7                 ; VME-Adressleitung
+PIN  37         A8                 ; VME-Adressleitung
+PIN  19         A9                 ; VME-Adressleitung
+PIN  10         A10                ; VME-Adressleitung
+PIN  13         A11                ; VME-Adressleitung
+PIN  32         A12                ; VME-Adressleitung
+PIN  33         A13                ; VME-Adressleitung
+PIN  35         A14                ; VME-Adressleitung
+PIN  18         A15                ; VME-Adressleitung
+PIN  17         RW                 ; VME-Schreib/Leseleitung
+PIN  11         AM4                ; VME-Adressmodifier
+PIN  16         IACK               ; VME-Interrupt-BestÑtigungsleitung
+PIN  39         SYSCLK             ; VME-Systemtakt 16MHz
+PIN  15         DS0                ; VME-Lower-Datastrobe
+PIN  41         RDEFLAG            ; Read-Empty-Flag des FIFO
+PIN  40         RDHFLAG            ; Read-Half-Flag des FIFO
+PIN  36         WRFFLAG            ; Write-Full-Flag des FIFO
+PIN  9          WRHFLAG            ; Write-Half-Flag des FIFO
+PIN  26         AESF0              ; Emphasis-Encoding (cc/F0) des CS8412
+PIN  27         AESEM0             ; Status/Error-Encoding (c0/E0) vom CS8412
+PIN  28         AESEM1             ; Status/Error-Encoding (ca/E1) vom CS8412
+PIN  30         AESEM2             ; Status/Error-Encoding (cb/E2) vom CS8412
+PIN  29         AESC24             ; Frequenz-Angabe durch CBL (von MACH1)
+PIN  31         AESC25             ; Frequenz-Angabe durch CBL (von MACH1)
+PIN  5          DSPREG     COMBINATORIAL ; Adressdekoder fÅr MACH2
+PIN  25         DSPCS      COMBINATORIAL ; Chip Select fÅr den DSP
+PIN  6          SMPRD      COMBINATORIAL ; zum REC-FIFO Read
+PIN  8          SMPWR      COMBINATORIAL ; zum PLAY-FIFO Write
+PIN  4          MACHCSL    COMBINATORIAL ; Adressdekoder fÅr MACH2
+PIN  7          MACHCSH    COMBINATORIAL ; Adressdekoder fÅr MACH2
+PIN  42         DRVCS      COMBINATORIAL ; von SMPSEL, Komplettdekoder 74X245 /CS
+PIN  21         DTACK      COMBINATORIAL ; VME-DTACK
+PIN  24         D0         COMBINATORIAL ; VME-Datenleitung
+PIN  2          D1         COMBINATORIAL ; VME-Datenleitung
+PIN  3          D2         COMBINATORIAL ; VME-Datenleitung
+PIN  43         D3         COMBINATORIAL ; VME-Datenleitung
+NODE ?          MACHCS     COMBINATORIAL ; Interner Adressdekoder
+NODE ?          TIMECLK    COMBINATORIAL ; CLK fÅr TimingzÑhler
+NODE ?          TIMERST    COMBINATORIAL ; RESET fÅr TimingzÑhler
+NODE ?          TIME1         REGISTERED ; TimingzÑhler
+NODE ?          TIME2         REGISTERED ; TimingzÑhler
+
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+; ---------------------Adressdekodierung
+TIMECLK = SYSCLK * /TIME1
+        + SYSCLK * /TIME2;
+
+TIMERST = DRVCS;
+
+TIME1.T = VCC;
+TIME1.CLKF= TIMECLK;
+TIME1.RSTF = TIMERST;
+TIME1.SETF = GND;
+
+TIME2.T = TIME1;
+TIME2.CLKF= TIMECLK;
+TIME2.RSTF = TIMERST;
+TIME2.SETF = GND;
+
+/DRVCS = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9
+       * IACK * /DS0;
+
+/MACHCS = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * /A7
+        * IACK * /DS0 * RW;
+
+/MACHCSL = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * /A7
+         * /A6 * IACK * /DS0 * /RW;
+
+/MACHCSH = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * /A7
+         * A6 * IACK * /DS0 * /RW;
+
+/SMPRD = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8
+       * A7 * A6 * RW * IACK * /DS0;
+
+/SMPWR =  /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8
+       * A7 * A6 * /RW * IACK * /DS0;
+
+/DSPREG = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * /A8 * A7
+        * /A6 * /RW * IACK * /DS0;
+
+/DSPCS = /AM4 * /A15 * /A14 * /A13 * /A12 * /A11 * A10 * /A9 * A8 * /A7
+       * IACK * /DS0;
+
+/DTACK = /DRVCS * /DS0 * RW
+       + /DRVCS * /DS0 * /RW * TIME2;
+
+DTACK.trst = /DRVCS * /DS0;
+
+D0 = AESC24 * /MACHCS * /A6 * /A5 * /DS0
+   + AESEM0 * /MACHCS * /A6 * A5 * /DS0
+   + RDEFLAG * /MACHCS * A6 * /DS0;
+D0.trst = /MACHCS * /DS0;
+
+D1 = AESC25 * /MACHCS * /A6 * /A5 * /DS0
+   + AESEM1 * /MACHCS * /A6 * A5 * /DS0
+   + RDHFLAG * /MACHCS * A6 * /DS0;
+D1.trst = /MACHCS * /DS0;
+
+D2 = AESF0 * /MACHCS * /A6 * /A5 * /DS0
+   + AESEM2 * /MACHCS * /A6 * A5 * /DS0
+   + WRFFLAG * /MACHCS * A6 * /DS0;
+D2.trst = /MACHCS * /DS0;
+
+D3 = WRHFLAG * /MACHCS * A6 * /DS0;
+D3.trst = /MACHCS * /DS0;
+
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+;-------------------------------------------------------------------
+

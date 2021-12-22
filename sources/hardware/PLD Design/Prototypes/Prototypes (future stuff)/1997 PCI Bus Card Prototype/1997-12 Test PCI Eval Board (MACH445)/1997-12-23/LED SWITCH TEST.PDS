@@ -1,0 +1,87 @@
+; ***************************************************************************
+;PALASM Design Description
+; ***************************************************************************
+
+TITLE    PCIEVAL MACH445 IC3
+PATTERN  ic3.pds
+REVISION 0.99 
+AUTHOR   O.R.
+COMPANY  Spectrum Systementwicklung
+DATE     01/08/96
+
+CHIP  MACH445  MACH445
+
+; schaltet LED mit D0 und liest Wert aus
+
+; ***************************************************************************
+; Pinbelegung
+; ***************************************************************************
+
+PIN 13       ck
+
+PIN 63       selm
+PIN 68       lreset
+PIN 54       breqo
+PIN 4        hold
+PIN 93       holda
+PIN 94       breq
+PIN 95       den
+PIN 96       readyi
+PIN 97       ads
+PIN 98       wr
+PIN 99       btermo
+PIN 100      readyo
+PIN 5        ready
+PIN 6        blast
+PIN 7        bterm
+PIN 8        lint
+PIN 9        linto
+
+PIN 10       ld0
+PIN 11       data
+NODE ?       myadr
+NODE ?       delay
+NODE ?       delay2
+
+
+
+; ***************************************************************************
+; ***************************************************************************
+
+EQUATIONS
+
+;***** HOLD: Buszugriff des PLX *********************************************
+
+holda.clkf = ck
+holda     := hold            ; darf immer sofort
+
+;***** READY: geUNDet fÅr DMA Register Zugriff Åber PCI *********************
+
+ready      = readyi * readyo * /delay
+
+breq      = gnd
+
+;***** eigene Schaltung *********************
+
+myadr.clkf = ck;
+myadr := /ads * /selm
+      + myadr * /delay;   is my local adress
+
+delay.clkf = ck;
+delay := myadr;
+delay.rstf = /myadr;
+
+delay2.clkf = ck;
+delay2 := myadr * delay;
+delay2.rstf = /myadr;
+
+data.clkf = delay * wr;
+data := ld0;
+
+ld0 = data;
+ld0.trst = delay * /wr;
+
+/blast = delay;
+blast.trst = delay;
+
+

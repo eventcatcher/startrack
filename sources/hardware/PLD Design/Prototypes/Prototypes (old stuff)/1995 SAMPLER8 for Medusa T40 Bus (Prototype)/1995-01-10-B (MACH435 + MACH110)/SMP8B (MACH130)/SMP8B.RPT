@@ -1,0 +1,914 @@
+PALASM 4 v1.5 MACH FITR - MARKET RELEASE (7-24-92)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1990,91,92
+
+ 
+Reading User Design (TRE File)...
+User Logic Pre-Placements... (PLC File)
+ 
+Reading Device Database ...
+
+************************************************************************************************************
+     Mach PLD Fitter - v 1.67          SAMPLER8.PDS - 16Bit-Soundsampler mit 8 Ausg„ngen fuer Medusa-Bus
+************************************************************************************************************
+
+PAIR Analysis...
+
+Pre-Placement & Equation Usage Checks... 
+ 
+
+|> WARNING F170 - No Set/Reset function found! (Both Eqs Missing) 
+            RP9            RP8           RPA7           RPA6
+           RPA5           RPA4           RPA3           RPA2
+           RPA1           RPA0           RPB7           RPB6
+           RPB5           RPB4           RPB3           RPB2
+           RPB1           RPB0           RPC7           RPC6
+           RPC5           RPC4           RPC3           RPC2
+           RPC1           RPC0           RPD7           RPD6
+           RPD5           RPD4           RPD3           RPD2
+           RPD1           RPD0
+
+
+
+
+
+*** Timing Analysis for Signals
+
+ Parameter   Min   Max           Signal List (Those having Max delay.)
+      Tpd     1     1           DA_SDATB        DA_SDATC        DA_SDATD 
+      Tsu     1     1                 Z3              Z2              Z1 
+                                      Z0              Z5              Z4 
+                                    RPA0             RP8 
+      Tco     0     2           DA_SDATD        DA_SDATC        DA_SDATB 
+                                PLAYCLKO 
+      Tcr     1     2             BWAIT3          BWAIT2           BWAIT 
+.
+
+ Key:
+ Tpd - Combinatorial propagation delay, input to output
+ Tsu - Combinatorial setup delay before clock
+ Tco - clock to output (register output to combinatorial output)
+ Tcr - Clock to register setup delay
+.......(Register output thru combinatorial logic to reg input)
+ All delay values are expressed in terms of array passes
+
+
+
+
+*** Device Resource Checks
+
+                Available        Used        Remaining
+        Clocks:     4              3              1
+          Pins:    70             51             19     ->    72%
+     I/O Macro:    64              8             56
+   Total Macro:    64             52             12
+ Product Terms:   256             91             28     ->    88%
+ 
+MACH-PLD Resource Checks OK!  
+
+
+
+Partitioning Design into Blocks...
+
+|> ERROR F740 - Resource violation in preplacement: (Array inputs) - Block A
+
+|> INFORMATION F085 - Intermediate Error Count: 1, Warning Count: 1
+|> INFORMATION F075 - Redo Partitioning with Max Packing Flag=True 
+
+
+
+|> INFORMATION F050 - Device Utilization.............. *: 83 %
+
+
+
+*** Block Partitioning Results
+
+               Array   Product     # I/O    Buried    Signal    Macros
+              Inputs    Terms      Macro     Logic    Fanout    Remain
+   Block-> A    26*       52         4         6        18         6
+   Block-> B    24        56         0        13        13         3
+   Block-> C    24        56         1        12        12         3
+   Block-> D    22        64*        3        13        13         0
+
+
+
+*** Block Signal List
+
+Blk-> A             Z3  4             Z2  3             Z1  2             Z0  1
+                   RP9  1         DAHLPB 12             Z5  6             Z4  5
+                DAHLPA 12          PUFRD  8
+
+Blk-> B           RPD1  1           RPD3  1           RPD4  1           RPD6  1
+                  RPC0  1           RPC2  1           RPC4  1           RPC5  1
+                  RPC7  1           RPB2  1           RPB5  1           RPA0  1
+                DAHLPC 12
+
+Blk-> C         BWAIT3  2         BWAIT2  2          BWAIT  1           RPD0  1
+                  RPD2  1           RPD5  1           RPC6  1           RPB1  1
+                  RPB4  1           RPB7  1            RP8  1         DAHLPD 12
+              PLAYCLKO  2
+
+Blk-> D           RPD7  1           RPC1  1           RPC3  1           RPB0  1
+                  RPB3  1           RPB6  1           RPA1  1           RPA2  1
+                  RPA3  1           RPA4  1           RPA5  1           RPA6  1
+                  RPA7  1       DA_SDATD  5       DA_SDATC  5       DA_SDATB  5
+
+
+
+*** Block Input List
+
+Blk-> A          RESET  6          PUFRD  0             Z4  4             Z5  1
+                   RP9  1            RP8  2           RPA7  1           RPA6  1
+                  RPA5  1           RPA4  1           RPA3  1           RPA2  1
+                  RPA1  1           RPA0  1           RPB7  1           RPB6  1
+                  RPB5  1           RPB4  1           RPB3  1           RPB2  1
+                  RPB1  1           RPB0  1             Z0  7             Z1  7
+                    Z2  6             Z3  3
+
+Singular:             Z5{          PUFRD}            RP9{          PUFRD}
+                    RPA7{         DAHLPA}           RPA6{         DAHLPA}
+                    RPA5{         DAHLPA}           RPA4{         DAHLPA}
+                    RPA3{         DAHLPA}           RPA2{         DAHLPA}
+                    RPA1{         DAHLPA}           RPA0{         DAHLPA}
+                    RPB7{         DAHLPB}           RPB6{         DAHLPB}
+                    RPB5{         DAHLPB}           RPB4{         DAHLPB}
+                    RPB3{         DAHLPB}           RPB2{         DAHLPB}
+                    RPB1{         DAHLPB}           RPB0{         DAHLPB}
+         
+
+Blk-> B           RDA0  1           RDB2  1           RDB5  1           RDC0  1
+                  RDC2  1           RDC4  1           RDC5  1           RDC7  1
+                  RDD1  1           RDD3  1           RDD4  1           RDD6  1
+                    Z4  1           RPC7  1           RPC6  1           RPC5  1
+                  RPC4  1           RPC3  1           RPC2  1           RPC1  1
+                  RPC0  1             Z0  1             Z1  1             Z2  1
+       
+
+Singular:           RDA0{           RPA0}           RDB2{           RPB2}
+                    RDB5{           RPB5}           RDC0{           RPC0}
+                    RDC2{           RPC2}           RDC4{           RPC4}
+                    RDC5{           RPC5}           RDC7{           RPC7}
+                    RDD1{           RPD1}           RDD3{           RPD3}
+                    RDD4{           RPD4}           RDD6{           RPD6}
+                      Z4{         DAHLPC}           RPC7{         DAHLPC}
+                    RPC6{         DAHLPC}           RPC5{         DAHLPC}
+                    RPC4{         DAHLPC}           RPC3{         DAHLPC}
+                    RPC2{         DAHLPC}           RPC1{         DAHLPC}
+                    RPC0{         DAHLPC}             Z0{         DAHLPC}
+                      Z1{         DAHLPC}             Z2{         DAHLPC}
+         
+
+Blk-> C           RDB1  1           RDB4  1           RDB7  1           RDC6  1
+                  RDD0  1           RDD2  1           RDD5  1            RD8  1
+                 PUFRD  4             Z4  1           RPD7  1           RPD6  1
+                  RPD5  1           RPD4  1           RPD3  1           RPD2  1
+                  RPD1  1           RPD0  1          BWAIT  1         BWAIT2  1
+                BWAIT3  1             Z0  1             Z1  1             Z2  1
+       
+
+Singular:           RDB1{           RPB1}           RDB4{           RPB4}
+                    RDB7{           RPB7}           RDC6{           RPC6}
+                    RDD0{           RPD0}           RDD2{           RPD2}
+                    RDD5{           RPD5}            RD8{            RP8}
+                      Z4{         DAHLPD}           RPD7{         DAHLPD}
+                    RPD6{         DAHLPD}           RPD5{         DAHLPD}
+                    RPD4{         DAHLPD}           RPD3{         DAHLPD}
+                    RPD2{         DAHLPD}           RPD1{         DAHLPD}
+                    RPD0{         DAHLPD}          BWAIT{         BWAIT2}
+                  BWAIT2{         BWAIT3}         BWAIT3{       PLAYCLKO}
+                      Z0{         DAHLPD}             Z1{         DAHLPD}
+                      Z2{         DAHLPD}
+
+
+Blk-> D        DSPSTDB  1        DSPSTDC  1        DSPSTDD  1       SWDIGOUT  3
+               SWONDSP  3        SWINDSP  3           RDA1  1           RDA2  1
+                  RDA3  1           RDA4  1           RDA5  1           RDA6  1
+                  RDA7  1           RDB0  1           RDB3  1           RDB6  1
+                  RDC1  1           RDC3  1           RDD7  1         DAHLPB  1
+                DAHLPC  1         DAHLPD  1
+
+Singular:        DSPSTDB{       DA_SDATB}        DSPSTDC{       DA_SDATC}
+                 DSPSTDD{       DA_SDATD}           RDA1{           RPA1}
+                    RDA2{           RPA2}           RDA3{           RPA3}
+                    RDA4{           RPA4}           RDA5{           RPA5}
+                    RDA6{           RPA6}           RDA7{           RPA7}
+                    RDB0{           RPB0}           RDB3{           RPB3}
+                    RDB6{           RPB6}           RDC1{           RPC1}
+                    RDC3{           RPC3}           RDD7{           RPD7}
+                  DAHLPB{       DA_SDATB}         DAHLPC{       DA_SDATC}
+                  DAHLPD{       DA_SDATD}
+
+
+|> INFORMATION F070 - Multiple Assignment Mode - Repeat Count: 4
+Assigning Resources...
+
+
+Flags Used:             Unplace=False        Max Packing=True 
+Flags Used:        Expand Small=False         Expand All=False
+
+
+
+*** Macro Block A
+
+
+   I/O Macros>           PUFRD          DAHLPA
+      Targets>   0( 3)   2( 5)   4( 7)   6( 9)   8(12)  10(14)  12(16)  14(18)
+              
+
+         DAHLPA (A  2)  
+          PUFRD (A  0) -> (A  0) (C  0)
+
+   I/O Macros>              Z4              Z5
+      Targets>   3( 6)   5( 8)   6( 9)   7(10)   8(12)   9(13)  10(14)  11(15)
+                12(16)  13(17)  14(18)  15(19)
+
+             Z4 (A  3) -> (A  5) (B  5) (C  5)
+             Z5 (A  5) -> (A  7)
+
+ Buried Logic>          DAHLPB
+      Targets>   6( 9)   8(12)  10(14)  12(16)  14(18)
+
+         DAHLPB (A  6) -> (D  8)
+
+ Buried Logic>              Z0              Z1              Z2              Z3
+                           RP9
+      Targets>   7(10)   9(13)  10(14)  11(15)  12(16)  13(17)  14(18)  15(19)
+              
+
+             Z0 (A  7) -> (A  9) (B  9) (C  9)
+             Z1 (A  9) -> (A 14) (B  7) (C  7)
+             Z2 (A 10) -> (A  8) (B  8) (C  8)
+             Z3 (A 11) -> (A 16)
+            RP9 (A 12) -> (A 10)
+
+
+
+*** Macro Block B
+
+
+ Buried Logic>          DAHLPC
+      Targets>   0(40)   2(38)   4(36)   6(34)   8(31)  10(29)  12(27)  14(25)
+              
+
+         DAHLPC (B  0) -> (D 20)
+
+ Buried Logic>            RPD6            RPC7            RPA0            RPC0
+                          RPB2            RPD1            RPC2            RPD3
+                          RPC4            RPB5            RPD4            RPC5
+              
+      Targets>   1(39)   3(37)   4(36)   5(35)   6(34)   7(33)   8(31)   9(30)
+                10(29)  11(28)  12(27)  13(26)  14(25)  15(24)
+
+           RPD6 (B  1) -> (C  3)
+           RPC7 (B  3) -> (B 14)
+           RPA0 (B  4) -> (A  6)
+           RPD1 (B  5) -> (C 16)
+           RPC0 (B  6) -> (B  0)
+           RPB2 (B  7) -> (A  1)
+           RPC2 (B  8) -> (B  4)
+           RPC4 (B  9) -> (B 16)
+           RPD3 (B 10) -> (C 10)
+           RPB5 (B 11) -> (A 11)
+           RPD4 (B 12) -> (C 12)
+           RPC5 (B 13) -> (B  1)
+
+
+
+*** Macro Block D
+
+
+   I/O Macros>        DA_SDATB        DA_SDATC        DA_SDATD
+      Targets>   0(82)   1(81)   2(80)   3(79)   4(78)   5(77)   6(76)   7(75)
+                 8(73)   9(72)  10(71)  11(70)  12(69)  13(68)  14(67)  15(66)
+              
+
+       DA_SDATB (D  0)         DA_SDATC (D  1)         DA_SDATD (D  2)  
+
+ Buried Logic>            RPD7            RPB0            RPA1            RPA2
+                          RPC1            RPA3            RPB3            RPA4
+                          RPC3            RPA5            RPA6            RPB6
+                          RPA7
+      Targets>   3(79)   4(78)   5(77)   6(76)   7(75)   8(73)   9(72)  10(71)
+                11(70)  12(69)  13(68)  14(67)  15(66)
+
+           RPB0 (D  4)? 
+           RPA7 (D  3) -> (A 18)
+           RPA1 (D  5) -> (A 22)
+           RPA2 (D  6) -> (A  2)
+           RPA3 (D  7) -> (A  3)
+           RPC1 (D  8) -> (B 15)
+           RPB3 (D  9) -> (A 17)
+           RPA4 (D 10) -> (A 25)
+           RPC3 (D 11) -> (B 10)
+           RPA5 (D 12) -> (A 20)
+           RPA6 (D 13) -> (A 12)
+           RPB6 (D 14) -> (A 13)
+           RPD7 (D 15) -> (C 14)
+           RPB0 (D  4) ->   Blocked -> Reshuffling SwMtrx
+             Z2 -> (A 24)    Moved. -> Reshuffling SwMtrx
+          PUFRD -> (A  8)    Moved.
+           RPB0 -> (A  0)
+
+
+
+*** Macro Block C
+
+
+   I/O Macros>        PLAYCLKO
+      Targets>   0(45)   1(46)   2(47)   3(48)   4(49)   5(50)   6(51)   7(52)
+                 8(54)   9(55)  10(56)  11(57)  12(58)  13(59)  14(60)  15(61)
+              
+
+       PLAYCLKO (C  0)  
+
+ Buried Logic>          DAHLPD
+      Targets>   1(46)   3(48)   5(50)   7(52)   9(55)  11(57)  13(59)
+
+         DAHLPD (C  1) -> (D  5)
+
+ Buried Logic>          BWAIT2          BWAIT3            RPB1            RPD0
+                         BWAIT            RPD2            RPB4             RP8
+                          RPD5            RPC6            RPB7
+      Targets>   2(47)   4(49)   5(50)   6(51)   7(52)   8(54)   9(55)  10(56)
+                11(57)  12(58)  13(59)  14(60)  15(61)
+
+     * Retry Mapping
+         BWAIT2 (C  2) -> (C  6)
+         BWAIT3 (C  5) -> (C  1)
+           RPB1 (C  6) -> (A 21)
+           RPB7 (C  7) -> (A 15)
+            RP8 (C  8) -> (A  4)
+           RPD2 (C  9) -> (C 23)
+           RPD5 (C 10) -> (C 25)
+          BWAIT (C 11) -> (C 17)
+           RPD0 (C 12) -> (C 11)
+           RPB4 (C 13) -> (A 19)
+           RPC6 (C 15) -> (B  3)
+
+
+
+*** Macro Block Inputs
+
+
+       Inputs>           RESET            RDA0            RDA1
+      Targets>   0(20)   2(41)   5(83)
+
+          RESET (I  0)? 
+           RDA0 (I  2) -> (B  2)
+           RDA1 (I  5) -> (D  4)
+          RESET (I  0) ->   Blocked -> Reshuffling SwMtrx
+             Z1 -> (A 23)    Moved. -> Reshuffling SwMtrx
+           RPA2 -> (A 14)    Moved. -> Reshuffling SwMtrx
+           RPB6 -> (A  2)    Moved. -> Reshuffling SwMtrx
+           RPA1 -> (A 13)    Moved. -> Reshuffling SwMtrx
+           RPB7 -> (A 22)    Moved. -> Reshuffling SwMtrx
+           RPA0 -> (A 15)    Moved. -> Reshuffling SwMtrx
+           RPA4 -> (A  6)    Moved. -> Reshuffling SwMtrx
+             Z3 -> (A 25)    Moved. -> Reshuffling SwMtrx
+             Z0 -> (A 16)    Moved. -> Reshuffling SwMtrx
+           RPB2 -> (A  9)    Moved. -> Reshuffling SwMtrx
+           RPA6 -> (A  1)    Moved. -> Reshuffling SwMtrx
+           RPB0 -> (A 12)    Moved. -> Reshuffling SwMtrx
+          PUFRD -> (A  0)    Moved.
+          RESET -> (A  8)
+
+
+       Inputs>            RDB1            RDB4            RDB7            RDC6
+                          RDD0            RDD2            RDD5             RD8
+                          RDB2            RDB5            RDC0            RDC2
+                          RDC4            RDC5            RDC7            RDD1
+              
+      Targets>   0(40)   1(39)   2(38)   3(37)   4(36)   5(35)   6(34)   7(33)
+                 8(31)   9(30)  10(29)  11(28)  12(27)  13(26)  14(25)  15(24)
+              
+
+           RDB1 (B  0)?            RDD5 (B  6)? 
+           RDB4 (B  1) -> (C 18)
+           RDB7 (B  2) -> (C  2)
+           RDC6 (B  3) -> (C 20)
+           RDD0 (B  4) -> (C  4)
+           RDD2 (B  5) -> (C 15)
+            RD8 (B  7) -> (C 24)
+           RDB2 (B  8) -> (B 24)
+           RDB5 (B  9) -> (B 25)
+           RDC0 (B 10) -> (B 18)
+           RDC2 (B 11) -> (B 19)
+           RDC4 (B 12) -> (B  6)
+           RDC5 (B 13) -> (B 21)
+           RDC7 (B 14) -> (B 22)
+           RDD1 (B 15) -> (B 23)
+           RDB1 (B  0) ->   Blocked -> Reshuffling SwMtrx
+           RPD4 -> (C 19)    Moved. -> Reshuffling SwMtrx
+             Z4 -> (C 12)    Moved. -> Reshuffling SwMtrx
+           RDD2 -> (C  5)    Moved. -> Reshuffling SwMtrx
+             Z2 -> (C 15)    Moved. -> Reshuffling SwMtrx
+          PUFRD -> (C  8)    Moved.
+           RDB1 -> (C  0)
+           RDD5 (B  6) ->   Blocked -> Reshuffling SwMtrx
+             Z0 -> (C 22)    Moved. -> Reshuffling SwMtrx
+           RPD5 -> (C  9)    Moved. -> Reshuffling SwMtrx
+           RDB1 -> (C 25)    Moved. -> Reshuffling SwMtrx
+          PUFRD -> (C  0)    Moved. -> Reshuffling SwMtrx
+             Z2 -> (C  8)    Moved. -> Reshuffling SwMtrx
+           RDD2 -> (C 15)    Moved. -> Reshuffling SwMtrx
+             Z4 -> (C  5)    Moved. -> Reshuffling SwMtrx
+           RPD6 -> (C 12)    Moved. -> Reshuffling SwMtrx
+           RPD7 -> (C  3)    Moved. -> Reshuffling SwMtrx
+             Z1 -> (C 14)    Moved. -> Reshuffling SwMtrx
+          BWAIT -> (C  7)    Moved. -> Reshuffling SwMtrx
+           RPD3 -> (C 17)    Moved. -> Reshuffling SwMtrx
+         BWAIT2 -> (C 10)    Moved.
+           RDD5 -> (C  6)
+
+
+       Inputs>         DSPSTDB         DSPSTDC         DSPSTDD        SWDIGOUT
+                          RDD3            RDD4            RDD6         SWONDSP
+                       SWINDSP            RDA2            RDA3            RDA4
+                          RDA5            RDA6            RDA7
+      Targets>   1(46)   2(47)   3(48)   4(49)   5(50)   6(51)   7(52)   8(54)
+                 9(55)  10(56)  11(57)  12(58)  13(59)  14(60)  15(61)
+
+        DSPSTDB (C  1)? 
+        DSPSTDC (C  2) -> (D  9)
+        DSPSTDD (C  3) -> (D 10)
+       SWDIGOUT (C  4) -> (D 11)
+        SWONDSP (C  5) -> (D 14)
+        SWINDSP (C  6) -> (D  6)
+           RDA2 (C  7) -> (D  7)
+           RDA3 (C  8) -> (D  0)
+           RDA4 (C  9) -> (D  1)
+           RDA5 (C 10) -> (D  2)
+           RDD3 (C 11) -> (B 17)
+           RDA6 (C 12) -> (D 18)
+           RDA7 (C 13) -> (D 19)
+           RDD4 (C 14) -> (B 12)
+           RDD6 (C 15) -> (B 13)
+        DSPSTDB (C  1) ->   Blocked -> Reshuffling SwMtrx
+           RDA4 -> (D 23)    Moved.
+        DSPSTDB -> (D  1)
+
+
+       Inputs>            RDB0            RDB3            RDB6            RDC1
+                          RDC3            RDD7
+      Targets>   3(79)   4(78)   5(77)   6(76)   7(75)   8(73)   9(72)  10(71)
+                11(70)  12(69)  13(68)  14(67)  15(66)
+
+     * Retry Mapping
+     * Retry Mapping
+     * Retry Mapping
+     * Retry Mapping
+     * Retry Mapping
+     * Retry Mapping
+           RDB0 (D  6) -> (D 12)
+           RDB3 (D  7) -> (D 13)
+           RDB6 (D  8) -> (D 15)
+           RDC1 (D 10) -> (D 16)
+           RDC3 (D 11) -> (D  3)
+           RDD7 (D 15) -> (D 21)
+
+
+
+Wiring Completion:  100% -> (  0 nc)
+
+|> INFORMATION F058 - Total Block Fanout (All Signals) *: 97 
+
+
+*** Signals - Tabular Information
+
+          Signal   #   P/N #   (Loc)      Type     Logic  # PT    Blocks
+          HCLKI    1    65      I  4   clock pin       .     .    .....
+       PLAYCLKI    2    62      I  3   clock pin       .     .    .....
+        INPSCLK    3    23      I  1   clock pin       .     .    .....
+          RESET    4    20      I  0       input       .     .    .A...
+        DSPSTDB    5    46      C  1       input       .     .    ....D
+        DSPSTDC    6    47      C  2       input       .     .    ....D
+        DSPSTDD    7    48      C  3       input       .     .    ....D
+       SWDIGOUT    8    49      C  4       input       .     .    ....D
+        SWONDSP    9    50      C  5       input       .     .    ....D
+        SWINDSP   10    51      C  6       input       .     .    ....D
+           RDA0   11    41      I  2       input       .     .    ..B..
+           RDA1   12    83      I  5       input       .     .    ....D
+           RDA2   13    52      C  7       input       .     .    ....D
+           RDA3   14    54      C  8       input       .     .    ....D
+           RDA4   15    55      C  9       input       .     .    ....D
+           RDA5   16    56      C 10       input       .     .    ....D
+           RDA6   17    58      C 12       input       .     .    ....D
+           RDA7   18    59      C 13       input       .     .    ....D
+           RDB0   19    76      D  6       input       .     .    ....D
+           RDB1   20    40      B  0       input       .     .    ...C.
+           RDB2   21    31      B  8       input       .     .    ..B..
+           RDB3   22    75      D  7       input       .     .    ....D
+           RDB4   23    39      B  1       input       .     .    ...C.
+           RDB5   24    30      B  9       input       .     .    ..B..
+           RDB6   25    73      D  8       input       .     .    ....D
+           RDB7   26    38      B  2       input       .     .    ...C.
+           RDC0   27    29      B 10       input       .     .    ..B..
+           RDC1   28    71      D 10       input       .     .    ....D
+           RDC2   29    28      B 11       input       .     .    ..B..
+           RDC3   30    70      D 11       input       .     .    ....D
+           RDC4   31    27      B 12       input       .     .    ..B..
+           RDC5   32    26      B 13       input       .     .    ..B..
+           RDC6   33    37      B  3       input       .     .    ...C.
+           RDC7   34    25      B 14       input       .     .    ..B..
+           RDD0   35    36      B  4       input       .     .    ...C.
+           RDD1   36    24      B 15       input       .     .    ..B..
+           RDD2   37    35      B  5       input       .     .    ...C.
+           RDD3   38    57      C 11       input       .     .    ..B..
+           RDD4   39    60      C 14       input       .     .    ..B..
+           RDD5   40    34      B  6       input       .     .    ...C.
+           RDD6   41    61      C 15       input       .     .    ..B..
+           RDD7   42    66      D 15       input       .     .    ....D
+            RD8   43    33      B  7       input       .     .    ...C.
+          PUFRD   44     3      A  0     i/o pin    comb     6    .A.C.
+       PLAYCLKO   45    45      C  0     i/o pin    comb     1    ....D
+         DAHLPA   46     5      A  2     i/o pin    comb     8    .....
+       DA_SDATB   47    82      D  0     i/o pin    comb     3    .....
+       DA_SDATC   48    81      D  1     i/o pin    comb     3    .....
+       DA_SDATD   49    80      D  2     i/o pin    comb     3    .....
+             Z4   50     6      A  3     i/o pin    t-ff     1    .ABC.
+             Z5   51     8      A  5     i/o pin    t-ff     1    .A...
+         DAHLPB   52     8      A  6      buried    comb     8    ....D
+         DAHLPC   53    18      B  0      buried    comb     8    ....D
+         DAHLPD   54    35      C  1      buried    comb     8    ....D
+            RP9   55    14      A 12      buried    d-ff     1    .A...
+            RP8   56    42      C  8      buried    d-ff     1    .A...
+           RPA7   57    53      D  3      buried    d-ff     1    .A...
+           RPA6   58    63      D 13      buried    d-ff     1    .A...
+           RPA5   59    62      D 12      buried    d-ff     1    .A...
+           RPA4   60    60      D 10      buried    d-ff     1    .A...
+           RPA3   61    57      D  7      buried    d-ff     1    .A...
+           RPA2   62    56      D  6      buried    d-ff     1    .A...
+           RPA1   63    55      D  5      buried    d-ff     1    .A...
+           RPA0   64    22      B  4      buried    d-ff     1    .A...
+           RPB7   65    41      C  7      buried    d-ff     1    .A...
+           RPB6   66    64      D 14      buried    d-ff     1    .A...
+           RPB5   67    29      B 11      buried    d-ff     1    .A...
+           RPB4   68    47      C 13      buried    d-ff     1    .A...
+           RPB3   69    59      D  9      buried    d-ff     1    .A...
+           RPB2   70    25      B  7      buried    d-ff     1    .A...
+           RPB1   71    40      C  6      buried    d-ff     1    .A...
+           RPB0   72    54      D  4      buried    d-ff     1    .A...
+           RPC7   73    21      B  3      buried    d-ff     1    ..B..
+           RPC6   74    49      C 15      buried    d-ff     1    ..B..
+           RPC5   75    31      B 13      buried    d-ff     1    ..B..
+           RPC4   76    27      B  9      buried    d-ff     1    ..B..
+           RPC3   77    61      D 11      buried    d-ff     1    ..B..
+           RPC2   78    26      B  8      buried    d-ff     1    ..B..
+           RPC1   79    58      D  8      buried    d-ff     1    ..B..
+           RPC0   80    24      B  6      buried    d-ff     1    ..B..
+           RPD7   81    65      D 15      buried    d-ff     1    ...C.
+           RPD6   82    19      B  1      buried    d-ff     1    ...C.
+           RPD5   83    44      C 10      buried    d-ff     1    ...C.
+           RPD4   84    30      B 12      buried    d-ff     1    ...C.
+           RPD3   85    28      B 10      buried    d-ff     1    ...C.
+           RPD2   86    43      C  9      buried    d-ff     1    ...C.
+           RPD1   87    23      B  5      buried    d-ff     1    ...C.
+           RPD0   88    46      C 12      buried    d-ff     1    ...C.
+          BWAIT   89    45      C 11      buried    d-ff     1    ...C.
+         BWAIT2   90    36      C  2      buried    d-ff     1    ...C.
+         BWAIT3   91    39      C  5      buried    d-ff     1    ...C.
+             Z0   92     9      A  7      buried    t-ff     1    .ABC.
+             Z1   93    11      A  9      buried    t-ff     1    .ABC.
+             Z2   94    12      A 10      buried    t-ff     1    .ABC.
+             Z3   95    13      A 11      buried    t-ff     1    .A...
+.
+
+ Key:
+ P/N # - Pin/Node Number
+ .?. - Signal Unplaced
+ (Loc) - Macrocell Location (Block & Cell)
+ # PT - Number of used product terms in logic
+ Blocks- Device blocks driven by signal
+ comb - Combinatorial logic function
+ d-ff - D-Type Flip-flop
+ t-ff - T-Type Flip-flop
+ Note: Registered input storage equations (MACH-2xx family)
+ ..... are realized with 0 array product terms.
+
+
+*** Signals - Equations Where Used
+
+   Signal Source                   Fanout List
+
+          RESET:             Z3              Z2              Z1              Z0 
+               :             Z5              Z4 
+               {AAAA AA}
+
+        DSPSTDB:       DA_SDATB 
+               {D}
+        DSPSTDC:       DA_SDATC 
+               {D}
+        DSPSTDD:       DA_SDATD 
+               {D}
+       SWDIGOUT:       DA_SDATD        DA_SDATC        DA_SDATB 
+               {DDD}
+        SWONDSP:       DA_SDATD        DA_SDATC        DA_SDATB 
+               {DDD}
+        SWINDSP:       DA_SDATD        DA_SDATC        DA_SDATB 
+               {DDD}
+           RDA0:           RPA0 
+               {B}
+           RDA1:           RPA1 
+               {D}
+           RDA2:           RPA2 
+               {D}
+           RDA3:           RPA3 
+               {D}
+           RDA4:           RPA4 
+               {D}
+           RDA5:           RPA5 
+               {D}
+           RDA6:           RPA6 
+               {D}
+           RDA7:           RPA7 
+               {D}
+           RDB0:           RPB0 
+               {D}
+           RDB1:           RPB1 
+               {C}
+           RDB2:           RPB2 
+               {B}
+           RDB3:           RPB3 
+               {D}
+           RDB4:           RPB4 
+               {C}
+           RDB5:           RPB5 
+               {B}
+           RDB6:           RPB6 
+               {D}
+           RDB7:           RPB7 
+               {C}
+           RDC0:           RPC0 
+               {B}
+           RDC1:           RPC1 
+               {D}
+           RDC2:           RPC2 
+               {B}
+           RDC3:           RPC3 
+               {D}
+           RDC4:           RPC4 
+               {B}
+           RDC5:           RPC5 
+               {B}
+           RDC6:           RPC6 
+               {C}
+           RDC7:           RPC7 
+               {B}
+           RDD0:           RPD0 
+               {C}
+           RDD1:           RPD1 
+               {B}
+           RDD2:           RPD2 
+               {C}
+           RDD3:           RPD3 
+               {B}
+           RDD4:           RPD4 
+               {B}
+           RDD5:           RPD5 
+               {C}
+           RDD6:           RPD6 
+               {B}
+           RDD7:           RPD7 
+               {D}
+            RD8:            RP8 
+               {C}
+          PUFRD:         BWAIT3          BWAIT2           BWAIT        PLAYCLKO 
+               :          PUFRD 
+               {CCCC A}
+
+             Z4:         DAHLPD          DAHLPC          DAHLPB              Z5 
+               :         DAHLPA           PUFRD 
+               {CBAA AA}
+
+             Z5:          PUFRD 
+               {A}
+         DAHLPB:       DA_SDATB 
+               {D}
+         DAHLPC:       DA_SDATC 
+               {D}
+         DAHLPD:       DA_SDATD 
+               {D}
+            RP9:          PUFRD 
+               {A}
+            RP8:            RP9           PUFRD 
+               {AA}
+           RPA7:         DAHLPA 
+               {A}
+           RPA6:         DAHLPA 
+               {A}
+           RPA5:         DAHLPA 
+               {A}
+           RPA4:         DAHLPA 
+               {A}
+           RPA3:         DAHLPA 
+               {A}
+           RPA2:         DAHLPA 
+               {A}
+           RPA1:         DAHLPA 
+               {A}
+           RPA0:         DAHLPA 
+               {A}
+           RPB7:         DAHLPB 
+               {A}
+           RPB6:         DAHLPB 
+               {A}
+           RPB5:         DAHLPB 
+               {A}
+           RPB4:         DAHLPB 
+               {A}
+           RPB3:         DAHLPB 
+               {A}
+           RPB2:         DAHLPB 
+               {A}
+           RPB1:         DAHLPB 
+               {A}
+           RPB0:         DAHLPB 
+               {A}
+           RPC7:         DAHLPC 
+               {B}
+           RPC6:         DAHLPC 
+               {B}
+           RPC5:         DAHLPC 
+               {B}
+           RPC4:         DAHLPC 
+               {B}
+           RPC3:         DAHLPC 
+               {B}
+           RPC2:         DAHLPC 
+               {B}
+           RPC1:         DAHLPC 
+               {B}
+           RPC0:         DAHLPC 
+               {B}
+           RPD7:         DAHLPD 
+               {C}
+           RPD6:         DAHLPD 
+               {C}
+           RPD5:         DAHLPD 
+               {C}
+           RPD4:         DAHLPD 
+               {C}
+           RPD3:         DAHLPD 
+               {C}
+           RPD2:         DAHLPD 
+               {C}
+           RPD1:         DAHLPD 
+               {C}
+           RPD0:         DAHLPD 
+               {C}
+          BWAIT:         BWAIT2 
+               {C}
+         BWAIT2:         BWAIT3 
+               {C}
+         BWAIT3:       PLAYCLKO 
+               {C}
+             Z0:             Z3              Z2              Z1          DAHLPD 
+               :         DAHLPC          DAHLPB              Z5              Z4 
+               :         DAHLPA 
+               {AAAC BAAA A}
+
+             Z1:             Z3              Z2          DAHLPD          DAHLPC 
+               :         DAHLPB              Z5              Z4          DAHLPA 
+               :          PUFRD 
+               {AACB AAAA A}
+
+             Z2:             Z3          DAHLPD          DAHLPC          DAHLPB 
+               :             Z5              Z4          DAHLPA           PUFRD 
+               {ACBA AAAA}
+
+             Z3:             Z5              Z4           PUFRD 
+               {AAA}
+
+
+
+*** Outputs with no feedback
+
+         PLAYCLKO          DAHLPA        DA_SDATB        DA_SDATC        DA_SDATD 
+  
+
+
+*** Feedback Map - SAMPLER8.PDS - 16Bit-Soundsampler mit 8 Ausg„ngen fuer Medusa-Bus
+
+ Gbl Inp .--.     I/O  .--+--A--+--.  I/O           I/O  .--+--B--+--.  I/O   
+         | 0|    PUFRD : 0|     |25| Z3             RPC0 : 0|     |25| RDB5   
+         | 1|     RPA6 : 1|     |24| Z2             RPC5 : 1|     |24| RDB2   
+         | 2|     RPB6 : 2|     |23| Z1             RDA0 : 2|     |23| RDD1   
+         | 3|     RPA3 : 3|     |22| RPB7           RPC6 : 3|     |22| RDC7   
+         | 4|      RP8 : 4|     |21| RPB1           RPC2 : 4|     |21| RDC5   
+         | 5|       Z4 : 5|     |20| RPA5             Z4 : 5|     |20|        
+         '--'     RPA4 : 6|     |19| RPB4           RDC4 : 6|     |19| RDC2   
+                    Z5 : 7|     |18| RPA7             Z1 : 7|     |18| RDC0   
+                 RESET : 8|     |17| RPB3             Z2 : 8|     |17| RDD3   
+                  RPB2 : 9|     |16| Z0               Z0 : 9|     |16| RPC4   
+K:  * Used         RP9 :10|     |15: RPA0           RPC3 :10|     |15: RPC1   
+    . Avail       RPB5 :11|     |14: RPA2                |11|     |14: RPC7   
+    # N/A         RPB0 :12|     |13: RPA1           RDD4 :12|     |13: RDD6   
+                       '--+--C--+--'                     '--+--D--+--'        
+                 PUFRD : 0|     |25| RDB1           RDA3 : 0|     |25|        
+                BWAIT3 : 1|     |24| RD8         DSPSTDB : 1|     |24|        
+                  RDB7 : 2|     |23| RPD2           RDA5 : 2|     |23| RDA4   
+                  RPD7 : 3|     |22| Z0             RDC3 : 3|     |22|        
+                  RDD0 : 4|     |21|                RDA1 : 4|     |21| RDD7   
+                    Z4 : 5|     |20| RDC6         DAHLPD : 5|     |20| DAHLPC 
+                  RDD5 : 6|     |19| RPD4        SWINDSP : 6|     |19| RDA7   
+                 BWAIT : 7|     |18| RDB4           RDA2 : 7|     |18| RDA6   
+                    Z2 : 8|     |17| RPD3         DAHLPB : 8|     |17|        
+                  RPD5 : 9|     |16| RPD1        DSPSTDC : 9|     |16| RDC1   
+                BWAIT2 :10|     |15: RDD2        DSPSTDD :10|     |15: RDB6   
+                  RPD0 :11|     |14: Z1          SWDIGOUT 11|     |14: SWONDSP
+                  RPD6 :12|     |13|                RDB0 :12|     |13: RDB3   
+                       '--+-u--u+--'                     '--+-u--u+--'        
+
+
+
+*** Logic Map - SAMPLER8.PDS - 16Bit-Soundsampler mit 8 Ausg„ngen fuer Medusa-Bus
+
+ Gbl Inp .--.     I/O  .--+--A--+--.  I/O           I/O  .--+--B--+--.  I/O
+    RESET| 0|    PUFRD | 0| 6  #|25|              DAHLPC | 0| 8  #|25|     
+  INPSCLK| 1|          | 1| *  #|24|                RPD6 | 1| 1  #|24|     
+     RDA0| 2|   DAHLPA | 2| 8  #|23|                     | 2| *  #|23|     
+ PLAYCLKI| 3|       Z4 | 3| 1  #|22|                RPC7 | 3| 1  #|22|     
+    HCLKI| 4|          | 4| *  #|21|                RPA0 | 4| 1  #|21|     
+     RDA1| 5|       Z5 | 5| 1  #|20|                RPD1 | 5| 1  #|20|     
+         '--'   DAHLPB | 6| 8  #|19|                RPC0 | 6| 1  #|19|     
+                    Z0 | 7| 1  #|18|                RPB2 | 7| 1  #|18|     
+                       | 8| *  #|17|                RPC2 | 8| 1  #|17|     
+                    Z1 | 9| 1  #|16|                RPC4 | 9| 1  #|16|     
+K:  * Used          Z2 |10| 1  .|15|                RPD3 |10| 1  .|15|     
+    . Avail         Z3 |11| 1  .|14|                RPB5 |11| 1  .|14|     
+    # N/A          RP9 |12| 1  .|13|                RPD4 |12| 1  1|13| RPC5
+                       '--+--C--+--'                     '--+--D--+--'     
+               PLAYCLKO  0| 1  #|25|             DA_SDATB  0| 3  #|25|     
+                DAHLPD | 1| 8  #|24|             DA_SDATC  1| 3  #|24|     
+                BWAIT2 | 2| 1  #|23|             DA_SDATD  2| 3  #|23|     
+                       | 3| *  #|22|                RPA7 | 3| 1  #|22|     
+                       | 4| .  #|21|                RPB0 | 4| 1  #|21|     
+                BWAIT3 | 5| 1  #|20|                RPA1 | 5| 1  #|20|     
+                  RPB1 | 6| 1  #|19|                RPA2 | 6| 1  #|19|     
+                  RPB7 | 7| 1  #|18|                RPA3 | 7| 1  #|18|     
+                   RP8 | 8| 1  #|17|                RPC1 | 8| 1  #|17|     
+                  RPD2 | 9| 1  #|16|                RPB3 | 9| 1  #|16|     
+                  RPD5 |10| 1  1|15| RPC6           RPA4 |10| 1  1|15| RPD7
+                 BWAIT |11| 1  .|14|                RPC3 |11| 1  1|14| RPB6
+                  RPD0 |12| 1  1|13| RPB4           RPA5 |12| 1  1|13| RPA6
+                       '--+-u--u+--'                     '--+-u--u+--'     
+
+
+*** Pin Map - SAMPLER8.PDS - 16Bit-Soundsampler mit 8 Ausg„ngen fuer Medusa-Bus
+                                                                          
+                                                                          
+                                                                          
+                                                                          
+                                            RDA1                          
+                                PUFRD       | DA_SDATB                    
+                                  . |       | | DA_SDATC                  
+                           DAHLPA | |       | | | DA_SDATD                
+                             Z4 | | |       | | | | .                     
+                            . | | | |       | | | | | .                   
+                         Z5 | | | | |       | | | | | | .                 
+                        . | | | | | |       | | | | | | | RDB0            
+                      . | | | | | | |       | | | | | | | | RDB3          
+                      | | | | | | | |       | | | | | | | | |             
+               .------'-'-'-'-'-'-'-'---o---'-'-'-'-'-'-'-'-'----.        
+               |    1 1                   8 8 8 8 8 7 7 7 7 7    |        
+               |    1 0 9 8 7 6 5 4 3 2 1 4 3 2 1 0 9 8 7 6 5    |        
+               |12                                         Gnd 74|        
+               |13  G                 V G V                    73|RDB6    
+               |14  n                 c n c                    72|        
+               |15  d                 c d c                    71|RDC1    
+               |16                                             70|RDC3    
+               |17                                             69|        
+               |18                                             68|        
+               |19                                             67|        
+          RESET|20                                             66|RDD7    
+               |21 Vcc               MACH-130                  65|HCLKI   
+               |22 Gnd                                     Gnd 64|        
+        INPSCLK|23                                         Vcc 63|        
+           RDD1|24                                             62|PLAYCLKI
+           RDC7|25                                             61|RDD6    
+           RDC5|26                                             60|RDD4    
+           RDC4|27                                             59|RDA7    
+           RDC2|28                                             58|RDA6    
+           RDC0|29                    V G V                 G  57|RDD3    
+           RDB5|30                    c n c                 n  56|RDA5    
+           RDB2|31                    c d c                 d  55|RDA4    
+               |32 Gnd                                         54|RDA3    
+               |    3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 5 5 5 5    |        
+               |    3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3    |        
+               '----.-.-.-.-.-.-.-.-.-------.-.-.-.-.-.-.-.------'        
+                    | | | | | | | | |       | | | | | | | |               
+                  RD8 | | | | | | | |       | | | | | | | |               
+                   RDD5 | | | | | | |       | | | | | | | RDA2            
+                     RDD2 | | | | | |       | | | | | | SWINDSP           
+                       RDD0 | | | | |       | | | | | SWONDSP             
+                         RDC6 | | | |       | | | | SWDIGOUT              
+                           RDB7 | | |       | | | DSPSTDD                 
+                             RDB4 | |       | | DSPSTDC                   
+                               RDB1 |       | DSPSTDB                     
+                                 RDA0       PLAYCLKO                      
+The Jedec Data is  stored in ===> smp8b.jed
+The Placements are stored in ===> smp8b.plc
+The Design Doc is  stored in ===> smp8b.rpt
+ 
+%% FITR %% Error Count: 0, Warning Count: 1
+%% FITR %% File Processed Successfully. - File: smp8b.pds
+ 

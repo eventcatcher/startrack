@@ -1,0 +1,387 @@
+; ***************************************************************************
+; ***************************************************************************
+; MachXL Design Description
+; ***************************************************************************
+
+TITLE    PCITRAK MACH445 IC3
+PATTERN  ic3.pds
+REVISION 1.00
+AUTHOR   S.W.
+COMPANY  Stephan Wilhelm EntwicklungsbÅro
+DATE     01/16/97
+
+CHIP  star64b MACH435
+
+; STARTRACK 64
+
+; ***************************************************************************
+; Pinbelegung
+; ***************************************************************************
+
+PIN ?           reset      ; system-reset
+PIN ?           wr         ; write
+PIN ?           INTCLK     ; clock from PCLK
+PIN ?           INSYNC     ; input rsync-signal
+PIN ?           sysclk     ; system-clock
+PIN ?           IACK       ; int-ack
+PIN ?           ld0        ; vme data 0
+PIN ?           ld1        ; vme data 1
+PIN ?           ld2        ; vme data 2
+PIN ?           ld3        ; vme data 3
+PIN ?           ld4        ; vme data 4
+PIN ?           ld5        ; vme data 5
+PIN ?           ld6        ; vme data 6
+PIN ?           ld7        ; vme data 7
+PIN ?           EXTCLK     ; external Sync-clock
+PIN ?           la15       ; vme adress 15
+PIN ?           la14       ; vme adress 14
+PIN ?           la13       ; vme adress 13
+PIN ?           la1        ; vme adress 1
+PIN ?           la2        ; vme adress 2
+PIN ?           la3        ; vme adress 3
+PIN ?           AM4        ; vme adressdecode
+PIN ?           DS0        ; vme data low
+PIN ?           DS1        ; vme data high
+PIN ?           syncd0     ; synchronflag Q0
+PIN ?           syncd1     ; synchronflag Q1
+PIN ?           syncd2     ; synchronflag Q2
+PIN ?           syncd3     ; synchronflag Q3
+PIN  ?          smpread0   COMBINATORIAL ; recfifo read 0
+PIN  ?          smpread1   COMBINATORIAL ; recfifo read 1
+PIN  ?          smpread2   COMBINATORIAL ; recfifo read 2
+PIN  ?          smpread3   COMBINATORIAL ; recfifo read 3
+PIN  ?          DTACK      COMBINATORIAL ; data handshake
+PIN  ?          DRVOE      COMBINATORIAL ; enable busdriver
+PIN  ?          fresetb    COMBINATORIAL ; local reset
+PIN  ?          RSYNC      COMBINATORIAL ; for Rec-FIFO Sync D8
+PIN  ?          RSHIFT     COMBINATORIAL ; Record-Shifter-Clock
+PIN  ?          RWCLK0        REGISTERED ; recfifo writeclk D0-D7
+PIN  ?          RWCLK1        REGISTERED ; recfifo writeclk D8-D15
+PIN  ?          RWCLK2        REGISTERED ; recfifo writeclk D16-D23
+PIN  ?          RWCLK3        REGISTERED ; recfifo writeclk D24-D31
+PIN  ?          ZR0           REGISTERED ; Rec-SCLKzÑhler und Sync (F138)
+PIN  ?          ZR1           REGISTERED ; Rec-SCLKzÑhler und Sync (F138)
+PIN  ?          ZR2           REGISTERED ; Rec-SCLKzÑhler und Sync (F138)
+PIN  ?          pcgclk        REGISTERED ; SCLK vom PCG 2053B
+PIN  ?          pcgdat        REGISTERED ; DATA vom PCG 2053B
+NODE ?          DRVCS      COMBINATORIAL ; my adress
+NODE ?          rsrange0   COMBINATORIAL ; helpcode for recrange
+NODE ?          rsrange1   COMBINATORIAL ; helpcode for recrange
+NODE ?          RSNCHLP    COMBINATORIAL ; helpterm for RSYNC
+NODE ?          MRCLK      COMBINATORIAL ; Auswahl Record-Clock
+NODE ?          syncf0        REGISTERED ; readregister synchronflag 0
+NODE ?          syncf1        REGISTERED ; readregister synchronflag 1
+NODE ?          syncf2        REGISTERED ; readregister synchronflag 2
+NODE ?          syncf3        REGISTERED ; readregister synchronflag 3
+NODE ?          CLKREC        REGISTERED ; CLK fÅr RCLK,Shifter und internal
+NODE ?          DCLKREC       REGISTERED ; DCLK fÅr RCLK,Shifter und internal
+NODE ?          SYNCRST       REGISTERED ; RESET fÅr Rec-WORD-ZÑhler
+NODE ?          rreset        REGISTERED ; programmable reset
+NODE ?          WR0           REGISTERED ; Rec-SWORDzÑhler und Synchro
+NODE ?          WR1           REGISTERED ; Rec-SWORDzÑhler und Synchro
+NODE ?          WR2           REGISTERED ; Rec-SWORDzÑhler und Synchro
+NODE ?          WR3           REGISTERED ; Rec-SWORDzÑhler und Synchro
+NODE ?          TIME1         REGISTERED ; timingcounter 1
+NODE ?          TIME2         REGISTERED ; timingcounter 2
+NODE ?          TIME3         REGISTERED ; timingcounter 3
+NODE ?          TIME4         REGISTERED ; timingcounter 4
+NODE ?          rshiftsel0    REGISTERED ; enable recshifter 0
+NODE ?          rshiftsel1    REGISTERED ; enable recshifter 1
+NODE ?          rshiftsel2    REGISTERED ; enable recshifter 2
+NODE ?          rshiftsel3    REGISTERED ; enable recshifter 3
+NODE ?          rshiftsel4    REGISTERED ; enable recshifter 4
+NODE ?          rshiftsel5    REGISTERED ; enable recshifter 5
+NODE ?          rshiftsel6    REGISTERED ; enable recshifter 6
+NODE ?          rshiftsel7    REGISTERED ; enable recshifter 7
+NODE ?          range0        REGISTERED ; set fifowidth
+NODE ?          range1        REGISTERED ; set fifowidth
+NODE ?          internal      REGISTERED ; enable external clock for record
+
+; ***************************************************************************
+; ***************************************************************************
+
+EQUATIONS
+
+; ---------------------Adress-Decoding
+
+/DRVOE = /AM4 * /la15 * la14 * IACK * /DS0
+       + /AM4 * /la15 * la14 * IACK * /DS1;
+
+/DRVCS = /AM4 * /la15 * la14 * IACK * /DS0 * TIME3 * /wr
+       + /AM4 * /la15 * la14 * IACK * /DS0 * TIME4 * /wr
+       + /AM4 * /la15 * la14 * IACK * /DS1 * TIME3 * /wr
+       + /AM4 * /la15 * la14 * IACK * /DS1 * TIME4 * /wr
+       + /AM4 * /la15 * la14 * IACK * /DS0 * TIME4 * wr
+       + /AM4 * /la15 * la14 * IACK * /DS1 * TIME4 * wr;
+
+/DTACK = /DRVCS;
+
+DTACK.trst = /DRVCS;
+
+; ---------------------Decoder-Timing
+
+TIME1 = VCC;
+TIME1.CLKF = sysclk;
+TIME1.RSTF = DS0 * DS1;
+
+TIME3 = TIME2;
+TIME3.CLKF = sysclk;
+TIME3.RSTF = DS0 * DS1;
+
+TIME2 = TIME1;
+TIME2.CLKF = /sysclk;
+TIME2.RSTF = DS0 * DS1;
+
+TIME4 = TIME3;
+TIME4.CLKF = /sysclk;
+TIME4.RSTF = DS0 * DS1;
+
+; ---------------------Registers
+
+rshiftsel0.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+rshiftsel0 := ld0;
+rshiftsel0.rstf = /reset;
+
+rshiftsel1.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+rshiftsel1 := ld1;
+rshiftsel1.rstf = /reset;
+
+rshiftsel2.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+rshiftsel2 := ld2;
+rshiftsel2.rstf = /reset;
+
+rshiftsel3.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+rshiftsel3 := ld3;
+rshiftsel3.rstf = /reset;
+
+rshiftsel4.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+rshiftsel4 := ld4;
+rshiftsel4.rstf = /reset;
+
+rshiftsel5.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+rshiftsel5 := ld5;
+rshiftsel5.rstf = /reset;
+
+rshiftsel6.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+rshiftsel6 := ld6;
+rshiftsel6.rstf = /reset;
+
+rshiftsel7.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * /la2 * la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+rshiftsel7 := ld7;
+rshiftsel7.rstf = /reset;
+
+range0.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * la2 * /la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+range0 := ld0;
+range0.rstf = /reset;
+
+range1.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * la2 * /la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+range1 := ld1;
+range1.rstf = /reset;
+
+pcgclk.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * la2 * /la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+pcgclk := ld2;
+pcgclk.rstf = /reset;
+
+pcgdat.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * la2 * /la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+pcgdat := ld3;
+pcgdat.rstf = /reset;
+
+rreset.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * la2 * /la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+rreset := ld5;
+rreset.rstf = /reset;
+
+internal.clkf = /AM4 * /la15 * la14 * /la13 * /la3 * la2 * /la1 * /wr * IACK * /DS0 * /TIME3 * TIME2;
+internal := ld6;
+internal.rstf = /reset;
+
+syncf0.clkf = smpread0 * TIME3;
+syncf0 := syncd0;
+
+syncf1.clkf = smpread1 * TIME3;
+syncf1 := syncd1;
+
+syncf2.clkf = smpread2 * TIME3;
+syncf2 := syncd2;
+
+syncf3.clkf = smpread3 * TIME3;
+syncf3 := syncd3;
+
+; ---------------------RecFIFO-Read
+
+smpread3 = /AM4 * /la15 * la14 * la13 * /la1 * wr * IACK * /DS1;
+
+smpread2 = /AM4 * /la15 * la14 * la13 * /la1 * wr * IACK * /DS0;
+
+smpread1 = /AM4 * /la15 * la14 * la13 * la1 * wr * IACK * /DS1;
+
+smpread0 = /AM4 * /la15 * la14 * la13 * la1 * wr * IACK * /DS0;
+
+; INT-Vektor Number #122 for Play
+
+ld0 = rshiftsel0 * /la13 * /la3 * /la2 * /la1 * IACK
+    + range0 * /la13 * /la3 * la2 * /la1 * IACK
+    + syncf0 * /la13 * /la3 * la2 * la1 * IACK;
+ld0.trst = /DRVOE * wr * /DS0;
+
+ld1 = rshiftsel1 * /la13 * /la3 * /la2 * /la1 * IACK
+    + range1 * /la13 * /la3 * la2 * /la1 * IACK
+    + syncf1 * /la13 * /la3 * la2 * la1 * IACK;
+ld1.trst = /DRVOE * wr * /DS0;
+
+ld2 = rshiftsel2 * /la13 * /la3 * /la2 * /la1 * IACK
+    + syncf2 * /la13 * /la3 * la2 * la1 * IACK;
+ld2.trst = /DRVOE * wr * /DS0;
+
+ld3 = rshiftsel3 * /la13 * /la3 * /la2 * /la1 * IACK
+    + syncf3 * /la13 * /la3 * la2 * la1 * IACK;
+ld3.trst = /DRVOE * wr * /DS0;
+
+ld4 = rshiftsel4 * /la13 * /la3 * /la2 * /la1 * IACK;
+ld4.trst = /DRVOE * wr * /DS0;
+
+ld5 = rshiftsel5 * /la13 * /la3 * /la2 * /la1 * IACK
+    + rreset * /la13 * /la3 * la2 * /la1 * IACK;
+ld5.trst = /DRVOE * wr * /DS0;
+
+ld6 = rshiftsel6 * /la13 * /la3 * /la2 * /la1 * IACK
+    + internal * /la13 * /la3 * la2 * /la1 * IACK;
+ld6.trst = /DRVOE * wr * /DS0;
+
+ld7 = rshiftsel7 * /la13 * /la3 * /la2 * /la1 * IACK;
+ld7.trst = /DRVOE * wr * /DS0;
+
+; ---------------------Clocks
+
+MRCLK = INTCLK * /internal
+      + EXTCLK * internal;
+
+DCLKREC.T = VCC;       used for DSP-PCLK,Shift-Clock and internal-clk
+DCLKREC.CLKF = MRCLK;
+DCLKREC.RSTF = SYNCRST;
+
+CLKREC.T = DCLKREC;       used for DSP-PCLK,Shift-Clock and internal-clk
+CLKREC.CLKF = MRCLK;
+CLKREC.SETF = SYNCRST;
+
+rshift = /CLKREC;
+
+; ---------------------Record-WordCounter
+
+SYNCRST = VCC;
+SYNCRST.CLKF = INSYNC;
+SYNCRST.RSTF = /WR3 * /WR2 * /WR1 * /WR0 * /ZR2 * /ZR1 * /ZR0
+             * /DCLKREC * CLKREC;
+
+ZR0.T = VCC;
+ZR0.CLKF = CLKREC;
+ZR0.RSTF = SYNCRST;
+
+ZR1.T = ZR0;
+ZR1.CLKF = CLKREC;
+ZR1.RSTF = SYNCRST;
+
+ZR2.T = ZR0 * ZR1;
+ZR2.CLKF = CLKREC;
+ZR2.RSTF = SYNCRST;
+
+WR0.T = ZR0 * ZR1 * ZR2;
+WR0.CLKF = CLKREC;
+WR0.RSTF = SYNCRST;
+
+WR1.T = ZR0 * ZR1 * ZR2 * WR0;
+WR1.CLKF = CLKREC;
+WR1.RSTF = SYNCRST;
+
+WR2.T = ZR0 * ZR1 * ZR2 * WR0 * WR1;
+WR2.CLKF = CLKREC;
+WR2.RSTF = SYNCRST;
+
+WR3.T = ZR0 * ZR1 * ZR2 * WR0 * WR1 * WR2;
+WR3.CLKF = CLKREC;
+WR3.RSTF = SYNCRST;
+
+; ---------------------Record
+
+/rsrange1 = WR1 * WR0 * range1
+          + /WR1 * WR0 * /range1 * range0
+          + WR1 * WR0 * /range1 * range0;
+
+/rsrange0 = /WR1 * /WR0 * range1
+          + WR1 * /WR0 * /range1 * range0
+          + /WR1 * /WR0 * /range1 * range0
+          + /range1 * /range0;
+
+RWCLK3.CLKF = /CLKREC * DCLKREC;
+RWCLK3 := /ZR2 * /ZR1 * /ZR0 * rshiftsel0 * /WR1 * WR0 * range1 * range0
+       + /ZR2 * /ZR1 * ZR0 * rshiftsel1 * /WR1 * WR0 * range1 * range0
+       + /ZR2 * ZR1 * /ZR0 * rshiftsel2 * /WR1 * WR0 * range1 * range0
+       + /ZR2 * ZR1 * ZR0 * rshiftsel3 * /WR1 * WR0 * range1 * range0
+       + ZR2 * /ZR1 * /ZR0 * rshiftsel4 * /WR1 * WR0 * range1 * range0
+       + ZR2 * /ZR1 * ZR0 * rshiftsel5 * /WR1 * WR0 * range1 * range0
+       + ZR2 * ZR1 * /ZR0 * rshiftsel6 * /WR1 * WR0 * range1 * range0
+       + ZR2 * ZR1 * ZR0 * rshiftsel7 * WR1 * /WR0 * range1 * range0;
+
+RWCLK2.CLKF = /CLKREC * DCLKREC;
+RWCLK2 := /ZR2 * /ZR1 * /ZR0 * rshiftsel0 * WR1 * /WR0 * range1
+       + /ZR2 * /ZR1 * ZR0 * rshiftsel1 * WR1 * /WR0 * range1
+       + /ZR2 * ZR1 * /ZR0 * rshiftsel2 * WR1 * /WR0 * range1
+       + /ZR2 * ZR1 * ZR0 * rshiftsel3 * WR1 * /WR0 * range1
+       + ZR2 * /ZR1 * /ZR0 * rshiftsel4 * WR1 * /WR0 * range1
+       + ZR2 * /ZR1 * ZR0 * rshiftsel5 * WR1 * /WR0 * range1
+       + ZR2 * ZR1 * /ZR0 * rshiftsel6 * WR1 * /WR0 * range1
+       + ZR2 * ZR1 * ZR0 * rshiftsel7 * WR1 * WR0 * range1;
+
+RWCLK1.CLKF = /CLKREC * DCLKREC;
+RWCLK1 := /ZR2 * /ZR1 * /ZR0 * rshiftsel0 * /rsrange1
+       + /ZR2 * /ZR1 * ZR0 * rshiftsel1 * /rsrange1
+       + /ZR2 * ZR1 * /ZR0 * rshiftsel2 * /rsrange1
+       + /ZR2 * ZR1 * ZR0 * rshiftsel3 * /rsrange1
+       + ZR2 * /ZR1 * /ZR0 * rshiftsel4 * /rsrange1
+       + ZR2 * /ZR1 * ZR0 * rshiftsel5 * /rsrange1
+       + ZR2 * ZR1 * /ZR0 * rshiftsel6 * /rsrange1
+       + ZR2 * ZR1 * ZR0 * rshiftsel7 * /rsrange1;
+
+RWCLK0.CLKF = /CLKREC * DCLKREC;
+RWCLK0 := /ZR2 * /ZR1 * /ZR0 * rshiftsel0 * rsrange0
+       + /ZR2 * /ZR1 * ZR0 * rshiftsel1 * /rsrange0
+       + /ZR2 * ZR1 * /ZR0 * rshiftsel2 * /rsrange0
+       + /ZR2 * ZR1 * ZR0 * rshiftsel3 * /rsrange0
+       + ZR2 * /ZR1 * /ZR0 * rshiftsel4 * /rsrange0
+       + ZR2 * /ZR1 * ZR0 * rshiftsel5 * /rsrange0
+       + ZR2 * ZR1 * /ZR0 * rshiftsel6 * /rsrange0
+       + ZR2 * ZR1 * ZR0 * rshiftsel7 * /rsrange0;
+
+RSNCHLP = /WR3 * /WR2 * /WR1 * WR0
+        + /WR3 * /WR2 * WR1 * /WR0 * /range1 * range0
+        + /WR3 * /WR2 * WR1 * /WR0 * range1
+        + /WR3 * /WR2 * WR1 * WR0 * range1
+        + /WR3 * WR2 * /WR1 * /WR0 * range1 * range0;
+
+RSYNC = /ZR2 * /ZR1 * /ZR0
+      * rshiftsel0 * RSNCHLP
+      + /ZR2 * /ZR1 * ZR0
+      * /rshiftsel0 * rshiftsel1 * RSNCHLP
+      + /ZR2 * ZR1 * /ZR0
+      * /rshiftsel0 * /rshiftsel1 * rshiftsel2 * RSNCHLP
+      + /ZR2 * ZR1 * ZR0
+      * /rshiftsel0 * /rshiftsel1 * /rshiftsel2 * rshiftsel3 * RSNCHLP
+      + ZR2 * /ZR1 * /ZR0
+      * /rshiftsel0 * /rshiftsel1 * /rshiftsel2 * /rshiftsel3 * rshiftsel4
+      * RSNCHLP
+      + ZR2 * /ZR1 * ZR0
+      * /rshiftsel0 * /rshiftsel1 * /rshiftsel2
+      * /rshiftsel3 * /rshiftsel4 * rshiftsel5 * RSNCHLP
+      + ZR2 * ZR1 * /ZR0
+      * /rshiftsel0 * /rshiftsel1 * /rshiftsel2
+      * /rshiftsel3 * /rshiftsel4 * /rshiftsel5 * rshiftsel6 * RSNCHLP
+      + ZR2 * ZR1 * ZR0
+      * /rshiftsel0 * /rshiftsel1 * /rshiftsel2
+      * /rshiftsel3 * /rshiftsel4 * /rshiftsel5 * /rshiftsel6 * rshiftsel7
+      * RSNCHLP;
+
+; ---------------------resets
+
+/fresetb = /reset + rreset;
+
+
+

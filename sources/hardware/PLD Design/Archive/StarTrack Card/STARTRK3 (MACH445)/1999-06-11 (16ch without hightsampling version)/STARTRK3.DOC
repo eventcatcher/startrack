@@ -1,0 +1,333 @@
+MACHXL 2.0 R9 MACHFITR (10-12-94)
+ (C) - COPYRIGHT ADVANCED MICRO DEVICES INC., 1993, 1994
+
+**********************************************************************
+* Design Name = STARTRK3.PDS, Device = MACH445, Jun 11 17:20:01 1999 *
+**********************************************************************
+
+***********************
+* MACH FITTER OPTIONS *
+***********************
+SIGNAL PLACEMENT:
+  Handling of Preplacements                      No Change
+  Use placement data from                        Design file
+
+FITTING OPTIONS:
+  Global clocks routable as PT clocks?           Y
+  Zero hold time for input register?             N
+  22V10/MACH1XX/2XX S/R Compatibility?           N
+  SET/RESET treated as DONT_CARE?                N
+  Reduce Unforced Global Clocks?                 Y ( 1 )
+  Iterate between partitioning and place/route?  Y
+  Balanced partitioning?                         Y
+  Reduce Routes Per Placement?                   N
+  Maximun Run Time                               run until completion
+
+***************************
+* DEVICE RESOURCE SUMMARY *
+***************************
+                                 Total
+                               Available  Used  Available  Utilization
+Dedicated Pins
+  Input-Only Pins                 2        2      0    -->   100%
+  Clock/Input Pins                4        4      0    -->   100%
+I/O Pins                         64       64      0    -->   100%
+Input Registers                  64        9     55    -->    14%
+Central Switch Matrix Outputs   264      259      5    -->    98%
+Product Term Clusters           128      122      6    -->    95%
+Logical Product Terms           640      246    394    -->    38%
+Logic Macrocells                128      124      4    -->    96%
+  > 1 PT Macrocells              ..       40      4
+  1 PT Macrocells                ..       84      0
+  Unusable Macrocells            ..        0     ..
+
+******************************
+* BLOCK PARTITIONING SUMMARY *
+******************************
+                                                      Macrocells  # of PT  
+                  Logic   I/O    Inp    Macrocells    available   clusters 
+          Fanin    PTs    Pins   Reg   Used Unusable  1PT   >1PT  available
+|---------------------------------------------------------------------------|
+Maximum     33     80      8      8     ..     ..         16        16
+|---------------------------------------------------------------------------|
+Block A     33     35      8      1     16      0      0      0      7
+Block B     30     22      8      7     16      0      0      0     14
+Block C     33     23      8      0     15      0      0      1     12
+Block D     31     26      8      0     16      0      0      0     11
+Block E     33     36      8      0     15      0      0      1      7
+Block F     33     36      8      0     14      0      0      2      8
+Block G     33     32      8      1     16      0      0      0      9
+Block H     33     36      8      0     16      0      0      0      6
+
+> Four rightmost columns above reflect last status of the placement process.
+
+******************
+* SIGNAL SUMMARY *
+******************
+                                 Pin/Node Logic
+       Signals Block Loc PTs XOR   Type   Type    Fanout
+|---------------------------------------------------------------------------|
+            A6   H    86  .   .    input   ...   -BC-EFG-
+            A7   H    87  .   .    input   ...   -BC-EFG-
+        ADATAI   D    35  .   .    input   ...   -BC--FG-
+        ADCLKO   D    36  2   .   output   ...   --------
+       ADLROUT   D    37  2   .   output   ...   A-------
+        AESCIN   E    44  .   .    input   ...   A-C---GH
+       AESCLKI   E    50  2   .   output   ...   A---E---
+       AESCOUT   H    81  3   .   output   ...   --------
+      AESDATAI   E    45  .   .    input   ...   -BC--FG-
+      AESDATAO   F    62  1   .   output   ...   --------
+        AESFC0   G    70  3   .   output   ...   --------
+        AESFC1   F    59  3   .   output   ...   --------
+       AESFREQ   H    84  2   .   output   ...   --------
+      AESMCLKI   E    46  .   .    input   ...   ---D--G-
+      AESMCLKO   G    72  7   .   output   ...   --------
+        AESPRO   G    71  3   .   output   ...   --------
+           CBL   E    48  .   .    input   ...   A-C-----
+           CKS   D    38  3   .   output   ...   --------
+            D0   A    98  .   .    input   ...   -BC-E-G-
+            D1   A    97  .   .    input   ...   -B---F--
+            D2   A    96  .   .    input   ...   --C-----
+            D3   A    95  .   .    input   ...   ----E-G-
+            D4   A    94  .   .    input   ...   ----E-G-
+      DA_FSYNC   F    56 10   .   output   ...   A-------
+       DA_SCLK   F    57  8   .   output   ...   --------
+      DA_SDAT2   H    85  3   .   output   ...   --------
+      DA_SDATA   F    58  5   .   output   ...   --------
+        DSPSC1   H    83  4   .   output   ...   --------
+        DSPSC2   H    82  4   .   output   ...   --------
+        DSPSCK   G    74  2   .   output   ...   --------
+        DSPSRD   G    73  5   .   output   ...   --------
+        DSPSTD   F    60  .   .    input   ...   -BC--FG-
+       PDAT128   A    99  .   .    input   ...   --C-----
+      PLAYCLKO   F    55  1   .   output   ...   --------
+       PREEMPH   E    49  1   .   output   ...   --------
+         PUFRD   B     8  1   .   output   ...   --------
+         PUFWR   D    33  3   .   output   ...   --------
+           RD0   G    69  .   .    input   ...   --------
+           RD1   B    12  .   .    input   ...   --------
+           RD2   B    11  .   .    input   ...   --------
+           RD3   B    10  .   .    input   ...   --------
+           RD4   B     7  .   .    input   ...   --------
+           RD5   B     6  .   .    input   ...   --------
+           RD6   B     5  .   .    input   ...   --------
+           RD7   A   100  .   .    input   ...   --------
+           RD8   B     9  .   .    input   ...   --------
+         RESET   A    93  .   .    input   ...   -BCDEFG-
+     RESRDFIFO   D    32  1   .   output   ...   --------
+        SMPCLK   D    34  1   .   output   ...   --------
+        SMPREG   H    88  .   .    input   ...   -BC-EFG-
+       SWDIGIN   F    61  1   .   output   ...   --------
+        SWPROT   E    43  1   .   output   ...   --------
+       SWSUBFR   E    47  1   .   output   ...   --------
+        VOLCLK   G    75  1   .   output   ...   --------
+      VOLDATAI   G    76  1   .   output   ...   --------
+           WD0   C    19  7   .   output   ...   --------
+           WD1   C    20  1   .   output   ...   --------
+           WD2   C    21  1   .   output   ...   --------
+           WD3   C    22  1   .   output   ...   --------
+           WD4   C    24  1   .   output   ...   --------
+           WD5   C    25  1   .   output   ...   --------
+           WD6   C    26  1   .   output   ...   --------
+           WD7   D    31  1   .   output   ...   --------
+           WD8   C    23  3   .   output   ...   --------
+         ADCLK   G   G10  2   G   buried   C/.   ---DE---
+       ADCLK16   E    E7  1   P   buried   T/A   ---D----
+       ADCLK32   E   E14  1   P   buried   D/A   ---DE---
+        ADCLKO   D    D8  2   G  implied   C/.   --------
+          ADLR   D    D2  1   P   buried   T/A   A--D----
+       ADLROUT   D    D4  2   G  implied   C/.   A-------
+         AESC0   A   A11  1   P   buried   D/A   A-------
+        AESC24   A   A12  1   P   buried   D/A   -----FGH
+        AESC25   G    G9  1   P   buried   D/A   -----FGH
+       AESCLKI   E    E0  2   G  implied   C/.   A---E---
+        AESCLR   A    A1  5   G   buried   C/.   -------H
+       AESCOUT   H    H4  3   G  implied   C/.   --------
+      AESDATAO   F    F4  1   P  implied   C/.   --------
+       AESDHLP   B    B7  7   G   buried   C/.   -----F--
+        AESFC0   G    G5  3   G  implied   C/.   --------
+        AESFC1   F    F9  3   G  implied   C/.   --------
+       AESFREQ   H    H9  2   G  implied   C/.   --------
+      AESMCLKO   G    G8  7   G  implied   C/.   --------
+        AESPRO   G    G4  3   G  implied   C/.   --------
+      CHANNEL0   C    C7  1   P   buried   T/A   -----F--
+      CHANNEL1   F   F11  1   P   buried   T/A   -----F--
+           CKS   D    D0  3   G  implied   C/.   --------
+       CLKPLAY   E    E2  2   G   buried   C/.   ----EFGH
+        CLKREC   A    A8  2   G   buried   C/.   -BCD--G-
+           CZ0   C   C13  1   P   buried   T/A   A-C-----
+           CZ1   C   C10  1   P   buried   T/A   A-------
+           CZ2   A    A3  1   P   buried   T/A   A-------
+           CZ3   A   A14  1   P   buried   T/A   A-------
+           CZ4   A   A10  1   P   buried   T/A   A-------
+           CZ5   A    A6  1   P   buried   T/A   A-------
+         CZCLK   A    A0  2   G   buried   C/.   A-C-----
+           DA0   B    B9  1   P   buried   D/A   -B---FGH
+           DA1   B    B5  1   P   buried   D/A   -B---FGH
+         DAHLP   E    E9 13   G   buried   C/.   -BC--FG-
+        DAHLP2   E    E1  4   G   buried   C/.   ----E--H
+        DAHLP3   A    A5  4   G   buried   C/.   ----E--H
+      DA_FSYNC   F    F0 10   G  implied   C/.   A-------
+       DA_SCLK   F   F12  8   G  implied   C/.   --------
+      DA_SDAT2   H    H8  3   G  implied   C/.   --------
+      DA_SDATA   F    F8  5   G  implied   C/.   --------
+         DIG24   F    F3  1   P   buried   T/A   ---DE--H
+        DIGMOD   C    C3  1   P   buried   D/A   -----F--
+       DMAREC0   G    G7  1   P   buried   D/A   A-C-----
+       DMAREC1   B   B11  1   P   buried   D/A   A-C-----
+        DSPHLP   H    H3  3   G   buried   C/.   -------H
+        DSPIN0   B    B4  1   P   buried   D/A   AB---FGH
+        DSPIN1   B    B1  1   P   buried   D/A   -B---FGH
+        DSPSC1   H    H0  4   G  implied   C/.   --------
+        DSPSC2   H   H12  4   G  implied   C/.   --------
+        DSPSCK   G    G0  2   G  implied   C/.   --------
+        DSPSRD   G   G12  5   G  implied   C/.   --------
+        EXTAKT   G    G3  1   P   buried   D/A   ---D-FGH
+      FREQCLK0   A    A2  2   G   buried   C/.   A-------
+      FREQCLK1   A   A13  2   G   buried   C/.   ------G-
+         FSHLP   H    H5  6   G   buried   C/.   -----F--
+         FSREC   A    A4  7   G   buried   C/.   -B------
+          HOLD   D   D15  1   P   buried   T/A   ---D----
+        MCLK12   D   D14  1   P   buried   D/S   ---D----
+       MCLK128   D   D13  1   P   buried   D/A   ---D--G-
+         PCH16   F    F7  1   P   buried   D/A   ----E---
+         PLAY4   B   B15  1   P   buried   D/A   -B------
+      PLAYCLKO   F    F1  1   P  implied   C/.   --------
+       PREEMPH   E   E12  1   P  implied   D/A   --------
+       PSWM128   G    G2  1   P   buried   D/A   A-CDEF-H
+        PUFHLP   E   E13  5   G   buried   D/A   -B---F--
+         PUFRD   B    B8  1   P  implied   C/.   --------
+          REC4   B    B3  1   P   buried   D/A   -B----G-
+       REGMATA   C   C14  1   P   buried   D/A   ------G-
+      REGMATZ0   G   G15  1   P   buried   T/A   -B----G-
+      REGMATZ1   G   G11  1   P   buried   T/A   -B----G-
+     RESRDFIFO   D    D1  1   P  implied   C/.   --------
+      RN_PUFWR   D   D12  3   G  implied   D/A   -------H
+     RN_SWPROT   E    E4  1   P  implied   D/A   -------H
+    RN_SWSUBFR   E    E8  1   P  implied   D/A   -------H
+        RN_WD0   C    C0  7   G  implied   D/A   --C-----
+        RN_WD1   C    C2  1   P  implied   D/A   --C-----
+        RN_WD2   C    C5  1   P  implied   D/A   --C-----
+        RN_WD3   C    C9  1   P  implied   D/A   --C-----
+        RN_WD4   C    C1  1   P  implied   D/A   --C-----
+        RN_WD5   C   C12  1   P  implied   D/A   --C-----
+        RN_WD6   C    C4  1   P  implied   D/A   ---D----
+           RP0   G Gir-0  .   .    ipair   D/S   ----E---
+           RP1   B Bir-0  .   .    ipair   D/S   A---E---
+           RP2   B Bir-1  .   .    ipair   D/S   ----E--H
+           RP3   B Bir-2  .   .    ipair   D/S   ----E---
+           RP4   B Bir-5  .   .    ipair   D/S   A-------
+           RP5   B Bir-6  .   .    ipair   D/S   A-------
+           RP6   B Bir-7  .   .    ipair   D/S   A-------
+           RP7   A Air-7  .   .    ipair   D/S   A-------
+           RP8   B Bir-3  .   .    ipair   D/S   ----E---
+           RP9   E   E10  1   P   buried   D/S   ----E---
+          RPB0   E    E5  1   P   buried   D/A   ----E---
+          RPB1   A    A7  1   P   buried   D/A   ----E---
+          RPB2   H   H11  1   P   buried   D/A   ----E---
+          RPB3   E    E6  1   P   buried   D/A   ----E---
+        RRESET   B    B0  1   P   buried   D/A   -B-D----
+        SMPCLK   D    D9  1   P  implied   C/.   --------
+         SWAES   C   C15  1   P   buried   D/A   -BC--FGH
+       SWDIGIN   F    F5  1   P  implied   D/A   --------
+        SWFREQ   E    E3  1   P   buried   D/A   A-CD----
+        SWMAL2   F   F13  1   P   buried   T/A   ---D-F--
+        SWPROF   G   G14  1   P   buried   D/A   -----FG-
+       SWRESFF   F    F2  1   P   buried   D/A   ---D----
+         TAKT5   D   D11  1   P   buried   T/A   ---D----
+         TAKT6   D    D7  1   P   buried   T/A   ---D----
+         TAKT7   D    D3  1   P   buried   T/A   ---D----
+         TAKTH   G    G6  1   P   buried   D/A   ---D-FG-
+         TAKTL   C    C6  1   P   buried   D/A   ---D-FG-
+        UDHELP   H   H15  1   P   buried   C/.   --C-----
+      VAESCOUT   A    A9  3   G   buried   C/.   -------H
+          VCLK   D   D10  5   G   buried   C/.   ---D----
+     VDA_SDAT2   H    H7  2   G   buried   C/.   -------H
+        VOLCLK   G   G13  1   P  implied   D/A   --------
+      VOLDATAI   G    G1  1   P  implied   D/A   --------
+           WD7   D    D5  1   P  implied   D/A   --------
+           WD8   C    C8  3   G  implied   C/.   --------
+           WP0   H    H2  1   P   buried   T/A   ----E--H
+           WP1   H    H1  1   P   buried   T/A   A---E--H
+           WP2   H   H13  1   P   buried   T/A   A----F-H
+           WP3   H    H6  1   P   buried   T/A   A----F-H
+           WR0   B   B12  1   P   buried   T/A   -BCD---H
+           WR1   B    B6  1   P   buried   T/A   -BCD---H
+           WR2   B    B2  1   P   buried   T/A   -BC----H
+           WR3   B   B13  1   P   buried   T/A   -BC----H
+        WRESET   E   E11  1   P   buried   D/A   ----E---
+        WSTART   H   H10  2   G   buried   C/.   ----E---
+           ZP0   F   F14  1   P   buried   D/A   A---EF-H
+           ZP1   F    F6  1   P   buried   T/A   A---E--H
+           ZP2   H   H14  1   P   buried   T/A   ----E--H
+           ZR0   D    D6  1   P   buried   D/A   AB-D-F--
+           ZR1   B   B14  1   P   buried   T/A   AB------
+           ZR2   B   B10  1   P   buried   T/A   AB------
+         ZRALL   A   A15  1   P   buried   C/.   ---D----
+
+***********************
+* TABULAR INFORMATION *
+***********************
+
+DEDICATED PINS
+                                             Logic             Clock
+Pin              Signal        Type          Fanout            Fanout
+|------------------------------------------------------------------------|
+  4              MCLK16       input          ---D----          --------
+ 13              MCLK24     clk/inp          ---D----          ---D----
+ 18             EXTMCLK       input          ---D----          --------
+ 54            USERDATA       input          --C-----          --------
+ 63             DA_ACKO       input          ------G-          --------
+ 68            PLAYCLKI     clk/inp          --------          AB--E-G-
+
+
+
+MACH445 report file key:
+
+A             - Asynchronous mode
+AVAL          - Additional product terms available within the current
+                steering allocation, plus those potentially available
+                through resteering of free clusters.
+B0            - Block Asynchronous Reset/Preset product term 0
+B1            - Block Asynchronous Reset/Preset product term 1
+C             - Combinatorial
+Ck0           - Block clock generated from pin 13 or pin 18
+Ck1           - Block clock generated from pin 13 or pin 18
+Ck2           - Block clock generated from pin 63 or pin 68
+Ck3           - Block clock generated from pin 63 or pin 68
+clk           - Clock
+CSM           - Central Switch Matrix
+D             - D-type flip flop
+G             - Ground
+H             - High
+implied       - Node occupying the macrocell drives the output pin
+                but not defined in the design file.
+inode         - Input node
+Inp           - Input
+ipair         - Input paired node
+I/O           - Input or Output
+L             - Low
+L             - Latch
+LOC           - Location
+mcell <X>     - Source is macrocell from block <X>
+Mux           - Multiplexer
+mx            - Block Array input multiplexer
+onode         - Output node
+opair         - Output paired node
+P             - Product Term
+Pol           - Polarity
+PT(s)         - Product term(s)
+Reg           - Register
+Res           - Reset control
+RN_<pin_name> - Output node paired with <pin_name> created by Fitter.
+S             - Synchronous mode
+Set           - Preset control
+T             - T-type flip flop
+XOR           - Exclusive OR gate
+<X>ir         - Input register in block <X>
+.             - Not available or Not applicable
+
+Partitioning 100% - Completed
+Placement    100% - Completed
+Routing      100% - Completed
+%%% Fitting process is successful %%%
