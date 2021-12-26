@@ -1,0 +1,8 @@
+LINE_GND.DAT  -  die Leiterbahnen und Texte der GND-Lage
+LINE_VCC.DAT  -  die Leiterbahnen und Texte der VCC-Lage
+
+
+Bitte mit den "STARTRACK"-Dateien (GND_LAY2.DAT bzw. VCC_LAY3.DAT) zusammenfgen,
+und dann invertieren !
+Die Leiterbahnen dienen der Abgrenzung (Blockbildung) fr die verschiedenen
+Betriebsspannungen.
